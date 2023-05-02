@@ -9,3 +9,51 @@
 body {
   padding: 0px calc((100% - 1280px) / 2);
 }
+
+:root {
+  --font-nanum: 'Nanum Gothic', sans-serif;
+  --font-noto: 'Noto Sans', sans-serif;
+  --sub-font-dark-gray: #7d7d7d;
+  --sub-font-gray: #bebebe;
+  --main-color-1: #ffb6b9;
+  --main-color-2: #fae3d9;
+  --sub-color-1: #8ac6d1;
+  --sub-color-2: #bbded6;
+  --bg-gray: #707070;
+  --radius-def: 10px;
+  --radius-sm: 5px;
+  --radius-xl: 50px;
+  --padding: 20px 20px 36px 20px;
+  --grid-gap: 16px;
+}
+
+.nanum-bold {
+  font-family: var(--font-nanum);
+  font-size: 23px;
+  font-weight: 700;
+}
+
+.nanum-regular {
+  font-family: var(--font-nanum);
+  font-size: 15px;
+  font-weight: 400;
+  border-radius: 10px;
+}
+
+.noto-regular-12 {
+  font-family: var(--font-noto);
+  font-size: 12px;
+  font-weight: 400;
+}
+
+.noto-regular-13 {
+  font-family: var(--font-noto);
+  font-size: 13px;
+  font-weight: 400;
+}
+
+.noto-medium {
+  font-family: var(--font-noto);
+  font-size: 13px;
+  font-weight: 500;
+}
