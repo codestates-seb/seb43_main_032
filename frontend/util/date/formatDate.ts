@@ -4,8 +4,11 @@
  * @returns 예시 23.05.11
  */
 export const formatDate = (date: Date): string => {
-  const year = date.getFullYear().toString().slice(2);
-  const month = ('0' + (date.getMonth() + 1)).slice(-2);
-  const day = ('0' + date.getDate()).slice(-2);
-  return `${year}.${month}.${day}`;
+  if (date) {
+    const year = date.getFullYear().toString().slice(2);
+    const month = ('0' + (date.getMonth() + 1)).slice(-2);
+    const day = ('0' + date.getDate()).slice(-2);
+    return `${year}.${month}.${day}`;
+  }
+  return '';
 };
