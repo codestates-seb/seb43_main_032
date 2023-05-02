@@ -79,8 +79,12 @@ const CreateProject = () => {
         <div className="tag-box">
           <div>프로젝트 분야 태그</div>
           <ul className="noto-regular-13">
-            <li>금융</li>
-            <li>AI</li>
+            <li>
+              <div className="tag">금융</div>
+            </li>
+            <li>
+              <div className="tag">AI</div>
+            </li>
           </ul>
         </div>
         <div className="stack-box">
@@ -151,6 +155,14 @@ const Side = styled.div`
   .tag-box {
     > ul {
       display: flex;
+    }
+    .tag {
+      background-color: #d9d9d9;
+      padding: 5px;
+      border-radius: var(--radius-sm);
+      min-width: 48px;
+      text-align: center;
+      margin-right: 8px;
     }
   }
 
