@@ -1,9 +1,10 @@
+import GridBox from '@/components/GridBox';
 import styled from 'styled-components';
 
 //프로젝트 글 작성 페이지 입니다. 경로 '/project/create/'
 const CreateProject = () => {
   return (
-    <Box>
+    <GridBox>
       <Side>
         <div className="period-box">
           <div>
@@ -39,19 +40,12 @@ const CreateProject = () => {
         </div>
       </Side>
       <Main>메인</Main>
-    </Box>
+    </GridBox>
   );
 };
 
 export default CreateProject;
 
-const Box = styled.div`
-  width: 100%;
-  display: grid;
-  grid-auto-flow: row;
-  grid-gap: 12px;
-  grid-template-columns: 3fr 9fr;
-`;
 const Side = styled.div`
   width: 100%;
   background-color: var(--bg-gray);
