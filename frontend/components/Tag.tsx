@@ -1,7 +1,11 @@
+import { ReactNode } from 'react';
 import styled from 'styled-components';
+type Props = {
+  children: ReactNode;
+};
 
-const Tag = () => {
-  return <TagBox />;
+const Tag = (props: Props) => {
+  return <TagBox {...props} />;
 };
 
 export default Tag;
