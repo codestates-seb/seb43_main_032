@@ -1,15 +1,64 @@
 import GridBox from '@/components/GridBox';
 import styled from 'styled-components';
+import { BsFillCalendarEventFill } from 'react-icons/bs';
+import DatePicker, {
+  ReactDatePickerProps,
+  registerLocale,
+} from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
+import ko from 'date-fns/locale/ko'; // 한국어적용
+import { ForwardedRef, forwardRef, useState } from 'react';
+registerLocale('ko', ko); // 한국어적용
+interface Props extends Omit<ReactDatePickerProps, 'onChange'> {
+  onClick(): void;
+}
 
 //프로젝트 글 작성 페이지 입니다. 경로 '/project/create/'
 const CreateProject = () => {
+  //시작일
+  const [start, setStart] = useState<Date | null>();
+
+  //종료일
+  const [end, setEnd] = useState<Date | null>();
+
+  //달력 선택
+  const handleRangeChange = (dates: [Date | null, Date | null]) => {
+    const [startDate, endDate] = dates;
+    setStart(startDate);
+    setEnd(endDate);
+  };
+
+  //달력 커스텀
+  const CustomInput = forwardRef(
+    ({ onClick }: Props, ref: ForwardedRef<HTMLSpanElement>) => (
+      <span onClick={onClick} ref={ref}>
+        <BsFillCalendarEventFill />
+      </span>
+    )
+  );
   return (
     <GridBox>
       <Side>
         <div className="period-box">
           <div>
             <div>프로젝트 기간</div>
-            <div className="calendar-box">달력</div>
+            <div className="calendar-box">
+              <DatePicker
+                selected={start}
+                onChange={handleRangeChange}
+                locale={ko}
+                startDate={start}
+                endDate={end}
+                selectsRange
+                customInput={
+                  <CustomInput
+                    onClick={function (): void {
+                      throw new Error('Function not implemented.');
+                    }}
+                  />
+                }
+              />
+            </div>
           </div>
           <div className="noto-regular-13">23.04.27 ~ 23.10.27 (184일)</div>
         </div>
@@ -66,6 +115,14 @@ const Side = styled.div`
     }
     .calendar-box {
       margin-left: 16px;
+    }
+    .react-datepicker__triangle {
+      ::before,
+      ::after {
+        top: 3px;
+        left: -3px;
+        transform: rotate(-2deg);
+      }
     }
   }
 
