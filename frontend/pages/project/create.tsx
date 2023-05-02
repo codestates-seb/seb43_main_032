@@ -8,6 +8,7 @@ import DatePicker, {
 import 'react-datepicker/dist/react-datepicker.css';
 import ko from 'date-fns/locale/ko'; // 한국어적용
 import { ForwardedRef, forwardRef, useState } from 'react';
+import { formatDate } from '@/util/date/formatDate';
 registerLocale('ko', ko); // 한국어적용
 interface Props extends Omit<ReactDatePickerProps, 'onChange'> {
   onClick(): void;
@@ -36,6 +37,7 @@ const CreateProject = () => {
       </span>
     )
   );
+  
   return (
     <GridBox>
       <Side>
@@ -60,7 +62,12 @@ const CreateProject = () => {
               />
             </div>
           </div>
-          <div className="noto-regular-13">23.04.27 ~ 23.10.27 (184일)</div>
+          <div className="noto-regular-13">
+            <span>{start && formatDate(start)}</span>
+            {start && <span> ~ </span>}
+            <span>{end && formatDate(end)}</span>
+            <span></span>
+          </div>
         </div>
         <div className="tag-box">
           <div>프로젝트 분야 태그</div>
