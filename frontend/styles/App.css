@@ -5,3 +5,7 @@
   padding: 0px;
   box-sizing: border-box;
 }
+
+body {
+  padding: 0px calc((100% - 1280px) / 2);
+}

@@ -9,8 +9,6 @@ if (process.env.NODE_ENV === 'development') {
   require('../__mocks__');
 }
 
-// 여기서 accessToken 있는지 확인하고 fetch를 해야한다
-
 const App = ({ Component, pageProps }: AppProps) => {
   return (
     <QueryClientProvider client={queryClient}>
