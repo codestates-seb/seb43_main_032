@@ -9,6 +9,7 @@ import 'react-datepicker/dist/react-datepicker.css';
 import ko from 'date-fns/locale/ko'; // 한국어적용
 import { ForwardedRef, forwardRef, useState } from 'react';
 import { formatDate } from '@/util/date/formatDate';
+import { dateDiffInDays } from '@/util/date/dateDiffInDays';
 registerLocale('ko', ko); // 한국어적용
 interface Props extends Omit<ReactDatePickerProps, 'onChange'> {
   onClick(): void;
@@ -37,7 +38,7 @@ const CreateProject = () => {
       </span>
     )
   );
-  
+
   return (
     <GridBox>
       <Side>
@@ -65,8 +66,14 @@ const CreateProject = () => {
           <div className="noto-regular-13">
             <span>{start && formatDate(start)}</span>
             {start && <span> ~ </span>}
-            <span>{end && formatDate(end)}</span>
-            <span></span>
+            <span>{end && formatDate(end)} </span>
+            <span>
+              {start
+                ? end
+                  ? `(${dateDiffInDays(start, end)}일)`
+                  : '종료일 미정'
+                : ''}
+            </span>
           </div>
         </div>
         <div className="tag-box">
@@ -114,6 +121,10 @@ const Side = styled.div`
       font-weight: 700;
       margin-bottom: 24px;
     }
+  }
+
+  .noto-regular-13 {
+    min-height: 13px;
   }
 
   .period-box {
