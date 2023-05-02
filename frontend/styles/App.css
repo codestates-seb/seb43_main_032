@@ -1,11 +1,62 @@
 @import url('./reset.css');
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Nanum+Gothic:wght@400;700&display=swap');
 
 * {
   margin: 0px;
   padding: 0px;
   box-sizing: border-box;
+  color: #171717;
+  font-size: 10px;
 }
 
 body {
   padding: 0px calc((100% - 1280px) / 2);
+}
+
+:root {
+  --font-nanum: 'Nanum Gothic', sans-serif;
+  --font-noto: 'Noto Sans', sans-serif;
+  --sub-font-dark-gray: #7d7d7d;
+  --sub-font-gray: #bebebe;
+  --main-color-1: #ffb6b9;
+  --main-color-2: #fae3d9;
+  --sub-color-1: #8ac6d1;
+  --sub-color-2: #bbded6;
+  --radius-def: 10px;
+  --radius-sm: 5px;
+  --radius-xl: 50px;
+  --padding: 20px 20px 36px 20px;
+  --grid-gap: 16px;
+}
+
+.nanum-bold {
+  font-family: var(--font-nanum);
+  font-size: 23px;
+  font-weight: 700;
+}
+
+.nanum-regular {
+  font-family: var(--font-nanum);
+  font-size: 15px;
+  font-weight: 400;
+  border-radius: 10px;
+}
+
+.noto-regular-12 {
+  font-family: var(--font-noto);
+  font-size: 12px;
+  font-weight: 400;
+}
+
+.noto-regular-13 {
+  font-family: var(--font-noto);
+  font-size: 13px;
+  font-weight: 400;
+}
+
+.noto-medium {
+  font-family: var(--font-noto);
+  font-size: 13px;
+  font-weight: 500;
 }
