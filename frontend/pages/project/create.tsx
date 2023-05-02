@@ -113,6 +113,10 @@ const Side = styled.div`
   width: 100%;
   background-color: var(--bg-gray);
   padding: var(--padding);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
   > div {
     margin-bottom: 32px;
     > div:first-child {
