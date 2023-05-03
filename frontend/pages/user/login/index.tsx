@@ -81,6 +81,7 @@ const P = styled.p.attrs({
   className: 'nanum-regular',
 })`
   margin-bottom: 5px;
+  flex-shrink: 0;
 `;
 const Input = styled.input`
   width: 100%;
@@ -88,14 +89,16 @@ const Input = styled.input`
   height: 40px;
   margin-bottom: 20px;
   border-radius: 10px;
+  padding: 10px;
 `;
 const OptionWrapper = styled.div`
   display: flex;
+  width: 100%;
+  justify-content: space-around;
+  margin-bottom: 40px;
 `;
 const OptionBox = styled.div`
   display: flex;
-  margin: 40px;
-  margin-top: 0px;
   gap: 10px;
 `;
 const CheckBox = styled.input`
