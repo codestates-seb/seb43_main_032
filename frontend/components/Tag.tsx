@@ -5,7 +5,7 @@ type Props = {
 };
 
 const Tag = (props: Props) => {
-  return <TagBox {...props} />;
+  return <TagBox className="tag" {...props} />;
 };
 
 export default Tag;
@@ -16,5 +16,4 @@ const TagBox = styled.div`
   border-radius: var(--radius-sm);
   min-width: 48px;
   text-align: center;
-  margin-right: 8px;
 `;
