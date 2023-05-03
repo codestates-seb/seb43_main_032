@@ -10,6 +10,7 @@ import ko from 'date-fns/locale/ko'; // 한국어적용
 import { ForwardedRef, forwardRef, useState } from 'react';
 import { formatDate } from '@/util/date/formatDate';
 import { dateDiffInDays } from '@/util/date/dateDiffInDays';
+import Tag from '@/components/Tag';
 registerLocale('ko', ko); // 한국어적용
 interface Props extends Omit<ReactDatePickerProps, 'onChange'> {
   onClick(): void;
@@ -80,10 +81,10 @@ const CreateProject = () => {
           <div>프로젝트 분야 태그</div>
           <ul className="noto-regular-13">
             <li>
-              <div className="tag">금융</div>
+              <Tag>금융</Tag>
             </li>
             <li>
-              <div className="tag">AI</div>
+              <Tag>Ai</Tag>
             </li>
           </ul>
         </div>
@@ -155,14 +156,6 @@ const Side = styled.div`
   .tag-box {
     > ul {
       display: flex;
-    }
-    .tag {
-      background-color: #d9d9d9;
-      padding: 5px;
-      border-radius: var(--radius-sm);
-      min-width: 48px;
-      text-align: center;
-      margin-right: 8px;
     }
   }
 
