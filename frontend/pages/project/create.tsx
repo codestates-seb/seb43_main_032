@@ -91,10 +91,10 @@ const CreateProject = () => {
         <div className="stack-box">
           <div>프로젝트 메인 스택</div>
           <ul className="noto-regular-13">
-            <li>리액트</li>
-            <li>js</li>
-            <li>css</li>
-            <li>html</li>
+            <li className="bg-nginx"></li>
+            <li className="bg-java_script"></li>
+            <li className="bg-css"></li>
+            <li className="bg-html"></li>
           </ul>
         </div>
         <div className="want-box">
@@ -117,7 +117,7 @@ export default CreateProject;
 const Side = styled.div`
   width: 100%;
   background-color: var(--bg-gray);
-  padding: var(--padding);
+  padding: var(--padding-1);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -134,6 +134,7 @@ const Side = styled.div`
 
   .noto-regular-13 {
     min-height: 13px;
+    gap: 8px;
   }
 
   .period-box {
