@@ -1,469 +1,469 @@
 .bg-nginx {
   width: 24px;
   height: 24px;
-  background: url('skills_sprites.png') -10px -10px;
+  background: url('/skills_sprites.png') -10px -10px;
 }
 .bg-node {
   width: 24px;
   height: 24px;
-  background: url('skills_sprites.png') -54px -10px;
+  background: url('/skills_sprites.png') -54px -10px;
 }
 .bg-notion {
   width: 24px;
   height: 24px;
-  background: url('skills_sprites.png') -10px -54px;
+  background: url('/skills_sprites.png') -10px -54px;
 }
 .bg-nuxt {
   width: 24px;
   height: 24px;
-  background: url('skills_sprites.png') -54px -54px;
+  background: url('/skills_sprites.png') -54px -54px;
 }
 .bg-oracle_db {
   width: 24px;
   height: 24px;
-  background: url('skills_sprites.png') -98px -10px;
+  background: url('/skills_sprites.png') -98px -10px;
 }
 
 .bg-php {
   width: 24px;
   height: 24px;
-  background: url('skills_sprites.png') -98px -54px;
+  background: url('/skills_sprites.png') -98px -54px;
 }
 
 .bg-postgre_sql {
   width: 24px;
   height: 24px;
-  background: url('skills_sprites.png') -10px -98px;
+  background: url('/skills_sprites.png') -10px -98px;
 }
 
 .bg-postman {
   width: 24px;
   height: 24px;
-  background: url('skills_sprites.png') -54px -98px;
+  background: url('/skills_sprites.png') -54px -98px;
 }
 
 .bg-prettier {
   width: 24px;
   height: 24px;
-  background: url('skills_sprites.png') -98px -98px;
+  background: url('/skills_sprites.png') -98px -98px;
 }
 
 .bg-python {
   width: 24px;
   height: 24px;
-  background: url('skills_sprites.png') -142px -10px;
+  background: url('/skills_sprites.png') -142px -10px;
 }
 
 .bg-react {
   width: 24px;
   height: 24px;
-  background: url('skills_sprites.png') -142px -54px;
+  background: url('/skills_sprites.png') -142px -54px;
 }
 
 .bg-react_native {
   width: 24px;
   height: 24px;
-  background: url('skills_sprites.png') -142px -98px;
+  background: url('/skills_sprites.png') -142px -98px;
 }
 
 .bg-react_query {
   width: 24px;
   height: 24px;
-  background: url('skills_sprites.png') -10px -142px;
+  background: url('/skills_sprites.png') -10px -142px;
 }
 
 .bg-recoil {
   width: 24px;
   height: 24px;
-  background: url('skills_sprites.png') -54px -142px;
+  background: url('/skills_sprites.png') -54px -142px;
 }
 
 .bg-redis {
   width: 24px;
   height: 24px;
-  background: url('skills_sprites.png') -98px -142px;
+  background: url('/skills_sprites.png') -98px -142px;
 }
 
 .bg-redux {
   width: 24px;
   height: 24px;
-  background: url('skills_sprites.png') -142px -142px;
+  background: url('/skills_sprites.png') -142px -142px;
 }
 
 .bg-redux_saga {
   width: 24px;
   height: 24px;
-  background: url('skills_sprites.png') -186px -10px;
+  background: url('/skills_sprites.png') -186px -10px;
 }
 
 .bg-remix {
   width: 24px;
   height: 24px;
-  background: url('skills_sprites.png') -186px -54px;
+  background: url('/skills_sprites.png') -186px -54px;
 }
 
 .bg-ruby {
   width: 24px;
   height: 24px;
-  background: url('skills_sprites.png') -186px -98px;
+  background: url('/skills_sprites.png') -186px -98px;
 }
 
 .bg-sass {
   width: 24px;
   height: 24px;
-  background: url('skills_sprites.png') -186px -142px;
+  background: url('/skills_sprites.png') -186px -142px;
 }
 
 .bg-source_tree {
   width: 24px;
   height: 24px;
-  background: url('skills_sprites.png') -10px -186px;
+  background: url('/skills_sprites.png') -10px -186px;
 }
 
 .bg-spring {
   width: 24px;
   height: 24px;
-  background: url('skills_sprites.png') -54px -186px;
+  background: url('/skills_sprites.png') -54px -186px;
 }
 
 .bg-spring_boot {
   width: 24px;
   height: 24px;
-  background: url('skills_sprites.png') -98px -186px;
+  background: url('/skills_sprites.png') -98px -186px;
 }
 
 .bg-storybook {
   width: 24px;
   height: 24px;
-  background: url('skills_sprites.png') -142px -186px;
+  background: url('/skills_sprites.png') -142px -186px;
 }
 
 .bg-styled_components {
   width: 24px;
   height: 24px;
-  background: url('skills_sprites.png') -186px -186px;
+  background: url('/skills_sprites.png') -186px -186px;
 }
 
 .bg-svelt {
   width: 24px;
   height: 24px;
-  background: url('skills_sprites.png') -230px -10px;
+  background: url('/skills_sprites.png') -230px -10px;
 }
 
 .bg-swift {
   width: 24px;
   height: 24px;
-  background: url('skills_sprites.png') -230px -54px;
+  background: url('/skills_sprites.png') -230px -54px;
 }
 
 .bg-tailwind {
   width: 24px;
   height: 24px;
-  background: url('skills_sprites.png') -230px -98px;
+  background: url('/skills_sprites.png') -230px -98px;
 }
 
 .bg-tomcat {
   width: 24px;
   height: 24px;
-  background: url('skills_sprites.png') -230px -142px;
+  background: url('/skills_sprites.png') -230px -142px;
 }
 
 .bg-type_scriypt {
   width: 24px;
   height: 24px;
-  background: url('skills_sprites.png') -230px -186px;
+  background: url('/skills_sprites.png') -230px -186px;
 }
 
 .bg-unity {
   width: 24px;
   height: 24px;
-  background: url('skills_sprites.png') -10px -230px;
+  background: url('/skills_sprites.png') -10px -230px;
 }
 
 .bg-vite {
   width: 24px;
   height: 24px;
-  background: url('skills_sprites.png') -54px -230px;
+  background: url('/skills_sprites.png') -54px -230px;
 }
 
 .bg-vue {
   width: 24px;
   height: 24px;
-  background: url('skills_sprites.png') -98px -230px;
+  background: url('/skills_sprites.png') -98px -230px;
 }
 
 .bg-webpack {
   width: 24px;
   height: 24px;
-  background: url('skills_sprites.png') -142px -230px;
+  background: url('/skills_sprites.png') -142px -230px;
 }
 
 .bg-angular {
   width: 24px;
   height: 24px;
-  background: url('skills_sprites.png') -186px -230px;
+  background: url('/skills_sprites.png') -186px -230px;
 }
 
 .bg-arango_db {
   width: 24px;
   height: 24px;
-  background: url('skills_sprites.png') -230px -230px;
+  background: url('/skills_sprites.png') -230px -230px;
 }
 
 .bg-aws {
   width: 24px;
   height: 24px;
-  background: url('skills_sprites.png') -274px -10px;
+  background: url('/skills_sprites.png') -274px -10px;
 }
 
 .bg-aws_ec2 {
   width: 24px;
   height: 24px;
-  background: url('skills_sprites.png') -274px -54px;
+  background: url('/skills_sprites.png') -274px -54px;
 }
 
 .bg-aws_route53 {
   width: 24px;
   height: 24px;
-  background: url('skills_sprites.png') -274px -98px;
+  background: url('/skills_sprites.png') -274px -98px;
 }
 
 .bg-aws_lambda {
   width: 24px;
   height: 24px;
-  background: url('skills_sprites.png') -274px -142px;
+  background: url('/skills_sprites.png') -274px -142px;
 }
 
 .bg-axios {
   width: 24px;
   height: 24px;
-  background: url('skills_sprites.png') -274px -186px;
+  background: url('/skills_sprites.png') -274px -186px;
 }
 
 .bg-aws_s3 {
   width: 24px;
   height: 24px;
-  background: url('skills_sprites.png') -274px -230px;
+  background: url('/skills_sprites.png') -274px -230px;
 }
 
 .bg-bootstrap {
   width: 24px;
   height: 24px;
-  background: url('skills_sprites.png') -10px -274px;
+  background: url('/skills_sprites.png') -10px -274px;
 }
 
 .bg-csharp {
   width: 24px;
   height: 24px;
-  background: url('skills_sprites.png') -54px -274px;
+  background: url('/skills_sprites.png') -54px -274px;
 }
 
 .bg-cplus {
   width: 24px;
   height: 24px;
-  background: url('skills_sprites.png') -98px -274px;
+  background: url('/skills_sprites.png') -98px -274px;
 }
 
 .bg-c {
   width: 24px;
   height: 24px;
-  background: url('skills_sprites.png') -142px -274px;
+  background: url('/skills_sprites.png') -142px -274px;
 }
 
 .bg-css {
   width: 24px;
   height: 24px;
-  background: url('skills_sprites.png') -186px -274px;
+  background: url('/skills_sprites.png') -186px -274px;
 }
 
 .bg-django {
   width: 24px;
   height: 24px;
-  background: url('skills_sprites.png') -230px -274px;
+  background: url('/skills_sprites.png') -230px -274px;
 }
 
 .bg-docker {
   width: 24px;
   height: 24px;
-  background: url('skills_sprites.png') -274px -274px;
+  background: url('/skills_sprites.png') -274px -274px;
 }
 
 .bg-ejs {
   width: 24px;
   height: 24px;
-  background: url('skills_sprites.png') -318px -10px;
+  background: url('/skills_sprites.png') -318px -10px;
 }
 
 .bg-figma {
   width: 24px;
   height: 24px;
-  background: url('skills_sprites.png') -318px -54px;
+  background: url('/skills_sprites.png') -318px -54px;
 }
 
 .bg-express {
   width: 24px;
   height: 24px;
-  background: url('skills_sprites.png') -318px -98px;
+  background: url('/skills_sprites.png') -318px -98px;
 }
 
 .bg-firebase {
   width: 24px;
   height: 24px;
-  background: url('skills_sprites.png') -318px -142px;
+  background: url('/skills_sprites.png') -318px -142px;
 }
 
 .bg-eslint {
   width: 24px;
   height: 24px;
-  background: url('skills_sprites.png') -318px -186px;
+  background: url('/skills_sprites.png') -318px -186px;
 }
 
 .bg-expo {
   width: 24px;
   height: 24px;
-  background: url('skills_sprites.png') -318px -230px;
+  background: url('/skills_sprites.png') -318px -230px;
 }
 
 .bg-github {
   width: 24px;
   height: 24px;
-  background: url('skills_sprites.png') -318px -274px;
+  background: url('/skills_sprites.png') -318px -274px;
 }
 
 .bg-git {
   width: 24px;
   height: 24px;
-  background: url('skills_sprites.png') -10px -318px;
+  background: url('/skills_sprites.png') -10px -318px;
 }
 
 .bg-go {
   width: 24px;
   height: 24px;
-  background: url('skills_sprites.png') -54px -318px;
+  background: url('/skills_sprites.png') -54px -318px;
 }
 
 .bg-java {
   width: 24px;
   height: 24px;
-  background: url('skills_sprites.png') -98px -318px;
+  background: url('/skills_sprites.png') -98px -318px;
 }
 
 .bg-h2_db {
   width: 24px;
   height: 24px;
-  background: url('skills_sprites.png') -142px -318px;
+  background: url('/skills_sprites.png') -142px -318px;
 }
 
 .bg-html {
   width: 24px;
   height: 24px;
-  background: url('skills_sprites.png') -186px -318px;
+  background: url('/skills_sprites.png') -186px -318px;
 }
 
 .bg-flutter {
   width: 24px;
   height: 24px;
-  background: url('skills_sprites.png') -230px -318px;
+  background: url('/skills_sprites.png') -230px -318px;
 }
 
 .bg-java_script {
   width: 24px;
   height: 24px;
-  background: url('skills_sprites.png') -274px -318px;
+  background: url('/skills_sprites.png') -274px -318px;
 }
 
 .bg-jest {
   width: 24px;
   height: 24px;
-  background: url('skills_sprites.png') -318px -318px;
+  background: url('/skills_sprites.png') -318px -318px;
 }
 
 .bg-imotion {
   width: 24px;
   height: 24px;
-  background: url('skills_sprites.png') -362px -10px;
+  background: url('/skills_sprites.png') -362px -10px;
 }
 
 .bg-jquery {
   width: 24px;
   height: 24px;
-  background: url('skills_sprites.png') -362px -54px;
+  background: url('/skills_sprites.png') -362px -54px;
 }
 
 .bg-jpa {
   width: 24px;
   height: 24px;
-  background: url('skills_sprites.png') -362px -98px;
+  background: url('/skills_sprites.png') -362px -98px;
 }
 
 .bg-jira {
   width: 24px;
   height: 24px;
-  background: url('skills_sprites.png') -362px -142px;
+  background: url('/skills_sprites.png') -362px -142px;
 }
 
 .bg-jsp {
   width: 24px;
   height: 24px;
-  background: url('skills_sprites.png') -362px -186px;
+  background: url('/skills_sprites.png') -362px -186px;
 }
 
 .bg-kotlyn {
   width: 24px;
   height: 24px;
-  background: url('skills_sprites.png') -362px -230px;
+  background: url('/skills_sprites.png') -362px -230px;
 }
 
 .bg-graph_ql {
   width: 24px;
   height: 24px;
-  background: url('skills_sprites.png') -362px -274px;
+  background: url('/skills_sprites.png') -362px -274px;
 }
 
 .bg-kubernetes {
   width: 24px;
   height: 24px;
-  background: url('skills_sprites.png') -362px -318px;
+  background: url('/skills_sprites.png') -362px -318px;
 }
 
 .bg-maria_db {
   width: 24px;
   height: 24px;
-  background: url('skills_sprites.png') -10px -362px;
+  background: url('/skills_sprites.png') -10px -362px;
 }
 
 .bg-mysql {
   width: 24px;
   height: 24px;
-  background: url('skills_sprites.png') -54px -362px;
+  background: url('/skills_sprites.png') -54px -362px;
 }
 
 .bg-mongo_db {
   width: 24px;
   height: 24px;
-  background: url('skills_sprites.png') -98px -362px;
+  background: url('/skills_sprites.png') -98px -362px;
 }
 
 .bg-mobx {
   width: 24px;
   height: 24px;
-  background: url('skills_sprites.png') -142px -362px;
+  background: url('/skills_sprites.png') -142px -362px;
 }
 
 .bg-nest_js {
   width: 24px;
   height: 24px;
-  background: url('skills_sprites.png') -186px -362px;
+  background: url('/skills_sprites.png') -186px -362px;
 }
 
 .bg-next_js {
   width: 24px;
   height: 24px;
-  background: url('skills_sprites.png') -230px -362px;
+  background: url('/skills_sprites.png') -230px -362px;
 }
 
 .bg-download {
   width: 24px;
   height: 24px;
-  background: url('skills_sprites.png') -274px -362px;
+  background: url('/skills_sprites.png') -274px -362px;
 }
