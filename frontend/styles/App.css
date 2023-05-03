@@ -28,12 +28,19 @@ body {
   --radius-xl: 50px;
   --padding: 20px 20px 36px 20px;
   --grid-gap: 16px;
+  --shadow: 2px 2px 7px 1px rgba(114, 114, 114, 0.75);
 }
 
 .nanum-bold {
   font-family: var(--font-nanum);
   font-size: 23px;
   font-weight: 700;
+}
+
+.nanum-semi-bold {
+  font-family: var(--font-nanum);
+  font-size: 18px;
+  font-weight: 500;
 }
 
 .nanum-regular {
