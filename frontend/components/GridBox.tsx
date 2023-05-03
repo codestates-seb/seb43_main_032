@@ -14,6 +14,6 @@ const Box = styled.div`
   width: 100%;
   display: grid;
   grid-auto-flow: row;
-  grid-gap: 12px;
+  grid-gap: 16px;
   grid-template-columns: 3fr 9fr;
 `;
