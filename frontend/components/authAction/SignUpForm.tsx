@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import AuthInput from './AuthInput';
 import { useForm, FieldErrors } from 'react-hook-form';
 import AuthCheckBox from './AuthCheckBox';
+import { useState } from 'react';
 
 const Wrapper = styled.div`
   width: 100%;
@@ -9,40 +10,36 @@ const Wrapper = styled.div`
   flex-direction: column;
   align-items: center;
 `;
-const LogoBox = styled.div`
-  width: 200px;
-  height: 60px;
-  background-color: wheat;
-  margin-top: 50px;
-  margin-bottom: 60px;
-`;
 const Form = styled.form`
   width: 100%;
 `;
-const OptionWrapper = styled.div`
-  display: flex;
-  width: 100%;
-  justify-content: center;
-  gap: 40px;
-  margin-bottom: 20px;
-`;
+
 const Submit = styled.input`
   width: 100%;
   border: none;
   margin-bottom: 20px;
   padding: 20px;
+  margin-top: 60px;
   border-radius: 10px;
 `;
-interface ILoginForm {
+const ErrMsg = styled.p`
+  position: absolute;
+  color: teal;
+`;
+interface ISignUpForm {
   email: string;
   password: string;
-  saveId: boolean;
-  rememberMe: boolean;
+  verifyPw: string;
 }
-export default function LoginForm() {
-  const { register, watch, handleSubmit } = useForm<ILoginForm>();
-  console.log(watch());
-  const onValid = (data: ILoginForm) => {
+export default function SignUpForm() {
+  const {
+    register,
+    watch,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<ISignUpForm>();
+  console.log(watch('password'));
+  const onValid = (data: ISignUpForm) => {
     console.log('valid');
   };
   const onInValid = (errors: FieldErrors) => {
@@ -50,7 +47,6 @@ export default function LoginForm() {
   };
   return (
     <Wrapper>
-      <LogoBox />
       <Form onSubmit={handleSubmit(onValid, onInValid)}>
         <AuthInput //
           register={register('email', {
@@ -62,15 +58,25 @@ export default function LoginForm() {
         <AuthInput
           register={register('password', {
             required: '비밀번호를 입력해 주세요',
+            minLength: {
+              message: '비밀번호는 8자 이상이어야 합니다.',
+              value: 8,
+            },
           })}
           name="비밀번호"
           type="password"
         />
-        <OptionWrapper>
-          <AuthCheckBox register={register('saveId')} name="아이디 저장하기" />
-          <AuthCheckBox register={register('rememberMe')} name="자동 로그인" />
-        </OptionWrapper>
-        <Submit type="submit" value={'Log In'} />
+        {errors.password && <ErrMsg>{`${errors?.password?.message}`} </ErrMsg>}
+        <AuthInput
+          register={register('verifyPw', {
+            required: '비밀번호를 입력해 주세요',
+            validate: (value) =>
+              value === watch('password') || '비밀번호가 일치하지 않습니다.',
+          })}
+          type="password"
+        />
+        {errors.verifyPw && <ErrMsg>{`${errors?.verifyPw?.message}`} </ErrMsg>}
+        <Submit type="submit" value={'Sign Up'} />
       </Form>
     </Wrapper>
   );

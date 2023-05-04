@@ -4,18 +4,21 @@ import { RiKakaoTalkFill } from 'react-icons/ri';
 import styled from 'styled-components';
 import AuthInput from './AuthInput';
 import LoginForm from './LoginForm';
+import SignUpForm from './SignUpForm';
+import { useState } from 'react';
 
 const LoginWrapper = styled.div`
   display: flex;
   width: 40%;
-  height: 80%;
+  min-width: 400px;
+  padding: 20px;
   background-color: #d9d9d9;
   border-radius: 15px;
   align-items: center;
   justify-content: center;
 `;
 const LoginContainer = styled.div`
-  width: 75%;
+  width: 80%;
   min-width: 320px;
   display: flex;
   flex-direction: column;
@@ -27,17 +30,20 @@ const P = styled.p.attrs({
 })`
   margin-bottom: 5px;
   flex-shrink: 0;
+  cursor: pointer;
 `;
 
 const AuthActionBox = styled.div`
-  margin-bottom: 100px;
+  display: flex;
+  margin-bottom: ${({ isLogin }: { isLogin: Boolean }) =>
+    isLogin ? '100px' : '50px'};
 `;
 
 const OAuthBtnBox = styled.div`
   display: flex;
   width: 100%;
   justify-content: space-between;
-  margin-top: 20px;
+  margin-top: 10px;
 `;
 const OAuthButton = styled.button`
   border: none;
@@ -46,14 +52,23 @@ const OAuthButton = styled.button`
   border-radius: 5px;
 `;
 export default function AuthContainer() {
+  const [isLogin, setIsLogin] = useState<Boolean>(true);
+  const onActionChange = () => setIsLogin((prev) => !prev);
   return (
     <LoginWrapper>
       <LoginContainer>
-        <LoginForm />
-        <AuthActionBox>
-          <P>아이디 찾기 &nbsp; |&nbsp; 비밀번호 찾기&nbsp; |&nbsp; 회원가입</P>
+        {isLogin ? <LoginForm /> : <SignUpForm />}
+        <AuthActionBox isLogin={isLogin}>
+          {isLogin ? (
+            <>
+              <P>&nbsp; 비번찾기&nbsp; |</P>
+              <P onClick={onActionChange}>&nbsp;&nbsp;회원가입</P>
+            </>
+          ) : (
+            <P onClick={onActionChange}>로그인</P>
+          )}
         </AuthActionBox>
-        <P>다른 계정으로 로그인</P>
+        {isLogin ? <P>다른 계정으로 로그인</P> : <P>다른 계정으로 회원가입</P>}
         <OAuthBtnBox>
           <OAuthButton>
             <FcGoogle size={50} />

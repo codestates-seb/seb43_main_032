@@ -6,8 +6,8 @@ const OptionBox = styled.div`
 `;
 const CheckBox = styled.input`
   accent-color: black;
-  width: 20px;
-  height: 20px;
+  width: 16px;
+  height: 16px;
 `;
 const P = styled.p.attrs({
   className: 'nanum-regular',
