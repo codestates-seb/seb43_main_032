@@ -23,6 +23,7 @@ import SelectStack from '@/components/SelectStack';
 import dynamic from 'next/dynamic';
 import SelectedStacks from '@/components/project/SelectedStacks';
 import { api } from '@/util/api';
+import { useRouter } from 'next/router';
 const Editor = dynamic(() => import('@/components/Editor'), {
   ssr: false,
 });
@@ -33,6 +34,7 @@ interface Props extends Omit<ReactDatePickerProps, 'onChange'> {
 
 //프로젝트 글 작성 페이지 입니다. 경로 '/project/create/'
 const CreateProject = () => {
+  const router = useRouter();
   //시작일
   const [start, setStart] = useState<Date | null>();
 
@@ -160,12 +162,24 @@ const CreateProject = () => {
 
   //에디터 상태
   const [editor, setEditor] = useState('');
-  const changeEditor = (value: any) => {
+  const changeEditor = (value: string) => {
     setEditor(value);
   };
 
   //프로젝트 글 완료 이벤트
   const postProject = () => {
+    if (!start) {
+      return alert('프로젝트 기간을 설정해주세요.');
+    }
+    if (job.length === 0) {
+      return alert('모집 직군은 최소 1개 이상 등록해주세요.');
+    }
+    if (formTitle === '') {
+      return alert('제목을 입력해주세요.');
+    }
+    if (editor === '') {
+      return alert('내용을 입력해주세요.');
+    }
     const data = {
       start,
       end,
@@ -176,7 +190,7 @@ const CreateProject = () => {
       formTitle,
       editor,
     };
-    api.post('/project', data).then((res) => console.log(res));
+    api.post('/project', data).then(() => router.push('/'));
   };
 
   return (
