@@ -72,6 +72,7 @@ const CreateProject = () => {
       setTagVal('');
     }
   };
+
   // 해시태그 업데이트
   const addTag = (tag: string) => {
     setTags([...tags, tag]);
@@ -118,6 +119,18 @@ const CreateProject = () => {
   };
   const jobs = job.map((x) => Object.keys(x)[0]);
   const jobCount = job.map((x) => Object.values(x)[0]);
+
+  //나의 포지션
+  const [position, setPosition] = useState('');
+  const changePosition = (e: ChangeEvent<HTMLInputElement>) => {
+    setPosition(e.target.value);
+  };
+
+  //form 타이틀
+  const [formTitle, setFormTitle] = useState('');
+  const changeFormTitle = (e: ChangeEvent<HTMLInputElement>) => {
+    setFormTitle(e.target.value);
+  };
 
   return (
     <GridBox>
@@ -232,13 +245,103 @@ const CreateProject = () => {
         </div>
       </Side>
       <Main>
-        <div className="post-box"></div>
+        <div className="explanation-box">
+          <div className="nanum-bold title">
+            모집 글 작성은 이렇게 해주세요.
+          </div>
+          <div className="sub">
+            무슨 프로젝트를 계획하고 구상했는지, 그리고 어떤 계획으로 진행할
+            것인지 최대한 상세히 적어주세요.
+          </div>
+          <div>
+            <ul>
+              <li>기간, 태그, 스택, 직군들을 상세하게 기입해주시면 좋아요.</li>
+              <li>
+                간략하게 작성하기보다는 최대한 자세하게 적어주시면 좋아요.
+              </li>
+              <li>중요한 내용들은 임팩트를 주시면 좋아요.</li>
+            </ul>
+          </div>
+        </div>
+        <form action="#">
+          <div className="nanum-bold">
+            <div>나의 포지션</div>
+            <div>
+              <input
+                value={position}
+                onChange={changePosition}
+                type="text"
+                placeholder="포지션을 입력해주세요."
+              />
+            </div>
+          </div>
+          <div className="title">
+            <input
+              placeholder="제목을 등록해주세요."
+              type="text"
+              value={formTitle}
+              onChange={changeFormTitle}
+            />
+          </div>
+          <div>본문</div>
+        </form>
       </Main>
     </GridBox>
   );
 };
 
 export default CreateProject;
+
+const Main = styled.div`
+  padding: var(--padding-2);
+  input {
+    width: 100%;
+    padding: 12px;
+    font-size: 14px;
+    border: 1px solid #d0d3d2;
+    box-shadow: var(--box-shadow);
+    border-radius: var(--radius-def);
+    padding-left: 8px;
+  }
+  .explanation-box {
+    width: 100%;
+    border: 1px solid black;
+    padding: var(--padding-2);
+    border: 1px solid #d0d3d2;
+    box-shadow: var(--box-shadow);
+    border-radius: var(--radius-def);
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    > .title {
+      font-size: 18px;
+    }
+    > .sub {
+      font-size: 13px;
+    }
+    ul {
+      padding: var(--padding-2);
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      li {
+        font-size: 12px;
+        list-style: disc;
+      }
+    }
+  }
+  form {
+    > div:first-child {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin: 24px 0px;
+    }
+    > div:last-child {
+      margin: 16px 0px;
+    }
+  }
+`;
 
 const Side = styled.div`
   width: 100%;
@@ -394,14 +497,5 @@ const Side = styled.div`
     box-shadow: var(--box-shadow);
     border-radius: var(--radius-def);
     padding-left: 8px;
-  }
-`;
-const Main = styled.div`
-  border: 1px solid black;
-  padding: var(--padding-2);
-  .post-box {
-    width: 100%;
-    border: 1px solid black;
-    border-radius: var(--radius-def);
   }
 `;
