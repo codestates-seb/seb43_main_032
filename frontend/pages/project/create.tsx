@@ -229,7 +229,9 @@ const CreateProject = () => {
             />
             <select value={option} onChange={changeOption}>
               {optionArr.map((x) => (
-                <option value={x}>{x}명</option>
+                <option key={x} value={x}>
+                  {x}명
+                </option>
               ))}
             </select>
             <button onClick={addJob}>등록</button>
@@ -487,6 +489,7 @@ const Side = styled.div`
       }
       > button {
         padding: 8px;
+        min-width: 48px;
       }
     }
   }
