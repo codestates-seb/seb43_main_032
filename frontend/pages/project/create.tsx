@@ -24,8 +24,10 @@ import dynamic from 'next/dynamic';
 import SelectedStacks from '@/components/project/SelectedStacks';
 import { api } from '@/util/api';
 import { useRouter } from 'next/router';
+import EiditorSkeleton from '@/components/EiditorSkeleton';
 const Editor = dynamic(() => import('@/components/Editor'), {
   ssr: false,
+  loading: () => <EiditorSkeleton />,
 });
 registerLocale('ko', ko); // 한국어적용
 interface Props extends Omit<ReactDatePickerProps, 'onChange'> {
