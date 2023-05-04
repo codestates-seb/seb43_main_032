@@ -13,6 +13,10 @@ import { formatDate } from '@/util/date/formatDate';
 import { dateDiffInDays } from '@/util/date/dateDiffInDays';
 import Tag from '@/components/Tag';
 import SelectStack from '@/components/SelectStack';
+import dynamic from 'next/dynamic';
+const Editor = dynamic(() => import('@/components/Editor'), {
+  ssr: false,
+});
 registerLocale('ko', ko); // 한국어적용
 interface Props extends Omit<ReactDatePickerProps, 'onChange'> {
   onClick(): void;
@@ -130,6 +134,12 @@ const CreateProject = () => {
   const [formTitle, setFormTitle] = useState('');
   const changeFormTitle = (e: ChangeEvent<HTMLInputElement>) => {
     setFormTitle(e.target.value);
+  };
+
+  //에디터 상태
+  const [editor, setEditor] = useState('');
+  const changeEditor = (value: any) => {
+    setEditor(value);
   };
 
   return (
@@ -285,7 +295,9 @@ const CreateProject = () => {
               onChange={changeFormTitle}
             />
           </div>
-          <div>본문</div>
+          <div>
+            <Editor editor={editor} changeEditor={changeEditor} />
+          </div>
         </form>
       </Main>
     </GridBox>
@@ -341,6 +353,7 @@ const Main = styled.div`
     }
     > div:last-child {
       margin: 16px 0px;
+      font-size: 14px;
     }
   }
 `;
@@ -432,7 +445,6 @@ const Side = styled.div`
     align-items: center;
     flex-direction: column;
     ul {
-      display: flex;
       justify-content: center;
       gap: 4px;
       flex-direction: row;
@@ -460,7 +472,6 @@ const Side = styled.div`
 
     > ul {
       margin-top: 12px;
-      display: flex;
       flex-direction: column;
       width: 70%;
       > li {
