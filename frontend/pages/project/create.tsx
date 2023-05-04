@@ -1,17 +1,25 @@
 import GridBox from '@/components/GridBox';
 import styled from 'styled-components';
 import { BsFillCalendarEventFill } from 'react-icons/bs';
+import { GrFormClose } from 'react-icons/gr';
 import DatePicker, {
   ReactDatePickerProps,
   registerLocale,
 } from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import ko from 'date-fns/locale/ko'; // 한국어적용
-import { ForwardedRef, forwardRef, useState } from 'react';
+import {
+  ChangeEvent,
+  ForwardedRef,
+  forwardRef,
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
 import { formatDate } from '@/util/date/formatDate';
 import { dateDiffInDays } from '@/util/date/dateDiffInDays';
 import Tag from '@/components/Tag';
-import useForm from '@/hooks/useForm';
+import SelectStack from '@/components/SelectStack';
 registerLocale('ko', ko); // 한국어적용
 interface Props extends Omit<ReactDatePickerProps, 'onChange'> {
   onClick(): void;
@@ -41,41 +49,55 @@ const CreateProject = () => {
     )
   );
 
-  const { data, handleChange, errors, handleSubmit } = useForm({
-    initialValues: {
-      tag: {},
-      stack: {},
-      job: {},
-    },
-    validations: {
-      tag: {
-        required: {
-          value: true,
-          message: 'you need to require tag',
-        },
-      },
-      stack: {
-        required: {
-          value: true,
-          message: 'you need to require stack',
-        },
-      },
-      job: {
-        required: {
-          value: true,
-          message: 'you need to require job',
-        },
-      },
-    },
-    // onSubmit: handleSignUpSubmit,
-  });
+  //스택 모달 관련
+  const [stack, setStack] = useState(false);
+  const onModal = () => {
+    setStack(true);
+  };
+  const offModal = () => {
+    setStack(false);
+  };
 
-  // function handleSignUpSubmit() {
-  //   signup.mutate();
-  // }
+  //선택된 스택 관련
+  const [select, setSelect] = useState<string[]>([]);
+
+  //태그 input
+  const inputRef = useRef<HTMLInputElement>(null);
+  //해시태그 값 상태
+  const [tags, setTags] = useState<string[]>([]);
+  const [inputVal, setInputVal] = useState('');
+
+  //태그 input 이벤트
+  const changeInput = (e: ChangeEvent<HTMLInputElement>) => {
+    if (e.target.value !== ' ') setInputVal(e.target.value);
+  };
+
+  //해시태그 키 다운
+  const inputKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if ((e.key === 'Enter' || e.key === ' ') && inputVal !== '') {
+      addTag(inputVal);
+      setInputVal('');
+    }
+  };
+  // 해시태그 업데이트
+  const addTag = (tag: string) => {
+    setTags([...tags, tag]);
+  };
+
+  // 해시태그 중복 삭제
+  const deleteTag = (idx: number) => {
+    setTags([...tags.slice(0, idx), ...tags.slice(idx + 1)]);
+  };
 
   return (
     <GridBox>
+      {stack && (
+        <SelectStack
+          offModal={offModal}
+          select={select}
+          setSelect={setSelect}
+        />
+      )}
       <Side>
         <div className="period-box">
           <div>
@@ -113,27 +135,44 @@ const CreateProject = () => {
         </div>
         <div className="tag-box">
           <div>프로젝트 분야 태그</div>
-          <ul className="noto-regular-13">
-            <li className="button-box">
-              <button>태그 등록</button>
-            </li>
-            {/* <li>
-              <Tag>금융</Tag>
-            </li>
-            <li>
-              <Tag>Ai</Tag>
-            </li> */}
-          </ul>
+          <div className="noto-regular-13">
+            <div className="button-box">
+              <input
+                ref={inputRef}
+                value={inputVal}
+                onKeyDown={inputKeyDown}
+                onChange={changeInput}
+                type="text"
+              />
+            </div>
+            <ul>
+              {tags.map((x, i) => (
+                <li key={`${x}+${i}`}>
+                  <Tag>
+                    <div>{x}</div>
+                    <div>
+                      <GrFormClose onClick={() => deleteTag(i)} />
+                    </div>
+                  </Tag>
+                </li>
+              ))}
+            </ul>
+          </div>
         </div>
         <div className="stack-box">
           <div>프로젝트 메인 스택</div>
           <ul className="noto-regular-13">
             <li className="button-box">
-              <button>스택 등록</button>
+              {select.length === 0 ? (
+                <button onClick={onModal}>스택 등록</button>
+              ) : (
+                <ul onClick={onModal} className="select-tag-box">
+                  {select.map((x) => (
+                    <li key={x} className={`bg-${x}`}></li>
+                  ))}
+                </ul>
+              )}
             </li>
-            {/* <li className="bg-java_script"></li>
-            <li className="bg-css"></li>
-            <li className="bg-html"></li> */}
           </ul>
         </div>
         <div className="want-box">
@@ -142,18 +181,6 @@ const CreateProject = () => {
             <li className="button-box">
               <button>직군 등록</button>
             </li>
-            {/* <li>
-              <div>프론트엔드</div>
-              <div>1명</div>
-            </li>
-            <li>
-              <div>백엔드</div>
-              <div>3명</div>
-            </li>
-            <li>
-              <div>디자이너</div>
-              <div>2명</div>
-            </li> */}
           </ul>
         </div>
       </Side>
@@ -176,12 +203,14 @@ const Side = styled.div`
   button {
     cursor: pointer;
     border: none;
+    height: 40px;
     padding: 8px 32px;
     border-radius: var(--radius-def);
   }
 
   .button-box {
     width: 100%;
+    min-height: 40px;
     display: flex;
     justify-content: center;
   }
@@ -223,10 +252,44 @@ const Side = styled.div`
     justify-content: center;
   }
 
-  .tag-box,
   .stack-box {
-    > ul {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    .select-tag-box {
       display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      > li {
+        box-shadow: var(--box-shadow);
+      }
+    }
+  }
+
+  .tag-box {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    ul {
+      margin-left: 32px;
+      display: flex;
+      gap: 4px;
+      flex-wrap: wrap;
+      flex-direction: row;
+      li {
+        > div {
+          display: flex;
+          gap: 4px;
+          min-width: auto;
+          > div:last-child {
+            cursor: pointer;
+          }
+        }
+      }
+    }
+
+    .button-box {
+      margin-bottom: 12px;
     }
   }
 
@@ -235,7 +298,7 @@ const Side = styled.div`
       > li {
         display: flex;
         align-items: center;
-        margin-bottom: 24px;
+
         gap: 8px;
         > div:first-child {
           flex: 1;
@@ -243,26 +306,17 @@ const Side = styled.div`
       }
     }
 
-    /* .light {
-      width: 20px;
-      height: 20px;
-      border-radius: 50%;
-    }
-
-    .green {
-      background-color: #94f184;
-    }
-
-    .red {
-      background-color: #ff7171;
-    } */
-
     .tag {
       cursor: pointer;
     }
   }
 
-  .review-box {
+  input {
+    padding: 6px;
+    border: 1px solid #e1e7e5;
+    box-shadow: var(--box-shadow);
+    border-radius: var(--radius-def);
+    padding-left: 8px;
   }
 `;
 const Main = styled.div`

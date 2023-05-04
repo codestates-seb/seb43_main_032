@@ -11,9 +11,10 @@ const GridBox = (props: Props) => {
 export default GridBox;
 
 const Box = styled.div`
+  position: relative;
   width: 100%;
   display: grid;
   grid-auto-flow: row;
-  grid-gap: 12px;
+  grid-gap: 16px;
   grid-template-columns: 3fr 9fr;
 `;
