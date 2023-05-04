@@ -8,14 +8,7 @@ import DatePicker, {
 } from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import ko from 'date-fns/locale/ko'; // 한국어적용
-import {
-  ChangeEvent,
-  ForwardedRef,
-  forwardRef,
-  useEffect,
-  useRef,
-  useState,
-} from 'react';
+import { ChangeEvent, ForwardedRef, forwardRef, useRef, useState } from 'react';
 import { formatDate } from '@/util/date/formatDate';
 import { dateDiffInDays } from '@/util/date/dateDiffInDays';
 import Tag from '@/components/Tag';
@@ -62,21 +55,21 @@ const CreateProject = () => {
   const [select, setSelect] = useState<string[]>([]);
 
   //태그 input
-  const inputRef = useRef<HTMLInputElement>(null);
+  const tagInput = useRef<HTMLInputElement>(null);
   //해시태그 값 상태
   const [tags, setTags] = useState<string[]>([]);
-  const [inputVal, setInputVal] = useState('');
+  const [tagVal, setTagVal] = useState('');
 
   //태그 input 이벤트
-  const changeInput = (e: ChangeEvent<HTMLInputElement>) => {
-    if (e.target.value !== ' ') setInputVal(e.target.value);
+  const changeTagVal = (e: ChangeEvent<HTMLInputElement>) => {
+    if (e.target.value !== ' ') setTagVal(e.target.value);
   };
 
   //해시태그 키 다운
   const inputKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if ((e.key === 'Enter' || e.key === ' ') && inputVal !== '') {
-      addTag(inputVal);
-      setInputVal('');
+    if ((e.key === 'Enter' || e.key === ' ') && tagVal !== '') {
+      addTag(tagVal);
+      setTagVal('');
     }
   };
   // 해시태그 업데이트
@@ -87,6 +80,31 @@ const CreateProject = () => {
   // 해시태그 중복 삭제
   const deleteTag = (idx: number) => {
     setTags([...tags.slice(0, idx), ...tags.slice(idx + 1)]);
+  };
+
+  //직군 옵션
+  const optionArr = Array(9)
+    .fill(1)
+    .map((x, i) => x + i);
+
+  //직군 input
+  const [jobVal, setJobVal] = useState('');
+  const changeJobVal = (e: ChangeEvent<HTMLInputElement>) => {
+    setJobVal(e.target.value);
+  };
+
+  //직군 option
+  const [option, setOption] = useState(0);
+  const changeOption = (e: ChangeEvent<HTMLSelectElement>) => {
+    setOption(Number(e.target.value));
+  };
+
+  //직군 상태
+  const [job, setJob] = useState<{ [key: string]: number }[]>([]);
+  const addJob = () => {
+    setJob([...job, { [jobVal]: option }]);
+    setJobVal('');
+    setOption(0);
   };
 
   return (
@@ -138,10 +156,10 @@ const CreateProject = () => {
           <div className="noto-regular-13">
             <div className="button-box">
               <input
-                ref={inputRef}
-                value={inputVal}
+                ref={tagInput}
+                value={tagVal}
                 onKeyDown={inputKeyDown}
-                onChange={changeInput}
+                onChange={changeTagVal}
                 type="text"
               />
             </div>
@@ -177,11 +195,15 @@ const CreateProject = () => {
         </div>
         <div className="want-box">
           <div>모집을 원하는 직군</div>
-          <ul className="noto-regular-13">
-            <li className="button-box">
-              <button>직군 등록</button>
-            </li>
-          </ul>
+          <div className="job-box">
+            <input type="text" onChange={changeJobVal} value={jobVal} />
+            <select value={option} onChange={changeOption}>
+              {optionArr.map((x) => (
+                <option value={x}>{x}명</option>
+              ))}
+            </select>
+            <button onClick={addJob}>등록</button>
+          </div>
         </div>
       </Side>
       <Main>
@@ -200,12 +222,20 @@ const Side = styled.div`
   align-items: center;
   flex-direction: column;
 
+  ul {
+    display: flex;
+    flex-wrap: wrap;
+  }
+
   button {
     cursor: pointer;
     border: none;
     height: 40px;
     padding: 8px 32px;
     border-radius: var(--radius-def);
+    :hover {
+      background-color: #e1e7e5;
+    }
   }
 
   .button-box {
@@ -257,9 +287,7 @@ const Side = styled.div`
     align-items: center;
     flex-direction: column;
     .select-tag-box {
-      display: flex;
       gap: 8px;
-      flex-wrap: wrap;
       > li {
         box-shadow: var(--box-shadow);
       }
@@ -272,9 +300,7 @@ const Side = styled.div`
     flex-direction: column;
     ul {
       margin-left: 32px;
-      display: flex;
       gap: 4px;
-      flex-wrap: wrap;
       flex-direction: row;
       li {
         > div {
@@ -294,11 +320,14 @@ const Side = styled.div`
   }
 
   .want-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
     > ul {
       > li {
         display: flex;
         align-items: center;
-
         gap: 8px;
         > div:first-child {
           flex: 1;
@@ -308,6 +337,23 @@ const Side = styled.div`
 
     .tag {
       cursor: pointer;
+    }
+
+    .job-box {
+      display: flex;
+      justify-content: center;
+      > input {
+        width: 50%;
+      }
+      > select {
+        margin: 0px 10px;
+        border: 1px solid #e1e7e5;
+        box-shadow: var(--box-shadow);
+        border-radius: var(--radius-def);
+      }
+      > button {
+        padding: 8px;
+      }
     }
   }
 
