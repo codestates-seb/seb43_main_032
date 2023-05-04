@@ -158,15 +158,7 @@ const CreateProject = () => {
         </div>
       </Side>
       <Main>
-        <div className="post-box">
-          <div className="project-status-box noto-regular-12">시작 전</div>
-          <div className="noto-regular-13">
-            작성일자 : 2023년 4월 1일 조회수 : 27 댓글수 : 27개
-          </div>
-          <div className="post">
-            <div></div>
-          </div>
-        </div>
+        <div className="post-box"></div>
       </Main>
     </GridBox>
   );
@@ -280,27 +272,5 @@ const Main = styled.div`
     width: 100%;
     border: 1px solid black;
     border-radius: var(--radius-def);
-
-    > div {
-      padding: var(--padding-2);
-    }
-  }
-
-  .project-status-box {
-    width: 100%;
-    display: flex;
-    justify-content: center;
-  }
-
-  .post {
-    width: 100%;
-    display: flex;
-    justify-content: end;
-    > div {
-      width: 90%;
-      border: 1px solid black;
-      background-color: var(--bg-gray);
-      min-height: 60vh;
-    }
   }
 `;
