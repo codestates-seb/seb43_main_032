@@ -42,7 +42,7 @@ const Container = styled.div`
   width: 100%;
   background-color: gray;
   border-radius: var(--radius-def);
-  padding: var(--padding);
+  padding: var(--padding-2);
   display: flex;
   flex-direction: column;
   justify-content: center;

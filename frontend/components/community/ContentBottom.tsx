@@ -14,7 +14,7 @@ export default function ContentBottom() {
 
 const Container = styled.div`
   width: 100%;
-  padding: var(--padding);
+  padding: var(--padding-2);
   background: #ffffff;
   border-radius: var(--radius-xl);
 `;
