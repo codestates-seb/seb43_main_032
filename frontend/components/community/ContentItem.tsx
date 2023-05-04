@@ -4,7 +4,7 @@ import Tag from '../Tag';
 import Link from 'next/link';
 
 type Example = {
-  id: string;
+  id: number;
   user: string;
   score: number;
   star: number;
