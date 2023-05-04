@@ -415,8 +415,11 @@ const Side = styled.div`
   .stack-box {
     display: flex;
     align-items: center;
+    justify-content: center;
     flex-direction: column;
     .select-tag-box {
+      display: flex;
+      justify-content: center;
       gap: 8px;
       > li {
         box-shadow: var(--box-shadow);
@@ -429,7 +432,8 @@ const Side = styled.div`
     align-items: center;
     flex-direction: column;
     ul {
-      margin-left: 32px;
+      display: flex;
+      justify-content: center;
       gap: 4px;
       flex-direction: row;
       li {

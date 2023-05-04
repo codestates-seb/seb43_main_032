@@ -12,6 +12,7 @@ type Props = {
 const SelectStack = ({ setSelect, offModal, select }: Props) => {
   const categories = Object.keys(STACKS_CATEGORIES);
 
+  //스택을 추가하는 함수
   const addStack = (stack: string) => {
     const idx = select.findIndex((x) => stack === x);
     if (idx !== -1) {
@@ -20,6 +21,7 @@ const SelectStack = ({ setSelect, offModal, select }: Props) => {
     setSelect([...select, stack]);
   };
 
+  //선택한 스택 리셋
   const resetStack = () => {
     setSelect([]);
   };
