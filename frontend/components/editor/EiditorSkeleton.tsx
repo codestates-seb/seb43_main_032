@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-import Skeleton from './skeleton/Skeleton';
+import Skeleton from '../skeleton/Skeleton';
 
 const EiditorSkeleton = () => {
   return (

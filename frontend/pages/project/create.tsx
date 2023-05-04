@@ -24,8 +24,8 @@ import dynamic from 'next/dynamic';
 import SelectedStacks from '@/components/project/SelectedStacks';
 import { api } from '@/util/api';
 import { useRouter } from 'next/router';
-import EiditorSkeleton from '@/components/EiditorSkeleton';
-const Editor = dynamic(() => import('@/components/Editor'), {
+import EiditorSkeleton from '@/components/editor/EiditorSkeleton';
+const Editor = dynamic(() => import('@/components/editor/Editor'), {
   ssr: false,
   loading: () => <EiditorSkeleton />,
 });
