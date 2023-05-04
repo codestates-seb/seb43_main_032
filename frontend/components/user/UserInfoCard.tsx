@@ -29,7 +29,7 @@ const StackWrapper = styled.div.attrs({})`
   display: flex;
   flex-wrap: wrap;
   width: 100%;
-  gap: 10px 0;
+  gap: 8px;
   margin-top: 20px;
   margin-bottom: 50px;
   color: white;

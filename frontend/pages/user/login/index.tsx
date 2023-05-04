@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import LoginBox from '@/components/authAction/LoginBox';
+import AuthContainer from '@/components/authAction/AuthContainer';
 
 //로그인 페이지 입니다. 경로 '/user/login/'
 const Wrapper = styled.div`
@@ -57,7 +57,7 @@ const Login = () => {
           </TextBox>
           <ImgBox>img here</ImgBox>
         </Contents>
-        <LoginBox />
+        <AuthContainer />
       </WrapperInset>
     </Wrapper>
   );
