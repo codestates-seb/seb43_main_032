@@ -110,6 +110,7 @@ const CreateProject = () => {
       setJobVal('');
       setOption(1);
     }
+    return setWarning(true);
   };
 
   //직군 option
@@ -518,6 +519,9 @@ const Side = styled.div<SideProps>`
       > input {
         width: 50%;
         border: ${(props) => props.warning && '1px solid red'};
+        :focus {
+          outline: ${(props) => props.warning && '1px solid red'};
+        }
       }
       > select {
         margin: 0px 10px;
