@@ -2,7 +2,6 @@ import { AiFillFacebook, AiFillGithub } from 'react-icons/ai';
 import { FcGoogle } from 'react-icons/fc';
 import { RiKakaoTalkFill } from 'react-icons/ri';
 import styled from 'styled-components';
-import AuthInput from './AuthInput';
 import LoginForm from './LoginForm';
 import SignUpForm from './SignUpForm';
 import { useState } from 'react';

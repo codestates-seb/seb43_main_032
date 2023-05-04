@@ -1,8 +1,6 @@
 import styled from 'styled-components';
 import AuthInput from './AuthInput';
 import { useForm, FieldErrors } from 'react-hook-form';
-import AuthCheckBox from './AuthCheckBox';
-import { useState } from 'react';
 
 const Wrapper = styled.div`
   width: 100%;
