@@ -13,10 +13,11 @@ const OPTIONS: EasyMDE.Options = {
   renderingConfig: {
     codeSyntaxHighlighting: true,
     hljs,
-  },
-  spellChecker: false,
-  previewClass: ['markdown-body'],
-  hideIcons: ['guide'],
+  }, //hljs 사용
+  spellChecker: false, //스펠체크 off
+  status: false, //우측 하단 상태
+  previewClass: ['markdown-body'], //github 마크다운 사용
+  hideIcons: ['guide'], //guide 버튼 가리기
 };
 const EditorBox = ({ changeEditor }: Props) => {
   return (
