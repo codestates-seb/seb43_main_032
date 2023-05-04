@@ -16,5 +16,4 @@ const TagBox = styled.div`
   border-radius: var(--radius-sm);
   min-width: 48px;
   text-align: center;
-  margin-right: 8px;
 `;
