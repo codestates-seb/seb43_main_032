@@ -21,6 +21,7 @@ import { dateDiffInDays } from '@/util/date/dateDiffInDays';
 import Tag from '@/components/Tag';
 import SelectStack from '@/components/SelectStack';
 import dynamic from 'next/dynamic';
+import SelectedStacks from '@/components/project/SelectedStacks';
 const Editor = dynamic(() => import('@/components/Editor'), {
   ssr: false,
 });
@@ -238,11 +239,7 @@ const CreateProject = () => {
               {select.length === 0 ? (
                 <button onClick={onModal}>스택 등록</button>
               ) : (
-                <ul onClick={onModal} className="select-tag-box">
-                  {select.map((x) => (
-                    <li key={x} className={`bg-${x}`}></li>
-                  ))}
-                </ul>
+                <SelectedStacks onModal={onModal} select={select} />
               )}
             </li>
           </ul>
