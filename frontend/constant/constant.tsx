@@ -2,7 +2,17 @@
 // 선언 명 예시
 // const PROJECT_DATA = []
 
-const STACKS = [
+export const STACKS_CATEGORIES: { [key: string]: string } = {
+  language: '언어',
+  front: '프론트엔드',
+  backend: '백엔드',
+  game: '게임',
+  mobile: '모바일',
+  communication: '커뮤니케이션',
+  etc: '기타',
+};
+
+export const STACKS: { [key: string]: string[] }[] = [
   {
     language: [
       'php',
