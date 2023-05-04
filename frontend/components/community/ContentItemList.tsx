@@ -30,8 +30,8 @@ export default function ContentItemList() {
 
   return (
     <Container>
-      {data.map((ex) => (
-        <ContentItem {...ex} />
+      {data.map((ex, idx) => (
+        <ContentItem {...ex} key={idx} />
       ))}
       <ContentPageNation />
     </Container>
