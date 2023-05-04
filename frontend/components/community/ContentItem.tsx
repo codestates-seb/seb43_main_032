@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import Tag from '../Tag';
+import Link from 'next/link';
 
 type Example = {
   id: string;
@@ -15,26 +16,28 @@ type Example = {
 
 export default function ContentItem(data: Example) {
   return (
-    <Container>
-      <Left>
-        <div>score: {data.score}</div>
-        <div>view: {data.view}</div>
-      </Left>
-      <Center>
-        <Top>
-          <div className="title nanum-semi-bold">{data.title}</div>
-          {data.tags.map((tag) => (
-            <Tag key={tag}>{tag}</Tag>
-          ))}
-        </Top>
-        <div className="content">{data.content}</div>
-      </Center>
-      <Right>
-        <div>{data.user}</div>
-        <img src="ex.png"></img>
-        <div>★ {data.star}</div>
-      </Right>
-    </Container>
+    <Link href={`community/${data.id}`} onClick={() => console.log(data.id)}>
+      <Container>
+        <Left>
+          <div>score: {data.score}</div>
+          <div>view: {data.view}</div>
+        </Left>
+        <Center>
+          <Top>
+            <div className="title nanum-semi-bold">{data.title}</div>
+            {data.tags.map((tag) => (
+              <Tag key={tag}>{tag}</Tag>
+            ))}
+          </Top>
+          <div className="content">{data.content}</div>
+        </Center>
+        <Right>
+          <div>{data.user}</div>
+          <img src="ex.png"></img>
+          <div>★ {data.star}</div>
+        </Right>
+      </Container>
+    </Link>
   );
 }
 
