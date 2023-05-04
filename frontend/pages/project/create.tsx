@@ -8,7 +8,14 @@ import DatePicker, {
 } from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import ko from 'date-fns/locale/ko'; // 한국어적용
-import { ChangeEvent, ForwardedRef, forwardRef, useRef, useState } from 'react';
+import {
+  ChangeEvent,
+  ForwardedRef,
+  forwardRef,
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
 import { formatDate } from '@/util/date/formatDate';
 import { dateDiffInDays } from '@/util/date/dateDiffInDays';
 import Tag from '@/components/Tag';
@@ -111,11 +118,22 @@ const CreateProject = () => {
     setOption(Number(e.target.value));
   };
 
+  //직군 input 테두리 경고
+  const [warning, setWarning] = useState(false);
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setWarning(false);
+    }, 1000);
+    return () => {
+      clearTimeout(timer);
+    };
+  }, [warning]);
+
   //직군 상태
   const [job, setJob] = useState<{ [key: string]: number }[]>([]);
   const addJob = () => {
     if (jobVal === '') {
-      return;
+      return setWarning(true);
     }
     setJob([...job, { [jobVal]: option }]);
     setJobVal('');
@@ -151,7 +169,7 @@ const CreateProject = () => {
           setSelect={setSelect}
         />
       )}
-      <Side>
+      <Side warning={warning}>
         <div className="period-box">
           <div>
             <div>프로젝트 기간</div>
@@ -358,7 +376,11 @@ const Main = styled.div`
   }
 `;
 
-const Side = styled.div`
+type SideProps = {
+  warning: boolean;
+};
+
+const Side = styled.div<SideProps>`
   width: 100%;
   padding: var(--padding-1);
   display: flex;
@@ -495,6 +517,7 @@ const Side = styled.div`
       justify-content: center;
       > input {
         width: 50%;
+        border: ${(props) => props.warning && '1px solid red'};
       }
       > select {
         margin: 0px 10px;
