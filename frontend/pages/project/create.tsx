@@ -296,7 +296,7 @@ const CreateProject = () => {
             />
           </div>
           <div>
-            <Editor editor={editor} changeEditor={changeEditor} />
+            <Editor changeEditor={changeEditor} />
           </div>
         </form>
       </Main>

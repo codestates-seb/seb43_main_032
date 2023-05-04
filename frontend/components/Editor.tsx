@@ -7,7 +7,6 @@ import styled from 'styled-components';
 
 type Props = {
   changeEditor: (value: any) => void;
-  editor: string;
 };
 
 const OPTIONS: EasyMDE.Options = {
