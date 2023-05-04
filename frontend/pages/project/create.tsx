@@ -489,6 +489,7 @@ const Side = styled.div<SideProps>`
     }
     .calendar-box {
       margin-left: 16px;
+      cursor: pointer;
     }
     .react-datepicker__triangle {
       ::before,
