@@ -66,7 +66,7 @@ const CreateProject = () => {
   };
 
   //해시태그 키 다운
-  const inputKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+  const tagKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if ((e.key === 'Enter' || e.key === ' ') && tagVal !== '') {
       addTag(tagVal);
       setTagVal('');
@@ -92,9 +92,16 @@ const CreateProject = () => {
   const changeJobVal = (e: ChangeEvent<HTMLInputElement>) => {
     setJobVal(e.target.value);
   };
+  const jobKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter' && jobVal !== '') {
+      setJob([...job, { [jobVal]: option }]);
+      setJobVal('');
+      setOption(1);
+    }
+  };
 
   //직군 option
-  const [option, setOption] = useState(0);
+  const [option, setOption] = useState(1);
   const changeOption = (e: ChangeEvent<HTMLSelectElement>) => {
     setOption(Number(e.target.value));
   };
@@ -102,10 +109,15 @@ const CreateProject = () => {
   //직군 상태
   const [job, setJob] = useState<{ [key: string]: number }[]>([]);
   const addJob = () => {
+    if (jobVal === '') {
+      return;
+    }
     setJob([...job, { [jobVal]: option }]);
     setJobVal('');
-    setOption(0);
+    setOption(1);
   };
+  const jobs = job.map((x) => Object.keys(x)[0]);
+  const jobCount = job.map((x) => Object.values(x)[0]);
 
   return (
     <GridBox>
@@ -158,7 +170,7 @@ const CreateProject = () => {
               <input
                 ref={tagInput}
                 value={tagVal}
-                onKeyDown={inputKeyDown}
+                onKeyDown={tagKeyDown}
                 onChange={changeTagVal}
                 type="text"
               />
@@ -196,7 +208,12 @@ const CreateProject = () => {
         <div className="want-box">
           <div>모집을 원하는 직군</div>
           <div className="job-box">
-            <input type="text" onChange={changeJobVal} value={jobVal} />
+            <input
+              type="text"
+              onChange={changeJobVal}
+              value={jobVal}
+              onKeyDown={jobKeyDown}
+            />
             <select value={option} onChange={changeOption}>
               {optionArr.map((x) => (
                 <option value={x}>{x}명</option>
@@ -204,6 +221,14 @@ const CreateProject = () => {
             </select>
             <button onClick={addJob}>등록</button>
           </div>
+          <ul>
+            {jobs.map((x, i) => (
+              <li className="nanum-regular" key={`${x}+${i}`}>
+                <div>{x}</div>
+                <div>{jobCount[i]}명</div>
+              </li>
+            ))}
+          </ul>
         </div>
       </Side>
       <Main>
@@ -325,10 +350,16 @@ const Side = styled.div`
     align-items: center;
 
     > ul {
+      margin-top: 12px;
+      display: flex;
+      flex-direction: column;
+      width: 70%;
       > li {
         display: flex;
         align-items: center;
         gap: 8px;
+        padding: 16px 0px;
+        border-bottom: 1px solid #e4e4e7;
         > div:first-child {
           flex: 1;
         }
