@@ -17,6 +17,9 @@ const Stack = ({ skill, addStack, select }: Props) => {
     if (result.includes('_')) {
       let words = result.split('_');
       words = words.map((word) => word.charAt(0).toUpperCase() + word.slice(1));
+      if (words[1].length === 2 || words[1].length === 3) {
+        words[1] = words[1].toUpperCase();
+      }
       result = words.join(' ');
     }
     return result;
@@ -54,7 +57,7 @@ const Box = styled.li`
     top: -40px;
     left: 30px;
     font-size: 12px;
-    background: #00aabb;
+    background: var(--main-color-1);
     border-radius: 0.4em;
     z-index: 2;
   }
@@ -67,7 +70,7 @@ const Box = styled.li`
     width: 0;
     height: 0;
     border: 20px solid transparent;
-    border-right-color: #00aabb;
+    border-right-color: var(--main-color-1);
     border-left: 0;
     border-bottom: 0;
     margin-top: -10px;
