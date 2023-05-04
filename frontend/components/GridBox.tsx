@@ -17,4 +17,8 @@ const Box = styled.div`
   grid-auto-flow: row;
   grid-gap: 16px;
   grid-template-columns: 3fr 9fr;
+  @media (max-width: 960px) {
+    display: flex;
+    flex-direction: column;
+  }
 `;

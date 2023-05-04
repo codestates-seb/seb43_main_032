@@ -16,6 +16,7 @@ const OPTIONS: EasyMDE.Options = {
   }, //hljs 사용
   spellChecker: false, //스펠체크 off
   status: false, //우측 하단 상태
+  maxHeight: '400px', //최대높이 설정
   previewClass: ['markdown-body'], //github 마크다운 사용
   hideIcons: ['guide'], //guide 버튼 가리기
 };
