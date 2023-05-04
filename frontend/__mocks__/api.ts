@@ -31,7 +31,7 @@ export const handlers = [
         page: 1,
         content: [
           {
-            id: 'example',
+            id: 1,
             user: 'exms2837',
             score: 5,
             star: 1024,
@@ -42,7 +42,7 @@ export const handlers = [
               'lorem lipsum lorem lipsumlorem lipsumlorem lipsum lorem lipsum lorem lipsumlorem lipsumlorem lipsumlorem lipsum lorem lipsumlorem lipsumlorem lipsumlorem lipsum lorem lipsumlorem lipsumlorem lipsumlorem lipsum lorem lipsumlorem lipsumlorem lipsumlorem lipsum lorem lipsumlorem lipsumlorem lipsumlorem lipsum lorem lipsumlorem lipsumlorem lipsumlorem lipsum lorem lipsumlorem lipsumlorem lipsum',
           },
           {
-            id: 'example',
+            id: 2,
             user: 'exms2837',
             score: 5,
             star: 1024,
@@ -53,7 +53,7 @@ export const handlers = [
               'lorem lipsum lorem lipsumlorem lipsumlorem lipsum lorem lipsum lorem lipsumlorem lipsumlorem lipsumlorem lipsum lorem lipsumlorem lipsumlorem lipsumlorem lipsum lorem lipsumlorem lipsumlorem lipsumlorem lipsum lorem lipsumlorem lipsumlorem lipsumlorem lipsum lorem lipsumlorem lipsumlorem lipsumlorem lipsum lorem lipsumlorem lipsumlorem lipsumlorem lipsum lorem lipsumlorem lipsumlorem lipsum',
           },
           {
-            id: 'example',
+            id: 3,
             user: 'exms2837',
             score: 5,
             star: 1024,
@@ -64,7 +64,7 @@ export const handlers = [
               'lorem lipsum lorem lipsumlorem lipsumlorem lipsum lorem lipsum lorem lipsumlorem lipsumlorem lipsumlorem lipsum lorem lipsumlorem lipsumlorem lipsumlorem lipsum lorem lipsumlorem lipsumlorem lipsumlorem lipsum lorem lipsumlorem lipsumlorem lipsumlorem lipsum lorem lipsumlorem lipsumlorem lipsumlorem lipsum lorem lipsumlorem lipsumlorem lipsumlorem lipsum lorem lipsumlorem lipsumlorem lipsum',
           },
           {
-            id: 'example',
+            id: 4,
             user: 'exms2837',
             score: 5,
             star: 1024,
@@ -75,7 +75,7 @@ export const handlers = [
               'lorem lipsum lorem lipsumlorem lipsumlorem lipsum lorem lipsum lorem lipsumlorem lipsumlorem lipsumlorem lipsum lorem lipsumlorem lipsumlorem lipsumlorem lipsum lorem lipsumlorem lipsumlorem lipsumlorem lipsum lorem lipsumlorem lipsumlorem lipsumlorem lipsum lorem lipsumlorem lipsumlorem lipsumlorem lipsum lorem lipsumlorem lipsumlorem lipsumlorem lipsum lorem lipsumlorem lipsumlorem lipsum',
           },
           {
-            id: 'example',
+            id: 5,
             user: 'exms2837',
             score: 5,
             star: 1024,
@@ -86,7 +86,7 @@ export const handlers = [
               'lorem lipsum lorem lipsumlorem lipsumlorem lipsum lorem lipsum lorem lipsumlorem lipsumlorem lipsumlorem lipsum lorem lipsumlorem lipsumlorem lipsumlorem lipsum lorem lipsumlorem lipsumlorem lipsumlorem lipsum lorem lipsumlorem lipsumlorem lipsumlorem lipsum lorem lipsumlorem lipsumlorem lipsumlorem lipsum lorem lipsumlorem lipsumlorem lipsumlorem lipsum lorem lipsumlorem lipsumlorem lipsum',
           },
           {
-            id: 'example',
+            id: 6,
             user: 'exms2837',
             score: 5,
             star: 1024,
@@ -97,7 +97,7 @@ export const handlers = [
               'lorem lipsum lorem lipsumlorem lipsumlorem lipsum lorem lipsum lorem lipsumlorem lipsumlorem lipsumlorem lipsum lorem lipsumlorem lipsumlorem lipsumlorem lipsum lorem lipsumlorem lipsumlorem lipsumlorem lipsum lorem lipsumlorem lipsumlorem lipsumlorem lipsum lorem lipsumlorem lipsumlorem lipsumlorem lipsum lorem lipsumlorem lipsumlorem lipsumlorem lipsum lorem lipsumlorem lipsumlorem lipsum',
           },
           {
-            id: 'example',
+            id: 7,
             user: 'exms2837',
             score: 5,
             star: 1024,
@@ -108,7 +108,7 @@ export const handlers = [
               'lorem lipsum lorem lipsumlorem lipsumlorem lipsum lorem lipsum lorem lipsumlorem lipsumlorem lipsumlorem lipsum lorem lipsumlorem lipsumlorem lipsumlorem lipsum lorem lipsumlorem lipsumlorem lipsumlorem lipsum lorem lipsumlorem lipsumlorem lipsumlorem lipsum lorem lipsumlorem lipsumlorem lipsumlorem lipsum lorem lipsumlorem lipsumlorem lipsumlorem lipsum lorem lipsumlorem lipsumlorem lipsum',
           },
           {
-            id: 'example',
+            id: 8,
             user: 'exms2837',
             score: 5,
             star: 1024,
@@ -124,7 +124,7 @@ export const handlers = [
         page: 2,
         content: [
           {
-            id: 'example',
+            id: 9,
             user: 'exms2837',
             score: 5,
             star: 1024,
@@ -134,7 +134,7 @@ export const handlers = [
             content: 'lorem lipsum lorem lipsumlorem lipsumlorem lipsum',
           },
           {
-            id: 'example',
+            id: 10,
             user: 'exms2837',
             score: 5,
             star: 1024,
@@ -144,7 +144,7 @@ export const handlers = [
             content: 'lorem lipsum lorem lipsumlorem lipsumlorem lipsum',
           },
           {
-            id: 'example',
+            id: 11,
             user: 'exms2837',
             score: 5,
             star: 1024,
@@ -154,7 +154,7 @@ export const handlers = [
             content: 'lorem lipsum lorem lipsumlorem lipsumlorem lipsum',
           },
           {
-            id: 'example',
+            id: 12,
             user: 'exms2837',
             score: 5,
             star: 1024,
@@ -164,7 +164,7 @@ export const handlers = [
             content: 'lorem lipsum lorem lipsumlorem lipsumlorem lipsum',
           },
           {
-            id: 'example',
+            id: 13,
             user: 'exms2837',
             score: 5,
             star: 1024,
