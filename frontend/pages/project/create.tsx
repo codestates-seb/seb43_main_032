@@ -22,6 +22,7 @@ import Tag from '@/components/Tag';
 import SelectStack from '@/components/SelectStack';
 import dynamic from 'next/dynamic';
 import SelectedStacks from '@/components/project/SelectedStacks';
+import { api } from '@/util/api';
 const Editor = dynamic(() => import('@/components/Editor'), {
   ssr: false,
 });
@@ -110,8 +111,9 @@ const CreateProject = () => {
       setJob([...job, { [jobVal]: option }]);
       setJobVal('');
       setOption(1);
+    } else if (e.key === 'Enter' && jobVal === '') {
+      setWarning(true);
     }
-    return setWarning(true);
   };
 
   //직군 option
@@ -162,165 +164,207 @@ const CreateProject = () => {
     setEditor(value);
   };
 
+  //프로젝트 글 완료 이벤트
+  const postProject = () => {
+    const data = {
+      start,
+      end,
+      select,
+      tags,
+      job,
+      position,
+      formTitle,
+      editor,
+    };
+    api.post('/project', data).then((res) => console.log(res));
+  };
+
   return (
-    <GridBox>
-      {stack && (
-        <SelectStack
-          offModal={offModal}
-          select={select}
-          setSelect={setSelect}
-        />
-      )}
-      <Side warning={warning}>
-        <div className="period-box">
-          <div>
-            <div>프로젝트 기간</div>
-            <div className="calendar-box">
-              <DatePicker
-                selected={start}
-                onChange={handleRangeChange}
-                locale={ko}
-                startDate={start}
-                endDate={end}
-                selectsRange
-                customInput={
-                  <CustomInput
-                    onClick={function (): void {
-                      throw new Error('Function not implemented.');
-                    }}
-                  />
-                }
-              />
+    <>
+      <SubmitBox>
+        <button onClick={postProject} className="nanum-bold">
+          작성 완료
+        </button>
+      </SubmitBox>
+      <GridBox>
+        {stack && (
+          <SelectStack
+            offModal={offModal}
+            select={select}
+            setSelect={setSelect}
+          />
+        )}
+        <Side warning={warning}>
+          <div className="period-box">
+            <div>
+              <div>프로젝트 기간</div>
+              <div className="calendar-box">
+                <DatePicker
+                  selected={start}
+                  onChange={handleRangeChange}
+                  locale={ko}
+                  startDate={start}
+                  endDate={end}
+                  selectsRange
+                  customInput={
+                    <CustomInput
+                      onClick={function (): void {
+                        throw new Error('Function not implemented.');
+                      }}
+                    />
+                  }
+                />
+              </div>
+            </div>
+            <div className="noto-regular-13 period">
+              <span>{start && formatDate(start)}</span>
+              {start && <span> ~ </span>}
+              <span>{end && formatDate(end)} </span>
+              <span>
+                {start
+                  ? end
+                    ? `(${dateDiffInDays(start, end)}일)`
+                    : '종료일 미정'
+                  : ''}
+              </span>
             </div>
           </div>
-          <div className="noto-regular-13 period">
-            <span>{start && formatDate(start)}</span>
-            {start && <span> ~ </span>}
-            <span>{end && formatDate(end)} </span>
-            <span>
-              {start
-                ? end
-                  ? `(${dateDiffInDays(start, end)}일)`
-                  : '종료일 미정'
-                : ''}
-            </span>
+          <div className="tag-box">
+            <div>프로젝트 분야 태그</div>
+            <div className="noto-regular-13">
+              <div className="button-box">
+                <input
+                  ref={tagInput}
+                  value={tagVal}
+                  onKeyDown={tagKeyDown}
+                  onChange={changeTagVal}
+                  type="text"
+                />
+              </div>
+              <ul>
+                {tags.map((x, i) => (
+                  <li key={`${x}+${i}`}>
+                    <Tag>
+                      <div>{x}</div>
+                      <div>
+                        <GrFormClose onClick={() => deleteTag(i)} />
+                      </div>
+                    </Tag>
+                  </li>
+                ))}
+              </ul>
+            </div>
           </div>
-        </div>
-        <div className="tag-box">
-          <div>프로젝트 분야 태그</div>
-          <div className="noto-regular-13">
-            <div className="button-box">
+          <div className="stack-box">
+            <div>프로젝트 메인 스택</div>
+            <ul className="noto-regular-13">
+              <li className="button-box">
+                {select.length === 0 ? (
+                  <button onClick={onModal}>스택 등록</button>
+                ) : (
+                  <SelectedStacks onModal={onModal} select={select} />
+                )}
+              </li>
+            </ul>
+          </div>
+          <div className="want-box">
+            <div>모집을 원하는 직군</div>
+            <div className="job-box">
               <input
-                ref={tagInput}
-                value={tagVal}
-                onKeyDown={tagKeyDown}
-                onChange={changeTagVal}
                 type="text"
+                onChange={changeJobVal}
+                value={jobVal}
+                onKeyDown={jobKeyDown}
               />
+              <select value={option} onChange={changeOption}>
+                {optionArr.map((x) => (
+                  <option key={x} value={x}>
+                    {x}명
+                  </option>
+                ))}
+              </select>
+              <button onClick={addJob}>등록</button>
             </div>
             <ul>
-              {tags.map((x, i) => (
-                <li key={`${x}+${i}`}>
-                  <Tag>
-                    <div>{x}</div>
-                    <div>
-                      <GrFormClose onClick={() => deleteTag(i)} />
-                    </div>
-                  </Tag>
+              {jobs.map((x, i) => (
+                <li className="nanum-regular" key={`${x}+${i}`}>
+                  <div>{x}</div>
+                  <div>{jobCount[i]}명</div>
                 </li>
               ))}
             </ul>
           </div>
-        </div>
-        <div className="stack-box">
-          <div>프로젝트 메인 스택</div>
-          <ul className="noto-regular-13">
-            <li className="button-box">
-              {select.length === 0 ? (
-                <button onClick={onModal}>스택 등록</button>
-              ) : (
-                <SelectedStacks onModal={onModal} select={select} />
-              )}
-            </li>
-          </ul>
-        </div>
-        <div className="want-box">
-          <div>모집을 원하는 직군</div>
-          <div className="job-box">
-            <input
-              type="text"
-              onChange={changeJobVal}
-              value={jobVal}
-              onKeyDown={jobKeyDown}
-            />
-            <select value={option} onChange={changeOption}>
-              {optionArr.map((x) => (
-                <option key={x} value={x}>
-                  {x}명
-                </option>
-              ))}
-            </select>
-            <button onClick={addJob}>등록</button>
-          </div>
-          <ul>
-            {jobs.map((x, i) => (
-              <li className="nanum-regular" key={`${x}+${i}`}>
-                <div>{x}</div>
-                <div>{jobCount[i]}명</div>
-              </li>
-            ))}
-          </ul>
-        </div>
-      </Side>
-      <Main>
-        <div className="explanation-box">
-          <div className="nanum-bold title">
-            모집 글 작성은 이렇게 해주세요.
-          </div>
-          <div className="sub">
-            무슨 프로젝트를 계획하고 구상했는지, 그리고 어떤 계획으로 진행할
-            것인지 최대한 상세히 적어주세요.
-          </div>
-          <div>
-            <ul>
-              <li>기간, 태그, 스택, 직군들을 상세하게 기입해주시면 좋아요.</li>
-              <li>
-                간략하게 작성하기보다는 최대한 자세하게 적어주시면 좋아요.
-              </li>
-              <li>중요한 내용들은 임팩트를 주시면 좋아요.</li>
-            </ul>
-          </div>
-        </div>
-        <form action="#">
-          <div className="nanum-bold">
-            <div>나의 포지션</div>
+        </Side>
+        <Main>
+          <div className="explanation-box">
+            <div className="nanum-bold title">
+              모집 글 작성은 이렇게 해주세요.
+            </div>
+            <div className="sub">
+              무슨 프로젝트를 계획하고 구상했는지, 그리고 어떤 계획으로 진행할
+              것인지 최대한 상세히 적어주세요.
+            </div>
             <div>
-              <input
-                value={position}
-                onChange={changePosition}
-                type="text"
-                placeholder="포지션을 입력해주세요."
-              />
+              <ul>
+                <li>
+                  기간, 태그, 스택, 직군들을 상세하게 기입해주시면 좋아요.
+                </li>
+                <li>
+                  간략하게 작성하기보다는 최대한 자세하게 적어주시면 좋아요.
+                </li>
+                <li>중요한 내용들은 임팩트를 주시면 좋아요.</li>
+              </ul>
             </div>
           </div>
-          <div className="title">
-            <input
-              placeholder="제목을 등록해주세요."
-              type="text"
-              value={formTitle}
-              onChange={changeFormTitle}
-            />
-          </div>
-          <div>
-            <Editor changeEditor={changeEditor} />
-          </div>
-        </form>
-      </Main>
-    </GridBox>
+          <form action="#">
+            <div className="nanum-bold">
+              <div>나의 포지션</div>
+              <div>
+                <input
+                  value={position}
+                  onChange={changePosition}
+                  type="text"
+                  placeholder="포지션을 입력해주세요."
+                />
+              </div>
+            </div>
+            <div className="title">
+              <input
+                placeholder="제목을 등록해주세요."
+                type="text"
+                value={formTitle}
+                onChange={changeFormTitle}
+              />
+            </div>
+            <div>
+              <Editor changeEditor={changeEditor} />
+            </div>
+          </form>
+        </Main>
+      </GridBox>
+    </>
   );
 };
 
 export default CreateProject;
+
+const SubmitBox = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: end;
+  padding: var(--padding-2);
+  button {
+    cursor: pointer;
+    border: none;
+    padding: 8px 32px;
+    border-radius: var(--radius-def);
+    font-size: 18px;
+    font-weight: 700;
+    :hover {
+      background-color: #e1e7e5;
+    }
+  }
+`;
 
 const Main = styled.div`
   padding: var(--padding-2);
@@ -393,8 +437,8 @@ const Side = styled.div<SideProps>`
   button {
     cursor: pointer;
     border: none;
-    height: 40px;
     padding: 8px 32px;
+    font-weight: 700;
     border-radius: var(--radius-def);
     :hover {
       background-color: #e1e7e5;

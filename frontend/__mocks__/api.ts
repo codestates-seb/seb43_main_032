@@ -22,6 +22,6 @@ export const handlers = [
   }),
   rest.post('/project', async (req, res, ctx) => {
     const data = req.json();
-    return res(ctx.status(200), ctx.json({ data }));
+    return res(ctx.status(200), ctx.json(await data));
   }),
 ];

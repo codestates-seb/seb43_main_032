@@ -36,7 +36,12 @@ const SelectStack = ({ setSelect, offModal, select }: Props) => {
               <ul>
                 {Object.values(STACKS.find((stack) => stack[category])!)[0].map(
                   (skill) => (
-                    <Stack skill={skill} addStack={addStack} select={select} />
+                    <Stack
+                      key={skill}
+                      skill={skill}
+                      addStack={addStack}
+                      select={select}
+                    />
                   )
                 )}
               </ul>
