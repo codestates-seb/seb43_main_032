@@ -2,6 +2,7 @@ import GridBox from '@/components/GridBox';
 import Tag from '@/components/Tag';
 import InfoContainer from '@/components/user/InfoContainer';
 import UserInfoCard from '@/components/user/UserInfoCard';
+import UserCard from '@/components/user/userCard';
 import useAuth from '@/hooks/useAuth';
 import useUser from '@/hooks/useUser';
 import styled from 'styled-components';
@@ -95,6 +96,7 @@ export default function me() {
                 lastItem
               />
             </UserInfo>
+            <UserCard />
           </RightColumn>
         </GridBox>
       )}
