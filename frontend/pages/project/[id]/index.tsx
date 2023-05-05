@@ -40,13 +40,53 @@ const ViewProject = () => {
             ))}
           </ul>
         </div>
+        <div>
+          <button>팀원 리뷰</button>
+        </div>
       </Side>
-      <Main>메인</Main>
+      <Main>
+        <div className="title">
+          <div className="nanum-bold">
+            한국 투자 증권 api로 플젝 해보실분?!!?
+          </div>
+          <Tag>모집 중</Tag>
+        </div>
+        <div className="sub noto-regular-13">
+          <div>
+            <span>작성일자</span> : 2023년 4월 1일
+          </div>
+          <div>
+            <span>조회 수</span> : 27
+          </div>
+          <div>
+            <span>댓글 수</span> : 28
+          </div>
+        </div>
+      </Main>
     </GridBox>
   );
 };
 
 export default ViewProject;
+
+const Main = styled.div`
+  padding: var(--padding-1);
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+
+  > div {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .sub {
+    span {
+      font-weight: 900;
+    }
+  }
+`;
 
 const Side = styled.div`
   display: flex;
@@ -119,6 +159,7 @@ const Side = styled.div`
         }
       }
     }
+
     .light {
       height: 16px;
       width: 16px;
@@ -135,8 +176,4 @@ const Side = styled.div`
       }
     }
   }
-`;
-
-const Main = styled.div`
-  padding: var(--padding-1);
 `;
