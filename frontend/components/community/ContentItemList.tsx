@@ -3,6 +3,8 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import ContentItem from './ContentItem';
 import ContentPageNation from './ContentPageNation';
+import { useRecoilState } from 'recoil';
+import { searchState } from '@/recoil/atom';
 
 type Example = {
   id: number;
@@ -21,16 +23,25 @@ type Example = {
 
 export default function ContentItemList() {
   const [data, setData] = useState<Example[]>([]);
+  const [searchTitle, setSearchTitle] = useRecoilState(searchState);
 
   useEffect(() => {
+    const getData = async () => {
+      if (searchTitle !== '') {
+        await api.get('/post').then((res) => {
+          const filtered = res.data.filter((el: Example) =>
+            el.title.toLowerCase().includes(searchTitle.toLowerCase())
+          );
+          setData(filtered);
+        });
+      } else {
+        await api.get('/post').then((res) => {
+          setData(res.data);
+        });
+      }
+    };
     getData();
-  }, []);
-
-  const getData = async () => {
-    await api.get('/post').then((res) => {
-      setData(res.data);
-    });
-  };
+  }, [searchTitle]);
 
   return (
     <Container>
