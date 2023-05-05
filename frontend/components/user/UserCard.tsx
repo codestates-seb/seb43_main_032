@@ -6,39 +6,39 @@ import { FaReact } from 'react-icons/fa';
 import { IoLogoCss3, IoLogoFirebase } from 'react-icons/io5';
 import styled from 'styled-components';
 import Tag from '../Tag';
+import Link from 'next/link';
 
 const Wrapper = styled.div`
   position: relative;
+  cursor: pointer;
   padding: 10px;
   border-radius: 5px;
   width: 100%;
-  /* background-color: teal; */
-  --tw-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1),
-    0 10px 10px -5px rgba(0, 0, 0, 0.01);
+  /* --tw-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.05),
+    0 10px 10px -5px rgba(0, 0, 0, 0.05);
   box-shadow: var(--tw-ring-offset-shadow, 0 0 transparent),
-    var(--tw-ring-shadow, 0 0 transparent), var(--tw-shadow);
+    var(--tw-ring-shadow, 0 0 transparent), var(--tw-shadow); */
 `;
 const Overlay = styled.div`
   position: absolute;
   inset: 0;
-  /* z-index: 0; */
   background-color: #f1f1f3;
   opacity: 0;
   transition: transform 0.3s ease-out, opacity 0.3s ease-out;
-  transform-origin: center;
   border-radius: 5px;
-  /* --tw-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1),
-    0 10px 10px -5px rgba(0, 0, 0, 0.04);
-  box-shadow: var(--tw-ring-offset-shadow, 0 0 transparent),
-    var(--tw-ring-shadow, 0 0 transparent), var(--tw-shadow); */
 `;
 const CardWrapper = styled.div`
   position: relative;
 `;
-const StackWrapper = styled.div``;
+const StackWrapper = styled.div`
+  display: flex;
+  gap: 2px;
+`;
+const Stack = styled.div``;
 const ContentsContainer = styled.div.attrs({
   className: 'nanum-regular',
 })`
+  font-size: 13px;
   display: flex;
   font-weight: 500;
   gap: 10px;
@@ -46,8 +46,8 @@ const ContentsContainer = styled.div.attrs({
 `;
 const AvatarContainer = styled.div`
   display: flex;
-  width: 70px;
-  height: 70px;
+  width: 60px;
+  height: 60px;
   justify-content: center;
   overflow: hidden;
   border-radius: 5px;
@@ -56,7 +56,7 @@ const AvatarContainer = styled.div`
 const InfoContainer = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 7px;
+  justify-content: space-between;
 `;
 const Location = styled.div`
   display: flex;
@@ -76,60 +76,66 @@ const TagWrapper = styled.div`
 const Group = styled.div`
   display: flex;
   width: 100%;
-  @media screen and (min-width: 640px) {
-    width: 45%; /* 640px 이상일 때는 40%로 설정 */
+  /* @media screen and (min-width: 640px) {
+    width: 49%; 
   }
 
   @media screen and (min-width: 960px) {
-    width: 30%; /* 748px 이상일 때는 30%로 설정 */
+    width: 32%; 
   }
   @media screen and (min-width: 1280px) {
-    width: 22%; /* 748px 이상일 때는 30%로 설정 */
-  }
+    width: 24%; 
+  } */
   ${Wrapper}:hover ${Overlay} {
     opacity: 1;
-    scale: 1;
   }
 `;
 interface IProps {
   user: IUser;
 }
 export default function UserCard({ user }: IProps) {
-  console.log(user);
   return (
     <Group>
-      <Wrapper>
-        <Overlay />
-        <CardWrapper>
-          <StackWrapper>
-            <IoLogoFirebase size={30} style={{ color: 'orange' }} />
-            <FaReact size={30} style={{ color: 'skyblue' }} />
-            <FaNodeJs size={30} />
-            <IoLogoCss3 size={30} style={{ color: 'orange' }} />
-          </StackWrapper>
-          <ContentsContainer>
-            <AvatarContainer>
-              <img alt={user.NICK_NAME} src={user.PROFILE_IMAGE} />
-            </AvatarContainer>
-            <InfoContainer>
-              <p style={{ fontWeight: '600' }}>{user.NICK_NAME}</p>
-              <Location>
-                <FaLocationArrow />
-                <p>Seoul</p>
-              </Location>
-              <Star>
-                <AiFillStar size={20} style={{ color: 'gold' }} />
-                <p>{123}</p>
-              </Star>
-            </InfoContainer>
-          </ContentsContainer>
-          <TagWrapper>
-            {['react', 'js', 'recoil', 'firebase', 'TS'].map((stack) => (
-              <Tag>{stack}</Tag>
-            ))}
-          </TagWrapper>
-        </CardWrapper>
-      </Wrapper>
+      <Link href={`user/${user.MEMBER_ID}`}>
+        <Wrapper>
+          <Overlay />
+          <CardWrapper>
+            <StackWrapper>
+              {[
+                'bg-java_script',
+                'bg-react',
+                'bg-next_js',
+                'bg-recoil',
+                'bg-react_query',
+                'bg-type_scriypt',
+              ].map((stack) => (
+                <Stack key={stack} className={stack} />
+              ))}
+            </StackWrapper>
+            <ContentsContainer>
+              <AvatarContainer>
+                <img alt={user.NICK_NAME} src={user.PROFILE_IMAGE} />
+              </AvatarContainer>
+              <InfoContainer>
+                <p style={{ fontWeight: '600' }}>{user.NICK_NAME}</p>
+                <Location>
+                  <FaLocationArrow />
+                  <p>Seoul</p>
+                </Location>
+                <Star>
+                  <AiFillStar size={20} style={{ color: 'gold' }} />
+                  <p>{123}</p>
+                </Star>
+              </InfoContainer>
+            </ContentsContainer>
+            <TagWrapper>
+              {['react', 'js', 'recoil', 'firebase', 'TS'].map((stack) => (
+                <Tag key={stack}>{stack}</Tag>
+              ))}
+            </TagWrapper>
+          </CardWrapper>
+        </Wrapper>
+      </Link>
     </Group>
   );
 }
