@@ -1,6 +1,7 @@
 import GridBox from '@/components/GridBox';
 import Tag from '@/components/Tag';
 import PeriodBox from '@/components/project/PeriodBox';
+import StacksBox from '@/components/project/StacksBox';
 import TagBox from '@/components/project/TagBox';
 import styled from 'styled-components';
 
@@ -22,6 +23,7 @@ const ViewProject = () => {
         </div>
         <PeriodBox start={new Date()} end={new Date()} />
         <TagBox tags={tags} />
+        <StacksBox select={['recoil', 'java']} />
       </Side>
       <Main>메인</Main>
     </GridBox>
@@ -36,10 +38,6 @@ const Side = styled.div`
   align-items: center;
   gap: 32px;
   padding: var(--padding-1);
-  ul {
-    display: flex;
-    flex-wrap: wrap;
-  }
 
   button {
     cursor: pointer;
@@ -88,19 +86,4 @@ const Side = styled.div`
 
 const Main = styled.div`
   padding: var(--padding-1);
-  ul {
-    display: flex;
-    flex-wrap: wrap;
-  }
-
-  button {
-    cursor: pointer;
-    border: none;
-    padding: 8px 32px;
-    font-weight: 700;
-    border-radius: var(--radius-def);
-    :hover {
-      background-color: #e1e7e5;
-    }
-  }
 `;

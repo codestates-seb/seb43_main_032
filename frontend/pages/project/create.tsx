@@ -40,6 +40,21 @@ const CreateProject = () => {
     setStack(false);
   };
 
+  //esc 버튼 누르면 스택 모달창이 닫히도록
+  useEffect(() => {
+    const handleKeyPress = (event: { key: string }) => {
+      if (event.key === 'Escape') {
+        setStack(false);
+      }
+    };
+    if (stack) {
+      window.addEventListener('keydown', handleKeyPress);
+    }
+    return () => {
+      window.removeEventListener('keydown', handleKeyPress);
+    };
+  }, [stack]);
+
   //선택된 스택 관련
   const [select, setSelect] = useState<string[]>([]);
 
@@ -222,11 +237,6 @@ const Side = styled.div<SideProps>`
   display: flex;
   align-items: center;
   flex-direction: column;
-
-  ul {
-    display: flex;
-    flex-wrap: wrap;
-  }
 
   button {
     cursor: pointer;

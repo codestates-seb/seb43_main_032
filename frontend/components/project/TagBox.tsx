@@ -13,7 +13,7 @@ type Props = {
 
 const TagBox = ({ tags, register, tagKeyDown, deleteTag }: Props) => {
   return (
-    <Box className="tag-box">
+    <Box deleteTag={deleteTag} className="tag-box">
       <div>프로젝트 분야 태그</div>
       <div className="noto-regular-13">
         {register && (
@@ -42,21 +42,26 @@ const TagBox = ({ tags, register, tagKeyDown, deleteTag }: Props) => {
 
 export default TagBox;
 
-const Box = styled.div`
+type BoxProps = {
+  deleteTag?: (idx: number) => void;
+};
+
+const Box = styled.div<BoxProps>`
   display: flex;
   align-items: center;
   flex-direction: column;
   ul {
+    display: flex;
+    flex-wrap: wrap;
     justify-content: center;
     gap: 4px;
-    flex-direction: row;
     li {
       > div {
         display: flex;
         gap: 4px;
         min-width: auto;
         > div:last-child {
-          cursor: pointer;
+          cursor: ${(props) => props.deleteTag && 'pointer'};
         }
       }
     }
