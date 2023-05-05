@@ -15,15 +15,15 @@ import {
   useEffect,
   useState,
 } from 'react';
-import { formatDate } from '@/util/date/index';
-import { dateDiffInDays } from '@/util/date/index';
+import { formatDate, dateDiffInDays } from '@/util/date/index';
 import Tag from '@/components/Tag';
 import SelectStack from '@/components/stack/SelectStack';
 import SelectedStacks from '@/components/project/SelectedStacks';
 import { api } from '@/util/api';
 import { useRouter } from 'next/router';
-import { useInput } from '@/hooks/useInput';
 import MainPost from '@/components/MainPost';
+import { useForm } from 'react-hook-form';
+import { DefaultObj } from '@/types/types';
 registerLocale('ko', ko); // 한국어적용
 interface Props extends Omit<ReactDatePickerProps, 'onChange'> {
   onClick(): void;
@@ -32,6 +32,10 @@ interface Props extends Omit<ReactDatePickerProps, 'onChange'> {
 //프로젝트 글 작성 페이지 입니다. 경로 '/project/create/'
 const CreateProject = () => {
   const router = useRouter();
+
+  //input 관리
+  const { register, watch, reset } = useForm<DefaultObj>();
+
   //시작일
   const [start, setStart] = useState<Date | null>();
 
@@ -66,23 +70,18 @@ const CreateProject = () => {
   //선택된 스택 관련
   const [select, setSelect] = useState<string[]>([]);
 
-  //input 데이터
-  const [form, onChange] = useInput({
-    tagVal: '',
-    jobVal: '',
-    position: '',
-    formTitle: '',
-  });
-
   //해시태그 값 상태
   const [tags, setTags] = useState<string[]>([]);
 
   //해시태그 키 다운
   const tagKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    const trim = form.tagVal.trim();
+    const trim = watch().tagVal.trim();
     if ((e.key === 'Enter' || e.key === ' ') && trim !== '') {
       addTag(trim);
-      form.tagVal = '';
+      reset({
+        ...watch(),
+        tagVal: '',
+      });
     }
   };
 
@@ -103,11 +102,14 @@ const CreateProject = () => {
 
   //직군 input
   const jobKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === 'Enter' && form.jobVal !== '') {
-      setJob([...job, { [form.jobVal]: option }]);
-      form.jobVal = '';
+    if (e.key === 'Enter' && watch().jobVal !== '') {
+      setJob([...job, { [watch().jobVal]: option }]);
+      reset({
+        ...watch(),
+        jobVal: '',
+      });
       setOption(1);
-    } else if (e.key === 'Enter' && form.jobVal === '') {
+    } else if (e.key === 'Enter' && watch().jobVal === '') {
       setWarning(true);
     }
   };
@@ -132,11 +134,14 @@ const CreateProject = () => {
   //직군 상태
   const [job, setJob] = useState<{ [key: string]: number }[]>([]);
   const addJob = () => {
-    if (form.jobVal === '') {
+    if (watch().jobVal === '') {
       return setWarning(true);
     }
-    setJob([...job, { [form.jobVal]: option }]);
-    form.jobVal = '';
+    setJob([...job, { [watch().jobVal]: option }]);
+    reset({
+      ...watch(),
+      jobVal: '',
+    });
     setOption(1);
   };
   const jobs = job.map((x) => Object.keys(x)[0]);
@@ -156,7 +161,7 @@ const CreateProject = () => {
     if (job.length === 0) {
       return alert('모집 직군은 최소 1개 이상 등록해주세요.');
     }
-    if (form.formTitle === '') {
+    if (watch().title === '') {
       return alert('제목을 입력해주세요.');
     }
     if (editor === '') {
@@ -168,8 +173,8 @@ const CreateProject = () => {
       select,
       tags,
       job,
-      position: form.position,
-      formTitle: form.formTitle,
+      position: watch().position,
+      title: watch().title,
       editor,
     };
     api.post('/project', data).then(() => router.push('/'));
@@ -230,10 +235,8 @@ const CreateProject = () => {
             <div className="noto-regular-13">
               <div className="button-box">
                 <input
-                  value={form.tagVal}
-                  name="tagVal"
+                  {...register('tagVal')}
                   onKeyDown={tagKeyDown}
-                  onChange={onChange}
                   type="text"
                 />
               </div>
@@ -268,9 +271,7 @@ const CreateProject = () => {
             <div className="job-box">
               <input
                 type="text"
-                name="jobVal"
-                onChange={onChange}
-                value={form.jobVal}
+                {...register('jobVal')}
                 onKeyDown={jobKeyDown}
               />
               <select value={option} onChange={changeOption}>
@@ -292,12 +293,7 @@ const CreateProject = () => {
             </ul>
           </div>
         </Side>
-        <MainPost
-          type={1}
-          onChange={onChange}
-          form={form}
-          changeEditor={changeEditor}
-        />
+        <MainPost type={1} register={register} changeEditor={changeEditor} />
       </GridBox>
     </>
   );

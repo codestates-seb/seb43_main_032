@@ -1,8 +1,9 @@
 import styled from 'styled-components';
 import EiditorSkeleton from '@/components/editor/EiditorSkeleton';
 import dynamic from 'next/dynamic';
-import { ChangeEvent } from 'react';
 import { COMMUNITY_EX, PROJECT_EX } from '@/constant/constant';
+import { DefaultObj } from '@/types/types';
+import { UseFormRegister } from 'react-hook-form';
 const Editor = dynamic(() => import('@/components/editor/Editor'), {
   ssr: false,
   loading: () => <EiditorSkeleton />,
@@ -10,17 +11,11 @@ const Editor = dynamic(() => import('@/components/editor/Editor'), {
 
 type Props = {
   type: number;
-  form: {
-    tagVal?: string;
-    jobVal?: string;
-    position: string;
-    formTitle: string;
-  };
+  register: UseFormRegister<DefaultObj>;
   changeEditor: (value: any) => void;
-  onChange: (e: ChangeEvent<HTMLInputElement>) => void;
 };
 
-const MainPost = ({ form, changeEditor, onChange, type }: Props) => {
+const MainPost = ({ register, changeEditor, type }: Props) => {
   return (
     <Main>
       {type === 1 ? PROJECT_EX : COMMUNITY_EX}
@@ -29,9 +24,7 @@ const MainPost = ({ form, changeEditor, onChange, type }: Props) => {
           <div>나의 포지션</div>
           <div>
             <input
-              name="position"
-              value={form.position}
-              onChange={onChange}
+              {...register('position')}
               type="text"
               placeholder="포지션을 입력해주세요."
             />
@@ -41,9 +34,7 @@ const MainPost = ({ form, changeEditor, onChange, type }: Props) => {
           <input
             placeholder="제목을 등록해주세요."
             type="text"
-            name="formTitle"
-            value={form.formTitle}
-            onChange={onChange}
+            {...register('title')}
           />
         </div>
         <div>
