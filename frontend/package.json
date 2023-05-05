@@ -28,8 +28,10 @@
     "react-dom": "18.2.0",
     "react-hook-form": "^7.43.9",
     "react-icons": "^4.8.0",
+    "react-markdown": "^8.0.7",
     "react-query": "^3.39.3",
     "react-simplemde-editor": "^5.2.0",
+    "react-syntax-highlighter": "^15.5.0",
     "recoil": "^0.7.7",
     "styled-components": "^5.3.10",
     "typescript": "5.0.4"
@@ -38,6 +40,7 @@
     "@testing-library/react": "^14.0.0",
     "@testing-library/user-event": "^14.4.3",
     "@types/react-datepicker": "^4.11.2",
+    "@types/react-syntax-highlighter": "^15.5.6",
     "@types/react-tag-input": "^6.6.1",
     "@types/simplemde": "^1.11.8",
     "@types/styled-components": "^5.1.26",

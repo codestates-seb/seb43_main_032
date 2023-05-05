@@ -143,3 +143,6 @@ export const COMMUNITY_EX = (
     </div>
   </div>
 );
+
+export const EX =
+  '우리 프로젝트 같이 하실분 구해요!!!!\n\n\n\nconst Main = styled.div`\n  padding: var(--padding-1);\n  display: flex;\n';

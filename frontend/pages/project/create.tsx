@@ -174,7 +174,6 @@ const CreateProject = () => {
     };
     api.post('/project', data).then(() => router.push('/'));
   };
-
   return (
     <>
       <PostBtn postEvent={postProject} />

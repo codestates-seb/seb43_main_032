@@ -1,21 +1,19 @@
 import GridBox from '@/components/GridBox';
 import Tag from '@/components/Tag';
-import EiditorSkeleton from '@/components/editor/EiditorSkeleton';
 import PeriodBox from '@/components/project/PeriodBox';
 import StacksBox from '@/components/project/StacksBox';
 import TagBox from '@/components/project/TagBox';
-import dynamic from 'next/dynamic';
 import styled from 'styled-components';
-const Editor = dynamic(() => import('@/components/editor/Editor'), {
-  ssr: false,
-  loading: () => <EiditorSkeleton />,
-});
-
+import { EX } from '@/constant/constant';
+import SyntaxHighlighter from 'react-syntax-highlighter';
+import { docco } from 'react-syntax-highlighter/dist/esm/styles/hljs';
 const ViewProject = () => {
   const tags = ['ㅇㅇ', 'ㅋㅋㅋㅋ', '리코일'];
   const job = [{ 프론트엔드: 1 }, { 백엔드: 2 }];
   const jobs = job.map((job) => Object.keys(job)[0]);
   const jobCount = job.map((job) => Object.values(job)[0]);
+
+  const language = 'ko';
   return (
     <GridBox>
       <Side>
@@ -68,8 +66,8 @@ const ViewProject = () => {
             <span>댓글 수</span> : 28
           </div>
         </div>
-        <div className="content-box">
-          <Editor />
+        <div className="content-box nanum-regular">
+          <SyntaxHighlighter style={docco} language={language} children={EX} />
         </div>
       </Main>
     </GridBox>
@@ -97,8 +95,13 @@ const Main = styled.div`
   }
 
   .content-box {
-    > div {
+    width: 100%;
+    > pre {
+      border-radius: var(--radius-def);
       width: 100%;
+      min-height: 70vh;
+      padding: var(--padding-1) !important;
+      line-height: 18px;
     }
   }
 `;
