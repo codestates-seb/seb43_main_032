@@ -374,6 +374,9 @@ const Side = styled.div<SideProps>`
     align-items: center;
     justify-content: center;
     flex-direction: column;
+    > ul {
+      cursor: pointer;
+    }
     .select-tag-box {
       display: flex;
       justify-content: center;
