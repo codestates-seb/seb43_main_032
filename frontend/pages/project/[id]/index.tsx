@@ -1,6 +1,6 @@
 import GridBox from '@/components/GridBox';
 import Tag from '@/components/Tag';
-import Period from '@/components/project/Period';
+import PeriodBox from '@/components/project/PeriodBox';
 import TagBox from '@/components/project/TagBox';
 import styled from 'styled-components';
 
@@ -20,10 +20,7 @@ const ViewProject = () => {
             <Tag>쪽지</Tag>
           </div>
         </div>
-        <div className="period-box">
-          <div>프로젝트 기간</div>
-          <Period start={new Date()} end={new Date()} />
-        </div>
+        <PeriodBox start={new Date()} end={new Date()} />
         <TagBox tags={tags} />
       </Side>
       <Main>메인</Main>

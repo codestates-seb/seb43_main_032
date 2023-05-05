@@ -1,21 +1,6 @@
 import GridBox from '@/components/GridBox';
 import styled from 'styled-components';
-import { BsFillCalendarEventFill } from 'react-icons/bs';
-import { GrFormClose } from 'react-icons/gr';
-import DatePicker, {
-  ReactDatePickerProps,
-  registerLocale,
-} from 'react-datepicker';
-import 'react-datepicker/dist/react-datepicker.css';
-import ko from 'date-fns/locale/ko'; // 한국어적용
-import {
-  ChangeEvent,
-  ForwardedRef,
-  forwardRef,
-  useEffect,
-  useState,
-} from 'react';
-import Tag from '@/components/Tag';
+import { ChangeEvent, useEffect, useState } from 'react';
 import SelectStack from '@/components/stack/SelectStack';
 import SelectedStacks from '@/components/stack/SelectedStacks';
 import { api } from '@/util/api';
@@ -24,12 +9,8 @@ import MainPost from '@/components/MainPost';
 import { useForm } from 'react-hook-form';
 import { DefaultObj } from '@/types/types';
 import PostBtn from '@/components/PostBtn';
-import Period from '@/components/project/Period';
 import TagBox from '@/components/project/TagBox';
-registerLocale('ko', ko); // 한국어적용
-interface Props extends Omit<ReactDatePickerProps, 'onChange'> {
-  onClick(): void;
-}
+import PeriodBox from '@/components/project/PeriodBox';
 
 const CreateProject = () => {
   const router = useRouter();
@@ -49,15 +30,6 @@ const CreateProject = () => {
     setStart(startDate);
     setEnd(endDate);
   };
-
-  //달력 커스텀
-  const CustomInput = forwardRef(
-    ({ onClick }: Props, ref: ForwardedRef<HTMLSpanElement>) => (
-      <span onClick={onClick} ref={ref}>
-        <BsFillCalendarEventFill />
-      </span>
-    )
-  );
 
   //스택 모달 관련
   const [stack, setStack] = useState(false);
@@ -193,29 +165,11 @@ const CreateProject = () => {
           />
         )}
         <Side warning={warning}>
-          <div className="period-box">
-            <div>
-              <div>프로젝트 기간</div>
-              <div className="calendar-box">
-                <DatePicker
-                  selected={start}
-                  onChange={handleRangeChange}
-                  locale={ko}
-                  startDate={start}
-                  endDate={end}
-                  selectsRange
-                  customInput={
-                    <CustomInput
-                      onClick={function (): void {
-                        throw new Error('Function not implemented.');
-                      }}
-                    />
-                  }
-                />
-              </div>
-            </div>
-            <Period start={start} end={end} />
-          </div>
+          <PeriodBox
+            start={start}
+            end={end}
+            handleRangeChange={handleRangeChange}
+          />
           <TagBox
             tags={tags}
             register={register}
@@ -316,24 +270,6 @@ const Side = styled.div<SideProps>`
   .noto-regular-13 {
     min-height: 13px;
     gap: 8px;
-  }
-
-  .period-box {
-    > div:first-child {
-      display: flex;
-    }
-    .calendar-box {
-      margin-left: 16px;
-      cursor: pointer;
-    }
-    .react-datepicker__triangle {
-      ::before,
-      ::after {
-        top: 3px;
-        left: -3px;
-        transform: rotate(-2deg);
-      }
-    }
   }
 
   .stack-box {
