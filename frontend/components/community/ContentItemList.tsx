@@ -5,7 +5,7 @@ import ContentItem from './ContentItem';
 import ContentPageNation from './ContentPageNation';
 
 type Example = {
-  id: string;
+  id: number;
   user: string;
   score: number;
   star: number;
