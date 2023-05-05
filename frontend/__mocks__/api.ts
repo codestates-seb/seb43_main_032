@@ -1,5 +1,6 @@
 import { rest } from 'msw';
 import users from './datas/users.json';
+import post from './datas/community.json';
 
 export const handlers = [
   rest.get('/test', async (req, res, ctx) => {
@@ -23,5 +24,11 @@ export const handlers = [
   rest.post('/project', async (req, res, ctx) => {
     const data = req.json();
     return res(ctx.status(200), ctx.json(await data));
+  }),
+];
+
+export const postHandler = [
+  rest.get('/post', async (req, res, ctx) => {
+    return res(ctx.status(200), ctx.json(post));
   }),
 ];
