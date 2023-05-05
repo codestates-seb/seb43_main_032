@@ -11,6 +11,7 @@ import PostBtn from '@/components/PostBtn';
 import TagBox from '@/components/project/TagBox';
 import PeriodBox from '@/components/project/PeriodBox';
 import StacksBox from '@/components/project/StacksBox';
+import { GrFormClose } from 'react-icons/gr';
 
 const CreateProject = () => {
   const router = useRouter();
@@ -78,7 +79,7 @@ const CreateProject = () => {
     setTags([...tags, tag]);
   };
 
-  // 해시태그 중복 삭제
+  // 해시태그 삭제
   const deleteTag = (idx: number) => {
     setTags([...tags.slice(0, idx), ...tags.slice(idx + 1)]);
   };
@@ -132,6 +133,12 @@ const CreateProject = () => {
     });
     setOption(1);
   };
+
+  // 직군 삭제
+  const deleteJob = (idx: number) => {
+    setJob([...job.slice(0, idx), ...job.slice(idx + 1)]);
+  };
+
   const jobs = job.map((x) => Object.keys(x)[0]);
   const jobCount = job.map((x) => Object.values(x)[0]);
 
@@ -214,6 +221,9 @@ const CreateProject = () => {
                 <li className="nanum-regular" key={`${x}+${i}`}>
                   <div>{x}</div>
                   <div>{jobCount[i]}명</div>
+                  <div className="delete">
+                    <GrFormClose onClick={() => deleteJob(i)} />
+                  </div>
                 </li>
               ))}
             </ul>
@@ -292,7 +302,9 @@ const Side = styled.div<SideProps>`
       }
     }
 
-    .tag {
+    .delete {
+      display: flex;
+      align-items: center;
       cursor: pointer;
     }
 

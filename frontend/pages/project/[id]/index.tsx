@@ -7,6 +7,9 @@ import styled from 'styled-components';
 
 const ViewProject = () => {
   const tags = ['ㅇㅇ', 'ㅋㅋㅋㅋ', '리코일'];
+  const job = [{ 프론트엔드: 1 }, { 백엔드: 2 }];
+  const jobs = job.map((job) => Object.keys(job)[0]);
+  const jobCount = job.map((job) => Object.values(job)[0]);
   return (
     <GridBox>
       <Side>
@@ -24,6 +27,17 @@ const ViewProject = () => {
         <PeriodBox start={new Date()} end={new Date()} />
         <TagBox tags={tags} />
         <StacksBox select={['recoil', 'java']} />
+        <div className="want-box">
+          <div>모집 중인 직군</div>
+          <ul>
+            {jobs.map((job, i) => (
+              <li className="nanum-regular" key={`${job}+${i}`}>
+                <div>{job}</div>
+                <div>{jobCount[i]}명</div>
+              </li>
+            ))}
+          </ul>
+        </div>
       </Side>
       <Main>메인</Main>
     </GridBox>
@@ -51,6 +65,7 @@ const Side = styled.div`
   }
 
   > div {
+    width: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -78,6 +93,28 @@ const Side = styled.div`
         cursor: pointer;
         :hover {
           background-color: #e1e7e5;
+        }
+      }
+    }
+  }
+
+  .want-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    > ul {
+      margin-top: 12px;
+      flex-direction: column;
+      width: 70%;
+      > li {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 16px 0px;
+        border-bottom: 1px solid #e4e4e7;
+        > div:first-child {
+          flex: 1;
         }
       }
     }
