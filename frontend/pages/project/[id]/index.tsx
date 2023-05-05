@@ -1,9 +1,15 @@
 import GridBox from '@/components/GridBox';
 import Tag from '@/components/Tag';
+import EiditorSkeleton from '@/components/editor/EiditorSkeleton';
 import PeriodBox from '@/components/project/PeriodBox';
 import StacksBox from '@/components/project/StacksBox';
 import TagBox from '@/components/project/TagBox';
+import dynamic from 'next/dynamic';
 import styled from 'styled-components';
+const Editor = dynamic(() => import('@/components/editor/Editor'), {
+  ssr: false,
+  loading: () => <EiditorSkeleton />,
+});
 
 const ViewProject = () => {
   const tags = ['ㅇㅇ', 'ㅋㅋㅋㅋ', '리코일'];
@@ -62,6 +68,9 @@ const ViewProject = () => {
             <span>댓글 수</span> : 28
           </div>
         </div>
+        <div className="content-box">
+          <Editor />
+        </div>
       </Main>
     </GridBox>
   );
@@ -73,7 +82,7 @@ const Main = styled.div`
   padding: var(--padding-1);
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  gap: 32px;
 
   > div {
     display: flex;
@@ -84,6 +93,12 @@ const Main = styled.div`
   .sub {
     span {
       font-weight: 900;
+    }
+  }
+
+  .content-box {
+    > div {
+      width: 100%;
     }
   }
 `;
@@ -148,6 +163,10 @@ const Side = styled.div`
     > ul {
       flex-direction: column;
       width: 70%;
+      min-width: 190px;
+      @media (max-width: 960px) {
+        width: 30%;
+      }
       > li {
         display: flex;
         align-items: center;
