@@ -61,7 +61,7 @@ export default SelectStack;
 
 const Box = styled.div`
   position: absolute;
-  top: 2%;
+  top: -3.5%;
   width: 100%;
   display: flex;
   justify-content: center;
@@ -107,9 +107,10 @@ const Box = styled.div`
   }
 
   .btn-box {
-    width: 30%;
+    width: 100%;
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
+    gap: 32px;
     button {
       min-width: 80px;
       cursor: pointer;
