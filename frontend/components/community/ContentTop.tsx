@@ -1,11 +1,30 @@
-import React from 'react';
+import { searchState } from '@/recoil/atom';
+import React, { useState } from 'react';
+import { useSetRecoilState } from 'recoil';
 import styled from 'styled-components';
 
 export default function ContentTop() {
+  const [matchTitle, setMatchTitle] = useState('');
+  const saveSearchTitle = useSetRecoilState(searchState);
+
+  const findContentItem = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setMatchTitle(e.target.value);
+    console.log(matchTitle);
+  };
+
+  const handleSearch = () => {
+    saveSearchTitle(matchTitle);
+    setMatchTitle('');
+  };
+
   return (
     <Container>
-      <SearchInput placeholder="검색어를 입력하세요." />
-      <SearchBtn />
+      <SearchInput
+        placeholder="검색어를 입력하세요."
+        value={matchTitle}
+        onChange={findContentItem}
+      />
+      <SearchBtn onClick={handleSearch} />
     </Container>
   );
 }
