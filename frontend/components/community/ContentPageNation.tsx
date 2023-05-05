@@ -5,9 +5,9 @@ import styled from 'styled-components';
 const getPageNum = async (
   setPageNum: React.Dispatch<React.SetStateAction<never[]>>
 ) => {
-  await api.get('/posts').then((res) => {
-    setPageNum(res.data.example);
-    console.log(res.data.example);
+  await api.get('/post').then((res) => {
+    setPageNum(res.data);
+    console.log(res.data);
   });
 };
 
