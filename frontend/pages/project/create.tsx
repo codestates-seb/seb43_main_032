@@ -2,7 +2,6 @@ import GridBox from '@/components/GridBox';
 import styled from 'styled-components';
 import { ChangeEvent, useEffect, useState } from 'react';
 import SelectStack from '@/components/stack/SelectStack';
-import SelectedStacks from '@/components/stack/SelectedStacks';
 import { api } from '@/util/api';
 import { useRouter } from 'next/router';
 import MainPost from '@/components/MainPost';
@@ -11,6 +10,7 @@ import { DefaultObj } from '@/types/types';
 import PostBtn from '@/components/PostBtn';
 import TagBox from '@/components/project/TagBox';
 import PeriodBox from '@/components/project/PeriodBox';
+import StacksBox from '@/components/project/StacksBox';
 
 const CreateProject = () => {
   const router = useRouter();
@@ -176,18 +176,7 @@ const CreateProject = () => {
             tagKeyDown={tagKeyDown}
             deleteTag={deleteTag}
           />
-          <div className="stack-box">
-            <div>프로젝트 메인 스택</div>
-            <ul className="noto-regular-13">
-              <li className="button-box">
-                {select.length === 0 ? (
-                  <button onClick={onModal}>스택 등록</button>
-                ) : (
-                  <SelectedStacks onModal={onModal} select={select} />
-                )}
-              </li>
-            </ul>
-          </div>
+          <StacksBox select={select} onModal={onModal} />
           <div className="want-box">
             <div>모집을 원하는 직군</div>
             <div className="job-box">
@@ -270,24 +259,6 @@ const Side = styled.div<SideProps>`
   .noto-regular-13 {
     min-height: 13px;
     gap: 8px;
-  }
-
-  .stack-box {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-    > ul {
-      cursor: pointer;
-    }
-    .select-tag-box {
-      display: flex;
-      justify-content: center;
-      gap: 8px;
-      > li {
-        box-shadow: var(--box-shadow);
-      }
-    }
   }
 
   .want-box {
