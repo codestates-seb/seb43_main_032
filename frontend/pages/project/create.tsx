@@ -15,10 +15,10 @@ import {
   useEffect,
   useState,
 } from 'react';
-import { formatDate } from '@/util/date/formatDate';
-import { dateDiffInDays } from '@/util/date/dateDiffInDays';
+import { formatDate } from '@/util/date/index';
+import { dateDiffInDays } from '@/util/date/index';
 import Tag from '@/components/Tag';
-import SelectStack from '@/components/SelectStack';
+import SelectStack from '@/components/stack/SelectStack';
 import SelectedStacks from '@/components/project/SelectedStacks';
 import { api } from '@/util/api';
 import { useRouter } from 'next/router';
@@ -79,8 +79,9 @@ const CreateProject = () => {
 
   //해시태그 키 다운
   const tagKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if ((e.key === 'Enter' || e.key === ' ') && form.tagVal !== '') {
-      addTag(form.tagVal);
+    const trim = form.tagVal.trim();
+    if ((e.key === 'Enter' || e.key === ' ') && trim !== '') {
+      addTag(trim);
       form.tagVal = '';
     }
   };

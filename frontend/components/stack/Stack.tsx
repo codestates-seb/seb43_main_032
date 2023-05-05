@@ -1,3 +1,4 @@
+import { formatSkill } from '@/util/stack/formatSkill';
 import { useState } from 'react';
 import styled from 'styled-components';
 
@@ -10,20 +11,6 @@ type Props = {
 const Stack = ({ skill, addStack, select }: Props) => {
   //모달
   const [modal, setModal] = useState(false);
-
-  //스킬 이름 포멧팅
-  const formatSkill = (str: string) => {
-    let result = str.charAt(0).toUpperCase() + str.slice(1);
-    if (result.includes('_')) {
-      let words = result.split('_');
-      words = words.map((word) => word.charAt(0).toUpperCase() + word.slice(1));
-      if (words[1].length === 2 || words[1].length === 3) {
-        words[1] = words[1].toUpperCase();
-      }
-      result = words.join(' ');
-    }
-    return result;
-  };
 
   return (
     <Box
