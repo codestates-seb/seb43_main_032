@@ -33,7 +33,9 @@ const ViewProject = () => {
             {jobs.map((job, i) => (
               <li className="nanum-regular" key={`${job}+${i}`}>
                 <div>{job}</div>
-                <div>{jobCount[i]}명</div>
+                <div>0/{jobCount[i]}</div>
+                <div className="light"></div>
+                <Tag>지원</Tag>
               </li>
             ))}
           </ul>
@@ -104,7 +106,6 @@ const Side = styled.div`
     align-items: center;
 
     > ul {
-      margin-top: 12px;
       flex-direction: column;
       width: 70%;
       > li {
@@ -116,6 +117,21 @@ const Side = styled.div`
         > div:first-child {
           flex: 1;
         }
+      }
+    }
+    .light {
+      height: 16px;
+      width: 16px;
+      background-color: #94f184;
+      border-radius: 50%;
+    }
+
+    .tag {
+      font-size: 13px;
+      font-weight: 900;
+      cursor: pointer;
+      :hover {
+        background-color: #e1e7e5;
       }
     }
   }
