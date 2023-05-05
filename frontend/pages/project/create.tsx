@@ -25,6 +25,7 @@ import { useForm } from 'react-hook-form';
 import { DefaultObj } from '@/types/types';
 import PostBtn from '@/components/PostBtn';
 import Period from '@/components/project/Period';
+import TagBox from '@/components/project/TagBox';
 registerLocale('ko', ko); // 한국어적용
 interface Props extends Omit<ReactDatePickerProps, 'onChange'> {
   onClick(): void;
@@ -215,30 +216,12 @@ const CreateProject = () => {
             </div>
             <Period start={start} end={end} />
           </div>
-          <div className="tag-box">
-            <div>프로젝트 분야 태그</div>
-            <div className="noto-regular-13">
-              <div className="button-box">
-                <input
-                  {...register('tagVal')}
-                  onKeyDown={tagKeyDown}
-                  type="text"
-                />
-              </div>
-              <ul>
-                {tags.map((x, i) => (
-                  <li key={`${x}+${i}`}>
-                    <Tag>
-                      <div>{x}</div>
-                      <div>
-                        <GrFormClose onClick={() => deleteTag(i)} />
-                      </div>
-                    </Tag>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </div>
+          <TagBox
+            tags={tags}
+            register={register}
+            tagKeyDown={tagKeyDown}
+            deleteTag={deleteTag}
+          />
           <div className="stack-box">
             <div>프로젝트 메인 스택</div>
             <ul className="noto-regular-13">
@@ -368,31 +351,6 @@ const Side = styled.div<SideProps>`
       > li {
         box-shadow: var(--box-shadow);
       }
-    }
-  }
-
-  .tag-box {
-    display: flex;
-    align-items: center;
-    flex-direction: column;
-    ul {
-      justify-content: center;
-      gap: 4px;
-      flex-direction: row;
-      li {
-        > div {
-          display: flex;
-          gap: 4px;
-          min-width: auto;
-          > div:last-child {
-            cursor: pointer;
-          }
-        }
-      }
-    }
-
-    .button-box {
-      margin-bottom: 12px;
     }
   }
 
