@@ -15,7 +15,6 @@ import {
   useEffect,
   useState,
 } from 'react';
-import { formatDate, dateDiffInDays } from '@/util/date/index';
 import Tag from '@/components/Tag';
 import SelectStack from '@/components/stack/SelectStack';
 import SelectedStacks from '@/components/stack/SelectedStacks';
@@ -25,6 +24,7 @@ import MainPost from '@/components/MainPost';
 import { useForm } from 'react-hook-form';
 import { DefaultObj } from '@/types/types';
 import PostBtn from '@/components/PostBtn';
+import Period from '@/components/project/Period';
 registerLocale('ko', ko); // 한국어적용
 interface Props extends Omit<ReactDatePickerProps, 'onChange'> {
   onClick(): void;
@@ -213,18 +213,7 @@ const CreateProject = () => {
                 />
               </div>
             </div>
-            <div className="noto-regular-13 period">
-              <span>{start && formatDate(start)}</span>
-              {start && <span> ~ </span>}
-              <span>{end && formatDate(end)} </span>
-              <span>
-                {start
-                  ? end
-                    ? `(${dateDiffInDays(start, end)}일)`
-                    : '종료일 미정'
-                  : ''}
-              </span>
-            </div>
+            <Period start={start} end={end} />
           </div>
           <div className="tag-box">
             <div>프로젝트 분야 태그</div>
@@ -362,11 +351,6 @@ const Side = styled.div<SideProps>`
         transform: rotate(-2deg);
       }
     }
-  }
-
-  .period {
-    display: flex;
-    justify-content: center;
   }
 
   .stack-box {
