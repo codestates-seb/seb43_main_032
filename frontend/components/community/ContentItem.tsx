@@ -5,26 +5,27 @@ import Link from 'next/link';
 
 type Example = {
   id: number;
-  user: string;
-  score: number;
-  star: number;
-  view: number;
+  userEmail: string;
+  userStar: number;
+  avatar: string;
+  category: string;
   title: string;
-  tags: string[];
   content: string;
+  createdAt: Date;
+  modifiedAt: Date;
+  star: number;
+  viewCount: number;
+  tags: string[];
 };
 
 export default function ContentItem(data: Example) {
   return (
-    <Link
-      href={`community/post/${data.id}`}
-      onClick={() => console.log(data.id)}
-    >
-      <Container>
-        <Left>
-          <div>score: {data.score}</div>
-          <div>view: {data.view}</div>
-        </Left>
+    <Container>
+      <Left>
+        <div>star: {data.star}</div>
+        <div>view: {data.viewCount}</div>
+      </Left>
+      <Link href={`community/post/${data.id}`}>
         <Center>
           <Top>
             <div className="title nanum-semi-bold">{data.title}</div>
@@ -34,29 +35,34 @@ export default function ContentItem(data: Example) {
           </Top>
           <div className="content">{data.content}</div>
         </Center>
-        <Right>
-          <div>{data.user}</div>
-          <img src="ex.png"></img>
-          <div>★ {data.star}</div>
-        </Right>
-      </Container>
-    </Link>
+      </Link>
+      <Right>
+        <div>{data.userEmail}</div>
+        <img src="ex.png"></img>
+        <div>★ {data.star}</div>
+      </Right>
+    </Container>
   );
 }
 
 const Container = styled.div`
   width: 100%;
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
   background-color: white;
   font-size: 15px;
   margin-bottom: 20px;
   padding: 10px 15px;
   border-radius: 20px;
   box-shadow: var(--shadow);
+
+  > a {
+    width: 65%;
+  }
 `;
 
 const Left = styled.div`
+  width: 15%;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -69,7 +75,7 @@ const Left = styled.div`
 `;
 
 const Center = styled.div`
-  width: 75%;
+  width: 100%;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -98,6 +104,7 @@ const Top = styled.div`
 `;
 
 const Right = styled.div`
+  width: 15%;
   display: flex;
   flex-direction: column;
   align-items: end;
