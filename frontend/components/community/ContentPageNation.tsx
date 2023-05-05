@@ -2,19 +2,21 @@ import { api } from '@/util/api';
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
+const getPageNum = async (
+  setPageNum: React.Dispatch<React.SetStateAction<never[]>>
+) => {
+  await api.get('/posts').then((res) => {
+    setPageNum(res.data.example);
+    console.log(res.data.example);
+  });
+};
+
 export default function ContentPageNation() {
   const [pageNum, setPageNum] = useState([]);
 
   useEffect(() => {
-    getPageNum();
+    getPageNum(setPageNum);
   }, []);
-
-  const getPageNum = async () => {
-    await api.get('/posts').then((res) => {
-      setPageNum(res.data.example);
-      console.log(res.data.example);
-    });
-  };
 
   return (
     <Container>
