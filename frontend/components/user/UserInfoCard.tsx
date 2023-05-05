@@ -1,4 +1,3 @@
-import { IUser } from '@/hooks/useUser';
 import styled from 'styled-components';
 import Tag from '../Tag';
 

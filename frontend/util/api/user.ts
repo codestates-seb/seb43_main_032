@@ -1,19 +1,20 @@
+import axios from 'axios';
 import { api } from '.';
 
 export async function getAuth(): Promise<IUser> {
-  return api
+  return axios
     .get('/users/1') //
     .then((res) => res.data);
 }
 
 export async function getUsers(): Promise<IUser[]> {
-  return api
+  return axios
     .get('/users') //
     .then((res) => res.data);
 }
 
 export async function getUserById(id: number): Promise<IUser> {
-  return api
+  return axios
     .get(`/users/${id}`) //
     .then((res) => res.data);
 }
