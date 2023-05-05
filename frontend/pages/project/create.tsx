@@ -18,7 +18,7 @@ import {
 import { formatDate, dateDiffInDays } from '@/util/date/index';
 import Tag from '@/components/Tag';
 import SelectStack from '@/components/stack/SelectStack';
-import SelectedStacks from '@/components/project/SelectedStacks';
+import SelectedStacks from '@/components/stack/SelectedStacks';
 import { api } from '@/util/api';
 import { useRouter } from 'next/router';
 import MainPost from '@/components/MainPost';
@@ -29,7 +29,6 @@ interface Props extends Omit<ReactDatePickerProps, 'onChange'> {
   onClick(): void;
 }
 
-//프로젝트 글 작성 페이지 입니다. 경로 '/project/create/'
 const CreateProject = () => {
   const router = useRouter();
 
