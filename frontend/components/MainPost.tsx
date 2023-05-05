@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import EiditorSkeleton from '@/components/editor/EiditorSkeleton';
+import EiditorSkeleton from '@/components/skeleton/EiditorSkeleton';
 import dynamic from 'next/dynamic';
 import { COMMUNITY_EX, PROJECT_EX } from '@/constant/constant';
 import { DefaultObj } from '@/types/types';

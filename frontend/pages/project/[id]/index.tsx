@@ -3,17 +3,19 @@ import Tag from '@/components/Tag';
 import PeriodBox from '@/components/project/PeriodBox';
 import StacksBox from '@/components/project/StacksBox';
 import TagBox from '@/components/project/TagBox';
+import dynamic from 'next/dynamic';
 import styled from 'styled-components';
-import { EX } from '@/constant/constant';
-import SyntaxHighlighter from 'react-syntax-highlighter';
-import { docco } from 'react-syntax-highlighter/dist/esm/styles/hljs';
+import ContentSkeleton from '@/components/skeleton/ContentSkeleton';
+const ContentBox = dynamic(() => import('@/components/ContentBox'), {
+  ssr: false,
+  loading: () => <ContentSkeleton />,
+});
+
 const ViewProject = () => {
   const tags = ['ㅇㅇ', 'ㅋㅋㅋㅋ', '리코일'];
   const job = [{ 프론트엔드: 1 }, { 백엔드: 2 }];
   const jobs = job.map((job) => Object.keys(job)[0]);
   const jobCount = job.map((job) => Object.values(job)[0]);
-
-  const language = 'ko';
   return (
     <GridBox>
       <Side>
@@ -66,9 +68,7 @@ const ViewProject = () => {
             <span>댓글 수</span> : 28
           </div>
         </div>
-        <div className="content-box nanum-regular">
-          <SyntaxHighlighter style={docco} language={language} children={EX} />
-        </div>
+        <ContentBox />
       </Main>
     </GridBox>
   );

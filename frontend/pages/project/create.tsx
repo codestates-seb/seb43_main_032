@@ -172,6 +172,7 @@ const CreateProject = () => {
       title: watch().title,
       editor,
     };
+    console.log(data)
     api.post('/project', data).then(() => router.push('/'));
   };
   return (
