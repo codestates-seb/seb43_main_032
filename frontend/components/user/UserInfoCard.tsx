@@ -7,7 +7,7 @@ const Wrapper = styled.div`
   flex-direction: column;
   align-items: center;
 `;
-const AvatarContainer = styled.div`
+export const AvatarContainer = styled.div`
   display: flex;
   justify-content: center;
   width: 150px;
