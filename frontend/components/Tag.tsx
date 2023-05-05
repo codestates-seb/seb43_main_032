@@ -5,7 +5,7 @@ type Props = {
 };
 
 const Tag = (props: Props) => {
-  return <TagBox {...props} />;
+  return <TagBox className="tag" {...props} />;
 };
 
 export default Tag;

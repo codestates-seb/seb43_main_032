@@ -1,4 +1,32 @@
 /**
+ * 날짜를 입력받아 포멧팅에 맞게 날짜를 리턴해주는 함수
+ * @param date
+ * @returns 예시 23.05.11
+ */
+export const formatDate = (date: Date): string => {
+  if (date) {
+    const year = date.getFullYear().toString().slice(2);
+    const month = ('0' + (date.getMonth() + 1)).slice(-2);
+    const day = ('0' + date.getDate()).slice(-2);
+    return `${year}.${month}.${day}`;
+  }
+  return '';
+};
+
+/**
+ * 두 날짜 사이의 기간을 리턴해주는 함수입니다.
+ * @param date1 시작일
+ * @param date2 종료일
+ * @returns 두 날짜 사이의 차
+ */
+export const dateDiffInDays = (date1: Date, date2: Date): number => {
+  const diffInMs = Math.abs(date2.getTime() - date1.getTime());
+  const diffInDays = Math.ceil(diffInMs / (1000 * 60 * 60 * 24));
+  return diffInDays;
+};
+
+
+/**
  * 현재 시간을 params로 넣으면 상대 시간을 리턴
  */
 export const elapsedTime = (date: Date) => {
