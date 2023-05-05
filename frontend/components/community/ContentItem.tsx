@@ -16,7 +16,10 @@ type Example = {
 
 export default function ContentItem(data: Example) {
   return (
-    <Link href={`community/${data.id}`} onClick={() => console.log(data.id)}>
+    <Link
+      href={`community/post/${data.id}`}
+      onClick={() => console.log(data.id)}
+    >
       <Container>
         <Left>
           <div>score: {data.score}</div>
