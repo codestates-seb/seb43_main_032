@@ -6,13 +6,17 @@ import ContentPageNation from './ContentPageNation';
 
 type Example = {
   id: number;
-  user: string;
-  score: number;
-  star: number;
-  view: number;
+  userEmail: string;
+  userStar: number;
+  avatar: string;
+  category: string;
   title: string;
-  tags: string[];
   content: string;
+  createdAt: Date;
+  modifiedAt: Date;
+  star: number;
+  viewCount: number;
+  tags: string[];
 };
 
 export default function ContentItemList() {
@@ -23,8 +27,8 @@ export default function ContentItemList() {
   }, []);
 
   const getData = async () => {
-    await api.get('/posts').then((res) => {
-      setData(res.data.example[0].content);
+    await api.get('/post').then((res) => {
+      setData(res.data);
     });
   };
 
