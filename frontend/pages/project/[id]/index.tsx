@@ -6,7 +6,8 @@ import TagBox from '@/components/project/TagBox';
 import dynamic from 'next/dynamic';
 import styled from 'styled-components';
 import ContentSkeleton from '@/components/skeleton/ContentSkeleton';
-const ContentBox = dynamic(() => import('@/components/ContentBox'), {
+import { EX } from '@/constant/constant';
+const ReactMarkdown = dynamic(() => import('@/components/ContentBox'), {
   ssr: false,
   loading: () => <ContentSkeleton />,
 });
@@ -68,7 +69,7 @@ const ViewProject = () => {
             <span>댓글 수</span> : 28
           </div>
         </div>
-        <ContentBox />
+        <ReactMarkdown content={EX} />
       </Main>
     </GridBox>
   );
@@ -91,17 +92,6 @@ const Main = styled.div`
   .sub {
     span {
       font-weight: 900;
-    }
-  }
-
-  .content-box {
-    width: 100%;
-    > pre {
-      border-radius: var(--radius-def);
-      width: 100%;
-      min-height: 70vh;
-      padding: var(--padding-1) !important;
-      line-height: 18px;
     }
   }
 `;
