@@ -4,7 +4,6 @@ import dynamic from 'next/dynamic';
 import { COMMUNITY_EX, PROJECT_EX } from '@/constant/constant';
 import { DefaultObj } from '@/types/types';
 import { UseFormRegister } from 'react-hook-form';
-import PostBtn from './PostBtn';
 import Btn from './Btn';
 const Editor = dynamic(() => import('@/components/editor/Editor'), {
   ssr: false,

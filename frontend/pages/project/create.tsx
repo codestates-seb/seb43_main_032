@@ -7,7 +7,6 @@ import { useRouter } from 'next/router';
 import MainPost from '@/components/MainPost';
 import { useForm } from 'react-hook-form';
 import { DefaultObj } from '@/types/types';
-import PostBtn from '@/components/PostBtn';
 import TagBox from '@/components/project/TagBox';
 import PeriodBox from '@/components/project/PeriodBox';
 import StacksBox from '@/components/project/StacksBox';
