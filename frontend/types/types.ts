@@ -3,3 +3,23 @@
 export type DefaultObj = {
   [key: string]: string;
 };
+
+export type job = {
+  [key: string]: { want: number; current: number };
+};
+
+export type Project = {
+  id: number;
+  author: string;
+  start: Date;
+  end: Date;
+  tags: string[];
+  stacks: string[];
+  jobs: job[];
+  title: string;
+  content: string;
+  state: number;
+  createAt: string;
+  view: number;
+  comment: never[];
+};

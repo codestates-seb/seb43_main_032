@@ -143,9 +143,9 @@ const CreateProject = () => {
   const jobCount = job.map((x) => Object.values(x)[0]);
 
   //에디터 상태
-  const [editor, setEditor] = useState('');
-  const changeEditor = (value: string) => {
-    setEditor(value);
+  const [content, setContent] = useState('');
+  const changeContent = (value: string) => {
+    setContent(value);
   };
 
   //프로젝트 글 완료 이벤트
@@ -159,7 +159,7 @@ const CreateProject = () => {
     if (watch().title === '') {
       return alert('제목을 입력해주세요.');
     }
-    if (editor === '') {
+    if (content === '') {
       return alert('내용을 입력해주세요.');
     }
     const data = {
@@ -170,9 +170,8 @@ const CreateProject = () => {
       job,
       position: watch().position,
       title: watch().title,
-      editor,
+      content,
     };
-    console.log(data)
     api.post('/project', data).then(() => router.push('/'));
   };
   return (
@@ -229,7 +228,7 @@ const CreateProject = () => {
             </ul>
           </div>
         </Side>
-        <MainPost type={1} register={register} changeEditor={changeEditor} />
+        <MainPost type={1} register={register} changeContent={changeContent} />
       </GridBox>
     </>
   );

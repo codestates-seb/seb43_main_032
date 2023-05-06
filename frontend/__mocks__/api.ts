@@ -1,5 +1,6 @@
 import { rest } from 'msw';
 import users from './datas/users.json';
+import { PROJECTS } from './dummy/project';
 
 export const handlers = [
   rest.get('/test', async (req, res, ctx) => {
@@ -20,8 +21,9 @@ export const handlers = [
       return res(ctx.status(404), ctx.json({ error: 'User not found' }));
     }
   }),
-  rest.post('/project', async (req, res, ctx) => {
-    const data = req.json();
-    return res(ctx.status(200), ctx.json(await data));
+  rest.get('/project/:id', async (req, res, ctx) => {
+    const { id } = req.params;
+    const data = PROJECTS.find((project) => project.id === Number(id));
+    return res(ctx.status(200), ctx.json(data));
   }),
 ];
