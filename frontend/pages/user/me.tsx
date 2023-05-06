@@ -17,14 +17,6 @@ const LeftColumn = styled.div`
     display: none;
   }
 `;
-const Button = styled.button`
-  position: absolute;
-  right: 20px;
-  border: none;
-  border-radius: 5px;
-  padding: 10px;
-  cursor: pointer;
-`;
 const RightColumn = styled.div`
   padding: 20px;
 `;
@@ -65,26 +57,18 @@ const PostCard = styled.div``;
 
 export default function me() {
   const user = useAuth();
-  const [isEdit, setEdit] = useState<Boolean>(false);
-  const handleEdit = (e: React.MouseEvent<HTMLButtonElement>) => {
-    setEdit((prev) => !prev);
-    console.log(isEdit);
-  };
+
   return (
     <>
       {user && (
         <GridBox>
           <LeftColumn>
-            <Button name="profile" onClick={handleEdit}>
-              {isEdit ? 'Submit' : 'Edit'}
-            </Button>
             <UserInfoCard user={user} />
           </LeftColumn>
           <RightColumn>
             <UserInfo>
               <ProfileContainer>
                 <InfoContainer
-                  name="profile"
                   keyNode={
                     <AvatarContainer style={{ width: '70px', height: '70px' }}>
                       <img alt={user.NICK_NAME} src={user.PROFILE_IMAGE} />
@@ -99,17 +83,11 @@ export default function me() {
                 />
               </ProfileContainer>
               <InfoContainer
-                name="phone"
                 keyNode={'휴대전화'}
                 contentNode={user.PHONE_NUMBER}
               />
+              <InfoContainer keyNode={'이메일'} contentNode={user.EMAIL} />
               <InfoContainer
-                name="email"
-                keyNode={'이메일'}
-                contentNode={user.EMAIL}
-              />
-              <InfoContainer
-                name="stacks"
                 keyNode={'기술스텍'}
                 contentNode={'#react #python'}
                 lastItem
