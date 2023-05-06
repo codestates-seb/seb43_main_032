@@ -21,5 +21,6 @@ export type Project = {
   state: number;
   createAt: string;
   view: number;
+  heart:number;
   comment: never[];
 };

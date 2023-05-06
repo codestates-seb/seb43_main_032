@@ -18,6 +18,7 @@ export const PROJECTS: Project[] = [
     state: 1, // 1=모집 중, 2=모집 완료, 3=종료
     createAt: '2023년 4월 1일',
     view: 30,
+    heart: 10,
     comment: [],
   },
 ];

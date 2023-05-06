@@ -11,6 +11,7 @@ import { useQuery } from 'react-query';
 import { api } from '@/util/api';
 import { Project } from '@/types/types';
 import Loading from '@/components/Loading';
+import { AiOutlineHeart } from 'react-icons/ai';
 const ReactMarkdown = dynamic(() => import('@/components/ContentBox'), {
   ssr: false,
   loading: () => <ContentSkeleton />,
@@ -21,7 +22,7 @@ const ViewProject = () => {
 
   const { isLoading, error, data } = useQuery<Project, Error>(
     ['project', router.query.id],
-    () => api(`${router.asPath}`).then((res) => res.data)
+    () => api(router.asPath).then((res) => res.data)
   );
 
   const jobs = data?.jobs;
@@ -85,6 +86,12 @@ const ViewProject = () => {
             </div>
           </div>
           <ReactMarkdown content={data.content} />
+          <div className="heart-box">
+            <div>
+              <AiOutlineHeart /> <span>{data.heart}</span>
+            </div>
+          </div>
+          <div className="comment-box">댓글창</div>
         </Main>
       </GridBox>
     );
@@ -107,6 +114,27 @@ const Main = styled.div`
   .sub {
     span {
       font-weight: 900;
+    }
+  }
+
+  .heart-box {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    > div {
+      gap: 8px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      border: 1px solid #c4c4c4;
+      border-radius: var(--radius-def);
+      padding: 16px;
+      font-size: 30px;
+      > span {
+        display: inline-block;
+        padding-bottom: 5px;
+      }
     }
   }
 `;
