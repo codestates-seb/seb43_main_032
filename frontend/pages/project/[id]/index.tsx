@@ -11,6 +11,7 @@ import { AiFillHeart, AiOutlineHeart } from 'react-icons/ai';
 import { useProject } from '@/react-query/useProject';
 import { formatDate2 } from '@/util/date';
 import { useEffect } from 'react';
+import Error from '@/components/Error';
 const ReactMarkdown = dynamic(() => import('@/components/ContentBox'), {
   ssr: false,
   loading: () => <ContentSkeleton />,
@@ -142,15 +143,6 @@ const ViewProject = () => {
 };
 
 export default ViewProject;
-
-const Error = styled.div`
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-  font-size: 40px;
-`;
 
 const Main = styled.div`
   padding: var(--padding-1);
