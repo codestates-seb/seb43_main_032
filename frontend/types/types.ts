@@ -27,6 +27,6 @@ export type Project = {
 
 export type PostState = {
   id: number;
-  heart: false;
+  heart: boolean;
   want: string;
 };

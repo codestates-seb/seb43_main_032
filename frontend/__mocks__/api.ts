@@ -66,4 +66,19 @@ export const handlers = [
     }
     return res(ctx.status(200));
   }),
+  rest.post('/project/:id/heart', async (req, res, ctx) => {
+    const { id } = req.params;
+    const post_data = PROJECTS.find((project) => project.id === Number(id));
+    const post_state = POST_STATE.find((project) => project.id === Number(id));
+    if (post_state?.heart && post_data) {
+      post_data.heart = post_data.heart - 1;
+      post_state.heart = false;
+      return res(ctx.status(200));
+    }
+    if (post_state?.heart === false && post_data) {
+      post_data.heart = post_data.heart + 1;
+      post_state.heart = true;
+      return res(ctx.status(200));
+    }
+  }),
 ];

@@ -6,10 +6,6 @@ import TagBox from '@/components/project/TagBox';
 import dynamic from 'next/dynamic';
 import styled from 'styled-components';
 import ContentSkeleton from '@/components/skeleton/ContentSkeleton';
-import { useRouter } from 'next/router';
-import { QueryClient, useMutation, useQuery } from 'react-query';
-import { api } from '@/util/api';
-import { PostState, Project } from '@/types/types';
 import Loading from '@/components/Loading';
 import { AiFillHeart, AiOutlineHeart } from 'react-icons/ai';
 import { useProject } from '@/react-query/useProject';
@@ -19,7 +15,7 @@ const ReactMarkdown = dynamic(() => import('@/components/ContentBox'), {
 });
 
 const ViewProject = () => {
-  const { isLoading, error, data, wantJob, cancleJob } = useProject();
+  const { isLoading, error, data, wantJob, cancleJob, heart } = useProject();
 
   //직군 관련
   const jobs = data?.post_data?.jobs;
@@ -105,7 +101,7 @@ const ViewProject = () => {
           </div>
           <ReactMarkdown content={data.post_data.content} />
           <div className="heart-box">
-            <div>
+            <div onClick={() => heart.mutate()}>
               {data?.post_state.heart ? <AiFillHeart /> : <AiOutlineHeart />}
               <span>{data.post_data.heart}</span>
             </div>
