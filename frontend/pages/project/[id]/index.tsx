@@ -36,6 +36,12 @@ const ViewProject = () => {
     }
   }, [data]);
 
+  const endProject = () => {
+    if (confirm('정말 프로젝트를 종료하시겠습니까?')) {
+      state.mutate(3);
+    }
+  };
+
   if (isLoading) return <Loading />;
   if (error) return <p>잠시 후 다시 시도해주세요.</p>;
   if (data?.post_data)
@@ -94,7 +100,10 @@ const ViewProject = () => {
             </ul>
           </div>
           <div>
-            <button>팀원 리뷰</button>
+            {data.post_data.state === 2 && (
+              <button onClick={endProject}>프로젝트 종료</button>
+            )}
+            {data.post_data.state === 3 && <button>팀원 리뷰</button>}
           </div>
         </Side>
         <Main>
