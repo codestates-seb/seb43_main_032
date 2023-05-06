@@ -110,7 +110,7 @@ function Header() {
               <NavLink href="/community" className="nanum-regular">
                 커뮤니티
               </NavLink>
-              <NavLink href="/projects" className="nanum-regular">
+              <NavLink href="/project" className="nanum-regular">
                 프로젝트
               </NavLink>
               <NavLink href="/mypage">
