@@ -20,14 +20,19 @@ const ReactMarkdown = dynamic(() => import('@/components/ContentBox'), {
 const ViewProject = () => {
   const router = useRouter();
 
+  //data fetch
   const { isLoading, error, data } = useQuery<
     { post_data: Project; post_state: PostState },
     Error
   >(['project', router.query.id], () =>
     api(router.asPath).then((res) => res.data)
   );
-  console.log(data?.post_state.want);
 
+  const wantJob = () => {
+    api.post(`${router.asPath}/want`, { data: '프론트엔드' });
+  };
+
+  //직군 관련
   const jobs = data?.post_data?.jobs;
   const job = jobs?.map((x) => Object.keys(x)[0]);
   const jobCount = jobs?.map((x) => Object.values(x)[0]);
@@ -75,7 +80,7 @@ const ViewProject = () => {
                     {job === data?.post_state.want ? (
                       <Tag>취소</Tag>
                     ) : (
-                      <Tag>지원</Tag>
+                      <Tag onClick={wantJob}>지원</Tag>
                     )}
                   </li>
                 ))}

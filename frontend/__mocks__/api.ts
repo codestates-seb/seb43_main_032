@@ -27,4 +27,18 @@ export const handlers = [
     const post_state = POST_STATE.find((project) => project.id === Number(id));
     return res(ctx.status(200), ctx.json({ post_data, post_state }));
   }),
+  rest.post('/project/:id/want', async (req, res, ctx) => {
+    const { id } = req.params;
+    const data = await req.json();
+    const post_data = PROJECTS.find((project) => project.id === Number(id));
+    const job = post_data?.jobs.find(
+      (job) => Object.keys(job)[0] === data.data
+    );
+    if (job) {
+      const jobData = Object.values(job)[0];
+      jobData.current = jobData.current + 1;
+      console.log(job)
+    }
+    return res(ctx.status(200));
+  }),
 ];
