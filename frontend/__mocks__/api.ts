@@ -81,4 +81,16 @@ export const handlers = [
       return res(ctx.status(200));
     }
   }),
+  rest.post('/project/:id/state', async (req, res, ctx) => {
+    const { id } = req.params;
+    const data = await req.json();
+    const post_data = PROJECTS.find((project) => project.id === Number(id));
+    if (Number(data.data) === 2 && post_data) {
+      post_data.state = 2;
+    }
+    if (Number(data.data) === 3 && post_data) {
+      post_data.state = 3;
+    }
+    return res(ctx.status(200));
+  }),
 ];

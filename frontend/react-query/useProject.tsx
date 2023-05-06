@@ -43,5 +43,15 @@ export const useProject = () => {
     },
   });
 
-  return { isLoading, error, data, wantJob, cancleJob, heart };
+  //모집 상태
+  const state = useMutation(
+    (state: number) => api.post(`${router.asPath}/state`, { data: state }),
+    {
+      onSuccess: () => {
+        refetch();
+      },
+    }
+  );
+
+  return { isLoading, error, data, wantJob, cancleJob, heart, state };
 };

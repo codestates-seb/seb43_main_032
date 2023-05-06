@@ -10,6 +10,7 @@ import Loading from '@/components/Loading';
 import { AiFillHeart, AiOutlineHeart } from 'react-icons/ai';
 import { useProject } from '@/react-query/useProject';
 import { formatDate2 } from '@/util/date';
+import { useEffect } from 'react';
 const ReactMarkdown = dynamic(() => import('@/components/ContentBox'), {
   ssr: false,
   loading: () => <ContentSkeleton />,
@@ -17,12 +18,23 @@ const ReactMarkdown = dynamic(() => import('@/components/ContentBox'), {
 
 const ViewProject = () => {
   //react-query
-  const { isLoading, error, data, wantJob, cancleJob, heart } = useProject();
+  const { isLoading, error, data, wantJob, cancleJob, heart, state } =
+    useProject();
 
   //직군 관련
   const jobs = data?.post_data?.jobs;
   const job = jobs?.map((x) => Object.keys(x)[0]);
   const jobCount = jobs?.map((x) => Object.values(x)[0]);
+
+  //모든 지원이 꽉 찼을 때, 일어나는 이펙트
+  useEffect(() => {
+    if (
+      jobCount &&
+      jobCount?.filter((x) => x.current === x.want).length == jobCount?.length
+    ) {
+      state.mutate(2);
+    }
+  }, [data]);
 
   if (isLoading) return <Loading />;
   if (error) return <p>잠시 후 다시 시도해주세요.</p>;
@@ -88,12 +100,11 @@ const ViewProject = () => {
         <Main>
           <div className="title">
             <div className="nanum-bold">{data.post_data.title}</div>
-            <Tag>
-              {jobCount?.filter((x) => x.current === x.want).length ===
-              jobCount?.length
-                ? '모집 완료'
-                : '모집 중'}
-            </Tag>
+            {data.post_data.state === 2 ? (
+              <Tag>모집 완료</Tag>
+            ) : (
+              <Tag>모집 중</Tag>
+            )}
           </div>
           <div className="sub noto-regular-13">
             <div>
