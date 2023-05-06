@@ -3,6 +3,7 @@ import { RecoilRoot } from 'recoil';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import '../styles/App.css';
 import Header from '../components/Header';
+import Footer from '../components/Footer';
 
 const queryClient = new QueryClient();
 
@@ -16,6 +17,7 @@ const App = ({ Component, pageProps }: AppProps) => {
       <RecoilRoot>
         <Header />
         <Component {...pageProps} />
+        <Footer />
       </RecoilRoot>
     </QueryClientProvider>
   );
