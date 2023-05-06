@@ -149,7 +149,8 @@ const CreateProject = () => {
   };
 
   //프로젝트 글 완료 이벤트
-  const postProject = () => {
+  const postProject = (e: { preventDefault: () => void }) => {
+    e.preventDefault();
     if (!start) {
       return alert('프로젝트 기간을 설정해주세요.');
     }
@@ -172,65 +173,64 @@ const CreateProject = () => {
       title: watch().title,
       content,
     };
-    api.post('/project', data).then(() => router.push('/'));
+    if (confirm('정말 작성을 완료하시겠습니까?'))
+      api.post('/project', data).then(() => router.push('/'));
   };
   return (
-    <>
-      <PostBtn postEvent={postProject} />
-      <GridBox>
-        {stack && (
-          <SelectStack
-            offModal={offModal}
-            select={select}
-            setSelect={setSelect}
-          />
-        )}
-        <Side warning={warning}>
-          <PeriodBox
-            start={start}
-            end={end}
-            handleRangeChange={handleRangeChange}
-          />
-          <TagBox
-            tags={tags}
-            register={register}
-            tagKeyDown={tagKeyDown}
-            deleteTag={deleteTag}
-          />
-          <StacksBox select={select} onModal={onModal} />
-          <div className="want-box">
-            <div>모집을 원하는 직군</div>
-            <div className="job-box">
-              <input
-                type="text"
-                {...register('jobVal')}
-                onKeyDown={jobKeyDown}
-              />
-              <select value={option} onChange={changeOption}>
-                {optionArr.map((x) => (
-                  <option key={x} value={x}>
-                    {x}명
-                  </option>
-                ))}
-              </select>
-              <button onClick={addJob}>등록</button>
-            </div>
-            <ul>
-              {jobs.map((x, i) => (
-                <li className="nanum-regular" key={`${x}+${i}`}>
-                  <div>{x}</div>
-                  <div>{jobCount[i]}명</div>
-                  <div className="delete">
-                    <GrFormClose onClick={() => deleteJob(i)} />
-                  </div>
-                </li>
+    <GridBox>
+      {stack && (
+        <SelectStack
+          offModal={offModal}
+          select={select}
+          setSelect={setSelect}
+        />
+      )}
+      <Side warning={warning}>
+        <PeriodBox
+          start={start}
+          end={end}
+          handleRangeChange={handleRangeChange}
+        />
+        <TagBox
+          tags={tags}
+          register={register}
+          tagKeyDown={tagKeyDown}
+          deleteTag={deleteTag}
+        />
+        <StacksBox select={select} onModal={onModal} />
+        <div className="want-box">
+          <div>모집을 원하는 직군</div>
+          <div className="job-box">
+            <input type="text" {...register('jobVal')} onKeyDown={jobKeyDown} />
+            <select value={option} onChange={changeOption}>
+              {optionArr.map((x) => (
+                <option key={x} value={x}>
+                  {x}명
+                </option>
               ))}
-            </ul>
+            </select>
+            <button onClick={addJob}>등록</button>
           </div>
-        </Side>
-        <MainPost type={1} register={register} changeContent={changeContent} />
-      </GridBox>
-    </>
+          <ul>
+            {jobs.map((x, i) => (
+              <li className="nanum-regular" key={`${x}+${i}`}>
+                <div>{x}</div>
+                <div>{jobCount[i]}명</div>
+                <div className="delete">
+                  <GrFormClose onClick={() => deleteJob(i)} />
+                </div>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </Side>
+      <MainPost
+        type={1}
+        register={register}
+        changeContent={changeContent}
+        postProject={postProject}
+      />
+    </GridBox>
   );
 };
 

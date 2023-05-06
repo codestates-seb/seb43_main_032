@@ -18,7 +18,7 @@ const OPTIONS: EasyMDE.Options = {
   status: false, //우측 하단 상태
   maxHeight: '400px', //최대높이 설정
   previewClass: ['markdown-body'], //github 마크다운 사용
-  hideIcons: ['guide'], //guide 버튼 가리기
+  hideIcons: ['guide', 'fullscreen', 'side-by-side'], //버튼 가리기
 };
 const EditorBox = ({ changeContent }: Props) => {
   return (
@@ -39,6 +39,6 @@ const Box = styled.div`
     background: none !important;
   }
   .markdown-body {
-    padding: 40px 140px;
+    padding: 12px;
   }
 `;
