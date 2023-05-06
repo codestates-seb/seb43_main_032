@@ -1,10 +1,7 @@
 import GridBox from '@/components/GridBox';
-import Tag from '@/components/Tag';
 import InfoContainer from '@/components/user/InfoContainer';
-import UserInfoCard from '@/components/user/UserInfoCard';
-import UserCard from '@/components/user/userCard';
+import UserInfoCard from '@/components/user/UserProfile';
 import useAuth from '@/hooks/useAuth';
-import useUser from '@/hooks/useUser';
 import styled from 'styled-components';
 
 const LeftColumn = styled.div`
@@ -50,13 +47,6 @@ const ProjectContainer = styled.div``;
 const ProjectCard = styled.div``;
 const PostContainer = styled.div``;
 const PostCard = styled.div``;
-const Button = styled.button`
-  border: none;
-  cursor: pointer;
-  padding: 10px 20px;
-  font-size: 20px;
-  border-radius: 5px;
-`;
 
 export default function me() {
   const user = useAuth();
@@ -96,7 +86,6 @@ export default function me() {
                 lastItem
               />
             </UserInfo>
-            <UserCard />
           </RightColumn>
         </GridBox>
       )}
