@@ -7,33 +7,19 @@ import dynamic from 'next/dynamic';
 import styled from 'styled-components';
 import ContentSkeleton from '@/components/skeleton/ContentSkeleton';
 import { useRouter } from 'next/router';
-import { useQuery } from 'react-query';
+import { QueryClient, useMutation, useQuery } from 'react-query';
 import { api } from '@/util/api';
 import { PostState, Project } from '@/types/types';
 import Loading from '@/components/Loading';
 import { AiFillHeart, AiOutlineHeart } from 'react-icons/ai';
+import { useProject } from '@/react-query/useProject';
 const ReactMarkdown = dynamic(() => import('@/components/ContentBox'), {
   ssr: false,
   loading: () => <ContentSkeleton />,
 });
 
 const ViewProject = () => {
-  const router = useRouter();
-
-  //data fetch
-  const { isLoading, error, data } = useQuery<
-    { post_data: Project; post_state: PostState },
-    Error
-  >(['project', router.query.id], () =>
-    api(router.asPath).then((res) => res.data)
-  );
-
-  const wantJob = (job: string) => {
-    api.post(`${router.asPath}/want`, { data: job });
-  };
-  const cancleJob = (job: string) => {
-    api.post(`${router.asPath}/cancle`, { data: job });
-  };
+  const { isLoading, error, data, wantJob, cancleJob } = useProject();
 
   //직군 관련
   const jobs = data?.post_data?.jobs;
@@ -83,11 +69,11 @@ const ViewProject = () => {
                     {jobCount[i].current === jobCount[i].want ? (
                       <Tag>마감</Tag>
                     ) : job === data?.post_state.want ? (
-                      <Tag onClick={() => cancleJob(job)}>취소</Tag>
+                      <Tag onClick={() => cancleJob.mutate(job)}>취소</Tag>
                     ) : (
                       <Tag
                         onClick={() =>
-                          data?.post_state.want === '' && wantJob(job)
+                          data?.post_state.want === '' && wantJob.mutate(job)
                         }
                       >
                         지원
