@@ -28,43 +28,37 @@ export const handlers = [
     const post_state = POST_STATE.find((project) => project.id === Number(id));
     return res(ctx.status(200), ctx.json({ post_data, post_state }));
   }),
-  rest.post('/project/:id/want', async (req, res, ctx) => {
+  rest.post('/project/:id/job', async (req, res, ctx) => {
     const { id } = req.params;
     const data = await req.json();
     const post_data = PROJECTS.find((project) => project.id === Number(id));
-    const job = post_data?.jobs.find(
-      (job) => Object.keys(job)[0] === data.data
-    );
-    if (job) {
+    const job = post_data?.jobs.find((job) => Object.keys(job)[0] === data.job);
+    if (data.update === 'want' && job) {
       const jobData = Object.values(job)[0];
       if (jobData.current < jobData.want) {
         jobData.current = jobData.current + 1;
       }
+      const post_state = POST_STATE.find(
+        (project) => project.id === Number(id)
+      );
+      if (post_state) {
+        post_state.want = data.job;
+      }
+      return res(ctx.status(200));
     }
-    const post_state = POST_STATE.find((project) => project.id === Number(id));
-    if (post_state) {
-      post_state.want = data.data;
-    }
-    return res(ctx.status(200));
-  }),
-  rest.post('/project/:id/cancle', async (req, res, ctx) => {
-    const { id } = req.params;
-    const data = await req.json();
-    const post_data = PROJECTS.find((project) => project.id === Number(id));
-    const job = post_data?.jobs.find(
-      (job) => Object.keys(job)[0] === data.data
-    );
-    if (job) {
+    if (data.update === 'cancle' && job) {
       const jobData = Object.values(job)[0];
       if (jobData.current > 0) {
         jobData.current = jobData.current - 1;
       }
+      const post_state = POST_STATE.find(
+        (project) => project.id === Number(id)
+      );
+      if (post_state) {
+        post_state.want = '';
+      }
+      return res(ctx.status(200));
     }
-    const post_state = POST_STATE.find((project) => project.id === Number(id));
-    if (post_state) {
-      post_state.want = '';
-    }
-    return res(ctx.status(200));
   }),
   rest.post('/project/:id/heart', async (req, res, ctx) => {
     const { id } = req.params;

@@ -42,6 +42,7 @@ const Box = styled.div<BoxProps>`
   }
   .select-tag-box {
     display: flex;
+    flex-wrap: wrap;
     justify-content: center;
     gap: 8px;
     > li {

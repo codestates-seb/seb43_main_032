@@ -8,7 +8,7 @@ import styled from 'styled-components';
 import ContentSkeleton from '@/components/skeleton/ContentSkeleton';
 import Loading from '@/components/Loading';
 import { AiFillHeart, AiOutlineHeart } from 'react-icons/ai';
-import { useProject } from '@/react-query/useProject';
+import { useProject } from '@/hooks/react-query/useProject';
 import { formatDate2 } from '@/util/date';
 import { useEffect } from 'react';
 import Error from '@/components/Error';
@@ -19,11 +19,10 @@ const ReactMarkdown = dynamic(() => import('@/components/ContentBox'), {
 
 const ViewProject = () => {
   //react-query
-  const { isLoading, error, data, wantJob, cancleJob, heart, state } =
-    useProject();
+  const { projectQuery, updateJob, updateHeart, updateState } = useProject();
 
   //직군 관련
-  const jobs = data?.post_data?.jobs;
+  const jobs = projectQuery.data?.post_data?.jobs;
   const job = jobs?.map((x) => Object.keys(x)[0]);
   const jobCount = jobs?.map((x) => Object.values(x)[0]);
 
@@ -33,20 +32,20 @@ const ViewProject = () => {
       jobCount &&
       jobCount?.filter((x) => x.current === x.want).length == jobCount?.length
     ) {
-      state.mutate(2);
+      updateState.mutate(2);
     }
-  }, [data]);
+  }, [projectQuery.data]);
 
   //프로젝트 종료 시, 상태 3으로 변경
   const endProject = () => {
     if (confirm('정말 프로젝트를 종료하시겠습니까?')) {
-      state.mutate(3);
+      updateState.mutate(3);
     }
   };
 
-  if (isLoading) return <Loading />;
-  if (error) return <Error>잠시 후 다시 시도해주세요.</Error>;
-  if (data?.post_data)
+  if (projectQuery.isLoading) return <Loading />;
+  if (projectQuery.error) return <Error>잠시 후 다시 시도해주세요.</Error>;
+  if (projectQuery.data?.post_data)
     return (
       <GridBox>
         <Side>
@@ -57,16 +56,16 @@ const ViewProject = () => {
                 src="https://noticon-static.tammolo.com/dgggcrkxq/image/upload/v1567008394/noticon/ohybolu4ensol1gzqas1.png"
                 alt="author"
               />
-              <div>{data.post_data.author}</div>
+              <div>{projectQuery.data.post_data.author}</div>
               <Tag>쪽지</Tag>
             </div>
           </div>
           <PeriodBox
-            start={new Date(data.post_data.start)}
-            end={new Date(data.post_data.end)}
+            start={new Date(projectQuery.data.post_data.start)}
+            end={new Date(projectQuery.data.post_data.end)}
           />
-          <TagBox tags={data.post_data.tags} />
-          <StacksBox select={data.post_data.stacks} />
+          <TagBox tags={projectQuery.data.post_data.tags} />
+          <StacksBox select={projectQuery.data.post_data.stacks} />
           <div className="want-box">
             <div>모집 중인 직군</div>
             <ul>
@@ -86,12 +85,19 @@ const ViewProject = () => {
                     ></div>
                     {jobCount[i].current === jobCount[i].want ? (
                       <Tag>마감</Tag>
-                    ) : job === data?.post_state.want ? (
-                      <Tag onClick={() => cancleJob.mutate(job)}>취소</Tag>
+                    ) : job === projectQuery.data?.post_state.want ? (
+                      <Tag
+                        onClick={() =>
+                          updateJob.mutate({ job, update: 'cancle' })
+                        }
+                      >
+                        취소
+                      </Tag>
                     ) : (
                       <Tag
                         onClick={() =>
-                          data?.post_state.want === '' && wantJob.mutate(job)
+                          projectQuery.data?.post_state.want === '' &&
+                          updateJob.mutate({ job, update: 'want' })
                         }
                       >
                         지원
@@ -102,16 +108,20 @@ const ViewProject = () => {
             </ul>
           </div>
           <div>
-            {data.post_data.state === 2 && (
+            {projectQuery.data.post_data.state === 2 && (
               <button onClick={endProject}>프로젝트 종료</button>
             )}
-            {data.post_data.state === 3 && <button>팀원 리뷰</button>}
+            {projectQuery.data.post_data.state === 3 && (
+              <button>팀원 리뷰</button>
+            )}
           </div>
         </Side>
         <Main>
           <div className="title">
-            <div className="nanum-bold">{data.post_data.title}</div>
-            {data.post_data.state === 2 ? (
+            <div className="nanum-bold">
+              {projectQuery.data.post_data.title}
+            </div>
+            {projectQuery.data.post_data.state === 2 ? (
               <Tag>모집 완료</Tag>
             ) : (
               <Tag>모집 중</Tag>
@@ -120,20 +130,25 @@ const ViewProject = () => {
           <div className="sub noto-regular-13">
             <div>
               <span>작성일자</span> :{' '}
-              {formatDate2(new Date(data.post_data.createAt))}
+              {formatDate2(new Date(projectQuery.data.post_data.createAt))}
             </div>
             <div>
-              <span>조회 수</span> : {data.post_data.view}
+              <span>조회 수</span> : {projectQuery.data.post_data.view}
             </div>
             <div>
-              <span>댓글 수</span> : {data.post_data.comment.length}
+              <span>댓글 수</span> :{' '}
+              {projectQuery.data.post_data.comment.length}
             </div>
           </div>
-          <ReactMarkdown content={data.post_data.content} />
+          <ReactMarkdown content={projectQuery.data.post_data.content} />
           <div className="heart-box">
-            <div onClick={() => heart.mutate()}>
-              {data?.post_state.heart ? <AiFillHeart /> : <AiOutlineHeart />}
-              <span>{data.post_data.heart}</span>
+            <div onClick={() => updateHeart.mutate()}>
+              {projectQuery.data?.post_state.heart ? (
+                <AiFillHeart />
+              ) : (
+                <AiOutlineHeart />
+              )}
+              <span>{projectQuery.data.post_data.heart}</span>
             </div>
           </div>
           <div className="comment-box">댓글창</div>
