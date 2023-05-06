@@ -21,6 +21,7 @@ export const handlers = [
       return res(ctx.status(404), ctx.json({ error: 'User not found' }));
     }
   }),
+  //프로젝트 관련
   rest.get('/project/:id', async (req, res, ctx) => {
     const { id } = req.params;
     const post_data = PROJECTS.find((project) => project.id === Number(id));
@@ -36,8 +37,32 @@ export const handlers = [
     );
     if (job) {
       const jobData = Object.values(job)[0];
-      jobData.current = jobData.current + 1;
-      console.log(job)
+      if (jobData.current < jobData.want) {
+        jobData.current = jobData.current + 1;
+      }
+    }
+    const post_state = POST_STATE.find((project) => project.id === Number(id));
+    if (post_state) {
+      post_state.want = data.data;
+    }
+    return res(ctx.status(200));
+  }),
+  rest.post('/project/:id/cancle', async (req, res, ctx) => {
+    const { id } = req.params;
+    const data = await req.json();
+    const post_data = PROJECTS.find((project) => project.id === Number(id));
+    const job = post_data?.jobs.find(
+      (job) => Object.keys(job)[0] === data.data
+    );
+    if (job) {
+      const jobData = Object.values(job)[0];
+      if (jobData.current > 0) {
+        jobData.current = jobData.current - 1;
+      }
+    }
+    const post_state = POST_STATE.find((project) => project.id === Number(id));
+    if (post_state) {
+      post_state.want = '';
     }
     return res(ctx.status(200));
   }),

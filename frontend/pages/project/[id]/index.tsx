@@ -28,8 +28,11 @@ const ViewProject = () => {
     api(router.asPath).then((res) => res.data)
   );
 
-  const wantJob = () => {
-    api.post(`${router.asPath}/want`, { data: '프론트엔드' });
+  const wantJob = (job: string) => {
+    api.post(`${router.asPath}/want`, { data: job });
+  };
+  const cancleJob = (job: string) => {
+    api.post(`${router.asPath}/cancle`, { data: job });
   };
 
   //직군 관련
@@ -77,10 +80,18 @@ const ViewProject = () => {
                           : 'green light'
                       }
                     ></div>
-                    {job === data?.post_state.want ? (
-                      <Tag>취소</Tag>
+                    {jobCount[i].current === jobCount[i].want ? (
+                      <Tag>마감</Tag>
+                    ) : job === data?.post_state.want ? (
+                      <Tag onClick={() => cancleJob(job)}>취소</Tag>
                     ) : (
-                      <Tag onClick={wantJob}>지원</Tag>
+                      <Tag
+                        onClick={() =>
+                          data?.post_state.want === '' && wantJob(job)
+                        }
+                      >
+                        지원
+                      </Tag>
                     )}
                   </li>
                 ))}
@@ -206,9 +217,6 @@ const Side = styled.div`
       }
       .tag {
         cursor: pointer;
-        :hover {
-          background-color: #e1e7e5;
-        }
       }
     }
   }
@@ -255,9 +263,6 @@ const Side = styled.div`
       font-size: 13px;
       font-weight: 900;
       cursor: pointer;
-      :hover {
-        background-color: #e1e7e5;
-      }
     }
   }
 `;
