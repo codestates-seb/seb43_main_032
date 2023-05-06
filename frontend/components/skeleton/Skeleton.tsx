@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-
 export type SkeletonProos = {
   width: number | string;
   height: number | string;
