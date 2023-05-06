@@ -5,6 +5,7 @@ import useAuth from '@/hooks/useAuth';
 import styled from 'styled-components';
 
 const LeftColumn = styled.div`
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -14,6 +15,13 @@ const LeftColumn = styled.div`
   @media (max-width: 960px) {
     display: none;
   }
+`;
+const Button = styled.button`
+  position: absolute;
+  right: 20px;
+  border: none;
+  border-radius: 5px;
+  padding: 10px;
 `;
 const RightColumn = styled.div`
   padding: 20px;
@@ -42,7 +50,12 @@ const AvatarContainer = styled.div`
   -webkit-box-shadow: 5px 5px 10px 0px rgba(0, 0, 0, 0.25);
   -moz-box-shadow: 5px 5px 10px 0px rgba(0, 0, 0, 0.25);
 `;
-
+const Works = styled.div`
+  background-color: gray;
+  margin-top: 20px;
+  width: 100%;
+  height: 200px;
+`;
 const ProjectContainer = styled.div``;
 const ProjectCard = styled.div``;
 const PostContainer = styled.div``;
@@ -56,6 +69,7 @@ export default function me() {
       {user && (
         <GridBox>
           <LeftColumn>
+            <Button name="profile">Edit</Button>
             <UserInfoCard user={user} />
           </LeftColumn>
           <RightColumn>
@@ -86,6 +100,9 @@ export default function me() {
                 lastItem
               />
             </UserInfo>
+            <Works>
+              <p className="nanum-bold">Projects | Posts | Replies</p>
+            </Works>
           </RightColumn>
         </GridBox>
       )}
