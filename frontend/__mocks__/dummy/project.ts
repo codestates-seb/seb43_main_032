@@ -1,4 +1,4 @@
-import { Project } from '@/types/types';
+import { PostState, Project } from '@/types/types';
 
 export const PROJECTS: Project[] = [
   {
@@ -20,5 +20,13 @@ export const PROJECTS: Project[] = [
     view: 30,
     heart: 10,
     comment: [],
+  },
+];
+
+export const POST_STATE: PostState[] = [
+  {
+    id: 1,
+    heart: false,
+    want: '백엔드',
   },
 ];

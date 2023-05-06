@@ -21,6 +21,12 @@ export type Project = {
   state: number;
   createAt: string;
   view: number;
-  heart:number;
+  heart: number;
   comment: never[];
+};
+
+export type PostState = {
+  id: number;
+  heart: false;
+  want: string;
 };

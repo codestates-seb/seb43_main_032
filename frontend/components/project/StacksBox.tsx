@@ -38,7 +38,7 @@ const Box = styled.div<BoxProps>`
   justify-content: center;
   flex-direction: column;
   > ul {
-    cursor: ${(props) => props.onModal && 'pointer'};
+    cursor: ${(props) => (props.onModal ? 'pointer' : '')};
   }
   .select-tag-box {
     display: flex;

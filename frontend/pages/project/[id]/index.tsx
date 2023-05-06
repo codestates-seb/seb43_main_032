@@ -9,9 +9,9 @@ import ContentSkeleton from '@/components/skeleton/ContentSkeleton';
 import { useRouter } from 'next/router';
 import { useQuery } from 'react-query';
 import { api } from '@/util/api';
-import { Project } from '@/types/types';
+import { PostState, Project } from '@/types/types';
 import Loading from '@/components/Loading';
-import { AiOutlineHeart } from 'react-icons/ai';
+import { AiFillHeart, AiOutlineHeart } from 'react-icons/ai';
 const ReactMarkdown = dynamic(() => import('@/components/ContentBox'), {
   ssr: false,
   loading: () => <ContentSkeleton />,
@@ -20,18 +20,21 @@ const ReactMarkdown = dynamic(() => import('@/components/ContentBox'), {
 const ViewProject = () => {
   const router = useRouter();
 
-  const { isLoading, error, data } = useQuery<Project, Error>(
-    ['project', router.query.id],
-    () => api(router.asPath).then((res) => res.data)
+  const { isLoading, error, data } = useQuery<
+    { post_data: Project; post_state: PostState },
+    Error
+  >(['project', router.query.id], () =>
+    api(router.asPath).then((res) => res.data)
   );
+  console.log(data?.post_state.want);
 
-  const jobs = data?.jobs;
+  const jobs = data?.post_data?.jobs;
   const job = jobs?.map((x) => Object.keys(x)[0]);
   const jobCount = jobs?.map((x) => Object.values(x)[0]);
 
   if (isLoading) return <Loading />;
   if (error) return <p>잠시 후 다시 시도해주세요.</p>;
-  if (data)
+  if (data?.post_data)
     return (
       <GridBox>
         <Side>
@@ -42,13 +45,16 @@ const ViewProject = () => {
                 src="https://noticon-static.tammolo.com/dgggcrkxq/image/upload/v1567008394/noticon/ohybolu4ensol1gzqas1.png"
                 alt="author"
               />
-              <div>{data.author}</div>
+              <div>{data.post_data.author}</div>
               <Tag>쪽지</Tag>
             </div>
           </div>
-          <PeriodBox start={new Date(data.start)} end={new Date(data.end)} />
-          <TagBox tags={data.tags} />
-          <StacksBox select={data.stacks} />
+          <PeriodBox
+            start={new Date(data.post_data.start)}
+            end={new Date(data.post_data.end)}
+          />
+          <TagBox tags={data.post_data.tags} />
+          <StacksBox select={data.post_data.stacks} />
           <div className="want-box">
             <div>모집 중인 직군</div>
             <ul>
@@ -59,8 +65,18 @@ const ViewProject = () => {
                     <div>
                       {jobCount[i].current}/{jobCount[i].want}
                     </div>
-                    <div className="light"></div>
-                    <Tag>지원</Tag>
+                    <div
+                      className={
+                        jobCount[i].current === jobCount[i].want
+                          ? 'red light'
+                          : 'green light'
+                      }
+                    ></div>
+                    {job === data?.post_state.want ? (
+                      <Tag>취소</Tag>
+                    ) : (
+                      <Tag>지원</Tag>
+                    )}
                   </li>
                 ))}
             </ul>
@@ -71,24 +87,25 @@ const ViewProject = () => {
         </Side>
         <Main>
           <div className="title">
-            <div className="nanum-bold">{data.title}</div>
+            <div className="nanum-bold">{data.post_data.title}</div>
             <Tag>모집 중</Tag>
           </div>
           <div className="sub noto-regular-13">
             <div>
-              <span>작성일자</span> : {data.createAt}
+              <span>작성일자</span> : {data.post_data.createAt}
             </div>
             <div>
-              <span>조회 수</span> : {data.view}
+              <span>조회 수</span> : {data.post_data.view}
             </div>
             <div>
-              <span>댓글 수</span> : {data.comment.length}
+              <span>댓글 수</span> : {data.post_data.comment.length}
             </div>
           </div>
-          <ReactMarkdown content={data.content} />
+          <ReactMarkdown content={data.post_data.content} />
           <div className="heart-box">
             <div>
-              <AiOutlineHeart /> <span>{data.heart}</span>
+              {data?.post_state.heart ? <AiFillHeart /> : <AiOutlineHeart />}
+              <span>{data.post_data.heart}</span>
             </div>
           </div>
           <div className="comment-box">댓글창</div>
@@ -220,6 +237,13 @@ const Side = styled.div`
       width: 16px;
       background-color: #94f184;
       border-radius: 50%;
+    }
+
+    .green {
+      background-color: #94f184;
+    }
+    .red {
+      background-color: #f8baba;
     }
 
     .tag {
