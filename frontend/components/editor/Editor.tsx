@@ -6,7 +6,7 @@ import 'highlight.js/styles/stackoverflow-light.css';
 import styled from 'styled-components';
 
 type Props = {
-  changeEditor: (value: string) => void;
+  changeContent?: (value: string) => void;
 };
 
 const OPTIONS: EasyMDE.Options = {
@@ -20,12 +20,12 @@ const OPTIONS: EasyMDE.Options = {
   previewClass: ['markdown-body'], //github 마크다운 사용
   hideIcons: ['guide'], //guide 버튼 가리기
 };
-const EditorBox = ({ changeEditor }: Props) => {
+const EditorBox = ({ changeContent }: Props) => {
   return (
     <Box>
       <SimpleMDEEditor
         placeholder="내용을 등록해주세요."
-        onChange={changeEditor}
+        onChange={changeContent}
         options={OPTIONS}
       />
     </Box>

@@ -1,5 +1,6 @@
 import { rest } from 'msw';
 import users from './datas/users.json';
+import { POST_STATE, PROJECTS } from './dummy/project';
 
 export const handlers = [
   rest.get('/test', async (req, res, ctx) => {
@@ -20,8 +21,76 @@ export const handlers = [
       return res(ctx.status(404), ctx.json({ error: 'User not found' }));
     }
   }),
-  rest.post('/project', async (req, res, ctx) => {
-    const data = req.json();
-    return res(ctx.status(200), ctx.json(await data));
+  //프로젝트 관련
+  rest.get('/project/:id', async (req, res, ctx) => {
+    const { id } = req.params;
+    const post_data = PROJECTS.find((project) => project.id === Number(id));
+    const post_state = POST_STATE.find((project) => project.id === Number(id));
+    return res(ctx.status(200), ctx.json({ post_data, post_state }));
+  }),
+  rest.post('/project/:id/want', async (req, res, ctx) => {
+    const { id } = req.params;
+    const data = await req.json();
+    const post_data = PROJECTS.find((project) => project.id === Number(id));
+    const job = post_data?.jobs.find(
+      (job) => Object.keys(job)[0] === data.data
+    );
+    if (job) {
+      const jobData = Object.values(job)[0];
+      if (jobData.current < jobData.want) {
+        jobData.current = jobData.current + 1;
+      }
+    }
+    const post_state = POST_STATE.find((project) => project.id === Number(id));
+    if (post_state) {
+      post_state.want = data.data;
+    }
+    return res(ctx.status(200));
+  }),
+  rest.post('/project/:id/cancle', async (req, res, ctx) => {
+    const { id } = req.params;
+    const data = await req.json();
+    const post_data = PROJECTS.find((project) => project.id === Number(id));
+    const job = post_data?.jobs.find(
+      (job) => Object.keys(job)[0] === data.data
+    );
+    if (job) {
+      const jobData = Object.values(job)[0];
+      if (jobData.current > 0) {
+        jobData.current = jobData.current - 1;
+      }
+    }
+    const post_state = POST_STATE.find((project) => project.id === Number(id));
+    if (post_state) {
+      post_state.want = '';
+    }
+    return res(ctx.status(200));
+  }),
+  rest.post('/project/:id/heart', async (req, res, ctx) => {
+    const { id } = req.params;
+    const post_data = PROJECTS.find((project) => project.id === Number(id));
+    const post_state = POST_STATE.find((project) => project.id === Number(id));
+    if (post_state?.heart && post_data) {
+      post_data.heart = post_data.heart - 1;
+      post_state.heart = false;
+      return res(ctx.status(200));
+    }
+    if (post_state?.heart === false && post_data) {
+      post_data.heart = post_data.heart + 1;
+      post_state.heart = true;
+      return res(ctx.status(200));
+    }
+  }),
+  rest.post('/project/:id/state', async (req, res, ctx) => {
+    const { id } = req.params;
+    const data = await req.json();
+    const post_data = PROJECTS.find((project) => project.id === Number(id));
+    if (Number(data.data) === 2 && post_data) {
+      post_data.state = 2;
+    }
+    if (Number(data.data) === 3 && post_data) {
+      post_data.state = 3;
+    }
+    return res(ctx.status(200));
   }),
 ];
