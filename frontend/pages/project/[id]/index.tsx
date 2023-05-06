@@ -10,6 +10,7 @@ import { useRouter } from 'next/router';
 import { useQuery } from 'react-query';
 import { api } from '@/util/api';
 import { Project } from '@/types/types';
+import Loading from '@/components/Loading';
 const ReactMarkdown = dynamic(() => import('@/components/ContentBox'), {
   ssr: false,
   loading: () => <ContentSkeleton />,
@@ -27,8 +28,8 @@ const ViewProject = () => {
   const job = jobs?.map((x) => Object.keys(x)[0]);
   const jobCount = jobs?.map((x) => Object.values(x)[0]);
 
-  // if (isLoading) return <div>로딩중</div>;
-  // if (error) return <p>Error: {error.message}</p>;
+  if (isLoading) return <Loading />;
+  if (error) return <p>잠시 후 다시 시도해주세요.</p>;
   if (data)
     return (
       <GridBox>
