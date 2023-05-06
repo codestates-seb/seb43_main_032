@@ -27,5 +27,5 @@ const App = ({ Component, pageProps }: AppProps) => {
 export default App;
 
 const Box = styled.main`
-  padding-top: 100px;
+  padding-top: 80px;
 `;
