@@ -6,133 +6,147 @@ import Link from 'next/link';
 // import LogoImage2 from '../public/images/logo.png';
 import { FaUserAlt } from 'react-icons/fa';
 import { FiMenu } from 'react-icons/fi';
-
-interface IWindowSize {
-  width: number;
-  height: number;
-}
+import { useRecoilState } from 'recoil';
+import { isLoginState } from '@/recoil/atom';
 
 const Nav = styled.nav`
+  top: 0;
+  left: 0;
+  position: fixed;
+  width: 100%;
+  background: #000;
   height: 80px;
-  background-color: var(--main-color-1);
   display: flex;
   justify-content: space-between;
-  align-items: center;
-  box-shadow: 5px 5px 5px var(--main-color-2);
-`;
-
-const LogoContainer = styled.div`
-  padding-left: 16px;
-`;
-
-const NavLinkContainer = styled.div`
-  display: flex;
-  align-items: center;
+  padding: 0.5rem calc((100vw - 1280px) / 2);
+  z-index: 10;
+  /* Third Nav */
+  /* justify-content: flex-start; */
 `;
 
 const NavLink = styled(Link)`
-  padding: 16px;
-  margin: 16px;
-  font-size: 16px;
-  font-family: var(--font-nanum);
-  color: #171717;
-  &:hover {
-    color: var(--sub-font-gray);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  padding: 0 1rem;
+  height: 100%;
+  cursor: pointer;
+  &.active {
+    color: #15cdfc;
   }
 `;
 
-const MenuIcon = styled(FiMenu)`
-  cursor: pointer;
+const Bars = styled(FiMenu)`
+  display: none;
+  color: #fff;
+  @media screen and (max-width: 768px) {
+    display: block;
+    position: absolute;
+    top: 0;
+    right: 0;
+    transform: translate(-100%, 75%);
+    font-size: 1.8rem;
+    cursor: pointer;
+  }
 `;
 
-const OverlayMenu = styled.div`
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vh;
-  height: 100vh;
-  background-color: var(--sub-font-gray);
-`;
-
-const MenuLinkContainer = styled.div`
+const NavMenu = styled.div`
   display: flex;
-  flex-direction: column;
-  justify-content: center;
   align-items: center;
-  height: 100vh;
+  margin-right: -24px;
+
+  white-space: nowrap;
+  @media screen and (max-width: 768px) {
+    display: none;
+  }
 `;
 
-export const useWindowSize = () => {
-  const [windowSize, setWindowSize] = useState<IWindowSize>({
-    width: 0,
-    height: 0,
-  });
+const NavBtn = styled.nav`
+  display: flex;
+  align-items: center;
+  margin-right: 24px;
 
-  useEffect(() => {
-    const handleResize = () => {
-      setWindowSize({
-        width: window.innerWidth,
-        height: window.innerHeight,
-      });
-    };
-    window.addEventListener('resize', handleResize);
-    handleResize();
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
-  return windowSize;
-};
+  justify-content: flex-end;
+  width: 100vw;
+  @media screen and (max-width: 768px) {
+    display: none;
+  }
+`;
+
+const NavBtnLink = styled(Link)`
+  border-radius: 4px;
+  background: #256ce1;
+  padding: 10px 22px;
+  color: #fff;
+  outline: none;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  text-decoration: none;
+  margin-left: 24px;
+  &:hover {
+    transition: all 0.2s ease-in-out;
+    background: #fff;
+    color: #010606;
+  }
+`;
 
 function Header() {
-  const size: IWindowSize = useWindowSize();
-  const [showMenu, setShowMenu] = useState(false);
-
-  const openMenu = () => {
-    setShowMenu(true);
-  };
-
-  const closeMenu = () => {
-    setShowMenu(false);
-  };
-
+  const [isLogin, setIsLogin] = useRecoilState(isLoginState);
   return (
-    <Nav>
-      <LogoContainer>
+    <>
+      <Nav>
         <NavLink href="/">
-          <Image src={LogoImage} alt="logo" width={200} height={40} />
-          {/* <Image src={LogoImage2} alt="logo" width={50} height={50} /> */}
+          <Image src={LogoImage} alt="logo" />
         </NavLink>
-      </LogoContainer>
-      <NavLinkContainer>
-        {size.width > 768 ? (
-          <>
-            <NavLink href="/">Home</NavLink>
-            <NavLink href="/community">커뮤니티</NavLink>
-            <NavLink href="/project">프로젝트</NavLink>
-            <NavLink href="/mypage">
-              <FaUserAlt size={20} />
-            </NavLink>
-          </>
-        ) : (
-          <MenuIcon onClick={openMenu} size={30} />
-        )}
-      </NavLinkContainer>
-      {showMenu && (
-        <MenuLinkContainer>
-          <OverlayMenu>
-            <NavLink href="/">Home</NavLink>
-          </OverlayMenu>
-          <OverlayMenu>
-            <NavLink href="/community">커뮤니티</NavLink>
-          </OverlayMenu>
-          <OverlayMenu>
-            <NavLink href="/project">프로젝트</NavLink>
-          </OverlayMenu>
-          <OverlayMenu>
-            <NavLink href="/mypage">마이페이지</NavLink>
-          </OverlayMenu>
-        </MenuLinkContainer>
-      )}
-    </Nav>
+        <Bars />
+        <NavMenu>
+          {isLogin && (
+            <>
+              <NavLink href="/" className="nanum-regular">
+                Home
+              </NavLink>
+              <NavLink href="/community" className="nanum-regular">
+                커뮤니티
+              </NavLink>
+              <NavLink href="/projects" className="nanum-regular">
+                프로젝트
+              </NavLink>
+              <NavLink href="/mypage">
+                <FaUserAlt size={20} />
+              </NavLink>
+            </>
+          )}
+        </NavMenu>
+
+        <NavBtn>
+          {isLogin ? (
+            <NavBtnLink href="/logout" className="nanum-regular">
+              로그아웃
+            </NavBtnLink>
+          ) : (
+            <>
+              <NavLink href="/" className="nanum-regular">
+                Home
+              </NavLink>
+              <NavLink href="/community" className="nanum-regular">
+                커뮤니티
+              </NavLink>
+              <NavLink href="/projects" className="nanum-regular">
+                프로젝트
+              </NavLink>
+              <NavBtnLink href="/login" className="nanum-regular">
+                로그인
+              </NavBtnLink>
+              <NavBtnLink href="/sign-up" className="nanum-regular">
+                회원가입
+              </NavBtnLink>
+            </>
+          )}
+        </NavBtn>
+      </Nav>
+    </>
   );
 }
 
