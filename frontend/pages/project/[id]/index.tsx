@@ -9,20 +9,20 @@ import ContentSkeleton from '@/components/skeleton/ContentSkeleton';
 import Loading from '@/components/Loading';
 import { AiFillHeart, AiOutlineHeart } from 'react-icons/ai';
 import { useProject } from '@/react-query/useProject';
+import { formatDate2 } from '@/util/date';
 const ReactMarkdown = dynamic(() => import('@/components/ContentBox'), {
   ssr: false,
   loading: () => <ContentSkeleton />,
 });
 
 const ViewProject = () => {
+  //react-query
   const { isLoading, error, data, wantJob, cancleJob, heart } = useProject();
 
   //직군 관련
   const jobs = data?.post_data?.jobs;
   const job = jobs?.map((x) => Object.keys(x)[0]);
   const jobCount = jobs?.map((x) => Object.values(x)[0]);
-  console.log(jobCount?.length);
-  console.log(jobCount?.filter((x) => x.current === x.want).length);
 
   if (isLoading) return <Loading />;
   if (error) return <p>잠시 후 다시 시도해주세요.</p>;
@@ -97,7 +97,8 @@ const ViewProject = () => {
           </div>
           <div className="sub noto-regular-13">
             <div>
-              <span>작성일자</span> : {data.post_data.createAt}
+              <span>작성일자</span> :{' '}
+              {formatDate2(new Date(data.post_data.createAt))}
             </div>
             <div>
               <span>조회 수</span> : {data.post_data.view}
