@@ -12,7 +12,7 @@ const Editor = dynamic(() => import('@/components/editor/Editor'), {
 type Props = {
   type: number;
   register: UseFormRegister<DefaultObj>;
-  changeEditor: (value: any) => void;
+  changeEditor: (value: string) => void;
 };
 
 const MainPost = ({ register, changeEditor, type }: Props) => {

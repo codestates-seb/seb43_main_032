@@ -24,6 +24,7 @@ import { useRouter } from 'next/router';
 import MainPost from '@/components/MainPost';
 import { useForm } from 'react-hook-form';
 import { DefaultObj } from '@/types/types';
+import PostBtn from '@/components/PostBtn';
 registerLocale('ko', ko); // 한국어적용
 interface Props extends Omit<ReactDatePickerProps, 'onChange'> {
   onClick(): void;
@@ -181,11 +182,7 @@ const CreateProject = () => {
 
   return (
     <>
-      <SubmitBox>
-        <button onClick={postProject} className="nanum-bold">
-          작성 완료
-        </button>
-      </SubmitBox>
+      <PostBtn postEvent={postProject} />
       <GridBox>
         {stack && (
           <SelectStack
@@ -299,24 +296,6 @@ const CreateProject = () => {
 };
 
 export default CreateProject;
-
-const SubmitBox = styled.div`
-  width: 100%;
-  display: flex;
-  justify-content: end;
-  padding: var(--padding-2);
-  button {
-    cursor: pointer;
-    border: none;
-    padding: 8px 32px;
-    border-radius: var(--radius-def);
-    font-size: 18px;
-    font-weight: 700;
-    :hover {
-      background-color: #e1e7e5;
-    }
-  }
-`;
 
 type SideProps = {
   warning: boolean;
