@@ -18,7 +18,7 @@ export type Project = {
   jobs: job[];
   title: string;
   content: string;
-  state: number;
+  state: 1 | 2 | 3;
   createAt: string;
   view: number;
   heart: number;

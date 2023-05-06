@@ -36,6 +36,7 @@ const ViewProject = () => {
     }
   }, [data]);
 
+  //프로젝트 종료 시, 상태 3으로 변경
   const endProject = () => {
     if (confirm('정말 프로젝트를 종료하시겠습니까?')) {
       state.mutate(3);
@@ -43,7 +44,7 @@ const ViewProject = () => {
   };
 
   if (isLoading) return <Loading />;
-  if (error) return <p>잠시 후 다시 시도해주세요.</p>;
+  if (error) return <Error>잠시 후 다시 시도해주세요.</Error>;
   if (data?.post_data)
     return (
       <GridBox>
@@ -141,6 +142,15 @@ const ViewProject = () => {
 };
 
 export default ViewProject;
+
+const Error = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  font-size: 40px;
+`;
 
 const Main = styled.div`
   padding: var(--padding-1);
