@@ -16,19 +16,10 @@ export const useProject = () => {
     () => api(router.asPath).then((res) => res.data)
   );
 
-  //직군 지원
-  const wantJob = useMutation(
-    (job: string) => api.post(`${router.asPath}/want`, { data: job }),
-    {
-      onSuccess: () => {
-        refetch();
-      },
-    }
-  );
-
-  //지원한 직군 취소
-  const cancleJob = useMutation(
-    (job: string) => api.post(`${router.asPath}/cancle`, { data: job }),
+  //직군 업데이트
+  const updateJob = useMutation(
+    ({ job, update }: { job: string; update: string }) =>
+      api.post(`${router.asPath}/job`, { job, update }),
     {
       onSuccess: () => {
         refetch();
@@ -37,14 +28,14 @@ export const useProject = () => {
   );
 
   //하트관련
-  const heart = useMutation(() => api.post(`${router.asPath}/heart`), {
+  const updateHeart = useMutation(() => api.post(`${router.asPath}/heart`), {
     onSuccess: () => {
       refetch();
     },
   });
 
   //모집 상태
-  const state = useMutation(
+  const updateState = useMutation(
     (state: number) => api.post(`${router.asPath}/state`, { data: state }),
     {
       onSuccess: () => {
@@ -53,5 +44,10 @@ export const useProject = () => {
     }
   );
 
-  return { isLoading, error, data, wantJob, cancleJob, heart, state };
+  return {
+    projectQuery: { isLoading, error, data },
+    updateJob,
+    updateHeart,
+    updateState,
+  };
 };
