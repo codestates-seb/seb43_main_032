@@ -1,10 +1,10 @@
-package com.main_032.sidequest;
+package com.main_032.SideQuest;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class SidequestApplicationTests {
+class SideQuestApplicationTests {
 
 	@Test
 	void contextLoads() {
