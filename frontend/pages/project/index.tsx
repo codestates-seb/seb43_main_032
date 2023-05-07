@@ -1,4 +1,4 @@
-import Carousel from '@/components/project/ProjectCarousel';
+import ProjectCarousel from '@/components/project/ProjectCarousel';
 import ProjectCard from '@/components/project/ProjectCard';
 import styled from 'styled-components';
 import { useRouter } from 'next/router';
@@ -26,13 +26,13 @@ const ProjectHome = () => {
           <div>
             <div className="nanum-bold">신규 프로젝트</div>
             <div className="carousel-box">
-              <Carousel projects={data.data.slice(0, 5)} />
+              <ProjectCarousel projects={data.data.slice(0, 5)} />
             </div>
           </div>
           <div>
             <div className="nanum-bold">인기 프로젝트</div>
             <div className="carousel-box">
-              <Carousel projects={data.data.slice(0, 5)} />
+              <ProjectCarousel projects={data.data.slice(0, 5)} />
             </div>
           </div>
         </div>
