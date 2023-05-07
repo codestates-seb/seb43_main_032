@@ -2,44 +2,34 @@ import React from 'react';
 import styled from 'styled-components';
 import Tag from '../Tag';
 import Link from 'next/link';
+import { Example } from './ContentItemList';
 
-type Example = {
-  id: number;
-  userEmail: string;
-  userStar: number;
-  avatar: string;
-  category: string;
-  title: string;
-  content: string;
-  createdAt: Date;
-  modifiedAt: Date;
-  star: number;
-  viewCount: number;
-  tags: string[];
-};
-
-export default function ContentItem(data: Example) {
+// item 리스트의 개별 아이템들
+export default function ContentItem(data: Example, idx: number) {
   return (
     <Container>
       <Left>
-        <div>star: {data.star}</div>
-        <div>view: {data.viewCount}</div>
+        <div>star: {data.STAR}</div>
+        <div>view: {data.VIEW}</div>
       </Left>
-      <Link href={`community/post/${data.id}`}>
+      <Link href={`community/post/${data.ARTICLE_ID}`}>
         <Center>
           <Top>
-            <div className="title nanum-semi-bold">{data.title}</div>
-            {data.tags.map((tag) => (
-              <Tag key={tag}>{tag}</Tag>
-            ))}
+            <div className="title nanum-semi-bold">{data.TITLE}</div>
+            <div className="tagBox">
+              {data.TAGS.map((tag) => (
+                <Tag key={tag}>{tag}</Tag>
+              ))}
+            </div>
           </Top>
-          <div className="content">{data.content}</div>
+          <div className="content">{data.CONTENT}</div>
         </Center>
       </Link>
       <Right>
-        <div>{data.userEmail}</div>
+        <div>{data.MEMBER_ID}</div>
+        {/* memberID에서 이메일 받아와야함 or nickName */}
         <img src="ex.png"></img>
-        <div>★ {data.star}</div>
+        <div>★ {data.STAR}</div>
       </Right>
     </Container>
   );
@@ -93,13 +83,21 @@ const Center = styled.div`
 
 const Top = styled.div`
   display: flex;
+  flex-direction: column;
   font-size: 12px;
 
   > .title {
+    color: var(--sub-font-dark-gray);
     text-overflow: ellipsis;
     white-space: nowrap;
     margin-bottom: 5px;
     margin-right: 20px;
+  }
+
+  > .tagBox {
+    display: flex;
+    gap: 8px;
+    color: #767676;
   }
 `;
 
