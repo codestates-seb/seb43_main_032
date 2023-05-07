@@ -1,7 +1,12 @@
 import Card from '@/components/Card';
+import Tag from '@/components/Tag';
+import Bubble from '@/components/stack/Bubble';
+import Stack from '@/components/stack/Stack';
 import styled from 'styled-components';
 
 const Project = () => {
+  const tags = ['AI', '금융'];
+  const select = ['recoil', 'java'];
   return (
     <Box>
       <div className="special-box">
@@ -15,11 +20,30 @@ const Project = () => {
                   alt=""
                 />
               </div>
-              <div>제목</div>
-              <div>작성자</div>
-              <div>태그</div>
-              <div>스택 모집정원</div>
-              <div>view</div>
+              <div className="nanum-bold">제목</div>
+              <div className="tag-box">
+                <ul>
+                  {tags.map((x, i) => (
+                    <li key={`${x}+${i}`}>
+                      <Tag>
+                        <div>{x}</div>
+                      </Tag>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+              <div className="select-box">
+                <ul>
+                  {select.map((x) => (
+                    <Stack skill={x} />
+                  ))}
+                </ul>
+              </div>
+              <div className="detail-box">
+                <div>작성자</div>
+                <div>뷰</div>
+                <div>하트</div>
+              </div>
             </Card>
           </div>
         </div>
@@ -50,6 +74,14 @@ const Box = styled.div`
     grid-gap: 16px;
     grid-template-columns: 6fr 6fr;
 
+    > div {
+      ul {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+    }
+
     .card-box {
       width: 100%;
       display: flex;
@@ -67,6 +99,19 @@ const Box = styled.div`
           border: 1px solid #e4e4e4;
         }
       }
+    }
+
+    .select-box {
+      position: relative;
+      cursor: pointer;
+      li {
+        box-shadow: var(--box-shadow);
+      }
+    }
+
+    .detail-box {
+      display: flex;
+      gap: 16px;
     }
   }
 
