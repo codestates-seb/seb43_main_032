@@ -1,13 +1,13 @@
-package com.main_032.sidequest;
+package com.main_032.SideQuest;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class SidequestApplication {
+public class SideQuestApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(SidequestApplication.class, args);
+		SpringApplication.run(SideQuestApplication.class, args);
 	}
 
 }

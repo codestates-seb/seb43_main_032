@@ -1,0 +1,23 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    # Local
+    #    url: jdbc:mysql://localhost:3306/todotest?serverTimezone=UTC&characterEncoding=UTF-8
+    #    username: root
+    #    password: a123
+
+    # RDS
+    url: jdbc:mysql://sidequestdb.cinzzb9ewscr.ap-northeast-2.rds.amazonaws.com:3306/sidequestdb?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
+    username: admin
+    password: a123789456
+  jpa:
+    hibernate:
+      ddl-auto: update
+#JWT
+mail:
+  address:
+    admin: admin@gmail.com
+jwt:
+  key: "c2lsdmVybmluZS10ZWNoLXNwcmluZy1ib290LWp3dC10dXRvcmlhbC1zZWNyZXQtc2lsdmVybmluZS10ZWNoLXNwcmluZy1ib290LWp3dC10dXRvcmlhbC1zZWNyZXQK"
+  access-token-expiration-minutes: 40
+  refresh-token-expiration-minutes: 420
