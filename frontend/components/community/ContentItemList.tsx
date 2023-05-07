@@ -3,51 +3,74 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import ContentItem from './ContentItem';
 import ContentPageNation from './ContentPageNation';
-import { useRecoilState } from 'recoil';
-import { searchState } from '@/recoil/atom';
+import { useRecoilState, useRecoilValue } from 'recoil';
+import { resetSearchState, searchState } from '@/recoil/atom';
+import { useQuery } from 'react-query';
+import { useRouter } from 'next/router';
 
-type Example = {
-  id: number;
-  userEmail: string;
-  userStar: number;
-  avatar: string;
-  category: string;
-  title: string;
-  content: string;
-  createdAt: Date;
-  modifiedAt: Date;
-  star: number;
-  viewCount: number;
-  tags: string[];
+export type Example = {
+  ARTICLE_ID: number;
+  MEMBER_ID: string;
+  USERSTAR: number;
+  AVATAR: string;
+  CATEGORY: string;
+  TITLE: string;
+  CONTENT: null;
+  CREATED_AY: Date;
+  STAR: number;
+  VIEW: number;
+  TAGS: string[];
+  STATUS: null;
+  COMMENT: [];
+};
+
+const getData = async () => {
+  const res = await api.get('/post');
+  return res.data;
 };
 
 export default function ContentItemList() {
-  const [data, setData] = useState<Example[]>([]);
-  const [searchTitle, setSearchTitle] = useRecoilState(searchState);
+  // 검색어 입력 시 atom 저장, 불러오기
+  const searchTitle = useRecoilValue(searchState);
 
-  useEffect(() => {
-    const getData = async () => {
-      if (searchTitle !== '') {
-        await api.get('/post').then((res) => {
-          const filtered = res.data.filter((el: Example) =>
-            el.title.toLowerCase().includes(searchTitle.toLowerCase())
-          );
-          setData(filtered);
-        });
-      } else {
-        await api.get('/post').then((res) => {
-          setData(res.data);
-        });
-      }
-    };
-    getData();
-  }, [searchTitle]);
+  // 초기화 상태값
+  const [resetSearch, setResetSearch] = useRecoilState(resetSearchState);
+
+  // 데이터 불러오기
+  const { data, isLoading, isError } = useQuery('posts', getData);
+  if (isLoading) return <div>isLoading...</div>;
+  if (isError) return <div>isError...</div>;
+
+  // 주솟값으로 데이터 필터링
+  const router = useRouter();
+  const currentRouter = router.query.id;
+
+  let filteredData = data;
+
+  // 카테고리별로 데이터 필터링
+  if (currentRouter && currentRouter !== 'all') {
+    filteredData = data.filter(
+      (post: Example) => post.CATEGORY === currentRouter
+    );
+  }
+
+  // 입력된 검색어별 데이터 필터링
+  if (searchTitle !== '') {
+    filteredData = filteredData.filter((post: Example) =>
+      post.TITLE.toLowerCase().includes(searchTitle.toLowerCase())
+    );
+  }
+
+  if (!resetSearch) {
+    filteredData = data;
+  }
 
   return (
     <Container>
-      {data.map((ex, idx) => (
-        <ContentItem {...ex} key={idx} />
-      ))}
+      {filteredData &&
+        filteredData.map((ex: Example, idx: number) => (
+          <ContentItem {...ex} key={idx} />
+        ))}
       <ContentPageNation />
     </Container>
   );
