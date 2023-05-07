@@ -4,28 +4,89 @@ import styled from 'styled-components';
 const Project = () => {
   const tags = ['AI', '금융'];
   const select = ['recoil', 'java'];
+  const author = '김기획';
+  const view = 555;
+  const heart = 33;
+  const title =
+    '한국 투자 증권 api로 플젝 해보실분?!!?ㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋ';
   return (
     <Box>
       <div className="special-box">
         <div>
           <div className="nanum-bold">신규 프로젝트</div>
-          <ProjectCard size={'lg'} tags={tags} select={select} />
+          <ProjectCard
+            size={'lg'}
+            view={view}
+            heart={heart}
+            author={author}
+            tags={tags}
+            select={select}
+            title={title}
+          />
         </div>
         <div>
           <div className="nanum-bold">인기 프로젝트</div>
           <div className="card-box">
-            <ProjectCard size={'lg'} tags={tags} select={select} />
+            <ProjectCard
+              size={'lg'}
+              view={view}
+              heart={heart}
+              author={author}
+              tags={tags}
+              select={select}
+              title={title}
+            />
           </div>
         </div>
       </div>
       <div className="common-box">
         <div className="nanum-bold">전체 프로젝트</div>
         <div className="projects-box">
-          <ProjectCard size={'sm'} tags={tags} select={select} />
-          <ProjectCard size={'sm'} tags={tags} select={select} />
-          <ProjectCard size={'sm'} tags={tags} select={select} />
-          <ProjectCard size={'sm'} tags={tags} select={select} />
-          <ProjectCard size={'sm'} tags={tags} select={select} />
+          <ProjectCard
+            size={'sm'}
+            view={view}
+            heart={heart}
+            author={author}
+            tags={tags}
+            select={select}
+            title={title}
+          />
+          <ProjectCard
+            size={'sm'}
+            view={view}
+            heart={heart}
+            author={author}
+            tags={tags}
+            select={select}
+            title={title}
+          />
+          <ProjectCard
+            size={'sm'}
+            view={view}
+            heart={heart}
+            author={author}
+            tags={tags}
+            select={select}
+            title={title}
+          />
+          <ProjectCard
+            size={'sm'}
+            view={view}
+            heart={heart}
+            author={author}
+            tags={tags}
+            select={select}
+            title={title}
+          />
+          <ProjectCard
+            size={'sm'}
+            view={view}
+            heart={heart}
+            author={author}
+            tags={tags}
+            select={select}
+            title={title}
+          />
         </div>
       </div>
     </Box>

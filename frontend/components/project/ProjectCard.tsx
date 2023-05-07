@@ -9,9 +9,13 @@ type Props = {
   tags: string[];
   select: string[];
   size: string;
+  author: string;
+  view: number;
+  heart: number;
+  title: string;
 };
 
-const ProjectCard = ({ size, tags, select }: Props) => {
+const ProjectCard = ({title, view, heart, author, size, tags, select }: Props) => {
   return (
     <Box size={size}>
       <Card width={size === 'lg' ? 416 : 298}>
@@ -22,8 +26,7 @@ const ProjectCard = ({ size, tags, select }: Props) => {
           />
         </div>
         <div className="nanum-bold title-box">
-          한국 투자 증권 api로 플젝 해보실분?!!?
-          ㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋ
+          {title}
         </div>
         <div className="tag-box">
           <ul>
@@ -101,20 +104,20 @@ const ProjectCard = ({ size, tags, select }: Props) => {
               src="https://noticon-static.tammolo.com/dgggcrkxq/image/upload/v1567008394/noticon/ohybolu4ensol1gzqas1.png"
               alt="author"
             />
-            김기획
+            {author}
           </div>
           <div>
             <div className="infor-box">
               <span>
                 <GrView />
               </span>
-              <span>555</span>
+              <span>{view}</span>
             </div>
             <div className="infor-box">
               <span>
                 <AiFillHeart />
               </span>
-              <span>33</span>
+              <span>{heart}</span>
             </div>
           </div>
         </div>
