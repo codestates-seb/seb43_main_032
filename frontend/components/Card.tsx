@@ -12,10 +12,11 @@ export default Card;
 
 const Box = styled.div<Props>`
   padding: var(--padding-2);
-  width: ${(props) => `${props.width}%`};
+  width: ${(props) => `${props.width}px`};
   border: 1px solid #e4e4e4;
   border-radius: var(--radius-def);
   display: flex;
   flex-direction: column;
   gap: 16px;
+  
 `;

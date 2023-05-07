@@ -1,4 +1,3 @@
-import { formatSkill } from '@/util/stack/formatSkill';
 import { useState } from 'react';
 import styled from 'styled-components';
 import Bubble from './Bubble';
