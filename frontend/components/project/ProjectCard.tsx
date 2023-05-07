@@ -4,26 +4,14 @@ import { AiFillHeart } from 'react-icons/ai';
 import Stack from '../stack/Stack';
 import Tag from '../Tag';
 import styled from 'styled-components';
+import { Project } from '@/types/types';
 
 type Props = {
-  tags: string[];
-  select: string[];
   size: string;
-  author: string;
-  view: number;
-  heart: number;
-  title: string;
+  data: Project;
 };
 
-const ProjectCard = ({
-  title,
-  view,
-  heart,
-  author,
-  size,
-  tags,
-  select,
-}: Props) => {
+const ProjectCard = ({ data, size }: Props) => {
   return (
     <Box size={size}>
       <Card width={size === 'lg' ? 416 : 298}>
@@ -33,13 +21,13 @@ const ProjectCard = ({
             alt="thumbnail"
           />
         </div>
-        <div className="nanum-bold title-box">{title}</div>
+        <div className="nanum-bold title-box">{data.title}</div>
         <div className="tag-box">
           <ul>
             {size === 'lg' ? (
-              tags.length > 6 ? (
+              data.tags.length > 6 ? (
                 <>
-                  {tags.slice(0, 6).map((tag, i) => (
+                  {data.tags.slice(0, 6).map((tag, i) => (
                     <li key={`${tag}+${i}`}>
                       <Tag>
                         <div>{tag}</div>
@@ -49,7 +37,7 @@ const ProjectCard = ({
                   .....
                 </>
               ) : (
-                tags.map((tag, i) => (
+                data.tags.map((tag, i) => (
                   <li key={`${tag}+${i}`}>
                     <Tag>
                       <div>{tag}</div>
@@ -57,9 +45,9 @@ const ProjectCard = ({
                   </li>
                 ))
               )
-            ) : tags.length > 4 ? (
+            ) : data.tags.length > 4 ? (
               <>
-                {tags.slice(0, 4).map((tag, i) => (
+                {data.tags.slice(0, 4).map((tag, i) => (
                   <li key={`${tag}+${i}`}>
                     <Tag>
                       <div>{tag}</div>
@@ -69,7 +57,7 @@ const ProjectCard = ({
                 .....
               </>
             ) : (
-              tags.map((tag, i) => (
+              data.tags.map((tag, i) => (
                 <li key={`${tag}+${i}`}>
                   <Tag>
                     <div>{tag}</div>
@@ -82,25 +70,25 @@ const ProjectCard = ({
         <div className="select-box">
           <ul>
             {size === 'lg' ? (
-              select.length > 11 ? (
+              data.stacks.length > 11 ? (
                 <>
-                  {select.slice(0, 11).map((skill) => (
-                    <Stack skill={skill} />
+                  {data.stacks.slice(0, 11).map((skill) => (
+                    <Stack key={skill} skill={skill} />
                   ))}
                   .....
                 </>
               ) : (
-                select.map((skill) => <Stack skill={skill} />)
+                data.stacks.map((skill) => <Stack key={skill} skill={skill} />)
               )
-            ) : select.length > 7 ? (
+            ) : data.stacks.length > 7 ? (
               <>
-                {select.slice(0, 7).map((skill) => (
-                  <Stack skill={skill} />
+                {data.stacks.slice(0, 7).map((skill) => (
+                  <Stack key={skill} skill={skill} />
                 ))}
                 .....
               </>
             ) : (
-              select.map((skill) => <Stack skill={skill} />)
+              data.stacks.map((skill) => <Stack key={skill} skill={skill} />)
             )}
           </ul>
         </div>
@@ -110,20 +98,20 @@ const ProjectCard = ({
               src="https://noticon-static.tammolo.com/dgggcrkxq/image/upload/v1567008394/noticon/ohybolu4ensol1gzqas1.png"
               alt="author"
             />
-            {author}
+            {data.author}
           </div>
           <div>
             <div className="infor-box">
               <span>
                 <GrView />
               </span>
-              <span>{view}</span>
+              <span>{data.view}</span>
             </div>
             <div className="infor-box">
               <span>
                 <AiFillHeart />
               </span>
-              <span>{heart}</span>
+              <span>{data.heart}</span>
             </div>
           </div>
         </div>

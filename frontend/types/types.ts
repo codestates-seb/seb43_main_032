@@ -8,7 +8,7 @@ export type job = {
   [key: string]: { want: number; current: number };
 };
 
-export type Project = {
+export interface Project {
   id: number;
   author: string;
   start: Date;
@@ -23,7 +23,7 @@ export type Project = {
   view: number;
   heart: number;
   comment: never[];
-};
+}
 
 export type PostState = {
   id: number;

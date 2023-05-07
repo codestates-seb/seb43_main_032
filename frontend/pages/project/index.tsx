@@ -1,90 +1,54 @@
-import Carousel from '@/components/Carousel';
+import Carousel from '@/components/project/ProjectCarousel';
 import ProjectCard from '@/components/project/ProjectCard';
 import styled from 'styled-components';
+import { useRouter } from 'next/router';
+import { useQuery } from 'react-query';
+import { api } from '@/util/api';
+import { Project } from '@/types/types';
+import Loading from '@/components/Loading';
+import Error from '@/components/Error';
 
-const Project = () => {
-  const tags = ['AI', '금융'];
-  const select = ['recoil', 'java'];
-  const author = '김기획';
-  const view = 555;
-  const heart = 33;
-  const title =
-    '한국 투자 증권 api로 플젝 해보실분?!!?ㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋ';
-
-  const arr = Array(5)
-    .fill(1)
-    .map((x, i) => x + i);
-  return (
-    <Box>
-      <div className="special-box">
-        <div>
-          <div className="nanum-bold">신규 프로젝트</div>
-          <div className="carousel-box">
-            <Carousel projects={arr} />
-          </div>
-        </div>
-        <div>
-          <div className="nanum-bold">인기 프로젝트</div>
-          <div className="carousel-box">
-            <Carousel projects={arr} />
-          </div>
-        </div>
-      </div>
-      <div className="common-box">
-        <div className="nanum-bold">전체 프로젝트</div>
-        <div className="projects-box">
-          <ProjectCard
-            size={'sm'}
-            view={view}
-            heart={heart}
-            author={author}
-            tags={tags}
-            select={select}
-            title={title}
-          />
-          <ProjectCard
-            size={'sm'}
-            view={view}
-            heart={heart}
-            author={author}
-            tags={tags}
-            select={select}
-            title={title}
-          />
-          <ProjectCard
-            size={'sm'}
-            view={view}
-            heart={heart}
-            author={author}
-            tags={tags}
-            select={select}
-            title={title}
-          />
-          <ProjectCard
-            size={'sm'}
-            view={view}
-            heart={heart}
-            author={author}
-            tags={tags}
-            select={select}
-            title={title}
-          />
-          <ProjectCard
-            size={'sm'}
-            view={view}
-            heart={heart}
-            author={author}
-            tags={tags}
-            select={select}
-            title={title}
-          />
-        </div>
-      </div>
-    </Box>
+const ProjectHome = () => {
+  const router = useRouter();
+  const { isLoading, error, data } = useQuery<
+    { data: Project[]; total: number },
+    Error
+  >('project', () =>
+    api(`${router.asPath}?size=36&page=${1}`).then((res) => res.data)
   );
+
+  if (isLoading) return <Loading />;
+  if (error) return <Error>잠시 후 다시 시도해주세요.</Error>;
+  if (data)
+    return (
+      <Box>
+        <div className="special-box">
+          <div>
+            <div className="nanum-bold">신규 프로젝트</div>
+            <div className="carousel-box">
+              <Carousel projects={data.data.slice(0, 5)} />
+            </div>
+          </div>
+          <div>
+            <div className="nanum-bold">인기 프로젝트</div>
+            <div className="carousel-box">
+              <Carousel projects={data.data.slice(0, 5)} />
+            </div>
+          </div>
+        </div>
+        <div className="common-box">
+          <div className="nanum-bold">전체 프로젝트</div>
+          <div className="projects-box">
+            {data.data.map((project) => (
+              <ProjectCard key={project.id} size={'sm'} data={project} />
+            ))}
+          </div>
+        </div>
+      </Box>
+    );
 };
 
-export default Project;
+export default ProjectHome;
 
 const Box = styled.div`
   padding: var(--padding-1);
