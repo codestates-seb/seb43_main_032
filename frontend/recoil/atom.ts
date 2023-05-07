@@ -1,5 +1,10 @@
 import { atom } from 'recoil';
 
+export const isLoginState = atom({
+  key: 'isLoginState',
+  default: false,
+});
+
 // community
 // 검색어 입력 저장
 export const searchState = atom({
@@ -7,7 +12,8 @@ export const searchState = atom({
   default: '',
 });
 
-export const isLoginState = atom({
-  key: 'isLoginState',
-  default: false,
+// 데이터 가져오기
+export const resetSearchState = atom({
+  key: 'resetSearchState',
+  default: true,
 });
