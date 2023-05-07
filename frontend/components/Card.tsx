@@ -11,6 +11,7 @@ const Card = (props: Props) => <Box {...props} />;
 export default Card;
 
 const Box = styled.div<Props>`
+  cursor: pointer;
   padding: var(--padding-2);
   width: ${(props) => `${props.width}px`};
   border: 1px solid #e4e4e4;
@@ -18,5 +19,4 @@ const Box = styled.div<Props>`
   display: flex;
   flex-direction: column;
   gap: 16px;
-  
 `;

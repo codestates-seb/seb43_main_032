@@ -41,6 +41,10 @@ const Box = styled.div`
     display: grid;
     grid-gap: 16px;
     grid-template-columns: 6fr 6fr;
+    @media (max-width: 980px) {
+      display: flex;
+      flex-direction: column;
+    }
   }
 
   .common-box {
@@ -49,6 +53,15 @@ const Box = styled.div`
       grid-template-columns: repeat(4, 1fr);
       margin: 24px 0px;
       gap: 16px;
+      @media (max-width: 1300px) {
+        grid-template-columns: repeat(3, 1fr);
+      }
+      @media (max-width: 980px) {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      @media (max-width: 680px) {
+        grid-template-columns: repeat(1, 1fr);
+      }
     }
   }
 `;

@@ -14,7 +14,7 @@ type Props = {
 const ProjectCard = ({ size, tags, select }: Props) => {
   return (
     <Box size={size}>
-      <Card width={size === 'lg' ? 459 : 298}>
+      <Card width={size === 'lg' ? 416 : 298}>
         <div className="img-box">
           <img
             src="https://d1.awsstatic.com/glbl-digital-partner-marketing-fy22/logo-lockups/AWS_Salesforce_Logo-Lockup.d9894485fb0816380c1952aea58cc679628ee35d.png"
@@ -28,84 +28,70 @@ const ProjectCard = ({ size, tags, select }: Props) => {
         <div className="tag-box">
           <ul>
             {size === 'lg' ? (
-              <>
-                {tags.length > 7 ? (
-                  <>
-                    {tags.slice(0, 7).map((tag, i) => (
-                      <li key={`${tag}+${i}`}>
-                        <Tag>
-                          <div>{tag}</div>
-                        </Tag>
-                      </li>
-                    ))}
-                    .....
-                  </>
-                ) : (
-                  tags.map((tag, i) => (
+              tags.length > 6 ? (
+                <>
+                  {tags.slice(0, 6).map((tag, i) => (
                     <li key={`${tag}+${i}`}>
                       <Tag>
                         <div>{tag}</div>
                       </Tag>
                     </li>
-                  ))
-                )}
+                  ))}
+                  .....
+                </>
+              ) : (
+                tags.map((tag, i) => (
+                  <li key={`${tag}+${i}`}>
+                    <Tag>
+                      <div>{tag}</div>
+                    </Tag>
+                  </li>
+                ))
+              )
+            ) : tags.length > 4 ? (
+              <>
+                {tags.slice(0, 4).map((tag, i) => (
+                  <li key={`${tag}+${i}`}>
+                    <Tag>
+                      <div>{tag}</div>
+                    </Tag>
+                  </li>
+                ))}
+                .....
               </>
             ) : (
-              <>
-                {tags.length > 4 ? (
-                  <>
-                    {tags.slice(0, 4).map((tag, i) => (
-                      <li key={`${tag}+${i}`}>
-                        <Tag>
-                          <div>{tag}</div>
-                        </Tag>
-                      </li>
-                    ))}
-                    .....
-                  </>
-                ) : (
-                  tags.map((tag, i) => (
-                    <li key={`${tag}+${i}`}>
-                      <Tag>
-                        <div>{tag}</div>
-                      </Tag>
-                    </li>
-                  ))
-                )}
-              </>
+              tags.map((tag, i) => (
+                <li key={`${tag}+${i}`}>
+                  <Tag>
+                    <div>{tag}</div>
+                  </Tag>
+                </li>
+              ))
             )}
           </ul>
         </div>
         <div className="select-box">
           <ul>
             {size === 'lg' ? (
+              select.length > 11 ? (
+                <>
+                  {select.slice(0, 11).map((skill) => (
+                    <Stack skill={skill} />
+                  ))}
+                  .....
+                </>
+              ) : (
+                select.map((skill) => <Stack skill={skill} />)
+              )
+            ) : select.length > 7 ? (
               <>
-                {' '}
-                {select.length > 12 ? (
-                  <>
-                    {select.slice(0, 12).map((skill) => (
-                      <Stack skill={skill} />
-                    ))}
-                    .....
-                  </>
-                ) : (
-                  select.map((skill) => <Stack skill={skill} />)
-                )}
+                {select.slice(0, 7).map((skill) => (
+                  <Stack skill={skill} />
+                ))}
+                .....
               </>
             ) : (
-              <>
-                {' '}
-                {select.length > 7 ? (
-                  <>
-                    {select.slice(0, 7).map((skill) => (
-                      <Stack skill={skill} />
-                    ))}
-                    .....
-                  </>
-                ) : (
-                  select.map((skill) => <Stack skill={skill} />)
-                )}
-              </>
+              select.map((skill) => <Stack skill={skill} />)
             )}
           </ul>
         </div>
@@ -113,7 +99,7 @@ const ProjectCard = ({ size, tags, select }: Props) => {
           <div>
             <img
               src="https://noticon-static.tammolo.com/dgggcrkxq/image/upload/v1567008394/noticon/ohybolu4ensol1gzqas1.png"
-              alt=""
+              alt="author"
             />
             김기획
           </div>
@@ -169,7 +155,7 @@ const Box = styled.div<BoxProps>`
   }
 
   .title-box {
-    width: ${(props) => (props.size === 'lg' ? '417px' : '256px')};
+    width: ${(props) => (props.size === 'lg' ? '374px' : '256px')};
     text-overflow: ellipsis;
     white-space: nowrap;
     overflow: hidden;
