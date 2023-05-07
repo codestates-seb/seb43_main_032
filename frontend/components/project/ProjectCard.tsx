@@ -5,6 +5,7 @@ import Stack from '../stack/Stack';
 import Tag from '../Tag';
 import styled from 'styled-components';
 import { Project } from '@/types/types';
+import { useRouter } from 'next/router';
 
 type Props = {
   size: string;
@@ -12,9 +13,18 @@ type Props = {
 };
 
 const ProjectCard = ({ data, size }: Props) => {
+  const router = useRouter();
+
+  //프로젝트 글 조회
+  const viewProject = (id: number) => {
+    router.push(`${router.pathname}/${id}`);
+  };
   return (
     <Box size={size}>
-      <Card width={size === 'lg' ? 416 : 298}>
+      <Card
+        onClick={() => viewProject(data.id)}
+        width={size === 'lg' ? 416 : 298}
+      >
         <div className="img-box">
           <img
             src="https://d1.awsstatic.com/glbl-digital-partner-marketing-fy22/logo-lockups/AWS_Salesforce_Logo-Lockup.d9894485fb0816380c1952aea58cc679628ee35d.png"

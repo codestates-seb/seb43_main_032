@@ -4,6 +4,7 @@ import styled from 'styled-components';
 type Props = React.HTMLAttributes<HTMLDivElement> & {
   children: ReactNode;
   width: number;
+  onClick?: () => void;
 };
 
 const Card = (props: Props) => <Box {...props} />;
