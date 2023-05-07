@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
+// item 리스트 필터 버튼
 export default function ContentBottomFilter() {
   return (
     <Container>

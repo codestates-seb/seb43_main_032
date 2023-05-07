@@ -4,6 +4,8 @@ import styled from 'styled-components';
 import MainPost from '../MainPost';
 import { DefaultObj } from '@/types/types';
 
+// 보류
+// 에디터로 content 작성
 const postCommunity = () => {
   // const data = {
   //   start,

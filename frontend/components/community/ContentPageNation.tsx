@@ -2,12 +2,13 @@ import { api } from '@/util/api';
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
+// 임시
+// 작성 중
 const getPageNum = async (
   setPageNum: React.Dispatch<React.SetStateAction<never[]>>
 ) => {
   await api.get('/post').then((res) => {
     setPageNum(res.data);
-    console.log(res.data);
   });
 };
 
