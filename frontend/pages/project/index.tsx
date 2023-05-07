@@ -8,22 +8,23 @@ import { Project } from '@/types/types';
 import Loading from '@/components/Loading';
 import Error from '@/components/Error';
 import { useRef, useEffect } from 'react';
+import ProjectSkeleton from '@/components/skeleton/ProjectSkeleton';
 
 const ProjectHome = () => {
   const router = useRouter();
 
   //데이터 fetch
-  const PAGE_LIMIT = 4;
-  const { isLoading, error, data, fetchNextPage, hasNextPage } =
+  const page_limit = 4;
+  const { isLoading, error, data, fetchNextPage, hasNextPage, isFetching } =
     useInfiniteQuery(
       'projects',
       ({ pageParam = 1 }) =>
-        api(`${router.asPath}?size=${PAGE_LIMIT}&page=${pageParam}`).then(
+        api(`${router.asPath}?size=${page_limit}&page=${pageParam}`).then(
           (res) => res.data
         ),
       {
         getNextPageParam: (lastPage, allPages) => {
-          if (lastPage.data.length < PAGE_LIMIT) {
+          if (lastPage.data.length < page_limit) {
             return null;
           }
           return allPages.length + 1;
@@ -88,6 +89,7 @@ const ProjectHome = () => {
               ))
             )}
           </div>
+          {isFetching && <ProjectSkeleton />}
         </div>
         <div ref={target} className="observer"></div>
         {!hasNextPage && (
