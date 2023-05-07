@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import EiditorSkeleton from '@/components/editor/EiditorSkeleton';
+import EiditorSkeleton from '@/components/skeleton/EiditorSkeleton';
 import dynamic from 'next/dynamic';
 import { COMMUNITY_EX, PROJECT_EX } from '@/constant/constant';
 import { DefaultObj } from '@/types/types';
@@ -12,10 +12,10 @@ const Editor = dynamic(() => import('@/components/editor/Editor'), {
 type Props = {
   type: number;
   register: UseFormRegister<DefaultObj>;
-  changeEditor: (value: string) => void;
+  changeContent: (value: string) => void;
 };
 
-const MainPost = ({ register, changeEditor, type }: Props) => {
+const MainPost = ({ register, changeContent, type }: Props) => {
   return (
     <Main>
       {type === 1 ? PROJECT_EX : COMMUNITY_EX}
@@ -38,7 +38,7 @@ const MainPost = ({ register, changeEditor, type }: Props) => {
           />
         </div>
         <div>
-          <Editor changeEditor={changeEditor} />
+          <Editor changeContent={changeContent} />
         </div>
       </form>
     </Main>
