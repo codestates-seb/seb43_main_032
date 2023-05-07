@@ -28,6 +28,7 @@ export const handlers = [
     const page = Number(url.searchParams.get('page'));
     const total = PROJECTS.length;
     const data = PROJECTS.slice((page - 1) * size, page * size);
+    console.log(data)
     return res(ctx.status(200), ctx.json({ data, total }));
   }),
   rest.get('/project/:id', async (req, res, ctx) => {
