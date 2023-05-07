@@ -6,7 +6,7 @@ import 'highlight.js/styles/stackoverflow-light.css';
 import styled from 'styled-components';
 
 type Props = {
-  changeEditor: (value: any) => void;
+  changeEditor: (value: string) => void;
 };
 
 const OPTIONS: EasyMDE.Options = {

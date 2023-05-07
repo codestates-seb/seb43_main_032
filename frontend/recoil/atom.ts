@@ -6,3 +6,8 @@ export const searchState = atom({
   key: 'searchState',
   default: '',
 });
+
+export const isLoginState = atom({
+  key: 'isLoginState',
+  default: false,
+});
