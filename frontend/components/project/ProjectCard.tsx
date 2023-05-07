@@ -15,7 +15,15 @@ type Props = {
   title: string;
 };
 
-const ProjectCard = ({title, view, heart, author, size, tags, select }: Props) => {
+const ProjectCard = ({
+  title,
+  view,
+  heart,
+  author,
+  size,
+  tags,
+  select,
+}: Props) => {
   return (
     <Box size={size}>
       <Card width={size === 'lg' ? 416 : 298}>
@@ -25,9 +33,7 @@ const ProjectCard = ({title, view, heart, author, size, tags, select }: Props) =
             alt="thumbnail"
           />
         </div>
-        <div className="nanum-bold title-box">
-          {title}
-        </div>
+        <div className="nanum-bold title-box">{title}</div>
         <div className="tag-box">
           <ul>
             {size === 'lg' ? (

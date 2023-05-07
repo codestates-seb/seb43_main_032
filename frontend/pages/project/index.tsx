@@ -1,3 +1,4 @@
+import Carousel from '@/components/Carousel';
 import ProjectCard from '@/components/project/ProjectCard';
 import styled from 'styled-components';
 
@@ -9,33 +10,23 @@ const Project = () => {
   const heart = 33;
   const title =
     '한국 투자 증권 api로 플젝 해보실분?!!?ㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋ';
+
+  const arr = Array(5)
+    .fill(1)
+    .map((x, i) => x + i);
   return (
     <Box>
       <div className="special-box">
         <div>
           <div className="nanum-bold">신규 프로젝트</div>
-          <ProjectCard
-            size={'lg'}
-            view={view}
-            heart={heart}
-            author={author}
-            tags={tags}
-            select={select}
-            title={title}
-          />
+          <div className="carousel-box">
+            <Carousel projects={arr} />
+          </div>
         </div>
         <div>
           <div className="nanum-bold">인기 프로젝트</div>
-          <div className="card-box">
-            <ProjectCard
-              size={'lg'}
-              view={view}
-              heart={heart}
-              author={author}
-              tags={tags}
-              select={select}
-              title={title}
-            />
+          <div className="carousel-box">
+            <Carousel projects={arr} />
           </div>
         </div>
       </div>
@@ -99,12 +90,25 @@ const Box = styled.div`
   padding: var(--padding-1);
   .special-box {
     width: 100%;
-    display: grid;
     grid-gap: 16px;
-    grid-template-columns: 6fr 6fr;
+    display: flex;
     @media (max-width: 980px) {
       display: flex;
       flex-direction: column;
+    }
+
+    > div {
+      width: 50%;
+      margin-bottom: 56px;
+      @media (max-width: 980px) {
+        width: 100%;
+      }
+    }
+
+    .slick-slider {
+      > button {
+        display: none !important;
+      }
     }
   }
 
