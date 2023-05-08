@@ -89,7 +89,7 @@ const ProjectHome = () => {
               ))
             )}
           </div>
-          {isFetching && <ProjectSkeleton />}
+          {isFetching && hasNextPage && <ProjectSkeleton />}
         </div>
         <div ref={target} className="observer"></div>
         {!hasNextPage && (
