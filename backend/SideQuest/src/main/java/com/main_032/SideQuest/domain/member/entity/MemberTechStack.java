@@ -17,6 +17,6 @@ public class MemberTechStack {
     private String tech;
 
     @ManyToOne
-    @JoinColumn(name="MEMBER_ID", referencedColumnName = "MEMBER_ID")
+    @JoinColumn(name="MEMBER_ID")
     private Member member;
 }

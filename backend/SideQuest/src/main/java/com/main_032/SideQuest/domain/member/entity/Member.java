@@ -54,4 +54,7 @@ public class Member {
 
     @Column(columnDefinition = "TINYINT")
     private boolean deleted;
+
+    @OneToMany(mappedBy = "member")
+    private List<MemberTechStack> memberTechStacks = new ArrayList<>();
 }
