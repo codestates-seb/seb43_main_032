@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import EiditorSkeleton from '@/components/skeleton/EiditorSkeleton';
 import dynamic from 'next/dynamic';
-import { COMMUNITY_EX, PROJECT_EX } from '@/constant/constant';
+import { COMMUNITY_EX, POSITIONS, PROJECT_EX } from '@/constant/constant';
 import { DefaultObj } from '@/types/types';
 import { UseFormRegister } from 'react-hook-form';
 import Btn from './Btn';
@@ -37,11 +37,13 @@ const MainPost = ({
           <div className="position-box">
             <div>나의 포지션</div>
             <div>
-              <input
+              <select
                 {...register('position', { value: data && data.position })}
-                type="text"
-                placeholder="포지션을 입력해주세요."
-              />
+              >
+                {POSITIONS.map((position) => (
+                  <option value={position}>{position}</option>
+                ))}
+              </select>
             </div>
           </div>
           <div>
@@ -124,6 +126,13 @@ const Main = styled.div`
       display: flex;
       align-items: center;
       gap: 16px;
+      select {
+        margin: 0px 8px;
+        border: 1px solid #e1e7e5;
+        box-shadow: var(--box-shadow);
+        border-radius: var(--radius-def);
+        padding: 7.5px 4px;
+      }
     }
   }
 `;
