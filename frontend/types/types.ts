@@ -30,3 +30,19 @@ export type PostState = {
   heart: boolean;
   want: string;
 };
+
+export type Article = {
+  id: number;
+  email: string;
+  userStar: number;
+  avatar: string;
+  category: string;
+  title: string;
+  content: null;
+  createdAt: string;
+  star: number;
+  view: number;
+  tags: string[];
+  status: null;
+  comment: never[];
+};
