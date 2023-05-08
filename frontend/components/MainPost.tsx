@@ -1,9 +1,10 @@
 import styled from 'styled-components';
-import EiditorSkeleton from '@/components/editor/EiditorSkeleton';
+import EiditorSkeleton from '@/components/skeleton/EiditorSkeleton';
 import dynamic from 'next/dynamic';
 import { COMMUNITY_EX, PROJECT_EX } from '@/constant/constant';
 import { DefaultObj } from '@/types/types';
 import { UseFormRegister } from 'react-hook-form';
+import Btn from './Btn';
 const Editor = dynamic(() => import('@/components/editor/Editor'), {
   ssr: false,
   loading: () => <EiditorSkeleton />,
@@ -12,22 +13,28 @@ const Editor = dynamic(() => import('@/components/editor/Editor'), {
 type Props = {
   type: number;
   register: UseFormRegister<DefaultObj>;
-  changeEditor: (value: string) => void;
+  changeContent: (value: string) => void;
+  postProject: (e: { preventDefault: () => void }) => void;
 };
 
-const MainPost = ({ register, changeEditor, type }: Props) => {
+const MainPost = ({ register, changeContent, type, postProject }: Props) => {
   return (
     <Main>
       {type === 1 ? PROJECT_EX : COMMUNITY_EX}
-      <form action="#">
+      <form onSubmit={postProject}>
         <div className="nanum-bold">
-          <div>나의 포지션</div>
+          <div className="position-box">
+            <div>나의 포지션</div>
+            <div>
+              <input
+                {...register('position')}
+                type="text"
+                placeholder="포지션을 입력해주세요."
+              />
+            </div>
+          </div>
           <div>
-            <input
-              {...register('position')}
-              type="text"
-              placeholder="포지션을 입력해주세요."
-            />
+            <Btn>작성 완료</Btn>
           </div>
         </div>
         <div className="title">
@@ -38,7 +45,7 @@ const MainPost = ({ register, changeEditor, type }: Props) => {
           />
         </div>
         <div>
-          <Editor changeEditor={changeEditor} />
+          <Editor changeContent={changeContent} />
         </div>
       </form>
     </Main>
@@ -89,12 +96,23 @@ const Main = styled.div`
     > div:first-child {
       display: flex;
       align-items: center;
+      justify-content: space-between;
       gap: 16px;
       margin: 24px 0px;
+      button {
+        &:hover {
+          box-shadow: var(--box-shadow);
+        }
+      }
     }
     > div:last-child {
-      margin: 16px 0px;
-      font-size: 14px;
+      margin-top: 16px;
+      font-size: 16px;
+    }
+    .position-box {
+      display: flex;
+      align-items: center;
+      gap: 16px;
     }
   }
 `;
