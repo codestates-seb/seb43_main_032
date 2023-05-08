@@ -8,9 +8,8 @@ const FooterContainer = styled.footer`
   width: 100%;
   min-height: 350px;
   padding: 60px 16px;
-  bottom: 0;
   left: 0;
-  position: fixed;
+  position: absolute;
   z-index: 10;
 `;
 const Container = styled.div`
