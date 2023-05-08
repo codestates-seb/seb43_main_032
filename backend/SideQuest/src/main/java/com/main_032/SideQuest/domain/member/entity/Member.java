@@ -32,7 +32,7 @@ public class Member {
     private String aboutMe;
 
     @Column
-    private String profileImgUrl;
+    private String profileImageUrl;
 
     @Column
     private String position;
