@@ -8,6 +8,7 @@ const Wrapper = styled.div`
   border-radius: 20px;
   padding: 20px;
   margin-top: 20px;
+  width: 300px;
 `;
 const ImgWrapper = styled.div`
   display: flex;

@@ -18,6 +18,8 @@ const LeftColumn = styled.div`
   }
 `;
 const RightColumn = styled.div`
+  display: flex;
+  flex-direction: column;
   padding: 20px;
 `;
 const UserInfo = styled.div`
@@ -45,16 +47,35 @@ const AvatarContainer = styled.div`
   -moz-box-shadow: 5px 5px 10px 0px rgba(0, 0, 0, 0.25);
 `;
 const Works = styled.div`
-  background-color: gray;
-  margin-top: 20px;
+  /* display: flex; */
+  background-color: teal;
   width: 100%;
-  height: 200px;
+  padding: 20px;
+  border-radius: 20px;
 `;
 const ProjectContainer = styled.div``;
 const ProjectCard = styled.div``;
 const PostContainer = styled.div``;
 const PostCard = styled.div``;
-
+const DummyBox = styled.div`
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+  border-radius: 10px;
+  display: flex;
+  width: 100%;
+  height: 250px;
+  margin-bottom: 20px;
+  background-color: gray;
+`;
+const DummyBox2 = styled.div`
+  background-color: rgba(0, 0, 0, 0.1);
+  width: 100%;
+  height: 100%;
+  padding: 10px;
+  margin-top: 10px;
+  border-radius: 10px;
+`;
 export default function me() {
   const user = useAuth();
 
@@ -93,8 +114,37 @@ export default function me() {
                 lastItem
               />
             </UserInfo>
+            <div style={{ display: 'flex' }}>
+              <p
+                className="nanum-bold"
+                style={{ margin: '10px', marginRight: '0', color: 'tomato' }}
+              >
+                Projects
+              </p>
+              <p className="nanum-bold" style={{ margin: '10px' }}>
+                | Posts
+              </p>
+            </div>
             <Works>
-              <p className="nanum-bold">Projects | Posts | Replies</p>
+              <DummyBox>
+                <p className="nanum-bold">My Projects</p>
+                <DummyBox2 />
+              </DummyBox>
+              <DummyBox>
+                <div style={{ display: 'flex' }}>
+                  <p
+                    className="nanum-bold"
+                    style={{
+                      marginRight: '10px',
+                      color: 'tomato',
+                    }}
+                  >
+                    Comment
+                  </p>
+                  <p className="nanum-bold">| Replies</p>
+                </div>
+                <DummyBox2 />
+              </DummyBox>
             </Works>
           </RightColumn>
         </GridBox>
