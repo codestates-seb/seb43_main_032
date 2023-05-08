@@ -7,6 +7,7 @@ import styled from 'styled-components';
 
 type Props = {
   changeContent?: (value: string) => void;
+  content?: string;
 };
 
 const OPTIONS: EasyMDE.Options = {
@@ -20,13 +21,14 @@ const OPTIONS: EasyMDE.Options = {
   previewClass: ['markdown-body'], //github 마크다운 사용
   hideIcons: ['guide', 'fullscreen', 'side-by-side'], //버튼 가리기
 };
-const EditorBox = ({ changeContent }: Props) => {
+const EditorBox = ({ changeContent, content }: Props) => {
   return (
     <Box>
       <SimpleMDEEditor
         placeholder="내용을 등록해주세요."
         onChange={changeContent}
         options={OPTIONS}
+        value={content}
       />
     </Box>
   );

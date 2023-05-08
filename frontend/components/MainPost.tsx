@@ -15,9 +15,20 @@ type Props = {
   register: UseFormRegister<DefaultObj>;
   changeContent: (value: string) => void;
   postProject: (e: { preventDefault: () => void }) => void;
+  data?: {
+    position: string;
+    title: string;
+    content: string;
+  };
 };
 
-const MainPost = ({ register, changeContent, type, postProject }: Props) => {
+const MainPost = ({
+  register,
+  changeContent,
+  type,
+  postProject,
+  data,
+}: Props) => {
   return (
     <Main>
       {type === 1 ? PROJECT_EX : COMMUNITY_EX}
@@ -27,7 +38,7 @@ const MainPost = ({ register, changeContent, type, postProject }: Props) => {
             <div>나의 포지션</div>
             <div>
               <input
-                {...register('position')}
+                {...register('position', { value: data && data.position })}
                 type="text"
                 placeholder="포지션을 입력해주세요."
               />
@@ -41,11 +52,11 @@ const MainPost = ({ register, changeContent, type, postProject }: Props) => {
           <input
             placeholder="제목을 등록해주세요."
             type="text"
-            {...register('title')}
+            {...(register('title'), { value: data && data.title })}
           />
         </div>
         <div>
-          <Editor changeContent={changeContent} />
+          <Editor changeContent={changeContent} content={data?.content} />
         </div>
       </form>
     </Main>

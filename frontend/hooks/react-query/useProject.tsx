@@ -13,7 +13,7 @@ export const useProject = () => {
 
   const { isLoading, error, data, refetch } = useQuery<ProjectData, Error>(
     ['project', router.query.id],
-    () => api(router.asPath).then((res) => res.data)
+    () => api(`/project/${router.query.id}`).then((res) => res.data)
   );
 
   //직군 업데이트
