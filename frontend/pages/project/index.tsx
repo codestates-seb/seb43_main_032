@@ -68,7 +68,9 @@ const ProjectHome = () => {
     return (
       <Box>
         <div className="link-box">
-          <Link href={`${router.asPath}/create`}>프로젝트 작성</Link>
+          <Link href={`${router.asPath}/create`} className="main-btn">
+            프로젝트 작성
+          </Link>
         </div>
         <div className="special-box">
           <div>
@@ -114,25 +116,6 @@ const Box = styled.div`
     display: flex;
     justify-content: end;
     margin-bottom: 16px;
-    > a {
-      font-size: medium;
-      border-radius: 4px;
-      background: #256ce1;
-      padding: 16px 22px;
-      color: #fff;
-      outline: none;
-      border: none;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.2s ease-in-out;
-      text-decoration: none;
-      &:hover {
-        transition: all 0.2s ease-in-out;
-        background: #fff;
-        color: #010606;
-        box-shadow: var(--box-shadow);
-      }
-    }
   }
   .special-box {
     width: 100%;
