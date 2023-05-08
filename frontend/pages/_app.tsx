@@ -3,6 +3,7 @@ import { RecoilRoot } from 'recoil';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import '../styles/App.css';
 import Header from '../components/Header';
+import Footer from '../components/Footer';
 import styled from 'styled-components';
 
 const queryClient = new QueryClient();
@@ -20,12 +21,17 @@ const App = ({ Component, pageProps }: AppProps) => {
     <QueryClientProvider client={queryClient}>
       <RecoilRoot>
         <Header />
-        <Main>
+        <Box>
           <Component {...pageProps} />
-        </Main>
+        </Box>
+        <Footer />
       </RecoilRoot>
     </QueryClientProvider>
   );
 };
 
 export default App;
+
+const Box = styled.main`
+  padding-top: 80px;
+`;

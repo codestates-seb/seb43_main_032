@@ -1,34 +1,16 @@
 import GridBox from '@/components/GridBox';
 import styled from 'styled-components';
-import { BsFillCalendarEventFill } from 'react-icons/bs';
-import { GrFormClose } from 'react-icons/gr';
-import DatePicker, {
-  ReactDatePickerProps,
-  registerLocale,
-} from 'react-datepicker';
-import 'react-datepicker/dist/react-datepicker.css';
-import ko from 'date-fns/locale/ko'; // 한국어적용
-import {
-  ChangeEvent,
-  ForwardedRef,
-  forwardRef,
-  useEffect,
-  useState,
-} from 'react';
-import { formatDate, dateDiffInDays } from '@/util/date/index';
-import Tag from '@/components/Tag';
+import { ChangeEvent, useEffect, useState } from 'react';
 import SelectStack from '@/components/stack/SelectStack';
-import SelectedStacks from '@/components/stack/SelectedStacks';
 import { api } from '@/util/api';
 import { useRouter } from 'next/router';
 import MainPost from '@/components/MainPost';
 import { useForm } from 'react-hook-form';
 import { DefaultObj } from '@/types/types';
-import PostBtn from '@/components/PostBtn';
-registerLocale('ko', ko); // 한국어적용
-interface Props extends Omit<ReactDatePickerProps, 'onChange'> {
-  onClick(): void;
-}
+import TagBox from '@/components/project/TagBox';
+import PeriodBox from '@/components/project/PeriodBox';
+import StacksBox from '@/components/project/StacksBox';
+import { GrFormClose } from 'react-icons/gr';
 
 const CreateProject = () => {
   const router = useRouter();
@@ -49,15 +31,6 @@ const CreateProject = () => {
     setEnd(endDate);
   };
 
-  //달력 커스텀
-  const CustomInput = forwardRef(
-    ({ onClick }: Props, ref: ForwardedRef<HTMLSpanElement>) => (
-      <span onClick={onClick} ref={ref}>
-        <BsFillCalendarEventFill />
-      </span>
-    )
-  );
-
   //스택 모달 관련
   const [stack, setStack] = useState(false);
   const onModal = () => {
@@ -66,6 +39,21 @@ const CreateProject = () => {
   const offModal = () => {
     setStack(false);
   };
+
+  //esc 버튼 누르면 스택 모달창이 닫히도록
+  useEffect(() => {
+    const handleKeyPress = (event: { key: string }) => {
+      if (event.key === 'Escape') {
+        setStack(false);
+      }
+    };
+    if (stack) {
+      window.addEventListener('keydown', handleKeyPress);
+    }
+    return () => {
+      window.removeEventListener('keydown', handleKeyPress);
+    };
+  }, [stack]);
 
   //선택된 스택 관련
   const [select, setSelect] = useState<string[]>([]);
@@ -90,7 +78,7 @@ const CreateProject = () => {
     setTags([...tags, tag]);
   };
 
-  // 해시태그 중복 삭제
+  // 해시태그 삭제
   const deleteTag = (idx: number) => {
     setTags([...tags.slice(0, idx), ...tags.slice(idx + 1)]);
   };
@@ -144,17 +132,24 @@ const CreateProject = () => {
     });
     setOption(1);
   };
+
+  // 직군 삭제
+  const deleteJob = (idx: number) => {
+    setJob([...job.slice(0, idx), ...job.slice(idx + 1)]);
+  };
+
   const jobs = job.map((x) => Object.keys(x)[0]);
   const jobCount = job.map((x) => Object.values(x)[0]);
 
   //에디터 상태
-  const [editor, setEditor] = useState('');
-  const changeEditor = (value: string) => {
-    setEditor(value);
+  const [content, setContent] = useState('');
+  const changeContent = (value: string) => {
+    setContent(value);
   };
 
   //프로젝트 글 완료 이벤트
-  const postProject = () => {
+  const postProject = (e: { preventDefault: () => void }) => {
+    e.preventDefault();
     if (!start) {
       return alert('프로젝트 기간을 설정해주세요.');
     }
@@ -164,7 +159,7 @@ const CreateProject = () => {
     if (watch().title === '') {
       return alert('제목을 입력해주세요.');
     }
-    if (editor === '') {
+    if (content === '') {
       return alert('내용을 입력해주세요.');
     }
     const data = {
@@ -175,123 +170,66 @@ const CreateProject = () => {
       job,
       position: watch().position,
       title: watch().title,
-      editor,
+      content,
     };
-    api.post('/project', data).then(() => router.push('/'));
+    if (confirm('정말 작성을 완료하시겠습니까?'))
+      api.post('/project', data).then(() => router.push('/'));
   };
-
   return (
-    <>
-      <PostBtn postEvent={postProject} />
-      <GridBox>
-        {stack && (
-          <SelectStack
-            offModal={offModal}
-            select={select}
-            setSelect={setSelect}
-          />
-        )}
-        <Side warning={warning}>
-          <div className="period-box">
-            <div>
-              <div>프로젝트 기간</div>
-              <div className="calendar-box">
-                <DatePicker
-                  selected={start}
-                  onChange={handleRangeChange}
-                  locale={ko}
-                  startDate={start}
-                  endDate={end}
-                  selectsRange
-                  customInput={
-                    <CustomInput
-                      onClick={function (): void {
-                        throw new Error('Function not implemented.');
-                      }}
-                    />
-                  }
-                />
-              </div>
-            </div>
-            <div className="noto-regular-13 period">
-              <span>{start && formatDate(start)}</span>
-              {start && <span> ~ </span>}
-              <span>{end && formatDate(end)} </span>
-              <span>
-                {start
-                  ? end
-                    ? `(${dateDiffInDays(start, end)}일)`
-                    : '종료일 미정'
-                  : ''}
-              </span>
-            </div>
-          </div>
-          <div className="tag-box">
-            <div>프로젝트 분야 태그</div>
-            <div className="noto-regular-13">
-              <div className="button-box">
-                <input
-                  {...register('tagVal')}
-                  onKeyDown={tagKeyDown}
-                  type="text"
-                />
-              </div>
-              <ul>
-                {tags.map((x, i) => (
-                  <li key={`${x}+${i}`}>
-                    <Tag>
-                      <div>{x}</div>
-                      <div>
-                        <GrFormClose onClick={() => deleteTag(i)} />
-                      </div>
-                    </Tag>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </div>
-          <div className="stack-box">
-            <div>프로젝트 메인 스택</div>
-            <ul className="noto-regular-13">
-              <li className="button-box">
-                {select.length === 0 ? (
-                  <button onClick={onModal}>스택 등록</button>
-                ) : (
-                  <SelectedStacks onModal={onModal} select={select} />
-                )}
-              </li>
-            </ul>
-          </div>
-          <div className="want-box">
-            <div>모집을 원하는 직군</div>
-            <div className="job-box">
-              <input
-                type="text"
-                {...register('jobVal')}
-                onKeyDown={jobKeyDown}
-              />
-              <select value={option} onChange={changeOption}>
-                {optionArr.map((x) => (
-                  <option key={x} value={x}>
-                    {x}명
-                  </option>
-                ))}
-              </select>
-              <button onClick={addJob}>등록</button>
-            </div>
-            <ul>
-              {jobs.map((x, i) => (
-                <li className="nanum-regular" key={`${x}+${i}`}>
-                  <div>{x}</div>
-                  <div>{jobCount[i]}명</div>
-                </li>
+    <GridBox>
+      {stack && (
+        <SelectStack
+          offModal={offModal}
+          select={select}
+          setSelect={setSelect}
+        />
+      )}
+      <Side warning={warning}>
+        <PeriodBox
+          start={start}
+          end={end}
+          handleRangeChange={handleRangeChange}
+        />
+        <TagBox
+          tags={tags}
+          register={register}
+          tagKeyDown={tagKeyDown}
+          deleteTag={deleteTag}
+        />
+        <StacksBox select={select} onModal={onModal} />
+        <div className="want-box">
+          <div>모집을 원하는 직군</div>
+          <div className="job-box">
+            <input type="text" {...register('jobVal')} onKeyDown={jobKeyDown} />
+            <select value={option} onChange={changeOption}>
+              {optionArr.map((x) => (
+                <option key={x} value={x}>
+                  {x}명
+                </option>
               ))}
-            </ul>
+            </select>
+            <button onClick={addJob}>등록</button>
           </div>
-        </Side>
-        <MainPost type={1} register={register} changeEditor={changeEditor} />
-      </GridBox>
-    </>
+          <ul>
+            {jobs.map((x, i) => (
+              <li className="nanum-regular" key={`${x}+${i}`}>
+                <div>{x}</div>
+                <div>{jobCount[i]}명</div>
+                <div className="delete">
+                  <GrFormClose onClick={() => deleteJob(i)} />
+                </div>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </Side>
+      <MainPost
+        type={1}
+        register={register}
+        changeContent={changeContent}
+        postProject={postProject}
+      />
+    </GridBox>
   );
 };
 
@@ -307,11 +245,6 @@ const Side = styled.div<SideProps>`
   display: flex;
   align-items: center;
   flex-direction: column;
-
-  ul {
-    display: flex;
-    flex-wrap: wrap;
-  }
 
   button {
     cursor: pointer;
@@ -346,69 +279,6 @@ const Side = styled.div<SideProps>`
     gap: 8px;
   }
 
-  .period-box {
-    > div:first-child {
-      display: flex;
-    }
-    .calendar-box {
-      margin-left: 16px;
-      cursor: pointer;
-    }
-    .react-datepicker__triangle {
-      ::before,
-      ::after {
-        top: 3px;
-        left: -3px;
-        transform: rotate(-2deg);
-      }
-    }
-  }
-
-  .period {
-    display: flex;
-    justify-content: center;
-  }
-
-  .stack-box {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-    .select-tag-box {
-      display: flex;
-      justify-content: center;
-      gap: 8px;
-      > li {
-        box-shadow: var(--box-shadow);
-      }
-    }
-  }
-
-  .tag-box {
-    display: flex;
-    align-items: center;
-    flex-direction: column;
-    ul {
-      justify-content: center;
-      gap: 4px;
-      flex-direction: row;
-      li {
-        > div {
-          display: flex;
-          gap: 4px;
-          min-width: auto;
-          > div:last-child {
-            cursor: pointer;
-          }
-        }
-      }
-    }
-
-    .button-box {
-      margin-bottom: 12px;
-    }
-  }
-
   .want-box {
     display: flex;
     flex-direction: column;
@@ -430,7 +300,9 @@ const Side = styled.div<SideProps>`
       }
     }
 
-    .tag {
+    .delete {
+      display: flex;
+      align-items: center;
       cursor: pointer;
     }
 

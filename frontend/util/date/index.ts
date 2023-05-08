@@ -1,5 +1,5 @@
 /**
- * 날짜를 입력받아 포멧팅에 맞게 날짜를 리턴해주는 함수
+ * 날짜를 입력받아 포멧팅에 맞게 날짜를 리턴해주는 함수, 프로젝트 기간에 활용
  * @param date
  * @returns 예시 23.05.11
  */
@@ -14,6 +14,18 @@ export const formatDate = (date: Date): string => {
 };
 
 /**
+ * 날짜를 입력받아 포멧팅에 맞게 날짜를 리턴해주는 함수, 작성일자에 활용
+ * @param date
+ * @returns 예시 2023년 4월 1일
+ */
+export const formatDate2 = (date: Date): string => {
+  const year = date.getFullYear().toString();
+  const month = ('0' + (date.getMonth() + 1)).slice(-2);
+  const day = ('0' + date.getDate()).slice(-2);
+  return `${year}년 ${month}월 ${day}일`;
+};
+
+/**
  * 두 날짜 사이의 기간을 리턴해주는 함수입니다.
  * @param date1 시작일
  * @param date2 종료일
@@ -24,7 +36,6 @@ export const dateDiffInDays = (date1: Date, date2: Date): number => {
   const diffInDays = Math.ceil(diffInMs / (1000 * 60 * 60 * 24));
   return diffInDays;
 };
-
 
 /**
  * 현재 시간을 params로 넣으면 상대 시간을 리턴
