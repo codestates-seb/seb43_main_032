@@ -12,8 +12,14 @@ export const searchState = atom({
   default: '',
 });
 
-// 데이터 가져오기
+// 데이터 초기화(검색어 삭제)
 export const resetSearchState = atom({
   key: 'resetSearchState',
   default: true,
+});
+
+// 데이터 필터링
+export const filterState = atom({
+  key: 'filterState',
+  default: 'sorted',
 });
