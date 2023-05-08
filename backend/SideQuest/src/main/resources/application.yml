@@ -12,7 +12,7 @@ spring:
     password: a123789456
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: create
 #JWT
 mail:
   address:
