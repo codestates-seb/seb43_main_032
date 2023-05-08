@@ -16,6 +16,7 @@
     "@types/node": "18.16.3",
     "@types/react": "18.2.0",
     "@types/react-dom": "18.2.1",
+    "@types/react-slick": "^0.23.10",
     "axios": "^1.4.0",
     "eslint": "8.39.0",
     "eslint-config-next": "13.3.4",
@@ -31,7 +32,9 @@
     "react-markdown": "^8.0.7",
     "react-query": "^3.39.3",
     "react-simplemde-editor": "^5.2.0",
+    "react-slick": "^0.29.0",
     "recoil": "^0.7.7",
+    "slick-carousel": "^1.8.1",
     "styled-components": "^5.3.10",
     "typescript": "5.0.4"
   },

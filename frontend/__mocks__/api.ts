@@ -23,6 +23,14 @@ export const handlers = [
     }
   }),
   //프로젝트 관련
+  rest.get('/project', async (req, res, ctx) => {
+    const url = new URL(req.url);
+    const size = Number(url.searchParams.get('size'));
+    const page = Number(url.searchParams.get('page'));
+    const total = PROJECTS.length;
+    const data = PROJECTS.slice((page - 1) * size, page * size);
+    return res(ctx.status(200), ctx.json({ data, total }));
+  }),
   rest.get('/project/:id', async (req, res, ctx) => {
     const { id } = req.params;
     const post_data = PROJECTS.find((project) => project.id === Number(id));

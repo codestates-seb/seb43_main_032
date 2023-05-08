@@ -144,9 +144,13 @@ const ViewProject = () => {
           <div className="heart-box">
             <div onClick={() => updateHeart.mutate()}>
               {projectQuery.data?.post_state.heart ? (
-                <AiFillHeart />
+                <span>
+                  <AiFillHeart />
+                </span>
               ) : (
-                <AiOutlineHeart />
+                <span>
+                  <AiOutlineHeart />
+                </span>
               )}
               <span>{projectQuery.data.post_data.heart}</span>
             </div>
@@ -190,9 +194,15 @@ const Main = styled.div`
       border: 1px solid #c4c4c4;
       border-radius: var(--radius-def);
       padding: 16px;
+      min-width: 110px;
       font-size: 30px;
       > span {
-        display: inline-block;
+        display: flex;
+        justify-content: center;
+        flex: 1;
+        text-align: center;
+      }
+      > span:last-child {
         padding-bottom: 5px;
       }
     }

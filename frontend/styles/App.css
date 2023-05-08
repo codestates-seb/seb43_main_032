@@ -70,3 +70,18 @@ body {
   font-size: 13px;
   font-weight: 500;
 }
+
+.blink {
+  color: #aa233c;
+  text-shadow: 30px 10px 25px #aa233c, 30px 10px 25px #aa233c;
+  animation: glow 1.5s linear infinite;
+}
+
+@keyframes glow {
+  0% {
+    filter: hue-rotate(0deg);
+  }
+  100% {
+    filter: hue-rotate(360deg);
+  }
+}
