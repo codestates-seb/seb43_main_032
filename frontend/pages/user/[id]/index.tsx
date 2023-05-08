@@ -2,8 +2,8 @@ import GridBox from '@/components/GridBox';
 import styled from 'styled-components';
 import useUser from '@/hooks/useUser';
 import ContentCard from '@/components/user/ContentCard';
-import UserInfoCard from '@/components/user/UserInfoCard';
 import { useRouter } from 'next/router';
+import UserProfile from '@/components/user/UserProfile';
 
 //유저 페이지 입니다. 경로 '/user/[id]'  예시 >>  /user/1
 const UserInfoContainer = styled.div`
@@ -60,7 +60,7 @@ const UserPage = () => {
   return (
     <GridBox>
       <UserInfoContainer>
-        {user && <UserInfoCard user={user} />}
+        {user && <UserProfile user={user} />}
         <Button>메일 보내기</Button>
         <Button>채팅하기</Button>
       </UserInfoContainer>
