@@ -1,9 +1,20 @@
 import GridBox from '@/components/GridBox';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 import React from 'react';
 import styled from 'styled-components';
 
 export default function SideBar() {
+  const router = useRouter();
+
+  // const test = (url) => {
+  //   router.push(url);
+  // };
+  // Link = navigate => next에서는 못 쓰고
+  // 클라이언트에서 한 번 로드된 페이지는 다시 활용하는 방식
+  // 대신 최신화가 되지 않음
+  // 장점은 로딩이 거의 없음, 다시 활용하니깐
+
   const categoryTitle = [
     { title: '질문하기', link: '/community/create' },
     { title: '전체보기', link: '/community' },
@@ -15,7 +26,7 @@ export default function SideBar() {
   return (
     <Container>
       {categoryTitle.map((item, idx) => (
-        <Link href={item.link}>
+        <Link href={item.link} key={idx}>
           <span className="nanum-regular" key={idx}>
             {item.title}
           </span>
