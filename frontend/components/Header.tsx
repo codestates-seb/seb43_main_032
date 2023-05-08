@@ -20,8 +20,6 @@ const Nav = styled.nav`
   justify-content: space-between;
   padding: 0.5rem calc((100vw - 1280px) / 2);
   z-index: 10;
-  /* Third Nav */
-  /* justify-content: flex-start; */
 `;
 
 const NavLink = styled(Link)`
@@ -110,7 +108,7 @@ function Header() {
               <NavLink href="/community" className="nanum-regular">
                 커뮤니티
               </NavLink>
-              <NavLink href="/projects" className="nanum-regular">
+              <NavLink href="/project" className="nanum-regular">
                 프로젝트
               </NavLink>
               <NavLink href="/mypage">
@@ -133,7 +131,7 @@ function Header() {
               <NavLink href="/community" className="nanum-regular">
                 커뮤니티
               </NavLink>
-              <NavLink href="/projects" className="nanum-regular">
+              <NavLink href="/project" className="nanum-regular">
                 프로젝트
               </NavLink>
               <NavBtnLink href="/user/login" className="nanum-regular">
