@@ -36,10 +36,16 @@ const ViewProject = () => {
     }
   }, [projectQuery.data]);
 
+  const startProject = () => {
+    if (confirm('정말 프로젝트를 시작하시겠습니까?')) {
+      updateState.mutate(3);
+    }
+  };
+
   //프로젝트 종료 시, 상태 3으로 변경
   const endProject = () => {
     if (confirm('정말 프로젝트를 종료하시겠습니까?')) {
-      updateState.mutate(3);
+      updateState.mutate(4);
     }
   };
 
@@ -109,9 +115,12 @@ const ViewProject = () => {
           </div>
           <div>
             {projectQuery.data.post_data.state === 2 && (
-              <button onClick={endProject}>프로젝트 종료</button>
+              <button onClick={startProject}>프로젝트 시작</button>
             )}
             {projectQuery.data.post_data.state === 3 && (
+              <button onClick={endProject}>프로젝트 종료</button>
+            )}
+            {projectQuery.data.post_data.state === 4 && (
               <button>팀원 리뷰</button>
             )}
           </div>
