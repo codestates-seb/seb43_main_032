@@ -30,6 +30,7 @@ const ProjectForm = () => {
       setEnd(new Date(data.end));
       setSelect(data.stacks);
       setTags(data.tags);
+      setContent(data.content);
       setJob(jobs);
     }
   }, [projectQuery.isLoading]);
