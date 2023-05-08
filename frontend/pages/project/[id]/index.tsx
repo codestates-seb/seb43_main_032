@@ -130,11 +130,10 @@ const ViewProject = () => {
             <div className="nanum-bold">
               {projectQuery.data.post_data.title}
             </div>
-            {projectQuery.data.post_data.state === 2 ? (
-              <Tag>모집 완료</Tag>
-            ) : (
-              <Tag>모집 중</Tag>
-            )}
+            {projectQuery.data.post_data.state === 1 && <Tag>모집 중</Tag>}
+            {projectQuery.data.post_data.state === 2 && <Tag>모집 완료</Tag>}
+            {projectQuery.data.post_data.state === 3 && <Tag>진행 중</Tag>}
+            {projectQuery.data.post_data.state === 4 && <Tag>종료</Tag>}
           </div>
           <div className="sub noto-regular-13">
             <div>
