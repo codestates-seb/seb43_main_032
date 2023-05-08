@@ -18,6 +18,7 @@ const Box = styled.button`
   color: #fff;
   outline: none;
   border: none;
+  font-weight: 600;
   cursor: pointer;
   transition: all 0.2s ease-in-out;
   text-decoration: none;
@@ -25,5 +26,6 @@ const Box = styled.button`
     transition: all 0.2s ease-in-out;
     background: #fff;
     color: #010606;
+    box-shadow: var(--box-shadow);
   }
 `;

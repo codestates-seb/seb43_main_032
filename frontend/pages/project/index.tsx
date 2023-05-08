@@ -9,6 +9,7 @@ import Loading from '@/components/Loading';
 import Error from '@/components/Error';
 import { useRef, useEffect } from 'react';
 import ProjectSkeleton from '@/components/skeleton/ProjectSkeleton';
+import Link from 'next/link';
 
 const ProjectHome = () => {
   const router = useRouter();
@@ -66,6 +67,9 @@ const ProjectHome = () => {
   if (data)
     return (
       <Box>
+        <div className="link-box">
+          <Link href={`${router.asPath}/create`}>프로젝트 작성</Link>
+        </div>
         <div className="special-box">
           <div>
             <div className="nanum-bold">신규 프로젝트</div>
@@ -105,6 +109,31 @@ export default ProjectHome;
 
 const Box = styled.div`
   padding: var(--padding-1);
+
+  .link-box {
+    display: flex;
+    justify-content: end;
+    margin-bottom: 16px;
+    > a {
+      font-size: medium;
+      border-radius: 4px;
+      background: #256ce1;
+      padding: 16px 22px;
+      color: #fff;
+      outline: none;
+      border: none;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease-in-out;
+      text-decoration: none;
+      &:hover {
+        transition: all 0.2s ease-in-out;
+        background: #fff;
+        color: #010606;
+        box-shadow: var(--box-shadow);
+      }
+    }
+  }
   .special-box {
     width: 100%;
     grid-gap: 16px;

@@ -49,34 +49,30 @@ const ViewProject = () => {
     }
   };
 
+  const data = projectQuery.data?.post_data;
   if (projectQuery.isLoading) return <Loading />;
   if (projectQuery.error) return <Error>잠시 후 다시 시도해주세요.</Error>;
-  if (projectQuery.data?.post_data)
+  if (data)
     return (
       <GridBox>
         <Side>
           <div className="author-box">
             <div>작성자</div>
             <div className="author noto-medium">
-              <div className="noto-medium">
-                {projectQuery.data.post_data.position}
-              </div>
+              <div className="noto-medium">{data.position}</div>
               <div>
                 <img
                   src="https://noticon-static.tammolo.com/dgggcrkxq/image/upload/v1567008394/noticon/ohybolu4ensol1gzqas1.png"
                   alt="author"
                 />
-                <div>{projectQuery.data.post_data.author}</div>
+                <div>{data.author}</div>
                 <Tag>쪽지</Tag>
               </div>
             </div>
           </div>
-          <PeriodBox
-            start={new Date(projectQuery.data.post_data.start)}
-            end={new Date(projectQuery.data.post_data.end)}
-          />
-          <TagBox tags={projectQuery.data.post_data.tags} />
-          <StacksBox select={projectQuery.data.post_data.stacks} />
+          <PeriodBox start={new Date(data.start)} end={new Date(data.end)} />
+          <TagBox tags={data.tags} />
+          <StacksBox select={data.stacks} />
           <div className="want-box">
             <div>모집 중인 직군</div>
             <ul>
@@ -119,41 +115,35 @@ const ViewProject = () => {
             </ul>
           </div>
           <div>
-            {projectQuery.data.post_data.state === 2 && (
+            {data.state === 2 && (
               <button onClick={startProject}>프로젝트 시작</button>
             )}
-            {projectQuery.data.post_data.state === 3 && (
+            {data.state === 3 && (
               <button onClick={endProject}>프로젝트 종료</button>
             )}
-            {projectQuery.data.post_data.state === 4 && (
-              <button>팀원 리뷰</button>
-            )}
+            {data.state === 4 && <button>팀원 리뷰</button>}
           </div>
         </Side>
         <Main>
           <div className="title">
-            <div className="nanum-bold">
-              {projectQuery.data.post_data.title}
-            </div>
-            {projectQuery.data.post_data.state === 1 && <Tag>모집 중</Tag>}
-            {projectQuery.data.post_data.state === 2 && <Tag>모집 완료</Tag>}
-            {projectQuery.data.post_data.state === 3 && <Tag>진행 중</Tag>}
-            {projectQuery.data.post_data.state === 4 && <Tag>종료</Tag>}
+            <div className="nanum-bold">{data.title}</div>
+            {data.state === 1 && <Tag>모집 중</Tag>}
+            {data.state === 2 && <Tag>모집 완료</Tag>}
+            {data.state === 3 && <Tag>진행 중</Tag>}
+            {data.state === 4 && <Tag>종료</Tag>}
           </div>
           <div className="sub noto-regular-13">
             <div>
-              <span>작성일자</span> :{' '}
-              {formatDate2(new Date(projectQuery.data.post_data.createAt))}
+              <span>작성일자</span> : {formatDate2(new Date(data.createAt))}
             </div>
             <div>
-              <span>조회 수</span> : {projectQuery.data.post_data.view}
+              <span>조회 수</span> : {data.view}
             </div>
             <div>
-              <span>댓글 수</span> :{' '}
-              {projectQuery.data.post_data.comment.length}
+              <span>댓글 수</span> : {data.comment.length}
             </div>
           </div>
-          <ReactMarkdown content={projectQuery.data.post_data.content} />
+          <ReactMarkdown content={data.content} />
           <div className="heart-box">
             <div onClick={() => updateHeart.mutate()}>
               {projectQuery.data?.post_state.heart ? (
@@ -165,7 +155,7 @@ const ViewProject = () => {
                   <AiOutlineHeart />
                 </span>
               )}
-              <span>{projectQuery.data.post_data.heart}</span>
+              <span>{data.heart}</span>
             </div>
           </div>
           <div className="comment-box">댓글창</div>
