@@ -58,12 +58,17 @@ const ViewProject = () => {
           <div className="author-box">
             <div>작성자</div>
             <div className="author noto-medium">
-              <img
-                src="https://noticon-static.tammolo.com/dgggcrkxq/image/upload/v1567008394/noticon/ohybolu4ensol1gzqas1.png"
-                alt="author"
-              />
-              <div>{projectQuery.data.post_data.author}</div>
-              <Tag>쪽지</Tag>
+              <div className="noto-medium">
+                {projectQuery.data.post_data.position}
+              </div>
+              <div>
+                <img
+                  src="https://noticon-static.tammolo.com/dgggcrkxq/image/upload/v1567008394/noticon/ohybolu4ensol1gzqas1.png"
+                  alt="author"
+                />
+                <div>{projectQuery.data.post_data.author}</div>
+                <Tag>쪽지</Tag>
+              </div>
             </div>
           </div>
           <PeriodBox
@@ -252,16 +257,23 @@ const Side = styled.div`
     .author {
       display: flex;
       align-items: center;
+      flex-direction: column;
       gap: 16px;
-      > img {
-        width: 40px;
-        height: 40px;
-      }
-      > div {
-        font-weight: 900;
-      }
-      .tag {
-        cursor: pointer;
+      > div:last-child {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 16px;
+        > img {
+          width: 40px;
+          height: 40px;
+        }
+        > div {
+          font-weight: 900;
+        }
+        .tag {
+          cursor: pointer;
+        }
       }
     }
   }

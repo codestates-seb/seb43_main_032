@@ -6,6 +6,7 @@ export const PROJECTS: Project[] = [
     author: '김기획',
     start: new Date(),
     end: new Date(),
+    position: '프론트엔드',
     tags: ['AI', '금융', '자율주행'],
     stacks: ['recoil', 'java'],
     jobs: [
