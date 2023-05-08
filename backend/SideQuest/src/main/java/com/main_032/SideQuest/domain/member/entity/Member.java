@@ -1,5 +1,6 @@
 package com.main_032.SideQuest.domain.member.entity;
 
+import com.main_032.SideQuest.domain.project.entity.Project;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -63,4 +64,8 @@ public class Member {
 
     @OneToMany(mappedBy = "memberReceiver")
     private List<MemberEvaluation> memberEvaluationReceiverList = new ArrayList<>();
+
+    @OneToMany(mappedBy = "member")
+    private List<Project> projectList = new ArrayList<>();
+
 }
