@@ -56,5 +56,11 @@ public class Member {
     private boolean deleted;
 
     @OneToMany(mappedBy = "member")
-    private List<MemberTechStack> memberTechStacks = new ArrayList<>();
+    private List<MemberTechStack> memberTechStackList = new ArrayList<>();
+
+    @OneToMany(mappedBy = "memberGiver")
+    private List<MemberEvaluation> memberEvaluationGiverList = new ArrayList<>();
+
+    @OneToMany(mappedBy = "memberReceiver")
+    private List<MemberEvaluation> memberEvaluationReceiverList = new ArrayList<>();
 }
