@@ -2,34 +2,34 @@ import React from 'react';
 import styled from 'styled-components';
 import Tag from '../Tag';
 import Link from 'next/link';
-import { Example } from './ContentItemList';
+import { Article } from '@/types/types';
 
 // item 리스트의 개별 아이템들
-export default function ContentItem(data: Example, idx: number) {
+export default function ContentItem(data: Article, idx: number) {
   return (
     <Container>
       <Left>
-        <div>star: {data.STAR}</div>
-        <div>view: {data.VIEW}</div>
+        <div>star: {data.star}</div>
+        <div>view: {data.view}</div>
       </Left>
-      <Link href={`community/post/${data.ARTICLE_ID}`}>
+      <Link href={`community/post/${data.id}`}>
         <Center>
           <Top>
-            <div className="title nanum-semi-bold">{data.TITLE}</div>
+            <div className="title nanum-semi-bold">{data.title}</div>
             <div className="tagBox">
-              {data.TAGS.map((tag) => (
+              {data.tags.map((tag) => (
                 <Tag key={tag}>{tag}</Tag>
               ))}
             </div>
           </Top>
-          <div className="content">{data.CONTENT}</div>
+          <div className="content">{data.content}</div>
         </Center>
       </Link>
       <Right>
-        <div>{data.MEMBER_ID}</div>
+        <div>{data.email}</div>
         {/* memberID에서 이메일 받아와야함 or nickName */}
         <img src="ex.png"></img>
-        <div>★ {data.STAR}</div>
+        <div>★ {data.star}</div>
       </Right>
     </Container>
   );
