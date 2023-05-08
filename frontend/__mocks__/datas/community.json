@@ -11,7 +11,7 @@
     "heart": 90,
     "view": 13,
     "tags": ["Query", "React", "Recoil", "JavaScript", "TypeScript"],
-    "status": null,
+    "status": true,
     "comment": [
       {
         "id": 1,
