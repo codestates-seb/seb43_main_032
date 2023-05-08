@@ -14,7 +14,7 @@ const Nav = styled.nav`
   left: 0;
   position: fixed;
   width: 100%;
-  background: #000;
+  background: #303952;
   height: 80px;
   display: flex;
   justify-content: space-between;
@@ -134,10 +134,10 @@ function Header() {
               <NavLink href="/project" className="nanum-regular">
                 프로젝트
               </NavLink>
-              <NavBtnLink href="/login" className="nanum-regular">
+              <NavBtnLink href="/user/login" className="nanum-regular">
                 로그인
               </NavBtnLink>
-              <NavBtnLink href="/sign-up" className="nanum-regular">
+              <NavBtnLink href="/user/login" className="nanum-regular">
                 회원가입
               </NavBtnLink>
             </>
