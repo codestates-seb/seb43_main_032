@@ -131,7 +131,7 @@ const Main = styled.div`
         border: 1px solid #e1e7e5;
         box-shadow: var(--box-shadow);
         border-radius: var(--radius-def);
-        padding: 7.5px 4px;
+        padding: 7.5px 8px;
       }
     }
   }

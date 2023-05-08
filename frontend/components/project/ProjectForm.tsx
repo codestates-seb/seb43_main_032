@@ -113,22 +113,11 @@ const ProjectForm = () => {
     setOption(Number(e.target.value));
   };
 
-  //직군 input 테두리 경고
-  const [warning, setWarning] = useState(false);
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setWarning(false);
-    }, 1000);
-    return () => {
-      clearTimeout(timer);
-    };
-  }, [warning]);
-
   //직군 상태
   const [job, setJob] = useState<{ [key: string]: number }[]>([]);
   const addJob = () => {
-    if (watch().jobVal === '') {
-      return setWarning(true);
+    if (job.map((x) => Object.keys(x)[0]).includes(watch().jobVal)) {
+      return alert('동일한 직군은 추가할 수 없습니다.');
     }
     setJob([...job, { [watch().jobVal]: option }]);
     reset({
@@ -196,7 +185,7 @@ const ProjectForm = () => {
           setSelect={setSelect}
         />
       )}
-      <Side warning={warning}>
+      <Side>
         <PeriodBox
           start={start}
           end={end}
@@ -258,11 +247,7 @@ const ProjectForm = () => {
 
 export default ProjectForm;
 
-type SideProps = {
-  warning: boolean;
-};
-
-const Side = styled.div<SideProps>`
+const Side = styled.div`
   width: 100%;
   padding: var(--padding-1);
   display: flex;
@@ -332,19 +317,12 @@ const Side = styled.div<SideProps>`
     .job-box {
       display: flex;
       justify-content: center;
-      > input {
-        width: 50%;
-        border: ${(props) => props.warning && '1px solid red'};
-        :focus {
-          outline: ${(props) => props.warning && '1px solid red'};
-        }
-      }
+      gap: 8px;
       > select {
-        margin: 0px 8px;
         border: 1px solid #e1e7e5;
         box-shadow: var(--box-shadow);
         border-radius: var(--radius-def);
-        padding: 4px;
+        padding: 8px;
       }
       > button {
         padding: 8px;
