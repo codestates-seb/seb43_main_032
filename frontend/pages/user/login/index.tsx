@@ -4,15 +4,18 @@ import AuthContainer from '@/components/authAction/AuthContainer';
 //로그인 페이지 입니다. 경로 '/user/login/'
 const Wrapper = styled.div`
   position: relative;
-  height: 100vh;
+  padding: 20px;
 `;
 const WrapperInset = styled.div`
-  position: absolute;
-  display: flex;
-  top: 20px;
+  /* position: absolute; */
+  /* top: 20px;
   right: 0px;
-  bottom: 20px;
-  left: 0px;
+  bottom: 100px;
+  left: 0px; */
+  display: flex;
+  padding: 20px;
+  width: 100%;
+  height: 100%;
   border-radius: 15px;
   justify-content: space-around;
   align-items: center;
@@ -38,7 +41,7 @@ const ImgBox = styled.div`
   display: flex;
   background-color: teal;
   width: 80%;
-  height: 60%;
+  height: 400px;
   justify-content: center;
   align-items: center;
 `;
