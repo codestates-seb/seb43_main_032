@@ -24,9 +24,9 @@ public class MemberEvaluation {
     @JoinColumn(name = "MEMBER_RECEIVER_ID")
     private Member memberReceiver;
 
-//    @ManyToOne
-//    @JoinColumn(name = "PROJECT_ID", referencedColumnName = "PROJECT_ID")
-//    private Project project;
+    @ManyToOne
+    @JoinColumn(name = "PROJECT_ID", referencedColumnName = "PROJECT_ID")
+    private Project project;
 
     @Column
     private String title;
