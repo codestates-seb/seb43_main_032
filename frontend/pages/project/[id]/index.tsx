@@ -12,12 +12,14 @@ import { useProject } from '@/hooks/react-query/useProject';
 import { formatDate2 } from '@/util/date';
 import { useEffect } from 'react';
 import Error from '@/components/Error';
+import { useRouter } from 'next/router';
 const ReactMarkdown = dynamic(() => import('@/components/ContentBox'), {
   ssr: false,
   loading: () => <ContentSkeleton />,
 });
 
 const ViewProject = () => {
+  const router = useRouter();
   //react-query
   const { projectQuery, updateJob, updateHeart, updateState } = useProject();
 
@@ -47,6 +49,11 @@ const ViewProject = () => {
     if (confirm('정말 프로젝트를 종료하시겠습니까?')) {
       updateState.mutate(4);
     }
+  };
+
+  //edit 이동
+  const moveEdit = () => {
+    router.push(`${router.asPath}/edit`);
   };
 
   const data = projectQuery.data?.post_data;
@@ -134,13 +141,20 @@ const ViewProject = () => {
           </div>
           <div className="sub noto-regular-13">
             <div>
-              <span>작성일자</span> : {formatDate2(new Date(data.createAt))}
+              <div>
+                <span>작성일자</span> : {formatDate2(new Date(data.createAt))}
+              </div>
+              <div>
+                <span>조회 수</span> : {data.view}
+              </div>
+              <div>
+                <span>댓글 수</span> : {data.comment.length}
+              </div>
             </div>
             <div>
-              <span>조회 수</span> : {data.view}
-            </div>
-            <div>
-              <span>댓글 수</span> : {data.comment.length}
+              <a onClick={moveEdit} className="main-btn">
+                프로젝트 수정
+              </a>
             </div>
           </div>
           <ReactMarkdown content={data.content} />
@@ -179,6 +193,13 @@ const Main = styled.div`
   }
 
   .sub {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    > div:first-child {
+      display: flex;
+      gap: 8px;
+    }
     span {
       font-weight: 900;
     }
