@@ -7,17 +7,22 @@ import lombok.Setter;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
 @Entity
-@Getter
 @Setter
+@Getter
+
 public class Project {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long projectId;
 
     @ManyToOne
-    @JoinColumn(name="MEMBER_ID")
-    private Member member;
+    @JoinColumn(name = "MEMBER_ID")
+    private Member member; //작성자 식별자
 
     @Column
     private String title;
@@ -54,4 +59,21 @@ public class Project {
 
     @Column(columnDefinition = "TINYINT")
     private boolean deleted;
+
+    //프로젝트 스택 리스트
+    @OneToMany(mappedBy = "project")
+    private List<ProTechStack> proTechStackList = new ArrayList<>();
+
+    //프로젝트 분야 리스트
+    @OneToMany(mappedBy = "project")
+    private List<ProField> proFieldList = new ArrayList<>();
+
+    //프로젝트 직업군,인원
+    @OneToMany(mappedBy = "project")
+    private List<ProPositionCrew> proPositionCrewList = new ArrayList<>();
+
+    //프로젝트 지원 인원들
+    @OneToMany(mappedBy = "project")
+    private List<ProApplyCrew> proApplyCrewList = new ArrayList<>();
 }
+

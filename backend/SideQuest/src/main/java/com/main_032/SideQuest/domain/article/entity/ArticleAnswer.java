@@ -12,33 +12,21 @@ import java.util.List;
 @Entity
 @Getter
 @Setter
-public class Article {
+public class ArticleAnswer {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long articleId;
+    private Long articleAnswerId;
 
     @ManyToOne
     @JoinColumn(name = "MEMBER_ID")
     private Member member;
 
-    @Column
-    private String title;
+    @ManyToOne
+    @JoinColumn(name = "ARTICLE_ID")
+    private Article article;
 
     @Column
     private String content;
-
-    @Column
-    private String category;
-
-    @Column
-    private int views;
-
-    @Column
-    private String status;
-
-    @OneToOne
-    @JoinColumn(name = "ANSWER_ID")
-    private Answer acceptedAnswer;
 
     @Column
     private int totalLikes;
@@ -52,9 +40,9 @@ public class Article {
     @Column(columnDefinition = "TINYINT")
     private boolean deleted;
 
-    @OneToMany(mappedBy = "article")
-    private List<ArticleTechStack> articleTechStackList = new ArrayList<>();
+    @OneToMany(mappedBy = "articleAnswer")
+    private List<ArticleAnswerLike> articleAnswerLikeList = new ArrayList<>();
 
-    @OneToMany(mappedBy = "article")
-    private List<ArticleAnswer> articleAnswerList = new ArrayList<>();
+    @OneToMany(mappedBy = "articleAnswer")
+    private List<ArticleComment> articleCommentList = new ArrayList<>();
 }
