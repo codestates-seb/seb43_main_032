@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { FaSearch } from 'react-icons/fa';
 import { useSetRecoilState } from 'recoil';
 import styled from 'styled-components';
+import ContentBottomFilter from './ContentBottomFilter';
 
 // item 타이틀 검색어 기능
 export default function ContentTop() {
@@ -44,38 +45,41 @@ export default function ContentTop() {
         <FaSearch />
       </SearchBtn>
       <SearchBtn onClick={() => resetSearch(false)}>초기화</SearchBtn>
+      <ContentBottomFilter />
     </Container>
   );
 }
 
 const Container = styled.div`
   width: 100%;
-  height: 10%;
   display: flex;
   justify-content: center;
   align-items: center;
+  padding: 20px;
+  padding-bottom: 0px;
 `;
 
 const SearchInput = styled.input`
-  width: 60%;
-  box-shadow: 2px 2px 7px 1px rgba(114, 114, 114, 0.75);
+  width: 65%;
   border-radius: 4px;
-  border: none;
+  border: solid 2px lightgray;
   margin-right: 16px;
   padding: 10px 22px;
   color: #5393fa;
   &:focus,
   :active {
     outline: none;
-    border: none;
+    border: solid 3px #c4c4c4;
   }
-  /* ::placeholder */
+  &::placeholder {
+    color: #cfcfcf;
+  }
 `;
 
 const SearchBtn = styled.button`
   border-radius: 4px;
   background: #96bfff;
-  padding: 10px 22px;
+  padding: 10px 16px;
   color: #fff;
   outline: none;
   border: none;
