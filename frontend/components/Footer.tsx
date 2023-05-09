@@ -4,7 +4,7 @@ import Image from 'next/image';
 import styled from 'styled-components';
 
 const FooterContainer = styled.footer`
-  background-color: #303952;
+  background-color: #000;
   width: 100%;
   min-height: 350px;
   padding: 60px 16px;
@@ -13,11 +13,17 @@ const FooterContainer = styled.footer`
   z-index: 10;
 `;
 const Container = styled.div`
+  display: flex;
+
   max-width: 1280px;
   margin: 0 auto;
   justify-content: center;
   align-items: center;
   flex-direction: row;
+
+  .sidefooter {
+    display: flex;
+  }
 
   .row {
     display: flex;
@@ -63,7 +69,7 @@ const Container = styled.div`
 
   .noto-regular-13 a {
     display: block;
-    color: #000;
+    color: #fff;
     margin-bottom: 5px;
     position: relative;
     transition: all.3s ease;
@@ -93,6 +99,12 @@ const Container = styled.div`
     }
     .img {
       display: none;
+    }
+  }
+  @media screen and (max-width: 600px) {
+    .sidefooter {
+      flex-direction: column;
+      width: 100%;
     }
   }
 `;
@@ -128,38 +140,40 @@ const Footer = () => {
             </div>
           </div>
 
-          <div className="col" id="About">
-            <h3 className="nanum-regular">About</h3>
-            <div className="noto-regular-13 list ">
-              <a href="#">SideQuest 소개</a>
+          <div className="sidefooter">
+            <div className="col" id="About">
+              <h3 className="nanum-regular">About</h3>
+              <div className="noto-regular-13 list ">
+                <a href="#">SideQuest 소개</a>
+              </div>
             </div>
-          </div>
-          <div className="col" id="Service">
-            <h3 className="nanum-regular">Service</h3>
-            <div className="noto-regular-13 list ">
-              <li className="list">
-                <a href="#">프로젝트 등록</a>
-              </li>
-              <li className="list">
-                <a href="#">프로젝트 찾기</a>
-              </li>
-              <li className="list">
-                <a href="#">파트너 등록</a>
-              </li>
+            <div className="col" id="Service">
+              <h3 className="nanum-regular">Service</h3>
+              <div className="noto-regular-13 list ">
+                <li className="list">
+                  <a href="#">프로젝트 등록</a>
+                </li>
+                <li className="list">
+                  <a href="#">프로젝트 찾기</a>
+                </li>
+                <li className="list">
+                  <a href="#">파트너 등록</a>
+                </li>
+              </div>
             </div>
-          </div>
-          <div className="col" id="Support">
-            <h3 className="nanum-regular">Support</h3>
-            <div className="noto-regular-13 list">
-              <li className="list">
-                <a href="#">서비스 이용약관</a>
-              </li>
-              <li className="list">
-                <a href="#">개인정보처리방침</a>
-              </li>
-              <li className="list">
-                <a href="#">FAQ</a>
-              </li>
+            <div className="col" id="Support">
+              <h3 className="nanum-regular">Support</h3>
+              <div className="noto-regular-13 list">
+                <li className="list">
+                  <a href="#">서비스 이용약관</a>
+                </li>
+                <li className="list">
+                  <a href="#">개인정보처리방침</a>
+                </li>
+                <li className="list">
+                  <a href="#">FAQ</a>
+                </li>
+              </div>
             </div>
           </div>
         </div>
