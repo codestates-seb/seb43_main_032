@@ -6,6 +6,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -13,6 +14,7 @@ import java.util.List;
 @Entity
 @Setter
 @Getter
+
 public class Project {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -32,13 +34,13 @@ public class Project {
     private String writerPosition;
 
     @Column
-    private Date startdate;
+    private LocalDateTime startDate;
 
     @Column
-    private Date enddate;
+    private LocalDateTime endDate;
 
     @Column
-    private String imageUrl;
+    private String thumbnailImgUrl;
 
     @Column
     private int views;
@@ -58,7 +60,6 @@ public class Project {
     @Column(columnDefinition = "TINYINT")
     private boolean deleted;
 
-
     //프로젝트 스택 리스트
     @OneToMany(mappedBy = "project")
     private List<ProTechStack> proTechStackList = new ArrayList<>();
@@ -75,3 +76,4 @@ public class Project {
     @OneToMany(mappedBy = "project")
     private List<ProApplyCrew> proApplyCrewList = new ArrayList<>();
 }
+
