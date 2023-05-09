@@ -1,7 +1,6 @@
 package com.main_032.SideQuest.auth.handler;
 
 import com.google.gson.JsonObject;
-import com.main_032.SideQuest.domain.member.entity.Member;
 import com.main_032.SideQuest.domain.member.repository.MemberRepository;
 import com.main_032.SideQuest.global.exception.BusinessLogicException;
 import com.main_032.SideQuest.global.exception.ExceptionCode;

@@ -1,6 +1,5 @@
 package com.main_032.SideQuest.domain.project.entity;
 
-import com.main_032.SideQuest.domain.member.entity.Member;
 import lombok.Getter;
 import lombok.Setter;
 

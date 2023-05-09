@@ -3,7 +3,6 @@ package com.main_032.SideQuest.auth.filter;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.main_032.SideQuest.auth.dto.LoginDto;
 import com.main_032.SideQuest.auth.jwt.JwtTokenizer;
-import com.main_032.SideQuest.domain.member.entity.Member;
 import lombok.SneakyThrows;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;

@@ -2,7 +2,6 @@ package com.main_032.SideQuest.domain.member.service;
 
 import com.main_032.SideQuest.auth.utils.CustomAuthorityUtils;
 import com.main_032.SideQuest.domain.member.dto.MemberPostDto;
-import com.main_032.SideQuest.domain.member.entity.Member;
 import com.main_032.SideQuest.domain.member.mapper.MemberMapper;
 import com.main_032.SideQuest.domain.member.repository.MemberRepository;
 import com.main_032.SideQuest.global.exception.BusinessLogicException;
