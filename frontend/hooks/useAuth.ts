@@ -1,7 +1,6 @@
-import axios from 'axios';
 import { useQuery } from 'react-query';
-import { IUser } from './useUser';
 import { useRouter } from 'next/router';
+import { getAuth } from '@/util/api/user';
 
 export default function useAuth(): any {
   const router = useRouter();
@@ -11,10 +10,4 @@ export default function useAuth(): any {
   });
   if (isError) return router.push('/user/login');
   return user;
-}
-
-async function getAuth(): Promise<IUser> {
-  return axios
-    .get('/users/1') //
-    .then((res) => res.data);
 }

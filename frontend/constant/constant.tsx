@@ -143,3 +143,17 @@ export const COMMUNITY_EX = (
     </div>
   </div>
 );
+
+export const POSITIONS = [
+  '프론트엔드',
+  '백엔드',
+  'UI/UX',
+  '기획',
+  '디자이너',
+  'PM',
+  '사업기획',
+  '마케팅',
+  '안드로이드',
+  'IOS',
+  '무관',
+];

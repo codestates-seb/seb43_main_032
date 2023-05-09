@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import EiditorSkeleton from '@/components/skeleton/EiditorSkeleton';
 import dynamic from 'next/dynamic';
-import { COMMUNITY_EX, PROJECT_EX } from '@/constant/constant';
+import { COMMUNITY_EX, POSITIONS, PROJECT_EX } from '@/constant/constant';
 import { DefaultObj } from '@/types/types';
 import { UseFormRegister } from 'react-hook-form';
 import Btn from './Btn';
@@ -15,9 +15,20 @@ type Props = {
   register: UseFormRegister<DefaultObj>;
   changeContent: (value: string) => void;
   postProject: (e: { preventDefault: () => void }) => void;
+  data?: {
+    position: string;
+    title: string;
+    content: string;
+  };
 };
 
-const MainPost = ({ register, changeContent, type, postProject }: Props) => {
+const MainPost = ({
+  register,
+  changeContent,
+  type,
+  postProject,
+  data,
+}: Props) => {
   return (
     <Main>
       {type === 1 ? PROJECT_EX : COMMUNITY_EX}
@@ -26,11 +37,13 @@ const MainPost = ({ register, changeContent, type, postProject }: Props) => {
           <div className="position-box">
             <div>나의 포지션</div>
             <div>
-              <input
-                {...register('position')}
-                type="text"
-                placeholder="포지션을 입력해주세요."
-              />
+              <select
+                {...register('position', { value: data && data.position })}
+              >
+                {POSITIONS.map((position) => (
+                  <option value={position}>{position}</option>
+                ))}
+              </select>
             </div>
           </div>
           <div>
@@ -41,11 +54,11 @@ const MainPost = ({ register, changeContent, type, postProject }: Props) => {
           <input
             placeholder="제목을 등록해주세요."
             type="text"
-            {...register('title')}
+            {...(register('title'), { value: data && data.title })}
           />
         </div>
         <div>
-          <Editor changeContent={changeContent} />
+          <Editor changeContent={changeContent} content={data?.content} />
         </div>
       </form>
     </Main>
@@ -113,6 +126,13 @@ const Main = styled.div`
       display: flex;
       align-items: center;
       gap: 16px;
+      select {
+        margin: 0px 8px;
+        border: 1px solid #e1e7e5;
+        box-shadow: var(--box-shadow);
+        border-radius: var(--radius-def);
+        padding: 7.5px 8px;
+      }
     }
   }
 `;

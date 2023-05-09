@@ -38,7 +38,7 @@ export default function SignUpForm() {
   } = useForm<ISignUpForm>();
   console.log(watch('password'));
   const onValid = (data: ISignUpForm) => {
-    console.log('valid');
+    console.log(data);
   };
   const onInValid = (errors: FieldErrors) => {
     console.log(errors);

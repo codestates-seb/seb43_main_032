@@ -12,12 +12,14 @@ import { useProject } from '@/hooks/react-query/useProject';
 import { formatDate2 } from '@/util/date';
 import { useEffect } from 'react';
 import Error from '@/components/Error';
+import { useRouter } from 'next/router';
 const ReactMarkdown = dynamic(() => import('@/components/ContentBox'), {
   ssr: false,
   loading: () => <ContentSkeleton />,
 });
 
 const ViewProject = () => {
+  const router = useRouter();
   //react-query
   const { projectQuery, updateJob, updateHeart, updateState } = useProject();
 
@@ -36,36 +38,48 @@ const ViewProject = () => {
     }
   }, [projectQuery.data]);
 
-  //프로젝트 종료 시, 상태 3으로 변경
-  const endProject = () => {
-    if (confirm('정말 프로젝트를 종료하시겠습니까?')) {
+  const startProject = () => {
+    if (confirm('정말 프로젝트를 시작하시겠습니까?')) {
       updateState.mutate(3);
     }
   };
 
+  //프로젝트 종료 시, 상태 3으로 변경
+  const endProject = () => {
+    if (confirm('정말 프로젝트를 종료하시겠습니까?')) {
+      updateState.mutate(4);
+    }
+  };
+
+  //edit 이동
+  const moveEdit = () => {
+    router.push(`${router.asPath}/edit`);
+  };
+
+  const data = projectQuery.data?.post_data;
   if (projectQuery.isLoading) return <Loading />;
   if (projectQuery.error) return <Error>잠시 후 다시 시도해주세요.</Error>;
-  if (projectQuery.data?.post_data)
+  if (data)
     return (
       <GridBox>
         <Side>
           <div className="author-box">
             <div>작성자</div>
             <div className="author noto-medium">
-              <img
-                src="https://noticon-static.tammolo.com/dgggcrkxq/image/upload/v1567008394/noticon/ohybolu4ensol1gzqas1.png"
-                alt="author"
-              />
-              <div>{projectQuery.data.post_data.author}</div>
-              <Tag>쪽지</Tag>
+              <div className="noto-medium">{data.position}</div>
+              <div>
+                <img
+                  src="https://noticon-static.tammolo.com/dgggcrkxq/image/upload/v1567008394/noticon/ohybolu4ensol1gzqas1.png"
+                  alt="author"
+                />
+                <div>{data.author}</div>
+                <Tag>쪽지</Tag>
+              </div>
             </div>
           </div>
-          <PeriodBox
-            start={new Date(projectQuery.data.post_data.start)}
-            end={new Date(projectQuery.data.post_data.end)}
-          />
-          <TagBox tags={projectQuery.data.post_data.tags} />
-          <StacksBox select={projectQuery.data.post_data.stacks} />
+          <PeriodBox start={new Date(data.start)} end={new Date(data.end)} />
+          <TagBox tags={data.tags} />
+          <StacksBox select={data.stacks} />
           <div className="want-box">
             <div>모집 중인 직군</div>
             <ul>
@@ -108,39 +122,42 @@ const ViewProject = () => {
             </ul>
           </div>
           <div>
-            {projectQuery.data.post_data.state === 2 && (
+            {data.state === 2 && (
+              <button onClick={startProject}>프로젝트 시작</button>
+            )}
+            {data.state === 3 && (
               <button onClick={endProject}>프로젝트 종료</button>
             )}
-            {projectQuery.data.post_data.state === 3 && (
-              <button>팀원 리뷰</button>
-            )}
+            {data.state === 4 && <button>팀원 리뷰</button>}
           </div>
         </Side>
         <Main>
           <div className="title">
-            <div className="nanum-bold">
-              {projectQuery.data.post_data.title}
-            </div>
-            {projectQuery.data.post_data.state === 2 ? (
-              <Tag>모집 완료</Tag>
-            ) : (
-              <Tag>모집 중</Tag>
-            )}
+            <div className="nanum-bold">{data.title}</div>
+            {data.state === 1 && <Tag>모집 중</Tag>}
+            {data.state === 2 && <Tag>모집 완료</Tag>}
+            {data.state === 3 && <Tag>진행 중</Tag>}
+            {data.state === 4 && <Tag>종료</Tag>}
           </div>
           <div className="sub noto-regular-13">
             <div>
-              <span>작성일자</span> :{' '}
-              {formatDate2(new Date(projectQuery.data.post_data.createAt))}
+              <div>
+                <span>작성일자</span> : {formatDate2(new Date(data.createAt))}
+              </div>
+              <div>
+                <span>조회 수</span> : {data.view}
+              </div>
+              <div>
+                <span>댓글 수</span> : {data.comment.length}
+              </div>
             </div>
             <div>
-              <span>조회 수</span> : {projectQuery.data.post_data.view}
-            </div>
-            <div>
-              <span>댓글 수</span> :{' '}
-              {projectQuery.data.post_data.comment.length}
+              <a onClick={moveEdit} className="main-btn">
+                프로젝트 수정
+              </a>
             </div>
           </div>
-          <ReactMarkdown content={projectQuery.data.post_data.content} />
+          <ReactMarkdown content={data.content} />
           <div className="heart-box">
             <div onClick={() => updateHeart.mutate()}>
               {projectQuery.data?.post_state.heart ? (
@@ -152,7 +169,7 @@ const ViewProject = () => {
                   <AiOutlineHeart />
                 </span>
               )}
-              <span>{projectQuery.data.post_data.heart}</span>
+              <span>{data.heart}</span>
             </div>
           </div>
           <div className="comment-box">댓글창</div>
@@ -176,6 +193,13 @@ const Main = styled.div`
   }
 
   .sub {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    > div:first-child {
+      display: flex;
+      gap: 8px;
+    }
     span {
       font-weight: 900;
     }
@@ -244,16 +268,23 @@ const Side = styled.div`
     .author {
       display: flex;
       align-items: center;
+      flex-direction: column;
       gap: 16px;
-      > img {
-        width: 40px;
-        height: 40px;
-      }
-      > div {
-        font-weight: 900;
-      }
-      .tag {
-        cursor: pointer;
+      > div:last-child {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 16px;
+        > img {
+          width: 40px;
+          height: 40px;
+        }
+        > div {
+          font-weight: 900;
+        }
+        .tag {
+          cursor: pointer;
+        }
       }
     }
   }
