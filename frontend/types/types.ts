@@ -40,7 +40,7 @@ export type Article = {
   title: string;
   content: null;
   createdAt: string;
-  star: number;
+  heart: number;
   view: number;
   tags: string[];
   status: null;
