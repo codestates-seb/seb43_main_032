@@ -84,4 +84,8 @@ public class Member {
 
     @OneToMany(mappedBy = "member")
     private List<ArticleCommentLike> articleCommentLikeList = new ArrayList<>();
+
+    // jpa 에서 양방향 연관관계의 문제점, 혹은 과도한 연관관계의 문제점을 학습해보는것이 좋겠다.
+    // 연관관계를 설정한다는것은 강결합을 유도하기 떄문에, 서로 라이프 사이클이 같은 경우에 연관관계를 맺는것이 좋다.
+    // 해당 부분은 추가 학습이 꼭 필요할듯
 }
