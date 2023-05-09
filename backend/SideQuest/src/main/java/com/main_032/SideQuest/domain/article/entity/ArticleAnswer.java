@@ -40,6 +40,10 @@ public class ArticleAnswer {
     @Column(columnDefinition = "TINYINT")
     private boolean deleted;
 
+    @OneToOne
+    @JoinColumn(name = "ARTICLE_ACCEPTED_ID")
+    private Article acceptedArticle;
+
     @OneToMany(mappedBy = "articleAnswer")
     private List<ArticleAnswerLike> articleAnswerLikeList = new ArrayList<>();
 

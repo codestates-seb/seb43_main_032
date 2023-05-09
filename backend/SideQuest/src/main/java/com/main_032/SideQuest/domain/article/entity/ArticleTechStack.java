@@ -13,7 +13,7 @@ public class ArticleTechStack {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long articleTechStackId;
 
-    @OneToMany
+    @ManyToOne
     @JoinColumn(name = "ARTICLE_ID")
     private Article article;
 

@@ -69,6 +69,7 @@ public class Member {
 
     @OneToMany(mappedBy = "member")
     private List<Project> projectList = new ArrayList<>();
+
     @OneToMany(mappedBy = "member")
     private List<Article> articleList = new ArrayList<>();
 

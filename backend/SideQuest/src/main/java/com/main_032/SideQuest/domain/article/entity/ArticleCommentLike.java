@@ -14,9 +14,11 @@ public class ArticleCommentLike {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long articleCommentLikeId;
 
-    @OneToMany(mappedBy = "ARTICLE_COMMENT_ID")
+    @ManyToOne
+    @JoinColumn(name = "ARTICLE_COMMENT_ID")
     private ArticleComment articleComment;
 
-    @OneToMany(mappedBy = "MEMBER_ID")
+    @ManyToOne
+    @JoinColumn(name = "MEMBER_ID")
     private Member member;
 }

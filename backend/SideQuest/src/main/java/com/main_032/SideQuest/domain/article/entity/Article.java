@@ -38,7 +38,7 @@ public class Article {
 
     @OneToOne
     @JoinColumn(name = "ANSWER_ID")
-    private Answer acceptedAnswer;
+    private ArticleAnswer acceptedAnswer;
 
     @Column
     private int totalLikes;

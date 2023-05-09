@@ -17,11 +17,11 @@ public class ArticleComment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long articleCommentId;
 
-    @OneToMany
+    @ManyToOne
     @JoinColumn(name = "MEMBER_ID")
     private Member member;
 
-    @OneToMany
+    @ManyToOne
     @JoinColumn(name = "ARTICLE_ANSWER_ID")
     private ArticleAnswer articleAnswer;
 
