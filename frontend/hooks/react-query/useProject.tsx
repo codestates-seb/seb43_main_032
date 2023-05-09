@@ -13,7 +13,11 @@ export const useProject = () => {
 
   const { isLoading, error, data, refetch } = useQuery<ProjectData, Error>(
     ['project', router.query.id],
-    () => api(router.asPath).then((res) => res.data)
+    async () => {
+      if (!router.route.includes('create')) {
+        return await api(`/project/${router.query.id}`).then((res) => res.data);
+      }
+    }
   );
 
   //직군 업데이트
