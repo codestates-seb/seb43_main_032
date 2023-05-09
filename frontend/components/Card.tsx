@@ -3,7 +3,7 @@ import styled from 'styled-components';
 
 type Props = React.HTMLAttributes<HTMLDivElement> & {
   children: ReactNode;
-  width: number;
+  width: string;
   onClick?: () => void;
 };
 
@@ -14,10 +14,14 @@ export default Card;
 const Box = styled.div<Props>`
   cursor: pointer;
   padding: var(--padding-2);
-  width: ${(props) => `${props.width}px`};
+  width: ${(props) => `${props.width}`};
   border: 1px solid #e4e4e4;
   border-radius: var(--radius-def);
   display: flex;
   flex-direction: column;
   gap: 16px;
+
+  @media (max-width: 980px) {
+    width: 100%;
+  }
 `;
