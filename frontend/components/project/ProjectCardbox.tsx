@@ -1,7 +1,6 @@
 import styled from 'styled-components';
 import ProjectCard from './ProjectCard';
 import { Project } from '@/types/types';
-import { ReactNode } from 'react';
 
 type Props = {
   data: Project[];
