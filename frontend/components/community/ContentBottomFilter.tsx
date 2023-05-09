@@ -4,48 +4,103 @@ import { useSetRecoilState } from 'recoil';
 import styled from 'styled-components';
 
 // item 리스트 필터 버튼
-export default function ContentBottomFilter() {
-  const [selected, setSeleted] = useState<string>('검색 구분');
-  const setFilterValue = useSetRecoilState(filterState);
+export default function CustomSelect() {
+  const [isOpen, setIsOpen] = useState(false);
+  const [selected, setSelected] = useState('최신순');
 
-  const optionChange = (e: {
-    target: { value: React.SetStateAction<string> };
-  }) => {
-    setSeleted(e.target.value);
-    setFilterValue(e.target.value);
+  const options = [
+    { value: 'sorted', label: '최신순' },
+    { value: 'star', label: '스크랩순' },
+    { value: 'view', label: '조회수순' },
+    { value: 'comment', label: '댓글순' },
+  ];
+
+  const handleSelect = (option: any) => {
+    setSelected(option.label);
+    setIsOpen(false);
   };
 
   return (
-    <Container>
-      <label htmlFor="filter" className="nanum-regular">
-        검색 옵션 :
-      </label>
-      <FilterBtn id="filter" value={selected} onChange={optionChange}>
-        <option value="sorted">최신순</option>
-        <option value="star">스크랩순</option>
-        <option value="view">조회수순</option>
-        <option value="comment">댓글순</option>
-      </FilterBtn>
-    </Container>
+    <CustomSelectWrapper onClick={() => setIsOpen(!isOpen)}>
+      <CustomSelectButton>
+        {selected} <span className="icon">▼</span>
+      </CustomSelectButton>
+      <CustomSelectOptions className={isOpen ? 'open' : ''}>
+        {options.map((option) => (
+          <CustomSelectOption
+            key={option.value}
+            onClick={() => handleSelect(option)}
+          >
+            {option.label}
+          </CustomSelectOption>
+        ))}
+      </CustomSelectOptions>
+    </CustomSelectWrapper>
   );
 }
 
-const Container = styled.div`
+const CustomSelectWrapper = styled.div`
+  width: 100px;
+  display: flex;
+  position: relative;
+  display: inline-block;
+  top: 0;
+  font-size: 14px;
+  margin-left: 12px;
+  z-index: 10;
+  border-radius: 4px;
+  background: #96bfff;
+  padding: 10px 10px;
+  outline: none;
+  border: none;
+  cursor: pointer;
+`;
+
+const CustomSelectButton = styled.button`
   display: flex;
   align-items: center;
-  justify-content: end;
-  width: 100%;
-  height: 10%;
-  padding: 10px;
+  justify-content: space-between;
+  outline: none;
+  background: none;
+  color: white;
+  font-size: 14px;
+  border: none;
 
-  > label {
-    margin-right: 0.3rem;
+  .icon {
+    margin-left: 5px;
   }
 `;
 
-const FilterBtn = styled.select`
+const CustomSelectOptions = styled.ul`
+  position: absolute;
+  top: calc(100% + 10px);
+  left: 0;
   width: 100px;
-  height: 30px;
-  margin-right: 20px;
-  border-radius: var(--radius-def);
+  border-radius: 4px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  background-color: white;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-10px);
+  transition: all 0.3s ease-in-out;
+
+  &.open {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+  }
+`;
+
+const CustomSelectOption = styled.li`
+  width: 100%;
+  height: 20px;
+  padding: 0 8px;
+  cursor: pointer;
+
+  &:hover {
+    background-color: #f5f5f5;
+  }
 `;
