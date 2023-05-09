@@ -1,5 +1,6 @@
 package com.main_032.SideQuest.domain.member.entity;
 
+import com.main_032.SideQuest.domain.project.entity.Project;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -25,7 +26,7 @@ public class MemberEvaluation {
     private Member memberReceiver;
 
     @ManyToOne
-    @JoinColumn(name = "PROJECT_ID", referencedColumnName = "PROJECT_ID")
+    @JoinColumn(name = "PROJECT_ID")
     private Project project;
 
     @Column
