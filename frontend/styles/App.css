@@ -16,6 +16,12 @@ body {
   padding: 0px calc((100% - 1280px) / 2);
 }
 
+a {
+  text-decoration: none;
+  color: inherit;
+  width: 100%;
+}
+
 :root {
   --font-nanum: 'Nanum Gothic', sans-serif;
   --font-noto: 'Noto Sans', sans-serif;
@@ -84,4 +90,25 @@ body {
   100% {
     filter: hue-rotate(360deg);
   }
+}
+
+.main-btn {
+  font-size: medium;
+  border-radius: 4px;
+  background: #256ce1;
+  padding: 12px 22px;
+  color: #fff;
+  outline: none;
+  border: none;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  text-decoration: none;
+}
+
+.main-btn:hover {
+  transition: all 0.2s ease-in-out;
+  background: #fff;
+  color: #010606;
+  box-shadow: var(--box-shadow);
 }

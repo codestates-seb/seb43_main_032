@@ -1,12 +1,12 @@
 import GridBox from '@/components/GridBox';
-import Tag from '@/components/Tag';
 import InfoContainer from '@/components/user/InfoContainer';
-import UserInfoCard from '@/components/user/UserInfoCard';
+import UserInfoCard from '@/components/user/UserProfile';
 import useAuth from '@/hooks/useAuth';
-import useUser from '@/hooks/useUser';
+import { useState } from 'react';
 import styled from 'styled-components';
 
 const LeftColumn = styled.div`
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -18,6 +18,8 @@ const LeftColumn = styled.div`
   }
 `;
 const RightColumn = styled.div`
+  display: flex;
+  flex-direction: column;
   padding: 20px;
 `;
 const UserInfo = styled.div`
@@ -44,22 +46,39 @@ const AvatarContainer = styled.div`
   -webkit-box-shadow: 5px 5px 10px 0px rgba(0, 0, 0, 0.25);
   -moz-box-shadow: 5px 5px 10px 0px rgba(0, 0, 0, 0.25);
 `;
-
+const Works = styled.div`
+  /* display: flex; */
+  background-color: teal;
+  width: 100%;
+  padding: 20px;
+  border-radius: 20px;
+`;
 const ProjectContainer = styled.div``;
 const ProjectCard = styled.div``;
 const PostContainer = styled.div``;
 const PostCard = styled.div``;
-const Button = styled.button`
-  border: none;
-  cursor: pointer;
-  padding: 10px 20px;
-  font-size: 20px;
-  border-radius: 5px;
+const DummyBox = styled.div`
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+  border-radius: 10px;
+  display: flex;
+  width: 100%;
+  height: 250px;
+  margin-bottom: 20px;
+  background-color: gray;
 `;
-
+const DummyBox2 = styled.div`
+  background-color: rgba(0, 0, 0, 0.1);
+  width: 100%;
+  height: 100%;
+  padding: 10px;
+  margin-top: 10px;
+  border-radius: 10px;
+`;
 export default function me() {
   const user = useAuth();
-  console.log(user);
+
   return (
     <>
       {user && (
@@ -72,7 +91,7 @@ export default function me() {
               <ProfileContainer>
                 <InfoContainer
                   keyNode={
-                    <AvatarContainer>
+                    <AvatarContainer style={{ width: '70px', height: '70px' }}>
                       <img alt={user.NICK_NAME} src={user.PROFILE_IMAGE} />
                     </AvatarContainer>
                   }
@@ -95,6 +114,38 @@ export default function me() {
                 lastItem
               />
             </UserInfo>
+            <div style={{ display: 'flex' }}>
+              <p
+                className="nanum-bold"
+                style={{ margin: '10px', marginRight: '0', color: 'tomato' }}
+              >
+                Projects
+              </p>
+              <p className="nanum-bold" style={{ margin: '10px' }}>
+                | Posts
+              </p>
+            </div>
+            <Works>
+              <DummyBox>
+                <p className="nanum-bold">My Projects</p>
+                <DummyBox2 />
+              </DummyBox>
+              <DummyBox>
+                <div style={{ display: 'flex' }}>
+                  <p
+                    className="nanum-bold"
+                    style={{
+                      marginRight: '10px',
+                      color: 'tomato',
+                    }}
+                  >
+                    Comment
+                  </p>
+                  <p className="nanum-bold">| Replies</p>
+                </div>
+                <DummyBox2 />
+              </DummyBox>
+            </Works>
           </RightColumn>
         </GridBox>
       )}

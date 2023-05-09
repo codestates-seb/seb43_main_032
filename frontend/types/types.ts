@@ -18,11 +18,12 @@ export type Project = {
   jobs: job[];
   title: string;
   content: string;
-  state: 1 | 2 | 3;
+  state: 1 | 2 | 3 | 4;
   createAt: string;
   view: number;
   heart: number;
   comment: never[];
+  position?: string;
 };
 
 export type PostState = {
