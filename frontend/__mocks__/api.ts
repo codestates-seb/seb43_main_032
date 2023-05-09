@@ -98,8 +98,16 @@ export const handlers = [
   }),
 ];
 
+// 게시글 조회 관련
 export const postHandler = [
-  rest.get('/post', async (req, res, ctx) => {
-    return res(ctx.status(200), ctx.json(post));
+  rest.get('/community', async (req, res, ctx) => {
+    const url = new URL(req.url);
+    const size = Number(url.searchParams.get('size'));
+    const page = Number(url.searchParams.get('page'));
+    const start = (page - 1) * size;
+    const end = page * size;
+    const total = post.length;
+    const data = post.slice(start, end);
+    return res(ctx.status(200), ctx.json({ data, total }));
   }),
 ];
