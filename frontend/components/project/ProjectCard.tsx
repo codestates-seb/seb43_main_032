@@ -172,8 +172,6 @@ const Box = styled.div<BoxProps>`
     text-overflow: ellipsis;
     white-space: nowrap;
     overflow: hidden;
-    @media (max-width: 980px) {
-    }
   }
 
   .select-box {
