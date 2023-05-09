@@ -8,10 +8,10 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "messages")
+@Table(name = "chat")
 @Getter
 @Setter
-public class Message {
+public class Chat {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long messageId;
@@ -31,7 +31,7 @@ public class Message {
     private String content;
 
     @Column(columnDefinition = "TINYINT")
-    private boolean read;
+    private boolean reading;
 
     @Column
     private LocalDateTime createdAt = LocalDateTime.now();
