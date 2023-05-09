@@ -5,76 +5,66 @@ import ContentItem from './ContentItem';
 import ContentPageNation from './ContentPageNation';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { resetSearchState, searchState } from '@/recoil/atom';
-import { useQuery } from 'react-query';
+import { useInfiniteQuery, useQuery } from 'react-query';
 import { useRouter } from 'next/router';
 import { Article } from '@/types/types';
 
-const getData = async (): Promise<Article[]> => {
-  // back 부분에서 데이터를 필터링으로 넘겨준다.
-  // params만 상태로 관리 star, view 등 등
-
-  const res = await api('/post');
-  const sortedData = res.data.sort((a: Article, b: Article) => {
-    const dateA = new Date(a.createdAt);
-    const dateB = new Date(b.createdAt);
-    return dateB.getTime() - dateA.getTime();
-  });
-  return sortedData;
-};
-
 export default function ContentItemList() {
   // 주솟값으로 데이터 필터링
+  const [page, setPage] = useState<number>(1);
   const router = useRouter();
-  const currentRouter = router.query.id;
-
-  // 검색어 입력 시 atom 저장, 불러오기
-  const searchTitle = useRecoilValue(searchState);
-
-  // 초기화 상태값
-  const [resetSearch, setResetSearch] = useRecoilState(resetSearchState);
+  console.log(router.query);
 
   // 데이터 불러오기
-  const { data = [], isLoading, isError } = useQuery(['posts'], getData);
-  if (isLoading) return <div>isLoading...</div>;
-  if (isError) return <div>isError...</div>;
+  const page_limit = 10;
+  const { isLoading, isError, data, hasNextPage, isFetching } =
+    useInfiniteQuery(
+      ['posts', page],
+      ({ pageParam = page }) =>
+        api(`/community?size=${page_limit}&page=${pageParam}`).then(
+          (res) => res.data
+        ),
+      {
+        getNextPageParam: (lastPage, allPages) => {
+          if (lastPage.data.length < page_limit) {
+            return null;
+          }
+          return allPages.length + 1;
+        },
+      }
+    );
+  let filteredData;
+  if (data) {
+    filteredData = data;
+  }
+
+  const totalData: number = filteredData && filteredData.pages[0].total;
   // querykey [post, filter] 등
-
-  let filteredData = data!;
-
-  // 카테고리별로 데이터 필터링
-  if (currentRouter && currentRouter !== 'all') {
-    filteredData = data.filter(
-      (post: Article) => post.category === currentRouter
-    );
-  }
-
-  // 입력된 검색어별 데이터 필터링
-  if (searchTitle !== '') {
-    filteredData = filteredData.filter((post: Article) =>
-      post.title.toLowerCase().includes(searchTitle.toLowerCase())
-    );
-  }
-
-  if (!resetSearch) {
-    filteredData = data!;
-  }
 
   return (
     <Container>
+      {isLoading && <div>isLoading...</div>}
+      {isError && <div>isError...</div>}
       {filteredData &&
-        filteredData.map((ex: Article, idx: number) => (
-          <ContentItem {...ex} key={idx} />
-        ))}
-      <ContentPageNation />
+        filteredData.pages.map((page, idx: number) =>
+          page.data.map((article: Article) => (
+            <ContentItem {...article} key={article.id} />
+          ))
+        )}
+      <ContentPageNation
+        totalData={totalData}
+        currentPage={page}
+        setPage={setPage}
+      />
     </Container>
   );
 }
 
 const Container = styled.div`
   width: 100%;
-  background-color: gray;
   border-radius: var(--radius-def);
   padding: var(--padding-2);
+  padding-top: 0px;
   display: flex;
   flex-direction: column;
   justify-content: center;
