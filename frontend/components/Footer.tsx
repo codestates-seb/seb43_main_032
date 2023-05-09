@@ -26,7 +26,6 @@ const Container = styled.div`
   }
 
   .col {
-    min-width: 250px;
     color: #fff;
     text-decoration: none;
     padding: 0 32px;
@@ -70,7 +69,7 @@ const Container = styled.div`
     transition: all.3s ease;
   }
 
-  @media screen and (max-width: 900px) {
+  @media screen and (max-width: 980px) {
     .row {
       flex-direction: column;
     }

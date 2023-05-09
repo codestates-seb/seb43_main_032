@@ -23,7 +23,7 @@ const ProjectCard = ({ data, size }: Props) => {
     <Box size={size}>
       <Card
         onClick={() => viewProject(data.id)}
-        width={size === 'lg' ? 416 : 298}
+        width={size === 'lg' ? '416px' : '298px'}
       >
         <div className="img-box">
           <img
@@ -143,6 +143,10 @@ const Box = styled.div<BoxProps>`
   align-items: center;
   margin: 24px 0px;
 
+  @media (max-width: 980px) {
+    margin: 2px 0px;
+  }
+
   ul {
     display: flex;
     flex-wrap: wrap;
@@ -154,6 +158,9 @@ const Box = styled.div<BoxProps>`
     display: flex;
     justify-content: center;
     align-items: center;
+    @media (max-width: 980px) {
+      display: none;
+    }
     > img {
       width: 100%;
       height: 100%;
@@ -162,10 +169,11 @@ const Box = styled.div<BoxProps>`
   }
 
   .title-box {
-    width: ${(props) => (props.size === 'lg' ? '374px' : '256px')};
     text-overflow: ellipsis;
     white-space: nowrap;
     overflow: hidden;
+    @media (max-width: 980px) {
+    }
   }
 
   .select-box {
