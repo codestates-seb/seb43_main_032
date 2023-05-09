@@ -10,6 +10,7 @@ import Error from '@/components/Error';
 import { useRef, useEffect } from 'react';
 import ProjectSkeleton from '@/components/skeleton/ProjectSkeleton';
 import Link from 'next/link';
+import ProjectCardbox from '@/components/project/ProjectCardbox';
 
 const ProjectHome = () => {
   const router = useRouter();
