@@ -24,7 +24,7 @@ export default function PostAddPageContent() {
   const { register, watch, reset } = useForm<DefaultObj>();
 
   const [editor, setEditor] = useState('');
-  const changeEditor = (value: string) => {
+  const changeContent = (value: string) => {
     setEditor(value);
   };
 
@@ -32,9 +32,16 @@ export default function PostAddPageContent() {
     postCommunity();
   };
 
+  // post Project 수정 필
+
   return (
     <Container>
-      <MainPost type={2} register={register} changeEditor={changeEditor} />
+      <MainPost
+        type={2}
+        register={register}
+        changeContent={changeContent}
+        postProject={submitFun}
+      />
       <SubmitBtn onSubmit={submitFun}>제출하기</SubmitBtn>
     </Container>
   );
