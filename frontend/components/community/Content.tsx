@@ -15,6 +15,5 @@ export default function Content() {
 
 const Container = styled.div`
   width: 100%;
-  background-color: #ebebeb;
   padding: var(--padding-2);
 `;

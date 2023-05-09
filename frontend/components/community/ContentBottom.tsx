@@ -7,7 +7,6 @@ import ContentItemList from './ContentItemList';
 export default function ContentBottom() {
   return (
     <Container>
-      <ContentBottomFilter />
       <ContentItemList />
     </Container>
   );
@@ -18,4 +17,6 @@ const Container = styled.div`
   padding: var(--padding-2);
   background: #ffffff;
   border-radius: var(--radius-xl);
+  position: relative;
+  top: 20px;
 `;
