@@ -32,7 +32,7 @@ const User = () => {
     <GridBox>
       <UserSideBar />
       <RightColumn>
-        <p>Star | 가입일 | 활동</p>
+        <p className="nanum-bold">Star | 가입일 | 활동</p>
         <CardWrapper>
           {users &&
             users
