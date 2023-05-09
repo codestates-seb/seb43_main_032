@@ -64,6 +64,7 @@ const Box = styled.div`
   top: -3.5%;
   width: 100%;
   display: flex;
+  z-index: 11;
   justify-content: center;
   > div {
     border: 1px solid #eaebeb;
