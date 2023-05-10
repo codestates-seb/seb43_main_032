@@ -1,5 +1,4 @@
 import ProjectCarousel from '@/components/project/ProjectCarousel';
-import ProjectCard from '@/components/project/ProjectCard';
 import styled from 'styled-components';
 import { useRouter } from 'next/router';
 import { useInfiniteQuery } from 'react-query';
@@ -65,7 +64,6 @@ const ProjectHome = () => {
       }
     };
   }, [target.current, data?.pageParams]);
-  console.log(data)
 
   if (isLoading) return <Loading />;
   if (error) return <Error>잠시 후 다시 시도해주세요.</Error>;

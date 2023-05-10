@@ -1,4 +1,4 @@
 import { setupServer } from 'msw/node';
-import { handlers } from './api';
+import { handlers, projectHandlers } from './api';
 
-module.exports.server = setupServer(...handlers);
+module.exports.server = setupServer(...handlers, ...projectHandlers);

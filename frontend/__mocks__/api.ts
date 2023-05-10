@@ -21,7 +21,9 @@ export const handlers = [
       return res(ctx.status(404), ctx.json({ error: 'User not found' }));
     }
   }),
-  //프로젝트 관련
+];
+
+export const projectHandlers = [
   rest.get('/project', async (req, res, ctx) => {
     const url = new URL(req.url);
     const size = Number(url.searchParams.get('size'));
