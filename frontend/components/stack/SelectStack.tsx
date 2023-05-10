@@ -1,5 +1,5 @@
 import { STACKS, STACKS_CATEGORIES } from '@/constant/constant';
-import { Dispatch, SetStateAction, useState } from 'react';
+import { Dispatch, SetStateAction } from 'react';
 import styled from 'styled-components';
 import Stack from './Stack';
 

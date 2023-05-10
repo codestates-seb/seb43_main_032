@@ -8,7 +8,7 @@ type Props = {
 
 const StacksBox = ({ stacks, onModal }: Props) => {
   return (
-    <Box onModal={onModal}>
+    <Box>
       <div>프로젝트 메인 스택</div>
       <ul className="noto-regular-13">
         <li className="button-box">
@@ -38,9 +38,7 @@ const Box = styled.div<BoxProps>`
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  > ul {
-    cursor: ${(props) => (props.onModal ? 'pointer' : '')};
-  }
+
   .select-tag-box {
     display: flex;
     flex-wrap: wrap;
@@ -51,3 +49,4 @@ const Box = styled.div<BoxProps>`
     }
   }
 `;
+

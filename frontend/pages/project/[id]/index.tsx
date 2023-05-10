@@ -14,6 +14,7 @@ import { useEffect } from 'react';
 import Error from '@/components/Error';
 import { useRouter } from 'next/router';
 import Btn from '@/components/Btn';
+import Position from '@/components/Position';
 const ReactMarkdown = dynamic(() => import('@/components/editor/ContentBox'), {
   ssr: false,
   loading: () => <ContentSkeleton />,
@@ -79,7 +80,7 @@ const ViewProject = () => {
             <div>작성자</div>
             <div className="author noto-medium">
               <div className="noto-medium">
-                포지션 : <span>{data.position}</span>
+                <Position text={data.position!} />
               </div>
               <div>
                 <img
@@ -210,9 +211,16 @@ const Main = styled.div`
     display: flex;
     width: 100%;
     justify-content: space-between;
+    @media (max-width: 768px) {
+      flex-direction: column;
+    }
     > div:first-child {
       display: flex;
       gap: 8px;
+      @media (max-width: 414px) {
+        flex-direction: column;
+        align-items: center;
+      }
     }
     span {
       font-weight: 900;
@@ -272,13 +280,7 @@ const Side = styled.div`
       display: flex;
       align-items: center;
       flex-direction: column;
-      gap: 16px;
-      span {
-        border-radius: var(--radius-def);
-        background: #256ce1;
-        padding: 8px;
-        color: #fff;
-      }
+      gap: 12px;
       > div:last-child {
         display: flex;
         justify-content: center;
