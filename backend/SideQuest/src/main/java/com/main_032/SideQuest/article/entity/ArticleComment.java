@@ -1,6 +1,7 @@
 package com.main_032.SideQuest.article.entity;
 
 import com.main_032.SideQuest.member.entity.Member;
+import com.main_032.SideQuest.util.entity.BaseEntity;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -11,15 +12,13 @@ import java.util.List;
 
 @Entity
 @Getter
-@Setter
-public class ArticleComment {
+public class ArticleComment extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long articleCommentId;
+    private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "MEMBER_ID")
-    private Member member;
+    @Column
+    private Long memberId;
 
     @ManyToOne
     @JoinColumn(name = "ARTICLE_ANSWER_ID")
@@ -30,12 +29,6 @@ public class ArticleComment {
 
     @Column
     private int totalLikes;
-
-    @Column
-    private LocalDateTime createdAt = LocalDateTime.now();
-
-    @Column
-    private LocalDateTime updatedAt;
 
     @Column(columnDefinition = "TINYINT")
     private boolean deleted;

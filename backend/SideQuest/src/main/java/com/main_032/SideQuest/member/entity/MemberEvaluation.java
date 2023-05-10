@@ -1,6 +1,7 @@
 package com.main_032.SideQuest.member.entity;
 
 import com.main_032.SideQuest.project.entity.Project;
+import com.main_032.SideQuest.util.entity.BaseEntity;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -9,13 +10,12 @@ import java.time.LocalDateTime;
 
 @Entity
 @Getter
-@Setter
-public class MemberEvaluation {
+public class MemberEvaluation extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column
-    private Long memberEvaluationId;
+    private Long id;
 
     @ManyToOne
     @JoinColumn(name = "MEMBER_GIVER_ID")
@@ -25,9 +25,8 @@ public class MemberEvaluation {
     @JoinColumn(name = "MEMBER_RECEIVER_ID")
     private Member memberReceiver;
 
-    @ManyToOne
-    @JoinColumn(name = "PROJECT_ID")
-    private Project project;
+    @Column
+    private Long projectId;
 
     @Column
     private String title;
@@ -37,12 +36,6 @@ public class MemberEvaluation {
 
     @Column
     private int star;
-
-    @Column
-    private LocalDateTime createdAt = LocalDateTime.now();
-
-    @Column
-    private LocalDateTime updatedAt;
 
     @Column(columnDefinition = "TINYINT")
     private boolean deleted;

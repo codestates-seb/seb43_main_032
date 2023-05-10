@@ -4,6 +4,7 @@ import com.main_032.SideQuest.article.entity.*;
 import com.main_032.SideQuest.project.entity.Project;
 
 
+import com.main_032.SideQuest.util.entity.BaseEntity;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -14,11 +15,10 @@ import java.util.List;
 
 @Entity
 @Getter
-@Setter
-public class Member {
+public class Member extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long memberId;
+    private Long id;
 
     @Column
     private String email;
@@ -50,12 +50,6 @@ public class Member {
     @ElementCollection(fetch = FetchType.EAGER)
     private List<String> roles = new ArrayList<>();
 
-    @Column
-    private LocalDateTime createdAt = LocalDateTime.now();
-
-    @Column
-    private LocalDateTime updatedAt;
-
     @Column(columnDefinition = "TINYINT")
     private boolean deleted;
 
@@ -67,22 +61,4 @@ public class Member {
 
     @OneToMany(mappedBy = "memberReceiver")
     private List<MemberEvaluation> memberEvaluationReceiverList = new ArrayList<>();
-
-    @OneToMany(mappedBy = "member")
-    private List<Project> projectList = new ArrayList<>();
-
-    @OneToMany(mappedBy = "member")
-    private List<Article> articleList = new ArrayList<>();
-
-    @OneToMany(mappedBy = "member")
-    private List<ArticleAnswer> articleAnswerList = new ArrayList<>();
-
-    @OneToMany(mappedBy = "member")
-    private List<ArticleAnswerLike> articleAnswerLikeList = new ArrayList<>();
-
-    @OneToMany(mappedBy = "member")
-    private List<ArticleComment> articleCommentList = new ArrayList<>();
-
-    @OneToMany(mappedBy = "member")
-    private List<ArticleCommentLike> articleCommentLikeList = new ArrayList<>();
 }

@@ -1,6 +1,7 @@
 package com.main_032.SideQuest.project.entity;
 
 import com.main_032.SideQuest.member.entity.Member;
+import com.main_032.SideQuest.util.entity.BaseEntity;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -9,19 +10,17 @@ import java.time.LocalDateTime;
 
 @Entity
 @Getter
-@Setter
-public class ProApplyCrew {
+public class ProApplyCrew extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long projectApplyCrewId;
+    private Long id;
 
     @ManyToOne
     @JoinColumn(name = "PROJECT_ID")
     private Project project;
 
-    @ManyToOne
-    @JoinColumn(name= "MEMBER_ID")
-    private Member member;
+    @Column
+    private Long memberId;
 
     @Column
     private String position;
@@ -31,12 +30,6 @@ public class ProApplyCrew {
 
     @Column
     private String content;
-
-    @Column
-    private LocalDateTime createdAt = LocalDateTime.now();
-
-    @Column
-    private LocalDateTime updatedAt;
 
     @Column(columnDefinition = "TINYINT")
     private boolean deleted;

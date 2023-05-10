@@ -7,11 +7,10 @@ import javax.persistence.*;
 
 @Entity
 @Getter
-@Setter
 public class MemberTechStack {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long memberTechStackId;
+    private Long id;
 
     @Column
     private String tech;
