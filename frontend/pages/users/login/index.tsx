@@ -60,7 +60,7 @@ const Login = () => {
           </TextBox>
           <ImgBox>img here</ImgBox>
         </Contents>
-        <AuthContainer />
+        <AuthContainer isLogin />
       </WrapperInset>
     </Wrapper>
   );

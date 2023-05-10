@@ -25,10 +25,10 @@ const ErrMsg = styled.p`
   color: teal;
 `;
 interface ISignUpForm {
+  nickName: string;
   email: string;
   password: string;
   verifyPw: string;
-  nickName: string;
 }
 export default function SignUpForm() {
   const {
@@ -52,7 +52,6 @@ export default function SignUpForm() {
             required: '닉네임을 입력해주세요',
           })}
           name="닉네임"
-          // type="email"
         />
         <AuthInput //
           register={register('email', {
