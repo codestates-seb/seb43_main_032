@@ -7,10 +7,108 @@ import { useRecoilValue } from 'recoil';
 import styled from 'styled-components';
 import { isLoggedInState } from '@/recoil/atom';
 import { useRouter } from 'next/router';
-import { useMemo } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { DefaultObj } from '@/types/types';
 
-const Nav = styled.nav`
+const Header = () => {
+  const isLoggedIn = useRecoilValue(isLoggedInState);
+  const router = useRouter();
+
+  //네비
+  const navArr: DefaultObj = {
+    home: '/',
+    community: '/community',
+    projects: '/project',
+    users: '/users',
+    mypage: '/mypage',
+    logout: '/',
+    login: '/login',
+    signUp: '/signUp',
+  };
+
+  //네비 이름 배열
+  const navNames = useMemo(() => Object.keys(navArr), []);
+
+  //스크롤 높이 상태
+  const [isScrolled, setIsScrolled] = useState(false);
+
+  //스크롤 높이 상태 핸들러
+  const handleScroll = () => {
+    if (window.scrollY > 10) {
+      setIsScrolled(true);
+    } else {
+      setIsScrolled(false);
+    }
+  };
+
+  //스크롤이 10이상 내려오면 네비바의 배경을 입혀주기 위한 이펙트
+  useEffect(() => {
+    window.addEventListener('scroll', handleScroll);
+    if (window.scrollY > 10) {
+      setIsScrolled(true);
+    }
+  }, []);
+
+  return (
+    <>
+      <Nav isScrolled={isScrolled}>
+        <NavLink href="/">
+          <Image src={LogoImage} alt="logo" />
+        </NavLink>
+        <Bars />
+        <NavMenu>
+          {navNames.slice(0, 4).map((name) => (
+            <li>
+              <a
+                onClick={() => router.push(navArr[name])}
+                className="nanum-regular"
+              >
+                {name.toUpperCase()}
+              </a>
+            </li>
+          ))}
+          {isLoggedIn
+            ? navNames.slice(4, 6).map((name) =>
+                name === 'mypage' ? (
+                  <li>
+                    <Link href={`${navArr[name]}`}>
+                      <FaUserAlt size={20} />
+                    </Link>
+                  </li>
+                ) : (
+                  <li>
+                    <Link
+                      href={`${navArr[name]}`}
+                      className="nanum-regular main-btn"
+                    >
+                      <span>{name.toUpperCase()}</span>
+                    </Link>
+                  </li>
+                )
+              )
+            : navNames.slice(6).map((name) => (
+                <li>
+                  <Link
+                    href={`/users${navArr[name]}`}
+                    className="nanum-regular main-btn"
+                  >
+                    <span>{name.toUpperCase()}</span>
+                  </Link>
+                </li>
+              ))}
+        </NavMenu>
+      </Nav>
+    </>
+  );
+};
+
+export default Header;
+
+type NavProps = {
+  isScrolled: boolean;
+};
+
+const Nav = styled.nav<NavProps>`
   top: 0;
   left: 0;
   position: fixed;
@@ -19,6 +117,7 @@ const Nav = styled.nav`
   height: 80px;
   display: flex;
   padding: 0px calc((100% - 1280px) / 2);
+  box-shadow: ${(props) => props.isScrolled && '0 2px 4px rgba(0, 0, 0, 0.2)'};
   z-index: 10;
 `;
 
@@ -71,102 +170,7 @@ const NavMenu = styled.ul`
     }
   }
 
-  .users {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border-radius: 40px;
-    min-width: 88px;
-    background: #fec01d;
-    color: #fff;
-    outline: none;
-    border: none;
-    height: 100%;
-    cursor: pointer;
-    transition: all 0.2s ease-in-out;
-    text-decoration: none;
-    &:hover {
-      transition: all 0.2s ease-in-out;
-      background: #f0edb1;
-      color: #010606;
-    }
-  }
-
   @media screen and (max-width: 980px) {
     display: none;
   }
 `;
-
-const Header = () => {
-  const isLoggedIn = useRecoilValue(isLoggedInState);
-  const router = useRouter();
-
-  //네비
-  const navArr: DefaultObj = {
-    home: '/',
-    community: '/community',
-    projects: '/project',
-    users: '/users',
-    mypage: '/mypage',
-    logout: '/',
-    login: '/login',
-    signUp: '/signUp',
-  };
-
-  //네비 이름 배열
-  const navNames = useMemo(() => Object.keys(navArr), []);
-
-  return (
-    <>
-      <Nav>
-        <NavLink href="/">
-          <Image src={LogoImage} alt="logo" />
-        </NavLink>
-        <Bars />
-        <NavMenu>
-          {navNames.slice(0, 4).map((name) => (
-            <li>
-              <a
-                onClick={() => router.push(navArr[name])}
-                className="nanum-regular"
-              >
-                {name}
-              </a>
-            </li>
-          ))}
-          {isLoggedIn
-            ? navNames.slice(4, 6).map((name) =>
-                name === 'mypage' ? (
-                  <li>
-                    <Link href={`${navArr[name]}`}>
-                      <FaUserAlt size={20} />
-                    </Link>
-                  </li>
-                ) : (
-                  <li>
-                    <Link
-                      href={`${navArr[name]}`}
-                      className="nanum-regular users"
-                    >
-                      {name}
-                    </Link>
-                  </li>
-                )
-              )
-            : navNames.slice(6).map((name) => (
-                <li>
-                  <Link
-                    href={`/users${navArr[name]}`}
-                    className="nanum-regular users"
-                  >
-                    {name}
-                  </Link>
-                </li>
-              ))}
-        </NavMenu>
-      </Nav>
-    </>
-  );
-};
-
-export default Header;
