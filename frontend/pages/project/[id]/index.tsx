@@ -68,6 +68,7 @@ const ViewProject = () => {
   };
 
   const data = projectQuery.data?.post_data;
+
   if (projectQuery.isLoading) return <Loading />;
   if (projectQuery.error) return <Error>잠시 후 다시 시도해주세요.</Error>;
   if (data)

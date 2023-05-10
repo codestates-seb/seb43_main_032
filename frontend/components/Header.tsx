@@ -61,9 +61,9 @@ const Header = () => {
             <li>
               <a
                 onClick={() => router.push(navArr[name])}
-                className="nanum-regular"
+                className="nanum-regular sub-btn"
               >
-                {name.toUpperCase()}
+                <span className="sub-btn-top">{name.toUpperCase()}</span>
               </a>
             </li>
           ))}
@@ -122,11 +122,12 @@ const Nav = styled.nav<NavProps>`
 `;
 
 const NavLink = styled(Link)`
+  width: auto;
   color: #000f;
   display: flex;
   align-items: center;
   text-decoration: none;
-  padding: 0 1rem;
+  padding-left: 20px;
   height: 100%;
   cursor: pointer;
   &.active {
@@ -154,10 +155,10 @@ const NavMenu = styled.ul`
   width: 100%;
   justify-content: end;
   white-space: nowrap;
-  padding: 0px 20px;
+  padding-right: 20px;
 
   > li {
-    margin-left: 40px;
+    margin-left: 24px;
     color: #000f;
     display: flex;
     align-items: center;
