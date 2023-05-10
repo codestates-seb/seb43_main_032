@@ -10,6 +10,7 @@ import { useRef, useEffect } from 'react';
 import ProjectSkeleton from '@/components/skeleton/ProjectSkeleton';
 import Link from 'next/link';
 import { Project } from '@/types/project';
+import ProjectCardbox from '@/components/project/ProjectCardbox';
 
 type PageProps = { data: Project[]; total: number };
 
@@ -94,18 +95,12 @@ const ProjectHome = () => {
             </div>
           </div>
         </div>
-        <div className="common-box">
-          <div className="nanum-bold">전체 프로젝트</div>
-          <div className="projects-box">
-            {data.pages &&
-              data.pages.map((page) =>
-                page.data.map((project: Project) => (
-                  <ProjectCard key={project.id} size={'sm'} data={project} />
-                ))
-              )}
-          </div>
+        <ProjectCardbox
+          title="전체 프로젝트"
+          data={data.pages?.flatMap((page) => page.data)}
+        >
           {isFetching && hasNextPage && <ProjectSkeleton />}
-        </div>
+        </ProjectCardbox>
         <div ref={target} className="observer"></div>
         {!isFetching && !hasNextPage && (
           <div className="last-box nanum-bold blink">
