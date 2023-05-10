@@ -71,6 +71,7 @@ const NavMenu = styled.div`
 
   .users {
     border-radius: 40px;
+    min-width: 88px;
     background: #fec01d;
     color: #fff;
     outline: none;
@@ -117,7 +118,7 @@ const Header = () => {
           <a onClick={() => router.push('/users')} className="nanum-regular">
             Users
           </a>
-          {!isLoggedIn ? (
+          {isLoggedIn ? (
             <>
               <Link href="/mypage">
                 <FaUserAlt size={20} />
