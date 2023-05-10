@@ -96,7 +96,9 @@ const ViewProject = () => {
           <div className="want-box">
             <div>모집 중인 직군</div>
             <div>
-              <Btn>지원자 확인</Btn>
+              <Btn>
+                <span>지원자 확인</span>
+              </Btn>
             </div>
             <ul>
               {jobCount &&
@@ -164,7 +166,7 @@ const ViewProject = () => {
             </div>
             <div>
               <a onClick={moveEdit} className="main-btn">
-                프로젝트 수정
+                <span>프로젝트 수정</span>
               </a>
             </div>
           </div>
@@ -250,17 +252,6 @@ const Side = styled.div`
   align-items: center;
   gap: 32px;
   padding: var(--padding-1);
-
-  button {
-    cursor: pointer;
-    border: none;
-    padding: 8px 32px;
-    font-weight: 700;
-    border-radius: var(--radius-def);
-    :hover {
-      background-color: #e1e7e5;
-    }
-  }
 
   > div {
     width: 100%;

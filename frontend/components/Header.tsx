@@ -38,7 +38,7 @@ const NavLink = styled(Link)`
 const Bars = styled(FiMenu)`
   display: none;
   color: #000;
-  @media screen and (max-width: 768px) {
+  @media screen and (max-width: 980px) {
     display: block;
     position: absolute;
     top: 0;
@@ -55,9 +55,10 @@ const NavMenu = styled.ul`
   width: 100%;
   justify-content: end;
   white-space: nowrap;
+  padding: 0px 20px;
 
   > li {
-    margin-left: 20px;
+    margin-left: 40px;
     color: #000f;
     display: flex;
     align-items: center;
@@ -91,7 +92,7 @@ const NavMenu = styled.ul`
     }
   }
 
-  @media screen and (max-width: 768px) {
+  @media screen and (max-width: 980px) {
     display: none;
   }
 `;

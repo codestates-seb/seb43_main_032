@@ -72,7 +72,7 @@ const ProjectHome = () => {
       <Box>
         <div className="link-box">
           <Link href={`${router.asPath}/create`} className="main-btn">
-            프로젝트 작성
+            <span>프로젝트 작성</span>
           </Link>
         </div>
         <div className="special-box">
