@@ -1,19 +1,8 @@
-//홈 페이지 입니다. 경로 '/'
-import Card from '@/components/Card';
 import { Project } from '@/types/types';
-import { useState } from 'react';
 import styled from 'styled-components';
-import { GrView } from 'react-icons/gr';
-import Tag from '@/components/Tag';
-import Stack from '@/components/stack/Stack';
-import { AiFillHeart } from 'react-icons/ai';
 import { useQuery } from 'react-query';
 import { api } from '@/util/api';
-import { LayoutGroup } from 'framer-motion';
 import { useRouter } from 'next/router';
-import ProjectCard from '@/components/project/ProjectCard';
-import project from './project';
-import { title } from 'process';
 import ProjectCardbox from '@/components/project/ProjectCardbox';
 
 // const Banner = styled.div`
@@ -22,19 +11,12 @@ import ProjectCardbox from '@/components/project/ProjectCardbox';
 //   background-color: #dcdcdc;
 // `;
 
-type Props = {
-  size: string;
-  data: Project[];
-};
-
 const Box = styled.div`
   width: 100%;
   padding: var(--padding-2);
 `;
 
 const Home = () => {
-  const router = useRouter();
-
   // useQuery를 사용하여 데이터 fetch
   const { data } = useQuery<{ data: Project[]; total: number }>(
     'projects',
