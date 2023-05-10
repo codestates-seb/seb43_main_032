@@ -39,7 +39,7 @@ export type Article = {
   avatar: string;
   category: string;
   title: string;
-  content: null;
+  content: string;
   createdAt: string;
   heart: number;
   view: number;
