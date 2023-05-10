@@ -2,6 +2,7 @@ import { rest } from 'msw';
 import users from './datas/users.json';
 import { POST_STATE, PROJECTS } from './dummy/project';
 import post from './datas/community.json';
+import { DefaultObj } from '@/types/types';
 
 export const handlers = [
   rest.get('/test', async (req, res, ctx) => {
@@ -40,6 +41,7 @@ export const handlers = [
   rest.post('/project/:id/job', async (req, res, ctx) => {
     const { id } = req.params;
     const data = await req.json();
+    console.log(data.data);
     const post_data = PROJECTS.find((project) => project.id === Number(id));
     const job = post_data?.jobs.find((job) => Object.keys(job)[0] === data.job);
     if (data.update === 'want' && job) {
@@ -99,6 +101,11 @@ export const handlers = [
 ];
 
 // 게시글 조회 관련
+//
+//
+//
+//
+//
 export const postHandler = [
   rest.get('/community', async (req, res, ctx) => {
     const url = new URL(req.url);
@@ -106,8 +113,50 @@ export const postHandler = [
     const page = Number(url.searchParams.get('page'));
     const start = (page - 1) * size;
     const end = page * size;
-    const total = post.length;
-    const data = post.slice(start, end);
+    const search = url.searchParams.get('search');
+
+    let filteredData = post;
+    if (search !== null) {
+      filteredData = post.filter((p) => p.title.includes(search));
+      console.log(search);
+      console.log(filteredData);
+    } else {
+      filteredData = post;
+    }
+
+    const data = filteredData.slice(start, end);
+    const total = filteredData.length;
     return res(ctx.status(200), ctx.json({ data, total }));
+  }),
+
+  rest.get('/community/:category', async (req, res, ctx) => {
+    const url = new URL(req.url);
+    const size = Number(url.searchParams.get('size'));
+    const page = Number(url.searchParams.get('page'));
+    const start = (page - 1) * size;
+    const end = page * size;
+    const filteredData = post.filter((p) => p.category === req.params.category);
+    const search = url.searchParams.get('search');
+
+    let data = filteredData;
+    let total = filteredData.length;
+    if (search) {
+      data = filteredData.filter((p) => p.title.includes(search));
+      total = data.length;
+    }
+
+    data = data.slice(start, end);
+    return res(ctx.status(200), ctx.json({ data, total }));
+  }),
+
+  rest.get('/community/post/:id', async (req, res, ctx) => {
+    const { id } = req.params;
+    const eachPost = post.find((project) => project.id === Number(id));
+    return res(ctx.status(200), ctx.json({ eachPost }));
+  }),
+
+  rest.post('/community/create/', async (req, res, ctx) => {
+    const id = post.length + 1;
+    const data = await req.json();
   }),
 ];
