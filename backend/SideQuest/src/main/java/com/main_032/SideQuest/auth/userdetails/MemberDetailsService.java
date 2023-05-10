@@ -1,10 +1,10 @@
 package com.main_032.SideQuest.auth.userdetails;
 
 import com.main_032.SideQuest.auth.utils.CustomAuthorityUtils;
-import com.main_032.SideQuest.domain.member.entity.Member;
-import com.main_032.SideQuest.domain.member.repository.MemberRepository;
-import com.main_032.SideQuest.global.exception.BusinessLogicException;
-import com.main_032.SideQuest.global.exception.ExceptionCode;
+import com.main_032.SideQuest.member.entity.Member;
+import com.main_032.SideQuest.member.repository.MemberRepository;
+import com.main_032.SideQuest.util.exception.BusinessLogicException;
+import com.main_032.SideQuest.util.exception.ExceptionCode;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

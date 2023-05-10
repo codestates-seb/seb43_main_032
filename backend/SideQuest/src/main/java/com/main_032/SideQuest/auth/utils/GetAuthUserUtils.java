@@ -1,7 +1,7 @@
 package com.main_032.SideQuest.auth.utils;
 
-import com.main_032.SideQuest.global.exception.BusinessLogicException;
-import com.main_032.SideQuest.global.exception.ExceptionCode;
+import com.main_032.SideQuest.util.exception.BusinessLogicException;
+import com.main_032.SideQuest.util.exception.ExceptionCode;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 

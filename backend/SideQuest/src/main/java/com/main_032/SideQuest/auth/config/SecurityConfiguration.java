@@ -5,7 +5,7 @@ import com.main_032.SideQuest.auth.filter.JwtVerificationFilter;
 import com.main_032.SideQuest.auth.handler.MemberAuthenticationSuccessHandler;
 import com.main_032.SideQuest.auth.jwt.JwtTokenizer;
 import com.main_032.SideQuest.auth.utils.CustomAuthorityUtils;
-import com.main_032.SideQuest.domain.member.repository.MemberRepository;
+import com.main_032.SideQuest.member.repository.MemberRepository;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;

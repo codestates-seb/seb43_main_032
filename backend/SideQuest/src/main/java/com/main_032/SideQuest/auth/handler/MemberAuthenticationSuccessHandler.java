@@ -1,10 +1,10 @@
 package com.main_032.SideQuest.auth.handler;
 
 import com.google.gson.JsonObject;
-import com.main_032.SideQuest.domain.member.entity.Member;
-import com.main_032.SideQuest.domain.member.repository.MemberRepository;
-import com.main_032.SideQuest.global.exception.BusinessLogicException;
-import com.main_032.SideQuest.global.exception.ExceptionCode;
+import com.main_032.SideQuest.member.entity.Member;
+import com.main_032.SideQuest.member.repository.MemberRepository;
+import com.main_032.SideQuest.util.exception.BusinessLogicException;
+import com.main_032.SideQuest.util.exception.ExceptionCode;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.Authentication;
