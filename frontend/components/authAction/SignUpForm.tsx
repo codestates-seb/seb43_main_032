@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import AuthInput from './AuthInput';
 import { useForm, FieldErrors } from 'react-hook-form';
+import useMutation from '@/hooks/useMutation';
 
 const Wrapper = styled.div`
   width: 100%;
@@ -31,16 +32,18 @@ interface ISignUpForm {
   verifyPw: string;
 }
 export default function SignUpForm() {
+  const [enter, { loading, data, error }] = useMutation('/api/users/enter');
   const {
     register,
     watch,
     handleSubmit,
     formState: { errors },
   } = useForm<ISignUpForm>();
-  console.log(watch('password'));
   const onValid = (data: ISignUpForm) => {
-    console.log(data);
+    // console.log(data);
+    enter(data);
   };
+  console.log(loading, data, error);
   const onInValid = (errors: FieldErrors) => {
     console.log(errors);
   };
