@@ -3,22 +3,10 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import styled from 'styled-components';
 import MainPost from '../MainPost';
 import { DefaultObj } from '@/types/types';
+import { api } from '@/util/api';
 
 // 보류
 // 에디터로 content 작성
-const postCommunity = () => {
-  // const data = {
-  //   start,
-  //   end,
-  //   select,
-  //   tags,
-  //   job,
-  //   position: watch().position,
-  //   title: watch().title,
-  //   editor,
-  // };
-  //   api.post('/project', data).then(() => router.push('/'));
-};
 
 export default function PostAddPageContent() {
   const { register, watch, reset } = useForm<DefaultObj>();
@@ -32,7 +20,14 @@ export default function PostAddPageContent() {
     postCommunity();
   };
 
-  // post Project 수정 필
+  const postCommunity = () => {
+    const data = {
+      title: watch().title,
+      position: watch().position,
+      editor,
+    };
+    api.post('/community/create', data).then();
+  };
 
   return (
     <Container>
@@ -42,7 +37,6 @@ export default function PostAddPageContent() {
         changeContent={changeContent}
         postProject={submitFun}
       />
-      <SubmitBtn onSubmit={submitFun}>제출하기</SubmitBtn>
     </Container>
   );
 }
