@@ -35,21 +35,26 @@ const Container = styled.div`
     align-items: center;
   }
   @media (max-width: 1300px) {
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(2, 1fr);
     > div:last-child {
+      display: none;
+    }
+    > div:first-child {
       display: none;
     }
   }
   @media (max-width: 980px) {
-    grid-template-columns: repeat(2, 1fr);
-    > div:nth-child(3) {
-      display: none;
-    }
-  }
-  @media (max-width: 680px) {
-    grid-template-columns: repeat(1, 1fr);
-    > div:nth-child(2) {
-      display: none;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    padding-top: 0px;
+    gap: 6px;
+    > div {
+      width: 100%;
+      > div {
+        width: 100%;
+        height: 181px;
+      }
     }
   }
 `;

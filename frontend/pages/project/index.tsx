@@ -103,7 +103,8 @@ const ProjectHome = () => {
                 ))
               )}
           </div>
-          {isFetching && hasNextPage && <ProjectSkeleton />}
+          {/* {isFetching && hasNextPage && <ProjectSkeleton />} */}
+          {<ProjectSkeleton />}
         </div>
         <div ref={target} className="observer"></div>
         {!isFetching && !hasNextPage && (
@@ -161,7 +162,8 @@ const Box = styled.div`
     .projects-box {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
-      margin: 24px 0px;
+      margin-top: 24px;
+      margin-bottom: 4px;
       gap: 16px;
       @media (max-width: 1300px) {
         grid-template-columns: repeat(2, 1fr);
