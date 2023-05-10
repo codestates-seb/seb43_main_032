@@ -8,9 +8,9 @@ import org.springframework.stereotype.Component;
 public class MemberMapper {
     public Member memberPostDtoToMember(MemberPostDto memberPostDto) {
         Member member = new Member();
-        member.setName(memberPostDto.getName());
-        member.setEmail(memberPostDto.getEmail());
-        member.setPassword(memberPostDto.getPassword());
+        member.updateName(memberPostDto.getName());
+        member.updateEmail(memberPostDto.getEmail());
+        member.updatePassword(memberPostDto.getPassword());
         return member;
     }
 }

@@ -33,9 +33,9 @@ public class MemberService {
 
         Member member = memberMapper.memberPostDtoToMember(memberPostDto);
         String encryptedPassword = passwordEncoder.encode(member.getPassword());
-        member.setPassword(encryptedPassword);
+        member.updatePassword(encryptedPassword);
         List<String> roles = authorityUtils.createRoles(member.getEmail());
-        member.setRoles(roles);
+        member.updateRoles(roles);
         memberRepository.save(member);
         return;
     }

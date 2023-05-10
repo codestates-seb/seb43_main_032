@@ -34,11 +34,11 @@ public class MemberDetailsService implements UserDetailsService {
 
     private final class MemberDetails extends Member implements UserDetails {
         MemberDetails(Member member) {
-            setMemberId(member.getMemberId());
-            setName(member.getName());
-            setEmail(member.getEmail());
-            setPassword(member.getPassword());
-            setRoles(member.getRoles());
+            updateId(member.getId());
+            updateName(member.getName());
+            updateEmail(member.getEmail());
+            updatePassword(member.getPassword());
+            updateRoles(member.getRoles());
         }
 
         @Override

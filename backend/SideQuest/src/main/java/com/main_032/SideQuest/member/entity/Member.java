@@ -15,6 +15,7 @@ import java.util.List;
 
 @Entity
 @Getter
+//@Setter
 public class Member extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -61,4 +62,24 @@ public class Member extends BaseEntity {
 
     @OneToMany(mappedBy = "memberReceiver")
     private List<MemberEvaluation> memberEvaluationReceiverList = new ArrayList<>();
+
+    public void updateId(Long id) {
+        this.id = id;
+    }
+
+    public void updateName(String name) {
+        this.name = name;
+    }
+
+    public void updateEmail(String email) {
+        this.email = email;
+    }
+
+    public void updatePassword(String password) {
+        this.password = password;
+    }
+
+    public void updateRoles(List<String> roles) {
+        this.roles = roles;
+    }
 }
