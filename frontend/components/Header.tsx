@@ -7,6 +7,8 @@ import { useRecoilValue } from 'recoil';
 import styled from 'styled-components';
 import { isLoggedInState } from '@/recoil/atom';
 import { useRouter } from 'next/router';
+import { useMemo } from 'react';
+import { DefaultObj } from '@/types/types';
 
 const Nav = styled.nav`
   top: 0;
@@ -16,8 +18,7 @@ const Nav = styled.nav`
   background: #fff;
   height: 80px;
   display: flex;
-  /* justify-content: space-between; */
-  padding: 0.5rem calc((100vw - 1280px) / 2);
+  padding: 0px calc((100% - 1280px) / 2);
   z-index: 10;
 `;
 
@@ -48,21 +49,21 @@ const Bars = styled(FiMenu)`
   }
 `;
 
-const NavMenu = styled.div`
+const NavMenu = styled.ul`
   display: flex;
   align-items: center;
   width: 100%;
-  justify-content: center;
+  justify-content: end;
   white-space: nowrap;
-  gap: 16px;
 
-  > a {
+  > li {
+    margin-left: 20px;
     color: #000f;
     display: flex;
     align-items: center;
     justify-content: center;
     text-decoration: none;
-    height: 60%;
+    height: 50%;
     cursor: pointer;
     &.active {
       background-color: #15cdfc;
@@ -70,12 +71,16 @@ const NavMenu = styled.div`
   }
 
   .users {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     border-radius: 40px;
     min-width: 88px;
     background: #fec01d;
     color: #fff;
     outline: none;
     border: none;
+    height: 100%;
     cursor: pointer;
     transition: all 0.2s ease-in-out;
     text-decoration: none;
@@ -95,6 +100,21 @@ const Header = () => {
   const isLoggedIn = useRecoilValue(isLoggedInState);
   const router = useRouter();
 
+  //네비
+  const navArr: DefaultObj = {
+    home: '/',
+    community: '/community',
+    projects: '/project',
+    users: '/users',
+    mypage: '/mypage',
+    logout: '/',
+    login: '/login',
+    signUp: '/signUp',
+  };
+
+  //네비 이름 배열
+  const navNames = useMemo(() => Object.keys(navArr), []);
+
   return (
     <>
       <Nav>
@@ -103,40 +123,45 @@ const Header = () => {
         </NavLink>
         <Bars />
         <NavMenu>
-          <a onClick={() => router.push('/')} className="nanum-regular">
-            Home
-          </a>
-          <a
-            onClick={() => router.push('/community')}
-            className="nanum-regular"
-          >
-            Community
-          </a>
-          <a onClick={() => router.push('/project')} className="nanum-regular">
-            Projects
-          </a>
-          <a onClick={() => router.push('/users')} className="nanum-regular">
-            Users
-          </a>
-          {isLoggedIn ? (
-            <>
-              <Link href="/mypage">
-                <FaUserAlt size={20} />
-              </Link>
-              <Link href="/" className="nanum-regular users">
-                Logout
-              </Link>
-            </>
-          ) : (
-            <>
-              <Link href="/users/login" className="nanum-regular users">
-                Login
-              </Link>
-              <Link href="/users/login" className="nanum-regular users">
-                SignUp
-              </Link>
-            </>
-          )}
+          {navNames.slice(0, 4).map((name) => (
+            <li>
+              <a
+                onClick={() => router.push(navArr[name])}
+                className="nanum-regular"
+              >
+                {name}
+              </a>
+            </li>
+          ))}
+          {isLoggedIn
+            ? navNames.slice(4, 6).map((name) =>
+                name === 'mypage' ? (
+                  <li>
+                    <Link href={`${navArr[name]}`}>
+                      <FaUserAlt size={20} />
+                    </Link>
+                  </li>
+                ) : (
+                  <li>
+                    <Link
+                      href={`${navArr[name]}`}
+                      className="nanum-regular users"
+                    >
+                      {name}
+                    </Link>
+                  </li>
+                )
+              )
+            : navNames.slice(6).map((name) => (
+                <li>
+                  <Link
+                    href={`/users${navArr[name]}`}
+                    className="nanum-regular users"
+                  >
+                    {name}
+                  </Link>
+                </li>
+              ))}
         </NavMenu>
       </Nav>
     </>
