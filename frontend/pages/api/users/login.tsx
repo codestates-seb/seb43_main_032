@@ -3,7 +3,8 @@ import withHandler from '@/libs/server/withHandler';
 import { NextApiRequest, NextApiResponse } from 'next';
 
 async function handler(req: NextApiRequest, res: NextApiResponse) {
-  console.log('apii', req.body.email);
+  const { email, password } = req.body;
+
   res.status(200).end();
 }
 

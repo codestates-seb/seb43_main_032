@@ -32,7 +32,7 @@ interface ISignUpForm {
   verifyPw: string;
 }
 export default function SignUpForm() {
-  const [enter, { loading, data, error }] = useMutation('/api/users/enter');
+  const [signUp, { loading, data, error }] = useMutation('/api/users/signup');
   const {
     register,
     watch,
@@ -41,7 +41,7 @@ export default function SignUpForm() {
   } = useForm<ISignUpForm>();
   const onValid = (data: ISignUpForm) => {
     // console.log(data);
-    enter(data);
+    signUp(data);
   };
   console.log(loading, data, error);
   const onInValid = (errors: FieldErrors) => {

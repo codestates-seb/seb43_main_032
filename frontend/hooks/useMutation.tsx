@@ -23,7 +23,7 @@ export default function useMutation(url: string): [(data?: any) => void, IObj] {
         'Content-Type': 'application/json',
       },
     }) //
-      .then((res) => res.json().catch(() => {}))
+      .then((res) => res.json())
       .then(setData)
       .catch(setError)
       .finally(() => setLoading(false));
