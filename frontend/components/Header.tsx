@@ -54,60 +54,39 @@ const NavMenu = styled.div`
   width: 100%;
   justify-content: center;
   white-space: nowrap;
+  gap: 16px;
 
   > a {
     color: #000f;
     display: flex;
     align-items: center;
+    justify-content: center;
     text-decoration: none;
-    padding: 0 1rem;
-    height: 100%;
+    height: 60%;
     cursor: pointer;
     &.active {
       background-color: #15cdfc;
     }
   }
 
-  @media screen and (max-width: 768px) {
-    display: none;
-  }
-`;
-
-const NavBtn = styled.a`
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  width: 100vw;
-  width: 205px;
-
-  @media screen and (max-width: 768px) {
-    display: none;
-  }
-`;
-
-const Button = styled.button`
-  border-radius: 40px;
-  background: #fec01d;
-  padding: 10px 22px;
-  color: #fff;
-  outline: none;
-  border: none;
-  cursor: pointer;
-  transition: all 0.2s ease-in-out;
-  text-decoration: none;
-  /* margin-left: 24px; */
-  /* gap: 24px; */
-  :nth-child(1) {
-    margin-right: 24px;
-  }
-  &:hover {
-    transition: all 0.2s ease-in-out;
-    background: #f0edb1;
-    color: #010606;
-  }
-  a {
+  .users {
+    border-radius: 40px;
+    background: #fec01d;
     color: #fff;
+    outline: none;
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
     text-decoration: none;
+    &:hover {
+      transition: all 0.2s ease-in-out;
+      background: #f0edb1;
+      color: #010606;
+    }
+  }
+
+  @media screen and (max-width: 768px) {
+    display: none;
   }
 `;
 
@@ -138,26 +117,23 @@ const Header = () => {
           <a onClick={() => router.push('/users')} className="nanum-regular">
             Users
           </a>
-
-          {isLoggedIn ? (
+          {!isLoggedIn ? (
             <>
-              <NavLink href="/mypage">
+              <Link href="/mypage">
                 <FaUserAlt size={20} />
-              </NavLink>
-              <NavBtn>
-                <Button className="nanum-regular">Logout</Button>
-              </NavBtn>
+              </Link>
+              <Link href="/" className="nanum-regular users">
+                Logout
+              </Link>
             </>
           ) : (
             <>
-              <NavBtn>
-                <Button className="nanum-regular">
-                  <Link href="/users/login"> Login</Link>
-                </Button>
-                <Button className="nanum-regular">
-                  <Link href="/users/signup"> Signup</Link>
-                </Button>
-              </NavBtn>
+              <Link href="/users/login" className="nanum-regular users">
+                Login
+              </Link>
+              <Link href="/users/login" className="nanum-regular users">
+                SignUp
+              </Link>
             </>
           )}
         </NavMenu>
