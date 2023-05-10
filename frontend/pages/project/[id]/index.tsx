@@ -305,6 +305,12 @@ const Side = styled.div`
     flex-direction: column;
     align-items: center;
 
+    .main-btn {
+      > span {
+        padding: 8px 24px;
+      }
+    }
+
     > ul {
       flex-direction: column;
       width: 70%;
