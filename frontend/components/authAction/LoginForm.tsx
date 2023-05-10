@@ -2,6 +2,8 @@ import styled from 'styled-components';
 import AuthInput from './AuthInput';
 import { useForm, FieldErrors } from 'react-hook-form';
 import AuthCheckBox from './AuthCheckBox';
+import LogoImage from '../../public/images/main_logo2.png';
+import Image from 'next/image';
 
 const Wrapper = styled.div`
   width: 100%;
@@ -11,8 +13,6 @@ const Wrapper = styled.div`
 `;
 const LogoBox = styled.div`
   width: 200px;
-  height: 60px;
-  background-color: wheat;
   margin-top: 50px;
   margin-bottom: 60px;
 `;
@@ -50,7 +50,9 @@ export default function LoginForm() {
   };
   return (
     <Wrapper>
-      <LogoBox />
+      <LogoBox>
+        <Image alt="logo" src={LogoImage} />
+      </LogoBox>
       <Form onSubmit={handleSubmit(onValid, onInValid)}>
         <AuthInput //
           register={register('email', {

@@ -1,13 +1,22 @@
+import React from 'react';
 import styled from 'styled-components';
 
+const Wrapper = styled.div`
+  padding: 20px;
+  /* @media screen and (max-width: 960px) {
+    display: none;
+  } */
+`;
 const Input = styled.input`
   position: relative;
   width: 100%;
   border: none;
   height: 40px;
   margin-bottom: 7px;
+  margin-top: 10px;
   border-radius: 10px;
   padding: 10px;
+  padding-left: 50px;
   --tw-ring-inset: var(--tw-empty, /*!*/ /*!*/);
   --tw-ring-offset-width: 0px;
   --tw-ring-offset-color: #fff;
@@ -27,24 +36,15 @@ const Input = styled.input`
       var(--tw-shadow, 0 0 #0000);
   }
 `;
-const TextBox = styled.div.attrs({
-  className: 'nanum-regular',
-})`
-  width: 100%;
-  margin: 5px;
-  margin-top: 20px;
-`;
-export default function AuthInput({
-  name,
-  type,
-  ...rest
-}: {
-  [key: string]: any;
-}) {
+
+export default function UserSideBar() {
   return (
-    <>
-      <TextBox>{name}</TextBox>
-      <Input {...rest.register} type={type} />
-    </>
+    <Wrapper>
+      <p className="nanum-bold">Users</p>
+      <Input />
+      <p>직군별 검색</p>
+      <p>스택별 검색</p>
+      <p>지역별 검색</p>
+    </Wrapper>
   );
 }

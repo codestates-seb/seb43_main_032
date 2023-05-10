@@ -1,22 +1,20 @@
-import { ReactNode } from 'react';
+import { ReactNode, useState } from 'react';
 import styled from 'styled-components';
+import AuthInput from '../authAction/AuthInput';
 
 const Wrapper = styled.div`
-  border-bottom: ${({ lastItem }: { lastItem: Boolean }) =>
-    lastItem ? '' : '1px solid rgba(0, 0, 0, 0.3)'};
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding-top: 20px;
-  padding-bottom: 20px;
-`;
-const Leftbox = styled.div`
   display: flex;
   align-items: center;
-  gap: 20px;
+  font-size: 15px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  ${({ lastItem }: { lastItem: Boolean }) =>
+    lastItem
+      ? 'padding-bottom: 0px'
+      : 'border-bottom: 1px solid rgba(0, 0, 0, 0.3)'}
 `;
 const KeyContainer = styled.div`
-  width: 120px;
+  width: 100px;
 `;
 const ContentContainer = styled.div`
   display: flex;
@@ -24,32 +22,20 @@ const ContentContainer = styled.div`
   flex-direction: column;
   justify-content: flex-start;
 `;
-const Button = styled.button`
-  border: none;
-  cursor: pointer;
-  padding: 10px 20px;
-  font-size: 20px;
-  border-radius: 5px;
-`;
-
+interface IProps {
+  keyNode: ReactNode;
+  contentNode: ReactNode;
+  lastItem?: Boolean;
+}
 export default function InfoContainer({
   keyNode,
   contentNode,
   lastItem = false,
-}: {
-  keyNode: ReactNode;
-  contentNode: ReactNode;
-  lastItem?: Boolean;
-}) {
+}: IProps) {
   return (
     <Wrapper lastItem={lastItem}>
-      <Leftbox>
-        <KeyContainer className="nanum-bold">{keyNode}</KeyContainer>
-        <ContentContainer className="nanum-bold">
-          {contentNode}
-        </ContentContainer>
-      </Leftbox>
-      <Button>Edit</Button>
+      <KeyContainer className="nnum-bold">{keyNode}</KeyContainer>
+      <ContentContainer className="nnum-bold">{contentNode}</ContentContainer>
     </Wrapper>
   );
 }

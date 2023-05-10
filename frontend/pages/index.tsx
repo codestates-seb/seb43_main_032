@@ -1,6 +1,7 @@
 //홈 페이지 입니다. 경로 '/'
 import Card from '@/components/Card';
 import { Project } from '@/types/types';
+import { useState } from 'react';
 import styled from 'styled-components';
 import { GrView } from 'react-icons/gr';
 import Tag from '@/components/Tag';
@@ -54,6 +55,8 @@ const Box = styled.div<BoxProps>`
       overflow: hidden;
     }
   }
+  height: 628px;
+  background-color: #dcdcdc;
 `;
 
 const Home = () => {
@@ -80,3 +83,6 @@ const Home = () => {
 };
 
 export default Home;
+
+
+
