@@ -4,11 +4,12 @@ import 'github-markdown-css/github-markdown.css';
 
 type Props = {
   content: string;
+  backColor?: string;
 };
 
-const ContentBox = ({ content }: Props) => {
+const ContentBox = ({ content, backColor }: Props) => {
   return (
-    <Box className="markdown-body">
+    <Box className="markdown-body" style={{ background: backColor }}>
       <ReactMarkdown>{content}</ReactMarkdown>
     </Box>
   );
