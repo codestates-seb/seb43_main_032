@@ -12,6 +12,7 @@ import { LayoutGroup } from 'framer-motion';
 import { useRouter } from 'next/router';
 import ProjectCard from '@/components/project/ProjectCard';
 import project from './project';
+import { title } from 'process';
 
 // const Banner = styled.div`
 //   width: 100%;
@@ -25,7 +26,7 @@ type BoxProps = {
 
 type Props = {
   size: string;
-  data: Project;
+  data: Project[];
 };
 
 const Box = styled.div<BoxProps>`
@@ -34,9 +35,6 @@ const Box = styled.div<BoxProps>`
   justify-content: center;
   align-items: center;
   margin: 24px 0px;
-
-  .title {
-  }
 
   .img-box {
     height: 120px;
@@ -61,24 +59,20 @@ const Box = styled.div<BoxProps>`
 const Home = () => {
   const router = useRouter();
 
-  //데이터 fetch
-  const { data, isFetching } = useQuery<Project[]>('projects', () =>
-    api(`/project?size=${468}`).then((res) => res.data)
+  // useQuery를 사용하여 데이터 fetch
+  const { data } = useQuery<Project[]>('projects', () =>
+    api('/project?size=4&page=1').then((res) => res.data)
   );
-  // console.log(data);
+  console.log(data);
 
+  // 만약 데이터가 없다면 아무것도 반환하지 않음
   if (!data) return;
 
   return (
     <>
-      <Box size="">
-        <div className="title">
-          <h2>주목할만한 프로젝트🔥</h2>
-        </div>
-        <div className="common-box">
-          {/* <div className="projects-box">
-            <ProjectCard key={project.id} size={'sm'} data={project} />
-          </div> */}
+      <Box size={'sm'}>
+        <div className="title-box">
+          <h2 className="nanum-bold">주목할만한 프로젝트🔥</h2>
         </div>
       </Box>
     </>

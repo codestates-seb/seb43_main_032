@@ -1,13 +1,12 @@
-import React, { useEffect, useState } from 'react';
-import styled from 'styled-components';
 import LogoImage from '../public/images/main_logo2.png';
 import Image from 'next/image';
-import Link from 'next/link';
-// import LogoImage2 from '../public/images/logo.png';
 import { FaUserAlt } from 'react-icons/fa';
 import { FiMenu } from 'react-icons/fi';
-import { useRecoilState } from 'recoil';
-import { isLoginState } from '@/recoil/atom';
+import Link from 'next/link';
+import { useRecoilValue } from 'recoil';
+import styled from 'styled-components';
+import { isLoggedInState } from '@/recoil/atom';
+import { useRouter } from 'next/router';
 
 const Nav = styled.nav`
   top: 0;
@@ -17,7 +16,7 @@ const Nav = styled.nav`
   background: #fff;
   height: 80px;
   display: flex;
-  justify-content: space-between;
+  /* justify-content: space-between; */
   padding: 0.5rem calc((100vw - 1280px) / 2);
   z-index: 10;
 `;
@@ -31,7 +30,7 @@ const NavLink = styled(Link)`
   height: 100%;
   cursor: pointer;
   &.active {
-    color: #15cdfc;
+    background-color: #15cdfc;
   }
 `;
 
@@ -52,27 +51,41 @@ const Bars = styled(FiMenu)`
 const NavMenu = styled.div`
   display: flex;
   align-items: center;
-  margin-right: -24px;
-
+  width: 100%;
+  justify-content: center;
   white-space: nowrap;
+
+  > a {
+    color: #000f;
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    padding: 0 1rem;
+    height: 100%;
+    cursor: pointer;
+    &.active {
+      background-color: #15cdfc;
+    }
+  }
+
   @media screen and (max-width: 768px) {
     display: none;
   }
 `;
 
-const NavBtn = styled.nav`
+const NavBtn = styled.a`
   display: flex;
   align-items: center;
-  margin-right: 24px;
-
   justify-content: flex-end;
   width: 100vw;
+  width: 205px;
+
   @media screen and (max-width: 768px) {
     display: none;
   }
 `;
 
-const NavBtnLink = styled(Link)`
+const Button = styled.button`
   border-radius: 40px;
   background: #fec01d;
   padding: 10px 22px;
@@ -82,16 +95,25 @@ const NavBtnLink = styled(Link)`
   cursor: pointer;
   transition: all 0.2s ease-in-out;
   text-decoration: none;
-  margin-left: 24px;
+  /* margin-left: 24px; */
+  /* gap: 24px; */
+  :nth-child(1) {
+    margin-right: 24px;
+  }
   &:hover {
     transition: all 0.2s ease-in-out;
     background: #f0edb1;
     color: #010606;
   }
+  a {
+    color: #fff;
+    text-decoration: none;
+  }
 `;
 
-function Header() {
-  const [isLogin, setIsLogin] = useRecoilState(isLoginState);
+const Header = () => {
+  const isLoggedIn = useRecoilValue(isLoggedInState);
+  const router = useRouter();
 
   return (
     <>
@@ -101,52 +123,47 @@ function Header() {
         </NavLink>
         <Bars />
         <NavMenu>
-          {isLogin && (
+          <a onClick={() => router.push('/')} className="nanum-regular">
+            Home
+          </a>
+          <a
+            onClick={() => router.push('/community')}
+            className="nanum-regular"
+          >
+            Community
+          </a>
+          <a onClick={() => router.push('/project')} className="nanum-regular">
+            Projects
+          </a>
+          <a onClick={() => router.push('/users')} className="nanum-regular">
+            Users
+          </a>
+
+          {isLoggedIn ? (
             <>
-              <NavLink href="/" className="nanum-regular">
-                Home
-              </NavLink>
-              <NavLink href="/community" className="nanum-regular">
-                커뮤니티
-              </NavLink>
-              <NavLink href="/project" className="nanum-regular">
-                프로젝트
-              </NavLink>
               <NavLink href="/mypage">
                 <FaUserAlt size={20} />
               </NavLink>
+              <NavBtn>
+                <Button className="nanum-regular">Logout</Button>
+              </NavBtn>
+            </>
+          ) : (
+            <>
+              <NavBtn>
+                <Button className="nanum-regular">
+                  <Link href="/users/login"> Login</Link>
+                </Button>
+                <Button className="nanum-regular">
+                  <Link href="/users/signup"> Signup</Link>
+                </Button>
+              </NavBtn>
             </>
           )}
         </NavMenu>
-
-        <NavBtn>
-          {isLogin ? (
-            <NavBtnLink href="/user/logout" className="nanum-regular">
-              로그아웃
-            </NavBtnLink>
-          ) : (
-            <>
-              <NavLink href="/" className="nanum-regular">
-                Home
-              </NavLink>
-              <NavLink href="/community" className="nanum-regular">
-                커뮤니티
-              </NavLink>
-              <NavLink href="/project" className="nanum-regular">
-                프로젝트
-              </NavLink>
-              <NavBtnLink href="/user/login" className="nanum-regular">
-                로그인
-              </NavBtnLink>
-              <NavBtnLink href="/user/signup" className="nanum-regular">
-                회원가입
-              </NavBtnLink>
-            </>
-          )}
-        </NavBtn>
       </Nav>
     </>
   );
-}
+};
 
 export default Header;

@@ -7,14 +7,14 @@ const FooterContainer = styled.footer`
   background-color: #000;
   width: 100%;
   min-height: 350px;
-  padding: 60px 16px;
+  padding: 50px 16px;
   left: 0;
-  position: absolute;
+  bottom: 0;
   z-index: 10;
+  /* position: absolute; */
 `;
 const Container = styled.div`
   display: flex;
-
   max-width: 1280px;
   margin: 0 auto;
   justify-content: center;
@@ -32,7 +32,7 @@ const Container = styled.div`
   }
 
   .col {
-    min-width: 200px;
+    min-width: 150px;
     color: #fff;
     text-decoration: none;
     padding: 0 32px;
@@ -68,6 +68,10 @@ const Container = styled.div`
     transition: all 0.3s ease;
   }
 
+  .list-container {
+    display: flex;
+  }
+
   .noto-regular-13 a {
     display: block;
     color: #fff;
@@ -98,14 +102,23 @@ const Container = styled.div`
       text-align: left;
       margin-bottom: 20px;
     }
+    .list {
+      line-height: 150%;
+    }
     .img {
       display: none;
     }
   }
   @media screen and (max-width: 600px) {
+    .list-container {
+      flex-direction: column;
+    }
     .sidefooter {
       flex-direction: column;
       width: 100%;
+    }
+    .col {
+      min-width: none;
     }
   }
 `;
@@ -116,64 +129,68 @@ const Footer = () => {
       <Container>
         <div className="row">
           <div className="col" id="company">
-            <Image
-              src={LogoImage}
-              alt="log"
-              style={{ marginBottom: '25px' }}
-              className="img"
-            />
-            <div className="nanum-regular list">
-              <li className="list">
-                <a href="#">1:1 문의 카카오톡 연결</a>
-              </li>
-              <li className="list">
-                <a href="#">상담 사이드퀘스 운영자 연결</a>
-              </li>
-              <li className="list">
-                <a href="#">오픈챗 코드 7777</a>
-              </li>
-              <li className="list">
-                <a href="#">제휴문의 help@sideQues.com</a>
-              </li>
-              <li className="list">
-                <a>Copyright&copy;2023 SideQuest.All rights reserved.</a>
-              </li>
+            <div className="img-box">
+              <Image
+                src={LogoImage}
+                alt="log"
+                style={{ marginBottom: '25px' }}
+                className="img"
+              />
             </div>
-          </div>
+            <div className="list-container">
+              <div className="nanum-regular list">
+                <li className="list">
+                  <a href="#">1:1 문의 카카오톡 연결</a>
+                </li>
+                <li className="list">
+                  <a href="#">상담 사이드퀘스 운영자 연결</a>
+                </li>
+                <li className="list">
+                  <a href="#">오픈챗 코드 7777</a>
+                </li>
+                <li className="list">
+                  <a href="#">제휴문의 help@sideQues.com</a>
+                </li>
+                <li className="list">
+                  <a>Copyright&copy;2023 SideQuest.All rights reserved.</a>
+                </li>
+              </div>
 
-          <div className="sidefooter">
-            <div className="col" id="About">
-              <h3 className="nanum-regular">About</h3>
-              <div className="noto-regular-13 list ">
-                <a href="#">SideQuest 소개</a>
-              </div>
-            </div>
-            <div className="col" id="Service">
-              <h3 className="nanum-regular">Service</h3>
-              <div className="noto-regular-13 list ">
-                <li className="list">
-                  <a href="#">프로젝트 등록</a>
-                </li>
-                <li className="list">
-                  <a href="#">프로젝트 찾기</a>
-                </li>
-                <li className="list">
-                  <a href="#">파트너 등록</a>
-                </li>
-              </div>
-            </div>
-            <div className="col" id="Support">
-              <h3 className="nanum-regular">Support</h3>
-              <div className="noto-regular-13 list">
-                <li className="list">
-                  <a href="#">서비스 이용약관</a>
-                </li>
-                <li className="list">
-                  <a href="#">개인정보처리방침</a>
-                </li>
-                <li className="list">
-                  <a href="#">FAQ</a>
-                </li>
+              <div className="sidefooter">
+                <div className="col" id="About">
+                  <h3 className="nanum-regular">About</h3>
+                  <div className="noto-regular-13 list ">
+                    <a href="#">SideQuest 소개</a>
+                  </div>
+                </div>
+                <div className="col" id="Service">
+                  <h3 className="nanum-regular">Service</h3>
+                  <div className="noto-regular-13 list ">
+                    <li className="list">
+                      <a href="#">프로젝트 등록</a>
+                    </li>
+                    <li className="list">
+                      <a href="#">프로젝트 찾기</a>
+                    </li>
+                    <li className="list">
+                      <a href="#">파트너 등록</a>
+                    </li>
+                  </div>
+                </div>
+                <div className="col" id="Support">
+                  <h3 className="nanum-regular">Support</h3>
+                  <div className="noto-regular-13 list">
+                    <li className="list">
+                      <a href="#">서비스 이용약관</a>
+                    </li>
+                    <li className="list">
+                      <a href="#">개인정보처리방침</a>
+                    </li>
+                    <li className="list">
+                      <a href="#">FAQ</a>
+                    </li>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
