@@ -1,6 +1,7 @@
 package com.main_032.SideQuest.project.entity;
 
 import com.main_032.SideQuest.member.entity.Member;
+import com.main_032.SideQuest.util.entity.BaseEntity;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -9,15 +10,13 @@ import java.time.LocalDateTime;
 
 @Entity
 @Getter
-@Setter
-public class ProAnswer {
+public class ProAnswer extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long proAnswerId;
+    private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "memberId", nullable = false)
-    private Member member;
+    @Column
+    private Long memberId;
 
     @ManyToOne
     @JoinColumn(name = "projectId", nullable = false)
@@ -29,11 +28,6 @@ public class ProAnswer {
     @Column
     private int totalLikes;
 
-    @Column
-    private LocalDateTime createdAt = LocalDateTime.now();
-
-    @Column
-    private LocalDateTime updatedAt;
 
     @Column(columnDefinition = "TINYINT")
     private boolean deleted;

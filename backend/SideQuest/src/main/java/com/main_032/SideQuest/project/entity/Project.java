@@ -1,6 +1,7 @@
 package com.main_032.SideQuest.project.entity;
 
 import com.main_032.SideQuest.member.entity.Member;
+import com.main_032.SideQuest.util.entity.BaseEntity;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -11,17 +12,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Setter
 @Getter
-
-public class Project {
+public class Project extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long projectId;
+    private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "MEMBER_ID")
-    private Member member; //작성자 식별자
+    @Column
+    private Long memberId;
 
     @Column
     private String title;
@@ -45,16 +43,11 @@ public class Project {
     private int views;
 
     @Column
-    private String status;
+    private ProjectStatus status;
 
     @Column
     private int totalLikes;
 
-    @Column
-    private LocalDateTime createdAt = LocalDateTime.now();
-
-    @Column
-    private LocalDateTime updatedAt;
 
     @Column(columnDefinition = "TINYINT")
     private boolean deleted;
