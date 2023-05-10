@@ -76,7 +76,9 @@ const ViewProject = () => {
           <div className="author-box">
             <div>작성자</div>
             <div className="author noto-medium">
-              <div className="noto-medium">{data.position}</div>
+              <div className="noto-medium">
+                포지션 : <span>{data.position}</span>
+              </div>
               <div>
                 <img
                   src="https://noticon-static.tammolo.com/dgggcrkxq/image/upload/v1567008394/noticon/ohybolu4ensol1gzqas1.png"
@@ -275,6 +277,12 @@ const Side = styled.div`
       align-items: center;
       flex-direction: column;
       gap: 16px;
+      span {
+        border-radius: 4px;
+        background: #256ce1;
+        padding: 8px;
+        color: #fff;
+      }
       > div:last-child {
         display: flex;
         justify-content: center;

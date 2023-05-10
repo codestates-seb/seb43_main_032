@@ -27,6 +27,7 @@ const ProjectHome = () => {
         ),
       {
         getNextPageParam: (lastPage: PageProps, allPages: PageProps[]) => {
+          console.log(lastPage);
           if (lastPage.data.length < page_limit) {
             return null;
           }
@@ -103,8 +104,7 @@ const ProjectHome = () => {
                 ))
               )}
           </div>
-          {/* {isFetching && hasNextPage && <ProjectSkeleton />} */}
-          {<ProjectSkeleton />}
+          {isFetching && hasNextPage && <ProjectSkeleton />}
         </div>
         <div ref={target} className="observer"></div>
         {!isFetching && !hasNextPage && (
