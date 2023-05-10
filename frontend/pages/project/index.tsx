@@ -4,12 +4,12 @@ import styled from 'styled-components';
 import { useRouter } from 'next/router';
 import { useInfiniteQuery } from 'react-query';
 import { api } from '@/util/api';
-import { Project } from '@/types/types';
 import Loading from '@/components/Loading';
 import Error from '@/components/Error';
 import { useRef, useEffect } from 'react';
 import ProjectSkeleton from '@/components/skeleton/ProjectSkeleton';
 import Link from 'next/link';
+import { Project } from '@/types/project';
 
 type PageProps = { data: Project[]; total: number };
 

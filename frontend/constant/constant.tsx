@@ -1,8 +1,6 @@
-// 상수 데이터들을 저장해주시면 됩니다.
-// 선언 명 예시
-// const PROJECT_DATA = []
+import { DefaultObj } from '@/types/types';
 
-export const STACKS_CATEGORIES: { [key: string]: string } = {
+export const STACKS_CATEGORIES: DefaultObj = {
   language: '언어',
   front: '프론트엔드',
   backend: '백엔드',
