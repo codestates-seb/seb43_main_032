@@ -106,7 +106,7 @@ const ProjectHome = () => {
           {isFetching && hasNextPage && <ProjectSkeleton />}
         </div>
         <div ref={target} className="observer"></div>
-        {!hasNextPage && (
+        {!isFetching && !hasNextPage && (
           <div className="last-box nanum-bold blink">
             페이지가 존재하지 않습니다.
           </div>
