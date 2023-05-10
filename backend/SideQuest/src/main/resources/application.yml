@@ -8,8 +8,8 @@ spring:
 
     # RDS
     url: jdbc:mysql://sidequestdb.cinzzb9ewscr.ap-northeast-2.rds.amazonaws.com:3306/sidequestdb?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
-    username: admin
-    password: a123789456
+    username: ${SIDEQUEST_RDS_USERNAME}
+    password: ${SIDEQUEST_RDS_PASSWORD}
   jpa:
     hibernate:
       ddl-auto: create
@@ -18,6 +18,6 @@ mail:
   address:
     admin: admin@gmail.com
 jwt:
-  key: "c2lsdmVybmluZS10ZWNoLXNwcmluZy1ib290LWp3dC10dXRvcmlhbC1zZWNyZXQtc2lsdmVybmluZS10ZWNoLXNwcmluZy1ib290LWp3dC10dXRvcmlhbC1zZWNyZXQK"
+  key: ${SIDEQUEST_JWT_KEY}
   access-token-expiration-minutes: 40
   refresh-token-expiration-minutes: 420
