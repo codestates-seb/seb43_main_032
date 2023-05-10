@@ -58,7 +58,7 @@ const Header = () => {
         <Bars />
         <NavMenu>
           {navNames.slice(0, 4).map((name) => (
-            <li>
+            <li key={name}>
               <a
                 onClick={() => router.push(navArr[name])}
                 className="nanum-regular sub-btn"
@@ -70,13 +70,13 @@ const Header = () => {
           {isLoggedIn
             ? navNames.slice(4, 6).map((name) =>
                 name === 'mypage' ? (
-                  <li>
+                  <li key={name}>
                     <Link href={`${navArr[name]}`}>
                       <FaUserAlt size={20} />
                     </Link>
                   </li>
                 ) : (
-                  <li>
+                  <li key={name}>
                     <Link
                       href={`${navArr[name]}`}
                       className="nanum-regular main-btn"
@@ -87,7 +87,7 @@ const Header = () => {
                 )
               )
             : navNames.slice(6).map((name) => (
-                <li>
+                <li key={name}>
                   <Link
                     href={`/users${navArr[name]}`}
                     className="nanum-regular main-btn"

@@ -93,7 +93,7 @@ const ViewProject = () => {
           </div>
           <PeriodBox start={new Date(data.start)} end={new Date(data.end)} />
           <TagBox tags={data.tags} />
-          <StacksBox select={data.stacks} />
+          <StacksBox stacks={data.stacks} />
           <div className="want-box">
             <div>모집 중인 직군</div>
             <div>

@@ -1,9 +1,9 @@
-import { Project } from '@/types/types';
 import styled from 'styled-components';
 import { useQuery } from 'react-query';
 import { api } from '@/util/api';
 import { useRouter } from 'next/router';
 import ProjectCardbox from '@/components/project/ProjectCardbox';
+import { Project } from '@/types/project';
 
 // const Banner = styled.div`
 //   width: 100%;
@@ -14,8 +14,7 @@ import ProjectCardbox from '@/components/project/ProjectCardbox';
 const Box = styled.div`
   width: 100%;
   padding: var(--padding-2);
-  >div{
-    
+  > div {
   }
 `;
 
@@ -25,7 +24,6 @@ const Home = () => {
     'projects',
     () => api('/project?size=4&page=1').then((res) => res.data)
   );
-  console.log(data);
 
   // 만약 데이터가 없다면 아무것도 반환하지 않음
   if (!data) return;

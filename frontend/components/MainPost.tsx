@@ -49,7 +49,9 @@ const MainPost = ({
             </div>
           </div>
           <div>
-            <Btn>작성 완료</Btn>
+            <Btn>
+              <span>작성 완료</span>
+            </Btn>
           </div>
         </div>
         <div className="title">

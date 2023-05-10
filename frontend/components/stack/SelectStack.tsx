@@ -5,25 +5,25 @@ import Stack from './Stack';
 
 type Props = {
   offModal: () => void;
-  select: string[];
-  setSelect: Dispatch<SetStateAction<string[]>>;
+  stacks: string[];
+  setStacks: Dispatch<SetStateAction<string[]>>;
 };
 
-const SelectStack = ({ setSelect, offModal, select }: Props) => {
+const SelectStack = ({ setStacks, offModal, stacks }: Props) => {
   const categories = Object.keys(STACKS_CATEGORIES);
 
   //스택을 추가하는 함수
   const addStack = (stack: string) => {
-    const idx = select.findIndex((x) => stack === x);
+    const idx = stacks.findIndex((x) => stack === x);
     if (idx !== -1) {
-      return setSelect([...select.slice(0, idx), ...select.slice(idx + 1)]);
+      return setStacks([...stacks.slice(0, idx), ...stacks.slice(idx + 1)]);
     }
-    setSelect([...select, stack]);
+    setStacks([...stacks, stack]);
   };
 
   //선택한 스택 리셋
   const resetStack = () => {
-    setSelect([]);
+    setStacks([]);
   };
 
   return (
@@ -40,7 +40,7 @@ const SelectStack = ({ setSelect, offModal, select }: Props) => {
                       key={skill}
                       skill={skill}
                       addStack={addStack}
-                      select={select}
+                      stacks={stacks}
                     />
                   )
                 )}

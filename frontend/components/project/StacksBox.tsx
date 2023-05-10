@@ -2,21 +2,21 @@ import styled from 'styled-components';
 import Stack from '../stack/Stack';
 
 type Props = {
-  select: string[];
+  stacks: string[];
   onModal?: () => void;
 };
 
-const StacksBox = ({ select, onModal }: Props) => {
+const StacksBox = ({ stacks, onModal }: Props) => {
   return (
     <Box onModal={onModal}>
       <div>프로젝트 메인 스택</div>
       <ul className="noto-regular-13">
         <li className="button-box">
-          {select.length === 0 && onModal ? (
+          {stacks.length === 0 && onModal ? (
             <button onClick={onModal}>스택 등록</button>
           ) : (
             <ul onClick={onModal} className="select-tag-box">
-              {select.map((skill) => (
+              {stacks.map((skill) => (
                 <Stack key={skill} skill={skill} />
               ))}
             </ul>
