@@ -7,7 +7,7 @@ export const isLoginState = atom({
 
 // community
 // 검색어 입력 저장
-export const searchState = atom({
+export const searchState = atom<string | null>({
   key: 'searchState',
   default: '',
 });
