@@ -6,7 +6,7 @@
     "avatar": "https://robohash.org/estidcupiditate.png?size=50x50&set=set1",
     "category": "frontend",
     "title": "Dr",
-    "content": "18Lhp9HvYgqU8FssN1pq9Aaja4c3WNUqGp",
+    "content": "우리 같이 디자인 끝까지 해봅시다.\n\n\n```\nconst Section = styled.section`\n  display: flex;\n  align-items: center;\n  justify-content: center;\n``` \n # Figma # Sketch # AdobeXD",
     "createdAt": "1/26/2023",
     "heart": 333,
     "view": 76,
