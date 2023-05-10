@@ -17,6 +17,7 @@ export default function ContentTop() {
   // 입력된 타이틀로 저장
   const findContentItem = (e: React.ChangeEvent<HTMLInputElement>) => {
     setMatchTitle(e.target.value);
+    console.log(e.target.value);
   };
 
   // 입력어 저장시키고 초기화
@@ -44,7 +45,7 @@ export default function ContentTop() {
       >
         <FaSearch />
       </SearchBtn>
-      <SearchBtn onClick={() => resetSearch(false)}>초기화</SearchBtn>
+      <SearchBtn onClick={() => saveSearchTitle(null)}>초기화</SearchBtn>
       <ContentBottomFilter />
     </Container>
   );
