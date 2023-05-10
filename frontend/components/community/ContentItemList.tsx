@@ -5,7 +5,7 @@ import ContentItem from './ContentItem';
 import ContentPageNation from './ContentPageNation';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { resetSearchState, searchState } from '@/recoil/atom';
-import { useInfiniteQuery, useQuery } from 'react-query';
+import { useInfiniteQuery, useQuery, useQueryClient } from 'react-query';
 import { useRouter } from 'next/router';
 import { Article } from '@/types/types';
 
@@ -13,17 +13,23 @@ export default function ContentItemList() {
   // 주솟값으로 데이터 필터링
   const [page, setPage] = useState<number>(1);
   const router = useRouter();
-  console.log(router.query);
+  const { id } = router.query;
+  const queryKey = id ? ['posts', page, id] : ['posts', page];
+  const queryClient = useQueryClient();
+
+  const searchTitle = useRecoilValue(searchState);
 
   // 데이터 불러오기
   const page_limit = 10;
-  const { isLoading, isError, data, hasNextPage, isFetching } =
+  const { isLoading, isError, data, hasNextPage, isFetching, refetch } =
     useInfiniteQuery(
-      ['posts', page],
-      ({ pageParam = page }) =>
-        api(`/community?size=${page_limit}&page=${pageParam}`).then(
-          (res) => res.data
-        ),
+      queryKey,
+      async ({ pageParam = page }) => {
+        const endpoint = id
+          ? `/community/${id}?size=${page_limit}&page=${pageParam}&search=${searchTitle}`
+          : `/community?size=${page_limit}&page=${pageParam}&search=${searchTitle}`;
+        return await api(endpoint).then((res) => res.data);
+      },
       {
         getNextPageParam: (lastPage, allPages) => {
           if (lastPage.data.length < page_limit) {
@@ -33,13 +39,21 @@ export default function ContentItemList() {
         },
       }
     );
+
+  console.log(data);
+
+  // useEffect(() => {
+  //   refetch();
+  //   // queryClient의 invalidateQueries를 사용하여 해당 query key를 무효화시킴
+  //   queryClient.invalidateQueries(queryKey);
+  // }, [searchTitle]);
+
   let filteredData;
   if (data) {
     filteredData = data;
   }
 
   const totalData: number = filteredData && filteredData.pages[0].total;
-  // querykey [post, filter] 등
 
   return (
     <Container>
