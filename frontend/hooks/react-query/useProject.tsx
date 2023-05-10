@@ -1,7 +1,7 @@
 import { useQuery, useMutation } from 'react-query';
 import { useRouter } from 'next/router';
-import { PostState, Project } from '@/types/types';
 import { api } from '@/util/api';
+import { PostState, Project } from '@/types/project';
 
 type ProjectData = {
   post_data: Project;

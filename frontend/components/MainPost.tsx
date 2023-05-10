@@ -41,7 +41,9 @@ const MainPost = ({
                 {...register('position', { value: data && data.position })}
               >
                 {POSITIONS.map((position) => (
-                  <option value={position}>{position}</option>
+                  <option key={position} value={position}>
+                    {position}
+                  </option>
                 ))}
               </select>
             </div>
@@ -54,7 +56,7 @@ const MainPost = ({
           <input
             placeholder="제목을 등록해주세요."
             type="text"
-            {...(register('title'), { value: data && data.title })}
+            {...register('title', { value: data && data.title })}
           />
         </div>
         <div>

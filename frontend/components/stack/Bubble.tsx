@@ -2,7 +2,6 @@ import { formatSkill } from '@/util/stack/formatSkill';
 import styled from 'styled-components';
 
 const Bubble = ({ skill }: { skill: string }) => {
-  console.log(skill);
   return (
     <Box>
       <span>{formatSkill(skill)}</span>

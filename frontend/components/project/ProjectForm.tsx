@@ -204,7 +204,9 @@ const ProjectForm = () => {
           <div className="job-box">
             <select {...register('jobVal', { value: data && data.position })}>
               {POSITIONS.map((position) => (
-                <option value={position}>{position}</option>
+                <option key={position} value={position}>
+                  {position}
+                </option>
               ))}
             </select>
             <select value={option} onChange={changeOption}>

@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import ProjectCard from './ProjectCard';
-import { Project } from '@/types/types';
+import { Project } from '@/types/project';
 
 type Props = {
   data: Project[];

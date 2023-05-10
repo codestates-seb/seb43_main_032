@@ -13,6 +13,7 @@ import { formatDate2 } from '@/util/date';
 import { useEffect } from 'react';
 import Error from '@/components/Error';
 import { useRouter } from 'next/router';
+import Btn from '@/components/Btn';
 const ReactMarkdown = dynamic(() => import('@/components/ContentBox'), {
   ssr: false,
   loading: () => <ContentSkeleton />,
@@ -94,6 +95,9 @@ const ViewProject = () => {
           <StacksBox select={data.stacks} />
           <div className="want-box">
             <div>모집 중인 직군</div>
+            <div>
+              <Btn>지원자 확인</Btn>
+            </div>
             <ul>
               {jobCount &&
                 job?.map((job, i) => (
@@ -278,7 +282,7 @@ const Side = styled.div`
       flex-direction: column;
       gap: 16px;
       span {
-        border-radius: 4px;
+        border-radius: var(--radius-def);
         background: #256ce1;
         padding: 8px;
         color: #fff;
