@@ -38,15 +38,11 @@ const ViewProject = () => {
     }
   }, [projectQuery.data]);
 
-  const startProject = () => {
-    if (confirm('정말 프로젝트를 시작하시겠습니까?')) {
+  const projectEvent = (state: number) => {
+    if (state === 2 && confirm('정말 프로젝트를 시작하시겠습니까?')) {
       updateState.mutate(3);
     }
-  };
-
-  //프로젝트 종료 시, 상태 3으로 변경
-  const endProject = () => {
-    if (confirm('정말 프로젝트를 종료하시겠습니까?')) {
+    if (state === 3 && confirm('정말 프로젝트를 종료하시겠습니까?')) {
       updateState.mutate(4);
     }
   };
@@ -54,6 +50,20 @@ const ViewProject = () => {
   //edit 이동
   const moveEdit = () => {
     router.push(`${router.asPath}/edit`);
+  };
+
+  const postState = {
+    1: '모집 중',
+    2: '모집 완료',
+    3: '진행 중',
+    4: '종료',
+  };
+
+  const buttonState = {
+    1: '',
+    2: '프로젝트 시작',
+    3: '프로젝트 종료',
+    4: '팀원 리뷰',
   };
 
   const data = projectQuery.data?.post_data;
@@ -122,22 +132,17 @@ const ViewProject = () => {
             </ul>
           </div>
           <div>
-            {data.state === 2 && (
-              <button onClick={startProject}>프로젝트 시작</button>
+            {data.state !== 1 && (
+              <button onClick={() => projectEvent(data.state)}>
+                {buttonState[data.state]}
+              </button>
             )}
-            {data.state === 3 && (
-              <button onClick={endProject}>프로젝트 종료</button>
-            )}
-            {data.state === 4 && <button>팀원 리뷰</button>}
           </div>
         </Side>
         <Main>
           <div className="title">
             <div className="nanum-bold">{data.title}</div>
-            {data.state === 1 && <Tag>모집 중</Tag>}
-            {data.state === 2 && <Tag>모집 완료</Tag>}
-            {data.state === 3 && <Tag>진행 중</Tag>}
-            {data.state === 4 && <Tag>종료</Tag>}
+            {<Tag>{postState[data.state]}</Tag>}
           </div>
           <div className="sub noto-regular-13">
             <div>

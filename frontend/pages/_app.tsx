@@ -12,10 +12,6 @@ if (process.env.NODE_ENV === 'development') {
   require('../__mocks__');
 }
 
-const Main = styled.div`
-  padding-top: 80px;
-`;
-
 const App = ({ Component, pageProps }: AppProps) => {
   return (
     <QueryClientProvider client={queryClient}>

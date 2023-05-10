@@ -10,6 +10,7 @@ import Error from '@/components/Error';
 import { useRef, useEffect } from 'react';
 import ProjectSkeleton from '@/components/skeleton/ProjectSkeleton';
 import Link from 'next/link';
+import ProjectCardbox from '@/components/project/ProjectCardbox';
 
 const ProjectHome = () => {
   const router = useRouter();
@@ -116,6 +117,9 @@ const Box = styled.div`
     display: flex;
     justify-content: end;
     margin-bottom: 16px;
+    > a {
+      width: auto;
+    }
   }
   .special-box {
     width: 100%;
@@ -127,10 +131,15 @@ const Box = styled.div`
     }
 
     > div {
+      border: 1px solid #dfdede;
+      padding: var(--padding-1);
       width: 50%;
       margin-bottom: 56px;
       @media (max-width: 980px) {
         width: 100%;
+        > div {
+          margin-bottom: 12px;
+        }
       }
     }
 
@@ -148,13 +157,12 @@ const Box = styled.div`
       margin: 24px 0px;
       gap: 16px;
       @media (max-width: 1300px) {
-        grid-template-columns: repeat(3, 1fr);
-      }
-      @media (max-width: 980px) {
         grid-template-columns: repeat(2, 1fr);
       }
-      @media (max-width: 680px) {
-        grid-template-columns: repeat(1, 1fr);
+      @media (max-width: 980px) {
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
       }
     }
   }
