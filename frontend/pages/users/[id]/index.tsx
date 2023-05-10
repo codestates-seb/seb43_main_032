@@ -4,6 +4,8 @@ import useUser from '@/hooks/useUser';
 import ContentCard from '@/components/user/ContentCard';
 import { useRouter } from 'next/router';
 import UserProfile from '@/components/user/UserProfile';
+import { useEffect, useState } from 'react';
+import { IUser } from '@/util/api/user';
 
 //유저 페이지 입니다. 경로 '/user/[id]'  예시 >>  /user/1
 const UserInfoContainer = styled.div`
@@ -55,9 +57,13 @@ const Category = styled.div.attrs({
 
 const UserPage = () => {
   const id = useRouter().query.id;
+  //서버에 유저 확인 요청
+  if (!id) return 'Loading...';
+
   const { getUser } = useUser();
-  const { data: user } = id ? getUser(+id) : getUser(0);
-  return (
+  const { data: user } = getUser(+id);
+
+  return user ? (
     <GridBox>
       <UserInfoContainer>
         {user && <UserProfile user={user} />}
@@ -78,6 +84,8 @@ const UserPage = () => {
         </Contents>
       </ContentsContainer>
     </GridBox>
+  ) : (
+    'User not Found'
   );
 };
 
