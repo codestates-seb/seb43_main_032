@@ -28,6 +28,7 @@ interface ISignUpForm {
   email: string;
   password: string;
   verifyPw: string;
+  nickName: string;
 }
 export default function SignUpForm() {
   const {
@@ -46,6 +47,13 @@ export default function SignUpForm() {
   return (
     <Wrapper>
       <Form onSubmit={handleSubmit(onValid, onInValid)}>
+        <AuthInput //
+          register={register('nickName', {
+            required: '닉네임을 입력해주세요',
+          })}
+          name="닉네임"
+          // type="email"
+        />
         <AuthInput //
           register={register('email', {
             required: 'Email을 입력해주세요',

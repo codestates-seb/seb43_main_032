@@ -14,9 +14,10 @@ datasource db {
 
 model User{
   id Int @id @default(autoincrement())
+	passWord String 
   nickName String
-  email String
-  phone String?
+  email String  @unique
+  phone String? @unique
   imgUrl String?
   star Int?
   createdAt DateTime @default(now())
