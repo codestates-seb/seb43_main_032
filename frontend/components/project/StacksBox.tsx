@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import Stack from '../stack/Stack';
 
 type Props = {
   select: string[];
@@ -15,8 +16,8 @@ const StacksBox = ({ select, onModal }: Props) => {
             <button onClick={onModal}>스택 등록</button>
           ) : (
             <ul onClick={onModal} className="select-tag-box">
-              {select.map((x) => (
-                <li key={x} className={`bg-${x}`}></li>
+              {select.map((skill) => (
+                <Stack key={skill} skill={skill} />
               ))}
             </ul>
           )}
