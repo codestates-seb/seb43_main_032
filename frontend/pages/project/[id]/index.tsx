@@ -14,7 +14,7 @@ import { useEffect } from 'react';
 import Error from '@/components/Error';
 import { useRouter } from 'next/router';
 import Btn from '@/components/Btn';
-const ReactMarkdown = dynamic(() => import('@/components/ContentBox'), {
+const ReactMarkdown = dynamic(() => import('@/components/editor/ContentBox'), {
   ssr: false,
   loading: () => <ContentSkeleton />,
 });

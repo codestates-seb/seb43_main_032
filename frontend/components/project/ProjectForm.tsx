@@ -173,7 +173,7 @@ const ProjectForm = () => {
     }
     if (confirm('정말 수정을 완료하시겠습니까?'))
       return api
-        .put(`/project/${router.query.id}/edit`, data)
+        .put(`/project/${router.query.id}`, data)
         .then(() => router.push('/'));
   };
 

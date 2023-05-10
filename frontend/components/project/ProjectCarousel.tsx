@@ -21,8 +21,8 @@ const ProjectCarousel = ({ projects }: Props) => {
 
   return (
     <Slider {...settings}>
-      {projects.map((project, i) => (
-        <ProjectCard key={i} size={'lg'} data={project} />
+      {projects.map((project) => (
+        <ProjectCard key={project.id} size={'lg'} data={project} />
       ))}
     </Slider>
   );

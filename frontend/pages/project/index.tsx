@@ -28,7 +28,6 @@ const ProjectHome = () => {
         ),
       {
         getNextPageParam: (lastPage: PageProps, allPages: PageProps[]) => {
-          console.log(lastPage);
           if (lastPage.data.length < page_limit) {
             return null;
           }
@@ -66,6 +65,7 @@ const ProjectHome = () => {
       }
     };
   }, [target.current, data?.pageParams]);
+  console.log(data)
 
   if (isLoading) return <Loading />;
   if (error) return <Error>잠시 후 다시 시도해주세요.</Error>;

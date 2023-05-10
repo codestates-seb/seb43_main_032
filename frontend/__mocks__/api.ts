@@ -36,6 +36,15 @@ export const handlers = [
     const post_state = POST_STATE.find((project) => project.id === Number(id));
     return res(ctx.status(200), ctx.json({ post_data, post_state }));
   }),
+  rest.put('/project/:id', async (req, res, ctx) => {
+    const { id } = req.params;
+    const data = await req.json();
+    const projectIndex = PROJECTS.findIndex(
+      (project) => project.id === Number(id)
+    );
+    PROJECTS[projectIndex] = { ...PROJECTS[projectIndex], ...data };
+    return res(ctx.status(200));
+  }),
   rest.post('/project/:id/job', async (req, res, ctx) => {
     const { id } = req.params;
     const data = await req.json();
