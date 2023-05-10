@@ -12,9 +12,10 @@ const ProjectCardbox = ({ title, data }: Props) => {
     <Box>
       <div className="nanum-bold">{title}</div>
       <div className="projects-box">
-        {data.map((project: Project) => (
-          <ProjectCard key={project.id} size={'sm'} data={project} />
-        ))}
+        {data &&
+          data.map((project: Project) => (
+            <ProjectCard key={project.id} size={'sm'} data={project} />
+          ))}
       </div>
     </Box>
   );

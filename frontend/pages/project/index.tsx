@@ -10,7 +10,8 @@ import Error from '@/components/Error';
 import { useRef, useEffect } from 'react';
 import ProjectSkeleton from '@/components/skeleton/ProjectSkeleton';
 import Link from 'next/link';
-import ProjectCardbox from '@/components/project/ProjectCardbox';
+
+type PageProps = { data: Project[]; total: number };
 
 const ProjectHome = () => {
   const router = useRouter();
@@ -25,7 +26,7 @@ const ProjectHome = () => {
           (res) => res.data
         ),
       {
-        getNextPageParam: (lastPage, allPages) => {
+        getNextPageParam: (lastPage: PageProps, allPages: PageProps[]) => {
           if (lastPage.data.length < page_limit) {
             return null;
           }
@@ -39,6 +40,7 @@ const ProjectHome = () => {
   useEffect(() => {
     if (
       target.current &&
+      data?.pageParams &&
       data?.pageParams[data.pageParams.length - 1] === null
     ) {
       return;
@@ -77,24 +79,29 @@ const ProjectHome = () => {
           <div>
             <div className="nanum-bold">신규 프로젝트</div>
             <div className="carousel-box">
-              <ProjectCarousel projects={data.pages[0].data.slice(0, 5)} />
+              <ProjectCarousel
+                projects={data.pages ? data.pages[0].data : []}
+              />
             </div>
           </div>
           <div>
             <div className="nanum-bold">인기 프로젝트</div>
             <div className="carousel-box">
-              <ProjectCarousel projects={data.pages[0].data.slice(0, 5)} />
+              <ProjectCarousel
+                projects={data.pages ? data.pages[0].data : []}
+              />
             </div>
           </div>
         </div>
         <div className="common-box">
           <div className="nanum-bold">전체 프로젝트</div>
           <div className="projects-box">
-            {data.pages.map((page) =>
-              page.data.map((project: Project) => (
-                <ProjectCard key={project.id} size={'sm'} data={project} />
-              ))
-            )}
+            {data.pages &&
+              data.pages.map((page) =>
+                page.data.map((project: Project) => (
+                  <ProjectCard key={project.id} size={'sm'} data={project} />
+                ))
+              )}
           </div>
           {isFetching && hasNextPage && <ProjectSkeleton />}
         </div>
