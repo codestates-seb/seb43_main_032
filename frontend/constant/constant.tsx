@@ -155,3 +155,16 @@ export const POSITIONS = [
   'IOS',
   '무관',
 ];
+
+export const FOOTER_DATA = {
+  information: [
+    '1:1 문의 카카오톡 연결',
+    '상담 사이드퀘스트 운영자 연결',
+    '오픈챗 코드 7777',
+    '제휴문의 help@sideQues.com',
+    'Copyright&copy;2023 SideQuest.All rights reserved.',
+  ],
+  about: ['SideQuest 소개'],
+  service: ['프로젝트 등록', '프로젝트 찾기', '파트너 등록'],
+  support: ['서비스 이용약관', '개인정보처리방침', 'FAQ'],
+};

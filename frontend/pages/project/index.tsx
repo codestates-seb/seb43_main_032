@@ -117,7 +117,7 @@ const Box = styled.div`
   .link-box {
     display: flex;
     justify-content: end;
-    margin-bottom: 16px;
+    margin-bottom: 24px;
     > a {
       width: auto;
     }
