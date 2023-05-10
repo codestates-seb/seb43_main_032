@@ -14,7 +14,7 @@ const Nav = styled.nav`
   left: 0;
   position: fixed;
   width: 100%;
-  background: #303952;
+  background: #fff;
   height: 80px;
   display: flex;
   justify-content: space-between;
@@ -23,7 +23,7 @@ const Nav = styled.nav`
 `;
 
 const NavLink = styled(Link)`
-  color: #fff;
+  color: #000f;
   display: flex;
   align-items: center;
   text-decoration: none;
@@ -37,7 +37,7 @@ const NavLink = styled(Link)`
 
 const Bars = styled(FiMenu)`
   display: none;
-  color: #fff;
+  color: #000;
   @media screen and (max-width: 768px) {
     display: block;
     position: absolute;
@@ -73,8 +73,8 @@ const NavBtn = styled.nav`
 `;
 
 const NavBtnLink = styled(Link)`
-  border-radius: 4px;
-  background: #256ce1;
+  border-radius: 40px;
+  background: #fec01d;
   padding: 10px 22px;
   color: #fff;
   outline: none;
@@ -85,13 +85,14 @@ const NavBtnLink = styled(Link)`
   margin-left: 24px;
   &:hover {
     transition: all 0.2s ease-in-out;
-    background: #fff;
+    background: #f0edb1;
     color: #010606;
   }
 `;
 
 function Header() {
   const [isLogin, setIsLogin] = useRecoilState(isLoginState);
+
   return (
     <>
       <Nav>
@@ -120,7 +121,7 @@ function Header() {
 
         <NavBtn>
           {isLogin ? (
-            <NavBtnLink href="/logout" className="nanum-regular">
+            <NavBtnLink href="/user/logout" className="nanum-regular">
               로그아웃
             </NavBtnLink>
           ) : (
@@ -137,7 +138,7 @@ function Header() {
               <NavBtnLink href="/user/login" className="nanum-regular">
                 로그인
               </NavBtnLink>
-              <NavBtnLink href="/user/login" className="nanum-regular">
+              <NavBtnLink href="/user/signup" className="nanum-regular">
                 회원가입
               </NavBtnLink>
             </>
