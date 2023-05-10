@@ -32,10 +32,6 @@ public class Article extends BaseEntity {
     @Column
     private int views;
 
-    @OneToOne
-    @JoinColumn(name = "ANSWER_ID")
-    private ArticleAnswer acceptedAnswer;
-
     @Column
     private int totalLikes;
 
@@ -45,6 +41,4 @@ public class Article extends BaseEntity {
     @OneToMany(mappedBy = "article")
     private List<ArticleTechStack> articleTechStackList = new ArrayList<>();
 
-    @OneToMany(mappedBy = "article")
-    private List<ArticleAnswer> articleAnswerList = new ArrayList<>();
 }
