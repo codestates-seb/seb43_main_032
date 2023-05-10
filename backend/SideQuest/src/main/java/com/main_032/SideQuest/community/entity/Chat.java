@@ -1,12 +1,9 @@
-package com.main_032.SideQuest.message.entity;
+package com.main_032.SideQuest.community.entity;
 
-import com.main_032.SideQuest.member.entity.Member;
 import com.main_032.SideQuest.util.entity.BaseEntity;
 import lombok.Getter;
-import lombok.Setter;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "chat")
