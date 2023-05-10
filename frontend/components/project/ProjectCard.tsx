@@ -17,7 +17,7 @@ const ProjectCard = ({ data, size }: Props) => {
 
   //프로젝트 글 조회
   const viewProject = (id: number) => {
-    router.push(`${router.pathname}/${id}`);
+    router.push(`project/${id}`);
   };
   return (
     <Box size={size}>

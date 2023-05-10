@@ -14,6 +14,7 @@ import { useRouter } from 'next/router';
 import ProjectCard from '@/components/project/ProjectCard';
 import project from './project';
 import { title } from 'process';
+import ProjectCardbox from '@/components/project/ProjectCardbox';
 
 // const Banner = styled.div`
 //   width: 100%;
@@ -21,50 +22,23 @@ import { title } from 'process';
 //   background-color: #dcdcdc;
 // `;
 
-type BoxProps = {
-  size: string;
-};
-
 type Props = {
   size: string;
   data: Project[];
 };
 
-const Box = styled.div<BoxProps>`
+const Box = styled.div`
   width: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin: 24px 0px;
-
-  .img-box {
-    height: 120px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    > img {
-      width: 100%;
-      height: 100%;
-      border: 1px solid #e4e4e4;
-    }
-
-    .title-box {
-      width: 256px;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-      overflow: hidden;
-    }
-  }
-  height: 628px;
-  background-color: #dcdcdc;
+  padding: var(--padding-2);
 `;
 
 const Home = () => {
   const router = useRouter();
 
   // useQuery를 사용하여 데이터 fetch
-  const { data } = useQuery<Project[]>('projects', () =>
-    api('/project?size=4&page=1').then((res) => res.data)
+  const { data } = useQuery<{ data: Project[]; total: number }>(
+    'projects',
+    () => api('/project?size=4&page=1').then((res) => res.data)
   );
   console.log(data);
 
@@ -72,17 +46,10 @@ const Home = () => {
   if (!data) return;
 
   return (
-    <>
-      <Box size={'sm'}>
-        <div className="title-box">
-          <h2 className="nanum-bold">주목할만한 프로젝트🔥</h2>
-        </div>
-      </Box>
-    </>
+    <Box>
+      <ProjectCardbox data={data.data} title={'주목할만한 프로젝트'} />
+    </Box>
   );
 };
 
 export default Home;
-
-
-
