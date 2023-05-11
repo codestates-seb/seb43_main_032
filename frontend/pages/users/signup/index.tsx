@@ -1,3 +1,4 @@
+//회원가입 페이지 입니다. 경로 '/user/signup/'
 import styled from 'styled-components';
 import AuthContainer from '@/components/authAction/AuthContainer';
 
@@ -45,7 +46,7 @@ const ImgBox = styled.div`
   justify-content: center;
   align-items: center;
 `;
-const Login = () => {
+const SignUp = () => {
   return (
     <Wrapper>
       <WrapperInset>
@@ -66,4 +67,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default SignUp;
