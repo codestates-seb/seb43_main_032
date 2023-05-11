@@ -5,6 +5,7 @@ import styled from 'styled-components';
 import LoginForm from './LoginForm';
 import SignUpForm from './SignUpForm';
 import { useState } from 'react';
+import { useRouter } from 'next/router';
 
 const LoginWrapper = styled.div`
   display: flex;
@@ -50,9 +51,12 @@ const OAuthButton = styled.button`
   height: 75px;
   border-radius: 5px;
 `;
-export default function AuthContainer() {
-  const [isLogin, setIsLogin] = useState<Boolean>(true);
-  const onActionChange = () => setIsLogin((prev) => !prev);
+
+export default function AuthContainer({ isLogin }: { isLogin: Boolean }) {
+  const router = useRouter();
+  const onActionChange = () => {
+    isLogin ? router.push('/users/signup') : router.push('/users/login');
+  };
   return (
     <LoginWrapper>
       <LoginContainer>
