@@ -1,4 +1,4 @@
-import { DefaultObj } from '@/types/types';
+import { ArrObj, DefaultObj } from '@/types/types';
 
 export const STACKS_CATEGORIES: DefaultObj = {
   language: '언어',
@@ -10,7 +10,7 @@ export const STACKS_CATEGORIES: DefaultObj = {
   etc: '기타',
 };
 
-export const STACKS: { [key: string]: string[] }[] = [
+export const STACKS: ArrObj[] = [
   {
     language: [
       'php',
@@ -157,7 +157,7 @@ export const POSITIONS = [
 ];
 
 //나중에 객체의 형태로 바꿔서 주소를 넣어주는 작업을 해야할 것 같음
-export const FOOTER_DATA: { [key: string]: string[] } = {
+export const FOOTER_DATA: ArrObj = {
   information: [
     '1:1 문의 카카오톡 연결',
     '상담 사이드퀘스트 운영자 연결',

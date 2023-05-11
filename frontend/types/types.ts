@@ -3,3 +3,5 @@
 export type DefaultObj = {
   [key: string]: string;
 };
+
+export type ArrObj = { [key: string]: string[] };
