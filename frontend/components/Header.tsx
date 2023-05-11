@@ -135,10 +135,10 @@ function Header() {
               <NavLink href="/project" className="nanum-regular">
                 프로젝트
               </NavLink>
-              <NavBtnLink href="/user/login" className="nanum-regular">
+              <NavBtnLink href="/users/login" className="nanum-regular">
                 로그인
               </NavBtnLink>
-              <NavBtnLink href="/user/signup" className="nanum-regular">
+              <NavBtnLink href="/users/signup" className="nanum-regular">
                 회원가입
               </NavBtnLink>
             </>

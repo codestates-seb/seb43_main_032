@@ -25,6 +25,7 @@ const ErrMsg = styled.p`
   color: teal;
 `;
 interface ISignUpForm {
+  nickName: string;
   email: string;
   password: string;
   verifyPw: string;
@@ -46,6 +47,12 @@ export default function SignUpForm() {
   return (
     <Wrapper>
       <Form onSubmit={handleSubmit(onValid, onInValid)}>
+        <AuthInput //
+          register={register('nickName', {
+            required: '닉네임을 입력해주세요',
+          })}
+          name="닉네임"
+        />
         <AuthInput //
           register={register('email', {
             required: 'Email을 입력해주세요',
