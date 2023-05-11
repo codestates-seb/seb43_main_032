@@ -1,9 +1,11 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import LogoImage from '../public/images/main_logo2.png';
 import Image from 'next/image';
 import styled from 'styled-components';
+import { FOOTER_DATA } from '@/constant/constant';
 
 const Footer = () => {
+  const categories = useMemo(() => Object.keys(FOOTER_DATA), []);
   return (
     <FooterContainer>
       <Container>
@@ -19,55 +21,41 @@ const Footer = () => {
             </div>
             <div className="list-container">
               <ul className="nanum-regular list">
-                <li className="list">
-                  <a href="#">1:1 문의 카카오톡 연결</a>
-                </li>
-                <li className="list">
-                  <a href="#">상담 사이드퀘스트 운영자 연결</a>
-                </li>
-                <li className="list">
-                  <a href="#">오픈챗 코드 7777</a>
-                </li>
-                <li className="list">
-                  <a href="#">제휴문의 help@sideQues.com</a>
-                </li>
-                <li className="list">
-                  <a>Copyright&copy;2023 SideQuest.All rights reserved.</a>
-                </li>
+                {FOOTER_DATA[categories[0]].map((content) => (
+                  <li className="list">
+                    <a href="#">{content}</a>
+                  </li>
+                ))}
               </ul>
               <div className="sidefooter">
                 <div className="col" id="About">
                   <h3 className="nanum-regular">About</h3>
-                  <div className="noto-regular-13 list ">
-                    <a href="#">SideQuest 소개</a>
-                  </div>
+                  <ul className="noto-regular-13 list ">
+                    {FOOTER_DATA[categories[1]].map((content) => (
+                      <li className="list">
+                        <a href="#">{content}</a>
+                      </li>
+                    ))}
+                  </ul>
                 </div>
                 <div className="col" id="Service">
                   <h3 className="nanum-regular">Service</h3>
                   <ul className="noto-regular-13 list ">
-                    <li className="list">
-                      <a href="#">프로젝트 등록</a>
-                    </li>
-                    <li className="list">
-                      <a href="#">프로젝트 찾기</a>
-                    </li>
-                    <li className="list">
-                      <a href="#">파트너 등록</a>
-                    </li>
+                    {FOOTER_DATA[categories[2]].map((content) => (
+                      <li className="list">
+                        <a href="#">{content}</a>
+                      </li>
+                    ))}
                   </ul>
                 </div>
                 <div className="col" id="Support">
                   <h3 className="nanum-regular">Support</h3>
                   <ul className="noto-regular-13 list">
-                    <li className="list">
-                      <a href="#">서비스 이용약관</a>
-                    </li>
-                    <li className="list">
-                      <a href="#">개인정보처리방침</a>
-                    </li>
-                    <li className="list">
-                      <a href="#">FAQ</a>
-                    </li>
+                    {FOOTER_DATA[categories[3]].map((content) => (
+                      <li className="list">
+                        <a href="#">{content}</a>
+                      </li>
+                    ))}
                   </ul>
                 </div>
               </div>
