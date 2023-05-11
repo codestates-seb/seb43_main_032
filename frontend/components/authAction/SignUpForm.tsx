@@ -40,10 +40,10 @@ export default function SignUpForm() {
     formState: { errors },
   } = useForm<ISignUpForm>();
   const onValid = (data: ISignUpForm) => {
-    // console.log(data);
+    console.log(data);
     signUp(data);
   };
-  console.log(loading, data, error);
+  // console.log(loading, data, error);
   const onInValid = (errors: FieldErrors) => {
     console.log(errors);
   };
