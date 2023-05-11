@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { FaSearch } from 'react-icons/fa';
-import ContentPageNation from './ContentPageNation';
 import { Community } from '@/types/community';
 import ContentItem from './ContentItem';
 import { useQuery } from 'react-query';
@@ -11,6 +10,7 @@ import Message from '../Message';
 import { useRecoilValue } from 'recoil';
 import { checkState } from '@/recoil/atom';
 import { COMMUNITY_FILTER } from '@/constant/constant';
+import Pagenation from '../Pagenation';
 
 export default function Content() {
   const router = useRouter();
@@ -62,6 +62,8 @@ export default function Content() {
     refetch();
   }, [filter]);
 
+  console.log(data.total);
+
   const [isOpen, setIsOpen] = useState(false);
 
   const filterName = COMMUNITY_FILTER.find((x) => x.value === filter)?.label;
@@ -103,10 +105,10 @@ export default function Content() {
             <ContentItem {...article} key={article.id} />
           ))}
         </ContentItemList>
-        <ContentPageNation
-          totalData={50}
-          currentPage={page}
-          setPage={setPage}
+        <Pagenation
+          page={page}
+          onPageChange={setPage}
+          pageSize={Math.ceil(data.total / 10)}
         />
       </ContentBottom>
     </Container>
@@ -184,7 +186,7 @@ const ContentItemList = styled.div`
   padding-top: 0px;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: start;
   align-items: center;
 `;
 
