@@ -1,4 +1,4 @@
-import { PostState, Project } from '@/types/types';
+import { PostState, Project } from '@/types/project';
 
 export const PROJECTS: Project[] = [
   {

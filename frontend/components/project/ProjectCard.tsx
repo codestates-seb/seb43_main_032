@@ -4,8 +4,8 @@ import { AiFillHeart } from 'react-icons/ai';
 import Stack from '../stack/Stack';
 import Tag from '../Tag';
 import styled from 'styled-components';
-import { Project } from '@/types/types';
 import { useRouter } from 'next/router';
+import { Project } from '@/types/project';
 
 type Props = {
   size: string;
@@ -17,10 +17,10 @@ const ProjectCard = ({ data, size }: Props) => {
 
   //프로젝트 글 조회
   const viewProject = (id: number) => {
-    router.push(`${router.pathname}/${id}`);
+    router.push(`project/${id}`);
   };
   return (
-    <Box size={size}>
+    <Box>
       <Card
         onClick={() => viewProject(data.id)}
         width={size === 'lg' ? '416px' : '298px'}
@@ -132,11 +132,7 @@ const ProjectCard = ({ data, size }: Props) => {
 
 export default ProjectCard;
 
-type BoxProps = {
-  size: string;
-};
-
-const Box = styled.div<BoxProps>`
+const Box = styled.div`
   width: 100%;
   display: flex;
   justify-content: center;

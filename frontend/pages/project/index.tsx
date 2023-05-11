@@ -1,16 +1,17 @@
 import ProjectCarousel from '@/components/project/ProjectCarousel';
-import ProjectCard from '@/components/project/ProjectCard';
 import styled from 'styled-components';
 import { useRouter } from 'next/router';
 import { useInfiniteQuery } from 'react-query';
 import { api } from '@/util/api';
-import { Project } from '@/types/types';
 import Loading from '@/components/Loading';
 import Error from '@/components/Error';
 import { useRef, useEffect } from 'react';
 import ProjectSkeleton from '@/components/skeleton/ProjectSkeleton';
 import Link from 'next/link';
+import { Project } from '@/types/project';
 import ProjectCardbox from '@/components/project/ProjectCardbox';
+
+type PageProps = { data: Project[]; total: number };
 
 const ProjectHome = () => {
   const router = useRouter();
@@ -25,7 +26,7 @@ const ProjectHome = () => {
           (res) => res.data
         ),
       {
-        getNextPageParam: (lastPage, allPages) => {
+        getNextPageParam: (lastPage: PageProps, allPages: PageProps[]) => {
           if (lastPage.data.length < page_limit) {
             return null;
           }
@@ -39,6 +40,7 @@ const ProjectHome = () => {
   useEffect(() => {
     if (
       target.current &&
+      data?.pageParams &&
       data?.pageParams[data.pageParams.length - 1] === null
     ) {
       return;
@@ -70,36 +72,35 @@ const ProjectHome = () => {
       <Box>
         <div className="link-box">
           <Link href={`${router.asPath}/create`} className="main-btn">
-            프로젝트 작성
+            <span>프로젝트 작성</span>
           </Link>
         </div>
         <div className="special-box">
           <div>
             <div className="nanum-bold">신규 프로젝트</div>
             <div className="carousel-box">
-              <ProjectCarousel projects={data.pages[0].data.slice(0, 5)} />
+              <ProjectCarousel
+                projects={data.pages ? data.pages[0].data : []}
+              />
             </div>
           </div>
           <div>
             <div className="nanum-bold">인기 프로젝트</div>
             <div className="carousel-box">
-              <ProjectCarousel projects={data.pages[0].data.slice(0, 5)} />
+              <ProjectCarousel
+                projects={data.pages ? data.pages[0].data : []}
+              />
             </div>
           </div>
         </div>
-        <div className="common-box">
-          <div className="nanum-bold">전체 프로젝트</div>
-          <div className="projects-box">
-            {data.pages.map((page) =>
-              page.data.map((project: Project) => (
-                <ProjectCard key={project.id} size={'sm'} data={project} />
-              ))
-            )}
-          </div>
+        <ProjectCardbox
+          title="전체 프로젝트"
+          data={data.pages?.flatMap((page) => page.data)}
+        >
           {isFetching && hasNextPage && <ProjectSkeleton />}
-        </div>
+        </ProjectCardbox>
         <div ref={target} className="observer"></div>
-        {!hasNextPage && (
+        {!isFetching && !hasNextPage && (
           <div className="last-box nanum-bold blink">
             페이지가 존재하지 않습니다.
           </div>
@@ -116,7 +117,7 @@ const Box = styled.div`
   .link-box {
     display: flex;
     justify-content: end;
-    margin-bottom: 16px;
+    margin-bottom: 24px;
     > a {
       width: auto;
     }
@@ -154,7 +155,8 @@ const Box = styled.div`
     .projects-box {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
-      margin: 24px 0px;
+      margin-top: 24px;
+      margin-bottom: 4px;
       gap: 16px;
       @media (max-width: 1300px) {
         grid-template-columns: repeat(2, 1fr);
