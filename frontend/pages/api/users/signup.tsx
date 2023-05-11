@@ -18,7 +18,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
   }
 
   // Token과 인증되지 않은 User 생성
-  const payload = Math.floor(100000 + Math.random() * 900000) + '';
+  const payload = await tokenGenerator();
   console.log(payload);
   const token = await client.signUpToken.create({
     data: {
@@ -33,19 +33,19 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
     },
   });
   console.log(token);
-  mail
-    .send({
-      to: email,
-      from: 'naturalcall1313@gmail.com',
-      subject: 'Verify Code for Sign Up to SideQuest',
-      html: `Your verify Code is <strong>${payload}</strong>`,
-    })
-    .then(() => {
-      console.log('Email sent=============', email);
-    })
-    .catch((error) => {
-      console.error(error);
-    });
+  // mail
+  //   .send({
+  //     to: email,
+  //     from: 'naturalcall1313@gmail.com',
+  //     subject: 'Verify Code for Sign Up to SideQuest',
+  //     html: `Your verify Code is <strong>${payload}</strong>`,
+  //   })
+  //   .then(() => {
+  //     console.log('Email sent', email);
+  //   })
+  //   .catch((error) => {
+  //     console.error(error);
+  //   });
 }
 
 export default withHandler('POST', handler);
