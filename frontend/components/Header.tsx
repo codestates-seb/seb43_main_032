@@ -99,7 +99,7 @@ const Header = () => {
               ))}
         </NavMenu>
       </Nav>
-      <Main></Main>
+      <Slide></Slide>
     </>
   );
 };
@@ -110,7 +110,7 @@ type NavProps = {
   isScrolled: boolean;
 };
 
-const Main = styled.main`
+const Slide = styled.main`
   width: auto;
   background: gray;
   height: 500px;
