@@ -17,8 +17,7 @@ public class SwaggerConfig {
 
     @Bean
     public Docket api() {
-        return new Docket(DocumentationType.OAS_30)
-                .host("localhost:8080") // 기본 URL 설정
+        return new Docket(DocumentationType.SWAGGER_2)
                 .select()
                 .apis(RequestHandlerSelectors.basePackage("com.main_032.SideQuest.member.controller"))
                 .paths(PathSelectors.any())

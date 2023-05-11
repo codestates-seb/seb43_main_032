@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@Api(tags = {"Member"})
+@Api(tags = {"Member"}, description = "멤버 API")
 public class MemberController {
 
     private final MemberService memberService;

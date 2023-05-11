@@ -60,6 +60,7 @@ public class JwtVerificationFilter extends OncePerRequestFilter {
         return claims;
     }
 
+    @SuppressWarnings("unchecked")
     private void setAuthenticationToContext(Map<String, Object> claims) {
         String username = (String) claims.get("username");
         List<GrantedAuthority> authorities = authorityUtils.createAuthorities((List)claims.get("roles"));
