@@ -7,6 +7,7 @@
   margin: 0px;
   padding: 0px;
   box-sizing: border-box;
+  text-decoration: none;
 }
 
 body {
@@ -43,6 +44,12 @@ a {
   font-family: var(--font-nanum);
   font-size: 23px;
   font-weight: 700;
+}
+
+.nanum-semi-bold {
+  font-family: var(--font-nanum);
+  font-size: 18px;
+  font-weight: 500;
 }
 
 .nanum-regular {
