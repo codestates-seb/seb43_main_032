@@ -11,7 +11,29 @@
     "heart": 333,
     "view": 76,
     "tags": "Query",
-    "comment": [{}, {}, {}]
+    "comment": [
+      {
+        "id": 1,
+        "email": "choi@gmail.com",
+        "userStar": 3,
+        "avatar": "https://robohash.org/aliasessequaerat.png?size=50x50&set=set1",
+        "content": "12FnNv4bDuf5zPGqQxgNRv3iLc3W1GeXrm"
+      },
+      {
+        "id": 2,
+        "email": "choi@gmail.com",
+        "userStar": 5,
+        "avatar": "https://robohash.org/aliasessequaerat.png?size=50x50&set=set1",
+        "content": "12FnNv4bDuf5zPGqQxgNRv3iLc3W1GeXrm"
+      },
+      {
+        "id": 3,
+        "email": "choi@gmail.com",
+        "userStar": 10,
+        "avatar": "https://robohash.org/aliasessequaerat.png?size=50x50&set=set1",
+        "content": "12FnNv4bDuf5zPGqQxgNRv3iLc3W1GeXrm"
+      }
+    ]
   },
   {
     "id": 2,
