@@ -2,11 +2,11 @@ import React from 'react';
 import styled from 'styled-components';
 import Tag from '../Tag';
 import Link from 'next/link';
-import { Article } from '@/types/types';
 import { FaComment, FaEye, FaHeart, FaStar } from 'react-icons/fa';
+import { Community } from '@/types/community';
 
 // item 리스트의 개별 아이템들
-export default function ContentItem(article: Article, idx: number) {
+export default function ContentItem(article: Community, idx: number) {
   const getBarColor = () => {
     switch (article.category) {
       case 'frontend':

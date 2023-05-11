@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { SubmitHandler, useForm } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import styled from 'styled-components';
 import MainPost from '../MainPost';
 import { DefaultObj } from '@/types/types';

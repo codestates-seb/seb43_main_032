@@ -1,13 +1,13 @@
 import { api } from '@/util/api';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import ContentItem from './ContentItem';
 import ContentPageNation from './ContentPageNation';
-import { useRecoilState, useRecoilValue } from 'recoil';
-import { resetSearchState, searchState } from '@/recoil/atom';
-import { useInfiniteQuery, useQuery, useQueryClient } from 'react-query';
+import { useRecoilValue } from 'recoil';
+import { searchState } from '@/recoil/atom';
+import { useInfiniteQuery, useQueryClient } from 'react-query';
 import { useRouter } from 'next/router';
-import { Article } from '@/types/types';
+import { Community } from '@/types/community';
 
 export default function ContentItemList() {
   // 주솟값으로 데이터 필터링
@@ -60,8 +60,8 @@ export default function ContentItemList() {
       {isLoading && !filteredData && <div>isLoading...</div>}
       {isError && <div>isError...</div>}
       {filteredData &&
-        filteredData.pages.map((page, idx: number) =>
-          page.data.map((article: Article) => (
+        filteredData.pages.map((page) =>
+          page.data.map((article: Community) => (
             <ContentItem {...article} key={article.id} />
           ))
         )}

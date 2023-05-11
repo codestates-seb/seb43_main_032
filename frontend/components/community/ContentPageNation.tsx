@@ -1,4 +1,3 @@
-import { api } from '@/util/api';
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
@@ -14,7 +13,6 @@ export default function ContentPageNation({
   currentPage,
   setPage,
 }: ContentPageNationProps) {
-  const router = useRouter();
   const [pageNum, setPageNum] = useState<number[]>([]);
 
   useEffect(() => {

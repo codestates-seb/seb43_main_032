@@ -1,6 +1,5 @@
 import React from 'react';
 import styled from 'styled-components';
-import ContentBottomFilter from './ContentBottomFilter';
 import ContentItemList from './ContentItemList';
 
 // 컨텐츠 보여주는 곳의 필터와 item 리스트 나눔

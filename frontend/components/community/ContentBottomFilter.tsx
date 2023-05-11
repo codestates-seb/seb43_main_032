@@ -1,6 +1,4 @@
-import { filterState } from '@/recoil/atom';
 import React, { useState } from 'react';
-import { useSetRecoilState } from 'recoil';
 import styled from 'styled-components';
 
 // item 리스트 필터 버튼

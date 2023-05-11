@@ -1,5 +1,3 @@
-import GridBox from '@/components/GridBox';
-import Link from 'next/link';
 import { useRouter } from 'next/router';
 import React from 'react';
 import {
@@ -11,13 +9,6 @@ import {
 } from 'react-icons/fa';
 import styled from 'styled-components';
 
-// const test = (url) => {
-//   router.push(url);
-// };
-// Link = navigate => next에서는 못 쓰고
-// 클라이언트에서 한 번 로드된 페이지는 다시 활용하는 방식
-// 대신 최신화가 되지 않음
-// 장점은 로딩이 거의 없음, 다시 활용하니깐
 export default function SideBar() {
   const router = useRouter();
 

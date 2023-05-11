@@ -2,15 +2,14 @@ import { api } from '@/util/api';
 import { useRouter } from 'next/router';
 import React, { useState } from 'react';
 import { useQuery } from 'react-query';
-import Loading from '../Loading';
-import Error from '../Error';
-import { Article } from '@/types/types';
 import styled from 'styled-components';
 import { FaHeart } from 'react-icons/fa';
 import dynamic from 'next/dynamic';
 import ContentSkeleton from '../skeleton/ContentSkeleton';
 import EiditorSkeleton from '../skeleton/EiditorSkeleton';
-import Btn from '../Btn';
+import { Community } from '@/types/community';
+import Message from '../Message';
+import Btn from '../button/Btn';
 const ReactMarkdown = dynamic(() => import('@/components/editor/ContentBox'), {
   ssr: false,
   loading: () => <ContentSkeleton />,
@@ -31,20 +30,20 @@ type Comment = {
 
 // item 개별 페이지
 export default function PostPage() {
-  const [currentData, setCurrentData] = useState<Article>();
+  const [currentData, setCurrentData] = useState<Community>();
 
   const router = useRouter();
   const id = router.query.id;
 
-  const { isLoading, isError, error, data } = useQuery('post', async () => {
+  const { isLoading, error, data } = useQuery('post', async () => {
     const endpoint = `/community/post/${id}`;
     return await api(endpoint).then((res) => {
       setCurrentData(res.data.eachPost);
     });
   });
   console.log(currentData?.comment.map((el) => el));
-  if (isLoading) return <Loading />;
-  if (error) return <Error>잠시 후 다시 시도해주세요.</Error>;
+  if (isLoading) return <Message>로딩중입니다.</Message>;
+  if (error) return <Message>잠시 후 다시 시도해주세요.</Message>;
   if (!currentData) return <div>데이터가 없습니다.</div>;
   if (currentData)
     return (
