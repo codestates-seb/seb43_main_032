@@ -125,7 +125,7 @@ const Box = styled.div`
     width: 100%;
     grid-gap: 16px;
     display: flex;
-    @media (max-width: 980px) {
+    @media (max-width: 960px) {
       display: flex;
       flex-direction: column;
     }
@@ -135,7 +135,7 @@ const Box = styled.div`
       padding: var(--padding-1);
       width: 50%;
       margin-bottom: 56px;
-      @media (max-width: 980px) {
+      @media (max-width: 960px) {
         width: 100%;
         > div {
           margin-bottom: 12px;
@@ -160,7 +160,7 @@ const Box = styled.div`
       @media (max-width: 1300px) {
         grid-template-columns: repeat(2, 1fr);
       }
-      @media (max-width: 980px) {
+      @media (max-width: 960px) {
         display: flex;
         flex-direction: column;
         gap: 2px;

@@ -6,7 +6,9 @@ import { FOOTER_DATA } from '@/constant/constant';
 import Link from 'next/link';
 
 const Footer = () => {
+  //카테고리 이름들
   const categories = useMemo(() => Object.keys(FOOTER_DATA), []);
+
   return (
     <Box>
       <div>
@@ -41,7 +43,7 @@ const Box = styled.footer`
   display: flex;
   padding-top: 20px;
   border-top: 1px solid #cacaca;
-  @media (max-width: 980px) {
+  @media (max-width: 960px) {
     flex-direction: column;
   }
 
@@ -53,7 +55,7 @@ const Box = styled.footer`
 
   > div {
     padding: var(--padding-1);
-    @media (max-width: 980px) {
+    @media (max-width: 960px) {
       padding: var(--padding-2);
     }
   }
@@ -61,7 +63,7 @@ const Box = styled.footer`
     flex: 1;
     padding: var(--padding-1);
     display: flex;
-    @media (max-width: 980px) {
+    @media (max-width: 960px) {
       flex-direction: column;
       justify-content: center;
       align-items: center;
@@ -69,13 +71,18 @@ const Box = styled.footer`
     }
     > div {
       width: calc(65% / 3);
-      @media (max-width: 980px) {
+      @media (max-width: 960px) {
         width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        text-align: center;
       }
     }
     > div:first-child {
       width: 35%;
-      @media (max-width: 980px) {
+      @media (max-width: 960px) {
         width: 100%;
       }
     }
