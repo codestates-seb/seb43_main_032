@@ -13,7 +13,7 @@ import StacksBox from '@/components/project/StacksBox';
 import { GrFormClose } from 'react-icons/gr';
 import { useProject } from '@/hooks/react-query/useProject';
 import { POSITIONS } from '@/constant/constant';
-import Btn from '../Btn';
+import Btn from '../button/Btn';
 
 const ProjectForm = () => {
   const router = useRouter();

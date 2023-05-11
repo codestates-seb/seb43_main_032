@@ -1,10 +1,9 @@
 import styled from 'styled-components';
 import EiditorSkeleton from '@/components/skeleton/EiditorSkeleton';
 import dynamic from 'next/dynamic';
-import { COMMUNITY_EX, POSITIONS, PROJECT_EX } from '@/constant/constant';
 import { DefaultObj } from '@/types/types';
 import { UseFormRegister } from 'react-hook-form';
-import Btn from '../Btn';
+import Btn from '../button/Btn';
 const Editor = dynamic(() => import('@/components/editor/Editor'), {
   ssr: false,
   loading: () => <EiditorSkeleton />,
@@ -22,13 +21,7 @@ type Props = {
   };
 };
 
-const MainPost = ({
-  register,
-  changeContent,
-  type,
-  postProject,
-  data,
-}: Props) => {
+const SubPost = ({ register, changeContent, postProject, data }: Props) => {
   return (
     <Main>
       <form onSubmit={postProject}>
@@ -52,7 +45,7 @@ const MainPost = ({
   );
 };
 
-export default MainPost;
+export default SubPost;
 
 const Main = styled.div`
   padding: var(--padding-2);

@@ -1,7 +1,6 @@
-import GridBox from '@/components/GridBox';
-import Link from 'next/link';
+import { checkState } from '@/recoil/atom';
 import { useRouter } from 'next/router';
-import React from 'react';
+import React, { useMemo } from 'react';
 import {
   FaClipboardList,
   FaDatabase,
@@ -9,89 +8,70 @@ import {
   FaPaintBrush,
   FaQuestion,
 } from 'react-icons/fa';
+import { useSetRecoilState } from 'recoil';
 import styled from 'styled-components';
 
-// const test = (url) => {
-//   router.push(url);
-// };
-// Link = navigate => next에서는 못 쓰고
-// 클라이언트에서 한 번 로드된 페이지는 다시 활용하는 방식
-// 대신 최신화가 되지 않음
-// 장점은 로딩이 거의 없음, 다시 활용하니깐
 export default function SideBar() {
   const router = useRouter();
+  const categoryTitle = useMemo(
+    () => [
+      {
+        title: '질문하기',
+        link: '/community/create',
+        icon: <FaQuestion className="questions" color="#8216f5" />,
+      },
+      {
+        title: '전체보기',
+        link: '/community',
+        icon: <FaClipboardList />,
+      },
+      {
+        title: '프론트엔드',
+        link: '/community/frontend',
+        icon: <FaDesktop />,
+      },
+      {
+        title: '백엔드',
+        link: '/community/backend',
+        icon: <FaDatabase />,
+      },
+      {
+        title: 'UX/UI',
+        link: '/community/uxui',
+        icon: <FaPaintBrush />,
+      },
+    ],
+    []
+  );
 
-  const categoryTitle = [
-    {
-      title: '질문하기',
-      link: '/community/create',
-      color: '#8216F5',
-      icon: <FaQuestion color="#8216F5" />,
-    },
-    {
-      title: '전체보기',
-      link: '/community',
-      color: '#09ADEA',
-      icon: <FaClipboardList />,
-    },
-    {
-      title: '프론트엔드',
-      link: '/community/frontend',
-      color: '#2af599',
-      icon: <FaDesktop />,
-    },
-    {
-      title: '백엔드',
-      link: '/community/backend',
-      color: '#F98BFE',
-      icon: <FaDatabase />,
-    },
-    {
-      title: 'UX/UI',
-      link: '/community/uxui',
-      color: '#4512EB',
-      icon: <FaPaintBrush className="icon" />,
-    },
-  ];
-
-  const currentPath = router.pathname;
-  const currentId = router.query.id;
-
-  const currentColor = categoryTitle.find(
-    (item) =>
-      item.link === currentPath || item.link === `/community/${currentId}`
-  )?.color;
+  const setCheck = useSetRecoilState(checkState);
 
   return (
     <Container>
-      {categoryTitle.map((item, idx) => (
-        <div
-          style={{
-            width: '70%',
-            display: 'flex',
-            justifyContent: 'start',
-            alignItems: 'center',
-            cursor: 'pointer',
-          }}
-          key={idx}
-          onClick={() => router.push(item.link)}
-        >
-          <span
-            className="icon"
-            style={{
-              color:
-                (currentPath === '/community' && item.link === '/community') ||
-                (currentPath === '/community/[id]' &&
-                  item.link === `/community/${currentId}`)
-                  ? currentColor
-                  : '#6e6e6e',
+      <ul>
+        {categoryTitle.map((item) => (
+          <li
+            key={item.title}
+            onClick={() => {
+              setCheck((check) => !check);
+              router.push(item.link);
             }}
           >
-            {item.icon}
-          </span>
-          <span className="nanum-regular title">{item.title}</span>
-        </div>
-      ))}
+            <span
+              className={
+                router.asPath === item.link
+                  ? router.asPath === '/community'
+                    ? 'icon all'
+                    : `icon ${router.query.category}`
+                  : 'icon'
+              }
+            >
+              {item.icon}
+            </span>
+            <span className="nanum-regular title">{item.title}</span>
+          </li>
+        ))}
+      </ul>
     </Container>
   );
 }
@@ -104,37 +84,61 @@ const Container = styled.div`
   padding: var(--padding-2);
   padding-top: 65px;
 
-  > div {
-    width: 70%;
-    background-color: white;
-    border: none;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 10px 20px;
-    margin-bottom: 24px;
-    border-radius: 8px;
-    transition: all 0.2s ease-in-out;
-
-    > .icon {
-      font-size: 18px;
-      margin-right: 16px;
+  .all {
+    > svg {
+      color: #09adea;
     }
+  }
 
-    > .title {
-      color: black;
-      font-weight: 500;
-      font-size: 14px;
+  .frontend {
+    > svg {
+      color: #2af599;
     }
+  }
 
-    &:last-child {
-      margin-bottom: 0;
+  .backend {
+    > svg {
+      color: #f98bfe;
     }
+  }
 
-    &:hover {
-      color: white;
-      box-shadow: 1px 1px 5px #d9d9d9, -1px -1px 10px #e7e7e7;
-      cursor: pointer;
+  .uxui {
+    > svg {
+      color: #4512eb;
+    }
+  }
+
+  > ul {
+    width: 100%;
+    li {
+      width: 100%;
+      background-color: white;
+      display: flex;
+      justify-content: start;
+      align-items: center;
+      padding: 10px 20px;
+      margin-bottom: 24px;
+      border-radius: 8px;
+      transition: all 0.2s ease-in-out;
+      @media (max-width: 960px) {
+        justify-content: center;
+      }
+
+      > .icon {
+        font-size: 18px;
+        margin-right: 16px;
+      }
+
+      > .title {
+        color: black;
+        font-weight: 500;
+        font-size: 14px;
+      }
+
+      &:hover {
+        box-shadow: 1px 1px 5px #d9d9d9, -1px -1px 10px #e7e7e7;
+        cursor: pointer;
+      }
     }
   }
 `;

@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import Stack from '../stack/Stack';
-import Btn from '../Btn';
+import Btn from '../button/Btn';
 
 type Props = {
   stacks: string[];
