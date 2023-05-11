@@ -2,7 +2,7 @@ import { STACKS, STACKS_CATEGORIES } from '@/constant/constant';
 import { Dispatch, SetStateAction } from 'react';
 import styled from 'styled-components';
 import Stack from './Stack';
-import Btn from '../Btn';
+import Btn from '../button/Btn';
 
 type Props = {
   offModal: () => void;
