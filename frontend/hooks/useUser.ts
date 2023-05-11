@@ -11,5 +11,6 @@ export default function useUser() {
     useQuery(['users', id], () => getUserById(id), {
       staleTime: 1000 * 60 * 5,
     });
+
   return { userQuery, getUser };
 }

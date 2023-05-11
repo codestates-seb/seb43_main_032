@@ -95,7 +95,7 @@ interface IProps {
 export default function UserCard({ user }: IProps) {
   return (
     <Group>
-      <Link href={`user/${user.MEMBER_ID}`}>
+      <Link href={`users/${user.MEMBER_ID}`}>
         <Wrapper>
           <Overlay />
           <CardWrapper>
