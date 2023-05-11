@@ -15,11 +15,7 @@ export default function PostAddPageContent() {
   const changeContent = (value: string) => {
     setEditor(value);
   };
-
-  const submitFun = () => {
-    postCommunity();
-  };
-
+    
   const postCommunity = () => {
     const data = {
       title: watch().title,
@@ -35,7 +31,7 @@ export default function PostAddPageContent() {
         type={2}
         register={register}
         changeContent={changeContent}
-        postProject={submitFun}
+        postProject={() => postCommunity()}
       />
     </Container>
   );
