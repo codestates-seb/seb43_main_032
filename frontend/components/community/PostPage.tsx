@@ -11,7 +11,7 @@ import dynamic from 'next/dynamic';
 import ContentSkeleton from '../skeleton/ContentSkeleton';
 import EiditorSkeleton from '../skeleton/EiditorSkeleton';
 import Btn from '../Btn';
-const ReactMarkdown = dynamic(() => import('@/components/ContentBox'), {
+const ReactMarkdown = dynamic(() => import('@/components/editor/ContentBox'), {
   ssr: false,
   loading: () => <ContentSkeleton />,
 });
