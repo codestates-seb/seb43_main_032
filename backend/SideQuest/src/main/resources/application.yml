@@ -13,6 +13,14 @@ spring:
   jpa:
     hibernate:
       ddl-auto: create
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+
+  springfox:
+    documentation:
+      swagger-ui:
+        host: localhost:8080
 #JWT
 mail:
   address:
@@ -21,3 +29,5 @@ jwt:
   key: ${SIDEQUEST_JWT_KEY}
   access-token-expiration-minutes: 40
   refresh-token-expiration-minutes: 420
+
+
