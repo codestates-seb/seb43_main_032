@@ -121,6 +121,7 @@ a {
   height: 100%;
   transition: 300ms;
   text-align: center;
+  font-weight: 900;
 }
 
 .main-btn:hover span {

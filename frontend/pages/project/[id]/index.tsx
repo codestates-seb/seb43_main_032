@@ -222,9 +222,6 @@ const Main = styled.div`
         align-items: center;
       }
     }
-    span {
-      font-weight: 900;
-    }
   }
 
   .heart-box {

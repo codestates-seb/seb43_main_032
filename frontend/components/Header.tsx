@@ -71,14 +71,14 @@ const Header = () => {
             ? navNames.slice(4, 6).map((name) =>
                 name === 'mypage' ? (
                   <li key={name}>
-                    <Link href={`${navArr[name]}`}>
+                    <Link href={navArr[name]}>
                       <FaUserAlt size={20} />
                     </Link>
                   </li>
                 ) : (
                   <li key={name}>
                     <Link
-                      href={`${navArr[name]}`}
+                      href={navArr[name]}
                       className="nanum-regular main-btn"
                     >
                       <span>{name.toUpperCase()}</span>
