@@ -43,7 +43,7 @@ const Container = styled.div`
       display: none;
     }
   }
-  @media (max-width: 980px) {
+  @media (max-width: 960px) {
     display: flex;
     flex-direction: column;
     width: 100%;

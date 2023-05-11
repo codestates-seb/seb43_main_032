@@ -139,7 +139,7 @@ const Box = styled.div`
   align-items: center;
   margin: 24px 0px;
 
-  @media (max-width: 980px) {
+  @media (max-width: 960px) {
     margin: 2px 0px;
   }
 
@@ -154,7 +154,7 @@ const Box = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
-    @media (max-width: 980px) {
+    @media (max-width: 960px) {
       display: none;
     }
     > img {

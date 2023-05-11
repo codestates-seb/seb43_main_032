@@ -21,7 +21,7 @@ const Box = styled.div<Props>`
   flex-direction: column;
   gap: 16px;
 
-  @media (max-width: 980px) {
+  @media (max-width: 960px) {
     width: 100%;
   }
 `;
