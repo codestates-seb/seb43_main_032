@@ -1,15 +1,114 @@
-import React, { useEffect, useState } from 'react';
-import styled from 'styled-components';
 import LogoImage from '../public/images/main_logo2.png';
 import Image from 'next/image';
-import Link from 'next/link';
-// import LogoImage2 from '../public/images/logo.png';
 import { FaUserAlt } from 'react-icons/fa';
 import { FiMenu } from 'react-icons/fi';
-import { useRecoilState } from 'recoil';
-import { isLoginState } from '@/recoil/atom';
+import Link from 'next/link';
+import { useRecoilValue } from 'recoil';
+import styled from 'styled-components';
+import { isLoggedInState } from '@/recoil/atom';
+import { useRouter } from 'next/router';
+import { useEffect, useMemo, useState } from 'react';
+import { DefaultObj } from '@/types/types';
 
-const Nav = styled.nav`
+const Header = () => {
+  const isLoggedIn = useRecoilValue(isLoggedInState);
+  const router = useRouter();
+
+  //네비
+  const navArr: DefaultObj = {
+    home: '/',
+    community: '/community',
+    projects: '/project',
+    users: '/users',
+    mypage: '/mypage',
+    logout: '/',
+    login: '/login',
+    signUp: '/signUp',
+  };
+
+  //네비 이름 배열
+  const navNames = useMemo(() => Object.keys(navArr), []);
+
+  //스크롤 높이 상태
+  const [isScrolled, setIsScrolled] = useState(false);
+
+  //스크롤 높이 상태 핸들러
+  const handleScroll = () => {
+    if (window.scrollY > 10) {
+      setIsScrolled(true);
+    } else {
+      setIsScrolled(false);
+    }
+  };
+
+  //스크롤이 10이상 내려오면 네비바의 배경을 입혀주기 위한 이펙트
+  useEffect(() => {
+    window.addEventListener('scroll', handleScroll);
+    if (window.scrollY > 10) {
+      setIsScrolled(true);
+    }
+  }, []);
+
+  return (
+    <>
+      <Nav isScrolled={isScrolled}>
+        <NavLink href="/">
+          <Image src={LogoImage} alt="logo" />
+        </NavLink>
+        <Bars />
+        <NavMenu>
+          {navNames.slice(0, 4).map((name) => (
+            <li key={name}>
+              <a
+                onClick={() => router.push(navArr[name])}
+                className="nanum-regular sub-btn"
+              >
+                <span className="sub-btn-top">{name.toUpperCase()}</span>
+              </a>
+            </li>
+          ))}
+          {isLoggedIn
+            ? navNames.slice(4, 6).map((name) =>
+                name === 'mypage' ? (
+                  <li key={name}>
+                    <Link href={navArr[name]}>
+                      <FaUserAlt size={20} />
+                    </Link>
+                  </li>
+                ) : (
+                  <li key={name}>
+                    <Link
+                      href={navArr[name]}
+                      className="nanum-regular main-btn"
+                    >
+                      <span>{name.toUpperCase()}</span>
+                    </Link>
+                  </li>
+                )
+              )
+            : navNames.slice(6).map((name) => (
+                <li key={name}>
+                  <Link
+                    href={`/users${navArr[name]}`}
+                    className="nanum-regular main-btn"
+                  >
+                    <span>{name.toUpperCase()}</span>
+                  </Link>
+                </li>
+              ))}
+        </NavMenu>
+      </Nav>
+    </>
+  );
+};
+
+export default Header;
+
+type NavProps = {
+  isScrolled: boolean;
+};
+
+const Nav = styled.nav<NavProps>`
   top: 0;
   left: 0;
   position: fixed;
@@ -17,28 +116,29 @@ const Nav = styled.nav`
   background: #fff;
   height: 80px;
   display: flex;
-  justify-content: space-between;
-  padding: 0.5rem calc((100vw - 1280px) / 2);
+  padding: 0px calc((100% - 1280px) / 2);
+  box-shadow: ${(props) => props.isScrolled && '0 2px 4px rgba(0, 0, 0, 0.2)'};
   z-index: 10;
 `;
 
 const NavLink = styled(Link)`
+  width: auto;
   color: #000f;
   display: flex;
   align-items: center;
   text-decoration: none;
-  padding: 0 1rem;
+  padding-left: 20px;
   height: 100%;
   cursor: pointer;
   &.active {
-    color: #15cdfc;
+    background-color: #15cdfc;
   }
 `;
 
 const Bars = styled(FiMenu)`
   display: none;
   color: #000;
-  @media screen and (max-width: 768px) {
+  @media screen and (max-width: 980px) {
     display: block;
     position: absolute;
     top: 0;
@@ -49,104 +149,29 @@ const Bars = styled(FiMenu)`
   }
 `;
 
-const NavMenu = styled.div`
+const NavMenu = styled.ul`
   display: flex;
   align-items: center;
-  margin-right: -24px;
-
+  width: 100%;
+  justify-content: end;
   white-space: nowrap;
-  @media screen and (max-width: 768px) {
+  padding-right: 20px;
+
+  > li {
+    margin-left: 24px;
+    color: #000f;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    height: 50%;
+    cursor: pointer;
+    &.active {
+      background-color: #15cdfc;
+    }
+  }
+
+  @media screen and (max-width: 980px) {
     display: none;
   }
 `;
-
-const NavBtn = styled.nav`
-  display: flex;
-  align-items: center;
-  margin-right: 24px;
-
-  justify-content: flex-end;
-  width: 100vw;
-  @media screen and (max-width: 768px) {
-    display: none;
-  }
-`;
-
-const NavBtnLink = styled(Link)`
-  border-radius: 40px;
-  background: #fec01d;
-  padding: 10px 22px;
-  color: #fff;
-  outline: none;
-  border: none;
-  cursor: pointer;
-  transition: all 0.2s ease-in-out;
-  text-decoration: none;
-  margin-left: 24px;
-  &:hover {
-    transition: all 0.2s ease-in-out;
-    background: #f0edb1;
-    color: #010606;
-  }
-`;
-
-function Header() {
-  const [isLogin, setIsLogin] = useRecoilState(isLoginState);
-
-  return (
-    <>
-      <Nav>
-        <NavLink href="/">
-          <Image src={LogoImage} alt="logo" />
-        </NavLink>
-        <Bars />
-        <NavMenu>
-          {isLogin && (
-            <>
-              <NavLink href="/" className="nanum-regular">
-                Home
-              </NavLink>
-              <NavLink href="/community" className="nanum-regular">
-                커뮤니티
-              </NavLink>
-              <NavLink href="/project" className="nanum-regular">
-                프로젝트
-              </NavLink>
-              <NavLink href="/mypage">
-                <FaUserAlt size={20} />
-              </NavLink>
-            </>
-          )}
-        </NavMenu>
-
-        <NavBtn>
-          {isLogin ? (
-            <NavBtnLink href="/user/logout" className="nanum-regular">
-              로그아웃
-            </NavBtnLink>
-          ) : (
-            <>
-              <NavLink href="/" className="nanum-regular">
-                Home
-              </NavLink>
-              <NavLink href="/community" className="nanum-regular">
-                커뮤니티
-              </NavLink>
-              <NavLink href="/project" className="nanum-regular">
-                프로젝트
-              </NavLink>
-              <NavBtnLink href="/users/login" className="nanum-regular">
-                로그인
-              </NavBtnLink>
-              <NavBtnLink href="/users/signup" className="nanum-regular">
-                회원가입
-              </NavBtnLink>
-            </>
-          )}
-        </NavBtn>
-      </Nav>
-    </>
-  );
-}
-
-export default Header;

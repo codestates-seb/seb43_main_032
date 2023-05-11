@@ -1,21 +1,24 @@
 import styled from 'styled-components';
 import ProjectCard from './ProjectCard';
-import { Project } from '@/types/types';
+import { Project } from '@/types/project';
+import { ReactNode } from 'react';
 
 type Props = {
   data: Project[];
   title: string;
+  children?: ReactNode;
 };
 
-const ProjectCardbox = ({ title, data }: Props) => {
+const ProjectCardbox = ({ title, data, children }: Props) => {
   return (
     <Box>
       <div className="nanum-bold">{title}</div>
       <div className="projects-box">
-        {data.map((project: Project) => (
+        {data?.map((project: Project) => (
           <ProjectCard key={project.id} size={'sm'} data={project} />
         ))}
       </div>
+      {children}
     </Box>
   );
 };

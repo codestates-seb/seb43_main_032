@@ -17,9 +17,9 @@ const App = ({ Component, pageProps }: AppProps) => {
     <QueryClientProvider client={queryClient}>
       <RecoilRoot>
         <Header />
-        <Main>
+        <Box>
           <Component {...pageProps} />
-        </Main>
+        </Box>
         <Footer />
       </RecoilRoot>
     </QueryClientProvider>
@@ -28,6 +28,8 @@ const App = ({ Component, pageProps }: AppProps) => {
 
 export default App;
 
-const Main = styled.main`
+const Box = styled.main`
+  min-height: 100vh;
+  padding: 0px calc((100% - 1280px) / 2);
   padding-top: 80px;
 `;
