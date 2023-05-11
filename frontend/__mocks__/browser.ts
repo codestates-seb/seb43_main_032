@@ -1,4 +1,4 @@
 import { setupWorker } from 'msw';
-import { handlers, postHandler } from './api';
+import { handlers, communityHandler } from './api';
 
-export const worker = setupWorker(...handlers, ...postHandler);
+export const worker = setupWorker(...handlers, ...communityHandler);
