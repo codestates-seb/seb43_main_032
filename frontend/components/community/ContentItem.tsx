@@ -66,6 +66,7 @@ const Container = styled.div`
   box-shadow: 6px 6px 15px #efefef, -6px -6px 15px #f5f5f5;
   position: relative;
   overflow: hidden;
+  cursor: pointer;
 
   > .email-box {
     font-size: 12px;

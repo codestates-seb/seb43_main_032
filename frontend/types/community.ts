@@ -11,7 +11,7 @@ export type Community = {
   view: number;
   tags: string[];
   status?: null;
-  comment: Comment | {}[];
+  comment: (Comment | {})[];
 };
 
 export type Comment = {

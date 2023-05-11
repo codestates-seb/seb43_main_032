@@ -1,5 +1,5 @@
 import GridBox from '@/components/GridBox';
-import PostAddPage from '@/components/community/PostAddPage';
+import PostAddPage from '@/components/community/CommunityForm';
 import SideBar from '@/components/community/SideBar';
 
 //커뮤니티 글 작성 페이지 입니다. 경로 '/community/create/'

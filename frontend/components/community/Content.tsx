@@ -40,7 +40,10 @@ export default function Content() {
 
   // 데이터 불러오기
   const page_limit = 10;
-  const { isLoading, error, data, refetch } = useQuery(queryKey, () =>
+  const { isLoading, error, data, refetch } = useQuery<{
+    data: Community[];
+    total: number;
+  }>(queryKey, () =>
     api(
       `${address}?size=${page_limit}&page=${page}&search=${searchVal}&filter=${filter}`
     ).then((res) => res.data)
@@ -62,57 +65,58 @@ export default function Content() {
     refetch();
   }, [filter]);
 
-  console.log(data.total);
-
   const [isOpen, setIsOpen] = useState(false);
 
   const filterName = COMMUNITY_FILTER.find((x) => x.value === filter)?.label;
 
   if (isLoading) return <Message>로딩중입니다.</Message>;
   if (error) return <Message>잠시 후 다시 시도해주세요.</Message>;
-  return (
-    <Container>
-      <ContentTop>
-        <SearchInput
-          placeholder="검색어를 입력하세요."
-          value={searchVal}
-          onChange={findContentItem}
-          onKeyPress={(e) => e.key === 'Enter' && handleSearch()}
-        />
-        <SearchBtn onClick={handleSearch}>
-          <FaSearch />
-        </SearchBtn>
-        <SearchBtn onClick={() => router.push('/community')}>초기화</SearchBtn>
-        <ContentBottomFilter onClick={() => setIsOpen(!isOpen)}>
-          <CustomSelectButton>
-            {filterName} <span className="icon">▼</span>
-          </CustomSelectButton>
-          <CustomSelectOptions isOpen={isOpen}>
-            {COMMUNITY_FILTER.map((option) => (
-              <CustomSelectOption
-                key={option.value}
-                onClick={() => selectFilter(option.value)}
-              >
-                {option.label}
-              </CustomSelectOption>
+  if (data)
+    return (
+      <Container>
+        <ContentTop>
+          <SearchInput
+            placeholder="검색어를 입력하세요."
+            value={searchVal}
+            onChange={findContentItem}
+            onKeyPress={(e) => e.key === 'Enter' && handleSearch()}
+          />
+          <SearchBtn onClick={handleSearch}>
+            <FaSearch />
+          </SearchBtn>
+          <SearchBtn onClick={() => router.push('/community')}>
+            초기화
+          </SearchBtn>
+          <ContentBottomFilter onClick={() => setIsOpen(!isOpen)}>
+            <CustomSelectButton>
+              {filterName} <span className="icon">▼</span>
+            </CustomSelectButton>
+            <CustomSelectOptions isOpen={isOpen}>
+              {COMMUNITY_FILTER.map((option) => (
+                <CustomSelectOption
+                  key={option.value}
+                  onClick={() => selectFilter(option.value)}
+                >
+                  {option.label}
+                </CustomSelectOption>
+              ))}
+            </CustomSelectOptions>
+          </ContentBottomFilter>
+        </ContentTop>
+        <ContentBottom>
+          <ContentItemList>
+            {data.data.map((article: Community) => (
+              <ContentItem {...article} key={article.id} />
             ))}
-          </CustomSelectOptions>
-        </ContentBottomFilter>
-      </ContentTop>
-      <ContentBottom>
-        <ContentItemList>
-          {data.data.map((article: Community) => (
-            <ContentItem {...article} key={article.id} />
-          ))}
-        </ContentItemList>
-        <Pagenation
-          page={page}
-          onPageChange={setPage}
-          pageSize={Math.ceil(data.total / 10)}
-        />
-      </ContentBottom>
-    </Container>
-  );
+          </ContentItemList>
+          <Pagenation
+            page={page}
+            onPageChange={setPage}
+            pageSize={Math.ceil(data.total / 10)}
+          />
+        </ContentBottom>
+      </Container>
+    );
 }
 
 const Container = styled.div`

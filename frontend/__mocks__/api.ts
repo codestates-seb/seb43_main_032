@@ -160,7 +160,7 @@ export const communityHandler = [
   rest.get('/community/post/:id', async (req, res, ctx) => {
     const { id } = req.params;
     const eachPost = community.find((project) => project.id === Number(id));
-    return res(ctx.status(200), ctx.json({ eachPost }));
+    return res(ctx.status(200), ctx.json(eachPost));
   }),
 
   rest.post('/community/create/', async (req, res, ctx) => {
