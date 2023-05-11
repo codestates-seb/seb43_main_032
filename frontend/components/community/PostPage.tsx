@@ -10,6 +10,7 @@ import { FaHeart } from 'react-icons/fa';
 import dynamic from 'next/dynamic';
 import ContentSkeleton from '../skeleton/ContentSkeleton';
 import EiditorSkeleton from '../skeleton/EiditorSkeleton';
+import Btn from '../Btn';
 const ReactMarkdown = dynamic(() => import('@/components/ContentBox'), {
   ssr: false,
   loading: () => <ContentSkeleton />,
@@ -19,6 +20,14 @@ const Editor = dynamic(() => import('@/components/editor/Editor'), {
   ssr: false,
   loading: () => <EiditorSkeleton />,
 });
+
+type Comment = {
+  id: number;
+  email: string;
+  userStar: number;
+  avatar: string;
+  content: string;
+};
 
 // item 개별 페이지
 export default function PostPage() {
@@ -33,8 +42,7 @@ export default function PostPage() {
       setCurrentData(res.data.eachPost);
     });
   });
-  console.log(currentData);
-
+  console.log(currentData?.comment.map((el) => el));
   if (isLoading) return <Loading />;
   if (error) return <Error>잠시 후 다시 시도해주세요.</Error>;
   if (!currentData) return <div>데이터가 없습니다.</div>;
@@ -65,6 +73,15 @@ export default function PostPage() {
           </div>
           <div className="comment">
             <Editor></Editor>
+            <Btn>제출하기</Btn>
+            <div className="each">
+              {currentData &&
+                currentData.comment.map((el: Comment) => (
+                  <div className="box">
+                    <div>{el.id}</div>
+                  </div>
+                ))}
+            </div>
           </div>
         </Bottom>
       </Container>
@@ -201,6 +218,25 @@ const Bottom = styled.div`
   font-size: 20px;
 
   > .content {
-    width: 70%;
+    width: 68%;
+    position: relative;
+  }
+
+  > .comment {
+    display: flex;
+    flex-direction: column;
+    width: 30%;
+
+    > .each {
+      color: black;
+
+      > .box {
+        height: 100px;
+        border: solid 1px black;
+        padding: 5px;
+        margin-top: 5px;
+        border-radius: 10px;
+      }
+    }
   }
 `;
