@@ -6,15 +6,14 @@ import TagBox from '@/components/project/TagBox';
 import dynamic from 'next/dynamic';
 import styled from 'styled-components';
 import ContentSkeleton from '@/components/skeleton/ContentSkeleton';
-import Loading from '@/components/Loading';
 import { AiFillHeart, AiOutlineHeart } from 'react-icons/ai';
 import { useProject } from '@/hooks/react-query/useProject';
 import { formatDate2 } from '@/util/date';
 import { useEffect } from 'react';
-import Error from '@/components/Error';
 import { useRouter } from 'next/router';
 import Btn from '@/components/Btn';
 import Position from '@/components/Position';
+import Message from '@/components/Message';
 const ReactMarkdown = dynamic(() => import('@/components/editor/ContentBox'), {
   ssr: false,
   loading: () => <ContentSkeleton />,
@@ -70,8 +69,8 @@ const ViewProject = () => {
 
   const data = projectQuery.data?.post_data;
 
-  if (projectQuery.isLoading) return <Loading />;
-  if (projectQuery.error) return <Error>잠시 후 다시 시도해주세요.</Error>;
+  if (projectQuery.isLoading) return <Message>로딩중입니다.</Message>;
+  if (projectQuery.error) return <Message>잠시 후 다시 시도해주세요.</Message>;
   if (data)
     return (
       <GridBox>

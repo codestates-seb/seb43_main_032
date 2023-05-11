@@ -138,7 +138,7 @@ const NavLink = styled(Link)`
 const Bars = styled(FiMenu)`
   display: none;
   color: #000;
-  @media screen and (max-width: 980px) {
+  @media screen and (max-width: 960px) {
     display: block;
     position: absolute;
     top: 0;
@@ -171,7 +171,7 @@ const NavMenu = styled.ul`
     }
   }
 
-  @media screen and (max-width: 980px) {
+  @media screen and (max-width: 960px) {
     display: none;
   }
 `;

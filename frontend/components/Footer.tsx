@@ -1,201 +1,96 @@
-import React from 'react';
-import LogoImage from '../public/images/main_logo2.png';
+import React, { useMemo } from 'react';
+import LogoImage from '@/public/images/main_logo2.png';
 import Image from 'next/image';
 import styled from 'styled-components';
+import { FOOTER_DATA } from '@/constant/constant';
+import Link from 'next/link';
 
 const Footer = () => {
+  //카테고리 이름들
+  const categories = useMemo(() => Object.keys(FOOTER_DATA), []);
+
   return (
-    <FooterContainer>
-      <Container>
-        <div className="row">
-          <div className="col" id="company">
-            <div className="img-box">
-              <Image
-                src={LogoImage}
-                alt="log"
-                style={{ marginBottom: '25px' }}
-                className="img"
-              />
+    <Box>
+      <div>
+        <Link href="/">
+          <Image alt="logo" src={LogoImage} />
+        </Link>
+      </div>
+      <nav>
+        {categories.map((category) => (
+          <div>
+            <div className="sub-btn">
+              <span className="sub-btn-top">{category.toUpperCase()}</span>
             </div>
-            <div className="list-container">
-              <ul className="nanum-regular list">
-                <li className="list">
-                  <a href="#">1:1 문의 카카오톡 연결</a>
+            <ul>
+              {FOOTER_DATA[category].map((content) => (
+                <li className="noto-medium">
+                  <a href="#">{content}</a>
                 </li>
-                <li className="list">
-                  <a href="#">상담 사이드퀘스트 운영자 연결</a>
-                </li>
-                <li className="list">
-                  <a href="#">오픈챗 코드 7777</a>
-                </li>
-                <li className="list">
-                  <a href="#">제휴문의 help@sideQues.com</a>
-                </li>
-                <li className="list">
-                  <a>Copyright&copy;2023 SideQuest.All rights reserved.</a>
-                </li>
-              </ul>
-              <div className="sidefooter">
-                <div className="col" id="About">
-                  <h3 className="nanum-regular">About</h3>
-                  <div className="noto-regular-13 list ">
-                    <a href="#">SideQuest 소개</a>
-                  </div>
-                </div>
-                <div className="col" id="Service">
-                  <h3 className="nanum-regular">Service</h3>
-                  <ul className="noto-regular-13 list ">
-                    <li className="list">
-                      <a href="#">프로젝트 등록</a>
-                    </li>
-                    <li className="list">
-                      <a href="#">프로젝트 찾기</a>
-                    </li>
-                    <li className="list">
-                      <a href="#">파트너 등록</a>
-                    </li>
-                  </ul>
-                </div>
-                <div className="col" id="Support">
-                  <h3 className="nanum-regular">Support</h3>
-                  <ul className="noto-regular-13 list">
-                    <li className="list">
-                      <a href="#">서비스 이용약관</a>
-                    </li>
-                    <li className="list">
-                      <a href="#">개인정보처리방침</a>
-                    </li>
-                    <li className="list">
-                      <a href="#">FAQ</a>
-                    </li>
-                  </ul>
-                </div>
-              </div>
-            </div>
+              ))}
+            </ul>
           </div>
-        </div>
-      </Container>
-    </FooterContainer>
+        ))}
+      </nav>
+    </Box>
   );
 };
 
 export default Footer;
 
-const FooterContainer = styled.footer`
-  background-color: #000;
-  width: 100%;
-  min-height: 350px;
-  padding: 50px 16px;
-  left: 0;
-  bottom: 0;
-  z-index: 10;
-  /* position: absolute; */
-`;
-const Container = styled.div`
+const Box = styled.footer`
+  padding: 0px calc((100% - 1280px) / 2);
   display: flex;
-  max-width: 1280px;
-  margin: 0 auto;
-  justify-content: center;
-  align-items: center;
-  flex-direction: row;
+  padding-top: 20px;
+  border-top: 1px solid #cacaca;
+  @media (max-width: 960px) {
+    flex-direction: column;
+  }
 
-  .sidefooter {
+  .sub-btn {
+    max-width: 140px;
+    text-align: center;
+    font-size: 12px;
+  }
+
+  > div {
+    padding: var(--padding-1);
+    @media (max-width: 960px) {
+      padding: var(--padding-2);
+    }
+  }
+  > nav {
+    flex: 1;
+    padding: var(--padding-1);
     display: flex;
-  }
-
-  .row {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-
-  .col {
-    color: #fff;
-    text-decoration: none;
-    padding: 0 32px;
-  }
-
-  .list {
-    outline: none;
-    border: none;
-    list-style-type: none;
-    margin-bottom: 15px;
-  }
-
-  .list a {
-    text-decoration: none;
-    list-style-type: none;
-    color: #fff;
-  }
-
-  .col h3 {
-    color: #f1f2f6;
-    margin-bottom: 15px;
-    position: relative;
-    cursor: pointer;
-  }
-
-  .col h3::after {
-    content: '';
-    height: 3px;
-    width: 50px;
-    background-color: #fab1a0;
-    bottom: 0;
-    left: 0;
-    transition: all 0.3s ease;
-  }
-
-  .list-container {
-    display: flex;
-  }
-
-  .noto-regular-13 a {
-    display: block;
-    color: #fff;
-    margin-bottom: 5px;
-    position: relative;
-    transition: all.3s ease;
-  }
-
-  @media screen and (max-width: 980px) {
-    .row {
+    @media (max-width: 960px) {
       flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 24px;
     }
-    .col {
-      width: 100%;
-      text-align: left;
-      margin-bottom: 25px;
+    > div {
+      width: calc(65% / 3);
+      @media (max-width: 960px) {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        text-align: center;
+      }
     }
-    .img {
-      display: none;
+    > div:first-child {
+      width: 35%;
+      @media (max-width: 960px) {
+        width: 100%;
+      }
     }
-  }
-  @media screen and (max-width: 768px) {
-    .row {
+    ul {
+      margin-top: 12px;
+      display: flex;
       flex-direction: column;
-    }
-    .col {
-      width: 100%;
-      text-align: left;
-      margin-bottom: 20px;
-    }
-    .list {
-      line-height: 150%;
-    }
-    .img {
-      display: none;
-    }
-  }
-  @media screen and (max-width: 600px) {
-    .list-container {
-      flex-direction: column;
-    }
-    .sidefooter {
-      flex-direction: column;
-      width: 100%;
-    }
-    .col {
-      min-width: none;
+      gap: 16px;
     }
   }
 `;

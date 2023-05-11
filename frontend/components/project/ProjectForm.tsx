@@ -13,6 +13,7 @@ import StacksBox from '@/components/project/StacksBox';
 import { GrFormClose } from 'react-icons/gr';
 import { useProject } from '@/hooks/react-query/useProject';
 import { POSITIONS } from '@/constant/constant';
+import Btn from '../Btn';
 
 const ProjectForm = () => {
   const router = useRouter();
@@ -217,7 +218,9 @@ const ProjectForm = () => {
                 </option>
               ))}
             </select>
-            <button onClick={addJob}>등록</button>
+            <Btn onClick={addJob}>
+              <span>등록</span>
+            </Btn>
           </div>
           <ul>
             {jobNames.map((x, i) => (
@@ -258,14 +261,11 @@ const Side = styled.div`
   align-items: center;
   flex-direction: column;
 
-  button {
-    cursor: pointer;
-    border: none;
-    padding: 8px 32px;
-    font-weight: 700;
-    border-radius: var(--radius-def);
-    :hover {
-      background-color: #e1e7e5;
+  .main-btn {
+    min-width: 60px;
+
+    > span {
+      padding: 4px;
     }
   }
 
@@ -327,10 +327,6 @@ const Side = styled.div`
         box-shadow: var(--box-shadow);
         border-radius: var(--radius-def);
         padding: 8px;
-      }
-      > button {
-        padding: 8px;
-        min-width: 48px;
       }
     }
   }

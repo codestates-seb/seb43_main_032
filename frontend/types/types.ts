@@ -3,7 +3,6 @@
 export type DefaultObj = {
   [key: string]: string;
 };
-
 export type job = {
   [key: string]: { want: number; current: number };
 };
@@ -47,3 +46,4 @@ export type Article = {
   status: null;
   comment: never[];
 };
+export type ArrObj = { [key: string]: string[] };
