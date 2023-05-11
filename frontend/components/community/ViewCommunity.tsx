@@ -1,15 +1,14 @@
-import { api } from '@/util/api';
 import { useRouter } from 'next/router';
-import React, { useState } from 'react';
-import { useQuery } from 'react-query';
+import React from 'react';
 import styled from 'styled-components';
 import { FaHeart } from 'react-icons/fa';
 import dynamic from 'next/dynamic';
 import ContentSkeleton from '../skeleton/ContentSkeleton';
 import EiditorSkeleton from '../skeleton/EiditorSkeleton';
-import { Community } from '@/types/community';
 import Message from '../Message';
 import Btn from '../button/Btn';
+import { useCommunity } from '@/hooks/react-query/useCommunity';
+import { Community } from '@/types/community';
 const ReactMarkdown = dynamic(() => import('@/components/editor/ContentBox'), {
   ssr: false,
   loading: () => <ContentSkeleton />,
@@ -21,63 +20,67 @@ const Editor = dynamic(() => import('@/components/editor/Editor'), {
 });
 
 // item 개별 페이지
-export default function PostPage() {
-  const [currentData, setCurrentData] = useState<Community>();
-
+const ViewCommunity = () => {
   const router = useRouter();
   const id = router.query.id;
+  const address = `/community/post/${id}`;
+  const queryKey = ['post', id];
 
-  const { isLoading, error, data } = useQuery('post', async () => {
-    const endpoint = `/community/post/${id}`;
-    return await api(endpoint).then((res) => {
-      setCurrentData(res.data.eachPost);
-    });
+  const { isLoading, error, data } = useCommunity<Community>({
+    address,
+    queryKey,
   });
 
   if (isLoading) return <Message>로딩중입니다.</Message>;
   if (error) return <Message>잠시 후 다시 시도해주세요.</Message>;
-  if (!currentData) return <div>데이터가 없습니다.</div>;
-  if (currentData)
-    return (
-      <Container>
-        <Top>
-          <div className="left">
-            <div className="title">{currentData.title}asdasdasdasdasd</div>
-            <div className="date">{currentData.createdAt}</div>
-          </div>
-          <div className="right">
-            <img src={currentData.avatar}></img>
-            <div className="userBox nanum-bold userStar">
-              <FaHeart color="red" /> {currentData.userStar}
+  return (
+    <Container>
+      {data && (
+        <>
+          <Top>
+            <div className="left">
+              <div className="title">{data.data.title}</div>
+              <div className="date">{data.data.createdAt}</div>
             </div>
-            <div className="userBox nanum-bold userMail">
-              {currentData.email.split('@')[0]}
+            <div className="right">
+              <img src={data.data.avatar}></img>
+              <div className="userBox nanum-bold userStar">
+                <FaHeart color="red" /> {data.data.userStar}
+              </div>
+              <div className="userBox nanum-bold userMail">
+                {data.data.email.split('@')[0]}
+              </div>
             </div>
-          </div>
-        </Top>
-        <Bottom>
-          <div className="content">
-            <ReactMarkdown
-              content={currentData.content}
-              backColor="white"
-            ></ReactMarkdown>
-          </div>
-          <div className="comment">
-            <Editor></Editor>
-            <Btn>제출하기</Btn>
-            <div className="each">
-              {currentData &&
-                currentData.comment.map((el) => (
-                  <div className="box">
-                    <div>{el.id}</div>
+          </Top>
+          <Bottom>
+            <div className="content">
+              <ReactMarkdown
+                content={data.data.content}
+                backColor="white"
+              ></ReactMarkdown>
+            </div>
+            <div className="comment">
+              <Editor />
+              <Btn>
+                <span>제출하기</span>
+              </Btn>
+              <div className="each">
+                {/* 임시로 el.id가 없기 때문에 i 활용 중 */}
+                {data.data.comment.map((el, i) => (
+                  <div key={i} className="box">
+                    <div>{i}</div>
                   </div>
                 ))}
+              </div>
             </div>
-          </div>
-        </Bottom>
-      </Container>
-    );
-}
+          </Bottom>
+        </>
+      )}
+    </Container>
+  );
+};
+
+export default ViewCommunity;
 
 const Container = styled.div`
   display: flex;

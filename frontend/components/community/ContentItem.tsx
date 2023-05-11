@@ -1,99 +1,52 @@
 import React from 'react';
 import styled from 'styled-components';
 import Tag from '../Tag';
-import Link from 'next/link';
 import { FaComment, FaEye, FaHeart, FaStar } from 'react-icons/fa';
 import { Community } from '@/types/community';
+import { useRouter } from 'next/router';
 
 // item 리스트의 개별 아이템들
 export default function ContentItem(article: Community) {
-  const getBarColor = () => {
-    switch (article.category) {
-      case 'frontend':
-        return '#2af599';
-      case 'backend':
-        return '#F98BFE';
-      case 'uxui':
-        return '#4512EB';
-      default:
-        return '#2af599';
-    }
+  const router = useRouter();
+  const moveArticle = () => {
+    router.push(`community/post/${article.id}`);
   };
-
-  // 컴포넌트 좌우 꼬임
   return (
     <Container>
-      <div
-        className="color-bar"
-        style={{ backgroundColor: getBarColor() }}
-      ></div>
+      <div className={`color-bar ${article.category}`}></div>
       <Right>
         {/* memberID에서 이메일 받아와야함 or nickName */}
         <img src={article.avatar}></img>
-        <div style={{ fontSize: '12px', fontWeight: 'bold', color: '#6e6e6e' }}>
-          {article.email.split('@')[0]}
-        </div>
-        <div>
+        <div className="email-box">{article.email.split('@')[0]}</div>
+        <div className="star-box">
           <FaStar color="#FF9900"></FaStar> {article.userStar}
         </div>
       </Right>
-      <Link
-        href={`community/post/${article.id}`}
-        style={{ display: 'flex' }}
-        prefetch={false}
-      >
+      <a onClick={moveArticle}>
         <Center>
           <Top>
-            <div
-              className="title nanum-semi-bold"
-              style={{
-                fontSize: '18px',
-                fontWeight: '600',
-                color: '#414141',
-                marginBottom: '16px',
-              }}
-            >
-              {article.title}
-            </div>
+            <div className="title nanum-semi-bold">{article.title}</div>
             <div className="content">{article.content}</div>
           </Top>
           <div className="tagBox">
-            {/* {article.tags.map((tag) => (
-              <Tag key={tag} style={{ background: '#909090' }}>
-                {tag}
-              </Tag>
-            ))} */}
-            <Tag>{article.tags}</Tag>
+            {article.tags.map((tag) => (
+              <Tag key={tag}>{tag}</Tag>
+            ))}
           </div>
         </Center>
-      </Link>
+      </a>
       <Left>
-        <div
-          className="heartBox"
-          style={{ display: 'flex', alignItems: 'center' }}
-        >
-          <FaHeart color="red" style={{ marginRight: '8px' }}></FaHeart>
-          <span
-            style={{ fontSize: '14px', fontWeight: 'bold', color: '#5b5b5b' }}
-          >
-            {article.heart}
-          </span>
+        <div className="heartBox">
+          <FaHeart color="red"></FaHeart>
+          <span>{article.heart}</span>
         </div>
-        <div style={{ display: 'flex', alignItems: 'center' }}>
-          <FaEye color="#909090" style={{ marginRight: '8px' }}></FaEye>
-          <span
-            style={{ fontSize: '14px', fontWeight: 'bold', color: '#5b5b5b' }}
-          >
-            {article.view}
-          </span>
+        <div>
+          <FaEye color="#909090"></FaEye>
+          <span>{article.view}</span>
         </div>
-        <div style={{ display: 'flex', alignItems: 'center' }}>
-          <FaComment color="#909090" style={{ marginRight: '8px' }}></FaComment>
-          <span
-            style={{ fontSize: '14px', fontWeight: 'bold', color: '#5b5b5b' }}
-          >
-            {article.view}
-          </span>
+        <div>
+          <FaComment color="#909090"></FaComment>
+          <span>{article.view}</span>
         </div>
       </Left>
     </Container>
@@ -113,6 +66,13 @@ const Container = styled.div`
   box-shadow: 6px 6px 15px #efefef, -6px -6px 15px #f5f5f5;
   position: relative;
   overflow: hidden;
+  cursor: pointer;
+
+  > .email-box {
+    font-size: 12px;
+    font-weight: bold;
+    color: #6e6e6e;
+  }
 
   > .color-bar {
     position: absolute;
@@ -121,6 +81,18 @@ const Container = styled.div`
     height: 100%;
     width: 5px;
     background-color: #2af599;
+  }
+
+  > .frontend {
+    background-color: #2af599;
+  }
+
+  > .backend {
+    background-color: #f98bfe;
+  }
+
+  > .uxui {
+    background-color: #4512eb;
   }
 
   > a {
@@ -139,13 +111,20 @@ const Left = styled.div`
   justify-content: start;
   align-items: end;
 
+  svg {
+    margin-right: 8px;
+  }
+
   > div {
     text-align: right;
     padding: 5px;
-  }
-
-  > .heartBox {
-    vertical-align: top;
+    display: flex;
+    align-items: center;
+    span {
+      font-size: 14px;
+      font-weight: bold;
+      color: #5b5b5b;
+    }
   }
 `;
 
@@ -163,6 +142,9 @@ const Center = styled.div`
     flex-direction: row !important;
     gap: 8px;
     color: white;
+    > div {
+      background: #909090;
+    }
   }
 `;
 
@@ -172,12 +154,12 @@ const Top = styled.div`
   font-size: 12px;
 
   > .title {
-    color: var(--sub-font-dark-gray);
+    color: #414141;
     text-overflow: ellipsis;
     white-space: nowrap;
-    margin-bottom: 5px;
+    margin-bottom: 16px;
     margin-right: 20px;
-    font-weight: bold;
+    font-weight: 600;
   }
 
   > .content {

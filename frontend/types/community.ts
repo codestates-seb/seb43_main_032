@@ -10,8 +10,8 @@ export type Community = {
   heart: number;
   view: number;
   tags: string[];
-  status: null;
-  comment: Comment[];
+  status?: null;
+  comment: (Comment | {})[];
 };
 
 export type Comment = {

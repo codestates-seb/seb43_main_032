@@ -18,13 +18,13 @@ const Footer = () => {
       </div>
       <nav>
         {categories.map((category) => (
-          <div>
+          <div key={category}>
             <div className="sub-btn">
               <span className="sub-btn-top">{category.toUpperCase()}</span>
             </div>
             <ul>
               {FOOTER_DATA[category].map((content) => (
-                <li className="noto-medium">
+                <li key={content} className="noto-medium">
                   <a href="#">{content}</a>
                 </li>
               ))}

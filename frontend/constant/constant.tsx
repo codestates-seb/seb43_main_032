@@ -169,3 +169,10 @@ export const FOOTER_DATA: ArrObj = {
   service: ['프로젝트 등록', '프로젝트 찾기', '파트너 등록'],
   support: ['서비스 이용약관', '개인정보처리방침', 'FAQ'],
 };
+
+export const COMMUNITY_FILTER = [
+  { value: 'sorted', label: '최신 순' },
+  { value: 'star', label: '스크랩 순' },
+  { value: 'view', label: '조회수 순' },
+  { value: 'comment', label: '댓글 순' },
+];
