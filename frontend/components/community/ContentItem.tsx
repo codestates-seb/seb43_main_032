@@ -6,7 +6,7 @@ import { FaComment, FaEye, FaHeart, FaStar } from 'react-icons/fa';
 import { Community } from '@/types/community';
 
 // item 리스트의 개별 아이템들
-export default function ContentItem(article: Community, idx: number) {
+export default function ContentItem(article: Community) {
   const getBarColor = () => {
     switch (article.category) {
       case 'frontend':
