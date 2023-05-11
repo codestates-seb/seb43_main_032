@@ -3,14 +3,13 @@ import styled from 'styled-components';
 import { FaSearch } from 'react-icons/fa';
 import { Community } from '@/types/community';
 import ContentItem from './ContentItem';
-import { useQuery } from 'react-query';
-import { api } from '@/util/api';
 import { useRouter } from 'next/router';
 import Message from '../Message';
 import { useRecoilValue } from 'recoil';
 import { checkState } from '@/recoil/atom';
 import { COMMUNITY_FILTER } from '@/constant/constant';
 import Pagenation from '../Pagenation';
+import { useCommunity } from '@/hooks/react-query/useCommunity';
 
 export default function Content() {
   const router = useRouter();
@@ -31,23 +30,14 @@ export default function Content() {
   const [searchVal, setSearchVal] = useState(urlSearch || '');
   const [filter, setFilter] = useState(urlFilter || 'sorted');
   const { category } = router.query;
-
-  const queryKey = category
-    ? ['community', page, category]
-    : ['community', page];
-
-  const address = category ? `/community/${category}` : `/community`;
-
-  // 데이터 불러오기
   const page_limit = 10;
-  const { isLoading, error, data, refetch } = useQuery<{
-    data: Community[];
-    total: number;
-  }>(queryKey, () =>
-    api(
-      `${address}?size=${page_limit}&page=${page}&search=${searchVal}&filter=${filter}`
-    ).then((res) => res.data)
-  );
+  const endPoint = category ? `/community/${category}` : `/community`;
+  const address = `${endPoint}?size=${page_limit}&page=${page}&search=${searchVal}&filter=${filter}`;
+
+  const { isLoading, error, data, refetch } = useCommunity({
+    address,
+    page,
+  });
 
   const findContentItem = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchVal(e.target.value);
