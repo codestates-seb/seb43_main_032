@@ -1,6 +1,6 @@
-import { Community } from "@/types/community";
+import { Community } from '@/types/community';
 
-export const community:Community[] = [
+export const community: Community[] = [
   {
     id: 1,
     email: 'wtrusse0@constantcontact.com',
@@ -13,7 +13,7 @@ export const community:Community[] = [
     createdAt: '1/26/2023',
     heart: 333,
     view: 76,
-    tags: 'Query',
+    tags: ['Query'],
     comment: [
       {
         id: 1,
@@ -49,7 +49,7 @@ export const community:Community[] = [
     createdAt: '3/26/2023',
     heart: 333,
     view: 74,
-    tags: 'React',
+    tags: ['React'],
     comment: [{}, {}, {}],
   },
   {
@@ -63,7 +63,7 @@ export const community:Community[] = [
     createdAt: '4/4/2023',
     heart: 333,
     view: 44,
-    tags: 'Recoil',
+    tags: ['Recoil'],
     comment: [{}, {}, {}],
   },
   {
@@ -77,7 +77,7 @@ export const community:Community[] = [
     createdAt: '1/21/2023',
     heart: 333,
     view: 57,
-    tags: 'JavaScript',
+    tags: ['JavaScript'],
     comment: [{}, {}, {}],
   },
   {
@@ -91,7 +91,7 @@ export const community:Community[] = [
     createdAt: '5/20/2022',
     heart: 333,
     view: 98,
-    tags: 'TypeScript',
+    tags: ['TypeScript'],
     comment: [{}, {}, {}],
   },
   {
@@ -105,7 +105,7 @@ export const community:Community[] = [
     createdAt: '4/12/2023',
     heart: 333,
     view: 100,
-    tags: 'Query',
+    tags: ['Query'],
     comment: [{}, {}, {}],
   },
   {
@@ -119,7 +119,7 @@ export const community:Community[] = [
     createdAt: '8/5/2022',
     heart: 333,
     view: 45,
-    tags: 'React',
+    tags: ['React'],
     comment: [{}, {}, {}],
   },
   {
@@ -134,7 +134,7 @@ export const community:Community[] = [
     createdAt: '4/12/2023',
     heart: 333,
     view: 30,
-    tags: 'Recoil',
+    tags: ['Recoil'],
     comment: [{}, {}, {}],
   },
   {
@@ -148,7 +148,7 @@ export const community:Community[] = [
     createdAt: '11/21/2022',
     heart: 333,
     view: 35,
-    tags: 'JavaScript',
+    tags: ['JavaScript'],
     comment: [{}, {}, {}],
   },
   {
@@ -162,7 +162,7 @@ export const community:Community[] = [
     createdAt: '2/1/2023',
     heart: 333,
     view: 52,
-    tags: 'TypeScript',
+    tags: ['TypeScript'],
     comment: [{}, {}, {}],
   },
   {
@@ -176,7 +176,7 @@ export const community:Community[] = [
     createdAt: '2/17/2023',
     heart: 333,
     view: 74,
-    tags: 'Query',
+    tags: ['Query'],
     comment: [{}, {}, {}],
   },
   {
@@ -190,7 +190,7 @@ export const community:Community[] = [
     createdAt: '5/2/2023',
     heart: 333,
     view: 5,
-    tags: 'React',
+    tags: ['React'],
     comment: [{}, {}, {}],
   },
   {
@@ -204,7 +204,7 @@ export const community:Community[] = [
     createdAt: '1/7/2023',
     heart: 333,
     view: 60,
-    tags: 'Recoil',
+    tags: ['Recoil'],
     comment: [{}, {}, {}],
   },
   {
@@ -218,7 +218,7 @@ export const community:Community[] = [
     createdAt: '3/10/2023',
     heart: 333,
     view: 45,
-    tags: 'JavaScript',
+    tags: ['JavaScript'],
     comment: [{}, {}, {}],
   },
   {
@@ -232,7 +232,7 @@ export const community:Community[] = [
     createdAt: '10/14/2022',
     heart: 333,
     view: 30,
-    tags: 'TypeScript',
+    tags: ['TypeScript'],
     comment: [{}, {}, {}],
   },
   {
@@ -247,7 +247,7 @@ export const community:Community[] = [
     createdAt: '11/22/2022',
     heart: 333,
     view: 67,
-    tags: 'Query',
+    tags: ['Query'],
     comment: [{}, {}, {}],
   },
   {
@@ -262,7 +262,7 @@ export const community:Community[] = [
     createdAt: '6/6/2022',
     heart: 333,
     view: 79,
-    tags: 'React',
+    tags: ['React'],
     comment: [{}, {}, {}],
   },
   {
@@ -276,7 +276,7 @@ export const community:Community[] = [
     createdAt: '4/2/2023',
     heart: 333,
     view: 52,
-    tags: 'Recoil',
+    tags: ['Recoil'],
     comment: [{}, {}, {}],
   },
   {
@@ -290,7 +290,7 @@ export const community:Community[] = [
     createdAt: '3/23/2023',
     heart: 333,
     view: 15,
-    tags: 'JavaScript',
+    tags: ['JavaScript'],
     comment: [{}, {}, {}],
   },
   {
@@ -305,7 +305,7 @@ export const community:Community[] = [
     createdAt: '3/23/2023',
     heart: 333,
     view: 45,
-    tags: 'TypeScript',
+    tags: ['TypeScript'],
     comment: [{}, {}, {}],
   },
   {
@@ -320,7 +320,7 @@ export const community:Community[] = [
     createdAt: '4/12/2023',
     heart: 333,
     view: 28,
-    tags: 'Query',
+    tags: ['Query'],
     comment: [{}, {}, {}],
   },
   {
@@ -334,7 +334,7 @@ export const community:Community[] = [
     createdAt: '7/15/2022',
     heart: 333,
     view: 78,
-    tags: 'React',
+    tags: ['React'],
     comment: [{}, {}, {}],
   },
   {
@@ -348,7 +348,7 @@ export const community:Community[] = [
     createdAt: '11/30/2022',
     heart: 333,
     view: 31,
-    tags: 'Recoil',
+    tags: ['Recoil'],
     comment: [{}, {}, {}],
   },
   {
@@ -363,7 +363,7 @@ export const community:Community[] = [
     createdAt: '3/5/2023',
     heart: 333,
     view: 7,
-    tags: 'JavaScript',
+    tags: ['JavaScript'],
     comment: [{}, {}, {}],
   },
   {
@@ -377,7 +377,7 @@ export const community:Community[] = [
     createdAt: '12/9/2022',
     heart: 333,
     view: 88,
-    tags: 'TypeScript',
+    tags: ['TypeScript'],
     comment: [{}, {}, {}],
   },
   {
@@ -391,7 +391,7 @@ export const community:Community[] = [
     createdAt: '10/23/2022',
     heart: 333,
     view: 70,
-    tags: 'Query',
+    tags: ['Query'],
     comment: [{}, {}, {}],
   },
   {
@@ -405,7 +405,7 @@ export const community:Community[] = [
     createdAt: '3/26/2023',
     heart: 333,
     view: 53,
-    tags: 'React',
+    tags: ['React'],
     comment: [{}, {}, {}],
   },
   {
@@ -419,7 +419,7 @@ export const community:Community[] = [
     createdAt: '12/24/2022',
     heart: 333,
     view: 16,
-    tags: 'Recoil',
+    tags: ['Recoil'],
     comment: [{}, {}, {}],
   },
   {
@@ -434,7 +434,7 @@ export const community:Community[] = [
     createdAt: '3/3/2023',
     heart: 333,
     view: 26,
-    tags: 'JavaScript',
+    tags: ['JavaScript'],
     comment: [{}, {}, {}],
   },
   {
@@ -448,7 +448,7 @@ export const community:Community[] = [
     createdAt: '9/30/2022',
     heart: 333,
     view: 12,
-    tags: 'TypeScript',
+    tags: ['TypeScript'],
     comment: [{}, {}, {}],
   },
   {
@@ -462,7 +462,7 @@ export const community:Community[] = [
     createdAt: '5/2/2023',
     heart: 333,
     view: 2,
-    tags: 'Query',
+    tags: ['Query'],
     comment: [{}, {}, {}],
   },
   {
@@ -476,7 +476,7 @@ export const community:Community[] = [
     createdAt: '12/18/2022',
     heart: 333,
     view: 19,
-    tags: 'React',
+    tags: ['React'],
     comment: [{}, {}, {}],
   },
   {
@@ -490,7 +490,7 @@ export const community:Community[] = [
     createdAt: '4/9/2023',
     heart: 333,
     view: 13,
-    tags: 'Recoil',
+    tags: ['Recoil'],
     comment: [{}, {}, {}],
   },
   {
@@ -505,7 +505,7 @@ export const community:Community[] = [
     createdAt: '11/19/2022',
     heart: 333,
     view: 36,
-    tags: 'JavaScript',
+    tags: ['JavaScript'],
     comment: [{}, {}, {}],
   },
   {
@@ -520,7 +520,7 @@ export const community:Community[] = [
     createdAt: '9/30/2022',
     heart: 333,
     view: 5,
-    tags: 'TypeScript',
+    tags: ['TypeScript'],
     comment: [{}, {}, {}],
   },
   {
@@ -534,7 +534,7 @@ export const community:Community[] = [
     createdAt: '6/17/2022',
     heart: 333,
     view: 57,
-    tags: 'Query',
+    tags: ['Query'],
     comment: [{}, {}, {}],
   },
   {
@@ -548,7 +548,7 @@ export const community:Community[] = [
     createdAt: '4/17/2023',
     heart: 333,
     view: 52,
-    tags: 'React',
+    tags: ['React'],
     comment: [{}, {}, {}],
   },
   {
@@ -562,7 +562,7 @@ export const community:Community[] = [
     createdAt: '7/4/2022',
     heart: 333,
     view: 61,
-    tags: 'Recoil',
+    tags: ['Recoil'],
     comment: [{}, {}, {}],
   },
   {
@@ -576,7 +576,7 @@ export const community:Community[] = [
     createdAt: '1/31/2023',
     heart: 333,
     view: 66,
-    tags: 'JavaScript',
+    tags: ['JavaScript'],
     comment: [{}, {}, {}],
   },
   {
@@ -591,7 +591,7 @@ export const community:Community[] = [
     createdAt: '10/27/2022',
     heart: 333,
     view: 89,
-    tags: 'TypeScript',
+    tags: ['TypeScript'],
     comment: [{}, {}, {}],
   },
   {
@@ -606,7 +606,7 @@ export const community:Community[] = [
     createdAt: '8/6/2022',
     heart: 333,
     view: 56,
-    tags: 'Query',
+    tags: ['Query'],
     comment: [{}, {}, {}],
   },
   {
@@ -620,7 +620,7 @@ export const community:Community[] = [
     createdAt: '11/27/2022',
     heart: 333,
     view: 100,
-    tags: 'React',
+    tags: ['React'],
     comment: [{}, {}, {}],
   },
   {
@@ -634,7 +634,7 @@ export const community:Community[] = [
     createdAt: '4/14/2023',
     heart: 333,
     view: 76,
-    tags: 'Recoil',
+    tags: ['Recoil'],
     comment: [{}, {}, {}],
   },
   {
@@ -649,7 +649,7 @@ export const community:Community[] = [
     createdAt: '1/21/2023',
     heart: 333,
     view: 6,
-    tags: 'JavaScript',
+    tags: ['JavaScript'],
     comment: [{}, {}, {}],
   },
   {
@@ -663,7 +663,7 @@ export const community:Community[] = [
     createdAt: '12/4/2022',
     heart: 333,
     view: 61,
-    tags: 'TypeScript',
+    tags: ['TypeScript'],
     comment: [{}, {}, {}],
   },
   {
@@ -678,7 +678,7 @@ export const community:Community[] = [
     createdAt: '5/26/2022',
     heart: 333,
     view: 24,
-    tags: 'Query',
+    tags: ['Query'],
     comment: [{}, {}, {}],
   },
   {
@@ -692,7 +692,7 @@ export const community:Community[] = [
     createdAt: '10/25/2022',
     heart: 333,
     view: 46,
-    tags: 'React',
+    tags: ['React'],
     comment: [{}, {}, {}],
   },
   {
@@ -706,7 +706,7 @@ export const community:Community[] = [
     createdAt: '8/8/2022',
     heart: 333,
     view: 11,
-    tags: 'Recoil',
+    tags: ['Recoil'],
     comment: [{}, {}, {}],
   },
   {
@@ -720,7 +720,7 @@ export const community:Community[] = [
     createdAt: '12/6/2022',
     heart: 333,
     view: 68,
-    tags: 'JavaScript',
+    tags: ['JavaScript'],
     comment: [{}, {}, {}],
   },
   {
@@ -734,7 +734,7 @@ export const community:Community[] = [
     createdAt: '7/17/2022',
     heart: 333,
     view: 14,
-    tags: 'TypeScript',
+    tags: ['TypeScript'],
     comment: [{}, {}, {}],
   },
   {
@@ -748,7 +748,7 @@ export const community:Community[] = [
     createdAt: '10/16/2022',
     heart: 333,
     view: 8,
-    tags: 'Query',
+    tags: ['Query'],
     comment: [{}, {}, {}],
   },
   {
@@ -762,7 +762,7 @@ export const community:Community[] = [
     createdAt: '12/22/2022',
     heart: 333,
     view: 81,
-    tags: 'React',
+    tags: ['React'],
     comment: [{}, {}, {}],
   },
   {
@@ -776,7 +776,7 @@ export const community:Community[] = [
     createdAt: '10/8/2022',
     heart: 333,
     view: 14,
-    tags: 'Recoil',
+    tags: ['Recoil'],
     comment: [{}, {}, {}],
   },
   {
@@ -791,7 +791,7 @@ export const community:Community[] = [
     createdAt: '3/8/2023',
     heart: 333,
     view: 66,
-    tags: 'JavaScript',
+    tags: ['JavaScript'],
     comment: [{}, {}, {}],
   },
   {
@@ -805,7 +805,7 @@ export const community:Community[] = [
     createdAt: '3/11/2023',
     heart: 333,
     view: 81,
-    tags: 'TypeScript',
+    tags: ['TypeScript'],
     comment: [{}, {}, {}],
   },
   {
@@ -819,7 +819,7 @@ export const community:Community[] = [
     createdAt: '6/16/2022',
     heart: 333,
     view: 90,
-    tags: 'Query',
+    tags: ['Query'],
     comment: [{}, {}, {}],
   },
   {
@@ -833,7 +833,7 @@ export const community:Community[] = [
     createdAt: '8/11/2022',
     heart: 333,
     view: 23,
-    tags: 'React',
+    tags: ['React'],
     comment: [{}, {}, {}],
   },
   {
@@ -847,7 +847,7 @@ export const community:Community[] = [
     createdAt: '4/21/2023',
     heart: 333,
     view: 49,
-    tags: 'Recoil',
+    tags: ['Recoil'],
     comment: [{}, {}, {}],
   },
   {
@@ -862,7 +862,7 @@ export const community:Community[] = [
     createdAt: '10/6/2022',
     heart: 333,
     view: 26,
-    tags: 'JavaScript',
+    tags: ['JavaScript'],
     comment: [{}, {}, {}],
   },
   {
@@ -876,7 +876,7 @@ export const community:Community[] = [
     createdAt: '6/7/2022',
     heart: 333,
     view: 31,
-    tags: 'TypeScript',
+    tags: ['TypeScript'],
     comment: [{}, {}, {}],
   },
   {
@@ -891,7 +891,7 @@ export const community:Community[] = [
     createdAt: '1/16/2023',
     heart: 333,
     view: 53,
-    tags: 'Query',
+    tags: ['Query'],
     comment: [{}, {}, {}],
   },
   {
@@ -905,7 +905,7 @@ export const community:Community[] = [
     createdAt: '11/28/2022',
     heart: 333,
     view: 79,
-    tags: 'React',
+    tags: ['React'],
     comment: [{}, {}, {}],
   },
   {
@@ -919,7 +919,7 @@ export const community:Community[] = [
     createdAt: '7/28/2022',
     heart: 333,
     view: 84,
-    tags: 'Recoil',
+    tags: ['Recoil'],
     comment: [{}, {}, {}],
   },
   {
@@ -933,7 +933,7 @@ export const community:Community[] = [
     createdAt: '1/7/2023',
     heart: 333,
     view: 90,
-    tags: 'JavaScript',
+    tags: ['JavaScript'],
     comment: [{}, {}, {}],
   },
   {
@@ -947,7 +947,7 @@ export const community:Community[] = [
     createdAt: '8/29/2022',
     heart: 333,
     view: 27,
-    tags: 'TypeScript',
+    tags: ['TypeScript'],
     comment: [{}, {}, {}],
   },
   {
@@ -962,7 +962,7 @@ export const community:Community[] = [
     createdAt: '3/28/2023',
     heart: 333,
     view: 17,
-    tags: 'Query',
+    tags: ['Query'],
     comment: [{}, {}, {}],
   },
   {
@@ -976,7 +976,7 @@ export const community:Community[] = [
     createdAt: '9/29/2022',
     heart: 333,
     view: 40,
-    tags: 'React',
+    tags: ['React'],
     comment: [{}, {}, {}],
   },
   {
@@ -990,7 +990,7 @@ export const community:Community[] = [
     createdAt: '5/21/2022',
     heart: 333,
     view: 49,
-    tags: 'Recoil',
+    tags: ['Recoil'],
     comment: [{}, {}, {}],
   },
   {
@@ -1005,7 +1005,7 @@ export const community:Community[] = [
     createdAt: '3/26/2023',
     heart: 333,
     view: 31,
-    tags: 'JavaScript',
+    tags: ['JavaScript'],
     comment: [{}, {}, {}],
   },
   {
@@ -1020,7 +1020,7 @@ export const community:Community[] = [
     createdAt: '6/8/2022',
     heart: 333,
     view: 88,
-    tags: 'TypeScript',
+    tags: ['TypeScript'],
     comment: [{}, {}, {}],
   },
   {
@@ -1034,7 +1034,7 @@ export const community:Community[] = [
     createdAt: '4/29/2023',
     heart: 333,
     view: 99,
-    tags: 'Query',
+    tags: ['Query'],
     comment: [{}, {}, {}],
   },
   {
@@ -1049,7 +1049,7 @@ export const community:Community[] = [
     createdAt: '1/1/2023',
     heart: 333,
     view: 73,
-    tags: 'React',
+    tags: ['React'],
     comment: [{}, {}, {}],
   },
   {
@@ -1063,7 +1063,7 @@ export const community:Community[] = [
     createdAt: '2/10/2023',
     heart: 333,
     view: 100,
-    tags: 'Recoil',
+    tags: ['Recoil'],
     comment: [{}, {}, {}],
   },
   {
@@ -1077,7 +1077,7 @@ export const community:Community[] = [
     createdAt: '4/24/2023',
     heart: 333,
     view: 86,
-    tags: 'JavaScript',
+    tags: ['JavaScript'],
     comment: [{}, {}, {}],
   },
   {
@@ -1091,7 +1091,7 @@ export const community:Community[] = [
     createdAt: '7/13/2022',
     heart: 333,
     view: 89,
-    tags: 'TypeScript',
+    tags: ['TypeScript'],
     comment: [{}, {}, {}],
   },
   {
@@ -1106,7 +1106,7 @@ export const community:Community[] = [
     createdAt: '4/17/2023',
     heart: 333,
     view: 67,
-    tags: 'Query',
+    tags: ['Query'],
     comment: [{}, {}, {}],
   },
   {
@@ -1120,7 +1120,7 @@ export const community:Community[] = [
     createdAt: '12/14/2022',
     heart: 333,
     view: 29,
-    tags: 'React',
+    tags: ['React'],
     comment: [{}, {}, {}],
   },
   {
@@ -1134,7 +1134,7 @@ export const community:Community[] = [
     createdAt: '2/24/2023',
     heart: 333,
     view: 77,
-    tags: 'Recoil',
+    tags: ['Recoil'],
     comment: [{}, {}, {}],
   },
   {
@@ -1149,7 +1149,7 @@ export const community:Community[] = [
     createdAt: '1/31/2023',
     heart: 333,
     view: 22,
-    tags: 'JavaScript',
+    tags: ['JavaScript'],
     comment: [{}, {}, {}],
   },
   {
@@ -1163,7 +1163,7 @@ export const community:Community[] = [
     createdAt: '4/14/2023',
     heart: 333,
     view: 80,
-    tags: 'TypeScript',
+    tags: ['TypeScript'],
     comment: [{}, {}, {}],
   },
   {
@@ -1177,7 +1177,7 @@ export const community:Community[] = [
     createdAt: '5/27/2022',
     heart: 333,
     view: 35,
-    tags: 'Query',
+    tags: ['Query'],
     comment: [{}, {}, {}],
   },
   {
@@ -1192,7 +1192,7 @@ export const community:Community[] = [
     createdAt: '7/16/2022',
     heart: 333,
     view: 26,
-    tags: 'React',
+    tags: ['React'],
     comment: [{}, {}, {}],
   },
   {
@@ -1207,7 +1207,7 @@ export const community:Community[] = [
     createdAt: '11/17/2022',
     heart: 333,
     view: 26,
-    tags: 'Recoil',
+    tags: ['Recoil'],
     comment: [{}, {}, {}],
   },
   {
@@ -1222,7 +1222,7 @@ export const community:Community[] = [
     createdAt: '10/31/2022',
     heart: 333,
     view: 27,
-    tags: 'JavaScript',
+    tags: ['JavaScript'],
     comment: [{}, {}, {}],
   },
   {
@@ -1236,7 +1236,7 @@ export const community:Community[] = [
     createdAt: '7/4/2022',
     heart: 333,
     view: 9,
-    tags: 'TypeScript',
+    tags: ['TypeScript'],
     comment: [{}, {}, {}],
   },
   {
@@ -1251,7 +1251,7 @@ export const community:Community[] = [
     createdAt: '10/13/2022',
     heart: 333,
     view: 10,
-    tags: 'Query',
+    tags: ['Query'],
     comment: [{}, {}, {}],
   },
   {
@@ -1265,7 +1265,7 @@ export const community:Community[] = [
     createdAt: '7/14/2022',
     heart: 333,
     view: 94,
-    tags: 'React',
+    tags: ['React'],
     comment: [{}, {}, {}],
   },
   {
@@ -1280,7 +1280,7 @@ export const community:Community[] = [
     createdAt: '1/28/2023',
     heart: 333,
     view: 58,
-    tags: 'Recoil',
+    tags: ['Recoil'],
     comment: [{}, {}, {}],
   },
   {
@@ -1294,7 +1294,7 @@ export const community:Community[] = [
     createdAt: '10/23/2022',
     heart: 333,
     view: 21,
-    tags: 'JavaScript',
+    tags: ['JavaScript'],
     comment: [{}, {}, {}],
   },
   {
@@ -1308,7 +1308,7 @@ export const community:Community[] = [
     createdAt: '12/22/2022',
     heart: 333,
     view: 45,
-    tags: 'TypeScript',
+    tags: ['TypeScript'],
     comment: [{}, {}, {}],
   },
   {
@@ -1323,7 +1323,7 @@ export const community:Community[] = [
     createdAt: '4/24/2023',
     heart: 333,
     view: 42,
-    tags: 'Query',
+    tags: ['Query'],
     comment: [{}, {}, {}],
   },
   {
@@ -1337,7 +1337,7 @@ export const community:Community[] = [
     createdAt: '2/15/2023',
     heart: 333,
     view: 14,
-    tags: 'React',
+    tags: ['React'],
     comment: [{}, {}, {}],
   },
   {
@@ -1352,7 +1352,7 @@ export const community:Community[] = [
     createdAt: '7/28/2022',
     heart: 333,
     view: 47,
-    tags: 'Recoil',
+    tags: ['Recoil'],
     comment: [{}, {}, {}],
   },
   {
@@ -1366,7 +1366,7 @@ export const community:Community[] = [
     createdAt: '11/28/2022',
     heart: 333,
     view: 35,
-    tags: 'JavaScript',
+    tags: ['JavaScript'],
     comment: [{}, {}, {}],
   },
   {
@@ -1380,7 +1380,7 @@ export const community:Community[] = [
     createdAt: '8/30/2022',
     heart: 333,
     view: 1,
-    tags: 'TypeScript',
+    tags: ['TypeScript'],
     comment: [{}, {}, {}],
   },
   {
@@ -1394,7 +1394,7 @@ export const community:Community[] = [
     createdAt: '9/11/2022',
     heart: 333,
     view: 20,
-    tags: 'Query',
+    tags: ['Query'],
     comment: [{}, {}, {}],
   },
   {
@@ -1409,7 +1409,7 @@ export const community:Community[] = [
     createdAt: '10/23/2022',
     heart: 333,
     view: 39,
-    tags: 'React',
+    tags: ['React'],
     comment: [{}, {}, {}],
   },
   {
@@ -1423,7 +1423,7 @@ export const community:Community[] = [
     createdAt: '12/22/2022',
     heart: 333,
     view: 44,
-    tags: 'Recoil',
+    tags: ['Recoil'],
     comment: [{}, {}, {}],
   },
   {
@@ -1437,7 +1437,7 @@ export const community:Community[] = [
     createdAt: '1/27/2023',
     heart: 333,
     view: 16,
-    tags: 'JavaScript',
+    tags: ['JavaScript'],
     comment: [{}, {}, {}],
   },
   {
@@ -1452,7 +1452,7 @@ export const community:Community[] = [
     createdAt: '1/26/2023',
     heart: 333,
     view: 27,
-    tags: 'TypeScript',
+    tags: ['TypeScript'],
     comment: [{}, {}, {}],
   },
   {
@@ -1467,7 +1467,7 @@ export const community:Community[] = [
     createdAt: '1/26/2023',
     heart: 333,
     view: 27,
-    tags: 'TypeScript',
+    tags: ['TypeScript'],
     comment: [{}, {}, {}],
   },
 ];

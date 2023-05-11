@@ -1,3 +1,4 @@
+import { checkState } from '@/recoil/atom';
 import { useRouter } from 'next/router';
 import React, { useMemo } from 'react';
 import {
@@ -7,6 +8,7 @@ import {
   FaPaintBrush,
   FaQuestion,
 } from 'react-icons/fa';
+import { useSetRecoilState } from 'recoil';
 import styled from 'styled-components';
 
 export default function SideBar() {
@@ -42,11 +44,19 @@ export default function SideBar() {
     []
   );
 
+  const setCheck = useSetRecoilState(checkState);
+
   return (
     <Container>
       <ul>
         {categoryTitle.map((item) => (
-          <li key={item.title} onClick={() => router.push(item.link)}>
+          <li
+            key={item.title}
+            onClick={() => {
+              setCheck((check) => !check);
+              router.push(item.link);
+            }}
+          >
             <span
               className={
                 router.asPath === item.link
