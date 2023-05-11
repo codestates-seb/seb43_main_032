@@ -7,9 +7,13 @@ type Props = {
   backColor?: string;
 };
 
+type BoxProps = {
+  backColor?: string;
+};
+
 const ContentBox = ({ content, backColor }: Props) => {
   return (
-    <Box className="markdown-body" style={{ background: backColor }}>
+    <Box className="markdown-body" backColor={backColor}>
       <ReactMarkdown>{content}</ReactMarkdown>
     </Box>
   );
@@ -17,7 +21,7 @@ const ContentBox = ({ content, backColor }: Props) => {
 
 export default ContentBox;
 
-const Box = styled.div`
+const Box = styled.div<BoxProps>`
   width: 100%;
   min-height: 70vh;
   display: flex;
@@ -26,4 +30,5 @@ const Box = styled.div`
   padding: var(--padding-2);
   border: 1px solid #d8d8d8;
   border-radius: var(--radius-def);
+  background-color: ${(props) => props.backColor};
 `;
