@@ -32,7 +32,7 @@ export default function ContentItemList() {
       },
       {
         getNextPageParam: (lastPage, allPages) => {
-          if (lastPage.data.length < page_limit) {
+          if (!lastPage.data || lastPage.data.length < page_limit) {
             return null;
           }
           return allPages.length + 1;
@@ -57,7 +57,7 @@ export default function ContentItemList() {
 
   return (
     <Container>
-      {isLoading && <div>isLoading...</div>}
+      {isLoading && !filteredData && <div>isLoading...</div>}
       {isError && <div>isError...</div>}
       {filteredData &&
         filteredData.pages.map((page, idx: number) =>
