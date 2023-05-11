@@ -9,7 +9,7 @@ type Props = {
 
 const ContentBox = ({ content, backColor }: Props) => {
   return (
-    <Box className="markdown-body" style={{ background: backColor }}>
+    <Box className="markdown-body" backColor={backColor}>
       <ReactMarkdown>{content}</ReactMarkdown>
     </Box>
   );
@@ -26,4 +26,5 @@ const Box = styled.div`
   padding: var(--padding-2);
   border: 1px solid #d8d8d8;
   border-radius: var(--radius-def);
+  background-color: ${props => props.backColor || 'white'};
 `;
