@@ -1,15 +1,14 @@
-import { api } from '@/util/api';
 import { useRouter } from 'next/router';
 import React from 'react';
-import { useQuery } from 'react-query';
 import styled from 'styled-components';
 import { FaHeart } from 'react-icons/fa';
 import dynamic from 'next/dynamic';
 import ContentSkeleton from '../skeleton/ContentSkeleton';
 import EiditorSkeleton from '../skeleton/EiditorSkeleton';
-import { Community } from '@/types/community';
 import Message from '../Message';
 import Btn from '../button/Btn';
+import { useCommunity } from '@/hooks/react-query/useCommunity';
+import { Community } from '@/types/community';
 const ReactMarkdown = dynamic(() => import('@/components/editor/ContentBox'), {
   ssr: false,
   loading: () => <ContentSkeleton />,
@@ -24,10 +23,13 @@ const Editor = dynamic(() => import('@/components/editor/Editor'), {
 const ViewCommunity = () => {
   const router = useRouter();
   const id = router.query.id;
+  const address = `/community/post/${id}`;
+  const queryKey = ['post', id];
 
-  const { isLoading, error, data } = useQuery<Community>('post', () =>
-    api(`/community/post/${id}`).then((res) => res.data)
-  );
+  const { isLoading, error, data } = useCommunity<Community>({
+    address,
+    queryKey,
+  });
 
   if (isLoading) return <Message>로딩중입니다.</Message>;
   if (error) return <Message>잠시 후 다시 시도해주세요.</Message>;
@@ -37,23 +39,23 @@ const ViewCommunity = () => {
         <>
           <Top>
             <div className="left">
-              <div className="title">{data.title}</div>
-              <div className="date">{data.createdAt}</div>
+              <div className="title">{data.data.title}</div>
+              <div className="date">{data.data.createdAt}</div>
             </div>
             <div className="right">
-              <img src={data.avatar}></img>
+              <img src={data.data.avatar}></img>
               <div className="userBox nanum-bold userStar">
-                <FaHeart color="red" /> {data.userStar}
+                <FaHeart color="red" /> {data.data.userStar}
               </div>
               <div className="userBox nanum-bold userMail">
-                {data.email.split('@')[0]}
+                {data.data.email.split('@')[0]}
               </div>
             </div>
           </Top>
           <Bottom>
             <div className="content">
               <ReactMarkdown
-                content={data.content}
+                content={data.data.content}
                 backColor="white"
               ></ReactMarkdown>
             </div>
@@ -64,7 +66,7 @@ const ViewCommunity = () => {
               </Btn>
               <div className="each">
                 {/* 임시로 el.id가 없기 때문에 i 활용 중 */}
-                {data.comment.map((el, i) => (
+                {data.data.comment.map((el, i) => (
                   <div key={i} className="box">
                     <div>{i}</div>
                   </div>

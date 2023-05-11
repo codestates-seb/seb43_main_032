@@ -33,10 +33,13 @@ export default function Content() {
   const page_limit = 10;
   const endPoint = category ? `/community/${category}` : `/community`;
   const address = `${endPoint}?size=${page_limit}&page=${page}&search=${searchVal}&filter=${filter}`;
+  const queryKey = category
+    ? ['community', page, category]
+    : ['community', page];
 
-  const { isLoading, error, data, refetch } = useCommunity({
+  const { isLoading, error, data, refetch } = useCommunity<Community[]>({
     address,
-    page,
+    queryKey,
   });
 
   const findContentItem = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -102,7 +105,7 @@ export default function Content() {
           <Pagenation
             page={page}
             onPageChange={setPage}
-            pageSize={Math.ceil(data.total / 10)}
+            pageSize={Math.ceil(data.total! / 10)}
           />
         </ContentBottom>
       </Container>

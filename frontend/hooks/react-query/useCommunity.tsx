@@ -1,24 +1,15 @@
 import { useQuery } from 'react-query';
-import { useRouter } from 'next/router';
 import { api } from '@/util/api';
-import { Community } from '@/types/community';
 
 type Props = {
   address: string;
-  page: number;
+  queryKey: (string | number | string[] | undefined)[];
 };
 
-export const useCommunity = ({ address, page }: Props) => {
-  const router = useRouter();
-  const { category } = router.query;
-
-  const queryKey = category
-    ? ['community', page, category]
-    : ['community', page];
-
+export const useCommunity = <T extends {}>({ address, queryKey }: Props) => {
   const { isLoading, error, data, refetch } = useQuery<{
-    data: Community[];
-    total: number;
+    data: T;
+    total?: number;
   }>(queryKey, () => api(address).then((res) => res.data));
 
   return {

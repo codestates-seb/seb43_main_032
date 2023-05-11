@@ -159,8 +159,8 @@ export const communityHandler = [
   //커뮤니티 개별 조회
   rest.get('/community/post/:id', async (req, res, ctx) => {
     const { id } = req.params;
-    const eachPost = community.find((project) => project.id === Number(id));
-    return res(ctx.status(200), ctx.json(eachPost));
+    const data = community.find((project) => project.id === Number(id));
+    return res(ctx.status(200), ctx.json({ data }));
   }),
 
   rest.post('/community/create/', async (req, res, ctx) => {
