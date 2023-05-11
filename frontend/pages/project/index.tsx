@@ -3,13 +3,12 @@ import styled from 'styled-components';
 import { useRouter } from 'next/router';
 import { useInfiniteQuery } from 'react-query';
 import { api } from '@/util/api';
-import Loading from '@/components/Loading';
-import Error from '@/components/Message';
 import { useRef, useEffect } from 'react';
 import ProjectSkeleton from '@/components/skeleton/ProjectSkeleton';
 import Link from 'next/link';
 import { Project } from '@/types/project';
 import ProjectCardbox from '@/components/project/ProjectCardbox';
+import Message from '@/components/Message';
 
 type PageProps = { data: Project[]; total: number };
 
@@ -65,8 +64,8 @@ const ProjectHome = () => {
     };
   }, [target.current, data?.pageParams]);
 
-  if (isLoading) return <Loading />;
-  if (error) return <Error>잠시 후 다시 시도해주세요.</Error>;
+  if (isLoading) return <Message>로딩중입니다.</Message>;
+  if (error) return <Message>잠시 후 다시 시도해주세요.</Message>;
   if (data)
     return (
       <Box>
@@ -100,7 +99,7 @@ const ProjectHome = () => {
           {isFetching && hasNextPage && <ProjectSkeleton />}
         </ProjectCardbox>
         <div ref={target} className="observer"></div>
-        {!isFetching && !hasNextPage && (
+        {!hasNextPage && (
           <div className="last-box nanum-bold blink">
             페이지가 존재하지 않습니다.
           </div>
