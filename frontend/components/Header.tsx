@@ -150,14 +150,12 @@ const Header = () => {
             </>
           ) : (
             <>
-              <NavBtn>
-                <Button className="nanum-regular">
-                  <Link href="/users/login"> Login</Link>
-                </Button>
-                <Button className="nanum-regular">
-                  <Link href="/users/signup"> Signup</Link>
-                </Button>
-              </NavBtn>
+              <Button className="nanum-regular">
+                <Link href="/users/login"> Login</Link>
+              </Button>
+              <Button className="nanum-regular">
+                <Link href="/users/signup"> Signup</Link>
+              </Button>
             </>
           )}
         </NavMenu>
