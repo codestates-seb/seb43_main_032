@@ -106,7 +106,7 @@ export const handlers = [
 //
 //
 //
-export const postHandler = [
+export const communityHandler = [
   rest.get('/community', async (req, res, ctx) => {
     const url = new URL(req.url);
     const size = Number(url.searchParams.get('size'));
