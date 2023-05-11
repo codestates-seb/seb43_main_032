@@ -11,9 +11,9 @@ import { useProject } from '@/hooks/react-query/useProject';
 import { formatDate2 } from '@/util/date';
 import { useEffect } from 'react';
 import { useRouter } from 'next/router';
-import Btn from '@/components/Btn';
 import Position from '@/components/Position';
 import Message from '@/components/Message';
+import Btn from '@/components/button/Btn';
 const ReactMarkdown = dynamic(() => import('@/components/editor/ContentBox'), {
   ssr: false,
   loading: () => <ContentSkeleton />,

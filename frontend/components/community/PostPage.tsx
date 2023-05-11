@@ -20,14 +20,6 @@ const Editor = dynamic(() => import('@/components/editor/Editor'), {
   loading: () => <EiditorSkeleton />,
 });
 
-type Comment = {
-  id: number;
-  email: string;
-  userStar: number;
-  avatar: string;
-  content: string;
-};
-
 // item 개별 페이지
 export default function PostPage() {
   const [currentData, setCurrentData] = useState<Community>();
@@ -41,7 +33,7 @@ export default function PostPage() {
       setCurrentData(res.data.eachPost);
     });
   });
-  console.log(currentData?.comment.map((el) => el));
+
   if (isLoading) return <Message>로딩중입니다.</Message>;
   if (error) return <Message>잠시 후 다시 시도해주세요.</Message>;
   if (!currentData) return <div>데이터가 없습니다.</div>;
@@ -75,7 +67,7 @@ export default function PostPage() {
             <Btn>제출하기</Btn>
             <div className="each">
               {currentData &&
-                currentData.comment.map((el: Comment) => (
+                currentData.comment.map((el) => (
                   <div className="box">
                     <div>{el.id}</div>
                   </div>

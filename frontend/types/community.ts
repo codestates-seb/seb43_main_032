@@ -11,5 +11,13 @@ export type Community = {
   view: number;
   tags: string[];
   status: null;
-  comment: never[];
+  comment: Comment[];
+};
+
+export type Comment = {
+  id: number;
+  email: string;
+  userStar: number;
+  avatar: string;
+  content: string;
 };
