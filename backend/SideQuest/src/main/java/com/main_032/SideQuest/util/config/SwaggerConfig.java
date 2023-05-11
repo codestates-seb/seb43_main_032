@@ -1,4 +1,4 @@
-package com.main_032.SideQuest.config;
+package com.main_032.SideQuest.util.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -19,7 +19,7 @@ public class SwaggerConfig {
     public Docket api() {
         return new Docket(DocumentationType.SWAGGER_2)
                 .select()
-                .apis(RequestHandlerSelectors.basePackage("com.main_032.SideQuest.member.controller"))
+                .apis(RequestHandlerSelectors.basePackage("com.main_032.SideQuest"))
                 .paths(PathSelectors.any())
                 .build()
                 .apiInfo(apiInfo());

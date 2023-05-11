@@ -1,12 +1,9 @@
 package com.main_032.SideQuest.member.entity;
 
-import com.main_032.SideQuest.project.entity.Project;
 import com.main_032.SideQuest.util.entity.BaseEntity;
 import lombok.Getter;
-import lombok.Setter;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 
 @Entity
 @Getter
@@ -17,13 +14,11 @@ public class MemberEvaluation extends BaseEntity {
     @Column
     private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "MEMBER_GIVER_ID")
-    private Member memberGiver;
+    @Column
+    private Long giverMemberId;
 
-    @ManyToOne
-    @JoinColumn(name = "MEMBER_RECEIVER_ID")
-    private Member memberReceiver;
+    @Column
+    private Long receiverMemberId;
 
     @Column
     private Long projectId;

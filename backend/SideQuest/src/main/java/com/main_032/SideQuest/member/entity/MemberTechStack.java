@@ -1,7 +1,6 @@
 package com.main_032.SideQuest.member.entity;
 
 import lombok.Getter;
-import lombok.Setter;
 
 import javax.persistence.*;
 
@@ -15,7 +14,6 @@ public class MemberTechStack {
     @Column
     private String tech;
 
-    @ManyToOne
-    @JoinColumn(name="MEMBER_ID")
-    private Member member;
+    @Column
+    private Long memberId;
 }
