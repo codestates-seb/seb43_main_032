@@ -102,12 +102,12 @@ export default function Content() {
           {data.data.map((article: Community) => (
             <ContentItem {...article} key={article.id} />
           ))}
-          <ContentPageNation
-            totalData={10}
-            currentPage={page}
-            setPage={setPage}
-          />
         </ContentItemList>
+        <ContentPageNation
+          totalData={50}
+          currentPage={page}
+          setPage={setPage}
+        />
       </ContentBottom>
     </Container>
   );
@@ -178,6 +178,7 @@ const ContentBottom = styled.div`
 
 const ContentItemList = styled.div`
   width: 100%;
+  min-height: 74vh;
   border-radius: var(--radius-def);
   padding: var(--padding-2);
   padding-top: 0px;
