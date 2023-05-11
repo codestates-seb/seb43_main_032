@@ -5,9 +5,9 @@ type Props = React.HTMLAttributes<HTMLDivElement> & {
   children: ReactNode;
 };
 
-const Error = (props: Props) => <Box {...props} />;
+const Message = (props: Props) => <Box {...props} />;
 
-export default Error;
+export default Message;
 
 const Box = styled.div`
   width: 100%;

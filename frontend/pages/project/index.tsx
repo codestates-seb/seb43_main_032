@@ -4,7 +4,7 @@ import { useRouter } from 'next/router';
 import { useInfiniteQuery } from 'react-query';
 import { api } from '@/util/api';
 import Loading from '@/components/Loading';
-import Error from '@/components/Error';
+import Error from '@/components/Message';
 import { useRef, useEffect } from 'react';
 import ProjectSkeleton from '@/components/skeleton/ProjectSkeleton';
 import Link from 'next/link';
