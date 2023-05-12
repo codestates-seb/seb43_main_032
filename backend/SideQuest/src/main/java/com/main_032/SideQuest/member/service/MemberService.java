@@ -42,11 +42,11 @@ public class MemberService {
         return;
     }
 
-    public GetLoginMemberResponseDto getLoginMemberInfo() {
+    public SingleResponseDto<GetLoginMemberResponseDto> getLoginMemberInfo() {
         Member member = getLoginMember();
         List<MemberTechStack> memberTechStackList = getMemberTechStack(member.getId());
-        GetLoginMemberResponseDto getLoginMemberResponseDto = memberMapper.memberToSingleResponseDto(member, memberTechStackList);
-        return getLoginMemberResponseDto;
+        SingleResponseDto<GetLoginMemberResponseDto> singleResponseDto = memberMapper.memberToSingleResponseDto(member, memberTechStackList);
+        return singleResponseDto;
     }
 
     public boolean verifyExistEmail(String email) {

@@ -4,6 +4,7 @@ import com.main_032.SideQuest.member.dto.GetLoginMemberResponseDto;
 import com.main_032.SideQuest.member.dto.MemberPostDto;
 import com.main_032.SideQuest.member.entity.Member;
 import com.main_032.SideQuest.member.entity.MemberTechStack;
+import com.main_032.SideQuest.util.dto.SingleResponseDto;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -18,7 +19,7 @@ public class MemberMapper {
         return member;
     }
 
-    public GetLoginMemberResponseDto memberToSingleResponseDto(Member member, List<MemberTechStack> memberTechStack) {
+    public SingleResponseDto<GetLoginMemberResponseDto> memberToSingleResponseDto(Member member, List<MemberTechStack> memberTechStack) {
         GetLoginMemberResponseDto getLoginMemberResponseDto = new GetLoginMemberResponseDto(
                 member.getName(),
                 member.getEmail(),
@@ -30,7 +31,7 @@ public class MemberMapper {
                 member.getTotalStar(),
                 memberTechStack
         );
-
-        return getLoginMemberResponseDto;
+        SingleResponseDto<GetLoginMemberResponseDto> singleResponseDto = new SingleResponseDto(getLoginMemberResponseDto);
+        return singleResponseDto;
     }
 }
