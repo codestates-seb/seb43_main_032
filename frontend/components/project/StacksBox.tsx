@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import Stack from '../stack/Stack';
+import Btn from '../button/Btn';
 
 type Props = {
   stacks: string[];
@@ -13,7 +14,9 @@ const StacksBox = ({ stacks, onModal }: Props) => {
       <ul className="noto-regular-13">
         <li className="button-box">
           {stacks.length === 0 && onModal ? (
-            <button onClick={onModal}>스택 등록</button>
+            <Btn onClick={onModal}>
+              <span>스택 등록</span>
+            </Btn>
           ) : (
             <ul onClick={onModal} className="select-tag-box">
               {stacks.map((skill) => (
@@ -39,6 +42,10 @@ const Box = styled.div<BoxProps>`
   justify-content: center;
   flex-direction: column;
 
+  .main-btn {
+    padding: 4px;
+  }
+
   .select-tag-box {
     display: flex;
     flex-wrap: wrap;
@@ -49,4 +56,3 @@ const Box = styled.div<BoxProps>`
     }
   }
 `;
-

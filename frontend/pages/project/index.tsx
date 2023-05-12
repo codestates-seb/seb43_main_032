@@ -3,13 +3,12 @@ import styled from 'styled-components';
 import { useRouter } from 'next/router';
 import { useInfiniteQuery } from 'react-query';
 import { api } from '@/util/api';
-import Loading from '@/components/Loading';
-import Error from '@/components/Error';
 import { useRef, useEffect } from 'react';
 import ProjectSkeleton from '@/components/skeleton/ProjectSkeleton';
 import Link from 'next/link';
 import { Project } from '@/types/project';
 import ProjectCardbox from '@/components/project/ProjectCardbox';
+import Message from '@/components/Message';
 
 type PageProps = { data: Project[]; total: number };
 
@@ -65,8 +64,8 @@ const ProjectHome = () => {
     };
   }, [target.current, data?.pageParams]);
 
-  if (isLoading) return <Loading />;
-  if (error) return <Error>잠시 후 다시 시도해주세요.</Error>;
+  if (isLoading) return <Message>로딩중입니다.</Message>;
+  if (error) return <Message>잠시 후 다시 시도해주세요.</Message>;
   if (data)
     return (
       <Box>
@@ -100,7 +99,7 @@ const ProjectHome = () => {
           {isFetching && hasNextPage && <ProjectSkeleton />}
         </ProjectCardbox>
         <div ref={target} className="observer"></div>
-        {!isFetching && !hasNextPage && (
+        {!hasNextPage && (
           <div className="last-box nanum-bold blink">
             페이지가 존재하지 않습니다.
           </div>
@@ -126,7 +125,7 @@ const Box = styled.div`
     width: 100%;
     grid-gap: 16px;
     display: flex;
-    @media (max-width: 980px) {
+    @media (max-width: 960px) {
       display: flex;
       flex-direction: column;
     }
@@ -136,7 +135,7 @@ const Box = styled.div`
       padding: var(--padding-1);
       width: 50%;
       margin-bottom: 56px;
-      @media (max-width: 980px) {
+      @media (max-width: 960px) {
         width: 100%;
         > div {
           margin-bottom: 12px;
@@ -161,7 +160,7 @@ const Box = styled.div`
       @media (max-width: 1300px) {
         grid-template-columns: repeat(2, 1fr);
       }
-      @media (max-width: 980px) {
+      @media (max-width: 960px) {
         display: flex;
         flex-direction: column;
         gap: 2px;

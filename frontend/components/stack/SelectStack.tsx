@@ -2,6 +2,7 @@ import { STACKS, STACKS_CATEGORIES } from '@/constant/constant';
 import { Dispatch, SetStateAction } from 'react';
 import styled from 'styled-components';
 import Stack from './Stack';
+import Btn from '../button/Btn';
 
 type Props = {
   offModal: () => void;
@@ -49,8 +50,12 @@ const SelectStack = ({ setStacks, offModal, stacks }: Props) => {
           ))}
         </div>
         <div className="btn-box">
-          <button onClick={resetStack}>초기화</button>
-          <button onClick={offModal}>선택완료</button>
+          <Btn onClick={resetStack}>
+            <span>초기화</span>
+          </Btn>
+          <Btn onClick={offModal}>
+            <span>선택완료</span>
+          </Btn>
         </div>
       </div>
     </Box>
@@ -61,11 +66,12 @@ export default SelectStack;
 
 const Box = styled.div`
   position: absolute;
-  top: -3.5%;
+  top: -5%;
   width: 100%;
   display: flex;
   z-index: 11;
   justify-content: center;
+
   > div {
     border: 1px solid #eaebeb;
     box-shadow: var(--box-shadow);
@@ -112,15 +118,5 @@ const Box = styled.div`
     display: flex;
     justify-content: center;
     gap: 32px;
-    button {
-      min-width: 80px;
-      cursor: pointer;
-      border: none;
-      box-shadow: var(--box-shadow);
-      padding: 8px;
-      border-radius: var(--radius-def);
-      background-color: #8216f5;
-      color: white;
-    }
   }
 `;

@@ -34,7 +34,7 @@ const Box = styled.div`
     @media (max-width: 1300px) {
       grid-template-columns: repeat(2, 1fr);
     }
-    @media (max-width: 980px) {
+    @media (max-width: 960px) {
       display: flex;
       flex-direction: column;
       gap: 2px;
