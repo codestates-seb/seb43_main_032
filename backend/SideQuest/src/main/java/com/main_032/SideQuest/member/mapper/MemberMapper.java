@@ -21,7 +21,7 @@ public class MemberMapper {
         return member;
     }
 
-    public List<MemberTechStackResponseDto> memberTechStackListToMemberTechStackResponseDto(List<MemberTechStack> memberTechStackList) {
+    public List<MemberTechStackResponseDto> memberTechStackListToMemberTechStackResponseDtoList(List<MemberTechStack> memberTechStackList) {
         List<MemberTechStackResponseDto> memberTechStackResponseDtoList = new ArrayList<>();
         for (int i = 0; i < memberTechStackList.size(); i++) {
             MemberTechStackResponseDto memberTechStackResponseDto = new MemberTechStackResponseDto(memberTechStackList.get(i).getTech());
@@ -31,7 +31,7 @@ public class MemberMapper {
         return memberTechStackResponseDtoList;
     }
 
-    public SingleResponseDto<GetMemberResponseDto> memberToSingleResponseDto(Member member, List<MemberTechStackResponseDto> memberTechStackResponseDtoList) {
+    public GetMemberResponseDto memberToSingleResponseDto(Member member, List<MemberTechStackResponseDto> memberTechStackResponseDtoList) {
         GetMemberResponseDto getMemberResponseDto = new GetMemberResponseDto(
                 member.getName(),
                 member.getEmail(),
@@ -43,8 +43,7 @@ public class MemberMapper {
                 member.getTotalStar(),
                 memberTechStackResponseDtoList
         );
-        SingleResponseDto<GetMemberResponseDto> singleResponseDto = new SingleResponseDto(getMemberResponseDto);
-        return singleResponseDto;
+        return getMemberResponseDto;
     }
 
 }

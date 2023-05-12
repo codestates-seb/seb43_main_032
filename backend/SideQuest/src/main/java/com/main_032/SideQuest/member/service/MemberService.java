@@ -10,14 +10,19 @@ import com.main_032.SideQuest.member.entity.Member;
 import com.main_032.SideQuest.member.entity.MemberTechStack;
 import com.main_032.SideQuest.member.mapper.MemberMapper;
 import com.main_032.SideQuest.member.repository.MemberRepository;
+import com.main_032.SideQuest.util.dto.MultiResponseDto;
 import com.main_032.SideQuest.util.dto.SingleResponseDto;
 import com.main_032.SideQuest.util.exception.BusinessLogicException;
 import com.main_032.SideQuest.util.exception.ExceptionCode;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -47,8 +52,9 @@ public class MemberService {
     public SingleResponseDto<GetMemberResponseDto> getLoginMemberInfo() {
         Member member = getLoginMember();
         List<MemberTechStack> memberTechStackList = memberTechStackService.getMemberTechStackList(member.getId());
-        List<MemberTechStackResponseDto> memberTechStackResponseDtoList = memberMapper.memberTechStackListToMemberTechStackResponseDto(memberTechStackList);
-        SingleResponseDto<GetMemberResponseDto> singleResponseDto = memberMapper.memberToSingleResponseDto(member, memberTechStackResponseDtoList);
+        List<MemberTechStackResponseDto> memberTechStackResponseDtoList = memberMapper.memberTechStackListToMemberTechStackResponseDtoList(memberTechStackList);
+        GetMemberResponseDto getMemberResponseDto = memberMapper.memberToSingleResponseDto(member, memberTechStackResponseDtoList);
+        SingleResponseDto<GetMemberResponseDto> singleResponseDto = new SingleResponseDto<>(getMemberResponseDto);
         return singleResponseDto;
     }
 
@@ -81,5 +87,19 @@ public class MemberService {
         findMember.orElseThrow(() -> new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
         Member member = findMember.get();
         return member;
+    }
+
+    public MultiResponseDto<GetMemberResponseDto> getAllMembers(int page, int size) {
+        Page<Member> memberPage = memberRepository.findAll(PageRequest.of(page, size, Sort.by("id").descending()));
+        List<Member> memberList = memberPage.getContent();
+        List<GetMemberResponseDto> getMemberResponseDtoList = new ArrayList<>();
+        for (int i = 0; i < memberList.size(); i++) {
+            List<MemberTechStack> memberTechStackList = memberTechStackService.getMemberTechStackList(memberList.get(i).getId());
+            List<MemberTechStackResponseDto> memberTechStackResponseDtoList = memberMapper.memberTechStackListToMemberTechStackResponseDtoList(memberTechStackList);
+            GetMemberResponseDto getMemberResponseDto = memberMapper.memberToSingleResponseDto(memberList.get(i), memberTechStackResponseDtoList);
+            getMemberResponseDtoList.add(getMemberResponseDto);
+        }
+        MultiResponseDto<GetMemberResponseDto> multiResponseDto = new MultiResponseDto<GetMemberResponseDto>(getMemberResponseDtoList, memberPage);
+        return multiResponseDto;
     }
 }
