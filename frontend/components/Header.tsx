@@ -24,7 +24,7 @@ const Header = () => {
     mypage: '/mypage',
     logout: '/',
     login: '/login',
-    signUp: '/signUp',
+    signUp: '/signup',
   };
 
   //네비 이름 배열
