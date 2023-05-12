@@ -10,6 +10,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { DefaultObj } from '@/types/types';
 import logo from '../public/images/logo.svg';
 import logoWhite from '../public/images/logoSymbolWhite.svg';
+import Slider from './Slider';
 
 const Header = () => {
   const isLoggedIn = useRecoilValue(isLoggedInState);
@@ -99,7 +100,7 @@ const Header = () => {
               ))}
         </NavMenu>
       </Nav>
-      <Slide></Slide>
+      <Slider isScrolled={isScrolled}></Slider>
     </>
   );
 };
@@ -109,12 +110,6 @@ export default Header;
 type NavProps = {
   isScrolled: boolean;
 };
-
-const Slide = styled.main`
-  width: auto;
-  background: gray;
-  height: 500px;
-`;
 
 const Nav = styled.nav<NavProps>`
   top: 0;
@@ -147,7 +142,7 @@ const Nav = styled.nav<NavProps>`
   > ul {
     > li {
       > .main-btn {
-        color: ${(props) => (props.isScrolled ? '#7950ff' : 'white')};
+        color: ${(props) => (props.isScrolled ? '#6333ff' : 'white')};
         font-family: var(--font-noto);
         position: relative;
         box-sizing: border-box;
