@@ -1,11 +1,14 @@
 package com.main_032.SideQuest.member.controller;
 
 import com.main_032.SideQuest.member.dto.GetLoginMemberResponseDto;
+import com.main_032.SideQuest.member.dto.MemberLoginPostDto;
+import com.main_032.SideQuest.member.dto.MemberLoginResponseDto;
 import com.main_032.SideQuest.member.dto.MemberPostDto;
 import com.main_032.SideQuest.member.service.MemberService;
 import com.main_032.SideQuest.util.dto.SingleResponseDto;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -25,6 +28,15 @@ public class MemberController {
     public ResponseEntity<Void> signup(@RequestBody MemberPostDto memberPostDto) {
         memberService.signup(memberPostDto);
         return ResponseEntity.status(HttpStatus.OK).build();
+    }
+
+    // Swagger API 뽑아내기용 함수
+    @ApiOperation(value = "로그인")
+    @PostMapping("/login")
+    @ResponseStatus(HttpStatus.OK)
+    public MemberLoginResponseDto login(@RequestBody MemberLoginPostDto memberLoginPostDto) {
+        MemberLoginResponseDto memberLoginResponseDto = new MemberLoginResponseDto("name");
+        return memberLoginResponseDto;
     }
 
     @ApiOperation(value = "로그인 멤버 정보 조회")
