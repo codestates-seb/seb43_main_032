@@ -3,7 +3,7 @@ import { FaUserAlt } from 'react-icons/fa';
 import { FiMenu } from 'react-icons/fi';
 import Link from 'next/link';
 import { useRecoilValue } from 'recoil';
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 import { isLoggedInState } from '@/recoil/atom';
 import { useRouter } from 'next/router';
 import { useEffect, useMemo, useState } from 'react';
@@ -18,9 +18,8 @@ const Header = () => {
 
   //네비
   const navArr: DefaultObj = {
-    home: '/',
     community: '/community',
-    projects: '/project',
+    project: '/project',
     users: '/users',
     mypage: '/mypage',
     logout: '/',
@@ -51,15 +50,22 @@ const Header = () => {
     }
   }, []);
 
+  //모달 네비
+  const [nav, setNav] = useState(false);
+
+  const navHandler = () => {
+    setNav(!nav);
+  };
+
   return (
     <>
       <Nav isScrolled={isScrolled}>
         <NavLink href="/">
           <Image src={isScrolled ? logoWhite : logo} alt="logo" />
         </NavLink>
-        <Bars />
+        <Bars onClick={navHandler} />
         <NavMenu>
-          {navNames.slice(0, 4).map((name) => (
+          {navNames.slice(0, 3).map((name) => (
             <li key={name}>
               <a
                 onClick={() => router.push(navArr[name])}
@@ -70,7 +76,7 @@ const Header = () => {
             </li>
           ))}
           {isLoggedIn
-            ? navNames.slice(4, 6).map((name) =>
+            ? navNames.slice(3, 5).map((name) =>
                 name === 'mypage' ? (
                   <li key={name}>
                     <Link href={navArr[name]}>
@@ -88,7 +94,7 @@ const Header = () => {
                   </li>
                 )
               )
-            : navNames.slice(6).map((name) => (
+            : navNames.slice(5).map((name) => (
                 <li key={name}>
                   <Link
                     href={`/users${navArr[name]}`}
@@ -99,6 +105,7 @@ const Header = () => {
                 </li>
               ))}
         </NavMenu>
+        <ModalNav nav={nav}></ModalNav>
       </Nav>
       <Slider isScrolled={isScrolled}></Slider>
     </>
@@ -106,6 +113,30 @@ const Header = () => {
 };
 
 export default Header;
+
+const navFade = keyframes`
+    0% {
+      transform: translate(270px, 0);
+    }
+    100% {
+      transform: translate(0, 0);
+    }
+`;
+
+type ModalProps = {
+  nav: boolean;
+};
+
+const ModalNav = styled.nav<ModalProps>`
+  z-index: 1;
+  background-color: white;
+  height: 50%;
+  width: 50%;
+  position: fixed;
+  top: 60px;
+  right: ${(props) => (props.nav ? '0' : '-50%')};
+  transition: 1.2s;
+`;
 
 type NavProps = {
   isScrolled: boolean;

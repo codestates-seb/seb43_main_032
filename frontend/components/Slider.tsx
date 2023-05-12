@@ -38,7 +38,6 @@ export default function Slider({ isScrolled }: { isScrolled: boolean }) {
         <Image src={computer} alt="img1" className="computer"></Image>
         <Image src={message} alt="img2" className="message"></Image>
         <Image src={dictionary} alt="img3" className="dictionary"></Image>
-
         <div className="rightBox">
           <div className="textBox">
             <span>기획부터 개발까지</span>
