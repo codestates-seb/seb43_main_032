@@ -3,7 +3,7 @@ import { FaUserAlt } from 'react-icons/fa';
 import { FiMenu } from 'react-icons/fi';
 import Link from 'next/link';
 import { useRecoilValue } from 'recoil';
-import styled, { keyframes } from 'styled-components';
+import styled from 'styled-components';
 import { isLoggedInState } from '@/recoil/atom';
 import { useRouter } from 'next/router';
 import { useEffect, useMemo, useState } from 'react';
@@ -59,11 +59,17 @@ const Header = () => {
 
   return (
     <>
-      <Nav isScrolled={isScrolled}>
+      <Nav nav={nav} isScrolled={isScrolled}>
         <NavLink href="/">
           <Image src={isScrolled ? logoWhite : logo} alt="logo" />
         </NavLink>
-        <Bars onClick={navHandler} />
+        <div className="bars-box">
+          <div>
+            <a className="bars" onClick={navHandler}>
+              <span></span>
+            </a>
+          </div>
+        </div>
         <NavMenu>
           {navNames.slice(0, 3).map((name) => (
             <li key={name}>
@@ -114,35 +120,73 @@ const Header = () => {
 
 export default Header;
 
-const navFade = keyframes`
-    0% {
-      transform: translate(270px, 0);
-    }
-    100% {
-      transform: translate(0, 0);
-    }
-`;
-
-type ModalProps = {
+type NavProps = {
+  isScrolled?: boolean;
   nav: boolean;
 };
 
-const ModalNav = styled.nav<ModalProps>`
+const ModalNav = styled.nav<NavProps>`
   z-index: 1;
   background-color: white;
   height: 50%;
-  width: 50%;
+  width: 60%;
   position: fixed;
   top: 60px;
-  right: ${(props) => (props.nav ? '0' : '-50%')};
+  right: ${(props) => (props.nav ? '0' : '-60%')};
   transition: 1.2s;
+  padding: var(--padding-2);
 `;
 
-type NavProps = {
-  isScrolled: boolean;
-};
-
 const Nav = styled.nav<NavProps>`
+  .bars-box {
+    width: 100%;
+    display: flex;
+    justify-content: end;
+    j > div {
+    }
+  }
+  .bars {
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    height: 60px;
+    padding: 0px 16px;
+    display: none;
+    @media (max-width: 960px) {
+      display: flex;
+    }
+    svg {
+      font-size: 1.3rem;
+    }
+
+    > span {
+      width: 16px;
+      height: 2px;
+      background-color: ${(props) => (props.nav ? '' : 'black')};
+      ::before {
+        position: absolute;
+        content: '';
+        background-color: black;
+        width: 16px;
+        height: 2px;
+        left: 10;
+        top: ${(props) => (props.nav ? '30px' : '23px')};
+        transition-duration: 0.1s;
+        transform: ${(props) => (props.nav ? 'rotate(45deg)' : '')};
+      }
+      ::after {
+        position: absolute;
+        content: '';
+        background-color: black;
+        width: 16px;
+        height: 2px;
+        left: 10;
+        top: ${(props) => (props.nav ? '30px' : '35px')};
+        transition-duration: 0.1s;
+        transform: ${(props) => (props.nav ? 'rotate(-45deg)' : '')};
+      }
+    }
+  }
   top: 0;
   left: 0;
   position: fixed;
