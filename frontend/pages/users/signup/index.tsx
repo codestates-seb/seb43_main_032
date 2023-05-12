@@ -61,7 +61,7 @@ const SignUp = () => {
           </TextBox>
           <ImgBox>img here</ImgBox>
         </Contents>
-        <AuthContainer />
+        <AuthContainer isLogin={false} />
       </WrapperInset>
     </Wrapper>
   );

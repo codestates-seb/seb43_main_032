@@ -48,7 +48,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
   //   });
 }
 
-export default withHandler('POST', handler);
+export default withHandler({ method: 'POST', handler });
 
 // 토큰 생성 시 중복 토큰을 확인 후 토큰 반환
 async function tokenGenerator(): Promise<string> {

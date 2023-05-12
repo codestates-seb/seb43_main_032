@@ -6,7 +6,7 @@ import { NextApiRequest, NextApiResponse } from 'next';
 
 declare module 'iron-session' {
   interface IronSessionData {
-    userSession?: {
+    user?: {
       id: number;
     };
   }
@@ -30,7 +30,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
     data: { isVerified: true },
   });
 
-  req.session.userSession = {
+  req.session.user = {
     id: foundToken.userId,
   };
   await req.session.save();
@@ -41,6 +41,6 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
     },
   });
 
-  res.status(200).json({ ok: true });
+  return res.status(200).json({ ok: true });
 }
-export default withSession(withHandler('POST', handler));
+export default withSession(withHandler({ method: 'POST', handler }));

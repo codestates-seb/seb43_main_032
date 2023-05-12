@@ -37,6 +37,7 @@ model User{
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 	tokens SignUpToken[]
+	project Project[]
 }
 
 model SignUpToken{
@@ -47,4 +48,15 @@ model SignUpToken{
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 	@@index([userId])
+}
+
+model Project{
+  id Int @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+	user User @relation(fields: [userId],references: [id], onDelete:Cascade)
+	userId Int
+	@@index([userId])
+	description String @db.MediumText
+
 }

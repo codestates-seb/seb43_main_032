@@ -40,10 +40,10 @@ export default function SignUpForm() {
     formState: { errors },
   } = useForm<ISignUpForm>();
   const onValid = (data: ISignUpForm) => {
+    if (loading) return;
     console.log(data);
     signUp(data);
   };
-  // console.log(loading, data, error);
   const onInValid = (errors: FieldErrors) => {
     console.log(errors);
   };
@@ -84,7 +84,7 @@ export default function SignUpForm() {
           type="password"
         />
         {errors.verifyPw && <ErrMsg>{`${errors?.verifyPw?.message}`} </ErrMsg>}
-        <Submit type="submit" value={'Sign Up'} />
+        <Submit type="submit" value={loading ? 'Loading...' : 'Sign Up'} />
       </Form>
     </Wrapper>
   );

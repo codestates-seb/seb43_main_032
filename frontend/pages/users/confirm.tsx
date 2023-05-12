@@ -7,8 +7,9 @@ import styled from 'styled-components';
 const Wrapper = styled.div`
   display: flex;
   justify-content: center;
+  align-items: center;
   width: 100%;
-  /* inset: 0; */
+  height: 100%;
   background-color: gray;
 `;
 const Form = styled.form`
@@ -41,9 +42,10 @@ export default function confirm() {
     console.log(e);
   };
   const router = useRouter();
-  useEffect(() => {
-    // if (data.ok) router.push('/');
-  }, [data]);
+  // useEffect(() => {
+  //   console.log(data);
+  //   if (data?.ok) router.push('/');
+  // }, [data]);
 
   return (
     <Wrapper>
