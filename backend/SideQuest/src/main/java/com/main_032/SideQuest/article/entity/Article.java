@@ -41,4 +41,19 @@ public class Article extends BaseEntity {
     @OneToMany(mappedBy = "article")
     private List<ArticleTechStack> articleTechStackList = new ArrayList<>();
 
+    public void updateId(Long id){
+        this.id = id;
+    }
+    public void updateMemberId(Long memberId){
+        this.memberId = memberId;
+    }
+    public void updateTitle(String title){
+        this.title = title;
+    }
+    public void updateContent(String content){
+        this.content = content;
+    }
+    public void updateCategory(ArticleCategory category){
+        this.category = category;
+    }
 }
