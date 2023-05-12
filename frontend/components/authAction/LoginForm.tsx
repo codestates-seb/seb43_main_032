@@ -4,7 +4,11 @@ import { useForm, FieldErrors } from 'react-hook-form';
 import AuthCheckBox from './AuthCheckBox';
 import LogoImage from '../../public/images/logo.svg';
 import Image from 'next/image';
-import useMutation from '@/hooks/useMutation';
+import { useRouter } from 'next/router';
+import { useEffect } from 'react';
+import useApi from '@/hooks/useApi';
+import { useRecoilState } from 'recoil';
+import { isLoggedInState } from '@/recoil/atom';
 
 const Wrapper = styled.div`
   width: 100%;
@@ -34,22 +38,34 @@ const Submit = styled.input`
   padding: 20px;
   border-radius: 10px;
 `;
-interface ILoginForm {
+export interface ILoginForm {
   email: string;
   password: string;
   saveId: boolean;
   rememberMe: boolean;
 }
 export default function LoginForm() {
-  const [login, {}] = useMutation('/api/users/login');
   const { register, watch, handleSubmit } = useForm<ILoginForm>();
   console.log(watch());
+  const [isLoggedIn, setIsLoggedIn] = useRecoilState(isLoggedInState);
+  const [login, { data }] = useApi('/api/users/login');
   const onValid = (data: ILoginForm) => {
     console.log('valid');
+    login(data);
   };
   const onInValid = (errors: FieldErrors) => {
     console.log(errors);
   };
+
+  const router = useRouter();
+  useEffect(() => {
+    if (data?.ok) {
+      //로그인 성공 모달 or 페이지 필요. (opstional)
+      //일단 홈으로 이동.
+      setIsLoggedIn(true);
+      router.push('/');
+    }
+  }, [data]);
   return (
     <Wrapper>
       <LogoBox>

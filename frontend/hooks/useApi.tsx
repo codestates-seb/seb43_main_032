@@ -1,21 +1,21 @@
 import { useState } from 'react';
 
 interface IObj {
-  loading: boolean;
+  isLoading: boolean;
   data: undefined | any;
   error: undefined | any;
 }
 
-export default function useMutation(url: string): [(data?: any) => void, IObj] {
+export default function useApi(url: string): [(data?: any) => void, IObj] {
   // const [ state, setState] = useState({
   // 	loading: false,
   // 	data: undefined,
   // })
-  const [loading, setLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [data, setData] = useState<undefined | any>(undefined);
   const [error, setError] = useState<undefined | any>(undefined);
   function mutation(data?: any) {
-    setLoading(true);
+    setIsLoading(true);
     fetch(url, {
       method: 'POST',
       body: JSON.stringify(data),
@@ -26,7 +26,7 @@ export default function useMutation(url: string): [(data?: any) => void, IObj] {
       .then((res) => res.json())
       .then(setData)
       .catch(setError)
-      .finally(() => setLoading(false));
+      .finally(() => setIsLoading(false));
   }
-  return [mutation, { loading, data, error }];
+  return [mutation, { isLoading, data, error }];
 }

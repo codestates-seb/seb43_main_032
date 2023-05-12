@@ -2,7 +2,7 @@ import Image from 'next/image';
 import { FaUserAlt } from 'react-icons/fa';
 import { FiMenu } from 'react-icons/fi';
 import Link from 'next/link';
-import { useRecoilValue } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import styled from 'styled-components';
 import { isLoggedInState } from '@/recoil/atom';
 import { useRouter } from 'next/router';
@@ -10,9 +10,14 @@ import { useEffect, useMemo, useState } from 'react';
 import { DefaultObj } from '@/types/types';
 import logo from '../public/images/logo.svg';
 import logoWhite from '../public/images/logoSymbolWhite.svg';
+import useUser from '@/hooks/useUser';
+import useApi from '@/hooks/useApi';
 
 const Header = () => {
-  const isLoggedIn = useRecoilValue(isLoggedInState);
+  // const isLoggedIn = useRecoilValue(isLoggedInState);
+  const [isLoggedIn, setIsLoggedIn] = useRecoilState(isLoggedInState);
+  const [logOut, { data }] = useApi('/api/users/logout');
+
   const router = useRouter();
 
   //네비
@@ -32,6 +37,19 @@ const Header = () => {
 
   //스크롤 높이 상태
   const [isScrolled, setIsScrolled] = useState(false);
+
+  const handleLogOut = async () => {
+    logOut();
+  };
+  useEffect(() => {
+    console.log(data);
+    if (data?.ok) {
+      //로그인 성공 모달 or 페이지 필요. (opstional)
+      //일단 홈으로 이동.
+      setIsLoggedIn(false);
+      router.push('/');
+    }
+  }, [data]);
 
   //스크롤 높이 상태 핸들러
   const handleScroll = () => {
@@ -69,23 +87,24 @@ const Header = () => {
             </li>
           ))}
           {isLoggedIn
-            ? navNames.slice(4, 6).map((name) =>
-                name === 'mypage' ? (
-                  <li key={name}>
-                    <Link href={navArr[name]}>
-                      <FaUserAlt size={20} />
-                    </Link>
-                  </li>
-                ) : (
-                  <li key={name}>
-                    <Link
-                      href={navArr[name]}
-                      className="noto-regular-12 main-btn"
-                    >
-                      <span>{name.toUpperCase()}</span>
-                    </Link>
-                  </li>
-                )
+            ? navNames.slice(4, 6).map(
+                (name) =>
+                  name === 'mypage' ? (
+                    <li key={name}>
+                      <Link href={navArr[name]}>
+                        <FaUserAlt size={20} />
+                      </Link>
+                    </li>
+                  ) : (
+                    <li key={name}>
+                      <button
+                        className="noto-regular-12 main-btn"
+                        onClick={handleLogOut}
+                      >
+                        <span>{name.toUpperCase()}</span>
+                      </button>
+                    </li>
+                  ) //LOTOUT
               )
             : navNames.slice(6).map((name) => (
                 <li key={name}>

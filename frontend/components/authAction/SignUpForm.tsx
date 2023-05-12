@@ -1,9 +1,10 @@
 import styled from 'styled-components';
 import AuthInput from './AuthInput';
 import { useForm, FieldErrors } from 'react-hook-form';
-import useMutation from '@/hooks/useMutation';
+import useMutation from '@/hooks/useApi';
 import { useEffect } from 'react';
 import { useRouter } from 'next/router';
+import useUser from '@/hooks/useUser';
 
 const Wrapper = styled.div`
   width: 100%;
@@ -34,7 +35,7 @@ interface ISignUpForm {
   verifyPw: string;
 }
 export default function SignUpForm() {
-  const [signUp, { loading, data, error }] = useMutation('/api/users/signup');
+  const [signUp, { isLoading, data, error }] = useMutation('/api/users/signup');
   const {
     register,
     watch,
@@ -42,7 +43,7 @@ export default function SignUpForm() {
     formState: { errors },
   } = useForm<ISignUpForm>();
   const onValid = (data: ISignUpForm) => {
-    if (loading) return;
+    if (isLoading) return;
     console.log(data);
     signUp(data);
   };
@@ -50,6 +51,10 @@ export default function SignUpForm() {
     console.log(errors);
   };
   const router = useRouter();
+  const {
+    getLoggedInState: { data: userState },
+  } = useUser();
+  console.log(userState);
   useEffect(() => {
     console.log('redirection');
     if (data?.ok) router.push('confirm');
@@ -91,7 +96,7 @@ export default function SignUpForm() {
           type="password"
         />
         {errors.verifyPw && <ErrMsg>{`${errors?.verifyPw?.message}`} </ErrMsg>}
-        <Submit type="submit" value={loading ? 'Loading...' : 'Sign Up'} />
+        <Submit type="submit" value={isLoading ? 'Loading...' : 'Sign Up'} />
       </Form>
     </Wrapper>
   );

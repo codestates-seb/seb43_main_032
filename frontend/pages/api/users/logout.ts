@@ -1,4 +1,3 @@
-import client from '@/libs/client/client';
 import withHandler from '@/libs/server/withHandler';
 import withSession from '@/libs/server/withSession';
 
@@ -15,8 +14,11 @@ declare module 'iron-session' {
 async function handler(req: NextApiRequest, res: NextApiResponse) {
   console.log(req.session.user);
   if (req.session.user) {
+    delete req.session.user;
+    await req.session.save();
+    res.setHeader('Set-Cookie', `sideQuest=; Max-Age=0; Path=/;`);
     return res.status(200).json({ ok: true });
   }
-  return res.status(400).json({ ok: false });
+  return res.status(400).json({ error: 'user not found' });
 }
-export default withSession(withHandler({ method: 'GET', handler }));
+export default withSession(withHandler({ method: 'POST', handler }));

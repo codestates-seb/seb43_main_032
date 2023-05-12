@@ -1,4 +1,4 @@
-import useMutation from '@/hooks/useMutation';
+import useMutation from '@/hooks/useApi';
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 import { FieldErrors, useForm } from 'react-hook-form';
@@ -31,7 +31,8 @@ export default function confirm() {
     handleSubmit,
     formState: { errors },
   } = useForm<IForm>();
-  const [confirm, { loading, data, error }] = useMutation('/api/users/confirm');
+  const [confirm, { isLoading, data, error }] =
+    useMutation('/api/users/confirm');
 
   const onValid = (data: IForm) => {
     console.log(data);
@@ -43,7 +44,11 @@ export default function confirm() {
   };
   const router = useRouter();
   useEffect(() => {
-    if (data?.ok) router.push('/users/enter');
+    if (data?.ok) {
+      //회원가입이 성공적으로 이루어 졌음을 알릴 page 혹은 modal 필요
+      //일단 login 페이지 으로 이동시킴
+      router.push('/users/login');
+    }
   }, [data]);
 
   return (
@@ -56,7 +61,7 @@ export default function confirm() {
           })}
           type="number"
         />
-        <Button>{loading ? 'Loading...' : 'Submit'}</Button>
+        <Button>{isLoading ? 'Loading...' : 'Submit'}</Button>
         {errors?.token?.message}
       </Form>
     </Wrapper>
