@@ -17,6 +17,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 
@@ -29,6 +30,7 @@ public class MemberService {
     private final CustomAuthorityUtils authorityUtils;
     private final MemberTechStackService memberTechStackService;
 
+    @Transactional
     public void signup(MemberPostDto memberPostDto) {
         if(verifyExistEmail(memberPostDto.getEmail())) throw new BusinessLogicException(ExceptionCode.MEMBER_EMAIL_EXISTS);
         if(verifyExistName(memberPostDto.getName())) throw new BusinessLogicException(ExceptionCode.MEMBER_NAME_EXISTS);
@@ -50,6 +52,7 @@ public class MemberService {
         return singleResponseDto;
     }
 
+    @Transactional
     public void updateMember(MemberPatchDto memberPatchDto) {
         Member member = getLoginMember();
         member.updateName(memberPatchDto.getName());

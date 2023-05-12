@@ -5,6 +5,7 @@ import com.main_032.SideQuest.member.repository.MemberTechStackRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 @AllArgsConstructor
@@ -12,6 +13,7 @@ import java.util.List;
 public class MemberTechStackService {
     private final MemberTechStackRepository memberTechStackRepository;
 
+    @Transactional
     public void updateMemberTechStack(List<String> memberTechStackList, Long memberId) {
         // 이미 존재하는 techStack 제거
         memberTechStackRepository.deleteByMemberId(memberId);
