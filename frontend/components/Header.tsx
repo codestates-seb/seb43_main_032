@@ -11,6 +11,8 @@ import { DefaultObj } from '@/types/types';
 import logo from '../public/images/logo.svg';
 import logoWhite from '../public/images/logoSymbolWhite.svg';
 import Slider from './Slider';
+import Btn from './button/Btn';
+import { useOffResize } from '@/hooks/useOffResize';
 
 const Header = () => {
   const isLoggedIn = useRecoilValue(isLoggedInState);
@@ -52,10 +54,10 @@ const Header = () => {
 
   //모달 네비
   const [nav, setNav] = useState(false);
-
   const navHandler = () => {
     setNav(!nav);
   };
+  useOffResize(960, 'up', setNav);
 
   return (
     <>
@@ -111,7 +113,38 @@ const Header = () => {
                 </li>
               ))}
         </NavMenu>
-        <ModalNav nav={nav}></ModalNav>
+        <ModalNav nav={nav}>
+          <ul>
+            {isLoggedIn
+              ? navNames.slice(0, 4).map((name) => (
+                  <li className="nanum-bold" key={name}>
+                    {name}
+                  </li>
+                ))
+              : navNames.slice(0, 3).map((name) => (
+                  <li className="nanum-bold" key={name}>
+                    {name}
+                  </li>
+                ))}
+          </ul>
+          <div className="nav-users">
+            {isLoggedIn
+              ? navNames.slice(4, 5).map((name) => (
+                  <div className="logout" key={name}>
+                    <Btn>
+                      <span>{name}</span>
+                    </Btn>
+                  </div>
+                ))
+              : navNames.slice(5).map((name) => (
+                  <div key={name}>
+                    <Btn>
+                      <span>{name}</span>
+                    </Btn>
+                  </div>
+                ))}
+          </div>
+        </ModalNav>
       </Nav>
       <Slider isScrolled={isScrolled}></Slider>
     </>
@@ -128,13 +161,39 @@ type NavProps = {
 const ModalNav = styled.nav<NavProps>`
   z-index: 1;
   background-color: white;
-  height: 50%;
-  width: 60%;
+  width: 50%;
   position: fixed;
   top: 60px;
-  right: ${(props) => (props.nav ? '0' : '-60%')};
+  right: ${(props) => (props.nav ? '0' : '-50%')};
   transition: 1.2s;
-  padding: var(--padding-2);
+  display: none;
+  @media (max-width: 960px) {
+    display: block;
+  }
+  ul {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    li {
+      padding: 24px;
+      cursor: pointer;
+      border-bottom: 1px solid #d1d1d1;
+    }
+  }
+  .nav-users {
+    display: flex;
+    padding: 16px;
+    > div {
+      width: 50%;
+      text-align: center;
+      > button {
+        cursor: pointer;
+      }
+    }
+    > .logout {
+      width: 100%;
+    }
+  }
 `;
 
 const Nav = styled.nav<NavProps>`
@@ -142,8 +201,6 @@ const Nav = styled.nav<NavProps>`
     width: 100%;
     display: flex;
     justify-content: end;
-    j > div {
-    }
   }
   .bars {
     align-items: center;
