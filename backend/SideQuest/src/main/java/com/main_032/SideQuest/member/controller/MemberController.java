@@ -1,10 +1,14 @@
 package com.main_032.SideQuest.member.controller;
 
 import com.main_032.SideQuest.member.dto.GetLoginMemberResponseDto;
+import com.main_032.SideQuest.member.dto.MemberLoginPostDto;
+import com.main_032.SideQuest.member.dto.MemberLoginResponseDto;
 import com.main_032.SideQuest.member.dto.MemberPostDto;
 import com.main_032.SideQuest.member.service.MemberService;
+import com.main_032.SideQuest.util.dto.SingleResponseDto;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,18 +23,26 @@ public class MemberController {
         this.memberService = memberService;
     }
 
-    @ApiOperation(value = "Sign up") //회원가입
+    @ApiOperation(value = "회원 가입") //회원가입
     @PostMapping("/signup")
     public ResponseEntity<Void> signup(@RequestBody MemberPostDto memberPostDto) {
         memberService.signup(memberPostDto);
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
-    @ApiOperation(value = "Get login member info")
-    @GetMapping("/member")
+    // Swagger API 뽑아내기용 함수
+    @ApiOperation(value = "로그인")
+    @PostMapping("/login")
     @ResponseStatus(HttpStatus.OK)
-    public GetLoginMemberResponseDto getLoginMemberInfo() {
-        GetLoginMemberResponseDto getLoginMemberResponseDto = memberService.getLoginMemberInfo();
-        return getLoginMemberResponseDto;
+    public MemberLoginResponseDto login(@RequestBody MemberLoginPostDto memberLoginPostDto) {
+        MemberLoginResponseDto memberLoginResponseDto = new MemberLoginResponseDto("name");
+        return memberLoginResponseDto;
+    }
+
+    @ApiOperation(value = "로그인 멤버 정보 조회")
+    @GetMapping("/member")
+    public ResponseEntity<SingleResponseDto<GetLoginMemberResponseDto>> getLoginMemberInfo() {
+        SingleResponseDto<GetLoginMemberResponseDto> singleResponseDto = memberService.getLoginMemberInfo();
+        return new ResponseEntity<SingleResponseDto<GetLoginMemberResponseDto>>(singleResponseDto, HttpStatus.OK);
     }
 }

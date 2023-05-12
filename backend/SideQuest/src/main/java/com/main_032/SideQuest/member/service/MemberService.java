@@ -4,6 +4,7 @@ import com.main_032.SideQuest.auth.utils.CustomAuthorityUtils;
 import com.main_032.SideQuest.auth.utils.GetAuthUserUtils;
 import com.main_032.SideQuest.member.dto.GetLoginMemberResponseDto;
 import com.main_032.SideQuest.member.dto.MemberPostDto;
+import com.main_032.SideQuest.member.dto.MemberTechStackPostResponseDto;
 import com.main_032.SideQuest.member.entity.Member;
 import com.main_032.SideQuest.member.entity.MemberTechStack;
 import com.main_032.SideQuest.member.mapper.MemberMapper;
@@ -42,11 +43,12 @@ public class MemberService {
         return;
     }
 
-    public GetLoginMemberResponseDto getLoginMemberInfo() {
+    public SingleResponseDto<GetLoginMemberResponseDto> getLoginMemberInfo() {
         Member member = getLoginMember();
         List<MemberTechStack> memberTechStackList = getMemberTechStack(member.getId());
-        GetLoginMemberResponseDto getLoginMemberResponseDto = memberMapper.memberToSingleResponseDto(member, memberTechStackList);
-        return getLoginMemberResponseDto;
+        List<MemberTechStackPostResponseDto> memberTechStackPostResponseDtoList = memberMapper.memberTechStackListToMemberTechStackPostResponseDto(memberTechStackList);
+        SingleResponseDto<GetLoginMemberResponseDto> singleResponseDto = memberMapper.memberToSingleResponseDto(member, memberTechStackPostResponseDtoList);
+        return singleResponseDto;
     }
 
     public boolean verifyExistEmail(String email) {
