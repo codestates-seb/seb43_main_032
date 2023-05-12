@@ -1,22 +1,13 @@
+import mail from '@sendgrid/mail';
 import client from '@/libs/client/client';
 import withHandler from '@/libs/server/withHandler';
-import withSession from '@/libs/server/withSession';
-
 import { NextApiRequest, NextApiResponse } from 'next';
 
-declare module 'iron-session' {
-  interface IronSessionData {
-    user?: {
-      id: number;
-    };
-  }
-}
-
+mail.setApiKey(process.env.SENDGRID_API!);
 async function handler(req: NextApiRequest, res: NextApiResponse) {
   const { token } = req.body;
   console.log(token);
-  console.log(process.env.COOCKIE_PASSWORD);
-  // 입력된 token으로
+
   const foundToken = await client.signUpToken.findUnique({
     where: {
       payload: token,
@@ -30,17 +21,22 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
     data: { isVerified: true },
   });
 
-  req.session.user = {
-    id: foundToken.userId,
-  };
-  await req.session.save();
-
   await client.signUpToken.deleteMany({
     where: {
       userId: foundToken.userId,
     },
   });
-
   return res.status(200).json({ ok: true });
+  // req.session.user = await {
+  //   id: foundToken.userId,
+  // };
+  // await req.session.save();
+
+  // await client.signUpToken.deleteMany({
+  //   where: {
+  //     userId: foundToken.userId,
+  //   },
+  // });
 }
-export default withSession(withHandler({ method: 'POST', handler }));
+
+export default withHandler({ method: 'POST', handler, isPrivate: false });

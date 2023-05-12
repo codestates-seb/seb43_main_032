@@ -21,7 +21,7 @@ datasource db {
   provider             = "mysql"
   url                  = env("DATABASE_URL")
 	// referentialIntegrity = "prisma"
-  // relationMode = "prisma"
+  relationMode = "prisma"
 }
 
 
@@ -31,13 +31,19 @@ model User{
   nickName String
   email String  @unique
   phone String? @unique
-  imgUrl String?
+  profileImageUrl String?
+	location String?
+	yearOfDev Int?
+	position String?
+	aboutMe String?
+  // stacks     String[]
+  // roles      String[]
   totalStar Int @default(0)
 	isVerified Boolean @default(false)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 	tokens SignUpToken[]
-	// project Project[]
+	project Project[]
 }
 
 model SignUpToken{
@@ -50,68 +56,62 @@ model SignUpToken{
   updatedAt DateTime @updatedAt
 }
 
+model Project {
+  id        Int          @id @default(autoincrement())
+  author    String
+  start     DateTime
+  end       DateTime
+  tags      Tag[]        // Many-to-many relation with Tag
+  stacks    Stack[]      // Many-to-many relation with Stack
+  jobs      Job[]
+  title     String
+  content   String
+  state     Int
+  view      Int
+  heart     Int
+  comment   Comment[]
+  position  String?
+  createdAt DateTime     @default(now())
+  updatedAt DateTime @updatedAt
+	user User @relation(fields: [userId],references:[id],onDelete: Cascade)
+	userId Int
+	@@index([userId])
+}
 
+model Tag {
+  id        Int      @id @default(autoincrement())
+  name      String   @unique
+	project Project @relation(fields: [projectId],references:[id],onDelete: Cascade)
+	projectId Int
+	@@index([projectId])
+}
 
+model Stack {
+  id        Int      @id @default(autoincrement())
+  name      String   @unique
+	project Project @relation(fields: [projectId],references:[id],onDelete: Cascade)
+	projectId Int
+	@@index([projectId])
+}
 
-
-
-
-// model Project {
-//   id        Int          @id @default(autoincrement())
-//   author    String
-//   start     DateTime
-//   end       DateTime
-//   tags      Tag[]        // Many-to-many relation with Tag
-//   stacks    Stack[]      // Many-to-many relation with Stack
-//   jobs      Job[]
-//   title     String
-//   content   String
-//   state     Int
-//   view      Int
-//   heart     Int
-//   comment   Comment[]
-//   position  String?
-//   createdAt DateTime     @default(now())
-//   updatedAt DateTime @updatedAt
-// 	user User @relation(fields: [userId],references:[id],onDelete: Cascade)
-// 	userId Int
-// 	@@index([userId])
-// }
-
-// model Tag {
-//   id        Int      @id @default(autoincrement())
-//   name      String   @unique
-// 	project Project @relation(fields: [projectId],references:[id],onDelete: Cascade)
-// 	projectId Int
-// 	@@index([projectId])
-// }
-
-// model Stack {
-//   id        Int      @id @default(autoincrement())
-//   name      String   @unique
-// 	project Project @relation(fields: [projectId],references:[id],onDelete: Cascade)
-// 	projectId Int
-// 	@@index([projectId])
-// }
-
-// model Comment{
-//   id        Int      @id @default(autoincrement())
-//   name      String   @unique
-// 	project Project @relation(fields: [projectId],references:[id],onDelete: Cascade)
-// 	projectId Int
-// 	@@index([projectId])
-// }
-// model Job {
-//   id      Int     @id @default(autoincrement())
-//   key     String  @unique
-//   want    Int
-//   current Int
-//   project Project @relation(fields: [projectId], references: [id])
-//   projectId Int
-// 	@@index([projectId])
-// }
-// model PostState {
-//   id    Int      @id @default(autoincrement())
-//   heart Boolean
-//   want  String
-// }
+model Comment{
+  id        Int      @id @default(autoincrement())
+  name      String   @unique
+	project Project @relation(fields: [projectId],references:[id],onDelete: Cascade)
+	projectId Int
+	@@index([projectId])
+}
+model Job {
+  id      Int     @id @default(autoincrement())
+  key     String  @unique
+  want    Int
+  current Int
+  project Project @relation(fields: [projectId], references: [id])
+  projectId Int
+	@@index([projectId])
+}
+model PostState {
+  id    Int      @id @default(autoincrement())
+  heart Boolean
+  want  String
+}

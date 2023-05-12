@@ -8,6 +8,10 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
   const { email, nickName, password } = req.body;
   console.log(process.env.SENDGRID_API!);
 
+  const bcrypt = require('bcrypt');
+  const saltRounds = 10;
+  const hashedPassword = await bcrypt.hash(password, saltRounds);
+
   // 같은 email을 가진 User가 있는지 확인.
   const existingUser = await client.user.findUnique({ where: { email } });
 
@@ -27,7 +31,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
         create: {
           email,
           nickName,
-          password,
+          password: hashedPassword,
         },
       },
     },
@@ -46,9 +50,10 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
   //   .catch((error) => {
   //     console.error(error);
   //   });
+  return res.status(200).json({ ok: true });
 }
 
-export default withHandler({ method: 'POST', handler });
+export default withHandler({ method: 'POST', handler, isPrivate: false });
 
 // 토큰 생성 시 중복 토큰을 확인 후 토큰 반환
 async function tokenGenerator(): Promise<string> {

@@ -42,10 +42,9 @@ export default function confirm() {
     console.log(e);
   };
   const router = useRouter();
-  // useEffect(() => {
-  //   console.log(data);
-  //   if (data?.ok) router.push('/');
-  // }, [data]);
+  useEffect(() => {
+    if (data?.ok) router.push('/users/enter');
+  }, [data]);
 
   return (
     <Wrapper>
@@ -57,7 +56,7 @@ export default function confirm() {
           })}
           type="number"
         />
-        <Button>submit</Button>
+        <Button>{loading ? 'Loading...' : 'Submit'}</Button>
         {errors?.token?.message}
       </Form>
     </Wrapper>

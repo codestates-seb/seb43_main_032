@@ -2,6 +2,8 @@ import styled from 'styled-components';
 import AuthInput from './AuthInput';
 import { useForm, FieldErrors } from 'react-hook-form';
 import useMutation from '@/hooks/useMutation';
+import { useEffect } from 'react';
+import { useRouter } from 'next/router';
 
 const Wrapper = styled.div`
   width: 100%;
@@ -47,6 +49,11 @@ export default function SignUpForm() {
   const onInValid = (errors: FieldErrors) => {
     console.log(errors);
   };
+  const router = useRouter();
+  useEffect(() => {
+    console.log('redirection');
+    if (data?.ok) router.push('confirm');
+  }, [data]);
   return (
     <Wrapper>
       <Form onSubmit={handleSubmit(onValid, onInValid)}>

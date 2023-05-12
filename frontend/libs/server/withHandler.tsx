@@ -14,7 +14,7 @@ export default function withHandler({
     if (req.method !== method) {
       return res.status(405).end();
     }
-    if (isPrivate && !req.session.user) return res.status(400).end();
+    // if (isPrivate && !req?.session?.user) return res.status(400).end();
 
     try {
       await handler(req, res);
