@@ -2,14 +2,14 @@ package com.main_032.SideQuest.member.service;
 
 import com.main_032.SideQuest.auth.utils.CustomAuthorityUtils;
 import com.main_032.SideQuest.auth.utils.GetAuthUserUtils;
-import com.main_032.SideQuest.member.dto.GetLoginMemberResponseDto;
+import com.main_032.SideQuest.member.dto.GetMemberResponseDto;
+import com.main_032.SideQuest.member.dto.MemberPatchDto;
 import com.main_032.SideQuest.member.dto.MemberPostDto;
-import com.main_032.SideQuest.member.dto.MemberTechStackPostResponseDto;
+import com.main_032.SideQuest.member.dto.MemberTechStackResponseDto;
 import com.main_032.SideQuest.member.entity.Member;
 import com.main_032.SideQuest.member.entity.MemberTechStack;
 import com.main_032.SideQuest.member.mapper.MemberMapper;
 import com.main_032.SideQuest.member.repository.MemberRepository;
-import com.main_032.SideQuest.member.repository.MemberTechStackRepository;
 import com.main_032.SideQuest.util.dto.SingleResponseDto;
 import com.main_032.SideQuest.util.exception.BusinessLogicException;
 import com.main_032.SideQuest.util.exception.ExceptionCode;
@@ -27,8 +27,7 @@ public class MemberService {
     private final MemberRepository memberRepository;
     private final PasswordEncoder passwordEncoder;
     private final CustomAuthorityUtils authorityUtils;
-    private final MemberTechStackRepository memberTechStackRepository;
-
+    private final MemberTechStackService memberTechStackService;
 
     public void signup(MemberPostDto memberPostDto) {
         if(verifyExistEmail(memberPostDto.getEmail())) throw new BusinessLogicException(ExceptionCode.MEMBER_EMAIL_EXISTS);
@@ -43,12 +42,25 @@ public class MemberService {
         return;
     }
 
-    public SingleResponseDto<GetLoginMemberResponseDto> getLoginMemberInfo() {
+    public SingleResponseDto<GetMemberResponseDto> getLoginMemberInfo() {
         Member member = getLoginMember();
-        List<MemberTechStack> memberTechStackList = getMemberTechStack(member.getId());
-        List<MemberTechStackPostResponseDto> memberTechStackPostResponseDtoList = memberMapper.memberTechStackListToMemberTechStackPostResponseDto(memberTechStackList);
-        SingleResponseDto<GetLoginMemberResponseDto> singleResponseDto = memberMapper.memberToSingleResponseDto(member, memberTechStackPostResponseDtoList);
+        List<MemberTechStack> memberTechStackList = memberTechStackService.getMemberTechStackList(member.getId());
+        List<MemberTechStackResponseDto> memberTechStackResponseDtoList = memberMapper.memberTechStackListToMemberTechStackResponseDto(memberTechStackList);
+        SingleResponseDto<GetMemberResponseDto> singleResponseDto = memberMapper.memberToSingleResponseDto(member, memberTechStackResponseDtoList);
         return singleResponseDto;
+    }
+
+    public void updateMember(MemberPatchDto memberPatchDto) {
+        Member member = getLoginMember();
+        member.updateName(memberPatchDto.getName());
+        member.updateYearOfDev(memberPatchDto.getYearOfDev());
+        member.updatePosition(memberPatchDto.getPosition());
+        member.updatePhone(memberPatchDto.getPhone());
+        member.updateAboutMe(memberPatchDto.getAboutMe());
+        member.updateProfileImageUrl(memberPatchDto.getProfileImageUrl());
+        memberTechStackService.updateMemberTechStack(memberPatchDto.getTechList(), member.getId());
+        memberRepository.save(member);
+        return;
     }
 
     public boolean verifyExistEmail(String email) {
@@ -66,10 +78,5 @@ public class MemberService {
         findMember.orElseThrow(() -> new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
         Member member = findMember.get();
         return member;
-    }
-
-    public List<MemberTechStack> getMemberTechStack(Long memberId) {
-        List<MemberTechStack> memberTechStackList = memberTechStackRepository.findByMemberId(memberId);
-        return memberTechStackList;
     }
 }

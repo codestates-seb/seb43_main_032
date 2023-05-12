@@ -16,4 +16,12 @@ public class MemberTechStack {
 
     @Column
     private Long memberId;
+
+    public void updateTech(String tech) {
+        this.tech = tech;
+    }
+
+    public void updateMemberId(Long memberId) {
+        this.memberId = memberId;
+    }
 }

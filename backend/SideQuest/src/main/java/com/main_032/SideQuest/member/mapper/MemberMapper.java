@@ -1,8 +1,8 @@
 package com.main_032.SideQuest.member.mapper;
 
-import com.main_032.SideQuest.member.dto.GetLoginMemberResponseDto;
+import com.main_032.SideQuest.member.dto.GetMemberResponseDto;
 import com.main_032.SideQuest.member.dto.MemberPostDto;
-import com.main_032.SideQuest.member.dto.MemberTechStackPostResponseDto;
+import com.main_032.SideQuest.member.dto.MemberTechStackResponseDto;
 import com.main_032.SideQuest.member.entity.Member;
 import com.main_032.SideQuest.member.entity.MemberTechStack;
 import com.main_032.SideQuest.util.dto.SingleResponseDto;
@@ -21,29 +21,30 @@ public class MemberMapper {
         return member;
     }
 
-    public List<MemberTechStackPostResponseDto> memberTechStackListToMemberTechStackPostResponseDto(List<MemberTechStack> memberTechStackList) {
-        List<MemberTechStackPostResponseDto> memberTechStackPostResponseDtoList = new ArrayList<>();
+    public List<MemberTechStackResponseDto> memberTechStackListToMemberTechStackResponseDto(List<MemberTechStack> memberTechStackList) {
+        List<MemberTechStackResponseDto> memberTechStackResponseDtoList = new ArrayList<>();
         for (int i = 0; i < memberTechStackList.size(); i++) {
-            MemberTechStackPostResponseDto memberTechStackPostResponseDto = new MemberTechStackPostResponseDto(memberTechStackList.get(i).getTech());
-            memberTechStackPostResponseDtoList.add(memberTechStackPostResponseDto);
+            MemberTechStackResponseDto memberTechStackResponseDto = new MemberTechStackResponseDto(memberTechStackList.get(i).getTech());
+            memberTechStackResponseDtoList.add(memberTechStackResponseDto);
         }
 
-        return memberTechStackPostResponseDtoList;
+        return memberTechStackResponseDtoList;
     }
 
-    public SingleResponseDto<GetLoginMemberResponseDto> memberToSingleResponseDto(Member member, List<MemberTechStackPostResponseDto> memberTechStackPostResponseDtoList) {
-        GetLoginMemberResponseDto getLoginMemberResponseDto = new GetLoginMemberResponseDto(
+    public SingleResponseDto<GetMemberResponseDto> memberToSingleResponseDto(Member member, List<MemberTechStackResponseDto> memberTechStackResponseDtoList) {
+        GetMemberResponseDto getMemberResponseDto = new GetMemberResponseDto(
                 member.getName(),
                 member.getEmail(),
-                member.getPhoneNumber(),
+                member.getPhone(),
                 member.getPosition(),
                 member.getAboutMe(),
                 member.getProfileImageUrl(),
                 member.getYearOfDev(),
                 member.getTotalStar(),
-                memberTechStackPostResponseDtoList
+                memberTechStackResponseDtoList
         );
-        SingleResponseDto<GetLoginMemberResponseDto> singleResponseDto = new SingleResponseDto(getLoginMemberResponseDto);
+        SingleResponseDto<GetMemberResponseDto> singleResponseDto = new SingleResponseDto(getMemberResponseDto);
         return singleResponseDto;
     }
+
 }
