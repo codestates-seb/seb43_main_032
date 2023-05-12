@@ -17,5 +17,6 @@ public class GetLoginMemberResponseDto {
     private String profileImageUrl;
     private int yearOfDev;
     private int totalStar;
-    private List<MemberTechStack> memberTechStackList;
+    private List<MemberTechStackPostResponseDto> memberTechStackPostResponseDtoList;
+
 }
