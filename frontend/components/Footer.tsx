@@ -40,6 +40,7 @@ export default Footer;
 
 const Box = styled.footer`
   padding: 0px calc((100% - 1280px) / 2);
+  height: 400px;
   display: flex;
   padding-top: 20px;
   border-top: 1px solid #cacaca;
