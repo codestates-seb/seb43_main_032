@@ -37,6 +37,7 @@ export default function Content() {
     queryKey,
   });
 
+
   const findContentItem = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchVal(e.target.value);
   };

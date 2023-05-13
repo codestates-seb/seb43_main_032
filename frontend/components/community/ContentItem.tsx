@@ -13,7 +13,7 @@ export default function ContentItem(article: Community) {
   };
   return (
     <Container>
-      <div className={`color-bar ${article.category}`}></div>
+      <div className={`color-bar ${article.position}`}></div>
       <Right>
         {/* memberID에서 이메일 받아와야함 or nickName */}
         <img src={article.avatar}></img>

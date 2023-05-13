@@ -18,7 +18,6 @@ export default function CommunityForm() {
     address,
     queryKey,
   });
-
   const data = communityQuery.data?.data;
 
   const { register, watch } = useForm<DefaultObj>();
