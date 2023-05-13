@@ -1,4 +1,6 @@
+import useApi from '@/hooks/useApi';
 import { isLoggedInState } from '@/recoil/atom';
+import { useEffect } from 'react';
 import { FieldErrors, useForm } from 'react-hook-form';
 import { useRecoilValue } from 'recoil';
 import styled from 'styled-components';
@@ -65,12 +67,15 @@ interface ISubmit {
   [key: string]: string;
 }
 export default function edit() {
-  const isLoggedIn = useRecoilValue(isLoggedInState);
+  const [getUser, { data: user, isLoading }] = useApi('/api/user/me');
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
+  useEffect(() => {
+    getUser();
+  }, []);
   const onValid = (data: ISubmit) => {
     console.log(data);
   };
@@ -80,16 +85,16 @@ export default function edit() {
 
   return (
     <Wrapper>
-      {isLoggedIn && (
+      {user && (
         <>
           <ImgWrapper>
-            <img alt={user.NICK_NAME} src={user.PROFILE_IMAGE} />
+            <img alt={user.name} src={user.profileImageUrl} />
             <P>Change Image</P>
           </ImgWrapper>
           <form onSubmit={handleSubmit(onValid, onInValid)}>
             {' '}
             <Label>UserName</Label>
-            <Input {...register('name')} placeholder={user.NICK_NAME} />
+            <Input {...register('name')} placeholder={user.name} />
             <Label>개발기간</Label>
             <Input
               {...register('yearOfDev', {
@@ -98,17 +103,14 @@ export default function edit() {
                   message: 'Please enter only numbers',
                 },
               })}
-              placeholder={user.YEAR_OF_DEV + ''}
+              placeholder={user.yearOfDev + ''}
             />
             <Label>Phone</Label>
-            <Input
-              {...register('phoneNumber')}
-              placeholder={user.PHONE_NUMBER}
-            />
+            <Input {...register('phoneNumber')} placeholder={user.phone} />
             <Label>Email</Label>
-            <Input {...register('email')} placeholder={user.EMAIL} />
+            <Input {...register('email')} placeholder={user.email} />
             <Label>About Me</Label>
-            <Input {...register('aboutMe')} placeholder={user.ABOUT_ME} />
+            <Input {...register('aboutMe')} placeholder={user.aboutMe} />
             <button>submit</button>
           </form>
         </>
