@@ -31,7 +31,7 @@ export default function useUser() {
 }
 
 async function fetchUser() {
-  const response = await axios.get('/api/user/me');
+  const response = await axios.get('/api/user/status');
   return response.data.ok;
 }
 

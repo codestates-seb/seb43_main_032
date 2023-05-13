@@ -80,7 +80,7 @@ export default function edit() {
 
   return (
     <Wrapper>
-      {user && (
+      {isLoggedIn && (
         <>
           <ImgWrapper>
             <img alt={user.NICK_NAME} src={user.PROFILE_IMAGE} />
