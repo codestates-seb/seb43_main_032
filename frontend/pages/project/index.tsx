@@ -9,17 +9,45 @@ import Link from 'next/link';
 import { Project } from '@/types/project';
 import Message from '@/components/Message';
 import ContentCardbox from '@/components/ContentCardbox';
+import { useForm } from 'react-hook-form';
+import { DefaultObj } from '@/types/types';
+import Btn from '@/components/button/Btn';
+import { BsSearch } from 'react-icons/bs';
 
 type PageProps = { data: Project[]; total: number };
 
 const ProjectHome = () => {
   const router = useRouter();
+  const search = router.query.search;
+  const filter = router.query.filter;
 
-  //데이터 fetch
+  const queryKey = () => {
+    if (search) {
+      return ['projects', search];
+    }
+    if (filter) {
+      return ['projects', search, filter];
+    }
+    return ['projects'];
+  };
+
+  //form 및 filter 관련
+  const { register, watch } = useForm<DefaultObj>();
+  useEffect(() => {
+    if (watch().search !== '') {
+      window.scrollTo({
+        top: 600,
+        left: 0,
+        behavior: 'smooth',
+      });
+    }
+  }, [router]);
+
+  //무한스크롤 데이터
   const page_limit = 4;
   const { isLoading, error, data, fetchNextPage, hasNextPage, isFetching } =
     useInfiniteQuery(
-      'projects',
+      queryKey(),
       ({ pageParam = 1 }) =>
         api(`${router.asPath}?size=${page_limit}&page=${pageParam}`).then(
           (res) => res.data
@@ -69,6 +97,14 @@ const ProjectHome = () => {
   if (data)
     return (
       <Box>
+        <div className="search-box">
+          <form>
+            <input {...register('search')} type="text" />
+            <Btn>
+              <BsSearch />
+            </Btn>
+          </form>
+        </div>
         <div className="link-box">
           <Link href={`${router.asPath}/create`} className="main-btn">
             <span>프로젝트 작성</span>
@@ -113,6 +149,17 @@ export default ProjectHome;
 
 const Box = styled.div`
   padding: var(--padding-1);
+
+  .search-box {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 24px;
+    gap: 16px;
+    > form {
+      display: flex;
+      gap: 8px;
+    }
+  }
 
   .link-box {
     display: flex;
