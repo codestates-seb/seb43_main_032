@@ -5,3 +5,9 @@ export type DefaultObj = {
 };
 
 export type ArrObj = { [key: string]: string[] };
+
+export type BannerProps = {
+  imgWidth?: boolean;
+  isScrolled?: boolean;
+  showImg?: boolean;
+};
