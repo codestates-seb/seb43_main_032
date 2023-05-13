@@ -1,21 +1,22 @@
 import client from '@/libs/client/client';
 import withHandler from '@/libs/server/withHandler';
-import withSession from '@/libs/server/withSession';
 import { NextApiRequest, NextApiResponse } from 'next';
 
 async function handler(req: NextApiRequest, res: NextApiResponse) {
-  console.log('user/me');
-  const userId = req.session?.user?.id;
+  const { id: userId } = req.query;
+
+  if (!userId) {
+    return res.status(400).json({ error: 'Missing user id' });
+  }
+
   try {
-    // 사용자 정보를 조회함
     const user = await client.user.findUnique({
       where: {
-        id: userId,
+        id: Number(userId),
       },
       select: {
+        id: true,
         name: true,
-        email: true,
-        phone: true,
         profileImageUrl: true,
         location: true,
         yearOfDev: true,
@@ -24,16 +25,17 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
         stacks: true,
         roles: true,
         totalStar: true,
-        createdAt: true,
-        updatedAt: true,
       },
     });
-    // 사용자 정보를 반환함
+
+    if (!user) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+
     return res.status(200).json(user);
   } catch (error) {
-    // 에러 발생 시 에러 메시지를 반환함
-    return res.status(500).json(console.log);
+    return res.status(500).end();
   }
 }
 
-export default withSession(withHandler({ method: 'GET', handler }));
+export default withHandler({ method: 'GET', handler, isPrivate: false });

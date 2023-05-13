@@ -15,7 +15,7 @@ export default function withHandler({
       return res.status(405).end();
     }
     if (isPrivate && !req?.session?.user)
-      return res.status(400).json({ error: 'plz log in' });
+      return res.status(401).json({ error: 'Unauthorized' });
 
     try {
       await handler(req, res);
