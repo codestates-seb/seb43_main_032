@@ -150,17 +150,17 @@ const Box = styled.div`
   }
 
   .img-box {
-    height: 120px;
+    height: 170px;
     display: flex;
     justify-content: center;
     align-items: center;
+    border-bottom: solid 1px #e4e4e4;
     @media (max-width: 960px) {
       display: none;
     }
     > img {
       width: 100%;
       height: 100%;
-      border: 1px solid #e4e4e4;
     }
   }
 
@@ -168,10 +168,20 @@ const Box = styled.div`
     text-overflow: ellipsis;
     white-space: nowrap;
     overflow: hidden;
+    padding: 10px 13px;
+    font-size: 16px;
+    color: #3c3c3c;
+    text-shadow: #e0e0e0 1px 1px 0;
+  }
+
+  .tag-box {
+    padding: 10px 13px;
   }
 
   .select-box {
     position: relative;
+    padding: 10px 13px;
+
     li {
       box-shadow: var(--box-shadow);
     }
@@ -181,6 +191,7 @@ const Box = styled.div`
     display: flex;
     gap: 16px;
     justify-content: space-between;
+    padding: 10px 13px;
 
     > div {
       display: flex;
