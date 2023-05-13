@@ -98,7 +98,7 @@ export default function Content() {
         </ContentTop>
         <ContentBottom>
           <ContentItemList>
-            {data.data.map((article: Community) => (
+            {data.data?.map((article: Community) => (
               <ContentItem {...article} key={article.id} />
             ))}
           </ContentItemList>

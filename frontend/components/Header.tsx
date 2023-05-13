@@ -2,7 +2,7 @@ import Image from 'next/image';
 import { FaUserAlt } from 'react-icons/fa';
 import { FiMenu } from 'react-icons/fi';
 import Link from 'next/link';
-import { useRecoilValue } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import styled from 'styled-components';
 import { isLoggedInState } from '@/recoil/atom';
 import { useRouter } from 'next/router';
@@ -15,8 +15,13 @@ import Btn from './button/Btn';
 import { useOffResize } from '@/hooks/useOffResize';
 
 const Header = () => {
-  const isLoggedIn = useRecoilValue(isLoggedInState);
   const router = useRouter();
+
+  //로그인
+  const [isLoggedIn, setIsLoggedIn] = useRecoilState(isLoggedInState);
+  const logout = () => {
+    setIsLoggedIn(false);
+  };
 
   //네비
   const navArr: DefaultObj = {
@@ -54,10 +59,22 @@ const Header = () => {
 
   //모달 네비
   const [nav, setNav] = useState(false);
+  useOffResize(960, 'up', setNav);
   const navHandler = () => {
     setNav(!nav);
   };
-  useOffResize(960, 'up', setNav);
+  const moveCategory = (name: string) => {
+    setNav(false);
+    router.push(navArr[name]).then(() => {
+      if (navNames.slice(0, 4).includes(name)) {
+        window.scrollTo({
+          top: 600,
+          left: 0,
+          behavior: 'smooth',
+        });
+      }
+    });
+  };
 
   return (
     <>
@@ -76,7 +93,7 @@ const Header = () => {
           {navNames.slice(0, 3).map((name) => (
             <li key={name}>
               <a
-                onClick={() => router.push(navArr[name])}
+                onClick={() => moveCategory(name)}
                 className="noto-regular-12 sub-btn"
               >
                 <span className="sub-btn-top">{name.toUpperCase()}</span>
@@ -117,12 +134,20 @@ const Header = () => {
           <ul>
             {isLoggedIn
               ? navNames.slice(0, 4).map((name) => (
-                  <li className="nanum-bold" key={name}>
+                  <li
+                    className="nanum-bold"
+                    key={name}
+                    onClick={() => moveCategory(name)}
+                  >
                     {name}
                   </li>
                 ))
               : navNames.slice(0, 3).map((name) => (
-                  <li className="nanum-bold" key={name}>
+                  <li
+                    className="nanum-bold"
+                    key={name}
+                    onClick={() => moveCategory(name)}
+                  >
                     {name}
                   </li>
                 ))}
@@ -130,14 +155,14 @@ const Header = () => {
           <div className="nav-users">
             {isLoggedIn
               ? navNames.slice(4, 5).map((name) => (
-                  <div className="logout" key={name}>
+                  <div className="logout" key={name} onClick={logout}>
                     <Btn>
                       <span>{name}</span>
                     </Btn>
                   </div>
                 ))
               : navNames.slice(5).map((name) => (
-                  <div key={name}>
+                  <div key={name} onClick={() => moveCategory(name)}>
                     <Btn>
                       <span>{name}</span>
                     </Btn>
