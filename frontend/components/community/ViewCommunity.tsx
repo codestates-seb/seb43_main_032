@@ -26,36 +26,36 @@ const ViewCommunity = () => {
   const address = `/community/post/${id}`;
   const queryKey = ['post', id];
 
-  const { isLoading, error, data } = useCommunity<Community>({
+  const { communityQuery } = useCommunity<Community>({
     address,
     queryKey,
   });
 
-  if (isLoading) return <Message>로딩중입니다.</Message>;
-  if (error) return <Message>잠시 후 다시 시도해주세요.</Message>;
+  if (communityQuery.isLoading) return <Message>로딩중입니다.</Message>;
+  if (communityQuery.error) return <Message>잠시 후 다시 시도해주세요.</Message>;
   return (
     <Container>
-      {data && (
+      {communityQuery.data && (
         <>
           <Top>
             <div className="left">
-              <div className="title">{data.data.title}</div>
-              <div className="date">{data.data.createdAt}</div>
+              <div className="title">{communityQuery.data.data.title}</div>
+              <div className="date">{communityQuery.data.data.createdAt}</div>
             </div>
             <div className="right">
-              <img src={data.data.avatar}></img>
+              <img src={communityQuery.data.data.avatar}></img>
               <div className="userBox nanum-bold userStar">
-                <FaHeart color="red" /> {data.data.userStar}
+                <FaHeart color="red" /> {communityQuery.data.data.userStar}
               </div>
               <div className="userBox nanum-bold userMail">
-                {data.data.email.split('@')[0]}
+                {communityQuery.data.data.email.split('@')[0]}
               </div>
             </div>
           </Top>
           <Bottom>
             <div className="content">
               <ReactMarkdown
-                content={data.data.content}
+                content={communityQuery.data.data.content}
                 backColor="white"
               ></ReactMarkdown>
             </div>
@@ -66,7 +66,7 @@ const ViewCommunity = () => {
               </Btn>
               <div className="each">
                 {/* 임시로 el.id가 없기 때문에 i 활용 중 */}
-                {data.data.comment.map((el, i) => (
+                {communityQuery.data.data.comment.map((el, i) => (
                   <div key={i} className="box">
                     <div>{i}</div>
                   </div>
