@@ -1,22 +1,26 @@
 import styled from 'styled-components';
+import Stack from '../stack/Stack';
+import Btn from '../button/Btn';
 
 type Props = {
-  select: string[];
+  stacks: string[];
   onModal?: () => void;
 };
 
-const StacksBox = ({ select, onModal }: Props) => {
+const StacksBox = ({ stacks, onModal }: Props) => {
   return (
-    <Box onModal={onModal}>
+    <Box>
       <div>프로젝트 메인 스택</div>
       <ul className="noto-regular-13">
         <li className="button-box">
-          {select.length === 0 && onModal ? (
-            <button onClick={onModal}>스택 등록</button>
+          {stacks.length === 0 && onModal ? (
+            <Btn onClick={onModal}>
+              <span>스택 등록</span>
+            </Btn>
           ) : (
             <ul onClick={onModal} className="select-tag-box">
-              {select.map((x) => (
-                <li key={x} className={`bg-${x}`}></li>
+              {stacks.map((skill) => (
+                <Stack key={skill} skill={skill} />
               ))}
             </ul>
           )}
@@ -37,9 +41,11 @@ const Box = styled.div<BoxProps>`
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  > ul {
-    cursor: ${(props) => (props.onModal ? 'pointer' : '')};
+
+  .main-btn {
+    padding: 4px;
   }
+
   .select-tag-box {
     display: flex;
     flex-wrap: wrap;

@@ -6,14 +6,15 @@ import TagBox from '@/components/project/TagBox';
 import dynamic from 'next/dynamic';
 import styled from 'styled-components';
 import ContentSkeleton from '@/components/skeleton/ContentSkeleton';
-import Loading from '@/components/Loading';
 import { AiFillHeart, AiOutlineHeart } from 'react-icons/ai';
 import { useProject } from '@/hooks/react-query/useProject';
 import { formatDate2 } from '@/util/date';
 import { useEffect } from 'react';
-import Error from '@/components/Error';
 import { useRouter } from 'next/router';
-const ReactMarkdown = dynamic(() => import('@/components/ContentBox'), {
+import Position from '@/components/Position';
+import Message from '@/components/Message';
+import Btn from '@/components/button/Btn';
+const ReactMarkdown = dynamic(() => import('@/components/editor/ContentBox'), {
   ssr: false,
   loading: () => <ContentSkeleton />,
 });
@@ -67,8 +68,9 @@ const ViewProject = () => {
   };
 
   const data = projectQuery.data?.post_data;
-  if (projectQuery.isLoading) return <Loading />;
-  if (projectQuery.error) return <Error>잠시 후 다시 시도해주세요.</Error>;
+
+  if (projectQuery.isLoading) return <Message>로딩중입니다.</Message>;
+  if (projectQuery.error) return <Message>잠시 후 다시 시도해주세요.</Message>;
   if (data)
     return (
       <GridBox>
@@ -76,7 +78,9 @@ const ViewProject = () => {
           <div className="author-box">
             <div>작성자</div>
             <div className="author noto-medium">
-              <div className="noto-medium">{data.position}</div>
+              <div className="noto-medium">
+                <Position text={data.position!} />
+              </div>
               <div>
                 <img
                   src="https://noticon-static.tammolo.com/dgggcrkxq/image/upload/v1567008394/noticon/ohybolu4ensol1gzqas1.png"
@@ -89,9 +93,14 @@ const ViewProject = () => {
           </div>
           <PeriodBox start={new Date(data.start)} end={new Date(data.end)} />
           <TagBox tags={data.tags} />
-          <StacksBox select={data.stacks} />
+          <StacksBox stacks={data.stacks} />
           <div className="want-box">
             <div>모집 중인 직군</div>
+            <div>
+              <Btn>
+                <span>지원자 확인</span>
+              </Btn>
+            </div>
             <ul>
               {jobCount &&
                 job?.map((job, i) => (
@@ -158,7 +167,7 @@ const ViewProject = () => {
             </div>
             <div>
               <a onClick={moveEdit} className="main-btn">
-                프로젝트 수정
+                <span>프로젝트 수정</span>
               </a>
             </div>
           </div>
@@ -201,12 +210,16 @@ const Main = styled.div`
     display: flex;
     width: 100%;
     justify-content: space-between;
+    @media (max-width: 768px) {
+      flex-direction: column;
+    }
     > div:first-child {
       display: flex;
       gap: 8px;
-    }
-    span {
-      font-weight: 900;
+      @media (max-width: 414px) {
+        flex-direction: column;
+        align-items: center;
+      }
     }
   }
 
@@ -245,17 +258,6 @@ const Side = styled.div`
   gap: 32px;
   padding: var(--padding-1);
 
-  button {
-    cursor: pointer;
-    border: none;
-    padding: 8px 32px;
-    font-weight: 700;
-    border-radius: var(--radius-def);
-    :hover {
-      background-color: #e1e7e5;
-    }
-  }
-
   > div {
     width: 100%;
     display: flex;
@@ -274,7 +276,7 @@ const Side = styled.div`
       display: flex;
       align-items: center;
       flex-direction: column;
-      gap: 16px;
+      gap: 12px;
       > div:last-child {
         display: flex;
         justify-content: center;
@@ -298,6 +300,12 @@ const Side = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
+
+    .main-btn {
+      > span {
+        padding: 8px 24px;
+      }
+    }
 
     > ul {
       flex-direction: column;

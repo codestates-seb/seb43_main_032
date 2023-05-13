@@ -1,10 +1,9 @@
 import styled from 'styled-components';
 import EiditorSkeleton from '@/components/skeleton/EiditorSkeleton';
 import dynamic from 'next/dynamic';
-import { COMMUNITY_EX, POSITIONS, PROJECT_EX } from '@/constant/constant';
 import { DefaultObj } from '@/types/types';
 import { UseFormRegister } from 'react-hook-form';
-import Btn from './button/Btn';
+import Btn from '../button/Btn';
 const Editor = dynamic(() => import('@/components/editor/Editor'), {
   ssr: false,
   loading: () => <EiditorSkeleton />,
@@ -22,43 +21,20 @@ type Props = {
   };
 };
 
-const MainPost = ({
-  register,
-  changeContent,
-  type,
-  postProject,
-  data,
-}: Props) => {
+const SubPost = ({ register, changeContent, postProject, data }: Props) => {
   return (
     <Main>
-      {type === 1 ? PROJECT_EX : COMMUNITY_EX}
       <form onSubmit={postProject}>
         <div className="nanum-bold">
-          <div className="position-box">
-            <div>나의 포지션</div>
-            <div>
-              <select
-                {...register('position', { value: data && data.position })}
-              >
-                {POSITIONS.map((position) => (
-                  <option key={position} value={position}>
-                    {position}
-                  </option>
-                ))}
-              </select>
-            </div>
-          </div>
           <div>
-            <Btn>
-              <span>작성 완료</span>
-            </Btn>
+            <Btn>작성 완료</Btn>
           </div>
         </div>
         <div className="title">
           <input
             placeholder="제목을 등록해주세요."
             type="text"
-            {...register('title', { value: data && data.title })}
+            {...(register('title'), { value: data && data.title })}
           />
         </div>
         <div>
@@ -69,7 +45,7 @@ const MainPost = ({
   );
 };
 
-export default MainPost;
+export default SubPost;
 
 const Main = styled.div`
   padding: var(--padding-2);
