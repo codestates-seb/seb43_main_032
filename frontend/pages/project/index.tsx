@@ -7,8 +7,8 @@ import { useRef, useEffect } from 'react';
 import ProjectSkeleton from '@/components/skeleton/ProjectSkeleton';
 import Link from 'next/link';
 import { Project } from '@/types/project';
-import ProjectCardbox from '@/components/project/ProjectCardbox';
 import Message from '@/components/Message';
+import ContentCardbox from '@/components/ContentCardbox';
 
 type PageProps = { data: Project[]; total: number };
 
@@ -92,12 +92,13 @@ const ProjectHome = () => {
             </div>
           </div>
         </div>
-        <ProjectCardbox
+        <ContentCardbox
+          type={1}
           title="전체 프로젝트"
           data={data.pages?.flatMap((page) => page.data)}
         >
           {isFetching && hasNextPage && <ProjectSkeleton />}
-        </ProjectCardbox>
+        </ContentCardbox>
         <div ref={target} className="observer"></div>
         {!hasNextPage && (
           <div className="last-box nanum-bold blink">

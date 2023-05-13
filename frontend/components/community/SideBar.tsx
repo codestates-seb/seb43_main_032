@@ -1,4 +1,3 @@
-import { checkState } from '@/recoil/atom';
 import { useRouter } from 'next/router';
 import React, { useMemo } from 'react';
 import {
@@ -44,8 +43,6 @@ export default function SideBar() {
     []
   );
 
-  const setCheck = useSetRecoilState(checkState);
-
   return (
     <Container>
       <ul>
@@ -53,7 +50,6 @@ export default function SideBar() {
           <li
             key={item.title}
             onClick={() => {
-              setCheck((check) => !check);
               router.push(item.link);
             }}
           >

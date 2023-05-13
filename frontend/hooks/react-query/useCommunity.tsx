@@ -13,9 +13,11 @@ export const useCommunity = <T extends {}>({ address, queryKey }: Props) => {
   }>(queryKey, () => api(address).then((res) => res.data));
 
   return {
-    isLoading,
-    error,
-    data,
+    communityQuery: {
+      isLoading,
+      error,
+      data,
+    },
     refetch,
   };
 };
