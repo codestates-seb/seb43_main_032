@@ -32,7 +32,7 @@ model User {
   phone           String?       @unique
   profileImageUrl String?
   location        String? //city
-  yearOfDev       Int @default(0)//0~10
+  yearOfDev       Int           @default(0) //0~10
   position        String? //BE, FE, UI/UX
   aboutMe         String?
   stacks          String? //JAVA, JS, REACT, etc..
