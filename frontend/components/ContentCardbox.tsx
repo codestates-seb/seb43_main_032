@@ -9,13 +9,16 @@ type Props = {
   data: Project[] | Community[];
   title: string;
   type: number;
+  skeleton?: ReactNode;
   children?: ReactNode;
 };
 
-const ContentCardbox = ({ type, title, data, children }: Props) => {
+const ContentCardbox = ({ type, title, data, skeleton, children }: Props) => {
   return (
     <Box>
-      <div className="nanum-bold">{title}</div>
+      <div className="nanum-bold">
+        <div>{title}</div> {children}
+      </div>
       {type === 1 ? (
         <div className="projects-box">
           {(data as Project[])?.map((project: Project) => (
@@ -29,7 +32,7 @@ const ContentCardbox = ({ type, title, data, children }: Props) => {
           ))}
         </div>
       )}
-      {children}
+      {skeleton}
     </Box>
   );
 };
@@ -37,6 +40,10 @@ const ContentCardbox = ({ type, title, data, children }: Props) => {
 export default ContentCardbox;
 
 const Box = styled.div`
+  .nanum-bold {
+    display: flex;
+    gap: 16px;
+  }
   .projects-box {
     display: grid;
     grid-template-columns: repeat(4, 1fr);

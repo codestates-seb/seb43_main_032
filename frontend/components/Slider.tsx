@@ -32,12 +32,28 @@ export default function Slider({ isScrolled }: { isScrolled: boolean }) {
     <Container isScrolled={isScrolled}>
       <ImgContainer imgWidth={imgWidth}>
         <div className="circleXL"></div>
-        <Image src={right} alt="img5" className="right"></Image>
-        <Image src={square} alt="img6" className="square"></Image>
-        <Image src={left} alt="img4" className="left"></Image>
-        <Image src={computer} alt="img1" className="computer"></Image>
-        <Image src={message} alt="img2" className="message"></Image>
-        <Image src={dictionary} alt="img3" className="dictionary"></Image>
+        <div className="item-box1">
+          <div className="right">
+            <Image src={right} alt="img5"></Image>
+          </div>
+          <div className="square">
+            <Image src={square} alt="img6"></Image>
+          </div>
+          <div className="left">
+            <Image src={left} alt="img4"></Image>
+          </div>
+        </div>
+        <div className="item-box2">
+          <div className="dictionary">
+            <Image src={dictionary} alt="img3"></Image>
+          </div>
+          <div className="computer">
+            <Image src={computer} alt="img1"></Image>
+          </div>
+          <div className="message">
+            <Image src={message} alt="img2"></Image>
+          </div>
+        </div>
         <div className="rightBox">
           <div className="textBox">
             <span>기획부터 개발까지</span>
@@ -72,9 +88,8 @@ const Container = styled.div<Props>`
 
 const ImgContainer = styled.div<Props>`
   position: relative;
-  width: ${(props) => (props.imgWidth ? '100%' : '1280px')};
+  width: 100%;
   height: 100%;
-  margin: 0 auto;
 
   > .circleXL {
     position: absolute;
@@ -88,7 +103,72 @@ const ImgContainer = styled.div<Props>`
       0 0 30px #fff, 0 0 40px #fff, 0 0 50px #fff;
   }
 
-  > .computer {
+  .item-box1 {
+    display: flex;
+    position: absolute;
+    top: 25%;
+    /* right: 10%; */
+    > .left {
+      width: calc(20% * 360px / 100);
+      height: calc(20% * 360px / 100);
+      > img {
+        width: 60%;
+        height: 60%;
+      }
+    }
+    > .right {
+      width: calc(20% * 360px / 100);
+      height: calc(20% * 360px / 100);
+      > img {
+        width: 60%;
+        height: 60%;
+      }
+    }
+    > .square {
+      width: calc(20% * 360px / 100);
+      height: calc(20% * 360px / 100);
+      > img {
+        width: 100%;
+        height: 100%;
+      }
+    }
+  }
+  .item-box2 {
+    display: flex;
+    position: absolute;
+    top: 40%;
+    > .dictionary {
+      display: flex;
+      justify-content: end;
+      animation: message-dictionary-move 2s ease-in-out infinite alternate;
+      width: calc(20% * 360px / 100);
+      height: calc(20% * 360px / 100);
+      > img {
+        width: 50%;
+        height: 50%;
+      }
+    }
+    > .computer {
+      animation: computer-move 2s ease-in-out infinite alternate;
+      width: calc(20% * 360px / 100);
+      height: calc(20% * 360px / 100);
+      > img {
+        width: 100%;
+        height: 100%;
+      }
+    }
+    > .message {
+      animation: message-dictionary-move 2s ease-in-out infinite alternate;
+      width: calc(20% * 360px / 100);
+      height: calc(20% * 360px / 100);
+      > img {
+        width: 50%;
+        height: 50%;
+      }
+    }
+  }
+
+  /* > .computer {
     position: absolute;
     top: 40%;
     left: 13%;
@@ -125,7 +205,7 @@ const ImgContainer = styled.div<Props>`
     position: absolute;
     top: 20%;
     left: 27%;
-  }
+  } */
 
   > .rightBox {
     position: absolute;

@@ -5,7 +5,6 @@ import { FaComment, FaEye, FaHeart, FaStar } from 'react-icons/fa';
 import { Community } from '@/types/community';
 import { useRouter } from 'next/router';
 
-// item 리스트의 개별 아이템들
 export default function ContentItem(article: Community) {
   const router = useRouter();
   const moveArticle = () => {
@@ -13,7 +12,7 @@ export default function ContentItem(article: Community) {
   };
   return (
     <Container>
-      <div className={`color-bar ${article.category}`}></div>
+      <div className={`color-bar ${article.position}`}></div>
       <Right>
         {/* memberID에서 이메일 받아와야함 or nickName */}
         <img src={article.avatar}></img>
@@ -46,7 +45,7 @@ export default function ContentItem(article: Community) {
         </div>
         <div>
           <FaComment color="#909090"></FaComment>
-          <span>{article.view}</span>
+          <span>{article.comment.length}</span>
         </div>
       </Left>
     </Container>

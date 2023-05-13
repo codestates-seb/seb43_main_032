@@ -7,7 +7,6 @@ import {
   FaPaintBrush,
   FaQuestion,
 } from 'react-icons/fa';
-import { useSetRecoilState } from 'recoil';
 import styled from 'styled-components';
 
 export default function SideBar() {
