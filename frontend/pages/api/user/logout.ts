@@ -12,7 +12,7 @@ declare module 'iron-session' {
 }
 
 async function handler(req: NextApiRequest, res: NextApiResponse) {
-  console.log(req.session.user);
+  console.log('api logout', req.session.user);
   if (req.session.user) {
     delete req.session.user;
     await req.session.save();

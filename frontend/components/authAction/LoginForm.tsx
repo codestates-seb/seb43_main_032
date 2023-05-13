@@ -9,6 +9,8 @@ import { useEffect } from 'react';
 import useApi from '@/hooks/useApi';
 import { useRecoilState } from 'recoil';
 import { isLoggedInState } from '@/recoil/atom';
+import useUser from '@/hooks/useUser';
+import { useQueryClient } from 'react-query';
 
 const Wrapper = styled.div`
   width: 100%;
@@ -45,9 +47,9 @@ export interface ILoginForm {
   rememberMe: boolean;
 }
 export default function LoginForm() {
+  const queryClient = useQueryClient();
   const { register, watch, handleSubmit } = useForm<ILoginForm>();
-  console.log(watch());
-  const [isLoggedIn, setIsLoggedIn] = useRecoilState(isLoggedInState);
+  console.log('watch', watch());
   const [login, { data }] = useApi('/api/user/login');
   const onValid = (data: ILoginForm) => {
     console.log('valid');
@@ -57,12 +59,18 @@ export default function LoginForm() {
     console.log(errors);
   };
 
+  //user status true => home
+  const {
+    getUserStatus: { data: isLoggedIn },
+  } = useUser();
   const router = useRouter();
+  if (isLoggedIn) router.replace('/');
+
   useEffect(() => {
     if (data?.ok) {
       //로그인 성공 모달 or 페이지 필요. (opstional)
       //일단 홈으로 이동.
-      setIsLoggedIn(true);
+      queryClient.invalidateQueries(['loggedIn']);
       router.push('/');
     }
   }, [data]);

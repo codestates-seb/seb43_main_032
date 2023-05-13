@@ -1,8 +1,8 @@
 import GridBox from '@/components/GridBox';
 import InfoContainer from '@/components/user/InfoContainer';
 import UserInfoCard from '@/components/user/UserProfile';
-import useAuth from '@/hooks/useAuth';
-import { useState } from 'react';
+import useApi from '@/hooks/useApi';
+import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
 const LeftColumn = styled.div`
@@ -77,7 +77,12 @@ const DummyBox2 = styled.div`
   border-radius: 10px;
 `;
 export default function me() {
-  const user = useAuth();
+  const [getUser, { data: user, isLoading }] = useApi('/api/user/me');
+
+  useEffect(() => {
+    getUser();
+  }, []);
+  user && console.log(user);
 
   return (
     <>

@@ -2,21 +2,20 @@ import Image from 'next/image';
 import { FaUserAlt } from 'react-icons/fa';
 import { FiMenu } from 'react-icons/fi';
 import Link from 'next/link';
-import { useRecoilState } from 'recoil';
 import styled from 'styled-components';
-import { isLoggedInState } from '@/recoil/atom';
 import { useRouter } from 'next/router';
 import { useEffect, useMemo, useState } from 'react';
 import { DefaultObj } from '@/types/types';
 import logo from '../public/images/logo.svg';
 import logoWhite from '../public/images/logoSymbolWhite.svg';
-import useApi from '@/hooks/useApi';
 import Slider from './Slider';
+import useUser from '@/hooks/useUser';
 
 const Header = () => {
-  // const isLoggedIn = useRecoilValue(isLoggedInState);
-  const [isLoggedIn, setIsLoggedIn] = useRecoilState(isLoggedInState);
-  const [logOut, { data }] = useApi('/api/user/logout');
+  const {
+    getUserStatus: { data: isLoggedIn },
+    setUserLogOut,
+  } = useUser();
 
   const router = useRouter();
 
@@ -39,17 +38,9 @@ const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);
 
   const handleLogOut = async () => {
-    logOut();
+    // logOut();
+    setUserLogOut.mutate();
   };
-  useEffect(() => {
-    console.log(data);
-    if (data?.ok) {
-      //로그인 성공 모달 or 페이지 필요. (opstional)
-      //일단 홈으로 이동.
-      setIsLoggedIn(false);
-      router.push('/');
-    }
-  }, [data]);
 
   //스크롤 높이 상태 핸들러
   const handleScroll = () => {

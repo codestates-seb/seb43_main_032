@@ -1,8 +1,6 @@
 import useApi from '@/hooks/useApi';
-import { isLoggedInState } from '@/recoil/atom';
 import { useEffect } from 'react';
 import { FieldErrors, useForm } from 'react-hook-form';
-import { useRecoilValue } from 'recoil';
 import styled from 'styled-components';
 
 const Wrapper = styled.div`

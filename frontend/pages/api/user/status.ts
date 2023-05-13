@@ -17,7 +17,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.session.user) {
     return res.status(200).json({ ok: true });
   }
-  return res.status(404).json({ ok: false });
+  return res.status(200).json({ ok: false });
 }
 export default withSession(
   withHandler({ method: 'GET', handler, isPrivate: false })

@@ -12,11 +12,11 @@ export default function useUser() {
     useQuery(['users', id], () => getUserById(id), {
       staleTime: 1000 * 60 * 5,
     });
-  const getLoggedInState = useQuery(['loggedIn'], () => fetchUser(), {
+  const getUserStatus = useQuery(['loggedIn'], () => fetchUser(), {
     staleTime: Infinity,
   });
 
-  const setUserLoggedOut = useMutation(() => logOut(), {
+  const setUserLogOut = useMutation(logOut, {
     onSuccess: () => {
       queryClient.invalidateQueries(['loggedIn']);
     },
@@ -25,17 +25,23 @@ export default function useUser() {
   return {
     userQuery, //
     getUser,
-    getLoggedInState,
-    setUserLoggedOut,
+    getUserStatus,
+    setUserLogOut,
   };
 }
 
 async function fetchUser() {
   const response = await axios.get('/api/user/status');
+  console.log('useUser', response.data);
   return response.data.ok;
 }
 
-async function logOut() {
-  const [logOutUser] = useApi('/api/user/logout');
-  return await logOutUser;
-}
+const logOut = async () => {
+  const response = await fetch('/api/user/logout', {
+    method: 'POST',
+  });
+
+  if (!response.ok) {
+    throw new Error('Logout failed');
+  }
+};
