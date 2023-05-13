@@ -55,7 +55,8 @@ const Box = styled.div`
     display: grid;
     display: flex;
     flex-direction: column;
-    margin: 24px 0px;
+    margin-top: 48px;
+    margin-bottom: 28px;
     gap: 2px;
   }
 `;
