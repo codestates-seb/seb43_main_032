@@ -59,22 +59,14 @@ const Header = () => {
 
   //모달 네비
   const [nav, setNav] = useState(false);
-  useOffResize(960, 'up', setNav);
+  const moveNav = (name: string) => {
+    router.push(navArr[name]);
+    setNav(false);
+  };
   const navHandler = () => {
     setNav(!nav);
   };
-  const moveCategory = (name: string) => {
-    setNav(false);
-    router.push(navArr[name]).then(() => {
-      if (navNames.slice(0, 4).includes(name)) {
-        window.scrollTo({
-          top: 600,
-          left: 0,
-          behavior: 'smooth',
-        });
-      }
-    });
-  };
+  useOffResize(960, 'up', setNav);
 
   return (
     <>
@@ -93,7 +85,7 @@ const Header = () => {
           {navNames.slice(0, 3).map((name) => (
             <li key={name}>
               <a
-                onClick={() => moveCategory(name)}
+                onClick={() => router.push(navArr[name])}
                 className="noto-regular-12 sub-btn"
               >
                 <span className="sub-btn-top">{name.toUpperCase()}</span>
@@ -137,7 +129,7 @@ const Header = () => {
                   <li
                     className="nanum-bold"
                     key={name}
-                    onClick={() => moveCategory(name)}
+                    onClick={() => moveNav(name)}
                   >
                     {name}
                   </li>
@@ -146,7 +138,7 @@ const Header = () => {
                   <li
                     className="nanum-bold"
                     key={name}
-                    onClick={() => moveCategory(name)}
+                    onClick={() => moveNav(name)}
                   >
                     {name}
                   </li>
@@ -162,7 +154,7 @@ const Header = () => {
                   </div>
                 ))
               : navNames.slice(5).map((name) => (
-                  <div key={name} onClick={() => moveCategory(name)}>
+                  <div key={name} onClick={() => moveNav(name)}>
                     <Btn>
                       <span>{name}</span>
                     </Btn>

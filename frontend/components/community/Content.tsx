@@ -64,52 +64,55 @@ export default function Content() {
 
   if (isLoading) return <Message>로딩중입니다.</Message>;
   if (error) return <Message>잠시 후 다시 시도해주세요.</Message>;
-  if (data)
-    return (
-      <Container>
-        <ContentTop>
-          <SearchInput
-            placeholder="검색어를 입력하세요."
-            value={searchVal}
-            onChange={findContentItem}
-            onKeyPress={(e) => e.key === 'Enter' && handleSearch()}
-          />
-          <SearchBtn onClick={handleSearch}>
-            <FaSearch />
-          </SearchBtn>
-          <SearchBtn onClick={() => router.push('/community')}>
-            초기화
-          </SearchBtn>
-          <ContentBottomFilter onClick={() => setIsOpen(!isOpen)}>
-            <CustomSelectButton>
-              {filterName} <span className="icon">▼</span>
-            </CustomSelectButton>
-            <CustomSelectOptions isOpen={isOpen}>
-              {COMMUNITY_FILTER.map((option) => (
-                <CustomSelectOption
-                  key={option.value}
-                  onClick={() => selectFilter(option.value)}
-                >
-                  {option.label}
-                </CustomSelectOption>
+  return (
+    <Container>
+      {data && (
+        <>
+          <ContentTop>
+            <SearchInput
+              placeholder="검색어를 입력하세요."
+              value={searchVal}
+              onChange={findContentItem}
+              onKeyPress={(e) => e.key === 'Enter' && handleSearch()}
+            />
+            <SearchBtn onClick={handleSearch}>
+              <FaSearch />
+            </SearchBtn>
+            <SearchBtn onClick={() => router.push('/community')}>
+              초기화
+            </SearchBtn>
+            <ContentBottomFilter onClick={() => setIsOpen(!isOpen)}>
+              <CustomSelectButton>
+                {filterName} <span className="icon">▼</span>
+              </CustomSelectButton>
+              <CustomSelectOptions isOpen={isOpen}>
+                {COMMUNITY_FILTER.map((option) => (
+                  <CustomSelectOption
+                    key={option.value}
+                    onClick={() => selectFilter(option.value)}
+                  >
+                    {option.label}
+                  </CustomSelectOption>
+                ))}
+              </CustomSelectOptions>
+            </ContentBottomFilter>
+          </ContentTop>
+          <ContentBottom>
+            <ContentItemList>
+              {data.data?.map((article: Community) => (
+                <ContentItem {...article} key={article.id} />
               ))}
-            </CustomSelectOptions>
-          </ContentBottomFilter>
-        </ContentTop>
-        <ContentBottom>
-          <ContentItemList>
-            {data.data?.map((article: Community) => (
-              <ContentItem {...article} key={article.id} />
-            ))}
-          </ContentItemList>
-          <Pagenation
-            page={page}
-            onPageChange={setPage}
-            pageSize={Math.ceil(data.total! / 10)}
-          />
-        </ContentBottom>
-      </Container>
-    );
+            </ContentItemList>
+            <Pagenation
+              page={page}
+              onPageChange={setPage}
+              pageSize={Math.ceil(data.total! / 10)}
+            />
+          </ContentBottom>
+        </>
+      )}
+    </Container>
+  );
 }
 
 const Container = styled.div`

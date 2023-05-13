@@ -14,6 +14,13 @@ type PageProps = { data: Project[]; total: number };
 
 const ProjectHome = () => {
   const router = useRouter();
+  useEffect(() => {
+    window.scrollTo({
+      top: 600,
+      left: 0,
+      behavior: 'smooth',
+    });
+  }, [router]);
 
   //데이터 fetch
   const page_limit = 4;
