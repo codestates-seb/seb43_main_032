@@ -29,6 +29,7 @@ const MainPost = ({
   postProject,
   data,
 }: Props) => {
+
   return (
     <Main>
       {type === 1 ? PROJECT_EX : COMMUNITY_EX}
