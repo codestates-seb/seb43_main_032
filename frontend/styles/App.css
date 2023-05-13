@@ -1,18 +1,18 @@
 @import url('./reset.css');
 @import url('./skills.css');
-@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Nanum+Gothic:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Mukta:wght@600&family=Nanum+Gothic:wght@400;700;800&display=swap');
 
 * {
   margin: 0px;
   padding: 0px;
   box-sizing: border-box;
+  text-decoration: none;
 }
 
 body {
   color: #171717;
   font-size: 10px;
-  /* padding: 0px calc((100% - 1280px) / 2); */
 }
 
 a {
@@ -44,6 +44,12 @@ a {
   font-family: var(--font-nanum);
   font-size: 23px;
   font-weight: 700;
+}
+
+.nanum-semi-bold {
+  font-family: var(--font-nanum);
+  font-size: 18px;
+  font-weight: 500;
 }
 
 .nanum-regular {
@@ -85,23 +91,16 @@ a {
   }
 }
 
-.main-btn {
-  font-size: medium;
-  border-radius: 4px;
-  background: #256ce1;
-  padding: 12px 22px;
-  color: #fff;
-  outline: none;
+.sub-btn {
+  font-size: 15px;
+  font-weight: bold;
   border: none;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.2s ease-in-out;
-  text-decoration: none;
 }
 
-.main-btn:hover {
-  transition: all 0.2s ease-in-out;
-  background: #fff;
-  color: #010606;
-  box-shadow: var(--box-shadow);
+.sub-btn-top {
+  display: block;
+  box-sizing: border-box;
+  padding: 20px;
+  transform: translateY(-0.2em);
+  transition: transform 0.1s ease;
 }

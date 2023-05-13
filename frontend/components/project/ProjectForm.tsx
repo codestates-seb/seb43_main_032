@@ -13,6 +13,7 @@ import StacksBox from '@/components/project/StacksBox';
 import { GrFormClose } from 'react-icons/gr';
 import { useProject } from '@/hooks/react-query/useProject';
 import { POSITIONS } from '@/constant/constant';
+import Btn from '../button/Btn';
 
 const ProjectForm = () => {
   const router = useRouter();
@@ -28,7 +29,7 @@ const ProjectForm = () => {
       );
       setStart(new Date(data.start));
       setEnd(new Date(data.end));
-      setSelect(data.stacks);
+      setStacks(data.stacks);
       setTags(data.tags);
       setContent(data.content);
       setJob(jobs);
@@ -76,7 +77,7 @@ const ProjectForm = () => {
   }, [stack]);
 
   //선택된 스택 관련
-  const [select, setSelect] = useState<string[]>([]);
+  const [stacks, setStacks] = useState<string[]>([]);
 
   //해시태그 값 상태
   const [tags, setTags] = useState<string[]>([]);
@@ -115,12 +116,12 @@ const ProjectForm = () => {
   };
 
   //직군 상태
-  const [job, setJob] = useState<{ [key: string]: number }[]>([]);
+  const [jobs, setJob] = useState<{ [key: string]: number }[]>([]);
   const addJob = () => {
-    if (job.map((x) => Object.keys(x)[0]).includes(watch().jobVal)) {
+    if (jobs.map((x) => Object.keys(x)[0]).includes(watch().jobVal)) {
       return alert('동일한 직군은 추가할 수 없습니다.');
     }
-    setJob([...job, { [watch().jobVal]: option }]);
+    setJob([...jobs, { [watch().jobVal]: option }]);
     reset({
       ...watch(),
       jobVal: '',
@@ -130,11 +131,11 @@ const ProjectForm = () => {
 
   // 직군 삭제
   const deleteJob = (idx: number) => {
-    setJob([...job.slice(0, idx), ...job.slice(idx + 1)]);
+    setJob([...jobs.slice(0, idx), ...jobs.slice(idx + 1)]);
   };
 
-  const jobs = job.map((x) => Object.keys(x)[0]);
-  const jobCount = job.map((x) => Object.values(x)[0]);
+  const jobNames = jobs.map((x) => Object.keys(x)[0]);
+  const jobCount = jobs.map((x) => Object.values(x)[0]);
 
   //에디터 상태
   const [content, setContent] = useState('');
@@ -148,7 +149,7 @@ const ProjectForm = () => {
     if (!start) {
       return alert('프로젝트 기간을 설정해주세요.');
     }
-    if (job.length === 0) {
+    if (jobNames.length === 0) {
       return alert('모집 직군은 최소 1개 이상 등록해주세요.');
     }
     if (watch().title === '') {
@@ -160,20 +161,21 @@ const ProjectForm = () => {
     const data = {
       start,
       end,
-      select,
+      stacks,
       tags,
-      job,
+      jobs,
       position: watch().position,
       title: watch().title,
       content,
     };
+
     if (router.route.includes('create')) {
       if (confirm('정말 작성을 완료하시겠습니까?'))
         return api.post('/project', data).then(() => router.push('/'));
     }
     if (confirm('정말 수정을 완료하시겠습니까?'))
       return api
-        .put(`/project/${router.query.id}/edit`, data)
+        .put(`/project/${router.query.id}`, data)
         .then(() => router.push('/'));
   };
 
@@ -182,8 +184,8 @@ const ProjectForm = () => {
       {stack && (
         <SelectStack
           offModal={offModal}
-          select={select}
-          setSelect={setSelect}
+          stacks={stacks}
+          setStacks={setStacks}
         />
       )}
       <Side>
@@ -198,13 +200,15 @@ const ProjectForm = () => {
           tagKeyDown={tagKeyDown}
           deleteTag={deleteTag}
         />
-        <StacksBox select={select} onModal={onModal} />
+        <StacksBox stacks={stacks} onModal={onModal} />
         <div className="want-box">
           <div>모집을 원하는 직군</div>
           <div className="job-box">
             <select {...register('jobVal', { value: data && data.position })}>
               {POSITIONS.map((position) => (
-                <option value={position}>{position}</option>
+                <option key={position} value={position}>
+                  {position}
+                </option>
               ))}
             </select>
             <select value={option} onChange={changeOption}>
@@ -214,10 +218,12 @@ const ProjectForm = () => {
                 </option>
               ))}
             </select>
-            <button onClick={addJob}>등록</button>
+            <Btn onClick={addJob}>
+              <span>등록</span>
+            </Btn>
           </div>
           <ul>
-            {jobs.map((x, i) => (
+            {jobNames.map((x, i) => (
               <li className="nanum-regular" key={`${x}+${i}`}>
                 <div>{x}</div>
                 <div>{jobCount[i]}명</div>
@@ -255,14 +261,11 @@ const Side = styled.div`
   align-items: center;
   flex-direction: column;
 
-  button {
-    cursor: pointer;
-    border: none;
-    padding: 8px 32px;
-    font-weight: 700;
-    border-radius: var(--radius-def);
-    :hover {
-      background-color: #e1e7e5;
+  .main-btn {
+    min-width: 60px;
+
+    > span {
+      padding: 4px;
     }
   }
 
@@ -324,10 +327,6 @@ const Side = styled.div`
         box-shadow: var(--box-shadow);
         border-radius: var(--radius-def);
         padding: 8px;
-      }
-      > button {
-        padding: 8px;
-        min-width: 48px;
       }
     }
   }

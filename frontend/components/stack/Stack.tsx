@@ -5,10 +5,10 @@ import Bubble from './Bubble';
 type Props = {
   skill: string;
   addStack?: (skill: string) => void;
-  select?: string[];
+  stacks?: string[];
 };
 
-const Stack = ({ skill, addStack, select }: Props) => {
+const Stack = ({ skill, addStack, stacks }: Props) => {
   //모달
   const [modal, setModal] = useState(false);
 
@@ -19,7 +19,7 @@ const Stack = ({ skill, addStack, select }: Props) => {
       onClick={() => addStack && addStack(skill)}
       key={skill}
       className={
-        select && select.includes(skill) ? `focus bg-${skill}` : `bg-${skill}`
+        stacks && stacks.includes(skill) ? `focus bg-${skill}` : `bg-${skill}`
       }
     >
       {modal && <Bubble skill={skill} />}

@@ -4,7 +4,7 @@ import dynamic from 'next/dynamic';
 import { COMMUNITY_EX, POSITIONS, PROJECT_EX } from '@/constant/constant';
 import { DefaultObj } from '@/types/types';
 import { UseFormRegister } from 'react-hook-form';
-import Btn from './Btn';
+import Btn from './button/Btn';
 const Editor = dynamic(() => import('@/components/editor/Editor'), {
   ssr: false,
   loading: () => <EiditorSkeleton />,
@@ -41,20 +41,24 @@ const MainPost = ({
                 {...register('position', { value: data && data.position })}
               >
                 {POSITIONS.map((position) => (
-                  <option value={position}>{position}</option>
+                  <option key={position} value={position}>
+                    {position}
+                  </option>
                 ))}
               </select>
             </div>
           </div>
           <div>
-            <Btn>작성 완료</Btn>
+            <Btn>
+              <span>작성 완료</span>
+            </Btn>
           </div>
         </div>
         <div className="title">
           <input
             placeholder="제목을 등록해주세요."
             type="text"
-            {...(register('title'), { value: data && data.title })}
+            {...register('title', { value: data && data.title })}
           />
         </div>
         <div>

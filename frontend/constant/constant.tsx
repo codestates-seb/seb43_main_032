@@ -1,8 +1,6 @@
-// 상수 데이터들을 저장해주시면 됩니다.
-// 선언 명 예시
-// const PROJECT_DATA = []
+import { ArrObj, DefaultObj } from '@/types/types';
 
-export const STACKS_CATEGORIES: { [key: string]: string } = {
+export const STACKS_CATEGORIES: DefaultObj = {
   language: '언어',
   front: '프론트엔드',
   backend: '백엔드',
@@ -12,7 +10,7 @@ export const STACKS_CATEGORIES: { [key: string]: string } = {
   etc: '기타',
 };
 
-export const STACKS: { [key: string]: string[] }[] = [
+export const STACKS: ArrObj[] = [
   {
     language: [
       'php',
@@ -156,4 +154,25 @@ export const POSITIONS = [
   '안드로이드',
   'IOS',
   '무관',
+];
+
+//나중에 객체의 형태로 바꿔서 주소를 넣어주는 작업을 해야할 것 같음
+export const FOOTER_DATA: ArrObj = {
+  information: [
+    '1:1 문의 카카오톡 연결',
+    '상담 사이드퀘스트 운영자 연결',
+    '오픈챗 코드 7777',
+    '제휴문의 help@sideQues.com',
+    `Copyright©2023 SideQuest.All rights reserved.`,
+  ],
+  about: ['SideQuest 소개'],
+  service: ['프로젝트 등록', '프로젝트 찾기', '파트너 등록'],
+  support: ['서비스 이용약관', '개인정보처리방침', 'FAQ'],
+};
+
+export const COMMUNITY_FILTER = [
+  { value: 'sorted', label: '최신 순' },
+  { value: 'star', label: '스크랩 순' },
+  { value: 'view', label: '조회수 순' },
+  { value: 'comment', label: '댓글 순' },
 ];

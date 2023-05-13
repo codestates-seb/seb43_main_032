@@ -2,7 +2,7 @@ import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import ProjectCard from './ProjectCard';
-import { Project } from '@/types/types';
+import { Project } from '@/types/project';
 
 type Props = {
   projects: Project[];
@@ -21,8 +21,8 @@ const ProjectCarousel = ({ projects }: Props) => {
 
   return (
     <Slider {...settings}>
-      {projects.map((project, i) => (
-        <ProjectCard key={i} size={'lg'} data={project} />
+      {projects.map((project) => (
+        <ProjectCard key={project.id} size={'lg'} data={project} />
       ))}
     </Slider>
   );

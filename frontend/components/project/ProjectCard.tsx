@@ -4,8 +4,8 @@ import { AiFillHeart } from 'react-icons/ai';
 import Stack from '../stack/Stack';
 import Tag from '../Tag';
 import styled from 'styled-components';
-import { Project } from '@/types/types';
 import { useRouter } from 'next/router';
+import { Project } from '@/types/project';
 
 type Props = {
   size: string;
@@ -20,7 +20,7 @@ const ProjectCard = ({ data, size }: Props) => {
     router.push(`project/${id}`);
   };
   return (
-    <Box size={size}>
+    <Box>
       <Card
         onClick={() => viewProject(data.id)}
         width={size === 'lg' ? '416px' : '298px'}
@@ -132,18 +132,14 @@ const ProjectCard = ({ data, size }: Props) => {
 
 export default ProjectCard;
 
-type BoxProps = {
-  size: string;
-};
-
-const Box = styled.div<BoxProps>`
+const Box = styled.div`
   width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
   margin: 24px 0px;
 
-  @media (max-width: 980px) {
+  @media (max-width: 960px) {
     margin: 2px 0px;
   }
 
@@ -158,7 +154,7 @@ const Box = styled.div<BoxProps>`
     display: flex;
     justify-content: center;
     align-items: center;
-    @media (max-width: 980px) {
+    @media (max-width: 960px) {
       display: none;
     }
     > img {
