@@ -1,110 +1,50 @@
-import React, { useEffect, useRef, useState } from 'react';
-import styled, { keyframes } from 'styled-components';
-import Image from 'next/image';
 import { BannerProps } from '@/types/types';
-import BannerFirst from './BannerFirst';
-import BannerSecond from './BannerSecond';
+import Image from 'next/image';
+import React from 'react';
+import styled from 'styled-components';
+import computer from '../public/images/bannerComputer.svg';
+import dictionary from '../public/images/bannerDic.svg';
+import message from '../public/images/bannerMsg.svg';
+import right from '../public/images/circleLeft.svg';
+import left from '../public/images/circleRight.svg';
+import square from '../public/images/squareBg.svg';
 
-export default function Slider({ isScrolled }: { isScrolled: boolean }) {
-  const [width, setWidth] = useState(
-    typeof window !== 'undefined' ? window.innerWidth : 1280
-  );
-  // const [showImages, setShowImages] = useState(true);
-  // const imgContainerRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const handleResize = () =>
-      setWidth(typeof window !== 'undefined' ? window.innerWidth : 1280);
-    if (typeof window !== 'undefined') {
-      window.addEventListener('resize', handleResize);
-    }
-
-    // const timer = setTimeout(() => {
-    //   setShowImages(false);
-    // }, 3000);
-
-    return () => {
-      if (typeof window !== 'undefined') {
-        window.removeEventListener('resize', handleResize);
-      }
-      // clearTimeout(timer);
-    };
-  }, []);
-
-  // useEffect(() => {
-  //   if (!showImages && imgContainerRef.current) {
-  //     imgContainerRef.current.classList.add('fade-out');
-  //   }
-  // }, [showImages]);
-
-  const imgWidth = width < 1280 ? true : false;
-
+export default function BannerFirst({ imgWidth }: { imgWidth: boolean }) {
   return (
-    <Container isScrolled={isScrolled}>
-      {/* <BannerFirst imgWidth={imgWidth} /> */}
-      <BannerSecond imgWidth={imgWidth} />
-      {/* <ImgContainerThree
-        imgWidth={imgWidth}
-        // ref={imgContainerRef}
-        // showImg={showImages}
-      >
-        <div className="circleXL"></div>
-        <Image src={right} alt="img5" className="right"></Image>
-        <Image src={square} alt="img6" className="square"></Image>
-        <Image src={left} alt="img4" className="left"></Image>
-        <Image src={computer} alt="img1" className="computer"></Image>
-        <Image src={message} alt="img2" className="message"></Image>
-        <Image src={dictionary} alt="img3" className="dictionary"></Image>
+    <ImgContainer
+      imgWidth={imgWidth}
+      // ref={imgContainerRef}
+      // showImg={showImages}
+    >
+      <div className="circleXL"></div>
+      <Image src={right} alt="img5" className="right"></Image>
+      <Image src={square} alt="img6" className="square"></Image>
+      <Image src={left} alt="img4" className="left"></Image>
+      <Image src={computer} alt="img1" className="computer"></Image>
+      <Image src={message} alt="img2" className="message"></Image>
+      <Image src={dictionary} alt="img3" className="dictionary"></Image>
 
-        <div className="rightBox">
-          <div className="textBox">
-            <span>기획부터 개발까지</span>
-            <span>사이드퀘스트</span>
-          </div>
-          <button className="noto-regular-13">
-            <span className="text">프로젝트 함께하기</span>
-          </button>
+      <div className="rightBox">
+        <div className="textBox">
+          <span>기획부터 개발까지</span>
+          <span>사이드퀘스트</span>
         </div>
-      </ImgContainerThree> */}
-    </Container>
+        <button className="noto-regular-13">
+          <span className="text">프로젝트 함께하기</span>
+        </button>
+      </div>
+    </ImgContainer>
   );
 }
 
-const fadeOutAnimation = keyframes`
-  from {
-    opacity: 1;
-    transform: translateY(0);
-  }
-  to {
-    opacity: 0;
-    transform: translateY(30px);
-  }
-`;
-
-const Container = styled.div<BannerProps>`
-  position: relative;
-  width: 100%;
-  height: 660px;
-  background: ${(props) =>
-    props.isScrolled
-      ? 'linear-gradient(#8b67ff, #dcbbff, #f7f0ff)'
-      : 'linear-gradient(30deg, #f7f0ff, #dcbbff, #8b67ff)'};
-  transition: background 0.5s ease;
-  will-change: background;
-`;
-
-const ImgContainerThree = styled.div<BannerProps>`
+const ImgContainer = styled.div<BannerProps>`
   position: relative;
   width: ${(props) => (props.imgWidth ? '100%' : '1280px')};
   height: 100%;
   margin: 0 auto;
-  opacity: ${(props) => (props.showImg ? 1 : 0)};
+  /* opacity: ${(props) => (props.showImg ? 1 : 0)}; */
   transform: translateY(${(props) => (props.showImg ? 0 : '30px')});
   transition: opacity 0.5s ease, transform 0.5s ease;
-
-  &.fade-out {
-    animation: ${fadeOutAnimation} 0.5s forwards;
-  }
 
   > .circleXL {
     position: absolute;
