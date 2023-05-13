@@ -4,7 +4,7 @@ import { tokenLocalStorage } from '../local_storage/localStorage';
 const baseURL =
   process.env.NODE_ENV === 'production'
     ? process.env.NEXT_RESOURCE_URL
-    : 'http://localhost:3000';
+    : 'http://localhost:3000/api/';
 
 const api = axios.create({
   baseURL,
