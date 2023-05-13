@@ -95,7 +95,7 @@ export default function edit() {
               {...register('yearOfDev', {
                 pattern: {
                   value: /^[0-9]*$/,
-                  message: 'Please enter only numbers',
+                  message: 'Please input only numbers',
                 },
               })}
               placeholder={user.YEAR_OF_DEV + ''}
