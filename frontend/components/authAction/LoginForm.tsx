@@ -48,7 +48,7 @@ export default function LoginForm() {
   const { register, watch, handleSubmit } = useForm<ILoginForm>();
   console.log(watch());
   const [isLoggedIn, setIsLoggedIn] = useRecoilState(isLoggedInState);
-  const [login, { data }] = useApi('/api/users/login');
+  const [login, { data }] = useApi('/api/user/login');
   const onValid = (data: ILoginForm) => {
     console.log('valid');
     login(data);

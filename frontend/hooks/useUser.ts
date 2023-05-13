@@ -31,11 +31,11 @@ export default function useUser() {
 }
 
 async function fetchUser() {
-  const response = await axios.get('/api/users/me');
+  const response = await axios.get('/api/user/me');
   return response.data.ok;
 }
 
 async function logOut() {
-  const [logOutUser] = useApi('/api/users/logout');
+  const [logOutUser] = useApi('/api/user/logout');
   return await logOutUser;
 }

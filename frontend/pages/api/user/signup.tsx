@@ -5,7 +5,7 @@ import { NextApiRequest, NextApiResponse } from 'next';
 
 mail.setApiKey(process.env.SENDGRID_API!);
 async function handler(req: NextApiRequest, res: NextApiResponse) {
-  const { email, nickName, password } = req.body;
+  const { email, name, password } = req.body;
   console.log(process.env.SENDGRID_API!);
 
   const bcrypt = require('bcrypt');
@@ -30,7 +30,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
       user: {
         create: {
           email,
-          nickName,
+          name,
           password: hashedPassword,
         },
       },

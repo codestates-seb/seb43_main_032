@@ -32,7 +32,7 @@ export default function confirm() {
     formState: { errors },
   } = useForm<IForm>();
   const [confirm, { isLoading, data, error }] =
-    useMutation('/api/users/confirm');
+    useMutation('/api/user/confirm');
 
   const onValid = (data: IForm) => {
     console.log(data);

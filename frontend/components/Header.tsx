@@ -2,7 +2,7 @@ import Image from 'next/image';
 import { FaUserAlt } from 'react-icons/fa';
 import { FiMenu } from 'react-icons/fi';
 import Link from 'next/link';
-import { useRecoilState, useRecoilValue } from 'recoil';
+import { useRecoilState } from 'recoil';
 import styled from 'styled-components';
 import { isLoggedInState } from '@/recoil/atom';
 import { useRouter } from 'next/router';
@@ -16,7 +16,7 @@ import Slider from './Slider';
 const Header = () => {
   // const isLoggedIn = useRecoilValue(isLoggedInState);
   const [isLoggedIn, setIsLoggedIn] = useRecoilState(isLoggedInState);
-  const [logOut, { data }] = useApi('/api/users/logout');
+  const [logOut, { data }] = useApi('/api/user/logout');
 
   const router = useRouter();
 
@@ -104,7 +104,7 @@ const Header = () => {
                         <span>{name.toUpperCase()}</span>
                       </button>
                     </li>
-                  ) //LOTOUT
+                  ) //LOGOUT
               )
             : navNames.slice(6).map((name) => (
                 <li key={name}>

@@ -29,13 +29,13 @@ const ErrMsg = styled.p`
   color: teal;
 `;
 interface ISignUpForm {
-  nickName: string;
+  name: string;
   email: string;
   password: string;
   verifyPw: string;
 }
 export default function SignUpForm() {
-  const [signUp, { isLoading, data, error }] = useMutation('/api/users/signup');
+  const [signUp, { isLoading, data, error }] = useMutation('/api/user/signup');
   const {
     register,
     watch,
@@ -63,7 +63,7 @@ export default function SignUpForm() {
     <Wrapper>
       <Form onSubmit={handleSubmit(onValid, onInValid)}>
         <AuthInput //
-          register={register('nickName', {
+          register={register('name', {
             required: '닉네임을 입력해주세요',
           })}
           name="닉네임"

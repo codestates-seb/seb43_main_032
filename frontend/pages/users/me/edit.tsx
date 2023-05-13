@@ -1,6 +1,6 @@
-import useAuth from '@/hooks/useAuth';
-import { IUser } from '@/util/api/user';
-import { FieldError, FieldErrors, useForm } from 'react-hook-form';
+import { isLoggedInState } from '@/recoil/atom';
+import { FieldErrors, useForm } from 'react-hook-form';
+import { useRecoilValue } from 'recoil';
 import styled from 'styled-components';
 
 const Wrapper = styled.div`
@@ -65,7 +65,7 @@ interface ISubmit {
   [key: string]: string;
 }
 export default function edit() {
-  const user: IUser = useAuth();
+  const isLoggedIn = useRecoilValue(isLoggedInState);
   const {
     register,
     handleSubmit,
@@ -89,7 +89,7 @@ export default function edit() {
           <form onSubmit={handleSubmit(onValid, onInValid)}>
             {' '}
             <Label>UserName</Label>
-            <Input {...register('nickName')} placeholder={user.NICK_NAME} />
+            <Input {...register('name')} placeholder={user.NICK_NAME} />
             <Label>개발기간</Label>
             <Input
               {...register('yearOfDev', {
