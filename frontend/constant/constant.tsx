@@ -11,7 +11,7 @@ export const HEADER_NAV: HeaderNav = {
   community: '/community',
   project: '/project',
   users: '/users',
-  mypage: '/mypage',
+  mypage: '/users/me',
   logout: '/',
   login: '/login',
   signUp: '/signup',
