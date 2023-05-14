@@ -28,16 +28,16 @@ const CommunityCardBox = ({ title, data, skeleton }: Props) => {
 export default CommunityCardBox;
 
 const Box = styled.div`
+  margin-bottom: 28px;
   .nanum-bold {
     display: flex;
     gap: 16px;
+    margin-bottom: 48px;
   }
   .community-box {
     display: grid;
     display: flex;
     flex-direction: column;
-    margin-top: 48px;
-    margin-bottom: 28px;
     gap: 2px;
   }
 `;

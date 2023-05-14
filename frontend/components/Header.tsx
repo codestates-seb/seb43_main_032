@@ -16,7 +16,6 @@ import { HEADER_NAV } from '@/constant/constant';
 
 const Header = () => {
   const router = useRouter();
-
   //로그인
   const [isLoggedIn, setIsLoggedIn] = useRecoilState(isLoggedInState);
   const logout = () => {
@@ -152,7 +151,7 @@ const Header = () => {
           </div>
         </ModalNav>
       </Nav>
-      <Slider isScrolled={isScrolled}></Slider>
+      {router.pathname !== '/404' && <Slider isScrolled={isScrolled}></Slider>}
     </>
   );
 };
