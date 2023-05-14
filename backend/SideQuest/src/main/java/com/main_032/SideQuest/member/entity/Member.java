@@ -24,7 +24,7 @@ public class Member extends BaseEntity {
     private String password;
 
     @Column
-    private String phoneNumber;
+    private String phone;
 
     @Column
     private String aboutMe;
@@ -65,5 +65,25 @@ public class Member extends BaseEntity {
 
     public void updateRoles(List<String> roles) {
         this.roles = roles;
+    }
+
+    public void updateYearOfDev(int yearOfDev) {
+        this.yearOfDev = yearOfDev;
+    }
+
+    public void updateProfileImageUrl(String profileImageUrl) {
+        this.profileImageUrl = profileImageUrl;
+    }
+
+    public void updatePhone(String phone) {
+        this.phone = phone;
+    }
+
+    public void updateAboutMe(String aboutMe) {
+        this.aboutMe = aboutMe;
+    }
+
+    public void updatePosition(String position) {
+        this.position = position;
     }
 }
