@@ -1,7 +1,7 @@
 import GridBox from '@/components/GridBox';
 import UserCard from '@/components/user/UserCard';
 import UserSideBar from '@/components/user/UserSideBar';
-import useUser from '@/hooks/useUser';
+import useUser from '@/hooks/react-query/useUser';
 import styled from 'styled-components';
 //유저 페이지 입니다. 경로 '/user/'
 

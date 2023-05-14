@@ -1,7 +1,7 @@
 import GridBox from '@/components/GridBox';
 import InfoContainer from '@/components/user/InfoContainer';
 import UserInfoCard from '@/components/user/UserProfile';
-import useAuth from '@/hooks/useAuth';
+import useAuth from '@/hooks/react-query/useAuth';
 import { useState } from 'react';
 import styled from 'styled-components';
 
