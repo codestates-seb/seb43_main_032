@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import AuthInput from './AuthInput';
 import { useForm, FieldErrors } from 'react-hook-form';
-import useMutation from '@/hooks/useApi';
+import useApi from '@/hooks/useApi';
 import { useEffect } from 'react';
 import { useRouter } from 'next/router';
 import useUser from '@/hooks/useUser';
@@ -35,7 +35,7 @@ interface ISignUpForm {
   verifyPw: string;
 }
 export default function SignUpForm() {
-  const [signUp, { isLoading, data, error }] = useMutation('/api/user/signup');
+  const [signUp, { isLoading, data, error }] = useApi('/api/user/signup');
   const {
     register,
     watch,
@@ -52,7 +52,7 @@ export default function SignUpForm() {
   };
   const router = useRouter();
   const {
-    getLoggedInState: { data: userState },
+    getUserStatus: { data: userState },
   } = useUser();
   console.log(userState);
   useEffect(() => {

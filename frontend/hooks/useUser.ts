@@ -1,17 +1,20 @@
 import { getUserById, getUsers } from '@/util/api/user';
 import axios from 'axios';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
-import useApi from './useApi';
 
 export default function useUser() {
   const queryClient = useQueryClient();
   const userQuery = useQuery(['users'], () => getUsers(), {
     staleTime: 1000 * 60 * 5,
   });
+  const getMyInfo = useQuery(['users', 'me'], () => getMe(), {
+    staleTime: 1000 * 60 * 5,
+  });
   const getUser = (id: number) =>
     useQuery(['users', id], () => getUserById(id), {
       staleTime: 1000 * 60 * 5,
     });
+
   const getUserStatus = useQuery(['loggedIn'], () => fetchUser(), {
     staleTime: Infinity,
   });
@@ -27,13 +30,17 @@ export default function useUser() {
     getUser,
     getUserStatus,
     setUserLogOut,
+    getMyInfo,
   };
 }
 
 async function fetchUser() {
   const response = await axios.get('/api/user/status');
-  console.log('useUser', response.data);
   return response.data.ok;
+}
+async function getMe() {
+  const response = await axios.get('/api/user/me');
+  return response.data;
 }
 
 const logOut = async () => {

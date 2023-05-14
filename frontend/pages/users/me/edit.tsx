@@ -1,4 +1,5 @@
 import useApi from '@/hooks/useApi';
+import useUser from '@/hooks/useUser';
 import { useEffect } from 'react';
 import { FieldErrors, useForm } from 'react-hook-form';
 import styled from 'styled-components';
@@ -65,21 +66,26 @@ interface ISubmit {
   [key: string]: string;
 }
 export default function edit() {
-  const [getUser, { data: user, isLoading }] = useApi('/api/user/me');
+  const {
+    getMyInfo: { data: user },
+  } = useUser();
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
-  useEffect(() => {
-    getUser();
-  }, []);
+
+  const [submit, { isLoading, data }] = useApi('/api/user/edit');
+
   const onValid = (data: ISubmit) => {
     console.log(data);
+    submit(data);
   };
   const onInValid = (errors: FieldErrors) => {
     console.log(errors);
   };
+
+  // data && console.log(data);
 
   return (
     <Wrapper>

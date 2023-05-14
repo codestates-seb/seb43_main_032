@@ -2,6 +2,8 @@ import GridBox from '@/components/GridBox';
 import InfoContainer from '@/components/user/InfoContainer';
 import UserInfoCard from '@/components/user/UserProfile';
 import useApi from '@/hooks/useApi';
+import useUser from '@/hooks/useUser';
+import axios from 'axios';
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
@@ -77,12 +79,9 @@ const DummyBox2 = styled.div`
   border-radius: 10px;
 `;
 export default function me() {
-  const [getUser, { data: user, isLoading }] = useApi('/api/user/me');
-
-  useEffect(() => {
-    getUser();
-  }, []);
-  user && console.log(user);
+  const {
+    getMyInfo: { data: user },
+  } = useUser();
 
   return (
     <>
@@ -102,17 +101,14 @@ export default function me() {
                   }
                   contentNode={
                     <>
-                      <p className="nanum-bold">{user.NICK_NAME}</p>
-                      <p className="noto-regular">프론트엔드</p>
+                      <p className="nanum-bold">{user.name}</p>
+                      <p className="noto-regular">{user.roles}</p>
                     </>
                   }
                 />
               </ProfileContainer>
-              <InfoContainer
-                keyNode={'휴대전화'}
-                contentNode={user.PHONE_NUMBER}
-              />
-              <InfoContainer keyNode={'이메일'} contentNode={user.EMAIL} />
+              <InfoContainer keyNode={'휴대전화'} contentNode={user.phone} />
+              <InfoContainer keyNode={'이메일'} contentNode={user.email} />
               <InfoContainer
                 keyNode={'기술스텍'}
                 contentNode={'#react #python'}
