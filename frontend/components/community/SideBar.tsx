@@ -48,22 +48,59 @@ const Container = styled.div`
       color: #09adea;
     }
   }
-
   .frontend {
     > svg {
       color: #2af599;
     }
   }
-
   .backend {
     > svg {
       color: #f98bfe;
     }
   }
-
   .uxui {
     > svg {
       color: #4512eb;
+    }
+  }
+  .plan {
+    > svg {
+      color: #aac02f;
+    }
+  }
+  .design {
+    > svg {
+      color: #a1f36b;
+    }
+  }
+  .pm {
+    > svg {
+      color: #3acec1;
+    }
+  }
+  .businessplan {
+    > svg {
+      color: #f1da8b;
+    }
+  }
+  .marketing {
+    > svg {
+      color: #e48cb5;
+    }
+  }
+  .android {
+    > svg {
+      color: #53f8a6;
+    }
+  }
+  .ios {
+    > svg {
+      color: #c0c0c0;
+    }
+  }
+  .etc {
+    > svg {
+      color: #ff0606;
     }
   }
 

@@ -7,7 +7,12 @@ import {
   StackCategory,
   StackCategoryName,
 } from '@/types/types';
-import { AiFillAndroid, AiFillApple, AiOutlineSmallDash } from 'react-icons/ai';
+import {
+  AiFillAndroid,
+  AiFillApple,
+  AiFillCalendar,
+  AiOutlineSmallDash,
+} from 'react-icons/ai';
 import {
   FaClipboardList,
   FaDatabase,
@@ -15,8 +20,8 @@ import {
   FaHeadset,
   FaPaintBrush,
   FaQuestion,
+  FaUserCog,
 } from 'react-icons/fa';
-import { GrPlan, GrUserManager } from 'react-icons/gr';
 import { MdDesignServices } from 'react-icons/md';
 import { TbBusinessplan } from 'react-icons/tb';
 
@@ -243,7 +248,7 @@ export const COMMUNITY_CATEGORY: CommunityCategory[] = [
   {
     title: '기획',
     link: '/plan',
-    icon: <GrPlan />,
+    icon: <AiFillCalendar />,
   },
   {
     title: '디자이너',
@@ -253,7 +258,7 @@ export const COMMUNITY_CATEGORY: CommunityCategory[] = [
   {
     title: 'PM',
     link: '/pm',
-    icon: <GrUserManager />,
+    icon: <FaUserCog />,
   },
   {
     title: '사업기획',
