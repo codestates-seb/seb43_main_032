@@ -56,7 +56,15 @@ const Category = styled.div.attrs({
 `;
 
 const UserPage = () => {
-  const id = useRouter().query.id;
+  const router = useRouter();
+  const id = router.query.id;
+  useEffect(() => {
+    window.scrollTo({
+      top: 670,
+      left: 0,
+      behavior: 'smooth',
+    });
+  }, [router]);
   //서버에 유저 확인 요청
   if (!id) return 'Loading...';
 

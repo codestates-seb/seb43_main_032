@@ -2,7 +2,8 @@ import GridBox from '@/components/GridBox';
 import InfoContainer from '@/components/user/InfoContainer';
 import UserInfoCard from '@/components/user/UserProfile';
 import useAuth from '@/hooks/react-query/useAuth';
-import { useState } from 'react';
+import { useRouter } from 'next/router';
+import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
 const LeftColumn = styled.div`
@@ -78,6 +79,14 @@ const DummyBox2 = styled.div`
 `;
 export default function me() {
   const user = useAuth();
+  const router = useRouter();
+  useEffect(() => {
+    window.scrollTo({
+      top: 670,
+      left: 0,
+      behavior: 'smooth',
+    });
+  }, [router]);
 
   return (
     <>

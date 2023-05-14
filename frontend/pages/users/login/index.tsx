@@ -1,5 +1,7 @@
 import styled from 'styled-components';
 import AuthContainer from '@/components/authAction/AuthContainer';
+import { useRouter } from 'next/router';
+import { useEffect } from 'react';
 
 //로그인 페이지 입니다. 경로 '/user/login/'
 const Wrapper = styled.div`
@@ -46,6 +48,14 @@ const ImgBox = styled.div`
   align-items: center;
 `;
 const Login = () => {
+  const router = useRouter();
+  useEffect(() => {
+    window.scrollTo({
+      top: 670,
+      left: 0,
+      behavior: 'smooth',
+    });
+  }, [router]);
   return (
     <Wrapper>
       <WrapperInset>
