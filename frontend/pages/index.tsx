@@ -8,7 +8,7 @@ import { useCommunity } from '@/hooks/react-query/useCommunity';
 import ProjectCardBox from '@/components/card_box/ProjectCardBox';
 import CommunityCardBox from '@/components/card_box/CommunityCardBox';
 import ProjectSkeleton from '@/components/skeleton/ProjectSkeleton';
-import HomeCommunitySkeleton from '@/components/skeleton/HomeCommunitySkeleton';
+import CommunityItemSkeleton from '@/components/skeleton/CommunityItemSkeleton';
 
 const Home = () => {
   //프로젝트 데이터
@@ -42,7 +42,9 @@ const Home = () => {
         title={'인기 프로젝트'}
       />
       <CommunityCardBox
-        skeleton={communityQuery.isLoading && <HomeCommunitySkeleton />}
+        skeleton={
+          communityQuery.isLoading && <CommunityItemSkeleton count={5} />
+        }
         data={communityData}
         title={'인기 커뮤니티'}
       />
