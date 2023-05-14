@@ -1,7 +1,9 @@
 import useApi from '@/hooks/useApi';
 import useUser from '@/hooks/useUser';
+import { IUSerEdit } from '@/pages/api/user/edit';
 import { useEffect } from 'react';
 import { FieldErrors, useForm } from 'react-hook-form';
+import { useQueryClient } from 'react-query';
 import styled from 'styled-components';
 
 const Wrapper = styled.div`
@@ -66,6 +68,7 @@ interface ISubmit {
   [key: string]: string;
 }
 export default function edit() {
+  const queryClient = useQueryClient();
   const {
     getMyInfo: { data: user },
   } = useUser();
@@ -78,14 +81,17 @@ export default function edit() {
   const [submit, { isLoading, data }] = useApi('/api/user/edit');
 
   const onValid = (data: ISubmit) => {
-    console.log(data);
     submit(data);
   };
   const onInValid = (errors: FieldErrors) => {
     console.log(errors);
   };
 
-  // data && console.log(data);
+  useEffect(() => {
+    if (data && data.ok) {
+      queryClient.invalidateQueries(['users', 'me']);
+    }
+  }, [data]);
 
   return (
     <Wrapper>
@@ -110,7 +116,7 @@ export default function edit() {
               placeholder={user.yearOfDev + ''}
             />
             <Label>Phone</Label>
-            <Input {...register('phoneNumber')} placeholder={user.phone} />
+            <Input {...register('phone')} placeholder={user.phone} />
             <Label>Email</Label>
             <Input {...register('email')} placeholder={user.email} />
             <Label>About Me</Label>

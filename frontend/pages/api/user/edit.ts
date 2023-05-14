@@ -24,6 +24,8 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
       position,
       aboutMe,
       stacks,
+      phone,
+      email,
       roles,
       totalStar,
     },
@@ -41,6 +43,8 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
     ...(aboutMe ? { aboutMe } : {}),
     ...(stacks ? { stacks } : {}),
     ...(roles ? { roles } : {}),
+    ...(phone ? { phone } : {}),
+    ...(email ? { email } : {}),
     ...(totalStar ? { totalStar } : {}),
   };
 
@@ -66,3 +70,21 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
   res.status(200).json({ ok: true, updatedUser });
 }
 export default withSession(withHandler({ method: 'POST', handler }));
+
+interface IUpdatedUser {
+  id: number;
+  name: string;
+  profileImageUrl: string;
+  location: string;
+  yearOfDev: number;
+  position: string;
+  aboutMe: string;
+  stacks: string;
+  roles: string;
+  totalStar: number;
+}
+
+export interface IUSerEdit {
+  ok: boolean;
+  updatedUser: IUpdatedUser;
+}
