@@ -1,4 +1,4 @@
-import useAuth from '@/hooks/useAuth';
+import useAuth from '@/hooks/react-query/useAuth';
 import { IUser } from '@/util/api/user';
 import { FieldError, FieldErrors, useForm } from 'react-hook-form';
 import styled from 'styled-components';

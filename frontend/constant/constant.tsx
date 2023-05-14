@@ -1,6 +1,23 @@
-import { ArrObj, DefaultObj } from '@/types/types';
+import {
+  CommunityFilter,
+  FooterCategory,
+  HeaderNav,
+  ProjectFilter,
+  StackCategory,
+  StackCategoryName,
+} from '@/types/types';
 
-export const STACKS_CATEGORIES: DefaultObj = {
+export const HEADER_NAV: HeaderNav = {
+  community: '/community',
+  project: '/project',
+  users: '/users',
+  mypage: '/users/me',
+  logout: '/',
+  login: '/login',
+  signUp: '/signup',
+};
+
+export const STACKS_CATEGORIES: StackCategoryName = {
   language: '언어',
   front: '프론트엔드',
   backend: '백엔드',
@@ -10,7 +27,7 @@ export const STACKS_CATEGORIES: DefaultObj = {
   etc: '기타',
 };
 
-export const STACKS: ArrObj[] = [
+export const STACKS: StackCategory[] = [
   {
     language: [
       'php',
@@ -157,7 +174,7 @@ export const POSITIONS = [
 ];
 
 //나중에 객체의 형태로 바꿔서 주소를 넣어주는 작업을 해야할 것 같음
-export const FOOTER_DATA: ArrObj = {
+export const FOOTER_DATA: FooterCategory = {
   information: [
     '1:1 문의 카카오톡 연결',
     '상담 사이드퀘스트 운영자 연결',
@@ -170,14 +187,14 @@ export const FOOTER_DATA: ArrObj = {
   support: ['서비스 이용약관', '개인정보처리방침', 'FAQ'],
 };
 
-export const COMMUNITY_FILTER = [
+export const COMMUNITY_FILTER: CommunityFilter[] = [
   { value: 'sorted', label: '최신 순' },
   { value: 'star', label: '스크랩 순' },
   { value: 'view', label: '조회수 순' },
   { value: 'comment', label: '댓글 순' },
 ];
 
-export const PROJECT_FILTER: DefaultObj = {
+export const PROJECT_FILTER: ProjectFilter = {
   '최신 순': '',
   '오래된 순': 'old',
   '조회 순': 'view',
