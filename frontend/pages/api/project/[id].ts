@@ -1,10 +1,10 @@
 import { POST_STATE, PROJECTS } from '@/datas/project';
-import { NextApiRequest, NextApiResponse, NextApiHandler } from 'next';
+import { NextApiRequest, NextApiResponse } from 'next';
 import bodyParser from 'body-parser';
 const jsonParser = bodyParser.json();
 
 //post_state 관련 보완 필요함
-const handler: NextApiHandler = (req: NextApiRequest, res: NextApiResponse) => {
+const handler = (req: NextApiRequest, res: NextApiResponse) => {
   const { id } = req.query;
   const idNum = Number(id);
   if (req.method === 'PUT') {
@@ -20,6 +20,5 @@ const handler: NextApiHandler = (req: NextApiRequest, res: NextApiResponse) => {
   return res.status(200).json({ post_data, post_state });
 };
 
-export default (req: NextApiRequest, res: NextApiResponse) => {
+export default (req: NextApiRequest, res: NextApiResponse) =>
   jsonParser(req, res, () => handler(req, res));
-};
