@@ -162,9 +162,4 @@ export const communityHandler = [
     const data = community.find((project) => project.id === Number(id));
     return res(ctx.status(200), ctx.json({ data }));
   }),
-
-  rest.post('/community/create/', async (req, res, ctx) => {
-    const id = community.length + 1;
-    const data = await req.json();
-  }),
 ];
