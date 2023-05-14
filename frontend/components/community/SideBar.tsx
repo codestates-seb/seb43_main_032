@@ -15,27 +15,27 @@ export default function SideBar() {
     () => [
       {
         title: '질문하기',
-        link: '/community/create',
+        link: 'create',
         icon: <FaQuestion className="questions" color="#8216f5" />,
       },
       {
         title: '전체보기',
-        link: '/community',
+        link: '',
         icon: <FaClipboardList />,
       },
       {
         title: '프론트엔드',
-        link: '/community/frontend',
+        link: 'frontend',
         icon: <FaDesktop />,
       },
       {
         title: '백엔드',
-        link: '/community/backend',
+        link: 'backend',
         icon: <FaDatabase />,
       },
       {
         title: 'UX/UI',
-        link: '/community/uxui',
+        link: 'uxui',
         icon: <FaPaintBrush />,
       },
     ],
@@ -49,12 +49,12 @@ export default function SideBar() {
           <li
             key={item.title}
             onClick={() => {
-              router.push(item.link);
+              router.push(`/community/${item.link}`);
             }}
           >
             <span
               className={
-                router.asPath === item.link
+                router.asPath === `/community/${item.link}`
                   ? router.asPath === '/community'
                     ? 'icon all'
                     : `icon ${router.query.category}`
