@@ -1,4 +1,5 @@
 import {
+  CommunityCategory,
   CommunityFilter,
   FooterCategory,
   HeaderNav,
@@ -6,6 +7,18 @@ import {
   StackCategory,
   StackCategoryName,
 } from '@/types/types';
+import { AiFillAndroid, AiFillApple, AiOutlineSmallDash } from 'react-icons/ai';
+import {
+  FaClipboardList,
+  FaDatabase,
+  FaDesktop,
+  FaHeadset,
+  FaPaintBrush,
+  FaQuestion,
+} from 'react-icons/fa';
+import { GrPlan, GrUserManager } from 'react-icons/gr';
+import { MdDesignServices } from 'react-icons/md';
+import { TbBusinessplan } from 'react-icons/tb';
 
 export const HEADER_NAV: HeaderNav = {
   community: '/community',
@@ -200,3 +213,71 @@ export const PROJECT_FILTER: ProjectFilter = {
   '조회 순': 'view',
   '찜 순': 'heart',
 };
+
+export const COMMUNITY_CATEGORY: CommunityCategory[] = [
+  {
+    title: '질문하기',
+    link: '/create',
+    icon: <FaQuestion className="questions" color="#8216f5" />,
+  },
+  {
+    title: '전체보기',
+    link: '',
+    icon: <FaClipboardList />,
+  },
+  {
+    title: '프론트엔드',
+    link: '/frontend',
+    icon: <FaDesktop />,
+  },
+  {
+    title: '백엔드',
+    link: '/backend',
+    icon: <FaDatabase />,
+  },
+  {
+    title: 'UX/UI',
+    link: '/uxui',
+    icon: <FaPaintBrush />,
+  },
+  {
+    title: '기획',
+    link: '/plan',
+    icon: <GrPlan />,
+  },
+  {
+    title: '디자이너',
+    link: '/design',
+    icon: <MdDesignServices />,
+  },
+  {
+    title: 'PM',
+    link: '/pm',
+    icon: <GrUserManager />,
+  },
+  {
+    title: '사업기획',
+    link: '/businessplan',
+    icon: <TbBusinessplan />,
+  },
+  {
+    title: '마케팅',
+    link: '/marketing',
+    icon: <FaHeadset />,
+  },
+  {
+    title: '안드로이드',
+    link: '/android',
+    icon: <AiFillAndroid />,
+  },
+  {
+    title: 'IOS',
+    link: '/ios',
+    icon: <AiFillApple />,
+  },
+  {
+    title: '기타',
+    link: '/etc',
+    icon: <AiOutlineSmallDash />,
+  },
+];

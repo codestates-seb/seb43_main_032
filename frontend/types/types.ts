@@ -17,3 +17,9 @@ export interface StackCategory {
 }
 
 export interface FooterCategory extends StackCategory {}
+
+export type CommunityCategory = {
+  title: string;
+  link: string;
+  icon: JSX.Element;
+};
