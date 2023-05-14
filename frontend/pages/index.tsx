@@ -7,6 +7,8 @@ import { Community } from '@/types/community';
 import { useCommunity } from '@/hooks/react-query/useCommunity';
 import ProjectCardBox from '@/components/card_box/ProjectCardBox';
 import CommunityCardBox from '@/components/card_box/CommunityCardBox';
+import ProjectSkeleton from '@/components/skeleton/ProjectSkeleton';
+import HomeCommunitySkeleton from '@/components/skeleton/HomeCommunitySkeleton';
 
 const Home = () => {
   //프로젝트 데이터
@@ -34,9 +36,21 @@ const Home = () => {
   if (!projectData || !communityData) return;
   return (
     <Box>
-      <ProjectCardBox data={projectData} title={'인기 프로젝트'} />
-      <CommunityCardBox data={communityData} title={'인기 커뮤니티'} />
-      <ProjectCardBox data={projectData} title={'종료 프로젝트'} />
+      <ProjectCardBox
+        skeleton={isLoading && <ProjectSkeleton />}
+        data={projectData}
+        title={'인기 프로젝트'}
+      />
+      <CommunityCardBox
+        skeleton={communityQuery.isLoading && <HomeCommunitySkeleton />}
+        data={communityData}
+        title={'인기 커뮤니티'}
+      />
+      <ProjectCardBox
+        skeleton={isLoading && <ProjectSkeleton />}
+        data={projectData}
+        title={'종료 프로젝트'}
+      />
     </Box>
   );
 };
