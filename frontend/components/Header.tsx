@@ -12,7 +12,7 @@ import logoWhite from '../public/images/logoSymbolWhite.svg';
 import Slider from './Slider';
 import Btn from './button/Btn';
 import { useOffResize } from '@/hooks/useOffResize';
-import { navArr } from '@/constant/constant';
+import { HEADER_NAV } from '@/constant/constant';
 
 const Header = () => {
   const router = useRouter();
@@ -24,7 +24,7 @@ const Header = () => {
   };
 
   //네비 이름 배열
-  const navNames = useMemo(() => Object.keys(navArr), []);
+  const navNames = useMemo(() => Object.keys(HEADER_NAV), []);
 
   //스크롤 높이 상태
   const [isScrolled, setIsScrolled] = useState(false);
@@ -49,7 +49,7 @@ const Header = () => {
   //모달 네비
   const [nav, setNav] = useState(false);
   const moveNav = (name: string) => {
-    router.push(navArr[name]);
+    router.push(HEADER_NAV[name]);
     setNav(false);
   };
   const navHandler = () => {
@@ -74,7 +74,7 @@ const Header = () => {
           {navNames.slice(0, 3).map((name) => (
             <li key={name}>
               <a
-                onClick={() => router.push(navArr[name])}
+                onClick={() => router.push(HEADER_NAV[name])}
                 className="noto-regular-12 sub-btn"
               >
                 <span className="sub-btn-top">{name.toUpperCase()}</span>
@@ -85,14 +85,14 @@ const Header = () => {
             ? navNames.slice(3, 5).map((name) =>
                 name === 'mypage' ? (
                   <li key={name}>
-                    <Link href={navArr[name]}>
+                    <Link href={HEADER_NAV[name]}>
                       <FaUserAlt size={20} />
                     </Link>
                   </li>
                 ) : (
                   <li key={name}>
                     <Link
-                      href={navArr[name]}
+                      href={HEADER_NAV[name]}
                       className="noto-regular-12 main-btn"
                     >
                       <span>{name.toUpperCase()}</span>
@@ -103,7 +103,7 @@ const Header = () => {
             : navNames.slice(5).map((name) => (
                 <li key={name}>
                   <Link
-                    href={`/users${navArr[name]}`}
+                    href={`/users${HEADER_NAV[name]}`}
                     className="nanum-regular main-btn"
                   >
                     <span>{name.toUpperCase()}</span>

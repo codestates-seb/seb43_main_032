@@ -7,7 +7,7 @@ import {
   StackCategoryName,
 } from '@/types/types';
 
-export const navArr: HeaderNav = {
+export const HEADER_NAV: HeaderNav = {
   community: '/community',
   project: '/project',
   users: '/users',
