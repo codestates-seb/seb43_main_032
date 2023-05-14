@@ -29,7 +29,7 @@ const ProjectCardBox = ({ title, data, skeleton, children }: Props) => {
 export default ProjectCardBox;
 
 const Box = styled.div`
-  .nanum-bold {
+  > .nanum-bold {
     display: flex;
     gap: 16px;
   }
