@@ -4,6 +4,8 @@ export interface StackCategoryName {
   [key: string]: string;
 }
 
+export interface HeaderNav extends StackCategoryName {}
+
 export interface Form extends StackCategoryName {}
 
 export interface ProjectFilter extends StackCategoryName {}

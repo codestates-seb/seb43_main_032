@@ -2,17 +2,17 @@ import Image from 'next/image';
 import { FaUserAlt } from 'react-icons/fa';
 import { FiMenu } from 'react-icons/fi';
 import Link from 'next/link';
-import { useRecoilState, useRecoilValue } from 'recoil';
+import { useRecoilState } from 'recoil';
 import styled from 'styled-components';
 import { isLoggedInState } from '@/recoil/atom';
 import { useRouter } from 'next/router';
 import { useEffect, useMemo, useState } from 'react';
-import { DefaultObj } from '@/types/types';
 import logo from '../public/images/logo.svg';
 import logoWhite from '../public/images/logoSymbolWhite.svg';
 import Slider from './Slider';
 import Btn from './button/Btn';
 import { useOffResize } from '@/hooks/useOffResize';
+import { navArr } from '@/constant/constant';
 
 const Header = () => {
   const router = useRouter();
@@ -21,17 +21,6 @@ const Header = () => {
   const [isLoggedIn, setIsLoggedIn] = useRecoilState(isLoggedInState);
   const logout = () => {
     setIsLoggedIn(false);
-  };
-
-  //네비
-  const navArr: DefaultObj = {
-    community: '/community',
-    project: '/project',
-    users: '/users',
-    mypage: '/mypage',
-    logout: '/',
-    login: '/login',
-    signUp: '/signup',
   };
 
   //네비 이름 배열

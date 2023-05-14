@@ -1,10 +1,21 @@
 import {
   CommunityFilter,
   FooterCategory,
+  HeaderNav,
   ProjectFilter,
   StackCategory,
   StackCategoryName,
 } from '@/types/types';
+
+export const navArr: HeaderNav = {
+  community: '/community',
+  project: '/project',
+  users: '/users',
+  mypage: '/mypage',
+  logout: '/',
+  login: '/login',
+  signUp: '/signup',
+};
 
 export const STACKS_CATEGORIES: StackCategoryName = {
   language: '언어',
