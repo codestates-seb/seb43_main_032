@@ -10,7 +10,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { DefaultObj } from '@/types/types';
 import logo from '../public/images/logo.svg';
 import logoWhite from '../public/images/logoSymbolWhite.svg';
-import Slider from './Slider';
+import BannerSlider from './BannerSlider';
 
 const Header = () => {
   const isLoggedIn = useRecoilValue(isLoggedInState);
@@ -100,7 +100,7 @@ const Header = () => {
               ))}
         </NavMenu>
       </Nav>
-      <Slider isScrolled={isScrolled}></Slider>
+      <BannerSlider isScrolled={isScrolled}></BannerSlider>
     </>
   );
 };
