@@ -26,7 +26,7 @@ export interface IUser {
   NICK_NAME: string;
   ABOUT_ME: string;
   YEAR_OF_DEV: number;
-  CREACTED_AT?: string;
+  CREACTED_AT: string;
   UPDATED_AT: string;
   DELETED: string;
   PHONE_NUMBER: string;

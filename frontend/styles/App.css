@@ -16,13 +16,6 @@ body {
   font-size: 10px;
 }
 
-#__next{
-  display: flex;
-  flex-direction: column;
-}
-
-
-
 a {
   text-decoration: none;
   color: inherit;

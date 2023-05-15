@@ -11,8 +11,6 @@ import ProjectCardBox from '@/components/card_box/ProjectCardBox';
 import CommunityCardBox from '@/components/card_box/CommunityCardBox';
 import ProjectSkeleton from '@/components/skeleton/ProjectSkeleton';
 import CommunityItemSkeleton from '@/components/skeleton/CommunityItemSkeleton';
-import { PROJECTS } from '@/dummy/project';
-import { COMMUNITY } from '@/dummy/community';
 
 const Home = () => {
   const [isModal, setIsModal] = useState(false);
@@ -34,8 +32,8 @@ const Home = () => {
     address,
     queryKey,
   });
-  const projectData = PROJECTS.slice(0, 4);
-  const communityData = COMMUNITY.slice(0, 5);
+  const projectData = data?.data;
+  const communityData = communityQuery.data?.data;
 
   if (isLoading) return <Message>로딩중입니다.</Message>;
   if (error) return <Message>잠시 후 다시 시도해주세요.</Message>;
