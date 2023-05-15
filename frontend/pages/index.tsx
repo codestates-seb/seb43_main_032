@@ -52,17 +52,17 @@ const Home = () => {
         data={projectData}
         title={'인기 프로젝트'}
       />
+      <ProjectCardBox
+        skeleton={isLoading && <ProjectSkeleton />}
+        data={projectData}
+        title={'종료 프로젝트'}
+      />
       <CommunityCardBox
         skeleton={
           communityQuery.isLoading && <CommunityItemSkeleton count={5} />
         }
         data={communityData}
         title={'인기 커뮤니티'}
-      />
-      <ProjectCardBox
-        skeleton={isLoading && <ProjectSkeleton />}
-        data={projectData}
-        title={'종료 프로젝트'}
       />
       <FcSms size={70} onClick={() => setIsModal(true)} className="icon" />
       {isModal ? <Modal setIsModal={setIsModal} /> : null}
