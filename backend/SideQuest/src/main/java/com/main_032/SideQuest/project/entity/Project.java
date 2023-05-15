@@ -109,5 +109,9 @@ public class Project extends BaseEntity {
     public void updateProAcceptedCrew(List<ProAcceptedCrew> proAcceptedCrewList) {
         this.proAcceptedCrewList = proAcceptedCrewList;
     }
+
+    public void updateDeleted(boolean deleted) {
+        this.deleted = deleted;
+    }
 }
 

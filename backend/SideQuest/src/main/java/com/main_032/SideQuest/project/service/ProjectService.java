@@ -97,7 +97,7 @@ public class ProjectService {
     }
 
     public MultiResponseDto<ProjectGetResponseDto> getAllProjects(int page, int size) {
-        Page<Project> projectPage = projectRepository.findAll(PageRequest.of(page, size, Sort.by("id").descending()));
+        Page<Project> projectPage = projectRepository.findAllProject(PageRequest.of(page, size, Sort.by("id").descending()));
         List<Project> projectList = projectPage.getContent();
         List<ProjectGetResponseDto> projectGetResponseDtoList = new ArrayList<>();
         for (int i = 0; i < projectList.size(); i++) {
@@ -111,5 +111,16 @@ public class ProjectService {
         }
         MultiResponseDto<ProjectGetResponseDto> multiResponseDto = new MultiResponseDto<>(projectGetResponseDtoList, projectPage);
         return multiResponseDto;
+    }
+
+    @Transactional
+    public void deleteProject(Long projectId) {
+        Optional<Project> findProject = projectRepository.findById(projectId);
+        findProject.orElseThrow(() -> new BusinessLogicException(ExceptionCode.PROJECT_NOT_FOUND));
+        Project project = findProject.get();
+
+        project.updateDeleted(true);
+        projectRepository.save(project);
+        return;
     }
 }

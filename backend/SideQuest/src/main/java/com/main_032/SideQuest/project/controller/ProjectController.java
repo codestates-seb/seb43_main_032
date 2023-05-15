@@ -54,4 +54,12 @@ public class ProjectController {
         ResponseEntity<MultiResponseDto<ProjectGetResponseDto>> responseEntity = new ResponseEntity<>(multiResponseDto, HttpStatus.OK);
         return responseEntity;
     }
+
+    @ApiOperation(value = "프로젝트 삭제")
+    @DeleteMapping("/project/{projectId}")
+    public ResponseEntity<Void> deleteProject(@PathVariable(name = "projectId") Long projectId) {
+        projectService.deleteProject(projectId);
+        ResponseEntity responseEntity = new ResponseEntity(HttpStatus.OK);
+        return responseEntity;
+    }
 }
