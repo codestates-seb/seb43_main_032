@@ -3,7 +3,11 @@ import styled from 'styled-components';
 import { useQuery } from 'react-query';
 import { api } from '@/util/api';
 import ProjectCardbox from '@/components/project/ProjectCardbox';
-import { Project } from '@/types/types';
+import Message from '@/components/Message';
+import { FcSms } from 'react-icons/fc';
+import { useState } from 'react';
+import { Modal } from '@/components/Modal';
+import { Project } from '@/types/project';
 
 // const Banner = styled.div`
 //   width: 100%;
@@ -14,11 +18,10 @@ import { Project } from '@/types/types';
 const Box = styled.div`
   width: 100%;
   padding: var(--padding-2);
-  > div {
-  }
 `;
 
 const Home = () => {
+  const [isModal, setIsModal] = useState(false);
   // useQuery를 사용하여 데이터 fetch
   const { data, isLoading, error } = useQuery<
     {
@@ -32,17 +35,17 @@ const Home = () => {
   if (isLoading) return <Message>로딩중입니다.</Message>;
   if (error) return <Message>잠시 후 다시 시도해주세요.</Message>;
   if (!data) return;
+
   return (
-    <Box>
-      <ProjectCardbox data={data.data} title={'주목할만한 프로젝트'} />
-      <ProjectCardbox data={data.data} title={'프로젝트 자랑하기'} />
-    </Box>
+    <>
+      <Box>
+        <ProjectCardbox data={data.data} title={'주목할만한 프로젝트'} />
+        <ProjectCardbox data={data.data} title={'프로젝트 자랑하기'} />
+        <FcSms size={70} onClick={() => setIsModal(true)} className="icon" />
+        {isModal ? <Modal setIsModal={setIsModal} /> : null}
+      </Box>
+    </>
   );
 };
 
 export default Home;
-
-const Box = styled.div`
-  width: 100%;
-  padding: var(--padding-2);
-`;
