@@ -13,14 +13,17 @@ export default Tag;
 const TagBox = styled.div<Props>`
   background-color: ${(props) =>
     props.children === '취소' || props.children === '마감'
-      ? '#f8baba'
-      : '#d9d9d9'};
-  padding: 5px;
-  border-radius: var(--radius-sm);
+      ? '#5b24ff'
+      : '#865DFF'};
+  padding: 5px 3px;
+  border-radius: 10px;
   min-width: 48px;
   text-align: center;
+  color: white;
+  font-size: 12px;
+  font-weight: 400 !important;
   :hover {
     background-color: ${(props) =>
-      props.children === '마감' ? '' : '#e1e7e5'};
+      props.children === '마감' ? '' : '#5b24ff'};
   }
 `;
