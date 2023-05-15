@@ -1,5 +1,6 @@
 package com.main_032.SideQuest.project.entity;
 
+import com.main_032.SideQuest.community.entity.entity.Comment;
 import com.main_032.SideQuest.member.entity.Member;
 import com.main_032.SideQuest.util.entity.BaseEntity;
 import lombok.Getter;
@@ -53,6 +54,10 @@ public class Project extends BaseEntity {
 
     @Column(columnDefinition = "TINYINT")
     private boolean deleted;
+
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "PROJECT_ID")
+    private List<Comment> commentList = new ArrayList<>();
 
 
     public Project(String title,
