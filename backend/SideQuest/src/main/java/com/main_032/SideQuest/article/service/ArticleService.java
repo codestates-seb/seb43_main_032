@@ -61,6 +61,8 @@ public class ArticleService {
     public SingleResponseDto<ArticleGetResponseDto> getArticle(Long articleId){
         Optional<Article> findArticle =verifyExistArticle(articleId);
         Article article = findArticle.get();
+        article.updateArticleViews(article.getViews()+1);
+        articleRepository.save(article);
         List<ArticleTechStack> articleTechStackList = articleTechStackService.getAllarticleTechStackList(article.getId());
         List<ArticleTechStackResponseDto> articleTechStackResponseDtoList =
                 mapper.articleTechStackListToArticleTechStackResponseDtoList(articleTechStackList);
@@ -68,39 +70,39 @@ public class ArticleService {
         SingleResponseDto<ArticleGetResponseDto> singleResponseDto = new SingleResponseDto<ArticleGetResponseDto>(response);
         return singleResponseDto;
     }
-    public MultiResponseDto<ArticleResponseDto> findAllArticle(int page, int size){
+    public MultiResponseDto<ArticleGetResponseDto> findAllArticle(int page, int size){
         Page<Article> articlePage = articleRepository.findAllArticlePage(PageRequest.of(page,size, Sort.by("id").descending()));
         List<Article> articleList = articlePage.getContent();
-        List<ArticleResponseDto> articleResponseDtoList = new ArrayList<>();
+        List<ArticleGetResponseDto> articleResponseDtoList = new ArrayList<>();
         for(Article article:articleList){
             List<ArticleTechStack> articleTechStackList = articleTechStackService.getAllarticleTechStackList(article.getId());
             List<ArticleTechStackResponseDto> articleTechStackResponseDtoList =
                     mapper.articleTechStackListToArticleTechStackResponseDtoList(articleTechStackList);
-            ArticleResponseDto articleResponseDto = mapper.articleToArticleResponseDto(article,articleTechStackResponseDtoList);
-            articleResponseDtoList.add(articleResponseDto);
+            ArticleGetResponseDto response = mapper.articleToArticleGetResponseDto(article,articleTechStackResponseDtoList);
+            articleResponseDtoList.add(response);
         }
-        MultiResponseDto<ArticleResponseDto> multiResponseDto =new MultiResponseDto(articleResponseDtoList, articlePage);
+        MultiResponseDto<ArticleGetResponseDto> multiResponseDto =new MultiResponseDto(articleResponseDtoList, articlePage);
         return multiResponseDto;
     }
-    public MultiResponseDto<ArticleResponseDto> searchArticle(String searchWord,int page, int size){
+    public MultiResponseDto<ArticleGetResponseDto> searchArticle(String searchWord,int page, int size){
         Page<Article> articlePage= articleRepository.findSearchListArticle(searchWord,PageRequest.of(page,size, Sort.by("id").descending()));
         List<Article> articleList = articlePage.getContent();
-        List<ArticleResponseDto> articleResponseDtoList = new ArrayList<>();
+        List<ArticleGetResponseDto> articleResponseDtoList = new ArrayList<>();
         for(Article article:articleList){
             List<ArticleTechStack> articleTechStackList = articleTechStackService.getAllarticleTechStackList(article.getId());
             List<ArticleTechStackResponseDto> articleTechStackResponseDtoList =
                     mapper.articleTechStackListToArticleTechStackResponseDtoList(articleTechStackList);
-            ArticleResponseDto articleResponseDto = mapper.articleToArticleResponseDto(article,articleTechStackResponseDtoList);
-            articleResponseDtoList.add(articleResponseDto);
+            ArticleGetResponseDto response = mapper.articleToArticleGetResponseDto(article,articleTechStackResponseDtoList);
+            articleResponseDtoList.add(response);
         }
-        MultiResponseDto<ArticleResponseDto> multiResponseDto = new MultiResponseDto<ArticleResponseDto>(articleResponseDtoList,articlePage);
+        MultiResponseDto<ArticleGetResponseDto> multiResponseDto =new MultiResponseDto(articleResponseDtoList, articlePage);
         return multiResponseDto;
     }
-    public void deleteArticle(Long articleId, ArticleDeleteDto articledeleteDto){
+    public void deleteArticle(Long articleId){
         Optional<Article> findArticle = verifyExistArticle(articleId);
         matchMemberID(findArticle);
         Article deleteArticle = findArticle.get();
-        deleteArticle.updateDeleted(articledeleteDto.isDeleted());
+        deleteArticle.delete();
         articleRepository.save(deleteArticle);
     }
 

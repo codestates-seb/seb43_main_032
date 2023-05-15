@@ -45,27 +45,26 @@ public class ArticleController {
     //게시글 목록 조회
     @ApiOperation(value = "게시글 목록 조회")
     @GetMapping("/allArticles")
-    public ResponseEntity<MultiResponseDto<ArticleResponseDto>> getAllArticle(
+    public ResponseEntity<MultiResponseDto<ArticleGetResponseDto>> getAllArticle(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "8") int size){
-        MultiResponseDto<ArticleResponseDto> articlePage = articleService.findAllArticle(page,size);
+        MultiResponseDto<ArticleGetResponseDto> articlePage = articleService.findAllArticle(page,size);
         return ResponseEntity.ok(articlePage);
     }
     @ApiOperation(value = "search Article")
     @GetMapping("/search")
-    public ResponseEntity<MultiResponseDto<ArticleResponseDto>> searchArticle(
+    public ResponseEntity<MultiResponseDto<ArticleGetResponseDto>> searchArticle(
     @RequestParam String searchWord,
     @RequestParam(defaultValue = "0") int page,
     @RequestParam(defaultValue = "8") int size){
-        MultiResponseDto<ArticleResponseDto> articlePage = articleService.searchArticle(searchWord,page,size);
+        MultiResponseDto<ArticleGetResponseDto> articlePage = articleService.searchArticle(searchWord,page,size);
         return ResponseEntity.ok(articlePage);
     }
     //게시글 삭제
     @ApiOperation(value = "delete Article")
     @DeleteMapping("/deleted/{articleId}")
-    public ResponseEntity deleteArticle(@PathVariable("articleId") Long articleId,
-                                                                               @RequestBody ArticleDeleteDto articledeleteDto){
-        articleService.deleteArticle(articleId,articledeleteDto);
+    public ResponseEntity deleteArticle(@PathVariable("articleId") Long articleId){
+        articleService.deleteArticle(articleId);
 
         return ResponseEntity.ok().build();
     }
