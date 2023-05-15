@@ -23,7 +23,7 @@ public class MemberController {
     }
 
     @ApiOperation(value = "회원 가입") //회원가입
-    @PostMapping("/signup")
+    @PostMapping("/member/signup")
     public ResponseEntity<Void> signup(@RequestBody MemberPostDto memberPostDto) {
         memberService.signup(memberPostDto);
         ResponseEntity responseEntity = new ResponseEntity(HttpStatus.OK);
@@ -32,7 +32,7 @@ public class MemberController {
 
     // Swagger API 뽑아내기용 함수
     @ApiOperation(value = "로그인")
-    @PostMapping("/login")
+    @PostMapping("/member/login")
     @ResponseStatus(HttpStatus.OK)
     public LoginResponseDto login(@RequestBody LoginPostDto loginPostDto) {
         LoginResponseDto loginResponseDto = new LoginResponseDto();
@@ -40,15 +40,23 @@ public class MemberController {
     }
 
     @ApiOperation(value = "로그인 멤버 정보 조회")
-    @GetMapping("/member")
+    @GetMapping("/member/info")
     public ResponseEntity<SingleResponseDto<GetMemberResponseDto>> getLoginMemberInfo() {
         SingleResponseDto<GetMemberResponseDto> singleResponseDto = memberService.getLoginMemberInfo();
-        ResponseEntity responseEntity = new ResponseEntity<SingleResponseDto<GetMemberResponseDto>>(singleResponseDto, HttpStatus.OK);
+        ResponseEntity responseEntity = new ResponseEntity<>(singleResponseDto, HttpStatus.OK);
+        return responseEntity;
+    }
+
+    @ApiOperation(value = "다른 회원 정보 조회")
+    @GetMapping("/member/info/{memberId}")
+    public ResponseEntity<SingleResponseDto<GetMemberResponseDto>> getMemberInfo(@PathVariable("memberId") Long memberId) {
+        SingleResponseDto<GetMemberResponseDto> singleResponseDto = memberService.getMemberInfo(memberId);
+        ResponseEntity responseEntity = new ResponseEntity(singleResponseDto, HttpStatus.OK);
         return responseEntity;
     }
 
     @ApiOperation(value = "멤버 정보 수정")
-    @PatchMapping("/member")
+    @PatchMapping("/member/update")
     public ResponseEntity<Void> updateMember(@RequestBody MemberPatchDto memberPatchDto) {
         memberService.updateMember(memberPatchDto);
         return new ResponseEntity<>(HttpStatus.OK);
@@ -60,5 +68,12 @@ public class MemberController {
         MultiResponseDto<GetMemberResponseDto> multiResponseDto = memberService.getAllMembers(page - 1, size);
         ResponseEntity<MultiResponseDto<GetMemberResponseDto>> responseEntity = new ResponseEntity(multiResponseDto, HttpStatus.OK);
         return responseEntity;
+    }
+
+    @ApiOperation(value = "멤버 탈퇴")
+    @DeleteMapping("/member/delete")
+    public ResponseEntity deleteMember() {
+        memberService.deleteMember();
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }

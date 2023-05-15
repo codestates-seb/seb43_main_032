@@ -14,6 +14,7 @@ public class GetMemberResponseDto {
     private String position;
     private String aboutMe;
     private String profileImageUrl;
+    private String location;
     private int yearOfDev;
     private int totalStar;
     private List<MemberTechStackResponseDto> memberTechStackResponseDtoList;
