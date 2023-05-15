@@ -4,6 +4,13 @@ export interface StackCategoryName {
   [key: string]: string;
 }
 
+export type ArrObj = { [key: string]: string[] };
+
+export type BannerProps = {
+  imgWidth?: boolean;
+  isScrolled?: boolean;
+  showImg?: boolean;
+};
 export interface HeaderNav extends StackCategoryName {}
 
 export interface Form extends StackCategoryName {}
