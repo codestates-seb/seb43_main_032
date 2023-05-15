@@ -66,9 +66,8 @@ public class ArticleController {
     //게시글 삭제
     @ApiOperation(value = "delete Article")
     @PatchMapping("/deleted/{articleId}")
-    public ResponseEntity deleteArticle(@PathVariable("articleId") Long articleId,
-                                                                               @RequestBody ArticleDeleteDto articledeleteDto){
-        articleService.deleteArticle(articleId,articledeleteDto);
+    public ResponseEntity deleteArticle(@PathVariable("articleId") Long articleId){
+        articleService.deleteArticle(articleId);
 
         return ResponseEntity.ok().build();
     }

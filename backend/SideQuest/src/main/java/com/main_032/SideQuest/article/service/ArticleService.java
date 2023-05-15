@@ -89,11 +89,11 @@ public class ArticleService {
 //        MultiResponseDto multiResponseDto = new MultiResponseDto(responseDtoList,articlePage);
 //        return multiResponseDto;
 //    }
-    public void deleteArticle(Long articleId, ArticleDeleteDto articledeleteDto){
+    public void deleteArticle(Long articleId){
         Optional<Article> findArticle = verifyExistArticle(articleId);
         matchMemberID(findArticle);
         Article deleteArticle = findArticle.get();
-        deleteArticle.updateDeleted(articledeleteDto.isDeleted());
+        deleteArticle.delete();
         articleRepository.save(deleteArticle);
     }
 

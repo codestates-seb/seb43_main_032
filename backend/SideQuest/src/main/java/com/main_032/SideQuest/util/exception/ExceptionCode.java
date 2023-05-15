@@ -9,7 +9,8 @@ public enum ExceptionCode {
     MEMBER_NOT_MATCH(404, "Member does not match."),
     ANSWER_NOT_FOUND(404, "Answer not found"),
     COMMENT_NOT_FOUND(404, "Comment not found"),
-    ARTICLE_NOT_FOUND(404, "Article not found");
+    ARTICLE_NOT_FOUND(404, "Article not found"),
+    PROJECT_NOT_FOUND(404, "Project not found");
     @Getter
     private int status;
 

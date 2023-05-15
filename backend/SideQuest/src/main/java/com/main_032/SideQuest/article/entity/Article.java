@@ -53,4 +53,7 @@ public class Article extends BaseEntity {
     public void updateDeleted(boolean deleted){this.deleted=deleted;}
     public void updateArticleViews(int views){this.views = views;}
     public void updateTotalLikes(int totalLikes){this.totalLikes = totalLikes;}
+    public void delete(){this.deleted = true;}
+    public void restore(){this.deleted = false;}
+
 }
