@@ -4,6 +4,9 @@ import { useForm, FieldErrors } from 'react-hook-form';
 import AuthCheckBox from './AuthCheckBox';
 import LogoImage from '../../public/images/logo.svg';
 import Image from 'next/image';
+import edit from '@/pages/users/me/edit';
+import usePostApi from './usePostApi';
+import { useEffect } from 'react';
 
 const Wrapper = styled.div`
   width: 100%;
@@ -40,14 +43,20 @@ interface ILoginForm {
   rememberMe: boolean;
 }
 export default function LoginForm() {
+  const [login, { data, auth, isLoading }] = usePostApi('login');
   const { register, watch, handleSubmit } = useForm<ILoginForm>();
   console.log(watch());
   const onValid = (data: ILoginForm) => {
     console.log('valid');
+    login(data);
   };
   const onInValid = (errors: FieldErrors) => {
     console.log(errors);
   };
+  useEffect(() => {
+    data && console.log('data', data);
+    auth && console.log('auth', auth);
+  }, [data]);
   return (
     <Wrapper>
       <LogoBox>
@@ -69,8 +78,8 @@ export default function LoginForm() {
           type="password"
         />
         <OptionWrapper>
-          <AuthCheckBox register={register('saveId')} name="아이디 저장하기" />
-          <AuthCheckBox register={register('rememberMe')} name="자동 로그인" />
+          {/* <AuthCheckBox register={register('saveId')} name="아이디 저장하기" />
+          <AuthCheckBox register={register('rememberMe')} name="자동 로그인" /> */}
         </OptionWrapper>
         <Submit type="submit" value={'Log In'} />
       </Form>
