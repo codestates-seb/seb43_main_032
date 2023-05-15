@@ -2,6 +2,7 @@ import Image from 'next/image';
 import { FaUserAlt } from 'react-icons/fa';
 import { FiMenu } from 'react-icons/fi';
 import Link from 'next/link';
+import { useRecoilValue } from 'recoil';
 import styled from 'styled-components';
 import { useRouter } from 'next/router';
 import { useEffect, useMemo, useState } from 'react';
@@ -9,21 +10,21 @@ import { DefaultObj } from '@/types/types';
 import logo from '../public/images/logo.svg';
 import logoWhite from '../public/images/logoSymbolWhite.svg';
 import Slider from './Slider';
-import useUser from '@/hooks/useUser';
 
 const Header = () => {
-  const {
-    getUserStatus: { data: isLoggedIn },
-    setUserLogOut,
-  } = useUser();
-
+  const isLoggedIn = useRecoilValue(isLoggedInState);
   const router = useRouter();
+
+  //로그인
+  const [isLoggedIn, setIsLoggedIn] = useRecoilState(isLoggedInState);
+  const logout = () => {
+    setIsLoggedIn(false);
+  };
 
   //네비
   const navArr: DefaultObj = {
-    home: '/',
     community: '/community',
-    projects: '/project',
+    project: '/project',
     users: '/users',
     mypage: '/mypage',
     logout: '/',
@@ -59,15 +60,32 @@ const Header = () => {
     }
   }, []);
 
+  //모달 네비
+  const [nav, setNav] = useState(false);
+  const moveNav = (name: string) => {
+    router.push(navArr[name]);
+    setNav(false);
+  };
+  const navHandler = () => {
+    setNav(!nav);
+  };
+  useOffResize(960, 'up', setNav);
+
   return (
     <>
-      <Nav isScrolled={isScrolled}>
+      <Nav nav={nav} isScrolled={isScrolled}>
         <NavLink href="/">
           <Image src={isScrolled ? logoWhite : logo} alt="logo" />
         </NavLink>
-        <Bars />
+        <div className="bars-box">
+          <div>
+            <a className="bars" onClick={navHandler}>
+              <span></span>
+            </a>
+          </div>
+        </div>
         <NavMenu>
-          {navNames.slice(0, 4).map((name) => (
+          {navNames.slice(0, 3).map((name) => (
             <li key={name}>
               <a
                 onClick={() => router.push(navArr[name])}
@@ -78,26 +96,25 @@ const Header = () => {
             </li>
           ))}
           {isLoggedIn
-            ? navNames.slice(4, 6).map(
-                (name) =>
-                  name === 'mypage' ? (
-                    <li key={name}>
-                      <Link href={navArr[name]}>
-                        <FaUserAlt size={20} />
-                      </Link>
-                    </li>
-                  ) : (
-                    <li key={name}>
-                      <button
-                        className="noto-regular-12 main-btn"
-                        onClick={handleLogOut}
-                      >
-                        <span>{name.toUpperCase()}</span>
-                      </button>
-                    </li>
-                  ) //LOGOUT
+            ? navNames.slice(4, 6).map((name) =>
+                name === 'mypage' ? (
+                  <li key={name}>
+                    <Link href={navArr[name]}>
+                      <FaUserAlt size={20} />
+                    </Link>
+                  </li>
+                ) : (
+                  <li key={name}>
+                    <Link
+                      href={navArr[name]}
+                      className="noto-regular-12 main-btn"
+                    >
+                      <span>{name.toUpperCase()}</span>
+                    </Link>
+                  </li>
+                )
               )
-            : navNames.slice(6).map((name) => (
+            : navNames.slice(5).map((name) => (
                 <li key={name}>
                   <Link
                     href={`/users${navArr[name]}`}
@@ -108,6 +125,46 @@ const Header = () => {
                 </li>
               ))}
         </NavMenu>
+        <ModalNav nav={nav}>
+          <ul>
+            {isLoggedIn
+              ? navNames.slice(0, 4).map((name) => (
+                  <li
+                    className="nanum-bold"
+                    key={name}
+                    onClick={() => moveNav(name)}
+                  >
+                    {name}
+                  </li>
+                ))
+              : navNames.slice(0, 3).map((name) => (
+                  <li
+                    className="nanum-bold"
+                    key={name}
+                    onClick={() => moveNav(name)}
+                  >
+                    {name}
+                  </li>
+                ))}
+          </ul>
+          <div className="nav-users">
+            {isLoggedIn
+              ? navNames.slice(4, 5).map((name) => (
+                  <div className="logout" key={name} onClick={logout}>
+                    <Btn>
+                      <span>{name}</span>
+                    </Btn>
+                  </div>
+                ))
+              : navNames.slice(5).map((name) => (
+                  <div key={name} onClick={() => moveNav(name)}>
+                    <Btn>
+                      <span>{name}</span>
+                    </Btn>
+                  </div>
+                ))}
+          </div>
+        </ModalNav>
       </Nav>
       <Slider isScrolled={isScrolled}></Slider>
     </>
@@ -117,10 +174,96 @@ const Header = () => {
 export default Header;
 
 type NavProps = {
-  isScrolled: boolean;
+  isScrolled?: boolean;
+  nav: boolean;
 };
 
+const ModalNav = styled.nav<NavProps>`
+  z-index: 1;
+  background-color: white;
+  width: 50%;
+  position: fixed;
+  top: 60px;
+  right: ${(props) => (props.nav ? '0' : '-50%')};
+  transition: 1.2s;
+  display: none;
+  @media (max-width: 960px) {
+    display: block;
+  }
+  ul {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    li {
+      padding: 24px;
+      cursor: pointer;
+      border-bottom: 1px solid #d1d1d1;
+    }
+  }
+  .nav-users {
+    display: flex;
+    padding: 16px;
+    > div {
+      width: 50%;
+      text-align: center;
+      > button {
+        cursor: pointer;
+      }
+    }
+    > .logout {
+      width: 100%;
+    }
+  }
+`;
+
 const Nav = styled.nav<NavProps>`
+  .bars-box {
+    width: 100%;
+    display: flex;
+    justify-content: end;
+  }
+  .bars {
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    height: 60px;
+    padding: 0px 16px;
+    display: none;
+    @media (max-width: 960px) {
+      display: flex;
+    }
+    svg {
+      font-size: 1.3rem;
+    }
+
+    > span {
+      width: 16px;
+      height: 2px;
+      background-color: ${(props) => (props.nav ? '' : 'black')};
+      ::before {
+        position: absolute;
+        content: '';
+        background-color: black;
+        width: 16px;
+        height: 2px;
+        left: 10;
+        top: ${(props) => (props.nav ? '30px' : '23px')};
+        transition-duration: 0.1s;
+        transform: ${(props) => (props.nav ? 'rotate(45deg)' : '')};
+      }
+      ::after {
+        position: absolute;
+        content: '';
+        background-color: black;
+        width: 16px;
+        height: 2px;
+        left: 10;
+        top: ${(props) => (props.nav ? '30px' : '35px')};
+        transition-duration: 0.1s;
+        transform: ${(props) => (props.nav ? 'rotate(-45deg)' : '')};
+      }
+    }
+  }
   top: 0;
   left: 0;
   position: fixed;

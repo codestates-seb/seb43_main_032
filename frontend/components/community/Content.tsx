@@ -5,8 +5,6 @@ import { Community } from '@/types/community';
 import ContentItem from './ContentItem';
 import { useRouter } from 'next/router';
 import Message from '../Message';
-import { useRecoilValue } from 'recoil';
-import { checkState } from '@/recoil/atom';
 import { COMMUNITY_FILTER } from '@/constant/constant';
 import Pagenation from '../Pagenation';
 import { useCommunity } from '@/hooks/react-query/useCommunity';
@@ -14,13 +12,10 @@ import { useCommunity } from '@/hooks/react-query/useCommunity';
 export default function Content() {
   const router = useRouter();
 
-  //같은 라우터간의 이동은 navigate의 형태로 페이지가 새롭게 만들어지지 않아 그 문제를 해결해주기 위해
-  //check 상태를 만들어서 라우터간의 이동이 일어날 때, 리셋이 되도록 해줬음
-  const check = useRecoilValue(checkState);
   useEffect(() => {
     setSearchVal('');
     setPage(1);
-  }, [check]);
+  }, [router]);
 
   // 주소값으로 데이터 필터링
   const urlSearch = new URLSearchParams(router.asPath).get('search');
@@ -37,10 +32,11 @@ export default function Content() {
     ? ['community', page, category]
     : ['community', page];
 
-  const { isLoading, error, data, refetch } = useCommunity<Community[]>({
+  const { communityQuery, refetch } = useCommunity<Community[]>({
     address,
     queryKey,
   });
+
 
   const findContentItem = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchVal(e.target.value);
@@ -62,54 +58,58 @@ export default function Content() {
 
   const filterName = COMMUNITY_FILTER.find((x) => x.value === filter)?.label;
 
-  if (isLoading) return <Message>로딩중입니다.</Message>;
-  if (error) return <Message>잠시 후 다시 시도해주세요.</Message>;
-  if (data)
-    return (
-      <Container>
-        <ContentTop>
-          <SearchInput
-            placeholder="검색어를 입력하세요."
-            value={searchVal}
-            onChange={findContentItem}
-            onKeyPress={(e) => e.key === 'Enter' && handleSearch()}
-          />
-          <SearchBtn onClick={handleSearch}>
-            <FaSearch />
-          </SearchBtn>
-          <SearchBtn onClick={() => router.push('/community')}>
-            초기화
-          </SearchBtn>
-          <ContentBottomFilter onClick={() => setIsOpen(!isOpen)}>
-            <CustomSelectButton>
-              {filterName} <span className="icon">▼</span>
-            </CustomSelectButton>
-            <CustomSelectOptions isOpen={isOpen}>
-              {COMMUNITY_FILTER.map((option) => (
-                <CustomSelectOption
-                  key={option.value}
-                  onClick={() => selectFilter(option.value)}
-                >
-                  {option.label}
-                </CustomSelectOption>
+  if (communityQuery.isLoading) return <Message>로딩중입니다.</Message>;
+  if (communityQuery.error)
+    return <Message>잠시 후 다시 시도해주세요.</Message>;
+  return (
+    <Container>
+      {communityQuery.data && (
+        <>
+          <ContentTop>
+            <SearchInput
+              placeholder="검색어를 입력하세요."
+              value={searchVal}
+              onChange={findContentItem}
+              onKeyPress={(e) => e.key === 'Enter' && handleSearch()}
+            />
+            <SearchBtn onClick={handleSearch}>
+              <FaSearch />
+            </SearchBtn>
+            <SearchBtn onClick={() => router.push('/community')}>
+              초기화
+            </SearchBtn>
+            <ContentBottomFilter onClick={() => setIsOpen(!isOpen)}>
+              <CustomSelectButton>
+                {filterName} <span className="icon">▼</span>
+              </CustomSelectButton>
+              <CustomSelectOptions isOpen={isOpen}>
+                {COMMUNITY_FILTER.map((option) => (
+                  <CustomSelectOption
+                    key={option.value}
+                    onClick={() => selectFilter(option.value)}
+                  >
+                    {option.label}
+                  </CustomSelectOption>
+                ))}
+              </CustomSelectOptions>
+            </ContentBottomFilter>
+          </ContentTop>
+          <ContentBottom>
+            <ContentItemList>
+              {communityQuery.data?.data?.map((article: Community) => (
+                <ContentItem {...article} key={article.id} />
               ))}
-            </CustomSelectOptions>
-          </ContentBottomFilter>
-        </ContentTop>
-        <ContentBottom>
-          <ContentItemList>
-            {data.data.map((article: Community) => (
-              <ContentItem {...article} key={article.id} />
-            ))}
-          </ContentItemList>
-          <Pagenation
-            page={page}
-            onPageChange={setPage}
-            pageSize={Math.ceil(data.total! / 10)}
-          />
-        </ContentBottom>
-      </Container>
-    );
+            </ContentItemList>
+            <Pagenation
+              page={page}
+              onPageChange={setPage}
+              pageSize={Math.ceil(communityQuery.data?.total! / 10)}
+            />
+          </ContentBottom>
+        </>
+      )}
+    </Container>
+  );
 }
 
 const Container = styled.div`

@@ -176,3 +176,10 @@ export const COMMUNITY_FILTER = [
   { value: 'view', label: '조회수 순' },
   { value: 'comment', label: '댓글 순' },
 ];
+
+export const PROJECT_FILTER: DefaultObj = {
+  '최신 순': '',
+  '오래된 순': 'old',
+  '조회 순': 'view',
+  '찜 순': 'heart',
+};

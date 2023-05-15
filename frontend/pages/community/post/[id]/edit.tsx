@@ -4,7 +4,7 @@ import SideBar from '@/components/community/SideBar';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 
-const CreateCommunity = () => {
+const EditCommunity = () => {
   const router = useRouter();
   useEffect(() => {
     window.scrollTo({
@@ -21,4 +21,4 @@ const CreateCommunity = () => {
   );
 };
 
-export default CreateCommunity;
+export default EditCommunity;

@@ -1,8 +1,8 @@
-import ProjectForm from '@/components/project/ProjectForm';
+import ViewCommunity from '@/components/community/ViewCommunity';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 
-const CreateProject = () => {
+const CommunityPostPage = () => {
   const router = useRouter();
   useEffect(() => {
     window.scrollTo({
@@ -11,7 +11,7 @@ const CreateProject = () => {
       behavior: 'smooth',
     });
   }, [router]);
-  return <ProjectForm />;
+  return <ViewCommunity />;
 };
 
-export default CreateProject;
+export default CommunityPostPage;
