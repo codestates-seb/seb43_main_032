@@ -10,14 +10,19 @@ import com.main_032.SideQuest.project.entity.ProTechStack;
 import com.main_032.SideQuest.project.entity.Project;
 import com.main_032.SideQuest.project.mapper.ProjectMapper;
 import com.main_032.SideQuest.project.repository.ProjectRepository;
+import com.main_032.SideQuest.util.dto.MultiResponseDto;
 import com.main_032.SideQuest.util.dto.SingleResponseDto;
 import com.main_032.SideQuest.util.exception.BusinessLogicException;
 import com.main_032.SideQuest.util.exception.ExceptionCode;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -80,24 +85,31 @@ public class ProjectService {
         findProject.orElseThrow(() -> new BusinessLogicException(ExceptionCode.PROJECT_NOT_FOUND));
         Project project = findProject.get();
 
-        ProjectGetResponseDto projectGetResponseDto = new ProjectGetResponseDto(
-                project.getId(),
-                project.getMemberId(),
-                project.getTitle(),
-                project.getContent(),
-                project.getWriterPosition(),
-                project.getStartDate(),
-                project.getEndDate(),
-                project.getThumbnailImageUrl(),
-                project.getViews(),
-                project.getStatus().getDisplayName(),
-                project.getTotalLikes(),
-                proTechStackService.proTechStackListToProTechStackResponseDtoList(project.getProTechStackList()),
-                proFieldService.proFieldListToProFieldResponseDtoList(project.getProFieldList()),
-                proPositionCrewService.proPositionCrewListToProPositionCrewDtoList(project.getProPositionCrewList()),
-                proAcceptedCrewService.proAcceptedCrewToProAcceptedCrewDtoList(project.getProAcceptedCrewList())
-        );
+        ProjectGetResponseDto projectGetResponseDto = projectMapper.projectToProjectGetResponseDto(project);
+
+        projectGetResponseDto.updateProTechStackResponseDtoList(proTechStackService.proTechStackListToProTechStackResponseDtoList(project.getProTechStackList()));
+        projectGetResponseDto.updateProFieldResponseDtoList(proFieldService.proFieldListToProFieldResponseDtoList(project.getProFieldList()));
+        projectGetResponseDto.updateProPositionCrewResponseDtoList(proPositionCrewService.proPositionCrewListToProPositionCrewDtoList(project.getProPositionCrewList()));
+        projectGetResponseDto.updateProAcceptedCrewResponseDtoList(proAcceptedCrewService.proAcceptedCrewToProAcceptedCrewDtoList(project.getProAcceptedCrewList()));
+
         SingleResponseDto<ProjectGetResponseDto> singleResponseDto = new SingleResponseDto<>(projectGetResponseDto);
         return singleResponseDto;
+    }
+
+    public MultiResponseDto<ProjectGetResponseDto> getAllProjects(int page, int size) {
+        Page<Project> projectPage = projectRepository.findAll(PageRequest.of(page, size, Sort.by("id").descending()));
+        List<Project> projectList = projectPage.getContent();
+        List<ProjectGetResponseDto> projectGetResponseDtoList = new ArrayList<>();
+        for (int i = 0; i < projectList.size(); i++) {
+            Project project = projectList.get(i);
+            ProjectGetResponseDto projectGetResponseDto = projectMapper.projectToProjectGetResponseDto(project);
+            projectGetResponseDto.updateProTechStackResponseDtoList(proTechStackService.proTechStackListToProTechStackResponseDtoList(project.getProTechStackList()));
+            projectGetResponseDto.updateProFieldResponseDtoList(proFieldService.proFieldListToProFieldResponseDtoList(project.getProFieldList()));
+            projectGetResponseDto.updateProPositionCrewResponseDtoList(proPositionCrewService.proPositionCrewListToProPositionCrewDtoList(project.getProPositionCrewList()));
+            projectGetResponseDto.updateProAcceptedCrewResponseDtoList(proAcceptedCrewService.proAcceptedCrewToProAcceptedCrewDtoList(project.getProAcceptedCrewList()));
+            projectGetResponseDtoList.add(projectGetResponseDto);
+        }
+        MultiResponseDto<ProjectGetResponseDto> multiResponseDto = new MultiResponseDto<>(projectGetResponseDtoList, projectPage);
+        return multiResponseDto;
     }
 }
