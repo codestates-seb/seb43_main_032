@@ -5,6 +5,7 @@ import '../styles/App.css';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import styled from 'styled-components';
+import 'animate.css';
 
 const queryClient = new QueryClient();
 
