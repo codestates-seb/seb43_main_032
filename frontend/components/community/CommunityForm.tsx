@@ -8,6 +8,7 @@ import { api } from '@/util/api';
 import { useCommunity } from '@/hooks/react-query/useCommunity';
 import { Community } from '@/types/community';
 import Message from '../Message';
+import { COMMUNITY } from '@/dummy/community';
 
 export default function CommunityForm() {
   const router = useRouter();
@@ -18,7 +19,7 @@ export default function CommunityForm() {
     address,
     queryKey,
   });
-  const data = communityQuery.data?.data;
+  const data = COMMUNITY[0];
 
   const { register, watch } = useForm<Form>();
   const [editor, setEditor] = useState('');

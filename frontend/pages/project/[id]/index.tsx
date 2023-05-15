@@ -14,6 +14,7 @@ import { useRouter } from 'next/router';
 import Position from '@/components/Position';
 import Message from '@/components/Message';
 import Btn from '@/components/button/Btn';
+import { PROJECTS } from '@/dummy/project';
 const ReactMarkdown = dynamic(() => import('@/components/editor/ContentBox'), {
   ssr: false,
   loading: () => <ContentSkeleton />,
@@ -74,7 +75,7 @@ const ViewProject = () => {
     4: '팀원 리뷰',
   };
 
-  const data = projectQuery.data?.post_data;
+  const data = PROJECTS[0];
 
   if (projectQuery.isLoading) return <Message>로딩중입니다.</Message>;
   if (projectQuery.error) return <Message>잠시 후 다시 시도해주세요.</Message>;
