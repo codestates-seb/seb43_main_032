@@ -1,6 +1,8 @@
-import useAuth from '@/hooks/useAuth';
+import useAuth from '@/hooks/react-query/useAuth';
 import { IUser } from '@/util/api/user';
-import { FieldError, FieldErrors, useForm } from 'react-hook-form';
+import { useRouter } from 'next/router';
+import { useEffect } from 'react';
+import { FieldErrors, useForm } from 'react-hook-form';
 import styled from 'styled-components';
 
 const Wrapper = styled.div`
@@ -8,17 +10,21 @@ const Wrapper = styled.div`
   border-radius: 20px;
   padding: 20px;
   margin-top: 20px;
-  width: 300px;
+  width: 800px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `;
 const ImgWrapper = styled.div`
   display: flex;
   position: relative;
   width: 150px;
   height: 150px;
-  justify-content: center;
+  justify-content: ;
   /* align-items: center; */
   border-radius: 50%;
   overflow: hidden;
+  margin-right: 50px;
 `;
 const P = styled.div`
   display: flex;
@@ -65,10 +71,19 @@ interface ISubmit {
   [key: string]: string;
 }
 export default function edit() {
+  const router = useRouter();
+  useEffect(() => {
+    window.scrollTo({
+      top: 670,
+      left: 0,
+      behavior: 'smooth',
+    });
+  }, [router]);
   const user: IUser = useAuth();
   const {
     register,
     handleSubmit,
+    watch,
     formState: { errors },
   } = useForm();
   const onValid = (data: ISubmit) => {

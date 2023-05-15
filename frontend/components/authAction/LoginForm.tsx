@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import AuthInput from './AuthInput';
 import { useForm, FieldErrors } from 'react-hook-form';
 import AuthCheckBox from './AuthCheckBox';
-import LogoImage from '../../public/images/main_logo2.png';
+import LogoImage from '../../public/images/logo.svg';
 import Image from 'next/image';
 
 const Wrapper = styled.div`

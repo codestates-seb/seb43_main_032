@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import MainPost from '../MainPost';
-import { DefaultObj } from '@/types/types';
+import { Form } from '@/types/types';
 import { useForm } from 'react-hook-form';
 import { useRouter } from 'next/router';
 import { api } from '@/util/api';
@@ -20,7 +20,7 @@ export default function CommunityForm() {
   });
   const data = communityQuery.data?.data;
 
-  const { register, watch } = useForm<DefaultObj>();
+  const { register, watch } = useForm<Form>();
   const [editor, setEditor] = useState('');
   const changeContent = (value: string) => {
     setEditor(value);
