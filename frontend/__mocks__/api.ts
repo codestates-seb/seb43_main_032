@@ -143,7 +143,7 @@ export const communityHandler = [
     const start = (page - 1) * size;
     const end = page * size;
     const filteredData = community.filter(
-      (p) => p.category === req.params.category
+      (p) => p.position === req.params.category
     );
     const search = url.searchParams.get('search');
     let data = filteredData;

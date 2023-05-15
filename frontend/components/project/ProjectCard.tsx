@@ -165,9 +165,10 @@ const Box = styled.div`
   }
 
   .title-box {
-    text-overflow: ellipsis;
+    display: block;
     white-space: nowrap;
     overflow: hidden;
+    text-overflow: ellipsis;
     padding: 10px 13px;
     font-size: 16px;
     color: #3c3c3c;
