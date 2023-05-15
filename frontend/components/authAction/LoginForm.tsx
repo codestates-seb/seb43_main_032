@@ -7,8 +7,6 @@ import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 import useApi from '@/hooks/useApi';
-import { useRecoilState } from 'recoil';
-import { isLoggedInState } from '@/recoil/atom';
 import useUser from '@/hooks/useUser';
 import { useQueryClient } from 'react-query';
 

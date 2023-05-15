@@ -13,9 +13,13 @@ import logoWhite from '../public/images/logoSymbolWhite.svg';
 import Slider from './Slider';
 import Btn from './button/Btn';
 import { useOffResize } from '@/hooks/useOffResize';
+import useUser from '@/hooks/useUser';
 
 const Header = () => {
   const router = useRouter();
+  const {
+    getUserStatus: { data: status },
+  } = useUser();
 
   //로그인
   const [isLoggedIn, setIsLoggedIn] = useRecoilState(isLoggedInState);
@@ -23,6 +27,9 @@ const Header = () => {
     setIsLoggedIn(false);
   };
 
+  useEffect(() => {
+    setIsLoggedIn(status);
+  }, []);
   //네비
   const navArr: DefaultObj = {
     community: '/community',
