@@ -1,22 +1,22 @@
 package com.main_032.SideQuest.article.entity;
 
-import com.main_032.SideQuest.util.entity.BaseEntity;
 import lombok.Getter;
-import lombok.Setter;
 
 import javax.persistence.*;
 
 @Entity
 @Getter
-public class ArticleTechStack extends BaseEntity {
+public class ArticleTechStack {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "ARTICLE_ID")
-    private Article article;
+    @Column
+    private Long articleId;
 
     @Column
     private String tech;
+
+    public void updateArticleId(Long articleId){this.articleId = articleId;}
+    public void updateTech(String tech){this.tech=tech;}
 }

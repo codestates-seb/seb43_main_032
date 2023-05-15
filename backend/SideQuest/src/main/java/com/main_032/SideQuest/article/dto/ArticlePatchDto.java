@@ -7,8 +7,7 @@ import lombok.Getter;
 import java.util.List;
 
 @Getter
-public class ArticlePostDto {
-
+public class ArticlePatchDto {
     private String title;
 
     private String content;

@@ -35,15 +35,9 @@ public class Article extends BaseEntity {
     @Column
     private int totalLikes;
 
-    @Column(columnDefinition = "TINYINT")
+    @Column(columnDefinition = "TINYINT ")
     private boolean deleted;
 
-    @OneToMany(mappedBy = "article")
-    private List<ArticleTechStack> articleTechStackList = new ArrayList<>();
-
-    public void updateId(Long id){
-        this.id = id;
-    }
     public void updateMemberId(Long memberId){
         this.memberId = memberId;
     }
@@ -56,4 +50,7 @@ public class Article extends BaseEntity {
     public void updateCategory(ArticleCategory category){
         this.category = category;
     }
+    public void updateDeleted(boolean deleted){this.deleted=deleted;}
+    public void updateArticleViews(int views){this.views = views;}
+    public void updateTotalLikes(int totalLikes){this.totalLikes = totalLikes;}
 }
