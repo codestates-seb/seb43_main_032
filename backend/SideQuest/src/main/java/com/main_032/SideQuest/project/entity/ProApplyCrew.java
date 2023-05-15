@@ -33,7 +33,4 @@ public class ProApplyCrew extends BaseEntity {
 
     @Column(columnDefinition = "TINYINT")
     private boolean deleted;
-
-
-
 }

@@ -22,13 +22,6 @@ public class MemberMapper {
     }
 
     public GetMemberResponseDto memberToGetMemberResponseDto(Member member) {
-        List<MemberTechStack> memberTechStackList = member.getMemberTechStackList();
-        List<MemberTechStackResponseDto> memberTechStackResponseDtoList = new ArrayList<>();
-
-        for (int i = 0; i < memberTechStackList.size(); i++) {
-            memberTechStackResponseDtoList.add(new MemberTechStackResponseDto(memberTechStackList.get(i).getTech()));
-        }
-
         GetMemberResponseDto getMemberResponseDto = new GetMemberResponseDto(
                 member.getName(),
                 member.getEmail(),
@@ -38,8 +31,7 @@ public class MemberMapper {
                 member.getProfileImageUrl(),
                 member.getLocation(),
                 member.getYearOfDev(),
-                member.getTotalStar(),
-                memberTechStackResponseDtoList
+                member.getTotalStar()
                 );
         return getMemberResponseDto;
     }

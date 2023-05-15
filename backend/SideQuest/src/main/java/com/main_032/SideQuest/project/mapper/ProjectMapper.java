@@ -8,14 +8,12 @@ import org.springframework.stereotype.Component;
 public class ProjectMapper {
 
     public Project projectPostDtoToProject(ProjectPostDto projectPostDto) {
-
-
         Project project = new Project(projectPostDto.getTitle(),
                 projectPostDto.getContent(),
                 projectPostDto.getWriterPosition(),
                 projectPostDto.getStartDate(),
                 projectPostDto.getEndDate(),
-                projectPostDto.getThumbnailImgUrl());
+                projectPostDto.getThumbnailImageUrl());
         return project;
     }
 }
