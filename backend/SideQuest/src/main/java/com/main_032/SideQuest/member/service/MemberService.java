@@ -5,6 +5,7 @@ import com.main_032.SideQuest.auth.utils.GetAuthUserUtils;
 import com.main_032.SideQuest.member.dto.GetMemberResponseDto;
 import com.main_032.SideQuest.member.dto.MemberPatchDto;
 import com.main_032.SideQuest.member.dto.MemberPostDto;
+import com.main_032.SideQuest.member.dto.MemberTechStackResponseDto;
 import com.main_032.SideQuest.member.entity.Member;
 import com.main_032.SideQuest.member.mapper.MemberMapper;
 import com.main_032.SideQuest.member.repository.MemberRepository;
@@ -50,6 +51,8 @@ public class MemberService {
     public SingleResponseDto<GetMemberResponseDto> getLoginMemberInfo() {
         Member member = getLoginMember();
         GetMemberResponseDto getMemberResponseDto = memberMapper.memberToGetMemberResponseDto(member);
+        List<MemberTechStackResponseDto> memberTechStackResponseDtoList = memberTechStackService.getMemberTechStackResponseDto(member);
+        getMemberResponseDto.updateMemberTechStackResponseDtoList(memberTechStackResponseDtoList);
         SingleResponseDto<GetMemberResponseDto> singleResponseDto = new SingleResponseDto<>(getMemberResponseDto);
         return singleResponseDto;
     }
@@ -92,6 +95,8 @@ public class MemberService {
         List<GetMemberResponseDto> getMemberResponseDtoList = new ArrayList<>();
         for (int i = 0; i < memberList.size(); i++) {
             GetMemberResponseDto getMemberResponseDto = memberMapper.memberToGetMemberResponseDto(memberList.get(i));
+            List<MemberTechStackResponseDto> memberTechStackResponseDtoList = memberTechStackService.getMemberTechStackResponseDto(memberList.get(i));
+            getMemberResponseDto.updateMemberTechStackResponseDtoList(memberTechStackResponseDtoList);
             getMemberResponseDtoList.add(getMemberResponseDto);
         }
         MultiResponseDto<GetMemberResponseDto> multiResponseDto = new MultiResponseDto<>(getMemberResponseDtoList, memberPage);
@@ -104,6 +109,8 @@ public class MemberService {
         Member member = findMember.get();
 
         GetMemberResponseDto getMemberResponseDto = memberMapper.memberToGetMemberResponseDto(member);
+        List<MemberTechStackResponseDto> memberTechStackResponseDtoList = memberTechStackService.getMemberTechStackResponseDto(member);
+        getMemberResponseDto.updateMemberTechStackResponseDtoList(memberTechStackResponseDtoList);
         SingleResponseDto<GetMemberResponseDto> singleResponseDto = new SingleResponseDto<>(getMemberResponseDto);
         return singleResponseDto;
     }
