@@ -6,7 +6,7 @@ spring:
 #    username: root
 #    password: a123
 
-    # RDS
+#     RDS
     url: jdbc:mysql://sidequestdb.cinzzb9ewscr.ap-northeast-2.rds.amazonaws.com:3306/sidequestdb?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
     username: ${SIDEQUEST_RDS_USERNAME}
     password: ${SIDEQUEST_RDS_PASSWORD}
