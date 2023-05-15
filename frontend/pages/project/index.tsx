@@ -8,18 +8,18 @@ import ProjectSkeleton from '@/components/skeleton/ProjectSkeleton';
 import Link from 'next/link';
 import { Project } from '@/types/project';
 import Message from '@/components/Message';
-import ContentCardbox from '@/components/ContentCardbox';
 import { useForm } from 'react-hook-form';
-import { DefaultObj } from '@/types/types';
 import Btn from '@/components/button/Btn';
 import { BsSearch } from 'react-icons/bs';
 import { PROJECT_FILTER } from '@/constant/constant';
+import ProjectCardBox from '@/components/card_box/ProjectCardBox';
+import { Form } from '@/types/types';
 
 type PageProps = { data: Project[]; total: number };
 
 const ProjectHome = () => {
   const router = useRouter();
-  const { register, watch } = useForm<DefaultObj>();
+  const { register, watch } = useForm<Form>();
   const search = router.query.search;
   const [filter, setFilter] = useState('');
   const filterNames = useMemo(() => Object.keys(PROJECT_FILTER), []);
@@ -155,8 +155,7 @@ const ProjectHome = () => {
             </div>
           </div>
         </div>
-        <ContentCardbox
-          type={1}
+        <ProjectCardBox
           title={search ? `${search}의 결과입니다.` : '전체 프로젝트'}
           data={data.pages?.flatMap((page) => page.data)}
           skeleton={isFetching && hasNextPage && <ProjectSkeleton />}
@@ -172,7 +171,7 @@ const ProjectHome = () => {
               </div>
             ))}
           </div>
-        </ContentCardbox>
+        </ProjectCardBox>
         <div ref={target} className="observer"></div>
         {!hasNextPage && (
           <div className="last-box nanum-bold blink">

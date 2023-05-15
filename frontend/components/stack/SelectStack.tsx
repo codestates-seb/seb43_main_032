@@ -1,17 +1,17 @@
 import { STACKS, STACKS_CATEGORIES } from '@/constant/constant';
-import { Dispatch, SetStateAction } from 'react';
+import { Dispatch, SetStateAction, useCallback, useMemo } from 'react';
 import styled from 'styled-components';
 import Stack from './Stack';
 import Btn from '../button/Btn';
 
 type Props = {
-  offModal: () => void;
+  selectStack: () => void;
   stacks: string[];
   setStacks: Dispatch<SetStateAction<string[]>>;
 };
 
-const SelectStack = ({ setStacks, offModal, stacks }: Props) => {
-  const categories = Object.keys(STACKS_CATEGORIES);
+const SelectStack = ({ setStacks, selectStack, stacks }: Props) => {
+  const categories = useMemo(() => Object.keys(STACKS_CATEGORIES), []);
 
   //스택을 추가하는 함수
   const addStack = (stack: string) => {
@@ -23,9 +23,9 @@ const SelectStack = ({ setStacks, offModal, stacks }: Props) => {
   };
 
   //선택한 스택 리셋
-  const resetStack = () => {
+  const resetSelectedStacks = useCallback(() => {
     setStacks([]);
-  };
+  }, []);
 
   return (
     <Box>
@@ -50,10 +50,10 @@ const SelectStack = ({ setStacks, offModal, stacks }: Props) => {
           ))}
         </div>
         <div className="btn-box">
-          <Btn onClick={resetStack}>
+          <Btn onClick={resetSelectedStacks}>
             <span>초기화</span>
           </Btn>
-          <Btn onClick={offModal}>
+          <Btn onClick={selectStack}>
             <span>선택완료</span>
           </Btn>
         </div>

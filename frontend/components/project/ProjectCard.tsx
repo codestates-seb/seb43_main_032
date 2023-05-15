@@ -165,9 +165,10 @@ const Box = styled.div`
   }
 
   .title-box {
-    text-overflow: ellipsis;
+    display: block;
     white-space: nowrap;
     overflow: hidden;
+    text-overflow: ellipsis;
   }
 
   .select-box {

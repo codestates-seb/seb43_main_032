@@ -1,11 +1,11 @@
 import GridBox from '@/components/GridBox';
 import styled from 'styled-components';
-import useUser from '@/hooks/useUser';
 import ContentCard from '@/components/user/ContentCard';
 import { useRouter } from 'next/router';
 import UserProfile from '@/components/user/UserProfile';
 import { useEffect, useState } from 'react';
 import { IUser } from '@/util/api/user';
+import useUser from '@/hooks/react-query/useUser';
 
 //유저 페이지 입니다. 경로 '/user/[id]'  예시 >>  /user/1
 const UserInfoContainer = styled.div`
@@ -56,7 +56,15 @@ const Category = styled.div.attrs({
 `;
 
 const UserPage = () => {
-  const id = useRouter().query.id;
+  const router = useRouter();
+  const id = router.query.id;
+  useEffect(() => {
+    window.scrollTo({
+      top: 670,
+      left: 0,
+      behavior: 'smooth',
+    });
+  }, [router]);
   //서버에 유저 확인 요청
   if (!id) return 'Loading...';
 

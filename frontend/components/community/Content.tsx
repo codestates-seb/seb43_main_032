@@ -36,7 +36,7 @@ export default function Content() {
     address,
     queryKey,
   });
-
+  const data = communityQuery.data;
 
   const findContentItem = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchVal(e.target.value);
@@ -63,51 +63,45 @@ export default function Content() {
     return <Message>잠시 후 다시 시도해주세요.</Message>;
   return (
     <Container>
-      {communityQuery.data && (
-        <>
-          <ContentTop>
-            <SearchInput
-              placeholder="검색어를 입력하세요."
-              value={searchVal}
-              onChange={findContentItem}
-              onKeyPress={(e) => e.key === 'Enter' && handleSearch()}
-            />
-            <SearchBtn onClick={handleSearch}>
-              <FaSearch />
-            </SearchBtn>
-            <SearchBtn onClick={() => router.push('/community')}>
-              초기화
-            </SearchBtn>
-            <ContentBottomFilter onClick={() => setIsOpen(!isOpen)}>
-              <CustomSelectButton>
-                {filterName} <span className="icon">▼</span>
-              </CustomSelectButton>
-              <CustomSelectOptions isOpen={isOpen}>
-                {COMMUNITY_FILTER.map((option) => (
-                  <CustomSelectOption
-                    key={option.value}
-                    onClick={() => selectFilter(option.value)}
-                  >
-                    {option.label}
-                  </CustomSelectOption>
-                ))}
-              </CustomSelectOptions>
-            </ContentBottomFilter>
-          </ContentTop>
-          <ContentBottom>
-            <ContentItemList>
-              {communityQuery.data?.data?.map((article: Community) => (
-                <ContentItem {...article} key={article.id} />
-              ))}
-            </ContentItemList>
-            <Pagenation
-              page={page}
-              onPageChange={setPage}
-              pageSize={Math.ceil(communityQuery.data?.total! / 10)}
-            />
-          </ContentBottom>
-        </>
-      )}
+      <ContentTop>
+        <SearchInput
+          placeholder="검색어를 입력하세요."
+          value={searchVal}
+          onChange={findContentItem}
+          onKeyPress={(e) => e.key === 'Enter' && handleSearch()}
+        />
+        <SearchBtn onClick={handleSearch}>
+          <FaSearch />
+        </SearchBtn>
+        <SearchBtn onClick={() => router.push('/community')}>초기화</SearchBtn>
+        <ContentBottomFilter onClick={() => setIsOpen(!isOpen)}>
+          <CustomSelectButton>
+            {filterName} <span className="icon">▼</span>
+          </CustomSelectButton>
+          <CustomSelectOptions isOpen={isOpen}>
+            {COMMUNITY_FILTER.map((option) => (
+              <CustomSelectOption
+                key={option.value}
+                onClick={() => selectFilter(option.value)}
+              >
+                {option.label}
+              </CustomSelectOption>
+            ))}
+          </CustomSelectOptions>
+        </ContentBottomFilter>
+      </ContentTop>
+      <ContentBottom>
+        <ContentItemList>
+          {data?.data?.map((article: Community) => (
+            <ContentItem {...article} key={article.id} />
+          ))}
+        </ContentItemList>
+        <Pagenation
+          page={page}
+          onPageChange={setPage}
+          pageSize={data && data.total ? Math.ceil(data.total / 10) : 0}
+        />
+      </ContentBottom>
     </Container>
   );
 }

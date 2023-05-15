@@ -11,7 +11,10 @@ import { Project } from '@/types/project';
 import Message from '@/components/Message';
 import { Community } from '@/types/community';
 import { useCommunity } from '@/hooks/react-query/useCommunity';
-import ContentCardbox from '@/components/ContentCardbox';
+import ProjectCardBox from '@/components/card_box/ProjectCardBox';
+import CommunityCardBox from '@/components/card_box/CommunityCardBox';
+import ProjectSkeleton from '@/components/skeleton/ProjectSkeleton';
+import CommunityItemSkeleton from '@/components/skeleton/CommunityItemSkeleton';
 
 const Box = styled.div`
   width: 100%;
@@ -32,25 +35,37 @@ const Home = () => {
 
   //커뮤니티 조회수 높은거 5개만 가져오면 될듯??
   const community_page_limit = 5;
-  const queryKey = ['community', 'filter'];
-  const address = `/community?size=${community_page_limit}&page=1`; // 나중에 필터를 추가하면 넣으면 될듯?
-  const { communityQuery, refetch } = useCommunity<Community[]>({
+  const queryKey = ['community', 'hot'];
+  const address = `/community?size=${community_page_limit}&page=1`;
+  const { communityQuery } = useCommunity<Community[]>({
     address,
     queryKey,
   });
+  const projectData = data?.data;
+  const communityData = communityQuery.data?.data;
 
   if (isLoading) return <Message>로딩중입니다.</Message>;
   if (error) return <Message>잠시 후 다시 시도해주세요.</Message>;
-  if (!data || !communityQuery.data) return;
+  if (!projectData || !communityData) return;
   return (
     <Box>
-      <ContentCardbox type={1} data={data.data} title={'인기 프로젝트'} />
-      <ContentCardbox
-        type={2}
-        data={communityQuery.data.data}
+      <ProjectCardBox
+        skeleton={isLoading && <ProjectSkeleton />}
+        data={projectData}
+        title={'인기 프로젝트'}
+      />
+      <CommunityCardBox
+        skeleton={
+          communityQuery.isLoading && <CommunityItemSkeleton count={5} />
+        }
+        data={communityData}
         title={'인기 커뮤니티'}
       />
-      <ContentCardbox type={1} data={data.data} title={'종료 프로젝트'} />
+      <ProjectCardBox
+        skeleton={isLoading && <ProjectSkeleton />}
+        data={projectData}
+        title={'종료 프로젝트'}
+      />
           <FcSms size={70} onClick={() => setIsModal(true)} className="icon" />
         {isModal ? <Modal setIsModal={setIsModal} /> : null}
     </Box>
