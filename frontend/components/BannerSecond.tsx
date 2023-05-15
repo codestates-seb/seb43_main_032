@@ -1,115 +1,132 @@
 import { BannerProps } from '@/types/types';
 import Image from 'next/image';
-import React from 'react';
-import styled from 'styled-components';
-import card from '../public/images/second-card.svg';
-import etc from '../public/images/second-etc.svg';
-import secMessage from '../public/images/second-message.svg';
-import post from '../public/images/second-post.svg';
-import user from '../public/images/second-user.svg';
+import React, { useEffect, useState } from 'react';
+import styled, { keyframes } from 'styled-components';
+import computer from '../public/images/bannerComputer.svg';
+import dictionary from '../public/images/bannerDic.svg';
+import message from '../public/images/bannerMsg.svg';
+import right from '../public/images/circleLeft.svg';
+import left from '../public/images/circleRight.svg';
+import square from '../public/images/squareBg.svg';
 import { useRouter } from 'next/router';
 
 export default function BannerSecond() {
-  const size = window.innerWidth;
-  const router = useRouter();
-
   return (
-    <ImgContainerTwo>
-      <div className="etc">
-        <Image src={etc} alt="etcImg" />
+    <ImgContainer>
+      <div className="right">
+        <Image src={right} alt="img5"></Image>
       </div>
-      <div className="post">
-        <Image src={post} alt="postImg" className="post" />
+      <div className="square">
+        <Image src={square} alt="img6"></Image>
       </div>
-      <div className="card">
-        <Image
-          src={card}
-          alt="cardImg"
-          className="animate__animated animate__headShake animate__infinite animate-duration-2"
-        />
+      <div className="left">
+        <Image src={left} alt="img4"></Image>
       </div>
-      <div className="user">
-        <Image src={user} alt="userImg" />
+      <div className="itemBox2">
+        <div className="dictionary">
+          <Image src={dictionary} alt="img3"></Image>
+        </div>
+        <div className="computer">
+          <Image src={computer} alt="img1"></Image>
+        </div>
+        <div className="message">
+          <Image src={message} alt="img2"></Image>
+        </div>
       </div>
-      <div className="message">
-        <Image
-          src={secMessage}
-          alt="msgImg"
-          className="animate__animated animate__heartBeat animate__infinite animate-duration-2"
-        />
-      </div>
-    </ImgContainerTwo>
+    </ImgContainer>
   );
 }
 
-const ImgContainerTwo = styled.div<BannerProps>`
+const ImgContainer = styled.div<BannerProps>`
   position: relative;
   width: 100%;
   max-width: 1280px;
-  height: 660px;
   margin: 0 auto;
-
-  > .etc {
-    width: auto;
+  height: 660px;
+  > .itemBox2 {
+    display: flex;
     position: absolute;
-    left: 13%;
-    bottom: 5%;
+    top: 40%;
+    width: 100%;
+    > .computer {
+      width: 34%;
+      min-width: 200px;
+      animation: computer-move 2s ease-in-out infinite alternate;
+      > img {
+        width: 100%;
+      }
+    }
 
+    > .message {
+      width: 11%;
+      min-width: 70px;
+      animation: message-dictionary-move 2s ease-in-out infinite alternate;
+      > img {
+        width: 100%;
+      }
+    }
+
+    > .dictionary {
+      display: flex;
+      justify-content: end;
+      align-items: end;
+      width: 9%;
+      max-height: 250px;
+      animation: message-dictionary-move 2s ease-in-out infinite alternate;
+      > img {
+        width: 100%;
+      }
+    }
+  }
+
+  > .left {
+    width: 13%;
+    min-width: 150px;
+    position: absolute;
+    top: 20%;
+    right: 0%;
     > img {
       width: 100%;
     }
   }
-  > .post {
-    width: 30%;
-    min-width: 280px;
+
+  > .right {
+    width: 7%;
+    min-width: 150px;
     position: absolute;
-    left: 10%;
-    bottom: 5%;
-
-    > img {
-      width: 100%;
-    }
-  }
-
-  .card {
-    width: 20%;
-    min-width: 140px;
-    position: absolute;
-    left: 30%;
-    bottom: 45%;
-
-    > img {
-      width: 100%;
-    }
-  }
-
-  .cardRes {
-    position: absolute;
+    top: 30%;
     left: 3%;
-    bottom: 45%;
-  }
-
-  > .user {
-    width: 20%;
-    min-width: 140px;
-    position: absolute;
-    left: 0%;
-    bottom: 28%;
-
     > img {
       width: 100%;
     }
   }
 
-  > .message {
+  > .square {
+    width: 30%;
+    min-width: 200px;
     position: absolute;
-    left: 14%;
-    bottom: 59%;
-    width: 14%;
-    transform: scaleX(-1);
-    min-width: 100px;
+    top: 20%;
+    left: 27%;
     > img {
       width: 100%;
+    }
+  }
+
+  @keyframes computer-move {
+    0% {
+      transform: translateY(0);
+    }
+    100% {
+      transform: translateY(-30px);
+    }
+  }
+
+  @keyframes message-dictionary-move {
+    0% {
+      transform: translateY(0);
+    }
+    100% {
+      transform: translateY(60px);
     }
   }
 `;
