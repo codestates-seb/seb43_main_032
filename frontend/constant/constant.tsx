@@ -1,4 +1,4 @@
-import { ArrObj, DefaultObj } from '@/types/types';
+import { ArrObj, DefaultObj, UserObj } from '@/types/types';
 
 export const STACKS_CATEGORIES: DefaultObj = {
   language: '언어',
@@ -182,4 +182,9 @@ export const PROJECT_FILTER: DefaultObj = {
   '오래된 순': 'old',
   '조회 순': 'view',
   '찜 순': 'heart',
+};
+
+export const USERS_FLTER: UserObj = {
+  position: '직군별',
+  star: '스택별',
 };
