@@ -32,7 +32,7 @@ const App = ({ Component, pageProps }: AppProps) => {
           {isContact ? (
             <Contact contactHandler={contactHandler} />
           ) : (
-            <FcSms size={70} onClick={contactHandler} className="icon" />
+            <FcSms onClick={contactHandler} />
           )}
         </ModalBox>
         <Footer />
@@ -53,4 +53,9 @@ const ModalBox = styled.div`
   position: fixed;
   bottom: 20px;
   right: 20px;
+  > svg {
+    height: 70px;
+    width: 70px;
+    cursor: pointer;
+  }
 `;
