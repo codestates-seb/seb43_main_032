@@ -1,14 +1,27 @@
+//홈 페이지 입니다. 경로 '/'
 import styled from 'styled-components';
 import { useQuery } from 'react-query';
 import { api } from '@/util/api';
+import ProjectCardbox from '@/components/project/ProjectCardbox';
+import Message from '@/components/Message';
+import { FcSms } from 'react-icons/fc';
+import { useState } from 'react';
+import { Modal } from '@/components/Modal';
 import { Project } from '@/types/project';
 import Message from '@/components/Message';
 import { Community } from '@/types/community';
 import { useCommunity } from '@/hooks/react-query/useCommunity';
 import ContentCardbox from '@/components/ContentCardbox';
 
+const Box = styled.div`
+  width: 100%;
+  padding: var(--padding-2);
+`;
+
 const Home = () => {
-  //프로젝트 데이터
+  const [isModal, setIsModal] = useState(false);
+  
+  // useQuery를 사용하여 데이터 fetch
   const { data, isLoading, error } = useQuery<
     {
       data: Project[];
@@ -38,13 +51,10 @@ const Home = () => {
         title={'인기 커뮤니티'}
       />
       <ContentCardbox type={1} data={data.data} title={'종료 프로젝트'} />
+          <FcSms size={70} onClick={() => setIsModal(true)} className="icon" />
+        {isModal ? <Modal setIsModal={setIsModal} /> : null}
     </Box>
   );
 };
 
 export default Home;
-
-const Box = styled.div`
-  width: 100%;
-  padding: var(--padding-2);
-`;
