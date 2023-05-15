@@ -1,5 +1,5 @@
 import useAuth from '@/hooks/react-query/useAuth';
-import { IUser } from '@/util/api/user';
+import { IUser } from '@/types/user';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 import { FieldError, FieldErrors, useForm } from 'react-hook-form';
