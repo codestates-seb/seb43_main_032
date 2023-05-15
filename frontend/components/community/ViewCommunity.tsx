@@ -26,56 +26,54 @@ const ViewCommunity = () => {
   const address = `/community/post/${id}`;
   const queryKey = ['post', id];
 
-  const { isLoading, error, data } = useCommunity<Community>({
+  const { communityQuery } = useCommunity<Community>({
     address,
     queryKey,
   });
+  const data = communityQuery.data?.data!;
 
-  if (isLoading) return <Message>로딩중입니다.</Message>;
-  if (error) return <Message>잠시 후 다시 시도해주세요.</Message>;
+  if (communityQuery.isLoading) return <Message>로딩중입니다.</Message>;
+  if (communityQuery.error)
+    return <Message>잠시 후 다시 시도해주세요.</Message>;
   return (
     <Container>
-      {data && (
-        <>
-          <Top>
-            <div className="left">
-              <div className="title">{data.data.title}</div>
-              <div className="date">{data.data.createdAt}</div>
-            </div>
-            <div className="right">
-              <img src={data.data.avatar}></img>
-              <div className="userBox nanum-bold userStar">
-                <FaHeart color="red" /> {data.data.userStar}
+      <Top>
+        <div className="left">
+          <div className="title">{data.title}</div>
+          <div className="date">{data.createdAt}</div>
+        </div>
+        <div className="right">
+          <img src={data.avatar}></img>
+          <div className="userBox nanum-bold userStar">
+            <FaHeart color="red" /> {data.userStar}
+          </div>
+          <div className="userBox nanum-bold userMail">
+            {data.email.split('@')[0]}
+          </div>
+        </div>
+      </Top>
+      <Bottom>
+        <div className="content">
+          <ReactMarkdown
+            content={data.content}
+            backColor="white"
+          ></ReactMarkdown>
+        </div>
+        <div className="comment">
+          <Editor />
+          <Btn>
+            <span>제출하기</span>
+          </Btn>
+          <div className="each">
+            {/* 임시로 el.id가 없기 때문에 i 활용 중 */}
+            {data.comment.map((el, i) => (
+              <div key={i} className="box">
+                <div>{i}</div>
               </div>
-              <div className="userBox nanum-bold userMail">
-                {data.data.email.split('@')[0]}
-              </div>
-            </div>
-          </Top>
-          <Bottom>
-            <div className="content">
-              <ReactMarkdown
-                content={data.data.content}
-                backColor="white"
-              ></ReactMarkdown>
-            </div>
-            <div className="comment">
-              <Editor />
-              <Btn>
-                <span>제출하기</span>
-              </Btn>
-              <div className="each">
-                {/* 임시로 el.id가 없기 때문에 i 활용 중 */}
-                {data.data.comment.map((el, i) => (
-                  <div key={i} className="box">
-                    <div>{i}</div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </Bottom>
-        </>
-      )}
+            ))}
+          </div>
+        </div>
+      </Bottom>
     </Container>
   );
 };

@@ -1,31 +1,38 @@
 import styled from 'styled-components';
-import ProjectCard from './ProjectCard';
 import { Project } from '@/types/project';
 import { ReactNode } from 'react';
+import ProjectCard from '../project/ProjectCard';
 
 type Props = {
   data: Project[];
   title: string;
+  skeleton?: ReactNode;
   children?: ReactNode;
 };
 
-const ProjectCardbox = ({ title, data, children }: Props) => {
+const ProjectCardBox = ({ title, data, skeleton, children }: Props) => {
   return (
     <Box>
-      <div className="nanum-bold">{title}</div>
+      <div className="nanum-bold">
+        <div>{title}</div> {children}
+      </div>
       <div className="projects-box">
         {data?.map((project: Project) => (
           <ProjectCard key={project.id} size={'sm'} data={project} />
         ))}
       </div>
-      {children}
+      {skeleton}
     </Box>
   );
 };
 
-export default ProjectCardbox;
+export default ProjectCardBox;
 
 const Box = styled.div`
+  > .nanum-bold {
+    display: flex;
+    gap: 16px;
+  }
   .projects-box {
     display: grid;
     grid-template-columns: repeat(4, 1fr);

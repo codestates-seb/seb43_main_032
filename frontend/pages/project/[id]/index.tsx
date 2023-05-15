@@ -21,6 +21,13 @@ const ReactMarkdown = dynamic(() => import('@/components/editor/ContentBox'), {
 
 const ViewProject = () => {
   const router = useRouter();
+  useEffect(() => {
+    window.scrollTo({
+      top: 600,
+      left: 0,
+      behavior: 'smooth',
+    });
+  }, [router]);
   //react-query
   const { projectQuery, updateJob, updateHeart, updateState } = useProject();
 
