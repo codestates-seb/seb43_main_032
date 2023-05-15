@@ -51,11 +51,12 @@ public class CommunityController {
     }
 
     @ApiOperation(value = "게시글 답글 조회")
-    @GetMapping("/ArticleAnswer")
+    @GetMapping("/{article-id}/ArticleAnswer")
     public ResponseEntity<MultiResponseDto<AnswerResponseDto>> getArticleAnswers(
+            @PathVariable("article-id") Long articleId,
             @RequestParam int page,
             @RequestParam int size){
-        MultiResponseDto answerPage = answerService.findAllArticleAnswer(page,size);
+        MultiResponseDto answerPage = answerService.findAllArticleAnswer(articleId,page,size);
         return ResponseEntity.ok(answerPage);
     }
     @ApiOperation(value = "프로젝트 답글 조회")

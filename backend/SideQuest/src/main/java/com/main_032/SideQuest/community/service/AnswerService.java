@@ -72,10 +72,12 @@ public class AnswerService {
         answer.delete();
         answerRepository.save(answer);
     }
-//    public MultiResponseDto<AnswerResponseDto> findAllArticleAnswer(int page,int size){
-//        Page<Answer> answerPage =answerRepository.findAllArticleAnswerPage(PageRequest.of(page,size,Sort.by("id").descending()));
+//    public MultiResponseDto<AnswerResponseDto> findAllArticleAnswer(Long articleId,int page,int size){
+//        Page<Answer> answerPage =answerRepository.findAllArticleAnswerPage(articleId, PageRequest.of(page,size,Sort.by("id").descending()));
 //        List<Answer> answerList = answerPage.getContent();
-//
+//        List<AnswerResponseDto> answerResponseDtoList = mapper.AnswerListToAnswerResponseDtoList(answerList);
+//        MultiResponseDto<AnswerResponseDto> response = new MultiResponseDto<AnswerResponseDto>(answerList,answerPage);
+//        return
 //    }
 
     private Optional<Answer> verifyAnswer(Long Id) {
@@ -94,9 +96,10 @@ public class AnswerService {
         findArticle.orElseThrow(() -> new BusinessLogicException(ExceptionCode.ARTICLE_NOT_FOUND));
     }
 
-    private void verifyMember(Long memberId) {
+    private Optional<Member> verifyMember(Long memberId) {
         Optional<Member> findMember =memberRepository.findById(memberId);
         findMember.orElseThrow(() -> new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
+        return findMember;
     }
     private void verifyProject(Long projectId) {
         Optional<Project> findProject =projectRepository.findById(projectId);

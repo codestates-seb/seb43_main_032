@@ -9,9 +9,9 @@ import org.springframework.data.jpa.repository.Query;
 
 
 public interface AnswerRepository extends JpaRepository<Answer,Long> {
-    @Query("SELECT aw FROM Answer aw WHERE aw.category = '게시글'")
-    Page<Answer> findAllArticleAnswerPage(Pageable pageable);
-    @Query("SELECT p FROM Project p WHERE p.category = '프로젝트'")
+    @Query("SELECT aw FROM Answer aw WHERE aw.articleId = :articleId")
+    Page<Answer> findAllArticleAnswerPage(Long articleId, Pageable pageable);
+    @Query("SELECT p FROM Project p WHERE p.projectId = :'projectId'")
     Page<Answer> findAllProjectAnswerPage(Pageable pageable);
 
 
