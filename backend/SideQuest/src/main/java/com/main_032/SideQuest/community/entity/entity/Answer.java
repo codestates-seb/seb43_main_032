@@ -1,11 +1,11 @@
-package com.main_032.SideQuest.community.entity;
+package com.main_032.SideQuest.community.entity.entity;
 
 import lombok.Getter;
 
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
-
+// 답글
 @Entity
 @Getter
 public class Answer {
@@ -35,6 +35,9 @@ public class Answer {
     private boolean deleted;
 
     @OneToMany(mappedBy = "answer")
+    private List<Comment> commentList = new ArrayList<>();
+
+    @OneToMany(mappedBy = "project")
     private List<Comment> commentList = new ArrayList<>();
 
 

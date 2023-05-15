@@ -1,10 +1,10 @@
-package com.main_032.SideQuest.community.entity;
+package com.main_032.SideQuest.community.entity.entity;
 
 import com.main_032.SideQuest.util.entity.BaseEntity;
 import lombok.Getter;
 
 import javax.persistence.*;
-
+// 댓글
 @Entity
 @Getter
 public class Comment extends BaseEntity {
