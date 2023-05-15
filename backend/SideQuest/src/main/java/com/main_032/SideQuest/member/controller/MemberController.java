@@ -35,7 +35,7 @@ public class MemberController {
     @PostMapping("/login")
     @ResponseStatus(HttpStatus.OK)
     public LoginResponseDto login(@RequestBody LoginPostDto loginPostDto) {
-        LoginResponseDto loginResponseDto = new LoginResponseDto("name");
+        LoginResponseDto loginResponseDto = new LoginResponseDto();
         return loginResponseDto;
     }
 
