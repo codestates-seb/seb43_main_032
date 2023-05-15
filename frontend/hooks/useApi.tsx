@@ -7,10 +7,6 @@ interface IObj {
 }
 
 export default function useApi(url: string): [(data?: any) => void, IObj] {
-  // const [ state, setState] = useState({
-  // 	loading: false,
-  // 	data: undefined,
-  // })
   const [isLoading, setIsLoading] = useState(false);
   const [data, setData] = useState<undefined | any>(undefined);
   const [error, setError] = useState<undefined | any>(undefined);

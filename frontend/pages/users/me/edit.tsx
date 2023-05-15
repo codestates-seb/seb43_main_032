@@ -1,6 +1,5 @@
 import useApi from '@/hooks/useApi';
 import useUser from '@/hooks/useUser';
-import { IUSerEdit } from '@/pages/api/user/edit';
 import { useEffect } from 'react';
 import { FieldErrors, useForm } from 'react-hook-form';
 import { useQueryClient } from 'react-query';
@@ -72,13 +71,9 @@ export default function edit() {
   const {
     getMyInfo: { data: user },
   } = useUser();
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm();
+  const { register, handleSubmit } = useForm();
 
-  const [submit, { isLoading, data }] = useApi('/api/user/edit');
+  const [submit, { data }] = useApi('/api/user/edit');
 
   const onValid = (data: ISubmit) => {
     submit(data);
@@ -102,7 +97,6 @@ export default function edit() {
             <P>Change Image</P>
           </ImgWrapper>
           <form onSubmit={handleSubmit(onValid, onInValid)}>
-            {' '}
             <Label>UserName</Label>
             <Input {...register('name')} placeholder={user.name} />
             <Label>개발기간</Label>

@@ -2,17 +2,19 @@ import Image from 'next/image';
 import { FaUserAlt } from 'react-icons/fa';
 import { FiMenu } from 'react-icons/fi';
 import Link from 'next/link';
-import { useRecoilValue } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import styled from 'styled-components';
+import { isLoggedInState } from '@/recoil/atom';
 import { useRouter } from 'next/router';
 import { useEffect, useMemo, useState } from 'react';
 import { DefaultObj } from '@/types/types';
 import logo from '../public/images/logo.svg';
 import logoWhite from '../public/images/logoSymbolWhite.svg';
 import Slider from './Slider';
+import Btn from './button/Btn';
+import { useOffResize } from '@/hooks/useOffResize';
 
 const Header = () => {
-  const isLoggedIn = useRecoilValue(isLoggedInState);
   const router = useRouter();
 
   //로그인
@@ -37,11 +39,6 @@ const Header = () => {
 
   //스크롤 높이 상태
   const [isScrolled, setIsScrolled] = useState(false);
-
-  const handleLogOut = async () => {
-    // logOut();
-    setUserLogOut.mutate();
-  };
 
   //스크롤 높이 상태 핸들러
   const handleScroll = () => {
@@ -96,7 +93,7 @@ const Header = () => {
             </li>
           ))}
           {isLoggedIn
-            ? navNames.slice(4, 6).map((name) =>
+            ? navNames.slice(3, 5).map((name) =>
                 name === 'mypage' ? (
                   <li key={name}>
                     <Link href={navArr[name]}>

@@ -111,7 +111,6 @@ model Stack {
   name      String  @unique
   project   Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
   projectId Int
-
   @@index([projectId])
 }
 
@@ -120,7 +119,6 @@ model Comment {
   name      String  @unique
   project   Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
   projectId Int
-
   @@index([projectId])
 }
 

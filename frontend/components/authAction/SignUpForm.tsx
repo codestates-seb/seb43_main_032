@@ -35,7 +35,7 @@ interface ISignUpForm {
   verifyPw: string;
 }
 export default function SignUpForm() {
-  const [signUp, { isLoading, data, error }] = useApi('/api/user/signup');
+  const [signUp, { isLoading, data }] = useApi('/api/user/signup');
   const {
     register,
     watch,
