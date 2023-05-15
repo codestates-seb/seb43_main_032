@@ -1,4 +1,3 @@
-import useUser from '@/hooks/useUser';
 import { IUser } from '@/util/api/user';
 import { AiFillStar } from 'react-icons/ai';
 import { FaLocationArrow, FaNodeJs } from 'react-icons/fa';
