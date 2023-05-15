@@ -2,9 +2,12 @@ package com.main_032.SideQuest.community.entity.controller;
 
 import com.main_032.SideQuest.community.entity.dto.CommentDto.CommenntAriticle.CommentArticleDto;
 import com.main_032.SideQuest.community.entity.dto.CommentDto.CommentProject.CommentProjectDto;
+import com.main_032.SideQuest.community.entity.dto.LikesPostDto;
+import com.main_032.SideQuest.community.entity.entity.Likes;
 import com.main_032.SideQuest.community.entity.service.AnswerService;
 import com.main_032.SideQuest.community.entity.service.CommentService;
 import com.main_032.SideQuest.community.entity.service.LikesService;
+import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -17,64 +20,88 @@ import org.springframework.web.bind.annotation.*;
 public class CommunityController {
 
     private final CommentService commentService;
-//    private final LikesService likesService;
+    private final LikesService likesService;
 
-    public CommunityController(CommentService commentService) {
+    public CommunityController(CommentService commentService, LikesService likesService) {
 
         this.commentService = commentService;
-//        this.likesService = likesService;
+        this.likesService = likesService;
     }
-
-    @PostMapping("/articles")
+    @ApiOperation(value = "아티클 댓글 생성")
+    @PostMapping("/article")
     public ResponseEntity<CommentArticleDto> createArticleComment(@RequestBody CommentArticleDto commentArticleDto,
-                                                                  @RequestHeader("email") String email) {
+                                                                  @RequestParam("email") String email) {
         return ResponseEntity.status(HttpStatus.CREATED).body(commentService.createArticleComment(commentArticleDto, email));
     }
-    @PostMapping("/projects")
+    @ApiOperation(value = "프로젝트 댓글 생성")
+    @PostMapping("/project")
     public ResponseEntity<CommentProjectDto> createProjectComment(@RequestBody CommentProjectDto commentProjectDto,
-                                                                  @RequestHeader("email") String email) {
+                                                                  @RequestParam("email") String email) {
         return ResponseEntity.status(HttpStatus.CREATED).body(commentService.createProjectComment(commentProjectDto, email));
     }
+    @ApiOperation(value = "댓글에 좋아요 추가")
+    @PostMapping("/likes")
+    public ResponseEntity<Likes> likeComment(@RequestBody LikesPostDto likesPostDto,
+                                             @RequestHeader("email") String email) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(likesService.likeComment(likesPostDto, email));
+    }
 
-    @PutMapping("/articles/{id}")
+    @ApiOperation(value = "댓글에 좋아요 취소")
+    @DeleteMapping("/likes/{commentId}")
+    public ResponseEntity<Void> unlikeComment(@PathVariable Long commentId,
+                                              @RequestHeader("email") String email) {
+        likesService.unlikeComment(commentId, email);
+        return ResponseEntity.noContent().build();
+    }
+
+    @ApiOperation(value = "댓글에 대한 좋아요 개수 조회")
+    @GetMapping("/likes/{commentId}")
+    public ResponseEntity<Integer> countLikesByCommentId(@PathVariable Long commentId) {
+        return ResponseEntity.ok(likesService.countLikesByCommentId(commentId));
+    }
+
+    @ApiOperation(value = "아티클 댓글 수정")
+    @PatchMapping("/article/{id}")
     public ResponseEntity<CommentArticleDto> updateArticleComment(@PathVariable Long id,
                                                                   @RequestBody CommentArticleDto commentArticleDto,
-                                                                  @RequestHeader("email") String email) {
+                                                                  @RequestParam("email") String email) {
         return ResponseEntity.ok(commentService.updateArticleComment(id, commentArticleDto, email));
     }
-
-    @PutMapping("/projects/{id}")
+    @ApiOperation(value = "프로젝트 댓글 수정")
+    @PatchMapping("/project/{id}")
     public ResponseEntity<CommentProjectDto> updateProjectComment(@PathVariable Long id,
                                                                   @RequestBody CommentProjectDto commentProjectDto,
-                                                                  @RequestHeader("email") String email) {
+                                                                  @RequestParam("email") String email) {
         return ResponseEntity.ok(commentService.updateProjectComment(id, commentProjectDto, email));
     }
-
-    @DeleteMapping("/articles/{id}")
+    @ApiOperation(value = "아티클 댓글 삭제")
+    @DeleteMapping("/article/{id}")
     public ResponseEntity<Void> deleteArticleComment(@PathVariable Long id,
-                                                     @RequestHeader("email") String email) {
+                                                     @RequestParam("email") String email) {
         commentService.deleteArticleComment(id, email);
         return ResponseEntity.noContent().build();
     }
-
-    @DeleteMapping("/projects/{id}")
+    @ApiOperation(value = "프로젝트 댓글 삭제")
+    @DeleteMapping("/project/{id}")
     public ResponseEntity<Void> deleteProjectComment(@PathVariable Long id,
-                                                     @RequestHeader("email") String email) {
+                                                     @RequestParam("email") String email) {
         commentService.deleteProjectComment(id, email);
         return ResponseEntity.noContent().build();
     }
-
-    @GetMapping("/articles/{answerId}")
+    @ApiOperation(value = "아티클 댓글 조회")
+    @GetMapping("/article/{answerId}")
     public ResponseEntity<Page<CommentArticleDto>> listArticleComments(@PathVariable Long answerId,
                                                                        Pageable pageable) {
         return ResponseEntity.ok(commentService.listArticleComments(answerId, pageable));
     }
-
-    @GetMapping("/projects/{projectId}")
+    @ApiOperation(value = "프로젝트 댓글 조회")
+    @GetMapping("/project/{projectId}")
     public ResponseEntity<Page<CommentProjectDto>> listProjectComments(@PathVariable Long projectId,
                                                                        Pageable pageable) {
         return ResponseEntity.ok(commentService.listProjectComments(projectId, pageable));
     }
+
+
 
 
 }

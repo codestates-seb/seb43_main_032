@@ -7,12 +7,12 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
-public interface LikesRepository extends JpaRepository<LikesRepository, Long> {
-    Likes findByCommentAndArticle(Comment comment, Article article);
-
-    List<Likes> findAllByUserId(Long id);
+public interface LikesRepository extends JpaRepository<Likes, Long> {
+    Optional<Likes> findByMemberIdAndCommentId(Long memberId, Long commentId);
+    int countByCommentId(Long commentId);
 
 
 

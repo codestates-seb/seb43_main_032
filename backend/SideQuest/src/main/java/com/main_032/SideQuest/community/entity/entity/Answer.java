@@ -35,10 +35,10 @@ public class Answer {
     private boolean deleted;
 
     @OneToMany(mappedBy = "answer")
-    private List<Comment> commentList = new ArrayList<>();
+    private List<Comment> commentAnswerList = new ArrayList<>();
 
     @OneToMany(mappedBy = "project")
-    private List<Comment> commentList = new ArrayList<>();
+    private List<Comment> commentProjectList = new ArrayList<>();
 
 
 }
