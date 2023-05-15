@@ -1,10 +1,9 @@
+import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import AuthInput from './AuthInput';
 import { useForm, FieldErrors } from 'react-hook-form';
 import useApi from '@/hooks/useApi';
-import { useEffect } from 'react';
 import { useRouter } from 'next/router';
-import useUser from '@/hooks/useUser';
 
 const Wrapper = styled.div`
   width: 100%;
@@ -12,6 +11,7 @@ const Wrapper = styled.div`
   flex-direction: column;
   align-items: center;
 `;
+
 const Form = styled.form`
   width: 100%;
 `;
@@ -24,44 +24,48 @@ const Submit = styled.input`
   margin-top: 60px;
   border-radius: 10px;
 `;
+
 const ErrMsg = styled.p`
   position: absolute;
   color: teal;
 `;
+
 interface ISignUpForm {
   name: string;
   email: string;
   password: string;
   verifyPw: string;
 }
+
 export default function SignUpForm() {
   const [signUp, { isLoading, data }] = useApi('/api/user/signup');
   const {
     register,
-    watch,
+    getValues,
     handleSubmit,
     formState: { errors },
   } = useForm<ISignUpForm>();
+
   const onValid = (data: ISignUpForm) => {
     if (isLoading) return;
     console.log(data);
     signUp(data);
   };
-  const onInValid = (errors: FieldErrors) => {
+
+  const onInvalid = (errors: FieldErrors) => {
     console.log(errors);
   };
+
   const router = useRouter();
-  const {
-    getUserStatus: { data: userState },
-  } = useUser();
-  console.log(userState);
+
   useEffect(() => {
     console.log('redirection');
     if (data?.ok) router.push('confirm');
   }, [data]);
+
   return (
     <Wrapper>
-      <Form onSubmit={handleSubmit(onValid, onInValid)}>
+      <Form onSubmit={handleSubmit(onValid, onInvalid)}>
         <AuthInput //
           register={register('name', {
             required: '닉네임을 입력해주세요',
@@ -91,7 +95,8 @@ export default function SignUpForm() {
           register={register('verifyPw', {
             required: '비밀번호를 입력해 주세요',
             validate: (value) =>
-              value === watch('password') || '비밀번호가 일치하지 않습니다.',
+              value === getValues('password') ||
+              '비밀번호가 일치하지 않습니다.',
           })}
           type="password"
         />

@@ -129,7 +129,6 @@ model Job {
   current   Int
   project   Project @relation(fields: [projectId], references: [id])
   projectId Int
-
   @@index([projectId])
 }
 
