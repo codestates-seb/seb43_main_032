@@ -5,62 +5,98 @@ import BannerSecond from './BannerSecond';
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import BannerText from './BannerText';
 import BannerThird from './BannerThird';
 
 export default function BannerSlider({ isScrolled }: { isScrolled: boolean }) {
   const [activeSlide, setActiveSlide] = useState(0);
+  const [current, setCurrent] = useState(1);
   const settings = {
     dots: true,
     infinite: true,
     autoPlay: true,
-    autoPlaySpeed: 3000,
     slidesToShow: 1,
     slidesToScroll: 1,
-    autoplay: true,
     fade: true,
+    autoplay: true,
     afterChange: (currentSlide: number) => {
       setActiveSlide(currentSlide);
     },
   };
 
+  // 클래스 명으로 index를 따오기
+
   return (
     <Container isScrolled={isScrolled}>
-      {/* <StyledSlider {...settings}>
+      <Background activeSlide={activeSlide} />
+      <StyledSlider {...settings}>
         <BannerFirst />
         <BannerSecond />
+        <BannerThird />
       </StyledSlider>
-      {activeSlide === 0 && <BannerText activeSlide={activeSlide} />}
-      {activeSlide === 1 && <button>2</button>} */}
-      <BannerThird />
+      <BannerText activeSlide={activeSlide} />
     </Container>
   );
 }
 
 const StyledSlider = styled(Slider)`
-  height: 660px;
   width: 100%;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  position: relative;
+
+  .slick-track {
+    transition: transform 0.5s ease-in-out;
+  }
+
+  .slick-slide {
+    transition: transform 0.5s ease-in-out;
+  }
 
   .slick-active {
-    animation: reSize 4s alternate;
+    transform: scale();
+  }
+
+  .slick-arrow {
+    position: absolute;
+    left: 50%;
+    display: flex;
+    gap: 16px;
+    .slick-next {
+    }
+
+    .slick-prev {
+    }
+  }
+
+  > ul {
+    width: 100%;
+    max-width: 1280px;
+    display: flex !important;
+    position: absolute;
+    bottom: 10%;
+    margin: 0 auto;
   }
 
   .slick-dots {
-    display: flex;
+    display: flex !important;
+    gap: 16px;
     li {
       button {
-        width: 10px;
+        width: 100px;
         height: 10px;
-        border-radius: 50%;
         background-color: #ccc;
         border: none;
         cursor: pointer;
       }
 
-      &.slick-active button {
-        width: 5rem;
-        background-color: #000;
+      &::before {
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        background-color: #ccc;
+        border: none;
+        cursor: pointer;
       }
     }
   }
@@ -69,8 +105,11 @@ const StyledSlider = styled(Slider)`
     0% {
       transform: scale(1);
     }
-    100% {
+    80% {
       transform: scale(1.05);
+    }
+    100% {
+      transform: scale(1);
     }
   }
 `;
@@ -79,6 +118,21 @@ const Container = styled.div<BannerProps>`
   position: relative;
   width: 100%;
   height: 660px;
-  background: linear-gradient(270deg, #8b67ff, #dcbbff, #e2c8ff);
-  transition: background 0.5s ease;
+`;
+
+const Background = styled.div<{ activeSlide: number }>`
+  width: 100%;
+  height: 100%;
+  background-color: ${({ activeSlide }) => {
+    if (activeSlide === 1) {
+      return 'black';
+    } else if (activeSlide === 2) {
+      return 'red';
+    } else {
+      return 'blue';
+    }
+  }};
+  position: absolute;
+  top: 0;
+  transition: background-color 0.5s ease;
 `;
