@@ -6,6 +6,9 @@ import Header from '../components/Header';
 import Footer from '../components/Footer';
 import styled from 'styled-components';
 import 'animate.css';
+import { useState } from 'react';
+import { FcSms } from 'react-icons/fc';
+import Contact from '@/components/Contact';
 
 const queryClient = new QueryClient();
 
@@ -14,6 +17,10 @@ if (process.env.NODE_ENV === 'development') {
 }
 
 const App = ({ Component, pageProps }: AppProps) => {
+  const [isContact, setIsContact] = useState(false);
+  const contactHandler = () => {
+    setIsContact(!isContact);
+  };
   return (
     <QueryClientProvider client={queryClient}>
       <RecoilRoot>
@@ -21,6 +28,13 @@ const App = ({ Component, pageProps }: AppProps) => {
         <Box>
           <Component {...pageProps} />
         </Box>
+        <ModalBox>
+          {isContact ? (
+            <Contact contactHandler={contactHandler} />
+          ) : (
+            <FcSms size={70} onClick={contactHandler} className="icon" />
+          )}
+        </ModalBox>
         <Footer />
       </RecoilRoot>
     </QueryClientProvider>
@@ -33,4 +47,10 @@ const Box = styled.main`
   min-height: 100vh;
   padding: 0px calc((100% - 1280px) / 2);
   padding-top: 80px;
+`;
+
+const ModalBox = styled.div`
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
 `;
