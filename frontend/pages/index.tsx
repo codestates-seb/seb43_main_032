@@ -8,12 +8,10 @@ import { FcSms } from 'react-icons/fc';
 import { useState } from 'react';
 import { Modal } from '@/components/Modal';
 import { Project } from '@/types/project';
-
-// const Banner = styled.div`
-//   width: 100%;
-//   height: 600px;
-//   background-color: #dcdcdc;
-// `;
+import Message from '@/components/Message';
+import { Community } from '@/types/community';
+import { useCommunity } from '@/hooks/react-query/useCommunity';
+import ContentCardbox from '@/components/ContentCardbox';
 
 const Box = styled.div`
   width: 100%;
@@ -22,6 +20,7 @@ const Box = styled.div`
 
 const Home = () => {
   const [isModal, setIsModal] = useState(false);
+  
   // useQuery를 사용하여 데이터 fetch
   const { data, isLoading, error } = useQuery<
     {
@@ -31,20 +30,30 @@ const Home = () => {
     Error
   >('projects', () => api('/project?size=4&page=1').then((res) => res.data));
 
-  // 만약 데이터가 없다면 아무것도 반환하지 않음
+  //커뮤니티 조회수 높은거 5개만 가져오면 될듯??
+  const community_page_limit = 5;
+  const queryKey = ['community', 'filter'];
+  const address = `/community?size=${community_page_limit}&page=1`; // 나중에 필터를 추가하면 넣으면 될듯?
+  const { communityQuery, refetch } = useCommunity<Community[]>({
+    address,
+    queryKey,
+  });
+
   if (isLoading) return <Message>로딩중입니다.</Message>;
   if (error) return <Message>잠시 후 다시 시도해주세요.</Message>;
-  if (!data) return;
-
+  if (!data || !communityQuery.data) return;
   return (
-    <>
-      <Box>
-        <ProjectCardbox data={data.data} title={'주목할만한 프로젝트'} />
-        <ProjectCardbox data={data.data} title={'프로젝트 자랑하기'} />
-        <FcSms size={70} onClick={() => setIsModal(true)} className="icon" />
+    <Box>
+      <ContentCardbox type={1} data={data.data} title={'인기 프로젝트'} />
+      <ContentCardbox
+        type={2}
+        data={communityQuery.data.data}
+        title={'인기 커뮤니티'}
+      />
+      <ContentCardbox type={1} data={data.data} title={'종료 프로젝트'} />
+          <FcSms size={70} onClick={() => setIsModal(true)} className="icon" />
         {isModal ? <Modal setIsModal={setIsModal} /> : null}
-      </Box>
-    </>
+    </Box>
   );
 };
 
