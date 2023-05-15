@@ -2,23 +2,24 @@ package com.main_032.SideQuest.project.entity;
 
 import com.main_032.SideQuest.util.entity.BaseEntity;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
 
 @Entity
 @Getter
+@NoArgsConstructor
 public class ProPositionCrew extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "PROJECT_ID")
-    private Project project;
+    @Column
+    private Long projectId;
 
     @Column
-    private ProjectPosition position;
+    private String position;
 
     @Column
     private int number;
@@ -26,5 +27,8 @@ public class ProPositionCrew extends BaseEntity {
     @Column
     private int AcceptedNumber;
 
-
+    public ProPositionCrew(Long projectId, String position) {
+        this.projectId = projectId;
+        this.position = position;
+    }
 }

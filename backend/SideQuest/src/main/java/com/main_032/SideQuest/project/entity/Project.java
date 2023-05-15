@@ -3,6 +3,7 @@ package com.main_032.SideQuest.project.entity;
 import com.main_032.SideQuest.member.entity.Member;
 import com.main_032.SideQuest.util.entity.BaseEntity;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
@@ -13,6 +14,7 @@ import java.util.List;
 
 @Entity
 @Getter
+@NoArgsConstructor
 public class Project extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -52,20 +54,23 @@ public class Project extends BaseEntity {
     @Column(columnDefinition = "TINYINT")
     private boolean deleted;
 
-    //프로젝트 스택 리스트
-    @OneToMany(mappedBy = "project")
-    private List<ProTechStack> proTechStackList = new ArrayList<>();
 
-    //프로젝트 분야 리스트
-    @OneToMany(mappedBy = "project")
-    private List<ProField> proFieldList = new ArrayList<>();
+    public Project(String title,
+                   String content,
+                   String writerPosition,
+                   LocalDateTime startDate,
+                   LocalDateTime endDate,
+                   String thumbnailImgUrl) {
+        this.title = title;
+        this.content = content;
+        this.writerPosition = writerPosition;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.thumbnailImgUrl = thumbnailImgUrl;
+    }
 
-    //프로젝트 직업군,인원
-    @OneToMany(mappedBy = "project")
-    private List<ProPositionCrew> proPositionCrewList = new ArrayList<>();
-
-    //프로젝트 지원 인원들
-    @OneToMany(mappedBy = "project")
-    private List<ProApplyCrew> proApplyCrewList = new ArrayList<>();
+    public void updateMemberId(Long memberId) {
+        this.memberId = memberId;
+    }
 }
 
