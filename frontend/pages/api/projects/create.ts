@@ -1,6 +1,7 @@
 import client from '@/libs/client/client';
 import withHandler from '@/libs/server/withHandler';
-import { Job, Stack, Tag } from '@prisma/client';
+import withSession from '@/libs/server/withSession';
+import { ProjectJob, ProjectStack, ProjectTag } from '@prisma/client';
 import { NextApiRequest, NextApiResponse } from 'next';
 
 async function handler(req: NextApiRequest, res: NextApiResponse) {
@@ -20,17 +21,17 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
       start: new Date(start),
       end: new Date(end),
       tags: {
-        create: tags.map((tag: Tag) => ({
+        create: tags.map((tag: ProjectTag) => ({
           name: tag,
         })),
       },
       stacks: {
-        create: stacks.map((stack: Stack) => ({
+        create: stacks.map((stack: ProjectStack) => ({
           name: stack,
         })),
       },
       jobs: {
-        create: jobs.map((job: Job) => ({
+        create: jobs.map((job: ProjectJob) => ({
           key: job.key,
           want: job.want,
           current: job.current,
@@ -46,4 +47,6 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
   return res.status(200).json({ ok: true, newProject });
 }
 
-export default withHandler({ method: 'POST', handler, isPrivate: false });
+export default withSession(
+  withHandler({ method: 'POST', handler, isPrivate: false })
+);
