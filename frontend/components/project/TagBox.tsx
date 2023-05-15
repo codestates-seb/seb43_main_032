@@ -1,12 +1,12 @@
 import { GrFormClose } from 'react-icons/gr';
 import Tag from '../Tag';
-import { DefaultObj } from '@/types/types';
 import { UseFormRegister } from 'react-hook-form';
 import styled from 'styled-components';
+import { Form } from '@/types/types';
 
 type Props = {
   tags: string[];
-  register?: UseFormRegister<DefaultObj>;
+  register?: UseFormRegister<Form>;
   tagKeyDown?: (e: React.KeyboardEvent<HTMLInputElement>) => void;
   deleteTag?: (idx: number) => void;
 };

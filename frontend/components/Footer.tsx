@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react';
-import LogoImage from '@/public/images/main_logo2.png';
+import logo from '@/public/images/logoSymbolWhite.svg';
 import Image from 'next/image';
 import styled from 'styled-components';
 import { FOOTER_DATA } from '@/constant/constant';
@@ -13,18 +13,18 @@ const Footer = () => {
     <Box>
       <div>
         <Link href="/">
-          <Image alt="logo" src={LogoImage} />
+          <Image alt="logo" src={logo} />
         </Link>
       </div>
       <nav>
         {categories.map((category) => (
-          <div>
+          <div key={category}>
             <div className="sub-btn">
               <span className="sub-btn-top">{category.toUpperCase()}</span>
             </div>
             <ul>
               {FOOTER_DATA[category].map((content) => (
-                <li className="noto-medium">
+                <li key={content} className="noto-medium">
                   <a href="#">{content}</a>
                 </li>
               ))}
@@ -40,9 +40,13 @@ export default Footer;
 
 const Box = styled.footer`
   padding: 0px calc((100% - 1280px) / 2);
+  height: 400px;
   display: flex;
   padding-top: 20px;
   border-top: 1px solid #cacaca;
+  background: linear-gradient(75deg, #8217f3 0%, #8217f3 30%, #4412e7 100%);
+  color: white !important;
+
   @media (max-width: 960px) {
     flex-direction: column;
   }

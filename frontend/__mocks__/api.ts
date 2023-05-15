@@ -143,7 +143,7 @@ export const communityHandler = [
     const start = (page - 1) * size;
     const end = page * size;
     const filteredData = community.filter(
-      (p) => p.category === req.params.category
+      (p) => p.position === req.params.category
     );
     const search = url.searchParams.get('search');
     let data = filteredData;
@@ -159,8 +159,8 @@ export const communityHandler = [
   //커뮤니티 개별 조회
   rest.get('/community/post/:id', async (req, res, ctx) => {
     const { id } = req.params;
-    const eachPost = community.find((project) => project.id === Number(id));
-    return res(ctx.status(200), ctx.json({ eachPost }));
+    const data = community.find((project) => project.id === Number(id));
+    return res(ctx.status(200), ctx.json({ data }));
   }),
 
   rest.post('/community/create/', async (req, res, ctx) => {

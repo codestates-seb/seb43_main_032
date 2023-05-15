@@ -3,15 +3,15 @@ export type Community = {
   email: string;
   userStar: number;
   avatar: string;
-  category: string;
+  position: string;
   title: string;
   content: string;
   createdAt: string;
   heart: number;
   view: number;
   tags: string[];
-  status: null;
-  comment: Comment[];
+  status?: null;
+  comment: (Comment | {})[];
 };
 
 export type Comment = {

@@ -1,55 +1,24 @@
+import { COMMUNITY_CATEGORY } from '@/constant/constant';
 import { useRouter } from 'next/router';
-import React, { useMemo } from 'react';
-import {
-  FaClipboardList,
-  FaDatabase,
-  FaDesktop,
-  FaPaintBrush,
-  FaQuestion,
-} from 'react-icons/fa';
+import React from 'react';
 import styled from 'styled-components';
 
 export default function SideBar() {
   const router = useRouter();
-  const categoryTitle = useMemo(
-    () => [
-      {
-        title: '질문하기',
-        link: '/community/create',
-        icon: <FaQuestion className="questions" color="#8216f5" />,
-      },
-      {
-        title: '전체보기',
-        link: '/community',
-        icon: <FaClipboardList />,
-      },
-      {
-        title: '프론트엔드',
-        link: '/community/frontend',
-        icon: <FaDesktop />,
-      },
-      {
-        title: '백엔드',
-        link: '/community/backend',
-        icon: <FaDatabase />,
-      },
-      {
-        title: 'UX/UI',
-        link: '/community/uxui',
-        icon: <FaPaintBrush />,
-      },
-    ],
-    []
-  );
 
   return (
     <Container>
       <ul>
-        {categoryTitle.map((item) => (
-          <li key={item.title} onClick={() => router.push(item.link)}>
+        {COMMUNITY_CATEGORY.map((item) => (
+          <li
+            key={item.title}
+            onClick={() => {
+              router.push(`/community/${item.link}`);
+            }}
+          >
             <span
               className={
-                router.asPath === item.link
+                router.asPath === `/community${item.link}`
                   ? router.asPath === '/community'
                     ? 'icon all'
                     : `icon ${router.query.category}`
@@ -79,22 +48,59 @@ const Container = styled.div`
       color: #09adea;
     }
   }
-
   .frontend {
     > svg {
       color: #2af599;
     }
   }
-
   .backend {
     > svg {
       color: #f98bfe;
     }
   }
-
   .uxui {
     > svg {
       color: #4512eb;
+    }
+  }
+  .plan {
+    > svg {
+      color: #aac02f;
+    }
+  }
+  .design {
+    > svg {
+      color: #a1f36b;
+    }
+  }
+  .pm {
+    > svg {
+      color: #3acec1;
+    }
+  }
+  .businessplan {
+    > svg {
+      color: #f1da8b;
+    }
+  }
+  .marketing {
+    > svg {
+      color: #e48cb5;
+    }
+  }
+  .android {
+    > svg {
+      color: #53f8a6;
+    }
+  }
+  .ios {
+    > svg {
+      color: #c0c0c0;
+    }
+  }
+  .etc {
+    > svg {
+      color: #ff0606;
     }
   }
 
