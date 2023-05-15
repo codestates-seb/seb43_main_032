@@ -99,6 +99,7 @@ const Container = styled.div`
     width: 300px;
     height: 30px;
     border-radius: 10px;
+    cursor: pointer;
   }
 
   textarea {
