@@ -1,10 +1,10 @@
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-#     Local
-#        url: jdbc:mysql://localhost:3306/todotest?serverTimezone=UTC&characterEncoding=UTF-8
-#        username: root
-#        password: a123
+    # Local
+#    url: jdbc:mysql://localhost:3306/sidequestdb?serverTimezone=UTC&characterEncoding=UTF-8
+#    username: root
+#    password: a123
 
 #     RDS
     url: jdbc:mysql://sidequestdb.cinzzb9ewscr.ap-northeast-2.rds.amazonaws.com:3306/sidequestdb?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
