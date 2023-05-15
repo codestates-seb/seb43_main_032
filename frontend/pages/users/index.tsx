@@ -1,6 +1,7 @@
 import GridBox from '@/components/GridBox';
 import UserCard from '@/components/user/UserCard';
 import UserSideBar from '@/components/user/UserSideBar';
+import { USERS } from '@/dummy/users';
 import useUser from '@/hooks/react-query/useUser';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
@@ -35,19 +36,20 @@ const User = () => {
       behavior: 'smooth',
     });
   }, [router]);
-  const {
-    userQuery: { data: users },
-  } = useUser();
+  // const {
+  //   userQuery: { data: users },
+  // } = useUser();
   return (
     <GridBox>
       <UserSideBar />
       <RightColumn>
         <p className="nanum-bold">Star | 가입일 | 활동</p>
         <CardWrapper>
-          {users &&
-            users
-              .filter((el) => el.MEMBER_ID < 30 && el.MEMBER_ID > 0)
-              .map((user) => <UserCard key={user.MEMBER_ID} user={user} />)}
+          {USERS.filter((el) => el.MEMBER_ID < 30 && el.MEMBER_ID > 0).map(
+            (user) => (
+              <UserCard key={user.MEMBER_ID} user={user} />
+            )
+          )}
         </CardWrapper>
       </RightColumn>
     </GridBox>

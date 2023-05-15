@@ -9,6 +9,7 @@ import Message from '../Message';
 import Btn from '../button/Btn';
 import { useCommunity } from '@/hooks/react-query/useCommunity';
 import { Community } from '@/types/community';
+import { COMMUNITY } from '@/dummy/community';
 const ReactMarkdown = dynamic(() => import('@/components/editor/ContentBox'), {
   ssr: false,
   loading: () => <ContentSkeleton />,
@@ -30,7 +31,7 @@ const ViewCommunity = () => {
     address,
     queryKey,
   });
-  const data = communityQuery.data?.data!;
+  const data = COMMUNITY[0];
 
   if (communityQuery.isLoading) return <Message>로딩중입니다.</Message>;
   if (communityQuery.error)
