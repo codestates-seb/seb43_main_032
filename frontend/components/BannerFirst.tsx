@@ -1,114 +1,110 @@
-import { BannerProps } from '@/types/types';
-import Image from 'next/image';
 import React, { useEffect, useState } from 'react';
-import styled, { keyframes } from 'styled-components';
-import computer from '../public/images/bannerComputer.svg';
-import dictionary from '../public/images/bannerDic.svg';
-import message from '../public/images/bannerMsg.svg';
-import right from '../public/images/circleLeft.svg';
-import left from '../public/images/circleRight.svg';
-import square from '../public/images/squareBg.svg';
-import { useRouter } from 'next/router';
+import styled from 'styled-components';
+import Image from 'next/image';
+import img from '../public/images/thirdFix.svg';
+import board from '../public/images/thirdBoard.svg';
+import msg1 from '../public/images/thirdMsg (1).svg';
+import msg2 from '../public/images/thirdMsg (2).svg';
+import msg3 from '../public/images/thirdMsg (3).svg';
+import msgSec1 from '../public/images/thireMsgSec1.svg';
+import msgSec2 from '../public/images/thireMsgSec2.svg';
+import msgSec3 from '../public/images/thireMsgSec3.svg';
+import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 
 export default function BannerFirst() {
+  // useEffect(() => {
+  //   const timer = setInterval(() => {
+  //     setNum((prev: number) => (prev + 1) % 3);
+  //   }, 1000);
+  //   return () => clearInterval(timer);
+  // }, []);
   return (
     <ImgContainer>
-      <div className="right">
-        <Image src={right} alt="img5"></Image>
-      </div>
-      <div className="square">
-        <Image src={square} alt="img6"></Image>
-      </div>
-      <div className="left">
-        <Image src={left} alt="img4"></Image>
-      </div>
-      <div className="itemBox2">
-        <div className="dictionary">
-          <Image src={dictionary} alt="img3"></Image>
+      <div className="mainImg">
+        <div className="boardImg">
+          <Image src={board} alt="boardImg" />
         </div>
-        <div className="computer">
-          <Image src={computer} alt="img1"></Image>
+        <div className="bannerImg">
+          <Image src={img} alt="bannerImg" />
         </div>
-        <div className="message">
-          <Image src={message} alt="img2"></Image>
+        <div className="msg">
+          <Image src={msg1} alt="msgImg"></Image>
+        </div>
+        <div className="msgSec">
+          <Image src={msgSec1} alt="msgImg2"></Image>
         </div>
       </div>
     </ImgContainer>
   );
 }
 
-const ImgContainer = styled.div<BannerProps>`
+const ImgContainer = styled.div`
   position: relative;
   width: 100%;
   max-width: 1280px;
   margin: 0 auto;
   height: 660px;
-  > .itemBox2 {
-    display: flex;
-    position: absolute;
-    top: 40%;
-    width: 100%;
-    > .computer {
-      width: 34%;
-      min-width: 200px;
-      animation: computer-move 2s ease-in-out infinite alternate;
+
+  > .mainImg {
+    position: relative;
+    width: 50%;
+    min-width: 300px;
+    height: 100%;
+    > .bannerImg {
+      left: 5%;
+      top: 20%;
+      position: absolute;
       > img {
         width: 100%;
       }
     }
 
-    > .message {
-      width: 11%;
-      min-width: 70px;
-      animation: message-dictionary-move 2s ease-in-out infinite alternate;
+    > .boardImg {
+      position: absolute;
+      left: 25%;
+      top: 28%;
+      width: 50%;
+      min-width: 150px;
+      animation: reSize 3s infinite ease-in-out;
       > img {
         width: 100%;
       }
     }
 
-    > .dictionary {
-      display: flex;
-      justify-content: end;
-      align-items: end;
-      width: 9%;
-      max-height: 250px;
-      animation: message-dictionary-move 2s ease-in-out infinite alternate;
+    > .msg {
+      position: absolute;
+      left: 80%;
+      top: 55%;
+      width: 15%;
+      > img {
+        width: 100%;
+      }
+    }
+
+    > .msgSec {
+      position: absolute;
+      left: 10%;
+      top: 40%;
+      width: 15%;
+
+      @media (max-width: 768px) {
+        right: 10%;
+      }
       > img {
         width: 100%;
       }
     }
   }
 
-  > .left {
-    width: 13%;
-    min-width: 150px;
-    position: absolute;
-    top: 20%;
-    right: 0%;
-    > img {
-      width: 100%;
+  @keyframes reSize {
+    0% {
+      transform: scale(1);
     }
-  }
-
-  > .right {
-    width: 7%;
-    min-width: 150px;
-    position: absolute;
-    top: 30%;
-    left: 3%;
-    > img {
-      width: 100%;
+    50% {
+      transform: scale(1.05);
     }
-  }
-
-  > .square {
-    width: 30%;
-    min-width: 200px;
-    position: absolute;
-    top: 20%;
-    left: 27%;
-    > img {
-      width: 100%;
+    100% {
+      transform: scale(1);
     }
   }
 `;
