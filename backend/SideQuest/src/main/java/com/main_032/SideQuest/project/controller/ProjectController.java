@@ -27,27 +27,12 @@ public class ProjectController {
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
+   /* @ApiOperation(value = "프로젝트 조회")
+    @PostMapping("")
+    public ResponseEntity<ProjectPostDto> getPtoject(@RequestBody )
+    */
 
     /*
-    @ApiOperation(value = "ID로 프로젝트 내 직업 상태 업데이트")
-    @PostMapping("/{id}/job")
-    public ResponseEntity<Void> updateJobStatus(@PathVariable Long id, @RequestBody JobStatusDto jobStatusDto) {
-        projectService.updateJobStatus(id, jobStatusDto);
-        return ResponseEntity.ok().build();
-    }
-
-    @ApiOperation(value = "ID로 프로젝트 내 하트 상태 업데이트")
-    @PostMapping("/{id}/heart")
-    public ResponseEntity<Void> updateHeartStatus(@PathVariable Long id, @RequestBody HeartStatusDto heartStatusDto) {
-        projectService.updateHeartStatus(id, heartStatusDto);
-        return ResponseEntity.ok().build();
-    }
-
-    @ApiOperation(value = "ID로 프로젝트 상태 업데이트")
-    @PostMapping("/{id}/state")
-    public ResponseEntity<Void> updateProjectState(@PathVariable Long id, @RequestBody StateDto stateDto) {
-        projectService.updateProjectState(id, stateDto);
-        return ResponseEntity.ok().build();
 
     @ApiOperation(value = "페이징을 이용한 프로젝트 조회")
     @GetMapping("")
@@ -70,6 +55,28 @@ public class ProjectController {
     public ResponseEntity<Void> updateProject(@PathVariable Long id, @RequestBody ProjectPostDto projectPostDto) {
         projectService.updateProject(id, projectPostDto);
         return ResponseEntity.ok().build();
+
+    @ApiOperation(value = "ID로 프로젝트 내 직업 상태 업데이트")
+    @PostMapping("/{id}/job")
+    public ResponseEntity<Void> updateJobStatus(@PathVariable Long id, @RequestBody JobStatusDto jobStatusDto) {
+        projectService.updateJobStatus(id, jobStatusDto);
+        return ResponseEntity.ok().build();
+    }
+
+    @ApiOperation(value = "ID로 프로젝트 내 하트 상태 업데이트")
+    @PostMapping("/{id}/heart")
+    public ResponseEntity<Void> updateHeartStatus(@PathVariable Long id, @RequestBody HeartStatusDto heartStatusDto) {
+        projectService.updateHeartStatus(id, heartStatusDto);
+        return ResponseEntity.ok().build();
+    }
+
+    @ApiOperation(value = "ID로 프로젝트 상태 업데이트")
+    @PostMapping("/{id}/state")
+    public ResponseEntity<Void> updateProjectState(@PathVariable Long id, @RequestBody StateDto stateDto) {
+        projectService.updateProjectState(id, stateDto);
+        return ResponseEntity.ok().build();
+
+
     }
 
 
