@@ -45,7 +45,7 @@ interface ILoginForm {
 export default function LoginForm() {
   const [login, { data, auth, isLoading }] = usePostApi('member/login');
   const { register, watch, handleSubmit } = useForm<ILoginForm>();
-  console.log(watch());
+  // console.log(watch());
   const onValid = (data: ILoginForm) => {
     console.log('valid');
     login(data);
