@@ -14,6 +14,7 @@ import { BsSearch } from 'react-icons/bs';
 import { PROJECT_FILTER } from '@/constant/constant';
 import ProjectCardBox from '@/components/card_box/ProjectCardBox';
 import { Form } from '@/types/types';
+import { AiOutlineArrowUp } from 'react-icons/ai';
 
 type PageProps = { data: Project[]; total: number };
 
@@ -124,30 +125,19 @@ const ProjectHome = () => {
   if (data)
     return (
       <Box>
-        <div className="search-box">
-          <form>
-            <input {...register('search')} type="text" />
-            <Btn>
-              <BsSearch />
-            </Btn>
-          </form>
-        </div>
-        <div className="link-box">
-          <Link href={`${router.asPath}/create`} className="main-btn">
-            <span>프로젝트 작성</span>
-          </Link>
-        </div>
         <div className="special-box">
-          <div>
-            <div className="nanum-bold">신규 프로젝트</div>
+          <div className="main-box">
+            <span className="sub-title">NEW</span>
+            <div className="nanum-bold title">신규 프로젝트</div>
             <div className="carousel-box">
               <ProjectCarousel
                 projects={data.pages ? data.pages[0].data : []}
               />
             </div>
           </div>
-          <div>
-            <div className="nanum-bold">인기 프로젝트</div>
+          <div className="main-box">
+            <span className="sub-title">HOT</span>
+            <div className="nanum-bold title">인기 프로젝트</div>
             <div className="carousel-box">
               <ProjectCarousel
                 projects={data.pages ? data.pages[0].data : []}
@@ -161,23 +151,45 @@ const ProjectHome = () => {
           skeleton={isFetching && hasNextPage && <ProjectSkeleton />}
         >
           <div className="filter-box noto-regular-13">
-            {filterNames.map((name) => (
-              <div
-                key={name}
-                className={PROJECT_FILTER[name] === filter ? 'focus' : ''}
-                onClick={() => filterHandler(name)}
-              >
-                {name}
+            <div className="filter-sub-box">
+              {filterNames.map((name) => (
+                <div
+                  key={name}
+                  className={PROJECT_FILTER[name] === filter ? 'focus' : ''}
+                  onClick={() => filterHandler(name)}
+                >
+                  {name}
+                </div>
+              ))}
+            </div>
+            <div className="search-box">
+              <form>
+                <input
+                  {...register('search')}
+                  type="text"
+                  placeholder="검색어를 입력해주세요."
+                />
+                <Btn>
+                  <BsSearch fill={'white'} />
+                </Btn>
+              </form>
+              <div className="link-box">
+                <Link href={`${router.asPath}/create`} className="link-btn">
+                  <span>프로젝트 작성</span>
+                </Link>
               </div>
-            ))}
+            </div>
           </div>
         </ProjectCardBox>
         <div ref={target} className="observer"></div>
-        {!hasNextPage && (
-          <div className="last-box nanum-bold blink">
-            페이지가 존재하지 않습니다.
-          </div>
-        )}
+        <div
+          className="upBtn"
+          onClick={() =>
+            window.scrollTo({ top: 0, left: 0, behavior: 'smooth' })
+          }
+        >
+          <AiOutlineArrowUp fill="white" size={30} />
+        </div>
       </Box>
     );
 };
@@ -186,57 +198,120 @@ export default ProjectHome;
 
 const Box = styled.div`
   padding: var(--padding-1);
+  width: 100%;
 
   .filter-box {
+    width: 100%;
+    height: 100%;
     display: flex;
     align-items: center;
-    .focus {
-      background-color: black;
-      color: white;
-    }
-    > div {
-      padding: 4px 8px;
-      cursor: pointer;
-    }
-  }
+    justify-content: space-between;
+    margin-top: 24px;
 
-  .search-box {
-    display: flex;
-    justify-content: center;
-    margin-bottom: 24px;
-    gap: 16px;
-    > form {
+    .filter-sub-box {
+      height: 100%;
       display: flex;
       gap: 8px;
+      div {
+        height: 100%;
+        padding: 10px 10px;
+        font-size: 14px;
+        cursor: pointer;
+        transition: background 0.5s ease, color 0.5s ease;
+        :hover {
+          background: #9b7aff;
+          color: white;
+          border-radius: 5px;
+        }
+      }
+    }
+
+    .focus {
+      background-color: #6333ff;
+      color: white;
+      border-radius: 5px;
+    }
+    .search-box {
+      display: flex;
+      width: 50%;
+      > form {
+        display: flex;
+        width: 100%;
+        > input {
+          width: 80%;
+          padding: 8px 13px;
+          border-radius: 10px;
+          font-size: 14px;
+          border: solid 2px #8e8e8e;
+
+          :focus,
+          :active {
+            background-color: white;
+            outline: solid 2px #9b7aff;
+          }
+
+          ::placeholder {
+            color: #cdcdcd;
+          }
+        }
+
+        button {
+          width: 20%;
+          margin-left: 8px;
+          background: #d2c4ff;
+          padding: 0 10px;
+          border-radius: 10px;
+          border: none;
+          cursor: pointer;
+        }
+      }
     }
   }
 
   .link-box {
     display: flex;
-    justify-content: end;
-    margin-bottom: 24px;
     > a {
       width: auto;
+      padding: 10px 15px;
+      background: #d2c4ff;
+      border-radius: 10px;
+
+      span {
+        font-size: 15px;
+        color: white;
+      }
     }
   }
   .special-box {
     width: 100%;
     grid-gap: 16px;
     display: flex;
+    justify-content: space-around;
     @media (max-width: 960px) {
       display: flex;
       flex-direction: column;
     }
 
-    > div {
+    > .main-box {
       padding: var(--padding-1);
-      width: 50%;
+      width: 35%;
       margin-bottom: 56px;
+      .sub-title {
+        font-size: 14px;
+        color: red;
+      }
+
+      .title {
+        margin-bottom: 16px;
+      }
       @media (max-width: 960px) {
         width: 100%;
         > div {
           margin-bottom: 12px;
         }
+      }
+
+      .carousel-box {
       }
     }
 
@@ -269,10 +344,17 @@ const Box = styled.div`
     height: 5vh;
   }
 
-  .last-box {
-    width: 100%;
+  .upBtn {
+    position: fixed;
+    bottom: 5%;
+    right: 5%;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background-color: #be6eff;
     display: flex;
     justify-content: center;
-    margin-bottom: 40px;
+    align-items: center;
+    cursor: pointer;
   }
 `;
