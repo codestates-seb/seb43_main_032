@@ -98,6 +98,7 @@ public class ArticleService {
         MultiResponseDto<ArticleGetResponseDto> multiResponseDto =new MultiResponseDto(articleResponseDtoList, articlePage);
         return multiResponseDto;
     }
+
     public void deleteArticle(Long articleId){
         Optional<Article> findArticle = verifyExistArticle(articleId);
         matchMemberID(findArticle);
