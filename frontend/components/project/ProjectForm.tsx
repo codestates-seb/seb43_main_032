@@ -16,6 +16,7 @@ import Btn from '../button/Btn';
 import { Form } from '@/types/types';
 import { Tech, FiledTag, WantCrew } from '@/types/project';
 import { formatDate3 } from '@/util/date';
+import { AiOutlineClose } from 'react-icons/ai';
 
 const ProjectForm = () => {
   const router = useRouter();
@@ -212,7 +213,7 @@ const ProjectForm = () => {
         />
         <StacksBox stacks={stacks} onModal={onModal} />
         <div className="want-box">
-          <div>모집을 원하는 직군</div>
+          <div className="title">모집을 원하는 직군</div>
           <div className="job-box">
             <select
               {...register('jobVal', { value: data && data.writerPosition })}
@@ -231,16 +232,16 @@ const ProjectForm = () => {
               ))}
             </select>
             <Btn onClick={addJob}>
-              <span>등록</span>
+              <span>+</span>
             </Btn>
           </div>
-          <ul>
+          <ul className="member-box">
             {jobs.map((job, i) => (
-              <li className="nanum-regular" key={`${job}+${i}`}>
+              <li className="nanum-regular member" key={`${job}+${i}`}>
                 <div>{job.position}</div>
                 <div>{job.number}명</div>
                 <div className="delete">
-                  <GrFormClose onClick={() => deleteJob(i)} />
+                  <AiOutlineClose onClick={() => deleteJob(i)} fill="red" />
                 </div>
               </li>
             ))}
@@ -283,18 +284,16 @@ const Side = styled.div`
 
   .button-box {
     width: 100%;
-    min-height: 40px;
+    min-height: 13px;
     display: flex;
-    justify-content: center;
   }
 
   > div {
     margin-bottom: 32px;
     > div:first-child {
       font-family: var(--font-nanum);
-      font-size: 23px;
-      font-weight: 700;
-      margin-bottom: 24px;
+      font-size: 15px;
+      font-weight: 500;
     }
   }
 
@@ -304,22 +303,33 @@ const Side = styled.div`
   }
 
   .want-box {
+    width: 100%;
+    padding: 0 30px;
     display: flex;
     flex-direction: column;
-    align-items: center;
+    margin-bottom: 10px;
+    justify-content: center;
 
-    > ul {
-      margin-top: 12px;
+    .title {
+      margin-bottom: 10px;
+    }
+
+    > .member-box {
+      display: flex;
+      margin-top: 8px;
       flex-direction: column;
-      width: 70%;
+      width: 80%;
       > li {
+        font-size: 13px;
         display: flex;
+        justify-content: center;
         align-items: center;
         gap: 8px;
-        padding: 16px 0px;
+        padding: 8px 0px;
         border-bottom: 1px solid #e4e4e7;
         > div:first-child {
           flex: 1;
+          padding-left: 10px;
         }
       }
     }
@@ -332,22 +342,63 @@ const Side = styled.div`
 
     .job-box {
       display: flex;
-      justify-content: center;
+      justify-content: space-between;
+      align-items: center;
       gap: 8px;
+      width: 100%;
       > select {
-        border: 1px solid #e1e7e5;
-        box-shadow: var(--box-shadow);
-        border-radius: var(--radius-def);
+        border: solid 2px #ececec;
+        border-radius: 10px;
         padding: 8px;
+        font-size: 13px;
+        color: #7d7d7d;
+
+        :focus {
+          outline: none;
+        }
+
+        > option {
+          color: #171717;
+
+          :hover,
+          :focus {
+            background-color: #171717;
+          }
+        }
+      }
+
+      > button {
+        width: 24px;
+        height: 24px;
+        background: #9b7aff;
+        border: none;
+        border-radius: 3px;
+        color: white;
+        cursor: pointer;
+        transition: background 0.3s ease;
+
+        :hover {
+          background: #6333ff;
+        }
       }
     }
   }
 
   input {
-    padding: 6px;
-    border: 1px solid #e1e7e5;
-    box-shadow: var(--box-shadow);
-    border-radius: var(--radius-def);
-    padding-left: 8px;
+    width: 100%;
+    padding: 10px;
+    border: solid 2px #ececec;
+    border-radius: 10px;
+    color: #7d7d7d;
+
+    :focus {
+      background-color: white;
+      outline: solid 2px #9b7aff;
+    }
+
+    ::placeholder {
+      font-size: 13px;
+      color: #a5a5a5;
+    }
   }
 `;
