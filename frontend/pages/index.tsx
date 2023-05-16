@@ -1,4 +1,3 @@
-//홈 페이지 입니다. 경로 '/'
 import styled from 'styled-components';
 import { useQuery } from 'react-query';
 import { api } from '@/util/api';
