@@ -40,7 +40,8 @@ public class ArticleService {
         Member member =memberService.getLoginMember();
         Article article = mapper.articlePostDtoToArticle(articlePostDto);
         article.updateMemberId(member.getId());
-        articleRepository.save(article);
+        article = articleRepository.save(article);
+        articleTechStackService.updateArticleTechStack(articlePostDto.getArticleTechStackList(), article.getId());
     }
     public void updateArticle(Long articleId,ArticlePatchDto articlePatchDto){
         //게시물 존재 여부 확인
@@ -60,6 +61,8 @@ public class ArticleService {
     public SingleResponseDto<ArticleGetResponseDto> getArticle(Long articleId){
         Optional<Article> findArticle =verifyExistArticle(articleId);
         Article article = findArticle.get();
+        article.updateArticleViews(article.getViews()+1);
+        articleRepository.save(article);
         List<ArticleTechStack> articleTechStackList = articleTechStackService.getAllarticleTechStackList(article.getId());
         List<ArticleTechStackResponseDto> articleTechStackResponseDtoList =
                 mapper.articleTechStackListToArticleTechStackResponseDtoList(articleTechStackList);
@@ -67,28 +70,35 @@ public class ArticleService {
         SingleResponseDto<ArticleGetResponseDto> singleResponseDto = new SingleResponseDto<ArticleGetResponseDto>(response);
         return singleResponseDto;
     }
-    public MultiResponseDto findAllArticle(int page, int size){
-        Page<Article> articlePage = articleRepository.findAll(PageRequest.of(page,size, Sort.by("id").descending()));
+    public MultiResponseDto<ArticleGetResponseDto> findAllArticle(int page, int size){
+        Page<Article> articlePage = articleRepository.findAllArticlePage(PageRequest.of(page,size, Sort.by("id").descending()));
         List<Article> articleList = articlePage.getContent();
-        List<ArticleResponseDto> articleResponseDtoList = new ArrayList<>();
+        List<ArticleGetResponseDto> articleResponseDtoList = new ArrayList<>();
         for(Article article:articleList){
             List<ArticleTechStack> articleTechStackList = articleTechStackService.getAllarticleTechStackList(article.getId());
             List<ArticleTechStackResponseDto> articleTechStackResponseDtoList =
                     mapper.articleTechStackListToArticleTechStackResponseDtoList(articleTechStackList);
-            ArticleResponseDto articleResponseDto = mapper.articleToArticleResponseDto(article,articleTechStackResponseDtoList);
-            articleResponseDtoList.add(articleResponseDto);
+            ArticleGetResponseDto response = mapper.articleToArticleGetResponseDto(article,articleTechStackResponseDtoList);
+            articleResponseDtoList.add(response);
         }
-        MultiResponseDto multiResponseDto =new MultiResponseDto(articleResponseDtoList, articlePage);
+        MultiResponseDto<ArticleGetResponseDto> multiResponseDto =new MultiResponseDto(articleResponseDtoList, articlePage);
         return multiResponseDto;
     }
-//    public MultiResponseDto searchArticle(String searchWord,int page, int size){
-//        Page<Article> articlePage= articleRepository.findSearchListArticle(searchWord,PageRequest.of(page,size, Sort.by("id").descending()));
-//        List<Article> articleList = articlePage.getContent();
-//
-//        List<ArticleResponseDto> responseDtoList = mapper.articleListToArticleResponseDtoList(articleList);
-//        MultiResponseDto multiResponseDto = new MultiResponseDto(responseDtoList,articlePage);
-//        return multiResponseDto;
-//    }
+    public MultiResponseDto<ArticleGetResponseDto> searchArticle(String searchWord,int page, int size){
+        Page<Article> articlePage= articleRepository.findSearchListArticle(searchWord,PageRequest.of(page,size, Sort.by("id").descending()));
+        List<Article> articleList = articlePage.getContent();
+        List<ArticleGetResponseDto> articleResponseDtoList = new ArrayList<>();
+        for(Article article:articleList){
+            List<ArticleTechStack> articleTechStackList = articleTechStackService.getAllarticleTechStackList(article.getId());
+            List<ArticleTechStackResponseDto> articleTechStackResponseDtoList =
+                    mapper.articleTechStackListToArticleTechStackResponseDtoList(articleTechStackList);
+            ArticleGetResponseDto response = mapper.articleToArticleGetResponseDto(article,articleTechStackResponseDtoList);
+            articleResponseDtoList.add(response);
+        }
+        MultiResponseDto<ArticleGetResponseDto> multiResponseDto =new MultiResponseDto(articleResponseDtoList, articlePage);
+        return multiResponseDto;
+    }
+
     public void deleteArticle(Long articleId){
         Optional<Article> findArticle = verifyExistArticle(articleId);
         matchMemberID(findArticle);

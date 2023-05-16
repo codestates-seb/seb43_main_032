@@ -73,14 +73,14 @@ public class ArticleMapper {
 //            }
 //            return articleResponseDtoList;
 //        }
-        public ArticleResponseDto articleToArticleResponseDto(Article article,List<ArticleTechStackResponseDto> articleTechStackResponseDtoList){
-            ArticleResponseDto articleResponseDto = new ArticleResponseDto(
-                    article.getId(),
-                    article.getTitle(),
-                    article.getContent(),
-                    article.getViews(),
-                    articleTechStackResponseDtoList
-            );
-            return articleResponseDto;
-        }
+//        public ArticleResponseDto articleToArticleResponseDto(Article article,List<ArticleTechStackResponseDto> articleTechStackResponseDtoList){
+//            ArticleResponseDto articleResponseDto = new ArticleResponseDto(
+//                    article.getId(),
+//                    article.getTitle(),
+//                    article.getContent(),
+//                    article.getViews(),
+//                    articleTechStackResponseDtoList
+//            );
+//            return articleResponseDto;
+//        }
 }

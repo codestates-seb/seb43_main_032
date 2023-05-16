@@ -1,14 +1,11 @@
 package com.main_032.SideQuest.project.dto;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 import java.time.LocalDateTime;
 
-@AllArgsConstructor
 @Getter
-public class ProjectPostDto {
-
+public class ProjectPatchDto {
     private String title;
     private String content;
     private String writerPosition;
