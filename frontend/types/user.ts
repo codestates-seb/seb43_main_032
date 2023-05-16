@@ -13,21 +13,7 @@ export interface IUser {
   PROFILE_IMAGE: string;
 }
 
-export const EmptyUser: IUser = {
-  MEMBER_ID: 0,
-  EMAIL: '',
-  USER_NAME: '',
-  NICK_NAME: '',
-  ABOUT_ME: '',
-  YEAR_OF_DEV: 0,
-  CREATED_AT: '',
-  UPDATED_AT: '',
-  DELETED: '',
-  PHONE_NUMBER: '',
-  TOTAL_STAR: '',
-  PROFILE_IMAGE: '',
-};
-
+//로그인한 유저의 데이터 상태
 export type UserState = {
   aboutMe: string;
   email: string;
