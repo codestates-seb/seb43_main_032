@@ -10,6 +10,9 @@ import { useState } from 'react';
 import { FcSms } from 'react-icons/fc';
 import Contact from '@/components/Contact';
 import ModalBg from '@/components/ModalBg';
+import Image from 'next/image';
+import icon60 from '../public/images/chat-icon-60.svg';
+import icon100 from '../public/images/chat-icon-100.svg';
 
 const queryClient = new QueryClient();
 
@@ -33,7 +36,9 @@ const App = ({ Component, pageProps }: AppProps) => {
           {isContact ? (
             <Contact contactHandler={contactHandler} />
           ) : (
-            <FcSms onClick={contactHandler} />
+            <div className="chat-icon">
+              <Image src={icon100} onClick={contactHandler} alt="chat-icon" />
+            </div>
           )}
         </ModalBox>
         <ModalBg></ModalBg>
@@ -56,9 +61,13 @@ const ModalBox = styled.div`
   position: fixed;
   bottom: 20px;
   right: 20px;
-  > svg {
-    height: 70px;
-    width: 70px;
-    cursor: pointer;
+  transition: all 1s ease-in-out;
+
+  .chat-icon {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    img {
+    }
   }
 `;
