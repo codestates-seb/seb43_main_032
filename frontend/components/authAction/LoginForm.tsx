@@ -43,7 +43,7 @@ interface ILoginForm {
   rememberMe: boolean;
 }
 export default function LoginForm() {
-  const [login, { data, auth, isLoading }] = usePostApi('login');
+  const [login, { data, auth, isLoading }] = usePostApi('member/login');
   const { register, watch, handleSubmit } = useForm<ILoginForm>();
   console.log(watch());
   const onValid = (data: ILoginForm) => {
