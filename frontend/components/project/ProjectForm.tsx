@@ -15,6 +15,7 @@ import { POSITIONS } from '@/constant/constant';
 import Btn from '../button/Btn';
 import { Form } from '@/types/types';
 import { Tech, FiledTag, WantCrew } from '@/types/project';
+import { formatDate3 } from '@/util/date';
 
 const ProjectForm = () => {
   const router = useRouter();
@@ -156,13 +157,13 @@ const ProjectForm = () => {
       return alert('내용을 입력해주세요.');
     }
     const data = {
-      startDate: String(start),
-      endDate: String(end),
+      startDate: formatDate3(start),
+      endDate: end && formatDate3(end),
       techStackList: {
         techStackList: stacks.map((stack) => stack.tech),
       },
       fieldList: {
-        fieldList: tags.map((tag) => tag.field),
+        filedList: tags.map((tag) => tag.field), //백엔드분들이 키를 잘못적어주셔서 나중에 다시 고쳐야할듯??
       },
       positionCrewList: {
         positionCrewList: jobs.map((job) => job.position),
@@ -170,19 +171,22 @@ const ProjectForm = () => {
       },
       writerPosition: watch().position,
       title: watch().title,
-      thumbnailImageUrl: '',
+      thumbnailImageUrl: '이미지',
       content,
     };
-    console.log(data);
 
-    if (router.route.includes('create')) {
-      if (confirm('정말 작성을 완료하시겠습니까?'))
-        return api.post('/project/post', data).then(() => router.push('/'));
-    }
-    if (confirm('정말 수정을 완료하시겠습니까?'))
+    //수정 이벤트
+    if (
+      router.route.includes('edit') &&
+      confirm('정말 수정을 완료하시겠습니까?')
+    )
       return api
         .put(`/project/update/${router.query.id}`, data)
         .then(() => router.push('/'));
+
+    //작성 이벤트
+    if (confirm('정말 작성을 완료하시겠습니까?'))
+      return api.post('/project/post', data).then(() => router.push('/'));
   };
 
   return (

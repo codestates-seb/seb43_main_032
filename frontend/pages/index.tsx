@@ -32,7 +32,7 @@ const Home = () => {
     address,
     queryKey,
   });
-
+  
   const projectData = data?.data;
   const communityData = communityQuery.data?.data;
 
