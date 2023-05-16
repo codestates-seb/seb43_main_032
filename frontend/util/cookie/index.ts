@@ -1,3 +1,6 @@
+import { Cookies } from 'react-cookie';
+const cookies = new Cookies();
+
 /**
  * @param name 설정할 쿠키 key
  * @param value 설정할 쿠키 값
@@ -15,15 +18,8 @@ export const setCookie = (name: string, value: string, minutes: number) => {
  * @returns 조회에 성공하면 쿠키를 반환, 실패하면 null
  */
 export const getCookie = (name: string): string | null => {
-  const cookieString = document.cookie;
-  const cookies = cookieString.split(';');
-  for (let i = 0; i < cookies.length; i++) {
-    const cookie = cookies[i].trim();
-    if (cookie.startsWith(name + '=')) {
-      return cookie.substring(name.length + 1);
-    }
-  }
-  return null;
+  const cookieValue = cookies.get(name);
+  return cookieValue || null;
 };
 
 /**
