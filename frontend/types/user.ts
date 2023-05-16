@@ -27,3 +27,14 @@ export const EmptyUser: IUser = {
   TOTAL_STAR: '',
   PROFILE_IMAGE: '',
 };
+
+export type UserState = {
+  aboutMe: string;
+  email: string;
+  name: string;
+  phone: string;
+  position: string;
+  profileImageUrl: string;
+  totalStar: number;
+  yearOfDev: number;
+};

@@ -29,6 +29,9 @@
 
 import { useState } from 'react';
 import axios from 'axios';
+import { setCookie } from '@/util/cookie';
+import { useSetRecoilState } from 'recoil';
+import { userState } from '@/recoil/atom';
 
 interface IObj {
   isLoading: boolean;
@@ -37,7 +40,7 @@ interface IObj {
   error: undefined | any;
 }
 
-const BASE_URL = 'http://3.38.100.78:8080/';
+const BASE_URL = 'http://13.209.14.135:8080/';
 
 export default function usePostApi(
   endpoint: string
@@ -47,12 +50,16 @@ export default function usePostApi(
   const [auth, setAuth] = useState<undefined | any>(undefined);
   const [error, setError] = useState<undefined | any>(undefined);
 
+  //유저 데이터 저장할 atom
+  const setUser = useSetRecoilState(userState);
+
   function mutation(data?: any) {
     setIsLoading(true);
     axios
       .post(BASE_URL + endpoint, data)
       .then((res) => {
-        console.log(res)
+        setCookie('accessToken', res.headers['authorization'], 40); //로그인 했을 때, 쿠키 설정
+        setUser(res.data); //로그인한 유저의 데이터를 atom 관리
         setData(res);
         setAuth(res.headers['authorization']);
       })
