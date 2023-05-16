@@ -151,7 +151,7 @@ const Header = () => {
           </div>
         </ModalNav>
       </Nav>
-      {router.pathname !== '/404' && (
+      {router.pathname !== '/404' && router.pathname === '/' && (
         <BannerSlider isScrolled={isScrolled}></BannerSlider>
       )}
     </>
