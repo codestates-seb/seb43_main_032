@@ -13,6 +13,7 @@ import BannerSlider from './BannerSlider';
 import Btn from './button/Btn';
 import { useOffResize } from '@/hooks/useOffResize';
 import useUser from '@/hooks/react-query/useUser';
+import { HEADER_NAV } from '@/constant/constant';
 
 const Header = () => {
   const router = useRouter();
