@@ -62,4 +62,12 @@ public class ProjectController {
         ResponseEntity responseEntity = new ResponseEntity(HttpStatus.OK);
         return responseEntity;
     }
+
+    @ApiOperation(value = "프로젝트 지원")
+    @PostMapping("/project/apply/{projectId}")
+    public ResponseEntity<Void> applyProject(@PathVariable(name = "projectId") Long projectId) {
+        projectService.applyProject(projectId);
+        ResponseEntity responseEntity = new ResponseEntity(HttpStatus.OK);
+        return responseEntity;
+    }
 }
