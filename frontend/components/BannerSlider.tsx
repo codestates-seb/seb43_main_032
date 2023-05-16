@@ -8,21 +8,37 @@ import 'slick-carousel/slick/slick-theme.css';
 import React, { useEffect, useState } from 'react';
 import BannerText from './BannerText';
 import BannerThird from './BannerThird';
+import { AiOutlineArrowLeft, AiOutlineArrowRight } from 'react-icons/ai';
 
 export default function BannerSlider({ isScrolled }: { isScrolled: boolean }) {
   const [activeSlide, setActiveSlide] = useState(0);
   const [current, setCurrent] = useState(1);
+  const [autoplayPaused, setAutoplayPaused] = useState(false); // autoplay 일시 정지 여부 상태 변수
+
   const settings = {
     dots: true,
     infinite: true,
-    autoPlay: true,
+    autoPlay: !autoplayPaused, // autoplay 일시 정지 여부에 따라 값 변경
     slidesToShow: 1,
     slidesToScroll: 1,
     fade: true,
+    speed: 1000,
     autoplay: true,
     afterChange: (currentSlide: number) => {
       setActiveSlide(currentSlide);
+      setAutoplayPaused(true); // 슬라이드 이동 후 autoplay 일시 정지 설정
+      setTimeout(() => setAutoplayPaused(false), 6000); // 3초 후에 autoplay 일시 정지 해제
     },
+    nextArrow: (
+      <Div>
+        <AiOutlineArrowRight />
+      </Div>
+    ),
+    prevArrow: (
+      <DivPre>
+        <AiOutlineArrowLeft />
+      </DivPre>
+    ),
   };
 
   // 클래스 명으로 index를 따오기
@@ -57,16 +73,10 @@ const StyledSlider = styled(Slider)`
     transform: scale();
   }
 
-  .slick-arrow {
-    position: absolute;
-    left: 50%;
-    display: flex;
-    gap: 16px;
-    .slick-next {
-    }
-
-    .slick-prev {
-    }
+  .slick-prev::before,
+  .slick-next::before {
+    opacity: 0;
+    display: none;
   }
 
   > ul {
@@ -135,4 +145,26 @@ const Background = styled.div<{ activeSlide: number }>`
   position: absolute;
   top: 0;
   transition: background-color 0.5s ease;
+`;
+
+const Div = styled.div`
+  width: 30px;
+  height: 30px;
+  position: absolute;
+  right: 16px;
+  z-index: 99;
+  text-align: right;
+  line-height: 30px;
+  background: black;
+`;
+
+const DivPre = styled.div`
+  width: 30px;
+  height: 30px;
+  position: absolute;
+  left: 16px;
+  z-index: 99;
+  text-align: left;
+  line-height: 30px;
+  background-color: black;
 `;

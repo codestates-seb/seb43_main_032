@@ -41,6 +41,11 @@ const Home = () => {
         data={projectData}
         title={'인기 프로젝트'}
       />
+      <ProjectCardBox
+        skeleton={isLoading && <ProjectSkeleton />}
+        data={projectData}
+        title={'종료 프로젝트'}
+      />
       <CommunityCardBox
         skeleton={
           communityQuery.isLoading && <CommunityItemSkeleton count={5} />

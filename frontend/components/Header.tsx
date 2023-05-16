@@ -169,7 +169,7 @@ type NavProps = {
 };
 
 const ModalNav = styled.nav<NavProps>`
-  z-index: 1;
+  z-index: 1000;
   background-color: white;
   width: 50%;
   position: fixed;

@@ -14,7 +14,7 @@ type Props = {
 const TagBox = ({ tags, register, tagKeyDown, deleteTag }: Props) => {
   return (
     <Box deleteTag={deleteTag} className="tag-box">
-      <div>프로젝트 분야 태그</div>
+      <div className="title">프로젝트 분야 태그</div>
       <div className="noto-regular-13">
         {register && (
           <div className="button-box">
@@ -48,12 +48,18 @@ type BoxProps = {
 
 const Box = styled.div<BoxProps>`
   display: flex;
-  align-items: center;
   flex-direction: column;
+  width: 100%;
+  padding: 0 30px;
+
+  > .title {
+    font-size: 15px;
+    margin-bottom: 10px;
+    font-weight: 500;
+  }
   ul {
     display: flex;
     flex-wrap: wrap;
-    justify-content: center;
     gap: 4px;
     li {
       > div {
