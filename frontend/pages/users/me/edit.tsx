@@ -1,7 +1,7 @@
 import Btn from '@/components/button/Btn';
 import useAuth from '@/hooks/react-query/useAuth';
-import { IUser } from '@/util/api/user';
 import axios from 'axios';
+import { IUser } from '@/types/user';
 import { useRouter } from 'next/router';
 import { useEffect, useRef, useState } from 'react';
 import { FieldErrors, useForm } from 'react-hook-form';

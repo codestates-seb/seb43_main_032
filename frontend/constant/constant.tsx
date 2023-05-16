@@ -188,7 +188,7 @@ export const POSITIONS = [
   '마케팅',
   '안드로이드',
   'IOS',
-  '무관',
+  '기타',
 ];
 
 //나중에 객체의 형태로 바꿔서 주소를 넣어주는 작업을 해야할 것 같음
@@ -218,3 +218,71 @@ export const PROJECT_FILTER: ProjectFilter = {
   '조회 순': 'view',
   '찜 순': 'heart',
 };
+
+export const COMMUNITY_CATEGORY: CommunityCategory[] = [
+  {
+    title: '질문하기',
+    link: '/create',
+    icon: <FaQuestion className="questions" color="#8216f5" />,
+  },
+  {
+    title: '전체보기',
+    link: '',
+    icon: <FaClipboardList />,
+  },
+  {
+    title: '프론트엔드',
+    link: '/frontend',
+    icon: <FaDesktop />,
+  },
+  {
+    title: '백엔드',
+    link: '/backend',
+    icon: <FaDatabase />,
+  },
+  {
+    title: 'UX/UI',
+    link: '/uxui',
+    icon: <FaPaintBrush />,
+  },
+  {
+    title: '기획',
+    link: '/plan',
+    icon: <AiFillCalendar />,
+  },
+  {
+    title: '디자이너',
+    link: '/design',
+    icon: <MdDesignServices />,
+  },
+  {
+    title: 'PM',
+    link: '/pm',
+    icon: <FaUserCog />,
+  },
+  {
+    title: '사업기획',
+    link: '/businessplan',
+    icon: <TbBusinessplan />,
+  },
+  {
+    title: '마케팅',
+    link: '/marketing',
+    icon: <FaHeadset />,
+  },
+  {
+    title: '안드로이드',
+    link: '/android',
+    icon: <AiFillAndroid />,
+  },
+  {
+    title: 'IOS',
+    link: '/ios',
+    icon: <AiFillApple />,
+  },
+  {
+    title: '기타',
+    link: '/etc',
+    icon: <AiOutlineSmallDash />,
+  },
+];

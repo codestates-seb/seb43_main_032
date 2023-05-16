@@ -7,9 +7,6 @@ import Image from 'next/image';
 import edit from '@/pages/users/me/edit';
 import usePostApi from './usePostApi';
 import { useEffect } from 'react';
-import { useRecoilState } from 'recoil';
-import { isLoggedInState } from '@/recoil/atom';
-import { getCookie, setTokenCookie } from '@/util/cookie';
 
 const Wrapper = styled.div`
   width: 100%;
@@ -46,10 +43,9 @@ interface ILoginForm {
   rememberMe: boolean;
 }
 export default function LoginForm() {
-  const [login, { data, auth }] = usePostApi('login');
-  const { register, handleSubmit } = useForm<ILoginForm>();
-  const [isLoggedIn, setIsLoggedIn] = useRecoilState(isLoggedInState);
-
+  const [login, { data, auth, isLoading, error }] = usePostApi('login');
+  const { register, watch, handleSubmit } = useForm<ILoginForm>();
+  console.log(watch());
   const onValid = (data: ILoginForm) => {
     console.log('valid');
     login(data);
@@ -60,11 +56,6 @@ export default function LoginForm() {
 
   useEffect(() => {
     data && console.log('data', data);
-    const setCookie = async () => {
-      auth && (await setTokenCookie('auth', auth, 39));
-      setIsLoggedIn(getCookie('auth') ? true : false);
-    };
-    setCookie();
   }, [data]);
   return (
     <Wrapper>

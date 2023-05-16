@@ -4,7 +4,6 @@ import ContentCard from '@/components/user/ContentCard';
 import { useRouter } from 'next/router';
 import UserProfile from '@/components/user/UserProfile';
 import { useEffect, useState } from 'react';
-import { IUser } from '@/util/api/user';
 import useUser from '@/hooks/react-query/useUser';
 
 //유저 페이지 입니다. 경로 '/user/[id]'  예시 >>  /user/1

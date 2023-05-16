@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { useRouter } from 'next/router';
 import { useInfiniteQuery } from 'react-query';
 import { api } from '@/util/api';
-import { useRef, useEffect, useCallback, useState, useMemo } from 'react';
+import { useRef, useEffect, useState, useMemo } from 'react';
 import ProjectSkeleton from '@/components/skeleton/ProjectSkeleton';
 import Link from 'next/link';
 import { Project } from '@/types/project';
@@ -33,7 +33,7 @@ const ProjectHome = () => {
   }, [filter]);
 
   //주소
-  const address = useCallback(() => {
+  const address = () => {
     if (search && filter) {
       return `${router.asPath}&size=${page_limit}&filter=${filter}`;
     }
@@ -41,10 +41,10 @@ const ProjectHome = () => {
       return `${router.asPath}&size=${page_limit}`;
     }
     return `${router.asPath}?size=${page_limit}`;
-  }, [search, filter, router]);
+  };
 
   //쿼리 키
-  const queryKey = useCallback(() => {
+  const queryKey = () => {
     if (search && filter) {
       return ['projects', search, filter];
     }
@@ -52,9 +52,9 @@ const ProjectHome = () => {
       return ['projects', search || filter];
     }
     return ['projects'];
-  }, [search, filter]);
+  };
 
-  //form 및 filter 관련
+  //라우터 이동 시,
   useEffect(() => {
     if (watch().search !== '') {
       window.scrollTo({
