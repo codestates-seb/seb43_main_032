@@ -23,17 +23,11 @@ public class AnswerMapper {
         this.memberRepository = memberRepository;
     }
 
-    public Answer AnswerPostDtoToAnswer(AnswerPostDto answerPostDto){
-        Answer answer = new Answer();
-        answer.updateCategory(answerPostDto.getCategory());
-        answer.updateArticleId(answerPostDto.getArticleId());
-        answer.updateProjectId(answerPostDto.getProjectId());
-        answer.updateContent(answerPostDto.getContent());
-
+    public Answer AnswerPostDtoToAnswer(AnswerPostDto answerPostDto,Long memberId){
+        Answer answer = new Answer(answerPostDto.getCategory(),memberId,answerPostDto.getUniteId(), answerPostDto.getContent());
         return answer;
     }
-    public Answer AnswerPatchDtoToAnswer(AnswerPatchDto answerPatchDto){
-        Answer answer = new Answer();
+    public Answer AnswerPatchDtoToAnswer(Answer answer,AnswerPatchDto answerPatchDto){
         answer.updateContent(answerPatchDto.getContent());
         return answer;
     }

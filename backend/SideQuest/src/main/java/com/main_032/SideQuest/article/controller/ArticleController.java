@@ -21,14 +21,14 @@ public class ArticleController {
     }
     //게시글 작성
     @ApiOperation(value = "게시글 작성")
-    @PostMapping("article/post")
+    @PostMapping("/article/post")
     public ResponseEntity<Void> postArticle(@RequestBody ArticlePostDto articlePostDto){
         articleService.createArticle(articlePostDto);
         return ResponseEntity.ok().build();
     }
     //게시글 수정
     @ApiOperation(value = "게시글 수정")
-    @PatchMapping("article/update/{article-id}")
+    @PatchMapping("/article/update/{article-id}")
     public ResponseEntity<Void> patchArticle(@PathVariable("article-id") Long articleId,
                                                            @RequestBody ArticlePatchDto articlePatchDto){
         articleService.updateArticle(articleId,articlePatchDto);
@@ -37,14 +37,14 @@ public class ArticleController {
     }
     //게시글 상세 조회
     @ApiOperation(value = "게시글 상세 조회")
-    @GetMapping("article/getArticle/{articleId}")
+    @GetMapping("/article/getArticle/{articleId}")
     public ResponseEntity<SingleResponseDto<ArticleGetResponseDto>> getArticle(@PathVariable("articleId") Long articleId){
         SingleResponseDto<ArticleGetResponseDto> response = articleService.getArticle(articleId);
         return ResponseEntity.ok(response);
     }
     //게시글 목록 조회
     @ApiOperation(value = "게시글 목록 조회")
-    @GetMapping("article/allArticles")
+    @GetMapping("/article/allArticles")
     public ResponseEntity<MultiResponseDto<ArticleGetResponseDto>> getAllArticle(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "8") int size){
@@ -52,7 +52,7 @@ public class ArticleController {
         return ResponseEntity.ok(articlePage);
     }
     @ApiOperation(value = "게시글 검색 조회")
-    @GetMapping("article/search")
+    @GetMapping("/article/search")
     public ResponseEntity<MultiResponseDto<ArticleGetResponseDto>> searchArticle(
     @RequestParam String searchWord,
     @RequestParam(defaultValue = "0") int page,
@@ -62,7 +62,7 @@ public class ArticleController {
     }
     //게시글 삭제
     @ApiOperation(value = "게시글 삭제")
-    @DeleteMapping("article/delete/{articleId}")
+    @DeleteMapping("/article/delete/{articleId}")
     public ResponseEntity deleteArticle(@PathVariable("articleId") Long articleId){
         articleService.deleteArticle(articleId);
 
