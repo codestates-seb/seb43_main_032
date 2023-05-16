@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import { Project } from '@/types/project';
 import { ReactNode } from 'react';
 import ProjectCard from '../project/ProjectCard';
+import { useRouter } from 'next/router';
 
 type Props = {
   data: Project[];
@@ -11,6 +12,8 @@ type Props = {
 };
 
 const ProjectCardBox = ({ title, data, skeleton, children }: Props) => {
+  const router = useRouter();
+
   return (
     <Box>
       <div className="nanum-bold">
@@ -18,7 +21,12 @@ const ProjectCardBox = ({ title, data, skeleton, children }: Props) => {
           <div className="sub-title">{title === '인기 프로젝트' && 'HOT'}</div>
           <div>{title}</div> {children}
         </div>
-        <div className="more">{`더 보기 >`}</div>
+        {router.pathname === '/' && title === '인기 프로젝트' && (
+          <div
+            className="more"
+            onClick={() => router.push('/project')}
+          >{`더 보기 >`}</div>
+        )}
       </div>
       <div className="projects-box">
         {data?.map((project: Project) => (
@@ -42,6 +50,7 @@ const Box = styled.div`
     .title-box {
       display: flex;
       flex-direction: column;
+      width: 100%;
       .sub-title {
         font-size: 14px;
         color: red;
@@ -52,6 +61,7 @@ const Box = styled.div`
       font-size: 14px;
       font-weight: 400;
       color: #a6a6a6;
+      cursor: pointer;
     }
   }
   .projects-box {
