@@ -29,7 +29,7 @@ const Header = () => {
 
   useEffect(() => {
     setIsLoggedIn(status);
-  }, []);
+  }, [status]);
   //네비
   const navArr: DefaultObj = {
     community: '/community',

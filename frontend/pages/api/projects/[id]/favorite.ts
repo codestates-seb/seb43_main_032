@@ -17,7 +17,8 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
 
   const existingFavorite = await client.projectFav.findFirst({
     where: {
-      AND: [{ userId: userId }, { projectId: projectId }],
+      userId: userId,
+      projectId: projectId,
     },
   });
 

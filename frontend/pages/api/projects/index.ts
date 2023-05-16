@@ -30,4 +30,4 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
   }
 }
 
-export default withHandler({ method: 'GET', handler });
+export default withHandler({ method: 'GET', handler, isPrivate: false });

@@ -18,35 +18,33 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
   const newProject = await client.project.create({
     data: {
       userId,
-      start: new Date(start),
-      end: new Date(end),
+      start,
+      end,
       tags: {
-        create: tags.map((tag: ProjectTag) => ({
-          name: tag,
+        create: tags.map((name: ProjectTag) => ({
+          name,
         })),
       },
       stacks: {
-        create: stacks.map((stack: ProjectStack) => ({
-          name: stack,
+        create: stacks.map((name: ProjectStack) => ({
+          name,
         })),
       },
       jobs: {
         create: jobs.map((job: ProjectJob) => ({
           key: job.key,
-          want: job.want,
-          current: job.current,
+          want: +job.want,
+          current: +job.current,
         })),
       },
       title,
       content,
-      createdAt: new Date(),
-      updatedAt: new Date(),
+      // createdAt: new Date(),
+      // updatedAt: new Date(),
     },
   });
 
   return res.status(200).json({ ok: true, newProject });
 }
 
-export default withSession(
-  withHandler({ method: 'POST', handler, isPrivate: false })
-);
+export default withSession(withHandler({ method: 'POST', handler }));
