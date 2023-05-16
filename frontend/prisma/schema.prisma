@@ -1,0 +1,156 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// generator client {
+//   provider = "prisma-client-js"
+//	 previewFeatures = ["referentialIntegrity"]
+// }
+
+// datasource db {
+//   provider = "mysql"
+//   url      = env("DATABASE_URL")
+//   relationMode = "prisma"
+//	 referentialIntegrity = "prisma"
+// }
+generator client {
+  provider = "prisma-client-js"
+  // previewFeatures = ["referentialIntegrity"]
+}
+
+datasource db {
+  provider     = "mysql"
+  url          = env("DATABASE_URL")
+  // referentialIntegrity = "prisma"
+  relationMode = "prisma"
+}
+
+model User {
+  id              Int           @id @default(autoincrement())
+  password        String
+  name            String
+  email           String        @unique
+  phone           String?       @unique
+  profileImageUrl String?
+  location        String? //city
+  yearOfDev       Int           @default(0) //0~10
+  position        String? //BE, FE, UI/UX
+  aboutMe         String?
+  stacks          String? //JAVA, JS, REACT, etc..
+  roles           String? //BE, FE, UI/UX
+  totalStar       Int           @default(0)
+  isVerified      Boolean       @default(false)
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+  tokens          SignUpToken[]
+  project         Project[]
+  fav             ProjectFav[]
+  comment   ProjectComment[]
+}
+
+// model UserStack {
+//   id     Int    @id @default(autoincrement())
+//   name   String @unique
+//   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+//   userId Int
+
+//   @@index([userId])
+// }
+
+// model Roles {
+//   id     Int    @id @default(autoincrement())
+//   name   String @unique
+//   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+//   userId Int
+
+//   @@index([userId])
+// }
+
+model SignUpToken {
+  id        Int      @id @default(autoincrement())
+  payload   String   @unique
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([userId])
+}
+
+model Project {
+  id        Int       @id @default(autoincrement())
+  start     DateTime?
+  end       DateTime?
+  title     String?
+  content   String?
+  state     Int       @default(0)
+  view      Int       @default(0)
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    Int
+  favs      ProjectFav[]
+  tags      ProjectTag[] // Many-to-many relation with Tag
+  jobs      ProjectJob[]
+  stacks    ProjectStack[] // Many-to-many relation with Stack
+  comment   ProjectComment[]
+
+  @@index([userId])
+}
+
+model ProjectFav {
+  id        Int     @id @default(autoincrement())
+  user      User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  project   Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  userId    Int
+  projectId Int
+
+  @@index([projectId])
+  @@index([userId])
+}
+
+model ProjectTag {
+  id        Int     @id @default(autoincrement())
+  name      String  
+  project   Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  projectId Int
+
+  @@index([projectId])
+}
+
+model ProjectStack {
+  id        Int     @id @default(autoincrement())
+  name      String  
+  project   Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  projectId Int
+
+  @@index([projectId])
+}
+
+model ProjectComment {
+  id        Int     @id @default(autoincrement())
+	content String 
+  user      User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  project   Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+	userId Int
+  projectId Int
+
+  @@index([projectId])
+  @@index([userId])
+}
+
+model ProjectJob {
+  id        Int     @id @default(autoincrement())
+  key       String  
+  want      Int
+  current   Int
+  project   Project @relation(fields: [projectId], references: [id])
+  projectId Int
+
+  @@index([projectId])
+}
+
+model PostState {
+  id    Int     @id @default(autoincrement())
+  heart Boolean
+  want  String
+}

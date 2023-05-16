@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import Tag from '../Tag';
 import { IUser } from '@/util/api/user';
+import { User } from '@prisma/client';
 
 const Wrapper = styled.div`
   display: flex;
@@ -42,14 +43,16 @@ const stacks = [
   'TypeScript',
   'Styled-Components',
 ];
-export default function UserProfile({ user }: { user: IUser }) {
+export default function UserProfile({ user }: { user: User }) {
   return (
     <Wrapper>
       <AvatarContainer>
-        <img alt={user.NICK_NAME} src={user.PROFILE_IMAGE} />
+        {user.profileImageUrl && (
+          <img alt={user.name} src={user.profileImageUrl} />
+        )}
       </AvatarContainer>
-      <Tag>{`${user?.YEAR_OF_DEV} 년차`}</Tag>
-      <Name>{user?.NICK_NAME}</Name>
+      <Tag>{`${user?.yearOfDev} 년차`}</Tag>
+      <Name>{user?.name}</Name>
       <p className="noto-regular-13">프론트엔드</p>
       <StackWrapper>
         {stacks.map((stack) => (

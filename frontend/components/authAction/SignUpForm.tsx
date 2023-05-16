@@ -1,8 +1,9 @@
+import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import AuthInput from './AuthInput';
 import { useForm, FieldErrors } from 'react-hook-form';
-import usePostApi from './usePostApi';
-import { useEffect } from 'react';
+import useApi from '@/hooks/useApi';
+import { useRouter } from 'next/router';
 
 const Wrapper = styled.div`
   width: 100%;
@@ -10,6 +11,7 @@ const Wrapper = styled.div`
   flex-direction: column;
   align-items: center;
 `;
+
 const Form = styled.form`
   width: 100%;
 `;
@@ -22,40 +24,50 @@ const Submit = styled.input`
   margin-top: 60px;
   border-radius: 10px;
 `;
+
 const ErrMsg = styled.p`
   position: absolute;
   color: teal;
 `;
+
 interface ISignUpForm {
-  nickName: string;
+  name: string;
   email: string;
   password: string;
   verifyPw: string;
 }
+
 export default function SignUpForm() {
-  const [signUp, { data, isLoading }] = usePostApi('member/signup');
+  const [signUp, { isLoading, data }] = useApi('/api/user/signup');
   const {
     register,
-    watch,
+    getValues,
     handleSubmit,
     formState: { errors },
   } = useForm<ISignUpForm>();
-  console.log(watch('password'));
+
   const onValid = (data: ISignUpForm) => {
+    if (isLoading) return;
     console.log(data);
     signUp(data);
   };
-  const onInValid = (errors: FieldErrors) => {
+
+  const onInvalid = (errors: FieldErrors) => {
     console.log(errors);
   };
+
+  const router = useRouter();
+
   useEffect(() => {
-    data && console.log(data);
+    console.log('redirection');
+    if (data?.ok) router.push('confirm');
   }, [data]);
+
   return (
     <Wrapper>
-      <Form onSubmit={handleSubmit(onValid, onInValid)}>
+      <Form onSubmit={handleSubmit(onValid, onInvalid)}>
         <AuthInput //
-          register={register('nickName', {
+          register={register('name', {
             required: '닉네임을 입력해주세요',
           })}
           name="닉네임"
@@ -83,12 +95,13 @@ export default function SignUpForm() {
           register={register('verifyPw', {
             required: '비밀번호를 입력해 주세요',
             validate: (value) =>
-              value === watch('password') || '비밀번호가 일치하지 않습니다.',
+              value === getValues('password') ||
+              '비밀번호가 일치하지 않습니다.',
           })}
           type="password"
         />
         {errors.verifyPw && <ErrMsg>{`${errors?.verifyPw?.message}`} </ErrMsg>}
-        <Submit type="submit" value={'Sign Up'} />
+        <Submit type="submit" value={isLoading ? 'Loading...' : 'Sign Up'} />
       </Form>
     </Wrapper>
   );

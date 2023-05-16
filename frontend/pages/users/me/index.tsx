@@ -1,9 +1,7 @@
 import GridBox from '@/components/GridBox';
 import InfoContainer from '@/components/user/InfoContainer';
 import UserInfoCard from '@/components/user/UserProfile';
-import useAuth from '@/hooks/react-query/useAuth';
-import { useRouter } from 'next/router';
-import { useEffect, useState } from 'react';
+import useUser from '@/hooks/react-query/useUser';
 import styled from 'styled-components';
 
 const LeftColumn = styled.div`
@@ -78,15 +76,9 @@ const DummyBox2 = styled.div`
   border-radius: 10px;
 `;
 export default function me() {
-  const user = useAuth();
-  const router = useRouter();
-  useEffect(() => {
-    window.scrollTo({
-      top: 670,
-      left: 0,
-      behavior: 'smooth',
-    });
-  }, [router]);
+  const {
+    getMyInfo: { data: user },
+  } = useUser();
 
   return (
     <>
@@ -106,17 +98,14 @@ export default function me() {
                   }
                   contentNode={
                     <>
-                      <p className="nanum-bold">{user.NICK_NAME}</p>
-                      <p className="noto-regular">프론트엔드</p>
+                      <p className="nanum-bold">{user.name}</p>
+                      <p className="noto-regular">{user.roles}</p>
                     </>
                   }
                 />
               </ProfileContainer>
-              <InfoContainer
-                keyNode={'휴대전화'}
-                contentNode={user.PHONE_NUMBER}
-              />
-              <InfoContainer keyNode={'이메일'} contentNode={user.EMAIL} />
+              <InfoContainer keyNode={'휴대전화'} contentNode={user.phone} />
+              <InfoContainer keyNode={'이메일'} contentNode={user.email} />
               <InfoContainer
                 keyNode={'기술스텍'}
                 contentNode={'#react #python'}

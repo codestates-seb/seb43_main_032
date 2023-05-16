@@ -12,14 +12,33 @@ import logoWhite from '../public/images/logoSymbolWhite.svg';
 import BannerSlider from './BannerSlider';
 import Btn from './button/Btn';
 import { useOffResize } from '@/hooks/useOffResize';
+import useUser from '@/hooks/react-query/useUser';
 import { HEADER_NAV } from '@/constant/constant';
 
 const Header = () => {
   const router = useRouter();
+  const {
+    getUserStatus: { data: status },
+  } = useUser();
+
   //로그인
   const [isLoggedIn, setIsLoggedIn] = useRecoilState(isLoggedInState);
   const logout = () => {
     setIsLoggedIn(false);
+  };
+
+  useEffect(() => {
+    setIsLoggedIn(status);
+  }, [status]);
+  //네비
+  const navArr = {
+    community: '/community',
+    project: '/project',
+    users: '/users',
+    mypage: '/mypage',
+    logout: '/',
+    login: '/login',
+    signUp: '/signup',
   };
 
   //네비 이름 배열

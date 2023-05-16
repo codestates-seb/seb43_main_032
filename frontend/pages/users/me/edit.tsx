@@ -1,8 +1,8 @@
-import useAuth from '@/hooks/react-query/useAuth';
-import { IUser } from '@/util/api/user';
-import { useRouter } from 'next/router';
+import useUser from '@/hooks/react-query/useUser';
+import useApi from '@/hooks/useApi';
 import { useEffect } from 'react';
-import { FieldError, FieldErrors, useForm } from 'react-hook-form';
+import { FieldErrors, useForm } from 'react-hook-form';
+import { useQueryClient } from 'react-query';
 import styled from 'styled-components';
 
 const Wrapper = styled.div`
@@ -67,39 +67,38 @@ interface ISubmit {
   [key: string]: string;
 }
 export default function edit() {
-  const router = useRouter();
-  useEffect(() => {
-    window.scrollTo({
-      top: 670,
-      left: 0,
-      behavior: 'smooth',
-    });
-  }, [router]);
-  const user: IUser = useAuth();
+  const queryClient = useQueryClient();
   const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm();
+    getMyInfo: { data: user },
+  } = useUser();
+  const { register, handleSubmit } = useForm();
+
+  const [submit, { data }] = useApi('/api/user/edit');
+
   const onValid = (data: ISubmit) => {
-    console.log(data);
+    submit(data);
   };
   const onInValid = (errors: FieldErrors) => {
     console.log(errors);
   };
+
+  useEffect(() => {
+    if (data && data.ok) {
+      queryClient.invalidateQueries(['users', 'me']);
+    }
+  }, [data]);
 
   return (
     <Wrapper>
       {user && (
         <>
           <ImgWrapper>
-            <img alt={user.NICK_NAME} src={user.PROFILE_IMAGE} />
+            <img alt={user.name} src={user.profileImageUrl} />
             <P>Change Image</P>
           </ImgWrapper>
           <form onSubmit={handleSubmit(onValid, onInValid)}>
-            {' '}
             <Label>UserName</Label>
-            <Input {...register('nickName')} placeholder={user.NICK_NAME} />
+            <Input {...register('name')} placeholder={user.name} />
             <Label>개발기간</Label>
             <Input
               {...register('yearOfDev', {
@@ -108,17 +107,14 @@ export default function edit() {
                   message: 'Please input only numbers',
                 },
               })}
-              placeholder={user.YEAR_OF_DEV + ''}
+              placeholder={user.yearOfDev + ''}
             />
             <Label>Phone</Label>
-            <Input
-              {...register('phoneNumber')}
-              placeholder={user.PHONE_NUMBER}
-            />
+            <Input {...register('phone')} placeholder={user.phone} />
             <Label>Email</Label>
-            <Input {...register('email')} placeholder={user.EMAIL} />
+            <Input {...register('email')} placeholder={user.email} />
             <Label>About Me</Label>
-            <Input {...register('aboutMe')} placeholder={user.ABOUT_ME} />
+            <Input {...register('aboutMe')} placeholder={user.aboutMe} />
             <button>submit</button>
           </form>
         </>

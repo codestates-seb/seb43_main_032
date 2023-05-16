@@ -11,6 +11,8 @@
   "dependencies": {
     "@babel/core": "^7.21.5",
     "@babel/preset-env": "^7.21.5",
+    "@prisma/client": "^4.13.0",
+    "@sendgrid/mail": "^7.7.0",
     "@emailjs/browser": "^3.11.0",
     "@toast-ui/editor": "^3.2.2",
     "@types/marked": "^4.3.0",
@@ -20,11 +22,13 @@
     "@types/react-slick": "^0.23.10",
     "animate.css": "^4.1.1",
     "axios": "^1.4.0",
+    "bcrypt": "^5.1.0",
     "eslint": "8.39.0",
     "eslint-config-next": "13.3.4",
     "framer-motion": "^10.12.4",
     "github-markdown-css": "^5.2.0",
     "highlight.js": "^11.8.0",
+    "iron-session": "^6.3.1",
     "next": "13.3.4",
     "react": "18.2.0",
     "react-datepicker": "^4.11.0",
@@ -50,6 +54,7 @@
     "@types/styled-components": "^5.1.26",
     "msw": "^1.2.1",
     "prettier": "^2.8.8",
+    "prisma": "^4.13.0",
     "ts-node": "^10.9.1"
   },
   "msw": {

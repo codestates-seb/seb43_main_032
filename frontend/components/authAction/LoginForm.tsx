@@ -4,9 +4,11 @@ import { useForm, FieldErrors } from 'react-hook-form';
 import AuthCheckBox from './AuthCheckBox';
 import LogoImage from '../../public/images/logo.svg';
 import Image from 'next/image';
-import edit from '@/pages/users/me/edit';
-import usePostApi from './usePostApi';
+import { useRouter } from 'next/router';
 import { useEffect } from 'react';
+import useApi from '@/hooks/useApi';
+import { useQueryClient } from 'react-query';
+import useUser from '@/hooks/react-query/useUser';
 
 const Wrapper = styled.div`
   width: 100%;
@@ -36,16 +38,18 @@ const Submit = styled.input`
   padding: 20px;
   border-radius: 10px;
 `;
-interface ILoginForm {
+export interface ILoginForm {
   email: string;
   password: string;
   saveId: boolean;
   rememberMe: boolean;
 }
 export default function LoginForm() {
-  const [login, { data, auth, isLoading }] = usePostApi('member/login');
+  const queryClient = useQueryClient();
   const { register, watch, handleSubmit } = useForm<ILoginForm>();
+
   // console.log(watch());
+
   const onValid = (data: ILoginForm) => {
     console.log('valid');
     login(data);
@@ -53,9 +57,21 @@ export default function LoginForm() {
   const onInValid = (errors: FieldErrors) => {
     console.log(errors);
   };
+
+  //user status true => home
+  const {
+    getUserStatus: { data: isLoggedIn },
+  } = useUser();
+  const router = useRouter();
+  if (isLoggedIn) router.replace('/');
+
   useEffect(() => {
-    data && console.log('data', data);
-    auth && console.log('auth', auth);
+    if (data?.ok) {
+      //로그인 성공 모달 or 페이지 필요. (opstional)
+      //일단 홈으로 이동.
+      queryClient.invalidateQueries(['loggedIn']);
+      router.push('/');
+    }
   }, [data]);
   return (
     <Wrapper>

@@ -13,6 +13,7 @@ import { GrFormClose } from 'react-icons/gr';
 import { useProject } from '@/hooks/react-query/useProject';
 import { POSITIONS } from '@/constant/constant';
 import Btn from '../button/Btn';
+import useApi from '@/hooks/useApi';
 import { Form } from '@/types/types';
 
 const ProjectForm = () => {
@@ -143,6 +144,7 @@ const ProjectForm = () => {
     setContent(value);
   };
 
+  const [create, { data: createdPoject }] = useApi('/api/projects/create');
   //프로젝트 글 완료 이벤트
   const postProject = (e: { preventDefault: () => void }) => {
     e.preventDefault();
@@ -169,15 +171,31 @@ const ProjectForm = () => {
       content,
     };
 
-    if (router.route.includes('create')) {
-      if (confirm('정말 작성을 완료하시겠습니까?'))
-        return api.post('/project', data).then(() => router.push('/'));
-    }
-    if (confirm('정말 수정을 완료하시겠습니까?'))
-      return api
-        .put(`/project/${router.query.id}`, data)
-        .then(() => router.push('/'));
+    console.log(data);
+    create({
+      start,
+      end,
+      stacks,
+      tags,
+      jobs: [
+        { key: 'fe', want: 1, current: 0 },
+        { key: 'be', want: 1, current: 0 },
+      ],
+      title: watch('title'),
+      content,
+    });
+    // if (router.route.includes('create')) {
+    //   if (confirm('정말 작성을 완료하시겠습니까?'))
+    //     return api.post('/project', data).then(() => router.push('/'));
+    // }
+    // if (confirm('정말 수정을 완료하시겠습니까?'))
+    //   return api
+    //     .put(`/project/${router.query.id}`, data)
+    //     .then(() => router.push('/'));
   };
+  useEffect(() => {
+    createdPoject && console.log(createdPoject);
+  }, [createdPoject]);
 
   return (
     <GridBox>
