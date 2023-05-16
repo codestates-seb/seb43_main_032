@@ -17,6 +17,8 @@ import { userState } from '@/recoil/atom';
 
 const Header = () => {
   const router = useRouter();
+
+  //로그아웃 로직
   const setUser = useSetRecoilState(userState);
   const logout = () => {
     deleteCookie('accessToken');
