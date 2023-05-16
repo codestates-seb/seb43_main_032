@@ -12,5 +12,6 @@ public class MemberPatchDto {
     private String position;
     private String aboutMe;
     private String profileImageUrl;
+    private String location;
     private List<String> techList;
 }

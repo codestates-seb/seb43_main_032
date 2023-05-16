@@ -1,6 +1,9 @@
 package com.main_032.SideQuest.member.service;
 
+import com.main_032.SideQuest.member.dto.MemberTechStackResponseDto;
+import com.main_032.SideQuest.member.entity.Member;
 import com.main_032.SideQuest.member.entity.MemberTechStack;
+import com.main_032.SideQuest.member.mapper.MemberTechStackMapper;
 import com.main_032.SideQuest.member.repository.MemberTechStackRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -12,16 +15,17 @@ import java.util.List;
 @Service
 public class MemberTechStackService {
     private final MemberTechStackRepository memberTechStackRepository;
+    private final MemberTechStackMapper memberTechStackMapper;
 
     @Transactional
-    public void updateMemberTechStack(List<String> memberTechStackList, Long memberId) {
+    public void updateMemberTechStack(List<String> memberTechStackList, Member member) {
         // 이미 존재하는 techStack 제거
-        memberTechStackRepository.deleteByMemberId(memberId);
+        memberTechStackRepository.deleteByMemberId(member.getId());
 
         for (int i = 0; i < memberTechStackList.size(); i++) {
             MemberTechStack memberTechStack = new MemberTechStack();
             memberTechStack.updateTech(memberTechStackList.get(i));
-            memberTechStack.updateMemberId(memberId);
+            memberTechStack.updateMember(member);
             memberTechStackRepository.save(memberTechStack);
         }
         return;
@@ -30,5 +34,18 @@ public class MemberTechStackService {
     public List<MemberTechStack> getMemberTechStackList(Long memberId) {
         List<MemberTechStack> memberTechStackList = memberTechStackRepository.findByMemberId(memberId);
         return memberTechStackList;
+    }
+
+    @Transactional
+    public void delete(Member member) {
+        List<MemberTechStack> memberTechStackList = member.getMemberTechStackList();
+        for (int i = 0; i < memberTechStackList.size(); i++) {
+            memberTechStackRepository.delete(memberTechStackList.get(i));
+        }
+    }
+
+    public List<MemberTechStackResponseDto> getMemberTechStackResponseDto(Member member) {
+        List<MemberTechStackResponseDto> memberTechStackResponseDtoList = memberTechStackMapper.memberTechStackListToMemberTechStackResponseDtoList(member.getMemberTechStackList());
+        return memberTechStackResponseDtoList;
     }
 }
