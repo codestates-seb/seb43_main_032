@@ -14,7 +14,7 @@ import { BsSearch } from 'react-icons/bs';
 import { PROJECT_FILTER } from '@/constant/constant';
 import ProjectCardBox from '@/components/card_box/ProjectCardBox';
 import { Form } from '@/types/types';
-
+const page_limit = 4;
 type PageProps = { data: Project[]; total: number };
 
 const ProjectHome = () => {
@@ -35,12 +35,12 @@ const ProjectHome = () => {
   //주소
   const address = () => {
     if (search && filter) {
-      return `${router.asPath}&size=${page_limit}&filter=${filter}`;
+      return `/project/findAll&size=${page_limit}&filter=${filter}`;
     }
     if (search || filter) {
-      return `${router.asPath}&size=${page_limit}`;
+      return `/project/findAll&size=${page_limit}`;
     }
-    return `${router.asPath}?size=${page_limit}`;
+    return `/project/findAll?size=${page_limit}`;
   };
 
   //쿼리 키
@@ -66,7 +66,6 @@ const ProjectHome = () => {
   }, [router]);
 
   //무한스크롤 데이터
-  const page_limit = 4;
   const {
     isLoading,
     error,
@@ -88,43 +87,44 @@ const ProjectHome = () => {
       },
     }
   );
+  console.log(data)
 
-  //무한 스크롤 effect
-  const target = useRef<HTMLDivElement>(null);
-  useEffect(() => {
-    if (
-      target.current &&
-      data?.pageParams &&
-      data?.pageParams[data.pageParams.length - 1] === null
-    ) {
-      return;
-    }
-    const observer = new IntersectionObserver(
-      (entries) => {
-        if (entries[0].isIntersecting) {
-          fetchNextPage();
-        }
-      },
-      { threshold: 1 }
-    );
+  // //무한 스크롤 effect
+  // const target = useRef<HTMLDivElement>(null);
+  // useEffect(() => {
+  //   if (
+  //     target.current &&
+  //     data?.pageParams &&
+  //     data?.pageParams[data.pageParams.length - 1] === null
+  //   ) {
+  //     return;
+  //   }
+  //   const observer = new IntersectionObserver(
+  //     (entries) => {
+  //       if (entries[0].isIntersecting) {
+  //         fetchNextPage();
+  //       }
+  //     },
+  //     { threshold: 1 }
+  //   );
 
-    if (target.current) {
-      observer.observe(target.current);
-    }
+  //   if (target.current) {
+  //     observer.observe(target.current);
+  //   }
 
-    return () => {
-      if (target.current) {
-        observer.unobserve(target.current);
-      }
-    };
-  }, [target.current, data?.pageParams]);
+  //   return () => {
+  //     if (target.current) {
+  //       observer.unobserve(target.current);
+  //     }
+  //   };
+  // }, [target.current, data?.pageParams]);
 
   if (isLoading) return <Message>로딩중입니다.</Message>;
   if (error) return <Message>잠시 후 다시 시도해주세요.</Message>;
   if (data)
     return (
       <Box>
-        <div className="search-box">
+        {/* <div className="search-box">
           <form>
             <input {...register('search')} type="text" />
             <Btn>
@@ -177,7 +177,7 @@ const ProjectHome = () => {
           <div className="last-box nanum-bold blink">
             페이지가 존재하지 않습니다.
           </div>
-        )}
+        )} */}
       </Box>
     );
 };
