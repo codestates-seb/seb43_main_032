@@ -16,13 +16,16 @@ const StacksBox = ({ stacks, onModal }: Props) => {
         <li className="button-box">
           {stacks.length === 0 && onModal ? (
             <Btn onClick={onModal}>
-              <span>스택 등록</span>
+              <span>+</span>
             </Btn>
           ) : (
             <ul onClick={onModal} className="select-tag-box">
               {stacks.map((tech) => (
                 <Stack key={tech.tech} tech={tech.tech} />
               ))}
+              <Btn onClick={onModal}>
+                <span>+</span>
+              </Btn>
             </ul>
           )}
         </li>
@@ -42,6 +45,11 @@ const Box = styled.div<BoxProps>`
   flex-direction: column;
   width: 100%;
   padding: 0 30px;
+  margin-bottom: 44px;
+
+  > ul {
+    margin-bottom: 12px;
+  }
 
   > .title {
     font-size: 15px;
@@ -57,8 +65,27 @@ const Box = styled.div<BoxProps>`
     display: flex;
     flex-wrap: wrap;
     gap: 8px;
-    > li {
+    > .button-box {
       box-shadow: var(--box-shadow);
+    }
+  }
+
+  .search-btn {
+    width: 24px;
+    height: 24px;
+    background: #9b7aff;
+    border: none;
+    border-radius: 3px;
+    color: white;
+    cursor: pointer;
+    transition: background 0.3s ease;
+
+    :hover {
+      background: #6333ff;
+    }
+
+    > span {
+      font-size: 20px;
     }
   }
 `;
