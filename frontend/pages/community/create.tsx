@@ -1,6 +1,24 @@
-//커뮤니티 글 작성 페이지 입니다. 경로 '/community/create/'
+import GridBox from '@/components/GridBox';
+import CommunityForm from '@/components/community/CommunityForm';
+import SideBar from '@/components/community/SideBar';
+import { useRouter } from 'next/router';
+import { useEffect } from 'react';
+
 const CreateCommunity = () => {
-  return <div>커뮤니티 글 작성 페이지</div>;
+  const router = useRouter();
+  useEffect(() => {
+    window.scrollTo({
+      top: 600,
+      left: 0,
+      behavior: 'smooth',
+    });
+  }, [router]);
+  return (
+    <GridBox>
+      <SideBar />
+      <CommunityForm />
+    </GridBox>
+  );
 };
 
 export default CreateCommunity;
