@@ -1,10 +1,10 @@
 import { formatSkill } from '@/util/stack/formatSkill';
 import styled from 'styled-components';
 
-const Bubble = ({ skill }: { skill: string }) => {
+const Bubble = ({ tech }: { tech: string }) => {
   return (
     <Box>
-      <span>{formatSkill(skill)}</span>
+      <span>{formatSkill(tech)}</span>
     </Box>
   );
 };

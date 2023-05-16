@@ -3,9 +3,10 @@ import Tag from '../Tag';
 import { UseFormRegister } from 'react-hook-form';
 import styled from 'styled-components';
 import { Form } from '@/types/types';
+import { FiledTag } from '@/types/project';
 
 type Props = {
-  tags: string[];
+  tags: FiledTag[];
   register?: UseFormRegister<Form>;
   tagKeyDown?: (e: React.KeyboardEvent<HTMLInputElement>) => void;
   deleteTag?: (idx: number) => void;
@@ -22,10 +23,10 @@ const TagBox = ({ tags, register, tagKeyDown, deleteTag }: Props) => {
           </div>
         )}
         <ul>
-          {tags.map((x, i) => (
-            <li key={`${x}+${i}`}>
+          {tags.map((tag, i) => (
+            <li key={`${tag.field}+${i}`}>
               <Tag>
-                <div>{x}</div>
+                <div>{tag.field}</div>
                 {deleteTag && (
                   <div>
                     <GrFormClose onClick={() => deleteTag(i)} />

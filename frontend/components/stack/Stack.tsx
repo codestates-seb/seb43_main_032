@@ -1,14 +1,15 @@
 import { useState } from 'react';
 import styled from 'styled-components';
 import Bubble from './Bubble';
+import { Tech } from '@/types/project';
 
 type Props = {
-  skill: string;
-  addStack?: (skill: string) => void;
-  stacks?: string[];
+  tech: string;
+  addStack?: (tech: string) => void;
+  stacks?: Tech[];
 };
 
-const Stack = ({ skill, addStack, stacks }: Props) => {
+const Stack = ({ tech, addStack, stacks }: Props) => {
   //모달
   const [modal, setModal] = useState(false);
 
@@ -16,13 +17,15 @@ const Stack = ({ skill, addStack, stacks }: Props) => {
     <Box
       onMouseEnter={() => setModal(true)}
       onMouseLeave={() => setModal(false)}
-      onClick={() => addStack && addStack(skill)}
-      key={skill}
+      onClick={() => addStack && addStack(tech)}
+      key={tech}
       className={
-        stacks && stacks.includes(skill) ? `focus bg-${skill}` : `bg-${skill}`
+        stacks && stacks.filter((stack) => stack.tech === tech).length > 0
+          ? `focus bg-${tech}`
+          : `bg-${tech}`
       }
     >
-      {modal && <Bubble skill={skill} />}
+      {modal && <Bubble tech={tech} />}
     </Box>
   );
 };

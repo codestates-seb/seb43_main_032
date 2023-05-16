@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { useRouter } from 'next/router';
 import { useInfiniteQuery } from 'react-query';
 import { api } from '@/util/api';
-import { useRef, useEffect, useCallback, useState, useMemo } from 'react';
+import { useRef, useEffect, useState, useMemo } from 'react';
 import ProjectSkeleton from '@/components/skeleton/ProjectSkeleton';
 import Link from 'next/link';
 import { Project } from '@/types/project';
@@ -15,7 +15,7 @@ import { PROJECT_FILTER } from '@/constant/constant';
 import ProjectCardBox from '@/components/card_box/ProjectCardBox';
 import { Form } from '@/types/types';
 import { AiOutlineArrowUp } from 'react-icons/ai';
-
+const page_limit = 4;
 type PageProps = { data: Project[]; total: number };
 
 const ProjectHome = () => {
@@ -34,28 +34,28 @@ const ProjectHome = () => {
   }, [filter]);
 
   //주소
-  const address = useCallback(() => {
+  const address = () => {
     if (search && filter) {
-      return `${router.asPath}&size=${page_limit}&filter=${filter}`;
+      return `/project/findAll&size=${page_limit}&filter=${filter}`;
     }
     if (search || filter) {
-      return `${router.asPath}&size=${page_limit}`;
+      return `/project/findAll&size=${page_limit}`;
     }
-    return `${router.asPath}?size=${page_limit}`;
-  }, [search, filter, router]);
+    return `/project/findAll?size=${page_limit}`;
+  };
 
   //쿼리 키
-  const queryKey = useCallback(() => {
+  const queryKey = () => {
     if (search && filter) {
       return ['projects', search, filter];
     }
     if (search || filter) {
       return ['projects', search || filter];
     }
-    return ['projects'];
-  }, [search, filter]);
+    return 'projects';
+  };
 
-  //form 및 filter 관련
+  //라우터 이동 시,
   useEffect(() => {
     if (watch().search !== '') {
       window.scrollTo({
@@ -67,7 +67,6 @@ const ProjectHome = () => {
   }, [router]);
 
   //무한스크롤 데이터
-  const page_limit = 4;
   const {
     isLoading,
     error,

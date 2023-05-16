@@ -31,6 +31,13 @@ export type CommunityCategory = {
   icon: JSX.Element;
 };
 
+export type PageInfo = {
+  page: number;
+  size: number;
+  totalElement: number;
+  totalPages: number;
+};
+
 export type NavProps = {
   isScrolled?: boolean;
   nav: boolean;

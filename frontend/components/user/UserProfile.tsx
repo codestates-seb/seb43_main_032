@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import Tag from '../Tag';
-import { IUser } from '@/util/api/user';
+import { IUser } from '@/types/user';
 
 const Wrapper = styled.div`
   display: flex;

@@ -1,9 +1,10 @@
 import styled from 'styled-components';
 import Stack from '../stack/Stack';
 import Btn from '../button/Btn';
+import { Tech } from '@/types/project';
 
 type Props = {
-  stacks: string[];
+  stacks: Tech[];
   onModal?: () => void;
 };
 
@@ -19,8 +20,8 @@ const StacksBox = ({ stacks, onModal }: Props) => {
             </Btn>
           ) : (
             <ul onClick={onModal} className="select-tag-box">
-              {stacks.map((skill) => (
-                <Stack key={skill} skill={skill} />
+              {stacks.map((tech) => (
+                <Stack key={tech.tech} tech={tech.tech} />
               ))}
             </ul>
           )}

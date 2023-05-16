@@ -35,22 +35,22 @@ const ViewProject = () => {
   }, [router]);
   //react-query
   const { projectQuery, updateJob, updateHeart, updateState } = useProject();
+  const data = projectQuery.data?.data;
 
   //직군 관련
-  const jobs = projectQuery.data?.post_data?.jobs;
-  const job = jobs?.map((x) => Object.keys(x)[0]);
-  const jobCount = jobs?.map((x) => Object.values(x)[0]);
+  const positions = data?.positionCrewList;
 
   //모든 지원이 꽉 찼을 때, 일어나는 이펙트
-  useEffect(() => {
-    if (
-      jobCount &&
-      jobCount?.filter((x) => x.current === x.want).length == jobCount?.length
-    ) {
-      updateState.mutate(2);
-    }
-  }, [projectQuery.data]);
+  // useEffect(() => {
+  //   if (
+  //     jobCount &&
+  //     jobCount?.filter((x) => x.current === x.want).length == jobCount?.length
+  //   ) {
+  //     updateState.mutate(2);
+  //   }
+  // }, [projectQuery.data]);
 
+  //세부 기능 추가 이후에 업데이트 해야할듯???
   const projectEvent = (state: number) => {
     if (state === 2 && confirm('정말 프로젝트를 시작하시겠습니까?')) {
       updateState.mutate(3);
@@ -65,21 +65,21 @@ const ViewProject = () => {
     router.push(`${router.asPath}/edit`);
   };
 
-  const postState = {
-    1: '모집 중',
-    2: '모집 완료',
-    3: '진행 중',
-    4: '종료',
+  //세부 기능 추가 이후에 업데이트 해야할듯??? 아마도 숫자 관리가 아닌 only string 일듯?
+  const postState: { [key: string]: number } = {
+    '모집 중': 1,
+    '모집 완료': 2,
+    '진행 중': 3,
+    종료: 4,
   };
 
-  const buttonState = {
+  //세부 기능 추가 이후에 업데이트 해야할듯??? 아마도 숫자 관리가 아닌 only string 일듯?
+  const buttonState: { [key: number]: string } = {
     1: '',
     2: '프로젝트 시작',
     3: '프로젝트 종료',
     4: '팀원 리뷰',
   };
-
-  const data = PROJECTS[0];
 
   if (projectQuery.isLoading) return <Message>로딩중입니다.</Message>;
   if (projectQuery.error) return <Message>잠시 후 다시 시도해주세요.</Message>;
@@ -94,9 +94,9 @@ const ViewProject = () => {
                   src="https://noticon-static.tammolo.com/dgggcrkxq/image/upload/v1567008394/noticon/ohybolu4ensol1gzqas1.png"
                   alt="author"
                 />
-                <div className="user-title">{data.author}</div>
+                {/* <div className="user-title">{data.author}</div> */}
                 <div className="noto-medium">
-                  <Position text={data.position!} />
+                  <Position text={data.writerPosition} />
                 </div>
                 <div
                   className="saveStar"
@@ -121,7 +121,7 @@ const ViewProject = () => {
                 <div className="center-border"></div>
                 <div className="detail-sub-box">
                   <div className="detail-num">
-                    {data.heart} <span>개</span>
+                    {data.totalLikes} <span>개</span>
                   </div>
                   <div className="detail-title">평가 점수</div>
                 </div>
@@ -129,54 +129,56 @@ const ViewProject = () => {
               <Tag>쪽지 보내기</Tag>
             </div>
           </div>
-          <PeriodBox start={new Date(data.start)} end={new Date(data.end)} />
-          <TagBox tags={data.tags} />
-          <StacksBox stacks={data.stacks} />
+          <PeriodBox
+            start={new Date(data.startDate)}
+            end={new Date(data.endDate)}
+          />
+          <TagBox tags={data.fieldList} />
+          <StacksBox stacks={data.techStackList} />
           <div className="want-box">
             <div className="title">모집 중인 직군</div>
             <ul>
-              {jobCount &&
-                job?.map((job, i) => (
-                  <li className="nanum-regular" key={`${job}+${i}`}>
-                    <div className="job">{job}</div>
-                    <div className="needNum">
-                      {jobCount[i].current}/{jobCount[i].want}
-                    </div>
-                    <div
-                      className={
-                        jobCount[i].current === jobCount[i].want
-                          ? 'red light'
-                          : 'green light'
+              {positions?.map((position, i) => (
+                <li className="nanum-regular" key={`${position.position}+${i}`}>
+                  <div className="job">{position.position}</div>
+                  <div className="needNum">
+                    {position.acceptedNumber}/{position.number}
+                  </div>
+                  <div
+                    className={
+                      position.acceptedNumber === position.number
+                        ? 'red light'
+                        : 'green light'
+                    }
+                  ></div>
+                  {/* {position.acceptedNumber === position.number ? (
+                    <Tag>마감</Tag>
+                  ) : job === projectQuery.data?.post_state.want ? (
+                    <Tag
+                      onClick={() =>
+                        updateJob.mutate({ job, update: 'cancle' })
                       }
-                    ></div>
-                    {jobCount[i].current === jobCount[i].want ? (
-                      <Tag>마감</Tag>
-                    ) : job === projectQuery.data?.post_state.want ? (
-                      <Tag
-                        onClick={() =>
-                          updateJob.mutate({ job, update: 'cancle' })
-                        }
-                      >
-                        취소
-                      </Tag>
-                    ) : (
-                      <Tag
-                        onClick={() =>
-                          projectQuery.data?.post_state.want === '' &&
-                          updateJob.mutate({ job, update: 'want' })
-                        }
-                      >
-                        지원
-                      </Tag>
-                    )}
-                  </li>
-                ))}
+                    >
+                      취소
+                    </Tag>
+                  ) : (
+                    <Tag
+                      onClick={() =>
+                        projectQuery.data?.post_state.want === '' &&
+                        updateJob.mutate({ job, update: 'want' })
+                      }
+                    >
+                      지원
+                    </Tag>
+                  )} */}
+                </li>
+              ))}
             </ul>
           </div>
           <div>
-            {data.state !== 1 && (
-              <button onClick={() => projectEvent(data.state)}>
-                {buttonState[data.state]}
+            {postState[data.status] !== 1 && (
+              <button onClick={() => projectEvent(postState[data.status])}>
+                {buttonState[postState[data.status]]}
               </button>
             )}
           </div>
@@ -185,7 +187,7 @@ const ViewProject = () => {
           <div className="title">
             <div className="left">
               <div className="nanum-bold">{data.title}</div>
-              {<Tag>{postState[data.state]}</Tag>}
+              {<Tag>{data.status}</Tag>}
             </div>
             <div className="right">
               <a onClick={moveEdit} className="main-btn">
@@ -196,20 +198,20 @@ const ViewProject = () => {
           <div className="sub noto-regular-13">
             <div>
               <div>
-                <span>작성일자</span> : {formatDate2(new Date(data.createAt))}
+                {/* <span>작성일자</span> : {formatDate2(new Date(data.createAt))} */}
               </div>
               <div>
-                <span>조회 수</span> : {data.view}
+                <span>조회 수</span> : {data.views}
               </div>
               <div>
-                <span>댓글 수</span> : {data.comment.length}
+                {/* <span>댓글 수</span> : {data.comment.length} */}
               </div>
             </div>
           </div>
           <ReactMarkdown content={data.content} />
           <div className="heart-box">
             <div onClick={() => updateHeart.mutate()}>
-              {projectQuery.data?.post_state.heart ? (
+              {/* {projectQuery.data?.post_state.heart ? (
                 <span>
                   <AiFillHeart />
                 </span>
@@ -217,8 +219,8 @@ const ViewProject = () => {
                 <span>
                   <AiOutlineHeart />
                 </span>
-              )}
-              <span>{data.heart}</span>
+              )} */}
+              <span>{data.totalLikes}</span>
             </div>
           </div>
           <div className="comment-box">댓글창</div>

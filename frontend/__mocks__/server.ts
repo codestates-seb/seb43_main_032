@@ -1,8 +1,9 @@
 import { setupServer } from 'msw/node';
-import { handlers, projectHandlers, communityHandler } from './api';
+import { handlers, projectHandler, communityHandler, userHandler } from './api';
 
 module.exports.server = setupServer(
   ...handlers,
-  ...projectHandlers,
-  ...communityHandler
+  ...projectHandler,
+  ...communityHandler,
+  ...userHandler
 );
