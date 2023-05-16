@@ -83,19 +83,16 @@ const ViewProject = () => {
       <GridBox>
         <Side>
           <div className="author-box">
-            <div>작성자</div>
             <div className="author noto-medium">
+              <img
+                src="https://noticon-static.tammolo.com/dgggcrkxq/image/upload/v1567008394/noticon/ohybolu4ensol1gzqas1.png"
+                alt="author"
+              />
+              <div>{data.author}</div>
               <div className="noto-medium">
                 <Position text={data.position!} />
               </div>
-              <div>
-                <img
-                  src="https://noticon-static.tammolo.com/dgggcrkxq/image/upload/v1567008394/noticon/ohybolu4ensol1gzqas1.png"
-                  alt="author"
-                />
-                <div>{data.author}</div>
-                <Tag>쪽지</Tag>
-              </div>
+              <Tag>쪽지 보내기</Tag>
             </div>
           </div>
           <PeriodBox start={new Date(data.start)} end={new Date(data.end)} />
@@ -279,20 +276,24 @@ const Side = styled.div`
   }
 
   .author-box {
+    border: solid 1px #c4c4c4;
+    padding: 40px 0;
+    border-radius: 15px;
     .author {
       display: flex;
       align-items: center;
       flex-direction: column;
       gap: 12px;
+
+      > img {
+        border-radius: 50%;
+      }
+
       > div:last-child {
         display: flex;
         justify-content: center;
         align-items: center;
         gap: 16px;
-        > img {
-          width: 40px;
-          height: 40px;
-        }
         > div {
           font-weight: 900;
         }
