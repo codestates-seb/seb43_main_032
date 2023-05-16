@@ -156,23 +156,32 @@ const ProjectForm = () => {
       return alert('내용을 입력해주세요.');
     }
     const data = {
-      start,
-      end,
-      stacks,
-      tags,
-      jobs,
-      position: watch().position,
+      startDate: String(start),
+      endDate: String(end),
+      techStackList: {
+        techStackList: stacks.map((stack) => stack.tech),
+      },
+      fieldList: {
+        fieldList: tags.map((tag) => tag.field),
+      },
+      positionCrewList: {
+        positionCrewList: jobs.map((job) => job.position),
+        positionNumberList: jobs.map((job) => job.number),
+      },
+      writerPosition: watch().position,
       title: watch().title,
+      thumbnailImageUrl: '',
       content,
     };
+    console.log(data);
 
     if (router.route.includes('create')) {
       if (confirm('정말 작성을 완료하시겠습니까?'))
-        return api.post('/project', data).then(() => router.push('/'));
+        return api.post('/project/post', data).then(() => router.push('/'));
     }
     if (confirm('정말 수정을 완료하시겠습니까?'))
       return api
-        .put(`/project/${router.query.id}`, data)
+        .put(`/project/update/${router.query.id}`, data)
         .then(() => router.push('/'));
   };
 
