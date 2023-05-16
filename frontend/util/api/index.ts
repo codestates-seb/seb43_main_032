@@ -1,17 +1,17 @@
 import axios from 'axios';
-import { tokenLocalStorage } from '../local_storage/localStorage';
+import { getCookie } from '../cookie';
 
 const baseURL =
   process.env.NODE_ENV === 'production'
     ? process.env.NEXT_RESOURCE_URL
-    : 'http://localhost:3000';
+    : 'http://13.209.14.135:8080';
 
 const api = axios.create({
   baseURL,
   timeout: 3000,
   headers: {
     'Content-Type': 'application/json',
-    Authorization: `Bearer ${tokenLocalStorage('accessToken')}`,
+    Authorization: getCookie('accessToken'),
   },
 });
 

@@ -1,26 +1,69 @@
+import Btn from '@/components/button/Btn';
 import useAuth from '@/hooks/react-query/useAuth';
-import { IUser } from '@/util/api/user';
+import axios from 'axios';
+import { IUser } from '@/types/user';
 import { useRouter } from 'next/router';
-import { useEffect } from 'react';
-import { FieldError, FieldErrors, useForm } from 'react-hook-form';
+import { useEffect, useRef, useState } from 'react';
+import { FieldErrors, useForm } from 'react-hook-form';
 import styled from 'styled-components';
+import { BiImageAdd } from 'react-icons/bi';
+
+const Container = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
 
 const Wrapper = styled.div`
   border: 1px solid rgba(0, 0, 0, 0.1);
   border-radius: 20px;
-  padding: 20px;
-  margin-top: 20px;
-  width: 300px;
+  /* padding: 20px; */
+  width: 800px;
+  height: 700px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+
+  #picture {
+    /* display: none; */
+  }
+
+  button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 50px;
+    margin-top: 30px;
+    border-radius: 10px;
+  }
+  span {
+    justify-content: flex-end;
+  }
 `;
 const ImgWrapper = styled.div`
   display: flex;
   position: relative;
-  width: 150px;
-  height: 150px;
-  justify-content: center;
-  /* align-items: center; */
+  flex-direction: column;
+  width: 200px;
+  height: 200px;
   border-radius: 50%;
   overflow: hidden;
+  margin-right: 80px;
+  margin-top: 30px;
+  background-color: #cbcbcb;
+
+  input {
+    border: 1px solid red;
+    opacity: 0;
+    width: 100%;
+    height: 100%;
+  }
+`;
+
+const InnerContainer = styled.div`
+  display: flex;
+  padding-top: 40px;
 `;
 const P = styled.div`
   display: flex;
@@ -63,9 +106,15 @@ const Label = styled.p.attrs({ className: 'nanum-bold' })`
   padding-top: 20px;
   padding-bottom: 10px;
 `;
+
+const LabelContainer = styled.div`
+  width: 300px;
+`;
+
 interface ISubmit {
   [key: string]: string;
 }
+const BASE_URL = 'http://43.201.253.57:8080/';
 export default function edit() {
   const router = useRouter();
   useEffect(() => {
@@ -79,50 +128,105 @@ export default function edit() {
   const {
     register,
     handleSubmit,
+    watch,
     formState: { errors },
   } = useForm();
+
+  const [imagePreview, setImagePreview] = useState('');
+  console.log(imagePreview);
+  const image = watch('image');
+  useEffect(() => {
+    if (image && image.length > 0) {
+      const file = image[0];
+      setImagePreview(URL.createObjectURL(file));
+    }
+  }, [image]);
+
   const onValid = (data: ISubmit) => {
     console.log(data);
+    axios
+      .patch(BASE_URL + 'member/update', data)
+      .then((res) => console.log(res));
   };
   const onInValid = (errors: FieldErrors) => {
     console.log(errors);
   };
 
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const handleImageClick = () => {
+    if (fileInputRef.current) {
+      fileInputRef.current.click();
+    }
+  };
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        setImagePreview(event.target?.result as string);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
   return (
-    <Wrapper>
-      {user && (
-        <>
-          <ImgWrapper>
-            <img alt={user.NICK_NAME} src={user.PROFILE_IMAGE} />
-            <P>Change Image</P>
-          </ImgWrapper>
-          <form onSubmit={handleSubmit(onValid, onInValid)}>
-            {' '}
-            <Label>UserName</Label>
-            <Input {...register('nickName')} placeholder={user.NICK_NAME} />
-            <Label>개발기간</Label>
-            <Input
-              {...register('yearOfDev', {
-                pattern: {
-                  value: /^[0-9]*$/,
-                  message: 'Please enter only numbers',
-                },
-              })}
-              placeholder={user.YEAR_OF_DEV + ''}
-            />
-            <Label>Phone</Label>
-            <Input
-              {...register('phoneNumber')}
-              placeholder={user.PHONE_NUMBER}
-            />
-            <Label>Email</Label>
-            <Input {...register('email')} placeholder={user.EMAIL} />
-            <Label>About Me</Label>
-            <Input {...register('aboutMe')} placeholder={user.ABOUT_ME} />
-            <button>submit</button>
-          </form>
-        </>
-      )}
-    </Wrapper>
+    <Container>
+      <Wrapper>
+        {user && (
+          <>
+            <form
+              onSubmit={handleSubmit(onValid, onInValid)}
+              style={{
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'center',
+              }}
+            >
+              <InnerContainer>
+                <ImgWrapper>
+                  <input
+                    {...register('image')}
+                    id="picture"
+                    type="file"
+                    ref={fileInputRef}
+                    onChange={handleFileChange}
+                  />
+                  <img src={imagePreview} onClick={handleImageClick}></img>
+                </ImgWrapper>
+                <LabelContainer>
+                  <Label>UserName</Label>
+                  <Input
+                    {...register('nickName')}
+                    placeholder={user.NICK_NAME}
+                  />
+                  <Label>개발기간</Label>
+                  <Input
+                    {...register('yearOfDev', {
+                      pattern: {
+                        value: /^[0-9]*$/,
+                        message: 'Please enter only numbers',
+                      },
+                    })}
+                    placeholder={user.YEAR_OF_DEV + ''}
+                  />
+                  <Label>Phone</Label>
+                  <Input
+                    {...register('phoneNumber')}
+                    placeholder={user.PHONE_NUMBER}
+                  />
+                  <Label>Email</Label>
+                  <Input {...register('email')} placeholder={user.EMAIL} />
+                  <Label>About Me</Label>
+                  <Input {...register('aboutMe')} placeholder={user.ABOUT_ME} />
+                  <Btn>Submit</Btn>
+                </LabelContainer>
+              </InnerContainer>
+            </form>
+          </>
+        )}
+      </Wrapper>
+    </Container>
   );
 }

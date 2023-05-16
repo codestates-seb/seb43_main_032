@@ -1,6 +1,8 @@
 import styled from 'styled-components';
 import AuthInput from './AuthInput';
 import { useForm, FieldErrors } from 'react-hook-form';
+import usePostApi from './usePostApi';
+import { useEffect } from 'react';
 
 const Wrapper = styled.div`
   width: 100%;
@@ -31,6 +33,7 @@ interface ISignUpForm {
   verifyPw: string;
 }
 export default function SignUpForm() {
+  const [signUp, { data, isLoading }] = usePostApi('signup');
   const {
     register,
     watch,
@@ -40,10 +43,14 @@ export default function SignUpForm() {
   console.log(watch('password'));
   const onValid = (data: ISignUpForm) => {
     console.log(data);
+    signUp(data);
   };
   const onInValid = (errors: FieldErrors) => {
     console.log(errors);
   };
+  useEffect(() => {
+    data && console.log(data);
+  }, [data]);
   return (
     <Wrapper>
       <Form onSubmit={handleSubmit(onValid, onInValid)}>
