@@ -4,7 +4,7 @@ import { FiMenu } from 'react-icons/fi';
 import Link from 'next/link';
 import { useRecoilState } from 'recoil';
 import styled from 'styled-components';
-import { isLoggedInState } from '@/recoil/atom';
+import { isLoggedInState, navModalState } from '@/recoil/atom';
 import { useRouter } from 'next/router';
 import { useEffect, useMemo, useState } from 'react';
 import logo from '../public/images/logo.svg';
@@ -13,6 +13,8 @@ import BannerSlider from './BannerSlider';
 import Btn from './button/Btn';
 import { useOffResize } from '@/hooks/useOffResize';
 import { HEADER_NAV } from '@/constant/constant';
+import Img from '../public/images/second-user.svg';
+import { NavProps } from '@/types/types';
 
 const Header = () => {
   const router = useRouter();
@@ -46,7 +48,7 @@ const Header = () => {
   }, []);
 
   //모달 네비
-  const [nav, setNav] = useState(false);
+  const [nav, setNav] = useRecoilState(navModalState);
   const moveNav = (name: string) => {
     router.push(HEADER_NAV[name]);
     setNav(false);
@@ -55,6 +57,7 @@ const Header = () => {
     setNav(!nav);
   };
   useOffResize(960, 'up', setNav);
+  console.log(nav);
 
   return (
     <>
@@ -110,81 +113,106 @@ const Header = () => {
                 </li>
               ))}
         </NavMenu>
-        <ModalNav nav={nav}>
-          <ul>
-            {isLoggedIn
-              ? navNames.slice(0, 4).map((name) => (
-                  <li
-                    className="nanum-bold"
-                    key={name}
-                    onClick={() => moveNav(name)}
-                  >
-                    {name}
-                  </li>
-                ))
-              : navNames.slice(0, 3).map((name) => (
-                  <li
-                    className="nanum-bold"
-                    key={name}
-                    onClick={() => moveNav(name)}
-                  >
-                    {name}
-                  </li>
-                ))}
-          </ul>
-          <div className="nav-users">
-            {isLoggedIn
-              ? navNames.slice(4, 5).map((name) => (
-                  <div className="logout" key={name} onClick={logout}>
-                    <Btn>
-                      <span>{name}</span>
-                    </Btn>
-                  </div>
-                ))
-              : navNames.slice(5).map((name) => (
-                  <div key={name} onClick={() => moveNav(name)}>
-                    <Btn>
-                      <span>{name}</span>
-                    </Btn>
-                  </div>
-                ))}
-          </div>
-        </ModalNav>
       </Nav>
       {router.pathname !== '/404' && (
         <BannerSlider isScrolled={isScrolled}></BannerSlider>
       )}
+      <ModalNav nav={nav}>
+        {isLoggedIn && (
+          <div className="user">
+            <Image src={Img} alt="profleImg" />
+            <div className="userName">
+              최기랑<span>, 환영합니다.</span>
+            </div>
+          </div>
+        )}
+        <ul>
+          {isLoggedIn
+            ? navNames.slice(0, 4).map((name) => (
+                <li
+                  className="nanum-bold"
+                  key={name}
+                  onClick={() => moveNav(name)}
+                >
+                  {name}
+                </li>
+              ))
+            : navNames.slice(0, 3).map((name) => (
+                <li
+                  className="nanum-bold"
+                  key={name}
+                  onClick={() => moveNav(name)}
+                >
+                  {name}
+                </li>
+              ))}
+        </ul>
+        <div className="nav-users">
+          {isLoggedIn
+            ? navNames.slice(4, 5).map((name) => (
+                <div className="logout" key={name} onClick={logout}>
+                  <Btn>
+                    <span>{name}</span>
+                  </Btn>
+                </div>
+              ))
+            : navNames.slice(5).map((name) => (
+                <div key={name} onClick={() => moveNav(name)}>
+                  <Btn>
+                    <span>{name}</span>
+                  </Btn>
+                </div>
+              ))}
+        </div>
+      </ModalNav>
     </>
   );
 };
 
 export default Header;
 
-type NavProps = {
-  isScrolled?: boolean;
-  nav: boolean;
-};
-
 const ModalNav = styled.nav<NavProps>`
-  z-index: 1000;
+  z-index: 9999;
   background-color: white;
   width: 50%;
+  height: 100%;
   position: fixed;
   top: 60px;
   right: ${(props) => (props.nav ? '0' : '-50%')};
   transition: 1.2s;
   display: none;
+
+  .user {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    > img {
+      width: 70%;
+      height: 70%;
+      border-radius: 50%;
+      border: solid 2px black;
+    }
+
+    > .userName {
+      margin-top: 20px;
+      font-size: 15px;
+    }
+  }
+
   @media (max-width: 960px) {
     display: block;
   }
   ul {
     display: flex;
     flex-direction: column;
-    text-align: center;
     li {
       padding: 24px;
       cursor: pointer;
       border-bottom: 1px solid #d1d1d1;
+      font-size: 15px;
     }
   }
   .nav-users {
