@@ -30,3 +30,8 @@ export type CommunityCategory = {
   link: string;
   icon: JSX.Element;
 };
+
+export type NavProps = {
+  isScrolled?: boolean;
+  nav: boolean;
+};

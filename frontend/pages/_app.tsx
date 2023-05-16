@@ -1,5 +1,5 @@
 import type { AppProps } from 'next/app';
-import { RecoilRoot } from 'recoil';
+import { RecoilRoot, useRecoilValue } from 'recoil';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import '../styles/App.css';
 import Header from '../components/Header';
@@ -9,6 +9,7 @@ import 'animate.css';
 import { useState } from 'react';
 import { FcSms } from 'react-icons/fc';
 import Contact from '@/components/Contact';
+import ModalBg from '@/components/ModalBg';
 
 const queryClient = new QueryClient();
 
@@ -35,6 +36,7 @@ const App = ({ Component, pageProps }: AppProps) => {
             <FcSms onClick={contactHandler} />
           )}
         </ModalBox>
+        <ModalBg></ModalBg>
         <Footer />
       </RecoilRoot>
     </QueryClientProvider>
