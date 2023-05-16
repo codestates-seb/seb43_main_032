@@ -35,7 +35,7 @@ public class Article extends BaseEntity {
     @Column
     private int totalLikes;
 
-    @Column(columnDefinition = "TINYINT ")
+    @Column(columnDefinition = "TINYINT")
     private boolean deleted;
 
     public void updateMemberId(Long memberId){
@@ -53,4 +53,8 @@ public class Article extends BaseEntity {
     public void updateDeleted(boolean deleted){this.deleted=deleted;}
     public void updateArticleViews(int views){this.views = views;}
     public void updateTotalLikes(int totalLikes){this.totalLikes = totalLikes;}
+    public void updateViews(int views){this.views = views;}
+    public void delete(){this.deleted = true;}
+    public void restore(){this.deleted = false;}
+
 }
