@@ -37,7 +37,7 @@ interface IObj {
   error: undefined | any;
 }
 
-const BASE_URL = 'http://43.201.253.57:8080/';
+const BASE_URL = 'http://3.38.100.78:8080/';
 
 export default function usePostApi(
   endpoint: string
@@ -52,6 +52,7 @@ export default function usePostApi(
     axios
       .post(BASE_URL + endpoint, data)
       .then((res) => {
+        console.log(res)
         setData(res);
         setAuth(res.headers['authorization']);
       })
