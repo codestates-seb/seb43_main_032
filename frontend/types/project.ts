@@ -1,10 +1,10 @@
-interface crew {
+interface Crew {
   [key: string]: string;
 }
-interface tag extends crew {}
-interface tech extends crew {}
+export interface FiledTag extends Crew {}
+export interface Tech extends Crew {}
 
-type wantCrew = {
+type WantCrew = {
   position: string;
   number: number;
   acceptedNumber: number;
@@ -15,16 +15,16 @@ export type Job = {
 };
 
 export type Project = {
-  acceptedCrewList: crew[];
+  acceptedCrewList: Crew[];
   content: string;
   endDate: string;
-  fieldList: tag[];
+  fieldList: FiledTag[];
   memberId: number;
-  positionCrewList: wantCrew[];
+  positionCrewList: WantCrew[];
   projectId: number;
   startDate: string;
   status: string;
-  techStackList: tech[];
+  techStackList: Tech[];
   thumbnailImageUrl: string;
   title: string;
   totalLikes: number;

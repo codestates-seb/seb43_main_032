@@ -1,11 +1,11 @@
 import { useQuery, useMutation } from 'react-query';
 import { useRouter } from 'next/router';
 import { api } from '@/util/api';
-import { PostState, Project } from '@/types/project';
+import { Project } from '@/types/project';
 
 type ProjectData = {
-  post_data: Project;
-  post_state: PostState;
+  data: Project;
+  exceptionMsg: null;
 };
 
 export const useProject = () => {
