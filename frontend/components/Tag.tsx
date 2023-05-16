@@ -25,5 +25,6 @@ const TagBox = styled.div<Props>`
   :hover {
     background-color: ${(props) =>
       props.children === '마감' ? '' : '#5b24ff'};
+    color: white;
   }
 `;
