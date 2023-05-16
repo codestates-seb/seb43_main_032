@@ -56,6 +56,9 @@ public class Project extends BaseEntity {
     List<ProPositionCrew> proPositionCrewList;
 
     @OneToMany(mappedBy = "project")
+    List<ProApplyCrew> proApplyCrewList;
+
+    @OneToMany(mappedBy = "project")
     List<ProAcceptedCrew> proAcceptedCrewList;
 
     @Column(columnDefinition = "TINYINT")
@@ -106,10 +109,12 @@ public class Project extends BaseEntity {
     public void updateProPositionCrewList(List<ProPositionCrew> proPositionCrewList) {
         this.proPositionCrewList = proPositionCrewList;
     }
-    public void updateProAcceptedCrew(List<ProAcceptedCrew> proAcceptedCrewList) {
+    public void updateProApplyCrewList(List<ProApplyCrew> proApplyCrewList) {
+        this.proApplyCrewList = proApplyCrewList;
+    }
+    public void updateProAcceptedCrewList(List<ProAcceptedCrew> proAcceptedCrewList) {
         this.proAcceptedCrewList = proAcceptedCrewList;
     }
-
     public void updateDeleted(boolean deleted) {
         this.deleted = deleted;
     }

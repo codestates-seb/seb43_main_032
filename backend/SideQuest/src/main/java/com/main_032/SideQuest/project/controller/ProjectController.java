@@ -1,5 +1,6 @@
 package com.main_032.SideQuest.project.controller;
 
+import com.main_032.SideQuest.project.dto.ProjectApplyPostDto;
 import com.main_032.SideQuest.project.dto.ProjectGetResponseDto;
 import com.main_032.SideQuest.project.dto.ProjectPatchDto;
 import com.main_032.SideQuest.project.dto.ProjectPostDto;
@@ -8,9 +9,6 @@ import com.main_032.SideQuest.util.dto.MultiResponseDto;
 import com.main_032.SideQuest.util.dto.SingleResponseDto;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -65,8 +63,8 @@ public class ProjectController {
 
     @ApiOperation(value = "프로젝트 지원")
     @PostMapping("/project/apply/{projectId}")
-    public ResponseEntity<Void> applyProject(@PathVariable(name = "projectId") Long projectId) {
-        projectService.applyProject(projectId);
+    public ResponseEntity<Void> applyProject(@PathVariable(name = "projectId") Long projectId, @RequestBody ProjectApplyPostDto projectApplyPostDto) {
+        projectService.applyProject(projectId, projectApplyPostDto);
         ResponseEntity responseEntity = new ResponseEntity(HttpStatus.OK);
         return responseEntity;
     }

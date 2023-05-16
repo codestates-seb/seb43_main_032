@@ -1,13 +1,9 @@
 package com.main_032.SideQuest.project.service;
 
-import com.main_032.SideQuest.auth.utils.CustomAuthorityUtils;
 import com.main_032.SideQuest.member.entity.Member;
 import com.main_032.SideQuest.member.service.MemberService;
 import com.main_032.SideQuest.project.dto.*;
-import com.main_032.SideQuest.project.entity.ProField;
-import com.main_032.SideQuest.project.entity.ProPositionCrew;
-import com.main_032.SideQuest.project.entity.ProTechStack;
-import com.main_032.SideQuest.project.entity.Project;
+import com.main_032.SideQuest.project.entity.*;
 import com.main_032.SideQuest.project.mapper.ProjectMapper;
 import com.main_032.SideQuest.project.repository.ProjectRepository;
 import com.main_032.SideQuest.util.dto.MultiResponseDto;
@@ -18,7 +14,6 @@ import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -36,6 +31,7 @@ public class ProjectService {
     private final ProTechStackService proTechStackService;
     private final ProFieldService proFieldService;
     private final ProPositionCrewService proPositionCrewService;
+    private final ProApplyCrewService proApplyCrewService;
     private final ProAcceptedCrewService proAcceptedCrewService;
 
     @Transactional
@@ -122,5 +118,32 @@ public class ProjectService {
         project.updateDeleted(true);
         projectRepository.save(project);
         return;
+    }
+
+    @Transactional
+    public void applyProject(Long projectId, ProjectApplyPostDto projectApplyPostDto) {
+        Optional<Project> findProject = projectRepository.findById(projectId);
+        findProject.orElseThrow(() -> new BusinessLogicException(ExceptionCode.PROJECT_NOT_FOUND));
+        Project project = findProject.get();
+
+        Member member = memberService.getLoginMember();
+        List<ProApplyCrew> proApplyCrewList = project.getProApplyCrewList();
+        for (int i = 0; i < proApplyCrewList.size(); i++) {
+            if(proApplyCrewList.get(i).getMemberId() == member.getId()) throw new BusinessLogicException(ExceptionCode.ALREADY_APPLY_PROJECT);
+        }
+        boolean exist = false;
+        for (int i = 0; i < project.getProPositionCrewList().size(); i++) {
+            if(project.getProPositionCrewList().get(i).getPosition().equals(projectApplyPostDto.getPosition())) {
+                exist = true;
+                break;
+            }
+        }
+        if(exist == false) throw new BusinessLogicException(ExceptionCode.POSITION_NOT_FOUND);
+
+
+        ProApplyCrew proApplyCrew = new ProApplyCrew(project, member.getId(), projectApplyPostDto.getPosition());
+        proApplyCrewList.add(proApplyCrew);
+        proApplyCrewService.postProApplyCrew(proApplyCrew);
+        projectRepository.save(project);
     }
 }
