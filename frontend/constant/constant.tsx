@@ -31,8 +31,8 @@ export const HEADER_NAV: HeaderNav = {
   USERS: '/users',
   MY: '/users/me',
   LOGOUT: '/',
-  LOGIN: '/login',
-  SINGUP: '/signup',
+  LOGIN: '/users/login',
+  SINGUP: '/users/signup',
 };
 
 export const STACKS_CATEGORIES: StackCategoryName = {
