@@ -6,7 +6,7 @@ import Tag from '../Tag';
 import styled from 'styled-components';
 import { useRouter } from 'next/router';
 import { Project } from '@/types/project';
-
+import { useState } from 'react';
 type Props = {
   size: string;
   data: Project;
@@ -14,33 +14,48 @@ type Props = {
 
 const ProjectCard = ({ data, size }: Props) => {
   const router = useRouter();
+  const [heartState, setHeartState] = useState<boolean>(false);
 
+  const randomNumber = Math.floor(Math.random() * 5) + 1;
+  const srcSvg = `/images/thum (${randomNumber}).svg`;
   //프로젝트 글 조회
   const viewProject = (id: number) => {
     router.push(`project/${id}`);
   };
   return (
     <Box>
+      {router.pathname === '/' && (
+        <div className="info-heart">
+          <span>
+            <AiFillHeart
+              size={30}
+              fill={!heartState ? 'rgba(106, 106, 106, 0.5)' : 'red'}
+              onClick={() => {
+                setHeartState(!heartState), console.log(heartState);
+              }}
+            />
+          </span>
+        </div>
+      )}
       <Card
         onClick={() => viewProject(data.projectId)}
         width={size === 'lg' ? '416px' : '298px'}
       >
         <div className="img-box">
-          <img
-            src="https://d1.awsstatic.com/glbl-digital-partner-marketing-fy22/logo-lockups/AWS_Salesforce_Logo-Lockup.d9894485fb0816380c1952aea58cc679628ee35d.png"
-            alt="thumbnail"
-          />
+          <div>
+            <img src={srcSvg} alt="thumbnail" className="thumbnail-image" />
+          </div>
         </div>
-        <div className="nanum-bold title-box">{data.title}</div>
+        <strong className="nanum-bold title-box">{data.title}</strong>
         <div className="tag-box">
           <ul>
             {size === 'lg' ? (
               data.fieldList.length > 6 ? (
                 <>
                   {data.fieldList.slice(0, 6).map((tag, i) => (
-                    <li key={`${tag.filed}+${i}`}>
+                    <li key={`${tag.field}+${i}`}>
                       <Tag>
-                        <div>{tag.filed}</div>
+                        <div>{tag.field}</div>
                       </Tag>
                     </li>
                   ))}
@@ -48,9 +63,9 @@ const ProjectCard = ({ data, size }: Props) => {
                 </>
               ) : (
                 data.fieldList.map((tag, i) => (
-                  <li key={`${tag.filed}+${i}`}>
+                  <li key={`${tag.field}+${i}`}>
                     <Tag>
-                      <div>{tag.filed}</div>
+                      <div>{tag.field}</div>
                     </Tag>
                   </li>
                 ))
@@ -58,9 +73,9 @@ const ProjectCard = ({ data, size }: Props) => {
             ) : data.fieldList.length > 4 ? (
               <>
                 {data.fieldList.slice(0, 4).map((tag, i) => (
-                  <li key={`${tag.filed}+${i}`}>
+                  <li key={`${tag.field}+${i}`}>
                     <Tag>
-                      <div>{tag.filed}</div>
+                      <div>{tag.field}</div>
                     </Tag>
                   </li>
                 ))}
@@ -68,9 +83,9 @@ const ProjectCard = ({ data, size }: Props) => {
               </>
             ) : (
               data.fieldList.map((tag, i) => (
-                <li key={`${tag.filed}+${i}`}>
+                <li key={`${tag.field}+${i}`}>
                   <Tag>
-                    <div>{tag.filed}</div>
+                    <div>{tag.field}</div>
                   </Tag>
                 </li>
               ))
@@ -108,13 +123,12 @@ const ProjectCard = ({ data, size }: Props) => {
         </div>
         <div className="detail-box">
           <div>
-            <img
-              src="https://noticon-static.tammolo.com/dgggcrkxq/image/upload/v1567008394/noticon/ohybolu4ensol1gzqas1.png"
-              alt="author"
-            />
-            {/* {data.author} */}
-          </div>
-          <div>
+            <div className="infor-box">
+              <span>
+                <AiFillHeart fill="red" />
+              </span>
+              <span>{data.totalLikes}</span>
+            </div>
             <div className="infor-box">
               <span>
                 <GrView />
@@ -137,12 +151,17 @@ const ProjectCard = ({ data, size }: Props) => {
 export default ProjectCard;
 
 const Box = styled.div`
+  position: relative;
   width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
-  margin: 24px 0px;
+  margin: 8px 0px;
+  transition: transform 0.2s ease-in-out, background 1s ease-in-out;
 
+  &:hover {
+    transform: translateY(-20px);
+  }
   @media (max-width: 960px) {
     margin: 2px 0px;
   }
@@ -150,22 +169,42 @@ const Box = styled.div`
   ul {
     display: flex;
     flex-wrap: wrap;
-    gap: 8px;
+    gap: 4px;
   }
 
   .img-box {
+    padding: 5px;
     height: 170px;
     display: flex;
     justify-content: center;
     align-items: center;
-    border-bottom: solid 1px #e4e4e4;
+    overflow: hidden;
     @media (max-width: 960px) {
       display: none;
     }
-    > img {
+    > div {
+      border: solid 2px #f6f6f6;
+      border-radius: 15px 15px 0px 0px;
+      overflow: hidden;
       width: 100%;
       height: 100%;
+      box-sizing: border-box;
+
+      > thumbnail-image {
+        font-size: 0;
+        width: 120%;
+        height: 120%;
+        vertical-align: middle;
+      }
     }
+  }
+
+  .info-heart {
+    position: absolute;
+    z-index: 100;
+    top: 130px;
+    right: 15px;
+    cursor: pointer;
   }
 
   .title-box {
@@ -173,19 +212,20 @@ const Box = styled.div`
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    padding: 10px 13px;
+    padding: 10px 13px 5px;
     font-size: 16px;
     color: #3c3c3c;
-    text-shadow: #e0e0e0 1px 1px 0;
+    font-weight: 400;
   }
 
   .tag-box {
-    padding: 10px 13px;
+    padding: 5px 13px;
   }
 
   .select-box {
     position: relative;
-    padding: 10px 13px;
+    padding: 5px 13px 10px;
+    margin-bottom: 8px;
 
     li {
       box-shadow: var(--box-shadow);
@@ -196,7 +236,9 @@ const Box = styled.div`
     display: flex;
     gap: 16px;
     justify-content: space-between;
-    padding: 10px 13px;
+    align-items: center;
+    padding: 7px 13px;
+    border-top: solid 1px #ebebeb;
 
     > div {
       display: flex;
@@ -204,16 +246,21 @@ const Box = styled.div`
       align-items: center;
     }
 
-    > div:first-child {
-      > img {
-        width: 24px;
-        height: 24px;
-      }
+    img {
+      width: 24px;
+      height: 24px;
     }
 
     .infor-box {
       display: flex;
       gap: 4px;
+      > span {
+        font-size: 12px;
+      }
     }
+  }
+
+  .author {
+    border-radius: 50%;
   }
 `;

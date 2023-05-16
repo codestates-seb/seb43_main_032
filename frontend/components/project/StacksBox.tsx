@@ -11,7 +11,7 @@ type Props = {
 const StacksBox = ({ stacks, onModal }: Props) => {
   return (
     <Box>
-      <div>프로젝트 메인 스택</div>
+      <div className="title">프로젝트 메인 스택</div>
       <ul className="noto-regular-13">
         <li className="button-box">
           {stacks.length === 0 && onModal ? (
@@ -39,9 +39,15 @@ type BoxProps = {
 
 const Box = styled.div<BoxProps>`
   display: flex;
-  align-items: center;
-  justify-content: center;
   flex-direction: column;
+  width: 100%;
+  padding: 0 30px;
+
+  > .title {
+    font-size: 15px;
+    margin-bottom: 10px;
+    font-weight: 500;
+  }
 
   .main-btn {
     padding: 4px;
@@ -50,7 +56,6 @@ const Box = styled.div<BoxProps>`
   .select-tag-box {
     display: flex;
     flex-wrap: wrap;
-    justify-content: center;
     gap: 8px;
     > li {
       box-shadow: var(--box-shadow);

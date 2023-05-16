@@ -9,7 +9,7 @@ import ContentSkeleton from '@/components/skeleton/ContentSkeleton';
 import { AiFillHeart, AiOutlineHeart } from 'react-icons/ai';
 import { useProject } from '@/hooks/react-query/useProject';
 import { formatDate2 } from '@/util/date';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import Position from '@/components/Position';
 import Message from '@/components/Message';
@@ -20,6 +20,10 @@ const ReactMarkdown = dynamic(() => import('@/components/editor/ContentBox'), {
 });
 
 const ViewProject = () => {
+  const [userHeart, setUserHeart] = useState(false);
+  const project = ['1', '2', '3', '4', '5', '6', '7', '8', '9'];
+  // 110~ 프로젝트 갯수
+
   const router = useRouter();
   useEffect(() => {
     window.scrollTo({
@@ -83,19 +87,45 @@ const ViewProject = () => {
       <GridBox>
         <Side>
           <div className="author-box">
-            <div>작성자</div>
             <div className="author noto-medium">
-              <div className="noto-medium">
-                <Position text={data.writerPosition} />
-              </div>
-              <div>
+              <div className="top">
                 <img
                   src="https://noticon-static.tammolo.com/dgggcrkxq/image/upload/v1567008394/noticon/ohybolu4ensol1gzqas1.png"
                   alt="author"
                 />
-                {/* <div>{data.author}</div> */}
-                <Tag>쪽지</Tag>
+                {/* <div className="user-title">{data.author}</div> */}
+                <div className="noto-medium">
+                  <Position text={data.writerPosition} />
+                </div>
+                <div
+                  className="saveStar"
+                  onClick={() => setUserHeart(!userHeart)}
+                >
+                  <span className="icon-box">
+                    {userHeart ? (
+                      <AiOutlineHeart fill={'#ececec'} />
+                    ) : (
+                      <AiFillHeart fill="red" />
+                    )}
+                  </span>
+                </div>
               </div>
+              <div className="detail-box">
+                <div className="detail-sub-box">
+                  <div className="detail-num">
+                    {project.length} <span>개</span>
+                  </div>
+                  <div className="detail-title">진행 프로젝트</div>
+                </div>
+                <div className="center-border"></div>
+                <div className="detail-sub-box">
+                  <div className="detail-num">
+                    {data.totalLikes} <span>개</span>
+                  </div>
+                  <div className="detail-title">평가 점수</div>
+                </div>
+              </div>
+              <Tag>쪽지 보내기</Tag>
             </div>
           </div>
           <PeriodBox
@@ -105,17 +135,12 @@ const ViewProject = () => {
           <TagBox tags={data.fieldList} />
           <StacksBox stacks={data.techStackList} />
           <div className="want-box">
-            <div>모집 중인 직군</div>
-            <div>
-              <Btn>
-                <span>지원자 확인</span>
-              </Btn>
-            </div>
+            <div className="title">모집 중인 직군</div>
             <ul>
               {positions?.map((position, i) => (
                 <li className="nanum-regular" key={`${position.position}+${i}`}>
-                  <div>{position.position}</div>
-                  <div>
+                  <div className="job">{position.position}</div>
+                  <div className="needNum">
                     {position.acceptedNumber}/{position.number}
                   </div>
                   <div
@@ -159,8 +184,15 @@ const ViewProject = () => {
         </Side>
         <Main>
           <div className="title">
-            <div className="nanum-bold">{data.title}</div>
-            {<Tag>{data.status}</Tag>}
+            <div className="left">
+              <div className="nanum-bold">{data.title}</div>
+              {<Tag>{data.status}</Tag>}
+            </div>
+            <div className="right">
+              <a onClick={moveEdit} className="main-btn">
+                <span>프로젝트 수정</span>
+              </a>
+            </div>
           </div>
           <div className="sub noto-regular-13">
             <div>
@@ -170,12 +202,9 @@ const ViewProject = () => {
               <div>
                 <span>조회 수</span> : {data.views}
               </div>
-              <div>{/* <span>댓글 수</span> : {data.comment.length} */}</div>
-            </div>
-            <div>
-              <a onClick={moveEdit} className="main-btn">
-                <span>프로젝트 수정</span>
-              </a>
+              <div>
+                {/* <span>댓글 수</span> : {data.comment.length} */}
+              </div>
             </div>
           </div>
           <ReactMarkdown content={data.content} />
@@ -265,34 +294,97 @@ const Side = styled.div`
   gap: 32px;
   padding: var(--padding-1);
 
-  > div {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 24px;
-    > div:first-child {
-      font-family: var(--font-nanum);
-      font-size: 23px;
-      font-weight: 700;
-    }
-  }
-
   .author-box {
+    border: solid 1px #c4c4c4;
+    padding: 40px 30px 20px;
+    border-radius: 15px;
+    display: flex;
     .author {
       display: flex;
       align-items: center;
       flex-direction: column;
-      gap: 12px;
+
+      .top {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 20px;
+        border-bottom: solid 1px #c4c4c4;
+        padding-bottom: 20px;
+
+        > img {
+          border-radius: 50%;
+          box-shadow: 0px 0px 11px 11px rgba(234, 234, 234, 0.77);
+        }
+
+        > .user-title {
+          color: #9f9f9f;
+          font-size: 18px;
+        }
+
+        > .saveStar {
+          position: absolute;
+          width: 50px;
+          height: 50px;
+          background-color: #cecece;
+          border-radius: 50%;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          top: 0;
+          right: 0;
+          cursor: pointer;
+
+          > .icon-box {
+            width: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 30px;
+          }
+        }
+      }
+
+      > .detail-box {
+        display: flex;
+        width: 80%;
+        justify-content: space-between;
+        margin-bottom: 24px;
+
+        > .center-border {
+          width: 1px;
+          border: solid 1px #cecece;
+        }
+
+        > .detail-sub-box {
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+
+          > .detail-num {
+            padding: 10px;
+            font-size: 24px;
+
+            > span {
+              font-size: 15px;
+              color: #828282;
+            }
+          }
+
+          > .detail-title {
+            font-size: 12px;
+          }
+        }
+      }
+
       > div:last-child {
         display: flex;
         justify-content: center;
         align-items: center;
         gap: 16px;
-        > img {
-          width: 40px;
-          height: 40px;
-        }
         > div {
           font-weight: 900;
         }
@@ -304,9 +396,22 @@ const Side = styled.div`
   }
 
   .want-box {
+    width: 100%;
+    padding: 0 30px;
     display: flex;
     flex-direction: column;
-    align-items: center;
+
+    > .title {
+      width: 100%;
+      font-size: 15px;
+      margin-bottom: 10px;
+      font-weight: 500;
+      .left {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+      }
+    }
 
     .main-btn {
       > span {
@@ -325,10 +430,19 @@ const Side = styled.div`
         display: flex;
         align-items: center;
         gap: 8px;
-        padding: 16px 0px;
+        padding: 8px 0px;
         border-bottom: 1px solid #e4e4e7;
+        font-size: 13px;
         > div:first-child {
           flex: 1;
+        }
+
+        > .job {
+          font-size: 13px;
+        }
+
+        > .needNum {
+          font-size: 13px;
         }
       }
     }

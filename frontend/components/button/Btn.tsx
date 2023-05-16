@@ -5,7 +5,7 @@ type Props = React.HTMLAttributes<HTMLButtonElement> & {
 };
 
 const Btn = (props: Props) => {
-  return <button className="main-btn" {...props} />;
+  return <button className="search-btn" {...props} />;
 };
 
 export default Btn;

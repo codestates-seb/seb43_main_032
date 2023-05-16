@@ -62,6 +62,7 @@ a {
   font-family: var(--font-nanum);
   font-size: 23px;
   font-weight: 700;
+  color: #464646;
 }
 
 .nanum-semi-bold {
