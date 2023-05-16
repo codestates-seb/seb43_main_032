@@ -7,8 +7,8 @@ import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 import useApi from '@/hooks/useApi';
-import useUser from '@/hooks/useUser';
 import { useQueryClient } from 'react-query';
+import useUser from '@/hooks/react-query/useUser';
 
 const Wrapper = styled.div`
   width: 100%;
@@ -47,7 +47,6 @@ export interface ILoginForm {
 export default function LoginForm() {
   const queryClient = useQueryClient();
   const { register, watch, handleSubmit } = useForm<ILoginForm>();
-  console.log('watch', watch());
   const [login, { data }] = useApi('/api/user/login');
   const onValid = (data: ILoginForm) => {
     console.log('valid');
@@ -93,8 +92,8 @@ export default function LoginForm() {
           type="password"
         />
         <OptionWrapper>
-          <AuthCheckBox register={register('saveId')} name="아이디 저장하기" />
-          <AuthCheckBox register={register('rememberMe')} name="자동 로그인" />
+          {/* <AuthCheckBox register={register('saveId')} name="아이디 저장하기" />
+          <AuthCheckBox register={register('rememberMe')} name="자동 로그인" /> */}
         </OptionWrapper>
         <Submit type="submit" value={'Log In'} />
       </Form>

@@ -1,5 +1,5 @@
+import useUser from '@/hooks/react-query/useUser';
 import useApi from '@/hooks/useApi';
-import useUser from '@/hooks/useUser';
 import { useEffect } from 'react';
 import { FieldErrors, useForm } from 'react-hook-form';
 import { useQueryClient } from 'react-query';
@@ -104,7 +104,7 @@ export default function edit() {
               {...register('yearOfDev', {
                 pattern: {
                   value: /^[0-9]*$/,
-                  message: 'Please enter only numbers',
+                  message: 'Please input only numbers',
                 },
               })}
               placeholder={user.yearOfDev + ''}

@@ -1,4 +1,3 @@
-import useUser from '@/hooks/useUser';
 import { IUser } from '@/util/api/user';
 import { AiFillStar } from 'react-icons/ai';
 import { FaLocationArrow, FaNodeJs } from 'react-icons/fa';
@@ -7,6 +6,7 @@ import { IoLogoCss3, IoLogoFirebase } from 'react-icons/io5';
 import styled from 'styled-components';
 import Tag from '../Tag';
 import Link from 'next/link';
+import Stack from '../stack/Stack';
 
 const Wrapper = styled.div`
   position: relative;
@@ -30,11 +30,11 @@ const Overlay = styled.div`
 const CardWrapper = styled.div`
   position: relative;
 `;
-const StackWrapper = styled.div`
+const StackWrapper = styled.ul`
   display: flex;
-  gap: 2px;
+  gap: 4px;
+  margin-top: 6px;
 `;
-const Stack = styled.div``;
 const ContentsContainer = styled.div.attrs({
   className: 'nanum-regular',
 })`
@@ -99,18 +99,6 @@ export default function UserCard({ user }: IProps) {
         <Wrapper>
           <Overlay />
           <CardWrapper>
-            <StackWrapper>
-              {[
-                'bg-java_script',
-                'bg-react',
-                'bg-next_js',
-                'bg-recoil',
-                'bg-react_query',
-                'bg-type_scriypt',
-              ].map((stack) => (
-                <Stack key={stack} className={stack} />
-              ))}
-            </StackWrapper>
             <ContentsContainer>
               <AvatarContainer>
                 <img alt={user.NICK_NAME} src={user.PROFILE_IMAGE} />
@@ -127,6 +115,18 @@ export default function UserCard({ user }: IProps) {
                 </Star>
               </InfoContainer>
             </ContentsContainer>
+            <StackWrapper>
+              {[
+                'java_script',
+                'react',
+                'next_js',
+                'recoil',
+                'react_query',
+                'type_scriypt',
+              ].map((stack) => (
+                <Stack skill={stack} />
+              ))}
+            </StackWrapper>
             <TagWrapper>
               {['react', 'js', 'recoil', 'firebase', 'TS'].map((stack) => (
                 <Tag key={stack}>{stack}</Tag>

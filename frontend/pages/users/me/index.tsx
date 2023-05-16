@@ -1,10 +1,7 @@
 import GridBox from '@/components/GridBox';
 import InfoContainer from '@/components/user/InfoContainer';
 import UserInfoCard from '@/components/user/UserProfile';
-import useApi from '@/hooks/useApi';
-import useUser from '@/hooks/useUser';
-import axios from 'axios';
-import { useEffect, useState } from 'react';
+import useUser from '@/hooks/react-query/useUser';
 import styled from 'styled-components';
 
 const LeftColumn = styled.div`

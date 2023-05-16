@@ -6,7 +6,6 @@ import { api } from '@/util/api';
 import { useRouter } from 'next/router';
 import MainPost from '@/components/MainPost';
 import { useForm } from 'react-hook-form';
-import { DefaultObj } from '@/types/types';
 import TagBox from '@/components/project/TagBox';
 import PeriodBox from '@/components/project/PeriodBox';
 import StacksBox from '@/components/project/StacksBox';
@@ -15,6 +14,7 @@ import { useProject } from '@/hooks/react-query/useProject';
 import { POSITIONS } from '@/constant/constant';
 import Btn from '../button/Btn';
 import useApi from '@/hooks/useApi';
+import { Form } from '@/types/types';
 
 const ProjectForm = () => {
   const router = useRouter();
@@ -38,7 +38,7 @@ const ProjectForm = () => {
   }, [projectQuery.isLoading]);
 
   //input 관리
-  const { register, watch, reset } = useForm<DefaultObj>();
+  const { register, watch, reset } = useForm<Form>();
 
   //시작일
   const [start, setStart] = useState<Date | null>();
@@ -201,7 +201,7 @@ const ProjectForm = () => {
     <GridBox>
       {stack && (
         <SelectStack
-          offModal={offModal}
+          selectStack={offModal}
           stacks={stacks}
           setStacks={setStacks}
         />

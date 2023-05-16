@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import EiditorSkeleton from '@/components/skeleton/EiditorSkeleton';
 import dynamic from 'next/dynamic';
 import { COMMUNITY_EX, POSITIONS, PROJECT_EX } from '@/constant/constant';
-import { DefaultObj } from '@/types/types';
+import { Form } from '@/types/types';
 import { UseFormRegister } from 'react-hook-form';
 import Btn from './button/Btn';
 const Editor = dynamic(() => import('@/components/editor/Editor'), {
@@ -12,7 +12,7 @@ const Editor = dynamic(() => import('@/components/editor/Editor'), {
 
 type Props = {
   type: number;
-  register: UseFormRegister<DefaultObj>;
+  register: UseFormRegister<Form>;
   changeContent: (value: string) => void;
   postProject: (e: { preventDefault: () => void }) => void;
   data?: {
@@ -29,7 +29,6 @@ const MainPost = ({
   postProject,
   data,
 }: Props) => {
-
   return (
     <Main>
       {type === 1 ? PROJECT_EX : COMMUNITY_EX}
