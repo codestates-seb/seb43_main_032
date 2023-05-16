@@ -1,14 +1,14 @@
 interface crew {
   [key: string]: string;
 }
-export interface wantCrew {
+interface tag extends crew {}
+interface tech extends crew {}
+
+type wantCrew = {
   position: string;
   number: number;
   acceptedNumber: number;
-}
-
-export interface tag extends crew {}
-export interface tech extends crew {}
+};
 
 export type Job = {
   [key: string]: { want: number; current: number };

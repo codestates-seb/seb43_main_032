@@ -51,7 +51,7 @@ const ProjectHome = () => {
     if (search || filter) {
       return ['projects', search || filter];
     }
-    return ['projects'];
+    return 'projects';
   };
 
   //라우터 이동 시,
@@ -87,44 +87,43 @@ const ProjectHome = () => {
       },
     }
   );
-  console.log(data)
 
-  // //무한 스크롤 effect
-  // const target = useRef<HTMLDivElement>(null);
-  // useEffect(() => {
-  //   if (
-  //     target.current &&
-  //     data?.pageParams &&
-  //     data?.pageParams[data.pageParams.length - 1] === null
-  //   ) {
-  //     return;
-  //   }
-  //   const observer = new IntersectionObserver(
-  //     (entries) => {
-  //       if (entries[0].isIntersecting) {
-  //         fetchNextPage();
-  //       }
-  //     },
-  //     { threshold: 1 }
-  //   );
+  //무한 스크롤 effect
+  const target = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    if (
+      target.current &&
+      data?.pageParams &&
+      data?.pageParams[data.pageParams.length - 1] === null
+    ) {
+      return;
+    }
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting) {
+          fetchNextPage();
+        }
+      },
+      { threshold: 1 }
+    );
 
-  //   if (target.current) {
-  //     observer.observe(target.current);
-  //   }
+    if (target.current) {
+      observer.observe(target.current);
+    }
 
-  //   return () => {
-  //     if (target.current) {
-  //       observer.unobserve(target.current);
-  //     }
-  //   };
-  // }, [target.current, data?.pageParams]);
+    return () => {
+      if (target.current) {
+        observer.unobserve(target.current);
+      }
+    };
+  }, [target.current, data?.pageParams]);
 
   if (isLoading) return <Message>로딩중입니다.</Message>;
   if (error) return <Message>잠시 후 다시 시도해주세요.</Message>;
   if (data)
     return (
       <Box>
-        {/* <div className="search-box">
+        <div className="search-box">
           <form>
             <input {...register('search')} type="text" />
             <Btn>
@@ -177,7 +176,7 @@ const ProjectHome = () => {
           <div className="last-box nanum-bold blink">
             페이지가 존재하지 않습니다.
           </div>
-        )} */}
+        )}
       </Box>
     );
 };

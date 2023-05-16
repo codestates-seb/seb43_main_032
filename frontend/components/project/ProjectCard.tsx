@@ -22,7 +22,7 @@ const ProjectCard = ({ data, size }: Props) => {
   return (
     <Box>
       <Card
-        onClick={() => viewProject(data.id)}
+        onClick={() => viewProject(data.projectId)}
         width={size === 'lg' ? '416px' : '298px'}
       >
         <div className="img-box">
@@ -35,42 +35,42 @@ const ProjectCard = ({ data, size }: Props) => {
         <div className="tag-box">
           <ul>
             {size === 'lg' ? (
-              data.tags.length > 6 ? (
+              data.fieldList.length > 6 ? (
                 <>
-                  {data.tags.slice(0, 6).map((tag, i) => (
-                    <li key={`${tag}+${i}`}>
+                  {data.fieldList.slice(0, 6).map((tag, i) => (
+                    <li key={`${tag.filed}+${i}`}>
                       <Tag>
-                        <div>{tag}</div>
+                        <div>{tag.filed}</div>
                       </Tag>
                     </li>
                   ))}
                   .....
                 </>
               ) : (
-                data.tags.map((tag, i) => (
-                  <li key={`${tag}+${i}`}>
+                data.fieldList.map((tag, i) => (
+                  <li key={`${tag.filed}+${i}`}>
                     <Tag>
-                      <div>{tag}</div>
+                      <div>{tag.filed}</div>
                     </Tag>
                   </li>
                 ))
               )
-            ) : data.tags.length > 4 ? (
+            ) : data.fieldList.length > 4 ? (
               <>
-                {data.tags.slice(0, 4).map((tag, i) => (
-                  <li key={`${tag}+${i}`}>
+                {data.fieldList.slice(0, 4).map((tag, i) => (
+                  <li key={`${tag.filed}+${i}`}>
                     <Tag>
-                      <div>{tag}</div>
+                      <div>{tag.filed}</div>
                     </Tag>
                   </li>
                 ))}
                 .....
               </>
             ) : (
-              data.tags.map((tag, i) => (
-                <li key={`${tag}+${i}`}>
+              data.fieldList.map((tag, i) => (
+                <li key={`${tag.filed}+${i}`}>
                   <Tag>
-                    <div>{tag}</div>
+                    <div>{tag.filed}</div>
                   </Tag>
                 </li>
               ))
@@ -80,25 +80,29 @@ const ProjectCard = ({ data, size }: Props) => {
         <div className="select-box">
           <ul>
             {size === 'lg' ? (
-              data.stacks.length > 11 ? (
+              data.techStackList.length > 11 ? (
                 <>
-                  {data.stacks.slice(0, 11).map((skill) => (
-                    <Stack key={skill} skill={skill} />
+                  {data.techStackList.slice(0, 11).map((tech) => (
+                    <Stack key={tech.tech} tech={tech.tech} />
                   ))}
                   .....
                 </>
               ) : (
-                data.stacks.map((skill) => <Stack key={skill} skill={skill} />)
+                data.techStackList.map((tech) => (
+                  <Stack key={tech.tech} tech={tech.tech} />
+                ))
               )
-            ) : data.stacks.length > 7 ? (
+            ) : data.techStackList.length > 7 ? (
               <>
-                {data.stacks.slice(0, 7).map((skill) => (
-                  <Stack key={skill} skill={skill} />
+                {data.techStackList.slice(0, 7).map((tech) => (
+                  <Stack key={tech.tech} tech={tech.tech} />
                 ))}
                 .....
               </>
             ) : (
-              data.stacks.map((skill) => <Stack key={skill} skill={skill} />)
+              data.techStackList.map((tech) => (
+                <Stack key={tech.tech} tech={tech.tech} />
+              ))
             )}
           </ul>
         </div>
@@ -108,20 +112,20 @@ const ProjectCard = ({ data, size }: Props) => {
               src="https://noticon-static.tammolo.com/dgggcrkxq/image/upload/v1567008394/noticon/ohybolu4ensol1gzqas1.png"
               alt="author"
             />
-            {data.author}
+            {/* {data.author} */}
           </div>
           <div>
             <div className="infor-box">
               <span>
                 <GrView />
               </span>
-              <span>{data.view}</span>
+              <span>{data.views}</span>
             </div>
             <div className="infor-box">
               <span>
                 <AiFillHeart />
               </span>
-              <span>{data.heart}</span>
+              <span>{data.totalLikes}</span>
             </div>
           </div>
         </div>
