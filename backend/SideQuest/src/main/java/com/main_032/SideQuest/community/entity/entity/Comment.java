@@ -5,9 +5,11 @@ import com.main_032.SideQuest.project.entity.Project;
 import com.main_032.SideQuest.util.entity.BaseEntity;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 // 댓글
+
 @Entity
 @Getter
 @Builder
