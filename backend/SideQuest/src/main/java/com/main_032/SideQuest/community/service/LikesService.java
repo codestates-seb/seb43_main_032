@@ -1,11 +1,10 @@
-package com.main_032.SideQuest.community.entity.service;
+package com.main_032.SideQuest.community.service;
 
-import com.main_032.SideQuest.community.entity.Mapper.LikesMapper;
-import com.main_032.SideQuest.community.entity.dto.LikesPostDto;
-import com.main_032.SideQuest.community.entity.entity.Comment;
-import com.main_032.SideQuest.community.entity.entity.Likes;
-import com.main_032.SideQuest.community.entity.repository.Commnet.CommentRepository;
-import com.main_032.SideQuest.community.entity.repository.LikesRepository;
+import com.main_032.SideQuest.community.dto.LikesPostDto;
+import com.main_032.SideQuest.community.entity.Likes;
+import com.main_032.SideQuest.community.entity.Comment;
+import com.main_032.SideQuest.community.repository.Commnet.CommentRepository;
+import com.main_032.SideQuest.community.repository.LikesRepository;
 import com.main_032.SideQuest.member.entity.Member;
 import com.main_032.SideQuest.member.repository.MemberRepository;
 import org.springframework.stereotype.Service;

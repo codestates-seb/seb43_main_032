@@ -1,10 +1,11 @@
-package com.main_032.SideQuest.community.entity.dto.CommentDto.CommenntAriticle;
+package com.main_032.SideQuest.community.dto.CommentDto.CommenntAriticle;
 
-import com.main_032.SideQuest.community.entity.entity.Category;
+import com.main_032.SideQuest.community.entity.Category;
 import lombok.Getter;
 
 @Getter
-public class CommentArticleRequest {
+public class CommentArticleResponse {
+    private Long id;
     private Long memberId;
     private Category category;
     private String content;
@@ -12,15 +13,17 @@ public class CommentArticleRequest {
     private Long articleId; //assuming there's an articleId in Article entity
     private boolean deleted;
 
-    // CommentArticleRequest 생성자나 필요한 메소드가 있다면 여기에 추가하세요.
+    // CommentArticleResponse 생성자나 필요한 메소드가 있다면 여기에 추가하세요.
 
-    public CommentArticleRequest(
+    public CommentArticleResponse(
+            Long id,
             Long memberId,
             Category category,
             String content,
             int totalLikes,
             Long articleId,
             boolean deleted) {
+        this.id = id;
         this.memberId = memberId;
         this.category = category;
         this.content = content;
