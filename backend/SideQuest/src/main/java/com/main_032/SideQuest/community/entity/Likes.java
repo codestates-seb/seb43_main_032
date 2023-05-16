@@ -15,8 +15,8 @@ public class Likes extends BaseEntity {
     @Column
     private Long memberId;
 
-    @Column
-    private Category category;
+//    @Column
+//    private Category category;
 
     @Column
     private Long projectId;

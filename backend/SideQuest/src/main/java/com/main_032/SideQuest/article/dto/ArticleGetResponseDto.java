@@ -15,9 +15,8 @@ public class ArticleGetResponseDto {
     private String title;
     private String content;
     private ArticleCategory category;
-//    private int comments;
     private int view;
     private int totalLikes;
     private List<ArticleTechStackResponseDto> articleTechStackResponseDtoList;//아마 태그인거같음. 스택
-
+    //    private int comments;
 }
