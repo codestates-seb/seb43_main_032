@@ -24,17 +24,19 @@ const ProjectCard = ({ data, size }: Props) => {
   };
   return (
     <Box>
-      <div className="info-heart">
-        <span>
-          <AiFillHeart
-            size={30}
-            fill={!heartState ? 'rgba(106, 106, 106, 0.5)' : 'red'}
-            onClick={() => {
-              setHeartState(!heartState), console.log(heartState);
-            }}
-          />
-        </span>
-      </div>
+      {router.pathname === '/' && (
+        <div className="info-heart">
+          <span>
+            <AiFillHeart
+              size={30}
+              fill={!heartState ? 'rgba(106, 106, 106, 0.5)' : 'red'}
+              onClick={() => {
+                setHeartState(!heartState), console.log(heartState);
+              }}
+            />
+          </span>
+        </div>
+      )}
       <Card
         onClick={() => viewProject(data.id)}
         width={size === 'lg' ? '416px' : '298px'}
