@@ -163,7 +163,7 @@ const ProjectForm = () => {
         techStackList: stacks.map((stack) => stack.tech),
       },
       fieldList: {
-        filedList: tags.map((tag) => tag.field),
+        filedList: tags.map((tag) => tag.field), //백엔드분들이 키를 잘못적어주셔서 나중에 다시 고쳐야할듯??
       },
       positionCrewList: {
         positionCrewList: jobs.map((job) => job.position),
