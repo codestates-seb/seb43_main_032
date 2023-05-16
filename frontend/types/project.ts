@@ -1,17 +1,18 @@
 interface Crew {
   [key: string]: string;
 }
-export interface FiledTag extends Crew {}
-export interface Tech extends Crew {}
+export type FiledTag = {
+  field: string;
+};
+
+export type Tech = {
+  tech: string;
+};
 
 type WantCrew = {
   position: string;
   number: number;
   acceptedNumber: number;
-};
-
-export type Job = {
-  [key: string]: { want: number; current: number };
 };
 
 export type Project = {
@@ -30,10 +31,4 @@ export type Project = {
   totalLikes: number;
   views: number;
   writerPosition: string;
-};
-
-export type PostState = {
-  id: number;
-  heart: boolean;
-  want: string;
 };
