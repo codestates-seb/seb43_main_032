@@ -1,11 +1,16 @@
 package com.main_032.SideQuest.project.entity;
 
+import com.main_032.SideQuest.community.entity.entity.Comment;
+import com.main_032.SideQuest.member.entity.Member;
 import com.main_032.SideQuest.util.entity.BaseEntity;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -29,89 +34,48 @@ public class Project extends BaseEntity {
     private String writerPosition;
 
     @Column
-    private String startDate;
+    private LocalDateTime startDate;
 
     @Column
-    private String endDate;
+    private LocalDateTime endDate;
 
     @Column
-    private String thumbnailImageUrl;
+    private String thumbnailImgUrl;
 
     @Column
     private int views;
 
     @Column
-    private ProjectStatus status = ProjectStatus.PROJECT_STATUS_1;
+    private ProjectStatus status;
 
     @Column
     private int totalLikes;
 
-    @OneToMany(mappedBy = "project")
-    List<ProTechStack> proTechStackList;
-
-    @OneToMany(mappedBy = "project")
-    List<ProField> proFieldList;
-
-    @OneToMany(mappedBy = "project")
-    List<ProPositionCrew> proPositionCrewList;
-
-    @OneToMany(mappedBy = "project")
-    List<ProAcceptedCrew> proAcceptedCrewList;
 
     @Column(columnDefinition = "TINYINT")
     private boolean deleted;
+
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "PROJECT_ID")
+    private List<Comment> commentList = new ArrayList<>();
 
 
     public Project(String title,
                    String content,
                    String writerPosition,
-                   String startDate,
-                   String endDate,
-                   String thumbnailImageUrl) {
+                   LocalDateTime startDate,
+                   LocalDateTime endDate,
+                   String thumbnailImgUrl) {
         this.title = title;
         this.content = content;
         this.writerPosition = writerPosition;
         this.startDate = startDate;
         this.endDate = endDate;
-        this.thumbnailImageUrl = thumbnailImageUrl;
+        this.thumbnailImgUrl = thumbnailImgUrl;
     }
 
     public void updateMemberId(Long memberId) {
         this.memberId = memberId;
-    }
-    public void updateTitle(String title) {
-        this.title = title;
-    }
-    public void updateContent(String content) {
-        this.content = content;
-    }
-    public void updateWriterPosition(String writerPosition) {
-        this.writerPosition = writerPosition;
-    }
-    public void updateStartDate(String startDate) {
-        this.startDate = startDate;
-    }
-    public void updateEndDate(String endDate) {
-        this.endDate = endDate;
-    }
-    public void updateThumbnailImageUrl(String thumbnailImageUrl) {
-        this.thumbnailImageUrl = thumbnailImageUrl;
-    }
-    public void updateProTechStackList(List<ProTechStack> proTechStackList) {
-        this.proTechStackList = proTechStackList;
-    }
-    public void updateProFieldList(List<ProField> proFieldList) {
-        this.proFieldList = proFieldList;
-    }
-    public void updateProPositionCrewList(List<ProPositionCrew> proPositionCrewList) {
-        this.proPositionCrewList = proPositionCrewList;
-    }
-    public void updateProAcceptedCrew(List<ProAcceptedCrew> proAcceptedCrewList) {
-        this.proAcceptedCrewList = proAcceptedCrewList;
-    }
-
-    public void updateDeleted(boolean deleted) {
-        this.deleted = deleted;
     }
 }
 

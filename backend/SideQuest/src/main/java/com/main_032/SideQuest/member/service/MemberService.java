@@ -7,6 +7,7 @@ import com.main_032.SideQuest.member.dto.MemberPatchDto;
 import com.main_032.SideQuest.member.dto.MemberPostDto;
 import com.main_032.SideQuest.member.dto.MemberTechStackResponseDto;
 import com.main_032.SideQuest.member.entity.Member;
+import com.main_032.SideQuest.member.entity.MemberTechStack;
 import com.main_032.SideQuest.member.mapper.MemberMapper;
 import com.main_032.SideQuest.member.repository.MemberRepository;
 import com.main_032.SideQuest.util.dto.MultiResponseDto;
@@ -50,9 +51,9 @@ public class MemberService {
 
     public SingleResponseDto<GetMemberResponseDto> getLoginMemberInfo() {
         Member member = getLoginMember();
-        GetMemberResponseDto getMemberResponseDto = memberMapper.memberToGetMemberResponseDto(member);
-        List<MemberTechStackResponseDto> memberTechStackResponseDtoList = memberTechStackService.getMemberTechStackResponseDto(member);
-        getMemberResponseDto.updateMemberTechStackResponseDtoList(memberTechStackResponseDtoList);
+        List<MemberTechStack> memberTechStackList = memberTechStackService.getMemberTechStackList(member.getId());
+        List<MemberTechStackResponseDto> memberTechStackResponseDtoList = memberMapper.memberTechStackListToMemberTechStackResponseDtoList(memberTechStackList);
+        GetMemberResponseDto getMemberResponseDto = memberMapper.memberToSingleResponseDto(member, memberTechStackResponseDtoList);
         SingleResponseDto<GetMemberResponseDto> singleResponseDto = new SingleResponseDto<>(getMemberResponseDto);
         return singleResponseDto;
     }
@@ -66,8 +67,7 @@ public class MemberService {
         member.updatePhone(memberPatchDto.getPhone());
         member.updateAboutMe(memberPatchDto.getAboutMe());
         member.updateProfileImageUrl(memberPatchDto.getProfileImageUrl());
-        member.updateLocation(memberPatchDto.getLocation());
-        memberTechStackService.updateMemberTechStack(memberPatchDto.getTechList(), member);
+        memberTechStackService.updateMemberTechStack(memberPatchDto.getTechList(), member.getId());
         memberRepository.save(member);
         return;
     }
@@ -94,35 +94,12 @@ public class MemberService {
         List<Member> memberList = memberPage.getContent();
         List<GetMemberResponseDto> getMemberResponseDtoList = new ArrayList<>();
         for (int i = 0; i < memberList.size(); i++) {
-            GetMemberResponseDto getMemberResponseDto = memberMapper.memberToGetMemberResponseDto(memberList.get(i));
-            List<MemberTechStackResponseDto> memberTechStackResponseDtoList = memberTechStackService.getMemberTechStackResponseDto(memberList.get(i));
-            getMemberResponseDto.updateMemberTechStackResponseDtoList(memberTechStackResponseDtoList);
+            List<MemberTechStack> memberTechStackList = memberTechStackService.getMemberTechStackList(memberList.get(i).getId());
+            List<MemberTechStackResponseDto> memberTechStackResponseDtoList = memberMapper.memberTechStackListToMemberTechStackResponseDtoList(memberTechStackList);
+            GetMemberResponseDto getMemberResponseDto = memberMapper.memberToSingleResponseDto(memberList.get(i), memberTechStackResponseDtoList);
             getMemberResponseDtoList.add(getMemberResponseDto);
         }
-        MultiResponseDto<GetMemberResponseDto> multiResponseDto = new MultiResponseDto<>(getMemberResponseDtoList, memberPage);
+        MultiResponseDto<GetMemberResponseDto> multiResponseDto = new MultiResponseDto<GetMemberResponseDto>(getMemberResponseDtoList, memberPage);
         return multiResponseDto;
-    }
-
-    public SingleResponseDto<GetMemberResponseDto> getMemberInfo(Long memberId) {
-        Optional<Member> findMember = memberRepository.findById(memberId);
-        findMember.orElseThrow(() -> new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
-        Member member = findMember.get();
-
-        GetMemberResponseDto getMemberResponseDto = memberMapper.memberToGetMemberResponseDto(member);
-        List<MemberTechStackResponseDto> memberTechStackResponseDtoList = memberTechStackService.getMemberTechStackResponseDto(member);
-        getMemberResponseDto.updateMemberTechStackResponseDtoList(memberTechStackResponseDtoList);
-        SingleResponseDto<GetMemberResponseDto> singleResponseDto = new SingleResponseDto<>(getMemberResponseDto);
-        return singleResponseDto;
-    }
-
-    @Transactional
-    public void deleteMember() {
-        Member member = getLoginMember();
-        // 멤버는 탈퇴할 때 deleted를 쓰지 않고 데이터베이스에서 삭제해 버린다.
-//        member.updateDeleted(true);
-//        memberRepository.save(member);
-        memberTechStackService.delete(member);
-        memberRepository.delete(member);
-        return;
     }
 }

@@ -1,17 +1,6 @@
-import ProjectForm from '@/components/project/ProjectForm';
-import { useRouter } from 'next/router';
-import { useEffect } from 'react';
-
+//프로젝트 글 수정 페이지 입니다. 경로 '/project/[id]/edit'  예시 >> /project/3/edit
 const EditProject = () => {
-  const router = useRouter();
-  useEffect(() => {
-    window.scrollTo({
-      top: 600,
-      left: 0,
-      behavior: 'smooth',
-    });
-  }, [router]);
-  return <ProjectForm />;
+  return <div>프로젝트 글 수정 페이지</div>;
 };
 
 export default EditProject;

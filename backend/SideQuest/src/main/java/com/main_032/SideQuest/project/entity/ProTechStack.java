@@ -15,15 +15,14 @@ public class ProTechStack extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "PROJECT_ID")
-    Project project;
+    @Column
+    private Long projectId;
 
     @Column
     private String tech;
 
-    public ProTechStack(Project project, String tech) {
-        this.project = project;
+    public ProTechStack(Long projectId, String tech) {
+        this.projectId = projectId;
         this.tech = tech;
     }
 }

@@ -1,6 +1,9 @@
 package com.main_032.SideQuest.article.controller;
 
-import com.main_032.SideQuest.article.dto.*;
+import com.main_032.SideQuest.article.dto.ArticleDeleteDto;
+import com.main_032.SideQuest.article.dto.ArticlePatchDto;
+import com.main_032.SideQuest.article.dto.ArticlePostDto;
+import com.main_032.SideQuest.article.dto.ArticleGetResponseDto;
 import com.main_032.SideQuest.article.service.ArticleService;
 import com.main_032.SideQuest.util.dto.MultiResponseDto;
 import com.main_032.SideQuest.util.dto.SingleResponseDto;
@@ -45,26 +48,27 @@ public class ArticleController {
     //게시글 목록 조회
     @ApiOperation(value = "게시글 목록 조회")
     @GetMapping("/allArticles")
-    public ResponseEntity<MultiResponseDto<ArticleGetResponseDto>> getAllArticle(
+    public ResponseEntity<MultiResponseDto> getAllArticle(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "8") int size){
-        MultiResponseDto<ArticleGetResponseDto> articlePage = articleService.findAllArticle(page,size);
+        MultiResponseDto articlePage = articleService.findAllArticle(page,size);
         return ResponseEntity.ok(articlePage);
     }
-    @ApiOperation(value = "search Article")
-    @GetMapping("/search")
-    public ResponseEntity<MultiResponseDto<ArticleGetResponseDto>> searchArticle(
-    @RequestParam String searchWord,
-    @RequestParam(defaultValue = "0") int page,
-    @RequestParam(defaultValue = "8") int size){
-        MultiResponseDto<ArticleGetResponseDto> articlePage = articleService.searchArticle(searchWord,page,size);
-        return ResponseEntity.ok(articlePage);
-    }
+//    @ApiOperation(value = "search Article")
+//    @GetMapping("/search")
+//    public ResponseEntity<MultiResponseDto> searchArticle(
+//    @RequestParam String searchword,
+//    @RequestParam(defaultValue = "0") int page,
+//    @RequestParam(defaultValue = "8") int size){
+//        MultiResponseDto articlePage = articleService.searchArticle(searchword,page,size);
+//        return ResponseEntity.ok(articlePage);
+//    }
     //게시글 삭제
     @ApiOperation(value = "delete Article")
-    @DeleteMapping("/deleted/{articleId}")
-    public ResponseEntity deleteArticle(@PathVariable("articleId") Long articleId){
-        articleService.deleteArticle(articleId);
+    @PatchMapping("/deleted/{articleId}")
+    public ResponseEntity deleteArticle(@PathVariable("articleId") Long articleId,
+                                                                               @RequestBody ArticleDeleteDto articledeleteDto){
+        articleService.deleteArticle(articleId,articledeleteDto);
 
         return ResponseEntity.ok().build();
     }

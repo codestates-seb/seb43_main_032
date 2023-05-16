@@ -13,6 +13,8 @@ public class Chat extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+//    @Column
+//    private Category category;
     @Column
     private Long senderMemberId;
 

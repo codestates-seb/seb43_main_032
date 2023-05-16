@@ -14,15 +14,14 @@ public class MemberTechStack {
     @Column
     private String tech;
 
-    @ManyToOne
-    @JoinColumn(name = "MEMBER_ID")
-    Member member;
+    @Column
+    private Long memberId;
 
     public void updateTech(String tech) {
         this.tech = tech;
     }
 
-    public void updateMember(Member member) {
-        this.member = member;
+    public void updateMemberId(Long memberId) {
+        this.memberId = memberId;
     }
 }

@@ -41,12 +41,6 @@ public class Member extends BaseEntity {
     @Column
     private int totalStar;
 
-    @Column
-    private String location;
-
-    @OneToMany(mappedBy = "member")
-    List<MemberTechStack> memberTechStackList;
-
     @ElementCollection(fetch = FetchType.EAGER)
     private List<String> roles = new ArrayList<>();
 
@@ -91,13 +85,5 @@ public class Member extends BaseEntity {
 
     public void updatePosition(String position) {
         this.position = position;
-    }
-
-    public void updateLocation(String location) {
-        this.location = location;
-    }
-
-    public boolean getDeleted() {
-        return deleted;
     }
 }

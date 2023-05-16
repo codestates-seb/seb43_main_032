@@ -30,14 +30,7 @@ public class MemberAuthenticationSuccessHandler implements AuthenticationSuccess
                                         Authentication authentication) throws IOException {
         Optional<Member> findMember = memberRepository.findByEmail(authentication.getName());
         Member member = findMember.orElseThrow(() -> new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
-        String name = member.getName();
-        String email = member.getEmail();
-        String phone = member.getPhone();
-        String aboutMe = member.getAboutMe();
-        String profileImageUrl = member.getProfileImageUrl();
-        String position = member.getPosition();
-        int yearOfDev = member.getYearOfDev();
-        int totalStar = member.getTotalStar();
+        String username = member.getName();
 
         response.setStatus(HttpStatus.ACCEPTED.value());
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
@@ -45,14 +38,7 @@ public class MemberAuthenticationSuccessHandler implements AuthenticationSuccess
 
         try(PrintWriter writer = response.getWriter()){
             JsonObject json = new JsonObject();
-            json.addProperty("name", name);     // 멤버 이름 추가 해주는 부분
-            json.addProperty("email", email);
-            json.addProperty("phone", phone);
-            json.addProperty("aboutMe", aboutMe);
-            json.addProperty("profileImageUrl", profileImageUrl);
-            json.addProperty("position", position);
-            json.addProperty("yearOfDev", yearOfDev);
-            json.addProperty("totalStar", totalStar);
+            json.addProperty("username", username);     // 멤버 이름 추가 해주는 부분
             writer.write(json.toString());
         }
     }

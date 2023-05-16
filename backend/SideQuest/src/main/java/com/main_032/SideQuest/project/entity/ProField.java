@@ -15,14 +15,13 @@ public class ProField extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "PROJECT_ID")
-    Project project;
+    @Column
+    private Long project;
 
     @Column
     private String field;
 
-    public ProField(Project project, String field) {
+    public ProField(Long project, String field) {
         this.project = project;
         this.field = field;
     }

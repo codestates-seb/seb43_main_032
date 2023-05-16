@@ -9,7 +9,9 @@ type Props = {
 const MyDocument = ({ styles }: Props) => {
   return (
     <Html lang="ko">
-      <Head>{styles}</Head>
+      <Head>
+        {styles}
+      </Head>
       <body>
         <Main />
         <NextScript />

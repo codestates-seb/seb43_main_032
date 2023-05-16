@@ -15,9 +15,8 @@ public class ProPositionCrew extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "PROJECT_ID")
-    Project project;
+    @Column
+    private Long projectId;
 
     @Column
     private String position;
@@ -26,11 +25,10 @@ public class ProPositionCrew extends BaseEntity {
     private int number;
 
     @Column
-    private int acceptedNumber;
+    private int AcceptedNumber;
 
-    public ProPositionCrew(Project project, String position, int number) {
-        this.project = project;
+    public ProPositionCrew(Long projectId, String position) {
+        this.projectId = projectId;
         this.position = position;
-        this.number = number;
     }
 }
