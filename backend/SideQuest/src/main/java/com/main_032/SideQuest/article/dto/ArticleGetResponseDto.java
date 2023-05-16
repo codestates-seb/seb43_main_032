@@ -18,6 +18,6 @@ public class ArticleGetResponseDto {
 //    private int comments;
     private int view;
     private int totalLikes;
-    private List<ArticleTechStackResponseDto> articleTechStackResponseDtoList;//아마 태그인거같음. 스택
+    private List<ArticleTechStackResponseDto> techStackList;//아마 태그인거같음. 스택
 
 }

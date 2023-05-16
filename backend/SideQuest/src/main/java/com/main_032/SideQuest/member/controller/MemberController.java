@@ -32,7 +32,7 @@ public class MemberController {
 
     // Swagger API 뽑아내기용 함수
     @ApiOperation(value = "로그인")
-    @PostMapping("/member/login")
+    @PostMapping("/login")
     @ResponseStatus(HttpStatus.OK)
     public LoginResponseDto login(@RequestBody LoginPostDto loginPostDto) {
         LoginResponseDto loginResponseDto = new LoginResponseDto();

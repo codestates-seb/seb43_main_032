@@ -9,7 +9,6 @@ import com.main_032.SideQuest.article.entity.ArticleTechStack;
 import com.main_032.SideQuest.article.service.ArticleTechStackService;
 import com.main_032.SideQuest.member.entity.Member;
 import com.main_032.SideQuest.member.repository.MemberRepository;
-import com.main_032.SideQuest.member.service.MemberService;
 import com.main_032.SideQuest.util.exception.BusinessLogicException;
 import com.main_032.SideQuest.util.exception.ExceptionCode;
 import org.springframework.stereotype.Component;
@@ -32,8 +31,8 @@ public class ArticleMapper {
             Article article = new Article();
             article.updateTitle(articlePostDto.getTitle());
             article.updateContent(articlePostDto.getContent());
-            article.updateCategory(articlePostDto.getArticleCategory());
-            articleTechStackService.updateArticleTechStack(articlePostDto.getArticleTechStackList(), article.getId());
+            article.updateCategory(articlePostDto.getCategory());
+            articleTechStackService.updateArticleTechStack(articlePostDto.getTechStackList(), article.getId());
             return article;
 
     }

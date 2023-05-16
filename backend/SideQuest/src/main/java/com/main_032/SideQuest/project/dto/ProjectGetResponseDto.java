@@ -1,6 +1,5 @@
 package com.main_032.SideQuest.project.dto;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 import java.util.List;
@@ -37,24 +36,24 @@ public class ProjectGetResponseDto {
         this.totalLikes = totalLikes;
     }
 
-    private List<ProTechStackResponseDto> proTechStackResponseDtoList;
-    private List<ProFieldResponseDto> proFieldResponseDtoList;
-    private List<ProPositionCrewResponseDto> proPositionCrewResponseDtoList;
-    private List<ProAcceptedCrewResponseDto> proAcceptedCrewResponseDtoList;
+    private List<ProTechStackResponseDto> techStackList;
+    private List<ProFieldResponseDto> fieldList;
+    private List<ProPositionCrewResponseDto> positionCrewList;
+    private List<ProAcceptedCrewResponseDto> acceptedCrewList;
 
     public void updateProTechStackResponseDtoList(List<ProTechStackResponseDto> proTechStackResponseDtoList) {
-        this.proTechStackResponseDtoList = proTechStackResponseDtoList;
+        this.techStackList = proTechStackResponseDtoList;
     }
 
     public void updateProFieldResponseDtoList(List<ProFieldResponseDto> proFieldResponseDtoList) {
-        this.proFieldResponseDtoList = proFieldResponseDtoList;
+        this.fieldList = proFieldResponseDtoList;
     }
 
     public void updateProPositionCrewResponseDtoList(List<ProPositionCrewResponseDto> proPositionCrewResponseDtoList) {
-        this.proPositionCrewResponseDtoList = proPositionCrewResponseDtoList;
+        this.positionCrewList = proPositionCrewResponseDtoList;
     }
 
     public void updateProAcceptedCrewResponseDtoList(List<ProAcceptedCrewResponseDto> proAcceptedCrewResponseDtoList) {
-        this.proAcceptedCrewResponseDtoList = proAcceptedCrewResponseDtoList;
+        this.acceptedCrewList = proAcceptedCrewResponseDtoList;
     }
 }

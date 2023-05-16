@@ -1,6 +1,5 @@
 package com.main_032.SideQuest.project.service;
 
-import com.main_032.SideQuest.auth.utils.CustomAuthorityUtils;
 import com.main_032.SideQuest.member.entity.Member;
 import com.main_032.SideQuest.member.service.MemberService;
 import com.main_032.SideQuest.project.dto.*;
@@ -18,7 +17,6 @@ import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -44,9 +42,9 @@ public class ProjectService {
         Member member = memberService.getLoginMember();
         project.updateMemberId(member.getId());
         project = projectRepository.save(project);
-        proTechStackService.postTechStack(project, projectPostDto.getProTechStackPostDto());
-        proFieldService.postField(project, projectPostDto.getProFieldPostDto());
-        proPositionCrewService.postPositionCrew(project, projectPostDto.getProPositionCrewPostDto());
+        proTechStackService.postTechStack(project, projectPostDto.getTechStackList());
+        proFieldService.postField(project, projectPostDto.getFieldList());
+        proPositionCrewService.postPositionCrew(project, projectPostDto.getPositionCrewList());
         return;
     }
 

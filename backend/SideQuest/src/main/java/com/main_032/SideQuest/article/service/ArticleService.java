@@ -50,8 +50,8 @@ public class ArticleService {
         Article updateArticle = findArticle.get();
         updateArticle.updateTitle(articlePatchDto.getTitle());
         updateArticle.updateContent(articlePatchDto.getContent());
-        updateArticle.updateCategory(articlePatchDto.getArticleCategory());
-        articleTechStackService.updateArticleTechStack(articlePatchDto.getArticleTechStackList(),updateArticle.getId());
+        updateArticle.updateCategory(articlePatchDto.getCategory());
+        articleTechStackService.updateArticleTechStack(articlePatchDto.getTechStackList(),updateArticle.getId());
         articleRepository.save(updateArticle);
 //        ArticleResponseDto articleResponseDto = mapper.articleToArticleResponseDto(article);
 //        SingleResponseDto<ArticleResponseDto> singleResponse = new SingleResponseDto<>(articleResponseDto);

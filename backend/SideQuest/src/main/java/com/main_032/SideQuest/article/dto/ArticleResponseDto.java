@@ -12,7 +12,7 @@ public class ArticleResponseDto {
     private String title;
     private String content;
     private int views;
-    private List<ArticleTechStackResponseDto> articleTechStackResponseDtoList;
+    private List<ArticleTechStackResponseDto> techStackList;
     //private int totalComment;
 
 
