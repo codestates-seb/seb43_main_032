@@ -57,8 +57,6 @@ const Home = () => {
         data={communityData}
         title={'인기 커뮤니티'}
       />
-      <FcSms size={70} onClick={() => setIsModal(true)} className="icon" />
-      {isModal ? <Modal setIsModal={setIsModal} /> : null}
       <ProjectCardBox
         skeleton={isLoading && <ProjectSkeleton />}
         data={projectData}
