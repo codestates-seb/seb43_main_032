@@ -14,8 +14,11 @@ const ProjectCardBox = ({ title, data, skeleton, children }: Props) => {
   return (
     <Box>
       <div className="nanum-bold">
-        <div className="sub-title">{title === '인기 프로젝트' && 'HOT'}</div>
-        <div>{title}</div> {children}
+        <div className="title-box">
+          <div className="sub-title">{title === '인기 프로젝트' && 'HOT'}</div>
+          <div>{title}</div> {children}
+        </div>
+        <div className="more">{`더 보기 >`}</div>
       </div>
       <div className="projects-box">
         {data?.map((project: Project) => (
@@ -30,14 +33,25 @@ const ProjectCardBox = ({ title, data, skeleton, children }: Props) => {
 export default ProjectCardBox;
 
 const Box = styled.div`
+  margin-bottom: 40px;
   > .nanum-bold {
     display: flex;
-    flex-direction: column;
-    gap: 8px;
+    justify-content: space-between;
+    align-items: end;
 
-    .sub-title {
+    .title-box {
+      display: flex;
+      flex-direction: column;
+      .sub-title {
+        font-size: 14px;
+        color: red;
+      }
+    }
+
+    .more {
       font-size: 14px;
-      color: red;
+      font-weight: 400;
+      color: #a6a6a6;
     }
   }
   .projects-box {
