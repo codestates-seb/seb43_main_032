@@ -5,6 +5,7 @@ import com.main_032.SideQuest.article.repository.ArticleRepository;
 import com.main_032.SideQuest.community.Mapper.AnswerMapper;
 import com.main_032.SideQuest.community.dto.AnswerDto.AnswerPatchDto;
 import com.main_032.SideQuest.community.dto.AnswerDto.AnswerResponseDto;
+import com.main_032.SideQuest.community.entity.Category;
 import com.main_032.SideQuest.community.repository.AnswerRepository;
 import com.main_032.SideQuest.community.dto.AnswerDto.AnswerPostDto;
 import com.main_032.SideQuest.community.entity.Answer;
@@ -40,13 +41,8 @@ public class AnswerService {
 
     public void createAnswer(AnswerPostDto answerPostDto) {
         //검증 :,Article,project
-        if (answerPostDto.getProjectId() > 0) {
-            verifyProject(answerPostDto.getProjectId());
-        } else if (answerPostDto.getArticleId() > 0) {
-            verifyArticle(answerPostDto.getArticleId());
-        }
-        Answer answer = mapper.AnswerPostDtoToAnswer(answerPostDto);
-        answer.updateMemberId(memberService.getLoginMember().getId());
+
+        Answer answer = mapper.AnswerPostDtoToAnswer(answerPostDto,memberService.getLoginMember().getId());
         answerRepository.save(answer);
     }
 
@@ -55,7 +51,14 @@ public class AnswerService {
         Optional<Answer> findAnswer = verifyAnswer(answerId);
         //멤버 ID 매치 확인
         memberMatchId(findAnswer);
-        Answer answer = mapper.AnswerPatchDtoToAnswer(answerPatchDto);
+        Answer answer= findAnswer.get();
+        if(answer.getCategory()!=Category.CATEGORY_2){//프로젝트일때
+            verifyProject(answer.getProjectId());
+        }
+        else{
+            verifyArticle(answer.getArticleId());
+        }
+        answer = mapper.AnswerPatchDtoToAnswer(answer,answerPatchDto);
         answerRepository.save(answer);
     }
 
@@ -89,11 +92,12 @@ public class AnswerService {
         return findAnswer;
     }
 
-    private void memberMatchId(Optional<Answer> findAnswer) {
+    private Long memberMatchId(Optional<Answer> findAnswer) {
         Member member = memberService.getLoginMember();
         if (member.getId() != findAnswer.get().getMemberId()) {
             throw new BusinessLogicException(ExceptionCode.MEMBER_NOT_MATCH);
         }
+        return member.getId();
     }
 
     private void verifyArticle(Long articleId) {
