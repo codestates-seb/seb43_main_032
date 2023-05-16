@@ -9,8 +9,3 @@ export const navModalState = atom({
   key: 'navModalState',
   default: false,
 });
-
-export const isLoggedInState = atom({
-  key: 'isLoggedInState',
-  default: true,
-});
