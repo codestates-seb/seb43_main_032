@@ -1,6 +1,5 @@
 package com.main_032.SideQuest.community.controller;
 
-import com.main_032.SideQuest.community.dto.AnswerDeleteDto;
 import com.main_032.SideQuest.community.dto.AnswerPatchDto;
 import com.main_032.SideQuest.community.dto.AnswerPostDto;
 import com.main_032.SideQuest.community.dto.AnswerResponseDto;
@@ -19,6 +18,7 @@ public class CommunityController {
     private final AnswerService answerService;
     private final CommentService commentService;
     private final LikesService likesService;
+
 
     public CommunityController(AnswerService answerService, CommentService commentService, LikesService likesService) {
         this.answerService = answerService;
@@ -51,7 +51,7 @@ public class CommunityController {
     }
 
     @ApiOperation(value = "게시글 답글 조회")
-    @GetMapping("/{article-id}/ArticleAnswer")
+    @GetMapping("/ArticleAnswer/{article-id}")
     public ResponseEntity<MultiResponseDto<AnswerResponseDto>> getArticleAnswers(
             @PathVariable("article-id") Long articleId,
             @RequestParam int page,
@@ -60,11 +60,12 @@ public class CommunityController {
         return ResponseEntity.ok(answerPage);
     }
     @ApiOperation(value = "프로젝트 답글 조회")
-    @GetMapping("/ProjectAnswerList")
+    @GetMapping("/ProjectAnswerList/project-id")
     public ResponseEntity<MultiResponseDto<AnswerResponseDto>> getProjectAnswers(
+            @PathVariable("project-id") Long projectId,
             @RequestParam int page,
             @RequestParam int size){
-        MultiResponseDto answerPage = answerService.findAllAnswer(page,size);
+        MultiResponseDto answerPage = answerService.findAllProjectAnswer(projectId,page,size);
         return ResponseEntity.ok(answerPage);
     }
 

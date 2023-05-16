@@ -1,6 +1,5 @@
 package com.main_032.SideQuest.article.controller;
 
-import com.main_032.SideQuest.article.dto.ArticleDeleteDto;
 import com.main_032.SideQuest.article.dto.ArticlePatchDto;
 import com.main_032.SideQuest.article.dto.ArticlePostDto;
 import com.main_032.SideQuest.article.dto.ArticleGetResponseDto;

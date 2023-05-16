@@ -3,7 +3,6 @@ package com.main_032.SideQuest.community.service;
 import com.main_032.SideQuest.article.entity.Article;
 import com.main_032.SideQuest.article.repository.ArticleRepository;
 import com.main_032.SideQuest.community.Mapper.AnswerMapper;
-import com.main_032.SideQuest.community.dto.AnswerDeleteDto;
 import com.main_032.SideQuest.community.dto.AnswerPatchDto;
 import com.main_032.SideQuest.community.dto.AnswerPostDto;
 import com.main_032.SideQuest.community.dto.AnswerResponseDto;
@@ -23,7 +22,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -31,15 +29,13 @@ public class AnswerService {
     private final AnswerRepository answerRepository;
     private final MemberService memberService;
     private final AnswerMapper mapper;
-    private final MemberRepository memberRepository;
     private final ArticleRepository articleRepository;
     private final ProjectRepository projectRepository;
 
-    public AnswerService(AnswerRepository answerRepository, MemberService memberService, AnswerMapper mapper, MemberRepository memberRepository, ArticleRepository articleRepository, ProjectRepository projectRepository) {
+    public AnswerService(AnswerRepository answerRepository, MemberService memberService, AnswerMapper mapper, ArticleRepository articleRepository, ProjectRepository projectRepository) {
         this.answerRepository = answerRepository;
         this.memberService = memberService;
         this.mapper = mapper;
-        this.memberRepository = memberRepository;
         this.articleRepository = articleRepository;
         this.projectRepository = projectRepository;
     }
@@ -72,13 +68,20 @@ public class AnswerService {
         answer.delete();
         answerRepository.save(answer);
     }
-//    public MultiResponseDto<AnswerResponseDto> findAllArticleAnswer(Long articleId,int page,int size){
-//        Page<Answer> answerPage =answerRepository.findAllArticleAnswerPage(articleId, PageRequest.of(page,size,Sort.by("id").descending()));
-//        List<Answer> answerList = answerPage.getContent();
-//        List<AnswerResponseDto> answerResponseDtoList = mapper.AnswerListToAnswerResponseDtoList(answerList);
-//        MultiResponseDto<AnswerResponseDto> response = new MultiResponseDto<AnswerResponseDto>(answerList,answerPage);
-//        return
-//    }
+    public MultiResponseDto<AnswerResponseDto> findAllArticleAnswer(Long articleId,int page,int size){
+        Page<Answer> answerPage =answerRepository.findAllArticleAnswer(articleId, PageRequest.of(page,size,Sort.by("id").descending()));
+        List<Answer> answerList = answerPage.getContent();
+        List<AnswerResponseDto> answerResponseDtoList = mapper.AnswerListToAnswerResponseDtoList(answerList);
+        MultiResponseDto<AnswerResponseDto> response = new MultiResponseDto<AnswerResponseDto>(answerResponseDtoList,answerPage);
+        return response;
+    }
+    public MultiResponseDto<AnswerResponseDto> findAllProjectAnswer(Long projectId,int page,int size){
+        Page<Answer> answerPage =answerRepository.findAllProjectAnswer(projectId, PageRequest.of(page,size,Sort.by("id").descending()));
+        List<Answer> answerList = answerPage.getContent();
+        List<AnswerResponseDto> answerResponseDtoList = mapper.AnswerListToAnswerResponseDtoList(answerList);
+        MultiResponseDto<AnswerResponseDto> response = new MultiResponseDto<AnswerResponseDto>(answerResponseDtoList,answerPage);
+        return response;
+    }
 
     private Optional<Answer> verifyAnswer(Long Id) {
         Optional<Answer> findAnswer =answerRepository.findById(Id);
@@ -96,11 +99,11 @@ public class AnswerService {
         findArticle.orElseThrow(() -> new BusinessLogicException(ExceptionCode.ARTICLE_NOT_FOUND));
     }
 
-    private Optional<Member> verifyMember(Long memberId) {
-        Optional<Member> findMember =memberRepository.findById(memberId);
-        findMember.orElseThrow(() -> new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
-        return findMember;
-    }
+//    private Optional<Member> verifyMember(Long memberId) {
+//        Optional<Member> findMember =memberRepository.findById(memberId);
+//        findMember.orElseThrow(() -> new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
+//        return findMember;
+//    }
     private void verifyProject(Long projectId) {
         Optional<Project> findProject =projectRepository.findById(projectId);
         findProject.orElseThrow(() -> new BusinessLogicException(ExceptionCode.PROJECT_NOT_FOUND));

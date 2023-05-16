@@ -31,6 +31,9 @@ public class Answer {
     @Column
     private int totalLikes;
 
+    @OneToMany
+    private List<Comment> commentList =new ArrayList<>();
+
     @Column(columnDefinition = "TINYINT")
     private boolean deleted;
 
