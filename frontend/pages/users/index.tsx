@@ -45,11 +45,10 @@ const User = () => {
       <RightColumn>
         <p className="nanum-bold">Star | 가입일 | 활동</p>
         <CardWrapper>
-          {USERS.filter((el) => el.MEMBER_ID < 30 && el.MEMBER_ID > 0).map(
-            (user) => (
-              <UserCard key={user.MEMBER_ID} user={user} />
-            )
-          )}
+          {Array.isArray(users) &&
+            users
+              .filter((el) => el.MEMBER_ID < 30 && el.MEMBER_ID > 0)
+              .map((user) => <UserCard key={user.MEMBER_ID} user={user} />)}
         </CardWrapper>
       </RightColumn>
     </GridBox>

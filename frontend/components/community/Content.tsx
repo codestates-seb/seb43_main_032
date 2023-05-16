@@ -22,22 +22,23 @@ export default function Content() {
   const urlSearch = new URLSearchParams(router.asPath).get('search');
   const urlPage = new URLSearchParams(router.asPath).get('page');
   const urlFilter = new URLSearchParams(router.asPath).get('filter');
-  const [page, setPage] = useState(Number(urlPage) || 1);
+  const [page, setPage] = useState(Number(urlPage) || 0);
   const [searchVal, setSearchVal] = useState(urlSearch || '');
   const [filter, setFilter] = useState(urlFilter || 'sorted');
   const { category } = router.query;
   const page_limit = 10;
-  const endPoint = category ? `/community/${category}` : `/community`;
+  const endPoint = category ? `/article/findAll/${category}` : `/article/findAll`;
   const address = `${endPoint}?size=${page_limit}&page=${page}&search=${searchVal}&filter=${filter}`;
   const queryKey = category
-    ? ['community', page, category]
-    : ['community', page];
+    ? ['article', page, category]
+    : ['article', page];
 
   const { communityQuery, refetch } = useCommunity<Community[]>({
     address,
     queryKey,
   });
-  const data = COMMUNITY;
+  const data = communityQuery.data;
+  console.log(data)
 
   const findContentItem = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchVal(e.target.value);

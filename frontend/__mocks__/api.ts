@@ -1,18 +1,21 @@
 import { rest } from 'msw';
-import users from './datas/users.json';
 import { POST_STATE, PROJECTS } from './dummy/project';
 import { community } from './dummy/community';
+import { USERS } from './dummy/users';
 
-//기본
+
 export const handlers = [
+];
+
+export const userHandler =[
   rest.get('/users', async (req, res, ctx) => {
-    return res(ctx.status(200), ctx.json(users));
+    return res(ctx.status(200), ctx.json(USERS));
   }),
   rest.get('/users/:id', async (req, res, ctx) => {
     const { id } = req.params;
     const user =
       typeof id === 'string' &&
-      users.find((user) => user.MEMBER_ID === parseInt(id, 10));
+      USERS.find((user) => user.MEMBER_ID === parseInt(id, 10));
 
     if (user) {
       return res(ctx.status(200), ctx.json(user));
@@ -20,10 +23,10 @@ export const handlers = [
       return res(ctx.status(404), ctx.json({ error: 'User not found' }));
     }
   }),
-];
+]
 
 //프로젝트
-export const projectHandlers = [
+export const projectHandler = [
   //게시글 페이지 조회
   rest.get('/project', async (req, res, ctx) => {
     const url = new URL(req.url);

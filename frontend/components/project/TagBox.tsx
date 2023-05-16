@@ -3,9 +3,10 @@ import Tag from '../Tag';
 import { UseFormRegister } from 'react-hook-form';
 import styled from 'styled-components';
 import { Form } from '@/types/types';
+import { FiledTag } from '@/types/project';
 
 type Props = {
-  tags: string[];
+  tags: FiledTag[];
   register?: UseFormRegister<Form>;
   tagKeyDown?: (e: React.KeyboardEvent<HTMLInputElement>) => void;
   deleteTag?: (idx: number) => void;
@@ -14,7 +15,7 @@ type Props = {
 const TagBox = ({ tags, register, tagKeyDown, deleteTag }: Props) => {
   return (
     <Box deleteTag={deleteTag} className="tag-box">
-      <div>프로젝트 분야 태그</div>
+      <div className="title">프로젝트 분야 태그</div>
       <div className="noto-regular-13">
         {register && (
           <div className="button-box">
@@ -22,10 +23,10 @@ const TagBox = ({ tags, register, tagKeyDown, deleteTag }: Props) => {
           </div>
         )}
         <ul>
-          {tags.map((x, i) => (
-            <li key={`${x}+${i}`}>
+          {tags.map((tag, i) => (
+            <li key={`${tag.field}+${i}`}>
               <Tag>
-                <div>{x}</div>
+                <div>{tag.field}</div>
                 {deleteTag && (
                   <div>
                     <GrFormClose onClick={() => deleteTag(i)} />
@@ -48,12 +49,18 @@ type BoxProps = {
 
 const Box = styled.div<BoxProps>`
   display: flex;
-  align-items: center;
   flex-direction: column;
+  width: 100%;
+  padding: 0 30px;
+
+  > .title {
+    font-size: 15px;
+    margin-bottom: 10px;
+    font-weight: 500;
+  }
   ul {
     display: flex;
     flex-wrap: wrap;
-    justify-content: center;
     gap: 4px;
     li {
       > div {

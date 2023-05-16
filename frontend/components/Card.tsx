@@ -14,22 +14,22 @@ export default Card;
 const Box = styled.div<Props>`
   position: relative;
   cursor: pointer;
-  padding-bottom: 30px;
+  padding-bottom: 5px;
   width: ${(props) => `${props.width}`};
-  border: 2px solid #e4e4e4;
-  border-radius: 10px;
+  border: 1px solid #ebebeb;
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  justify-content: end;
   overflow: hidden;
-  transition: transform 90ms ease-in-out;
+  transition: box-shadow 0.1s ease-in-out;
+
+  border-radius: 15px;
 
   @media (max-width: 960px) {
     width: 100%;
   }
 
   :hover {
-    transform: translateY(-20px);
-    border: solid 4px;
+    box-shadow: 14px 11px 12px 3px rgba(0, 0, 0, 0.06);
   }
 `;

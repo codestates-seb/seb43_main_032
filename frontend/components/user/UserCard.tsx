@@ -1,4 +1,3 @@
-import { IUser } from '@/util/api/user';
 import { AiFillStar } from 'react-icons/ai';
 import { FaLocationArrow, FaNodeJs } from 'react-icons/fa';
 import { FaReact } from 'react-icons/fa';
@@ -7,6 +6,7 @@ import styled from 'styled-components';
 import Tag from '../Tag';
 import Link from 'next/link';
 import Stack from '../stack/Stack';
+import { IUser } from '@/types/user';
 
 const Wrapper = styled.div`
   position: relative;

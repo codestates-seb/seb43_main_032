@@ -1,5 +1,11 @@
-import React from 'react';
+import { UserObj } from '@/types/types';
+import { useRouter } from 'next/router';
+import React, { useEffect, useMemo, useState } from 'react';
+import { useForm } from 'react-hook-form';
 import styled from 'styled-components';
+import { USERS_FLTER } from '@/constant/constant';
+import { BsSearch } from 'react-icons/bs';
+import Btn from '../button/Btn';
 
 const Wrapper = styled.div`
   padding: 20px;
@@ -41,10 +47,11 @@ export default function UserSideBar() {
   return (
     <Wrapper>
       <p className="nanum-bold">Users</p>
-      <Input />
+      <div className="search-box">
+        <Input />
+      </div>
       <p>직군별 검색</p>
       <p>스택별 검색</p>
-      <p>지역별 검색</p>
     </Wrapper>
   );
 }

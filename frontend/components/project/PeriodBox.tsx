@@ -32,7 +32,7 @@ const PeriodBox = ({ start, end, handleRangeChange }: Props) => {
   return (
     <Box>
       <div>
-        <div>프로젝트 기간</div>
+        <div className="title">프로젝트 기간</div>
         {handleRangeChange && (
           <div className="calendar-box">
             <DatePicker
@@ -72,8 +72,16 @@ const PeriodBox = ({ start, end, handleRangeChange }: Props) => {
 export default PeriodBox;
 
 const Box = styled.div`
+  width: 100%;
+  padding: 0 30px;
   > div:first-child {
     display: flex;
+
+    > .title {
+      font-size: 15px;
+      margin-bottom: 10px;
+      font-weight: 500;
+    }
   }
   .calendar-box {
     margin-left: 16px;
@@ -88,7 +96,9 @@ const Box = styled.div`
     }
   }
   .period {
-    display: flex;
-    justify-content: center;
+    padding: 10px;
+    border: solid 2px #ececec;
+    border-radius: 10px;
+    color: #a5a5a5;
   }
 `;
