@@ -15,7 +15,7 @@ import { PROJECT_FILTER } from '@/constant/constant';
 import ProjectCardBox from '@/components/card_box/ProjectCardBox';
 import { Form } from '@/types/types';
 import { AiOutlineArrowUp } from 'react-icons/ai';
-
+const page_limit = 4;
 type PageProps = { data: Project[]; total: number };
 
 const ProjectHome = () => {
@@ -36,12 +36,12 @@ const ProjectHome = () => {
   //주소
   const address = () => {
     if (search && filter) {
-      return `${router.asPath}&size=${page_limit}&filter=${filter}`;
+      return `/project/findAll&size=${page_limit}&filter=${filter}`;
     }
     if (search || filter) {
-      return `${router.asPath}&size=${page_limit}`;
+      return `/project/findAll&size=${page_limit}`;
     }
-    return `${router.asPath}?size=${page_limit}`;
+    return `/project/findAll?size=${page_limit}`;
   };
 
   //쿼리 키
@@ -52,7 +52,7 @@ const ProjectHome = () => {
     if (search || filter) {
       return ['projects', search || filter];
     }
-    return ['projects'];
+    return 'projects';
   };
 
   //라우터 이동 시,
@@ -67,7 +67,6 @@ const ProjectHome = () => {
   }, [router]);
 
   //무한스크롤 데이터
-  const page_limit = 4;
   const {
     isLoading,
     error,

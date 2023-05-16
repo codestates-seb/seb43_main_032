@@ -3,23 +3,24 @@ import { Dispatch, SetStateAction, useCallback, useMemo } from 'react';
 import styled from 'styled-components';
 import Stack from './Stack';
 import Btn from '../button/Btn';
+import { Tech } from '@/types/project';
 
 type Props = {
   selectStack: () => void;
-  stacks: string[];
-  setStacks: Dispatch<SetStateAction<string[]>>;
+  stacks: Tech[];
+  setStacks: Dispatch<SetStateAction<Tech[]>>;
 };
 
 const SelectStack = ({ setStacks, selectStack, stacks }: Props) => {
   const categories = useMemo(() => Object.keys(STACKS_CATEGORIES), []);
 
   //스택을 추가하는 함수
-  const addStack = (stack: string) => {
-    const idx = stacks.findIndex((x) => stack === x);
+  const addStack = (select: string) => {
+    const idx = stacks.findIndex((stack) => select === stack.tech);
     if (idx !== -1) {
       return setStacks([...stacks.slice(0, idx), ...stacks.slice(idx + 1)]);
     }
-    setStacks([...stacks, stack]);
+    setStacks([...stacks, { tech: select }]);
   };
 
   //선택한 스택 리셋
@@ -39,7 +40,7 @@ const SelectStack = ({ setStacks, selectStack, stacks }: Props) => {
                   (skill) => (
                     <Stack
                       key={skill}
-                      skill={skill}
+                      tech={skill}
                       addStack={addStack}
                       stacks={stacks}
                     />

@@ -1,17 +1,14 @@
 export type Community = {
   id: number;
-  email: string;
-  userStar: number;
-  avatar: string;
-  position: string;
+  name: string;
+  profileImageUrl: string;
+  totalStar: number;
   title: string;
   content: string;
-  createdAt: string;
-  heart: number;
-  view: number;
-  tags: string[];
-  status?: null;
-  comment: (Comment | {})[];
+  category: string;
+  views: number;
+  totalLikes: number;
+  techStackList: FiledTag[];
 };
 
 export type Comment = {
@@ -20,4 +17,8 @@ export type Comment = {
   userStar: number;
   avatar: string;
   content: string;
+};
+
+export type FiledTag = {
+  field: string;
 };

@@ -9,25 +9,29 @@ import ProjectCardBox from '@/components/card_box/ProjectCardBox';
 import CommunityCardBox from '@/components/card_box/CommunityCardBox';
 import ProjectSkeleton from '@/components/skeleton/ProjectSkeleton';
 import CommunityItemSkeleton from '@/components/skeleton/CommunityItemSkeleton';
+import { PageInfo } from '@/types/types';
 
 const Home = () => {
   // useQuery를 사용하여 데이터 fetch
   const { data, isLoading, error } = useQuery<
     {
       data: Project[];
-      total: number;
+      pageInfo: PageInfo;
     },
     Error
-  >('projects', () => api('/project?size=4&page=1').then((res) => res.data));
+  >('projects', () =>
+    api('/project/findAll?size=4&page=1').then((res) => res.data)
+  );
 
   //커뮤니티 조회수 높은거 5개만 가져오면 될듯??
   const community_page_limit = 5;
-  const queryKey = ['community', 'hot'];
-  const address = `/community?size=${community_page_limit}&page=1`;
+  const queryKey = ['article', 'hot'];
+  const address = `/article/findAll?size=${community_page_limit}&page=0`;
   const { communityQuery } = useCommunity<Community[]>({
     address,
     queryKey,
   });
+  // console.log(communityQuery)
   const projectData = data?.data;
   const communityData = communityQuery.data?.data;
 
@@ -41,18 +45,13 @@ const Home = () => {
         data={projectData}
         title={'인기 프로젝트'}
       />
-      <ProjectCardBox
-        skeleton={isLoading && <ProjectSkeleton />}
-        data={projectData}
-        title={'종료 프로젝트'}
-      />
-      <CommunityCardBox
+      {/* <CommunityCardBox
         skeleton={
           communityQuery.isLoading && <CommunityItemSkeleton count={5} />
         }
         data={communityData}
         title={'인기 커뮤니티'}
-      />
+      /> */}
       <ProjectCardBox
         skeleton={isLoading && <ProjectSkeleton />}
         data={projectData}

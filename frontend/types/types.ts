@@ -30,3 +30,10 @@ export type CommunityCategory = {
   link: string;
   icon: JSX.Element;
 };
+
+export type PageInfo = {
+  page: number;
+  size: number;
+  totalElement: number;
+  totalPages: number;
+};

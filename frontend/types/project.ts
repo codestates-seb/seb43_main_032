@@ -1,34 +1,34 @@
-export type Job = {
-  [key: string]: { want: number; current: number };
-};
-
-export type PostState = {
-  id: number;
-  heart: boolean;
-  want: string;
-};
-
-enum ProjectState {
-  '모집 중' = 1,
-  '모집 완료' = 2,
-  '진행 중' = 3,
-  '종료' = 4,
+interface Crew {
+  [key: string]: string;
 }
+export type FiledTag = {
+  field: string;
+};
+
+export type Tech = {
+  tech: string;
+};
+
+export type WantCrew = {
+  position: string;
+  number: number;
+  acceptedNumber: number;
+};
 
 export type Project = {
-  id: number;
-  author: string;
-  start: Date;
-  end: Date;
-  tags: string[];
-  stacks: string[];
-  jobs: Job[];
-  title: string;
+  acceptedCrewList: Crew[];
   content: string;
-  state: ProjectState;
-  createAt: string;
-  view: number;
-  heart: number;
-  comment: never[];
-  position?: string;
+  endDate: string;
+  fieldList: FiledTag[];
+  memberId: number;
+  positionCrewList: WantCrew[];
+  projectId: number;
+  startDate: string;
+  status: string;
+  techStackList: Tech[];
+  thumbnailImageUrl: string;
+  title: string;
+  totalLikes: number;
+  views: number;
+  writerPosition: string;
 };
