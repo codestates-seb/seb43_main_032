@@ -1,11 +1,12 @@
 import { useState } from 'react';
 import styled from 'styled-components';
 import Bubble from './Bubble';
+import { Tech } from '@/types/project';
 
 type Props = {
   tech: string;
   addStack?: (tech: string) => void;
-  stacks?: string[];
+  stacks?: Tech[];
 };
 
 const Stack = ({ tech, addStack, stacks }: Props) => {
@@ -19,7 +20,9 @@ const Stack = ({ tech, addStack, stacks }: Props) => {
       onClick={() => addStack && addStack(tech)}
       key={tech}
       className={
-        stacks && stacks.includes(tech) ? `focus bg-${tech}` : `bg-${tech}`
+        stacks && stacks.filter((stack) => stack.tech === tech).length > 0
+          ? `focus bg-${tech}`
+          : `bg-${tech}`
       }
     >
       {modal && <Bubble tech={tech} />}

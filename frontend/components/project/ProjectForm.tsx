@@ -14,25 +14,22 @@ import { useProject } from '@/hooks/react-query/useProject';
 import { POSITIONS } from '@/constant/constant';
 import Btn from '../button/Btn';
 import { Form } from '@/types/types';
+import { Tech, FiledTag, WantCrew } from '@/types/project';
 
 const ProjectForm = () => {
   const router = useRouter();
 
   //데이터
   const { projectQuery } = useProject();
-  const data = projectQuery.data?.post_data;
+  const data = projectQuery.data?.data;
   useEffect(() => {
     if (data) {
-      const jobs = data?.jobs.map(
-        (job) =>
-          Object.entries(job).map(([key, value]) => ({ [key]: value.want }))[0]
-      );
-      setStart(new Date(data.start));
-      setEnd(new Date(data.end));
-      setStacks(data.stacks);
-      setTags(data.tags);
+      setStart(new Date(data.startDate));
+      setEnd(new Date(data.endDate));
+      setStacks(data.techStackList);
+      setTags(data.fieldList);
       setContent(data.content);
-      setJob(jobs);
+      setJob(data.positionCrewList);
     }
   }, [projectQuery.isLoading]);
 
@@ -77,10 +74,10 @@ const ProjectForm = () => {
   }, [stack]);
 
   //선택된 스택 관련
-  const [stacks, setStacks] = useState<string[]>([]);
+  const [stacks, setStacks] = useState<Tech[]>([]);
 
   //해시태그 값 상태
-  const [tags, setTags] = useState<string[]>([]);
+  const [tags, setTags] = useState<FiledTag[]>([]);
 
   //해시태그 키 다운
   const tagKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -96,7 +93,7 @@ const ProjectForm = () => {
 
   // 해시태그 업데이트
   const addTag = (tag: string) => {
-    setTags([...tags, tag]);
+    setTags([...tags, { field: tag }]);
   };
 
   // 해시태그 삭제
@@ -116,12 +113,15 @@ const ProjectForm = () => {
   };
 
   //직군 상태
-  const [jobs, setJob] = useState<{ [key: string]: number }[]>([]);
+  const [jobs, setJob] = useState<WantCrew[]>([]);
   const addJob = () => {
-    if (jobs.map((x) => Object.keys(x)[0]).includes(watch().jobVal)) {
+    if (jobs.filter((job) => job.position === watch().jobVal).length > 0) {
       return alert('동일한 직군은 추가할 수 없습니다.');
     }
-    setJob([...jobs, { [watch().jobVal]: option }]);
+    setJob([
+      ...jobs,
+      { position: watch().jobVal, number: option, acceptedNumber: 0 },
+    ]);
     reset({
       ...watch(),
       jobVal: '',
@@ -133,9 +133,6 @@ const ProjectForm = () => {
   const deleteJob = (idx: number) => {
     setJob([...jobs.slice(0, idx), ...jobs.slice(idx + 1)]);
   };
-
-  const jobNames = jobs.map((x) => Object.keys(x)[0]);
-  const jobCount = jobs.map((x) => Object.values(x)[0]);
 
   //에디터 상태
   const [content, setContent] = useState('');
@@ -149,7 +146,7 @@ const ProjectForm = () => {
     if (!start) {
       return alert('프로젝트 기간을 설정해주세요.');
     }
-    if (jobNames.length === 0) {
+    if (jobs.length === 0) {
       return alert('모집 직군은 최소 1개 이상 등록해주세요.');
     }
     if (watch().title === '') {
@@ -204,7 +201,9 @@ const ProjectForm = () => {
         <div className="want-box">
           <div>모집을 원하는 직군</div>
           <div className="job-box">
-            <select {...register('jobVal', { value: data && data.position })}>
+            <select
+              {...register('jobVal', { value: data && data.writerPosition })}
+            >
               {POSITIONS.map((position) => (
                 <option key={position} value={position}>
                   {position}
@@ -212,9 +211,9 @@ const ProjectForm = () => {
               ))}
             </select>
             <select value={option} onChange={changeOption}>
-              {optionArr.map((x) => (
-                <option key={x} value={x}>
-                  {x}명
+              {optionArr.map((num) => (
+                <option key={num} value={num}>
+                  {num}명
                 </option>
               ))}
             </select>
@@ -223,10 +222,10 @@ const ProjectForm = () => {
             </Btn>
           </div>
           <ul>
-            {jobNames.map((x, i) => (
-              <li className="nanum-regular" key={`${x}+${i}`}>
-                <div>{x}</div>
-                <div>{jobCount[i]}명</div>
+            {jobs.map((job, i) => (
+              <li className="nanum-regular" key={`${job}+${i}`}>
+                <div>{job.position}</div>
+                <div>{job.number}명</div>
                 <div className="delete">
                   <GrFormClose onClick={() => deleteJob(i)} />
                 </div>
@@ -242,7 +241,7 @@ const ProjectForm = () => {
         postProject={postProject}
         data={
           data && {
-            position: data?.position!,
+            position: data?.writerPosition!,
             title: data?.title!,
             content: data?.content!,
           }

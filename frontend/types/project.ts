@@ -9,7 +9,7 @@ export type Tech = {
   tech: string;
 };
 
-type WantCrew = {
+export type WantCrew = {
   position: string;
   number: number;
   acceptedNumber: number;

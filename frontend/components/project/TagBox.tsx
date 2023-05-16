@@ -23,10 +23,10 @@ const TagBox = ({ tags, register, tagKeyDown, deleteTag }: Props) => {
           </div>
         )}
         <ul>
-          {tags.map((x, i) => (
-            <li key={`${x.filed}+${i}`}>
+          {tags.map((tag, i) => (
+            <li key={`${tag.field}+${i}`}>
               <Tag>
-                <div>{x.filed}</div>
+                <div>{tag.field}</div>
                 {deleteTag && (
                   <div>
                     <GrFormClose onClick={() => deleteTag(i)} />
