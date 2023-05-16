@@ -53,10 +53,9 @@ export default function LoginForm() {
   const onInValid = (errors: FieldErrors) => {
     console.log(errors);
   };
+
   useEffect(() => {
     data && console.log('data', data);
-    auth && console.log('auth', auth);
-    console.log(error);
   }, [data]);
   return (
     <Wrapper>

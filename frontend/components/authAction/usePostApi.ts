@@ -28,12 +28,11 @@
 // }
 
 import { useState } from 'react';
-import axios from 'axios';
-import { setCookie } from '@/util/cookie';
 import { useSetRecoilState } from 'recoil';
 import { userState } from '@/recoil/atom';
 import { useRouter } from 'next/router';
 import { api } from '@/util/api';
+import { setCookie } from '@/util/cookie';
 
 interface IObj {
   isLoading: boolean;
