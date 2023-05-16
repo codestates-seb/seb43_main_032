@@ -8,6 +8,7 @@ import Message from '../Message';
 import { COMMUNITY_FILTER } from '@/constant/constant';
 import Pagenation from '../Pagenation';
 import { useCommunity } from '@/hooks/react-query/useCommunity';
+import { COMMUNITY } from '@/dummy/community';
 
 export default function Content() {
   const router = useRouter();
@@ -36,7 +37,7 @@ export default function Content() {
     address,
     queryKey,
   });
-  const data = communityQuery.data;
+  const data = COMMUNITY;
 
   const findContentItem = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchVal(e.target.value);
@@ -92,14 +93,14 @@ export default function Content() {
       </ContentTop>
       <ContentBottom>
         <ContentItemList>
-          {data?.data?.map((article: Community) => (
+          {data?.map((article: Community) => (
             <ContentItem {...article} key={article.id} />
           ))}
         </ContentItemList>
         <Pagenation
           page={page}
           onPageChange={setPage}
-          pageSize={data && data.total ? Math.ceil(data.total / 10) : 0}
+          pageSize={data && data ? 30 : 0}
         />
       </ContentBottom>
     </Container>

@@ -14,6 +14,7 @@ import { useRouter } from 'next/router';
 import Position from '@/components/Position';
 import Message from '@/components/Message';
 import Btn from '@/components/button/Btn';
+import { PROJECTS } from '@/dummy/project';
 const ReactMarkdown = dynamic(() => import('@/components/editor/ContentBox'), {
   ssr: false,
   loading: () => <ContentSkeleton />,
