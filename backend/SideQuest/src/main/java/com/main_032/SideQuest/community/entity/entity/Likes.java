@@ -21,13 +21,13 @@ public class Likes extends BaseEntity {
     private Category category;
 
     @Column
-    private Long projectId;
+    private Long projectId; //project와 연관관계 맺을 시
 
     @Column
-    private Long articleId;
+    private Long articleId; //article과 연관관계 맺을 시
 
     @Column
-    private Long answerId;
+    private Long answerId; //answer과 연관관계 맺을 시
 
     @Column
     private Long commentId;
