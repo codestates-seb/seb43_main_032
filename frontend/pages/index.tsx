@@ -31,7 +31,7 @@ const Home = () => {
     address,
     queryKey,
   });
-  // console.log(communityQuery)
+  
   const projectData = data?.data;
   const communityData = communityQuery.data?.data;
 
