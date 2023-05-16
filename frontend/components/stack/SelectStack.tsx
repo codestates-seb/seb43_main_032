@@ -119,5 +119,20 @@ const Box = styled.div`
     display: flex;
     justify-content: center;
     gap: 32px;
+
+    .search-btn {
+      background: #9b7aff;
+      padding: 8px 20px;
+      color: white;
+      border-radius: 5px;
+      border: none;
+      font-size: 15px;
+      font-weight: 500;
+      transition: background 0.3s ease-out;
+
+      :hover {
+        background: #6333ff;
+      }
+    }
   }
 `;
