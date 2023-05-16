@@ -229,7 +229,6 @@ const Box = styled.div`
     }
 
     > div {
-      border: 1px solid #dfdede;
       padding: var(--padding-1);
       width: 50%;
       margin-bottom: 56px;
