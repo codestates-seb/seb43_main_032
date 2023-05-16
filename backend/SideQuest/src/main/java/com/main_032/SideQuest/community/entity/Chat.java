@@ -1,4 +1,4 @@
-package com.main_032.SideQuest.community.entity.entity;
+package com.main_032.SideQuest.community.entity;
 
 import com.main_032.SideQuest.util.entity.BaseEntity;
 import lombok.Getter;
@@ -13,6 +13,8 @@ public class Chat extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+//    @Column
+//    private Category category;
     @Column
     private Long senderMemberId;
 

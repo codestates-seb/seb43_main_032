@@ -1,11 +1,10 @@
-package com.main_032.SideQuest.community.entity.entity;
+package com.main_032.SideQuest.community.entity;
 
 import com.main_032.SideQuest.article.entity.Article;
 import com.main_032.SideQuest.project.entity.Project;
 import com.main_032.SideQuest.util.entity.BaseEntity;
 import lombok.Builder;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 // 댓글

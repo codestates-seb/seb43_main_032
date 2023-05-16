@@ -1,10 +1,8 @@
-package com.main_032.SideQuest.community.entity.repository.Commnet;
+package com.main_032.SideQuest.community.repository.Commnet;
 
 import com.main_032.SideQuest.article.entity.Article;
-import com.main_032.SideQuest.community.entity.entity.Answer;
-import com.main_032.SideQuest.community.entity.entity.Comment;
+import com.main_032.SideQuest.community.entity.Comment;
 import com.main_032.SideQuest.project.entity.Project;
-import org.hibernate.sql.ordering.antlr.ColumnMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;

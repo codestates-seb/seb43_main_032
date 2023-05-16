@@ -1,7 +1,6 @@
-package com.main_032.SideQuest.community.entity.entity;
+package com.main_032.SideQuest.community.entity;
 
 import com.main_032.SideQuest.util.entity.BaseEntity;
-import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 

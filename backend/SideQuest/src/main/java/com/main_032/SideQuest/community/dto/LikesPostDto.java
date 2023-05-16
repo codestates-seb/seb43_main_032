@@ -1,6 +1,6 @@
-package com.main_032.SideQuest.community.entity.dto;
+package com.main_032.SideQuest.community.dto;
 
-import com.main_032.SideQuest.community.entity.entity.Category;
+import com.main_032.SideQuest.community.entity.Category;
 import lombok.Getter;
 
 

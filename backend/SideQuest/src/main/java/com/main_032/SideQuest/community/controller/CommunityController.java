@@ -1,16 +1,13 @@
-package com.main_032.SideQuest.community.entity.controller;
+package com.main_032.SideQuest.community.controller;
 
-import com.main_032.SideQuest.community.entity.dto.CommentDto.CommenntAriticle.CommentArticleDto;
-import com.main_032.SideQuest.community.entity.dto.CommentDto.CommentProject.CommentProjectDto;
-import com.main_032.SideQuest.community.entity.dto.LikesPostDto;
-import com.main_032.SideQuest.community.entity.entity.Likes;
-import com.main_032.SideQuest.community.entity.service.AnswerService;
-import com.main_032.SideQuest.community.entity.service.CommentService;
-import com.main_032.SideQuest.community.entity.service.LikesService;
+import com.main_032.SideQuest.community.dto.CommentDto.CommenntAriticle.CommentArticleDto;
+import com.main_032.SideQuest.community.dto.CommentDto.CommentProject.CommentProjectDto;
+import com.main_032.SideQuest.community.dto.LikesPostDto;
+import com.main_032.SideQuest.community.entity.Likes;
+import com.main_032.SideQuest.community.service.CommentService;
+import com.main_032.SideQuest.community.service.LikesService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import lombok.AllArgsConstructor;
-import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;

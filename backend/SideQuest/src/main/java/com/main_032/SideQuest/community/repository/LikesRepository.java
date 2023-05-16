@@ -1,12 +1,9 @@
-package com.main_032.SideQuest.community.entity.repository;
+package com.main_032.SideQuest.community.repository;
 
-import com.main_032.SideQuest.article.entity.Article;
-import com.main_032.SideQuest.community.entity.entity.Comment;
-import com.main_032.SideQuest.community.entity.entity.Likes;
+import com.main_032.SideQuest.community.entity.Likes;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
 import java.util.Optional;
 
 @Repository

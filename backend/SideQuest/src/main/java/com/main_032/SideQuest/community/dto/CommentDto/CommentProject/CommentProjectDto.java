@@ -1,8 +1,7 @@
-package com.main_032.SideQuest.community.entity.dto.CommentDto.CommentProject;
+package com.main_032.SideQuest.community.dto.CommentDto.CommentProject;
 
-import com.main_032.SideQuest.community.entity.dto.CommentDto.CommenntAriticle.CommentArticleDto;
-import com.main_032.SideQuest.community.entity.entity.Category;
-import com.main_032.SideQuest.community.entity.entity.Comment;
+import com.main_032.SideQuest.community.entity.Category;
+import com.main_032.SideQuest.community.entity.Comment;
 import lombok.Getter;
 
 @Getter
