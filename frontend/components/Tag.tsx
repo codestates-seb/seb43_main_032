@@ -13,13 +13,13 @@ export default Tag;
 const TagBox = styled.div<Props>`
   background-color: ${(props) =>
     props.children === '취소' || props.children === '마감'
-      ? '#5b24ff'
-      : '#865DFF'};
-  padding: 5px 3px;
+      ? '#9b9b9b'
+      : '#e4e4e4'};
+  padding: 5px 10px;
   border-radius: 10px;
   min-width: 48px;
   text-align: center;
-  color: white;
+  color: #767676;
   font-size: 12px;
   font-weight: 400 !important;
   :hover {
