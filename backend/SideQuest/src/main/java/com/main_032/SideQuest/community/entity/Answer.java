@@ -1,4 +1,4 @@
-package com.main_032.SideQuest.community.entity.entity;
+package com.main_032.SideQuest.community.entity;
 
 import lombok.Getter;
 

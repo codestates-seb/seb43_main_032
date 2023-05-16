@@ -1,4 +1,4 @@
-package com.main_032.SideQuest.community.entity.entity;
+package com.main_032.SideQuest.community.entity;
 
 public enum Category {
     CATEGORY_1("프로젝트"),

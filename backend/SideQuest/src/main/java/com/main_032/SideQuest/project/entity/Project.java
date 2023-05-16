@@ -1,6 +1,7 @@
 package com.main_032.SideQuest.project.entity;
 
-import com.main_032.SideQuest.community.entity.entity.Comment;
+
+import com.main_032.SideQuest.community.entity.Comment;
 import com.main_032.SideQuest.member.entity.Member;
 import com.main_032.SideQuest.util.entity.BaseEntity;
 import lombok.Getter;

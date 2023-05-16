@@ -31,6 +31,10 @@ public class Comment extends BaseEntity {
     private int totalLikes;
 
     @ManyToOne
+    @JoinColumn(name = "ANSWER_ID")
+    private Answer answer;
+
+    @ManyToOne
     @JoinColumn(name = "ARTICLE_ID")
     private Article article;
 
@@ -49,5 +53,37 @@ public class Comment extends BaseEntity {
     }
     public void setDeleted(boolean deleted) {
         this.deleted = deleted;
+    }
+    public Comment(Long id, Long memberId, Category category, String content, int totalLikes,
+                   Answer answer, Article article, Project project, boolean deleted) {
+        this.id = id;
+        this.memberId = memberId;
+        this.category = category;
+        this.content = content;
+        this.totalLikes = totalLikes;
+        this.answer = answer;
+        this.article = article;
+        this.project = project;
+        this.deleted = deleted;
+    }
+    @Builder
+    public Comment(Long id,
+                   Long memberId,
+                   Category category,
+                   String content,
+                   int totalLikes,
+                   Article article,
+                   Project project,
+                   boolean deleted,
+                   Answer answer) {
+        this.id = id;
+        this.memberId = memberId;
+        this.category = category;
+        this.content = content;
+        this.totalLikes = totalLikes;
+        this.article = article;
+        this.project = project;
+        this.deleted = deleted;
+        this.answer = answer;
     }
 }
