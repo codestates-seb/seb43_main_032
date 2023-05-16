@@ -11,6 +11,7 @@ import ProjectSkeleton from '@/components/skeleton/ProjectSkeleton';
 import CommunityItemSkeleton from '@/components/skeleton/CommunityItemSkeleton';
 import { PageInfo } from '@/types/types';
 
+
 const Home = () => {
   // useQuery를 사용하여 데이터 fetch
   const { data, isLoading, error } = useQuery<
@@ -34,6 +35,7 @@ const Home = () => {
   
   const projectData = data?.data;
   const communityData = communityQuery.data?.data;
+
 
   if (isLoading) return <Message>로딩중입니다.</Message>;
   if (error) return <Message>잠시 후 다시 시도해주세요.</Message>;

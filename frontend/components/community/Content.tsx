@@ -38,7 +38,6 @@ export default function Content() {
     queryKey,
   });
   const data = communityQuery.data;
-  console.log(data)
 
   const findContentItem = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchVal(e.target.value);
