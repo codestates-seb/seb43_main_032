@@ -129,7 +129,7 @@ public class ProjectService {
         Member member = memberService.getLoginMember();
         List<ProApplyCrew> proApplyCrewList = project.getProApplyCrewList();
         for (int i = 0; i < proApplyCrewList.size(); i++) {
-            if(proApplyCrewList.get(i).getMemberId() == member.getId()) throw new BusinessLogicException(ExceptionCode.ALREADY_APPLY_PROJECT);
+            if(proApplyCrewList.get(i).getMemberId() == member.getId() && proApplyCrewList.get(i).isDeleted() == false) throw new BusinessLogicException(ExceptionCode.ALREADY_APPLY_PROJECT);
         }
         boolean exist = false;
         for (int i = 0; i < project.getProPositionCrewList().size(); i++) {
@@ -140,10 +140,14 @@ public class ProjectService {
         }
         if(exist == false) throw new BusinessLogicException(ExceptionCode.POSITION_NOT_FOUND);
 
-
         ProApplyCrew proApplyCrew = new ProApplyCrew(project, member.getId(), projectApplyPostDto.getPosition());
         proApplyCrewList.add(proApplyCrew);
         proApplyCrewService.postProApplyCrew(proApplyCrew);
         projectRepository.save(project);
+    }
+
+    public void cancelApply(Long projectId, ProjectCancelApplyPostDto projectCancelApplyPostDto) {
+        Member member = memberService.getLoginMember();
+        proApplyCrewService.cancelApply(projectId, member.getId(), projectCancelApplyPostDto);
     }
 }

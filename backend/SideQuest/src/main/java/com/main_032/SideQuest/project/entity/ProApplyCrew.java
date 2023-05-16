@@ -35,4 +35,8 @@ public class ProApplyCrew extends BaseEntity {
         this.memberId = memberId;
         this.position = position;
     }
+
+    public void updateDeleted(boolean deleted) {
+        this.deleted = deleted;
+    }
 }

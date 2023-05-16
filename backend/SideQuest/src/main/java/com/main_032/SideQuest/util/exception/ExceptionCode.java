@@ -14,7 +14,10 @@ public enum ExceptionCode {
     ARTICLE_NOT_FOUND(404, "Article not found"),
     PROJECT_NOT_FOUND(404, "Project not found"),
     ALREADY_APPLY_PROJECT(409, "Already apply project"),
-    POSITION_NOT_FOUND(404, "Position not found");
+    POSITION_NOT_FOUND(404, "Position not found"),
+    APPLY_CREW_NOT_FOUND(404, "Apply crew not found"),
+    APPLY_CREW_POSITION_NOT_MATCH(404, "Apply crew position not match");
+
     @Getter
     private int status;
 

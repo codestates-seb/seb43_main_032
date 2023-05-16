@@ -1,9 +1,6 @@
 package com.main_032.SideQuest.project.controller;
 
-import com.main_032.SideQuest.project.dto.ProjectApplyPostDto;
-import com.main_032.SideQuest.project.dto.ProjectGetResponseDto;
-import com.main_032.SideQuest.project.dto.ProjectPatchDto;
-import com.main_032.SideQuest.project.dto.ProjectPostDto;
+import com.main_032.SideQuest.project.dto.*;
 import com.main_032.SideQuest.project.service.ProjectService;
 import com.main_032.SideQuest.util.dto.MultiResponseDto;
 import com.main_032.SideQuest.util.dto.SingleResponseDto;
@@ -65,6 +62,14 @@ public class ProjectController {
     @PostMapping("/project/apply/{projectId}")
     public ResponseEntity<Void> applyProject(@PathVariable(name = "projectId") Long projectId, @RequestBody ProjectApplyPostDto projectApplyPostDto) {
         projectService.applyProject(projectId, projectApplyPostDto);
+        ResponseEntity responseEntity = new ResponseEntity(HttpStatus.OK);
+        return responseEntity;
+    }
+
+    @ApiOperation(value = "프로젝트 지원 취소")
+    @PostMapping("/project/cancelApply/{projectId}")
+    public ResponseEntity<Void> cancelApplyProject(@PathVariable(name = "projectId") Long projectId, @RequestBody ProjectCancelApplyPostDto projectCancelApplyPostDto) {
+        projectService.cancelApply(projectId, projectCancelApplyPostDto);
         ResponseEntity responseEntity = new ResponseEntity(HttpStatus.OK);
         return responseEntity;
     }
