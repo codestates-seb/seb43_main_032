@@ -31,29 +31,29 @@ public class AnswerMapper {
         answer.updateContent(answerPatchDto.getContent());
         return answer;
     }
-    public AnswerResponseDto AnswerToAnswerResponseDto(Answer answer){
-        Optional<Member> findmember = memberRepository.findById(answer.getMemberId());
-        findmember.orElseThrow(() -> new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
-
-        Member member = findmember.get();
-        AnswerResponseDto answerResponseDto = new AnswerResponseDto(
-                member.getName(),
-                member.getTotalStar(),
-                answer.getTotalLikes(),
-                answer.getContent()
-                //나중에 comment 추가
-        );
-        return answerResponseDto;
-    }
-    public List<AnswerResponseDto> AnswerListToAnswerResponseDtoList(List<Answer> answerList){
-        List<AnswerResponseDto> answerResponseDtoList= new ArrayList<>();
-
-        for(Answer answer: answerList){
-            Optional<Member> findmember = memberRepository.findById(answer.getMemberId());
-            findmember.orElseThrow(() -> new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
-            AnswerResponseDto answerResponseDto = AnswerToAnswerResponseDto(answer);
-            answerResponseDtoList.add(answerResponseDto);
-        }
-        return answerResponseDtoList;
-    }
+//    public AnswerResponseDto AnswerToAnswerResponseDto(Answer answer){
+//        Optional<Member> findmember = memberRepository.findById(answer.getMemberId());
+//        findmember.orElseThrow(() -> new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
+//
+//        Member member = findmember.get();
+//        AnswerResponseDto answerResponseDto = new AnswerResponseDto(
+//                member.getName(),
+//                member.getTotalStar(),
+//                answer.getTotalLikes(),
+//                answer.getContent()
+//                //나중에 comment 추가
+//        );
+//        return answerResponseDto;
+//    }
+//    public List<AnswerResponseDto> AnswerListToAnswerResponseDtoList(List<Answer> answerList){
+//        List<AnswerResponseDto> answerResponseDtoList= new ArrayList<>();
+//
+//        for(Answer answer: answerList){
+//            Optional<Member> findmember = memberRepository.findById(answer.getMemberId());
+//            findmember.orElseThrow(() -> new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
+//            AnswerResponseDto answerResponseDto = AnswerToAnswerResponseDto(answer);
+//            answerResponseDtoList.add(answerResponseDto);
+//        }
+//        return answerResponseDtoList;
+//    }
 }

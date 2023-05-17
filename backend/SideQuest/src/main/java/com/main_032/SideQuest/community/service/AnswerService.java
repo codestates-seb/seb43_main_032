@@ -70,21 +70,21 @@ public class AnswerService {
         answerRepository.save(answer);
     }
 
-    public MultiResponseDto<AnswerResponseDto> findAllArticleAnswer(Long articleId, int page, int size) {
-        Page<Answer> answerPage = answerRepository.findAllArticleAnswer(articleId, PageRequest.of(page, size, Sort.by("id").descending()));
-        List<Answer> answerList = answerPage.getContent();
-        List<AnswerResponseDto> answerResponseDtoList = mapper.AnswerListToAnswerResponseDtoList(answerList);
-        MultiResponseDto<AnswerResponseDto> response = new MultiResponseDto<AnswerResponseDto>(answerResponseDtoList, answerPage);
-        return response;
-    }
-
-    public MultiResponseDto<AnswerResponseDto> findAllProjectAnswer(Long projectId, int page, int size) {
-        Page<Answer> answerPage = answerRepository.findAllProjectAnswer(projectId, PageRequest.of(page, size, Sort.by("id").descending()));
-        List<Answer> answerList = answerPage.getContent();
-        List<AnswerResponseDto> answerResponseDtoList = mapper.AnswerListToAnswerResponseDtoList(answerList);
-        MultiResponseDto<AnswerResponseDto> response = new MultiResponseDto<AnswerResponseDto>(answerResponseDtoList, answerPage);
-        return response;
-    }
+//    public MultiResponseDto<AnswerResponseDto> findAllArticleAnswer(Long articleId, int page, int size) {
+//        Page<Answer> answerPage = answerRepository.findAllArticleAnswer(articleId, PageRequest.of(page, size, Sort.by("id").descending()));
+//        List<Answer> answerList = answerPage.getContent();
+//        List<AnswerResponseDto> answerResponseDtoList = mapper.AnswerListToAnswerResponseDtoList(answerList);
+//        MultiResponseDto<AnswerResponseDto> response = new MultiResponseDto<AnswerResponseDto>(answerResponseDtoList, answerPage);
+//        return response;
+//    }
+//
+//    public MultiResponseDto<AnswerResponseDto> findAllProjectAnswer(Long projectId, int page, int size) {
+//        Page<Answer> answerPage = answerRepository.findAllProjectAnswer(projectId, PageRequest.of(page, size, Sort.by("id").descending()));
+//        List<Answer> answerList = answerPage.getContent();
+//        List<AnswerResponseDto> answerResponseDtoList = mapper.AnswerListToAnswerResponseDtoList(answerList);
+//        MultiResponseDto<AnswerResponseDto> response = new MultiResponseDto<AnswerResponseDto>(answerResponseDtoList, answerPage);
+//        return response;
+//    }
 
     private Optional<Answer> verifyAnswer(Long Id) {
         Optional<Answer> findAnswer = answerRepository.findById(Id);

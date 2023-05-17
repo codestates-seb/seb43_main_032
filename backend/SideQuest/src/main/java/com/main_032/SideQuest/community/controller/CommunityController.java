@@ -3,8 +3,9 @@ package com.main_032.SideQuest.community.controller;
 import com.main_032.SideQuest.community.dto.AnswerDto.AnswerPatchDto;
 import com.main_032.SideQuest.community.dto.AnswerDto.AnswerPostDto;
 import com.main_032.SideQuest.community.dto.AnswerDto.AnswerResponseDto;
-import com.main_032.SideQuest.community.dto.CommentDto.CommenntAriticle.CommentArticleDto;
-import com.main_032.SideQuest.community.dto.CommentDto.CommentProject.CommentProjectDto;
+import com.main_032.SideQuest.community.dto.CommentDto.CommentPatchDto;
+import com.main_032.SideQuest.community.dto.CommentDto.CommentPostDto;
+import com.main_032.SideQuest.community.dto.CommentDto.CommentResponseDto;
 import com.main_032.SideQuest.community.dto.LikesPostDto;
 import com.main_032.SideQuest.community.entity.Likes;
 import com.main_032.SideQuest.community.service.AnswerService;
@@ -33,18 +34,15 @@ public class CommunityController {
         this.answerService = answerService;
     }
 
-    @ApiOperation(value = "아티클 댓글 생성")
-    @PostMapping("/comment/article")
-    public ResponseEntity<CommentArticleDto> createArticleComment(@RequestBody CommentArticleDto commentArticleDto,
-                                                                  @RequestParam("email") String email) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(commentService.createArticleComment(commentArticleDto, email));
+    @ApiOperation(value = "댓글 생성")
+    @PostMapping("/comment/{answer-Id}")
+    public ResponseEntity<Void> createComment(
+            @PathVariable("answer-Id") Long answerId,
+            @RequestBody CommentPostDto commentPostDto) {
+        commentService.createComment(answerId,commentPostDto);
+        return ResponseEntity.ok().build();
     }
-    @ApiOperation(value = "프로젝트 댓글 생성")
-    @PostMapping("/comment/project")
-    public ResponseEntity<CommentProjectDto> createProjectComment(@RequestBody CommentProjectDto commentProjectDto,
-                                                                  @RequestParam("email") String email) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(commentService.createProjectComment(commentProjectDto, email));
-    }
+
     @ApiOperation(value = "댓글에 좋아요 추가")
     @PostMapping("/comment/likes")
     public ResponseEntity<Likes> likeComment(@RequestBody LikesPostDto likesPostDto,
@@ -66,45 +64,33 @@ public class CommunityController {
         return ResponseEntity.ok(likesService.countLikesByCommentId(commentId));
     }
 
-    @ApiOperation(value = "아티클 댓글 수정")
-    @PatchMapping("/comment/article/{id}")
-    public ResponseEntity<CommentArticleDto> updateArticleComment(@PathVariable Long id,
-                                                                  @RequestBody CommentArticleDto commentArticleDto,
-                                                                  @RequestParam("email") String email) {
-        return ResponseEntity.ok(commentService.updateArticleComment(id, commentArticleDto, email));
+    @ApiOperation(value = "댓글 수정")
+    @PatchMapping("/update/{comment-id}")
+    public ResponseEntity<Void> updateArticleComment(@PathVariable("comment-id") Long commentId,
+                                                     @RequestBody CommentPatchDto commentPatchDto
+                                                     ) {
+        commentService.updateArticleComment(commentId, commentPatchDto);
+        return ResponseEntity.ok().build();
     }
-    @ApiOperation(value = "프로젝트 댓글 수정")
-    @PatchMapping("/comment/project/{id}")
-    public ResponseEntity<CommentProjectDto> updateProjectComment(@PathVariable Long id,
-                                                                  @RequestBody CommentProjectDto commentProjectDto,
-                                                                  @RequestParam("email") String email) {
-        return ResponseEntity.ok(commentService.updateProjectComment(id, commentProjectDto, email));
-    }
-    @ApiOperation(value = "아티클 댓글 삭제")
+    @ApiOperation(value = "댓글 삭제")
     @DeleteMapping("/comment/article/{id}")
-    public ResponseEntity<Void> deleteArticleComment(@PathVariable Long id,
-                                                     @RequestParam("email") String email) {
-        commentService.deleteArticleComment(id, email);
-        return ResponseEntity.noContent().build();
-    }
-    @ApiOperation(value = "프로젝트 댓글 삭제")
-    @DeleteMapping("/comment/project/{id}")
-    public ResponseEntity<Void> deleteProjectComment(@PathVariable Long id,
-                                                     @RequestParam("email") String email) {
-        commentService.deleteProjectComment(id, email);
+    public ResponseEntity<Void> deleteArticleComment(@PathVariable("id") Long id) {
+        commentService.deleteComment(id);
         return ResponseEntity.noContent().build();
     }
     @ApiOperation(value = "아티클 댓글 조회")
     @GetMapping("/comment/article/{answerId}")
-    public ResponseEntity<Page<CommentArticleDto>> listArticleComments(@PathVariable Long answerId,
-                                                                       Pageable pageable) {
-        return ResponseEntity.ok(commentService.listArticleComments(answerId, pageable));
+    public ResponseEntity<MultiResponseDto<CommentResponseDto>> listArticleComments(@PathVariable("answerId") Long answerId,
+                                                                                   Pageable pageable) {
+        MultiResponseDto<CommentResponseDto> response = commentService.getArticleComments(answerId,pageable);
+        return ResponseEntity.ok(response);
     }
     @ApiOperation(value = "프로젝트 댓글 조회")
-    @GetMapping("/comment/project/{projectId}")
-    public ResponseEntity<Page<CommentProjectDto>> listProjectComments(@PathVariable Long projectId,
+    @GetMapping("/comment/project/{answerId}")
+    public ResponseEntity<MultiResponseDto<CommentResponseDto>> listProjectComments(@PathVariable("answerId") Long answerId,
                                                                        Pageable pageable) {
-        return ResponseEntity.ok(commentService.listProjectComments(projectId, pageable));
+        MultiResponseDto<CommentResponseDto> response = commentService.getProjectComments(answerId,pageable);
+        return ResponseEntity.ok(response);
     }
     @ApiOperation(value = "답글 작성")
     @PostMapping("/answer/post")
@@ -129,24 +115,24 @@ public class CommunityController {
         return ResponseEntity.ok().build();
     }
 
-    @ApiOperation(value = "게시글 답글 조회")
-    @GetMapping("/answer/ArticleAnswer/{article-id}")
-    public ResponseEntity<MultiResponseDto<AnswerResponseDto>> getArticleAnswers(
-            @PathVariable("article-id") Long articleId,
-            @RequestParam int page,
-            @RequestParam int size){
-        MultiResponseDto<AnswerResponseDto> answerPage = answerService.findAllArticleAnswer(articleId,page,size);
-        return ResponseEntity.ok(answerPage);
-    }
-    @ApiOperation(value = "프로젝트 답글 조회")
-    @GetMapping("/answer/ProjectAnswer/{project-id}")
-    public ResponseEntity<MultiResponseDto<AnswerResponseDto>> getProjectAnswers(
-            @PathVariable("project-id") Long projectId,
-            @RequestParam int page,
-            @RequestParam int size){
-        MultiResponseDto<AnswerResponseDto> answerPage = answerService.findAllProjectAnswer(projectId,page,size);
-        return ResponseEntity.ok(answerPage);
-    }
+//    @ApiOperation(value = "게시글 답글 조회")
+//    @GetMapping("/answer/ArticleAnswer/{article-id}")
+//    public ResponseEntity<MultiResponseDto<AnswerResponseDto>> getArticleAnswers(
+//            @PathVariable("article-id") Long articleId,
+//            @RequestParam int page,
+//            @RequestParam int size){
+//        MultiResponseDto<AnswerResponseDto> answerPage = answerService.findAllArticleAnswer(articleId,page,size);
+//        return ResponseEntity.ok(answerPage);
+//    }
+//    @ApiOperation(value = "프로젝트 답글 조회")
+//    @GetMapping("/answer/ProjectAnswer/{project-id}")
+//    public ResponseEntity<MultiResponseDto<AnswerResponseDto>> getProjectAnswers(
+//            @PathVariable("project-id") Long projectId,
+//            @RequestParam int page,
+//            @RequestParam int size){
+//        MultiResponseDto<AnswerResponseDto> answerPage = answerService.findAllProjectAnswer(projectId,page,size);
+//        return ResponseEntity.ok(answerPage);
+//    }
 
 
 
