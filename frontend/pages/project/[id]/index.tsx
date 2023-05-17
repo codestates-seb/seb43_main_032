@@ -16,6 +16,8 @@ import Message from '@/components/Message';
 import { getUserData } from '@/util/api/user';
 import { useRecoilValue } from 'recoil';
 import { loggedInUserState } from '@/recoil/atom';
+import { UserState } from '@/types/user';
+import { api } from '@/util/api';
 const ReactMarkdown = dynamic(() => import('@/components/editor/ContentBox'), {
   ssr: false,
   loading: () => <ContentSkeleton />,
@@ -43,7 +45,7 @@ const ViewProject = () => {
 
   //작성자 및 유저 데이터
   const loggedInUser = useRecoilValue(loggedInUserState);
-  const [writerState, setWriterState] = useState({});
+  const [writerState, setWriterState] = useState<UserState>();
   useEffect(() => {
     if (data) getUserData(data?.memberId).then((res) => setWriterState(res));
   }, [projectQuery.isLoading]);
@@ -68,9 +70,15 @@ const ViewProject = () => {
     }
   };
 
+  //프로젝트 삭제
+  const deleteProject = () => {
+    if (confirm('정말 삭제하시겠습니까?'))
+      api.delete(`/project/${data?.projectId}`).then(() => router.push('/'));
+  };
+
   //edit 이동
   const moveEdit = () => {
-    router.push(`${router.asPath}/edit`);
+    if (confirm('정말 수정하시겠습니까?')) router.push(`${router.asPath}/edit`);
   };
 
   //세부 기능 추가 이후에 업데이트 해야할듯??? 아마도 숫자 관리가 아닌 only string 일듯?
@@ -198,9 +206,16 @@ const ViewProject = () => {
               {<Tag>{data.status}</Tag>}
             </div>
             <div className="right">
-              <a onClick={moveEdit} className="main-btn">
-                <span>프로젝트 수정</span>
-              </a>
+              {writerState?.email === loggedInUser?.email && (
+                <>
+                  <a onClick={deleteProject} className="main-btn">
+                    <span>프로젝트 삭제</span>
+                  </a>
+                  <a onClick={moveEdit} className="main-btn">
+                    <span>프로젝트 수정</span>
+                  </a>
+                </>
+              )}
             </div>
           </div>
           <div className="sub noto-regular-13">
@@ -242,6 +257,16 @@ const Main = styled.div`
   display: flex;
   flex-direction: column;
   gap: 32px;
+
+  .right {
+    display: flex;
+    gap: 16px;
+    flex-direction: column;
+  }
+
+  .main-btn {
+    cursor: pointer;
+  }
 
   > div {
     display: flex;
