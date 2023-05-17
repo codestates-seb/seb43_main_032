@@ -5,6 +5,7 @@ import com.main_032.SideQuest.article.repository.ArticleRepository;
 import com.main_032.SideQuest.community.Mapper.AnswerMapper;
 import com.main_032.SideQuest.community.dto.AnswerDto.AnswerPatchDto;
 import com.main_032.SideQuest.community.dto.AnswerDto.AnswerResponseDto;
+import com.main_032.SideQuest.community.dto.CommentDto.CommentResponseDto;
 import com.main_032.SideQuest.community.entity.Category;
 import com.main_032.SideQuest.community.repository.AnswerRepository;
 import com.main_032.SideQuest.community.dto.AnswerDto.AnswerPostDto;
@@ -30,13 +31,15 @@ public class AnswerService {
     private final AnswerMapper mapper;
     private final ArticleRepository articleRepository;
     private final ProjectRepository projectRepository;
+    private final CommentService commentService;
 
-    public AnswerService(AnswerRepository answerRepository, MemberService memberService, AnswerMapper mapper, ArticleRepository articleRepository, ProjectRepository projectRepository) {
+    public AnswerService(AnswerRepository answerRepository, MemberService memberService, AnswerMapper mapper, ArticleRepository articleRepository, ProjectRepository projectRepository, CommentService commentService) {
         this.answerRepository = answerRepository;
         this.memberService = memberService;
         this.mapper = mapper;
         this.articleRepository = articleRepository;
         this.projectRepository = projectRepository;
+        this.commentService = commentService;
     }
 
     public void createAnswer(AnswerPostDto answerPostDto) {

@@ -4,6 +4,7 @@ import com.main_032.SideQuest.community.dto.AnswerDto.AnswerPatchDto;
 import com.main_032.SideQuest.community.dto.AnswerDto.AnswerPostDto;
 import com.main_032.SideQuest.community.dto.AnswerDto.AnswerResponseDto;
 import com.main_032.SideQuest.community.entity.Answer;
+import com.main_032.SideQuest.community.service.CommentService;
 import com.main_032.SideQuest.member.entity.Member;
 import com.main_032.SideQuest.member.repository.MemberRepository;
 import com.main_032.SideQuest.member.service.MemberService;
@@ -20,10 +21,12 @@ import java.util.Optional;
 public class AnswerMapper {
     private final MemberRepository memberRepository;
     private final MemberService memberService;
+    private final CommentService commentService;
 
-    public AnswerMapper(MemberRepository memberRepository, MemberService memberService) {
+    public AnswerMapper(MemberRepository memberRepository, MemberService memberService, CommentService commentService) {
         this.memberRepository = memberRepository;
         this.memberService = memberService;
+        this.commentService = commentService;
     }
 
     public Answer AnswerPostDtoToAnswer(AnswerPostDto answerPostDto, Long memberId){
@@ -43,7 +46,8 @@ public class AnswerMapper {
                 memberService.getMemberInfo(answer.getMemberId()).getData(),
                 answer.getTotalLikes(),
                 answer.getContent(),
-                answer.getCreatedAt()
+                answer.getCreatedAt(),
+                commentService.commentListToCommentReponseDtoList(answer.getCommentList())
                 //나중에 comment 추가
         );
         return answerResponseDto;

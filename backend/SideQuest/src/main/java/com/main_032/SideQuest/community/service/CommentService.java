@@ -115,4 +115,15 @@ public class CommentService {
         return commentRepository.findById(commentId).orElseThrow(() ->
                 new BusinessLogicException(ExceptionCode.COMMENT_NOT_FOUND));
     }
+    public List<CommentResponseDto> commentListToCommentReponseDtoList(List<Comment> commentList){
+        List<CommentResponseDto> commentResponseDtoList = new ArrayList<>();
+        for(Comment comment : commentList){
+            CommentResponseDto commentResponseDto = new CommentResponseDto(
+                    memberService.getMemberInfo(comment.getMemberId()).getData(),
+                            comment.getTotalLikes(),comment.getContent(),comment.getCreatedAt()
+            );
+            commentResponseDtoList.add(commentResponseDto);
+        }
+        return commentResponseDtoList;
+    }
 }
