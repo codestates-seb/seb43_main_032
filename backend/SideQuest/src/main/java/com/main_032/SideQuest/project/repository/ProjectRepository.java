@@ -19,4 +19,7 @@ public interface ProjectRepository extends JpaRepository<Project, Long> {
 
     @Query("SELECT p FROM Project p ORDER BY p.views DESC")
     List<Project> getTop5ViewsProjects(Pageable pageable);
+
+    @Query("SELECT p FROM Project p ORDER BY p.totalLikes DESC")
+    List<Project> getTop5LikesProjects(Pageable pageable);
 }

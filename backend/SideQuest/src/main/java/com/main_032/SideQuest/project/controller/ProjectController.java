@@ -107,4 +107,11 @@ public class ProjectController {
 
         return new ResponseEntity<>(new SingleResponseDto(projectViewsTop5Dto), HttpStatus.OK);
     }
+
+    @ApiOperation(value = "좋아요 TOP 5 프로젝트 조회")
+    @GetMapping("/project/likes-top5")
+    public ResponseEntity<SingleResponseDto<ProjectLikesTop5Dto>> getLikesTop5Project() {
+        ProjectLikesTop5Dto projectLikesTop5Dto = projectService.getLikesTop5Project();
+        return new ResponseEntity<>(new SingleResponseDto<ProjectLikesTop5Dto>(projectLikesTop5Dto), HttpStatus.OK);
+    }
 }

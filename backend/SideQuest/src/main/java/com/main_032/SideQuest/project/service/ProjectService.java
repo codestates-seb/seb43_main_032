@@ -242,4 +242,16 @@ public class ProjectService {
         ProjectViewsTop5Dto projectViewsTop5Dto = new ProjectViewsTop5Dto(projectGetResponseDtoList);
         return projectViewsTop5Dto;
     }
+
+    public ProjectLikesTop5Dto getLikesTop5Project() {
+        Pageable pageable = PageRequest.of(0, 5);
+        List<Project> projectList = projectRepository.getTop5LikesProjects(pageable);
+        List<ProjectGetResponseDto> projectGetResponseDtoList = new ArrayList<>();
+        for (int i = 0; i < projectList.size(); i++) {
+            ProjectGetResponseDto projectGetResponseDto = projectMapper.projectToProjectGetResponseDto(projectList.get(i));
+            projectGetResponseDtoList.add(projectGetResponseDto);
+        }
+        ProjectLikesTop5Dto projectLikesTop5Dto = new ProjectLikesTop5Dto(projectGetResponseDtoList);
+        return projectLikesTop5Dto;
+    }
 }
