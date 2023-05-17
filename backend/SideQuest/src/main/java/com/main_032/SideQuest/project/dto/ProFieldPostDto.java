@@ -5,5 +5,5 @@ import lombok.Getter;
 import java.util.List;
 @Getter
 public class ProFieldPostDto {
-    private List<String> filedList;
+    private List<String> fieldList;
 }

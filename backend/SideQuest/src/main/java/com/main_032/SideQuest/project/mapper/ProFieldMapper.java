@@ -13,8 +13,8 @@ public class ProFieldMapper {
 
     public List<ProField> proFieldPostDtoToProFieldList (Project project, ProFieldPostDto proFieldPostDto) {
         List<ProField> proFieldList = new ArrayList<>();
-        for (int i = 0; i < proFieldPostDto.getFiledList().size(); i++) {
-            ProField proField = new ProField(project, proFieldPostDto.getFiledList().get(i));
+        for (int i = 0; i < proFieldPostDto.getFieldList().size(); i++) {
+            ProField proField = new ProField(project, proFieldPostDto.getFieldList().get(i));
             proFieldList.add(proField);
         }
         return proFieldList;
