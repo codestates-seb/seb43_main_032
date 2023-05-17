@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import MainPost from '../MainPost';
 import { Form } from '@/types/types';
@@ -8,6 +8,8 @@ import { api } from '@/util/api';
 import { useCommunity } from '@/hooks/react-query/useCommunity';
 import { Community } from '@/types/community';
 import Message from '../Message';
+import { UserState } from '@/types/user';
+import { getUserData } from '@/util/api/user';
 
 export default function CommunityForm() {
   const router = useRouter();
@@ -18,12 +20,19 @@ export default function CommunityForm() {
     address,
     queryKey,
   });
+  const data = communityQuery.data?.data;
 
   const { register, watch } = useForm<Form>();
   const [editor, setEditor] = useState('');
   const changeContent = (value: string) => {
     setEditor(value);
   };
+
+  //작성자 데이터
+  const [writerState, setWriterState] = useState<UserState>();
+  useEffect(() => {
+    if (data) getUserData(data?.id).then((res) => setWriterState(res));
+  }, [communityQuery.isLoading]);
 
   const postCommunity = () => {
     const data = {
@@ -52,7 +61,7 @@ export default function CommunityForm() {
           data && {
             title: data.title,
             content: data.content,
-            position: data.position,
+            position: '백엔드',
           }
         }
       />

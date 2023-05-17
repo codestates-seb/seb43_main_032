@@ -9,7 +9,7 @@ import Message from '../Message';
 import Btn from '../button/Btn';
 import { useCommunity } from '@/hooks/react-query/useCommunity';
 import { Community } from '@/types/community';
-import { COMMUNITY } from '@/dummy/community';
+
 const ReactMarkdown = dynamic(() => import('@/components/editor/ContentBox'), {
   ssr: false,
   loading: () => <ContentSkeleton />,
@@ -31,52 +31,54 @@ const ViewCommunity = () => {
     address,
     queryKey,
   });
-  const data = COMMUNITY[0];
+
+  const data = communityQuery.data?.data;
 
   if (communityQuery.isLoading) return <Message>로딩중입니다.</Message>;
   if (communityQuery.error)
     return <Message>잠시 후 다시 시도해주세요.</Message>;
-  return (
-    <Container>
-      <Top>
-        <div className="left">
-          <div className="title">{data.title}</div>
-          <div className="date">{data.createdAt}</div>
-        </div>
-        <div className="right">
-          <img src={data.avatar}></img>
-          <div className="userBox nanum-bold userStar">
-            <FaHeart color="red" /> {data.userStar}
+  if (data)
+    return (
+      <Container>
+        <Top>
+          <div className="left">
+            <div className="title">{data.title}</div>
+            {/* <div className="date">{data.createdAt}</div> */}
           </div>
-          <div className="userBox nanum-bold userMail">
-            {data.email.split('@')[0]}
+          <div className="right">
+            <img src={data.profileImageUrl}></img>
+            <div className="userBox nanum-bold userStar">
+              <FaHeart color="red" /> {data.totalStar}
+            </div>
+            <div className="userBox nanum-bold userMail">
+              {/* {data.email.split('@')[0]} */}
+            </div>
           </div>
-        </div>
-      </Top>
-      <Bottom>
-        <div className="content">
-          <ReactMarkdown
-            content={data.content}
-            backColor="white"
-          ></ReactMarkdown>
-        </div>
-        <div className="comment">
-          <Editor />
-          <Btn>
-            <span>제출하기</span>
-          </Btn>
-          <div className="each">
-            {/* 임시로 el.id가 없기 때문에 i 활용 중 */}
-            {data.comment.map((el, i) => (
-              <div key={i} className="box">
-                <div>{i}</div>
-              </div>
-            ))}
+        </Top>
+        <Bottom>
+          <div className="content">
+            <ReactMarkdown
+              content={data.content}
+              backColor="white"
+            ></ReactMarkdown>
           </div>
-        </div>
-      </Bottom>
-    </Container>
-  );
+          <div className="comment">
+            <Editor />
+            <Btn>
+              <span>제출하기</span>
+            </Btn>
+            <div className="each">
+              {/* 임시로 el.id가 없기 때문에 i 활용 중 */}
+              {/* {data.comment.map((el, i) => (
+                <div key={i} className="box">
+                  <div>{i}</div>
+                </div>
+              ))} */}
+            </div>
+          </div>
+        </Bottom>
+      </Container>
+    );
 };
 
 export default ViewCommunity;

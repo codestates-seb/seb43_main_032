@@ -49,13 +49,15 @@ const Home = () => {
         data={projectData}
         title={'인기 프로젝트'}
       />
-      {/* <CommunityCardBox
+      <CommunityCardBox
         skeleton={
-          communityQuery.isLoading && <CommunityItemSkeleton count={5} />
+          (communityQuery.isLoading || communityData.length === 0) && (
+            <CommunityItemSkeleton count={5} />
+          )
         }
         data={communityData}
         title={'인기 커뮤니티'}
-      /> */}
+      />
       <ProjectCardBox
         skeleton={isLoading && <ProjectSkeleton />}
         data={projectData}
