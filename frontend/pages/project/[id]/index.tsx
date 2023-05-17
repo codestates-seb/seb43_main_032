@@ -17,10 +17,10 @@ import { getUserData } from '@/util/api/user';
 import { useRecoilValue } from 'recoil';
 import { loggedInUserState } from '@/recoil/atom';
 import { UserState } from '@/types/user';
-import { api } from '@/util/api';
 import hljs from 'highlight.js';
 import EiditorSkeleton from '@/components/skeleton/EiditorSkeleton';
 import Pagenation from '@/components/Pagenation';
+import { BUTTON_STATE } from '@/constant/constant';
 const ReactMarkdown = dynamic(() => import('@/components/editor/ContentBox'), {
   ssr: false,
   loading: () => <ContentSkeleton />,
@@ -59,9 +59,19 @@ const ViewProject = () => {
   const project = ['1', '2', '3', '4', '5', '6', '7', '8', '9'];
 
   //프로젝트 데이터 요청
-  const { projectQuery, updateJob, updateHeart, updateState } = useProject();
+  const {
+    projectQuery,
+    updateJob,
+    updateHeart,
+    updateState,
+    projectEvent,
+    deleteProject,
+    moveEdit,
+  } = useProject();
+  //데이터 치환
   const data = projectQuery.data?.data;
-  //직군 관련
+
+  //직군 데이터 관련
   const positions = data?.positionCrewList;
 
   //작성자 및 유저 데이터
@@ -80,35 +90,6 @@ const ViewProject = () => {
   //     updateState.mutate(2);
   //   }
   // }, [projectQuery.data]);
-
-  //프로젝트 진행상황 관리 이벤트
-  const projectEvent = (state: string) => {
-    if (state === '모집 완료' && confirm('정말 프로젝트를 시작하시겠습니까?')) {
-      updateState.mutate(3);
-    }
-    if (state === '진행 중' && confirm('정말 프로젝트를 종료하시겠습니까?')) {
-      updateState.mutate(4);
-    }
-  };
-
-  //프로젝트 삭제
-  const deleteProject = () => {
-    if (confirm('정말 삭제하시겠습니까?'))
-      api.delete(`/project/${data?.projectId}`).then(() => router.push('/'));
-  };
-
-  //edit 이동
-  const moveEdit = () => {
-    if (confirm('정말 수정하시겠습니까?')) router.push(`${router.asPath}/edit`);
-  };
-
-  //세부 기능 추가 이후에 업데이트 해야할듯??? 아마도 숫자 관리가 아닌 only string 일듯?
-  const buttonState: { [key: string]: string } = {
-    '모집 중': '',
-    '모집 완료': '프로젝트 시작',
-    '진행 중': '프로젝트 종료',
-    종료: '팀원 리뷰',
-  };
 
   //댓글 editor 관리
   const [commentVal, setCommentVal] = useState('');
@@ -236,7 +217,7 @@ const ViewProject = () => {
           <div>
             {data.status !== '모집 중' && (
               <button onClick={() => projectEvent(data.status)}>
-                {buttonState[data.status]}
+                {BUTTON_STATE[data.status]}
               </button>
             )}
           </div>

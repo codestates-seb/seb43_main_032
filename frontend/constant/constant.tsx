@@ -287,3 +287,9 @@ export const COMMUNITY_CATEGORY: CommunityCategory[] = [
   },
 ];
 
+export const BUTTON_STATE: { [key: string]: string } = {
+  '모집 중': '',
+  '모집 완료': '프로젝트 시작',
+  '진행 중': '프로젝트 종료',
+  종료: '팀원 리뷰',
+};
