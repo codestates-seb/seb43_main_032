@@ -46,4 +46,8 @@ public class ProAcceptedCrew extends BaseEntity {
     public void updatePosition(String position) {
         this.position = position;
     }
+
+    public void updateDeleted(boolean deleted) {
+        this.deleted = deleted;
+    }
 }

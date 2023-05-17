@@ -254,4 +254,27 @@ public class ProjectService {
         ProjectLikesTop5Dto projectLikesTop5Dto = new ProjectLikesTop5Dto(projectGetResponseDtoList);
         return projectLikesTop5Dto;
     }
+
+    public void cancelAcceptedApply(Long projectId, ProCancelAcceptedApplyDto proCancelAcceptedApplyDto) {
+        Member member = memberService.getLoginMember();
+        Project project = getProjectById(projectId);
+        List<ProPositionCrew> proPositionCrewList = project.getProPositionCrewList();
+        List<ProAcceptedCrew> proAcceptedCrewList = project.getProAcceptedCrewList();
+
+        for (int i = 0; i < proAcceptedCrewList.size(); i++) {
+            if(proAcceptedCrewList.get(i).getMemberId() == member.getId() &&
+            proAcceptedCrewList.get(i).getPosition().equals(proCancelAcceptedApplyDto.getPosition())) {
+                proAcceptedCrewService.deleteAcceptedCrew(proAcceptedCrewList.get(i));
+                proAcceptedCrewList.remove(proAcceptedCrewList.get(i));
+            }
+        }
+
+        for (int i = 0; i < proPositionCrewList.size(); i++) {
+            if(proPositionCrewList.get(i).getPosition().equals(proCancelAcceptedApplyDto.getPosition())) {
+                proPositionCrewList.get(i).minusAcceptedNumber();
+            }
+        }
+
+        projectRepository.save(project);
+    }
 }

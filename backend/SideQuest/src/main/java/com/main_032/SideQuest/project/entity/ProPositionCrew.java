@@ -37,4 +37,8 @@ public class ProPositionCrew extends BaseEntity {
     public void plusAcceptedNumber() {
         this.acceptedNumber += 1;
     }
+
+    public void minusAcceptedNumber() {
+        this.acceptedNumber -= 1;
+    }
 }

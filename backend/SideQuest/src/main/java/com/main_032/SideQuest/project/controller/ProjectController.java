@@ -71,6 +71,13 @@ public class ProjectController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    @ApiOperation(value = "수락 된 지원자 지원 취소")
+    @PostMapping("/project/{project-id}/cancel-accepted-apply")
+    public ResponseEntity<Void> cancelAcceptedApply(@PathVariable(name = "project-id") Long projectId, @RequestBody ProCancelAcceptedApplyDto proCancelAcceptedApplyDto) {
+        projectService.cancelAcceptedApply(projectId, proCancelAcceptedApplyDto);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
     @ApiOperation(value = "프로젝트 지원자 리스트 조회")
     @GetMapping("/project/{project-id}/applicant-list")
     public ResponseEntity<SingleResponseDto<List<ProApplyCrewResponseDto>>> getApplyCrewList(@PathVariable(name = "project-id") Long projectId) {
