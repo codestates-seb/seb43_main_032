@@ -99,4 +99,12 @@ public class ProjectController {
         projectService.updateProjectStatus(projectId, proUpdateStatusDto);
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
+    @ApiOperation(value = "조회수 TOP 5 프로젝트 조회")
+    @GetMapping("/project/views-top5")
+    public ResponseEntity<SingleResponseDto<ProjectViewsTop5Dto>> getViewsTop5Project() {
+        ProjectViewsTop5Dto projectViewsTop5Dto = projectService.getViewsTop5Project();
+
+        return new ResponseEntity<>(new SingleResponseDto(projectViewsTop5Dto), HttpStatus.OK);
+    }
 }

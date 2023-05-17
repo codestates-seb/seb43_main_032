@@ -13,6 +13,7 @@ import com.main_032.SideQuest.util.exception.ExceptionCode;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
@@ -228,5 +229,17 @@ public class ProjectService {
         Project project = getProjectById(projectId);
         project.updateStatus(proUpdateStatusDto.getStatus());
         projectRepository.save(project);
+    }
+
+    public ProjectViewsTop5Dto getViewsTop5Project() {
+        Pageable pageable = PageRequest.of(0, 5);
+        List<Project> projectList = projectRepository.getTop5ViewsProjects(pageable);
+        List<ProjectGetResponseDto> projectGetResponseDtoList = new ArrayList<>();
+        for (int i = 0; i < projectList.size(); i++) {
+            ProjectGetResponseDto projectGetResponseDto = projectMapper.projectToProjectGetResponseDto(projectList.get(i));
+            projectGetResponseDtoList.add(projectGetResponseDto);
+        }
+        ProjectViewsTop5Dto projectViewsTop5Dto = new ProjectViewsTop5Dto(projectGetResponseDtoList);
+        return projectViewsTop5Dto;
     }
 }
