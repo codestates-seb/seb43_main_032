@@ -12,6 +12,22 @@ export async function getUsers(): Promise<IUser[]> {
 }
 
 export async function getUserById(id: number): Promise<IUser> {
-  return api(`/users/${id}`) //
+  return api(`/member/info/${id}`) //
     .then((res) => res.data);
 }
+
+export const setUserState = async () => {
+  const data = await api('/member/info').then((res) => res.data.data);
+  if (data) {
+    return data;
+  }
+  return null;
+};
+
+export const getUserData = async (id: number) => {
+  const data = await api(`/member/info/${id}`).then((res) => res.data.data);
+  if (data) {
+    return data;
+  }
+  return null;
+};

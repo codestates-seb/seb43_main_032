@@ -13,17 +13,15 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import Position from '@/components/Position';
 import Message from '@/components/Message';
-import Btn from '@/components/button/Btn';
+import { getUserData } from '@/util/api/user';
+import { useRecoilValue } from 'recoil';
+import { loggedInUserState } from '@/recoil/atom';
 const ReactMarkdown = dynamic(() => import('@/components/editor/ContentBox'), {
   ssr: false,
   loading: () => <ContentSkeleton />,
 });
 
 const ViewProject = () => {
-  const [userHeart, setUserHeart] = useState(false);
-  const project = ['1', '2', '3', '4', '5', '6', '7', '8', '9'];
-  // 110~ 프로젝트 갯수
-
   const router = useRouter();
   useEffect(() => {
     window.scrollTo({
@@ -32,12 +30,25 @@ const ViewProject = () => {
       behavior: 'smooth',
     });
   }, [router]);
-  //react-query
+
+  //임시 데이터
+  const [userHeart, setUserHeart] = useState(false);
+  const project = ['1', '2', '3', '4', '5', '6', '7', '8', '9'];
+
+  //프로젝트 데이터 요청
   const { projectQuery, updateJob, updateHeart, updateState } = useProject();
   const data = projectQuery.data?.data;
-
   //직군 관련
   const positions = data?.positionCrewList;
+
+  //유저 데이터 요청
+  const loggedInUser = useRecoilValue(loggedInUserState);
+  console.log(loggedInUser);
+  const [writerState, setWriterState] = useState({});
+  console.log(writerState);
+  useEffect(() => {
+    if (data) getUserData(data?.memberId).then((res) => setWriterState(res));
+  }, [projectQuery]);
 
   //모든 지원이 꽉 찼을 때, 일어나는 이펙트
   // useEffect(() => {
@@ -202,9 +213,7 @@ const ViewProject = () => {
               <div>
                 <span>조회 수</span> : {data.views}
               </div>
-              <div>
-                {/* <span>댓글 수</span> : {data.comment.length} */}
-              </div>
+              <div>{/* <span>댓글 수</span> : {data.comment.length} */}</div>
             </div>
           </div>
           <ReactMarkdown content={data.content} />
