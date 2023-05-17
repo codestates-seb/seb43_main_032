@@ -20,7 +20,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 @Api(tags = {"Community"}, description = "커뮤니티 API")
 @RestController
-@RequestMapping("/comments")
+@RequestMapping("/community")
 public class CommunityController {
 
     private final CommentService commentService;
@@ -45,6 +45,7 @@ public class CommunityController {
                                                                   @RequestParam("email") String email) {
         return ResponseEntity.status(HttpStatus.CREATED).body(commentService.createProjectComment(commentProjectDto, email));
     }
+
     @ApiOperation(value = "댓글에 좋아요 추가")
     @PostMapping("/comment/likes")
     public ResponseEntity<Likes> likeComment(@RequestBody LikesPostDto likesPostDto,

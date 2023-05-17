@@ -1,5 +1,6 @@
 package com.main_032.SideQuest.member.entity;
 
+import com.main_032.SideQuest.image.entity.ImageEntity;
 import com.main_032.SideQuest.util.entity.BaseEntity;
 import lombok.Getter;
 
@@ -53,6 +54,10 @@ public class Member extends BaseEntity {
     @Column(columnDefinition = "TINYINT")
     private boolean deleted;
 
+    @OneToOne(orphanRemoval = true, cascade = CascadeType.ALL)
+    @org.hibernate.annotations.Cache(usage = org.hibernate.annotations.CacheConcurrencyStrategy.READ_WRITE)
+    private ImageEntity imgUrl;
+
     public void updateId(Long id) {
         this.id = id;
     }
@@ -99,5 +104,9 @@ public class Member extends BaseEntity {
 
     public boolean getDeleted() {
         return deleted;
+    }
+
+    public Member(ImageEntity imgUrl) {
+        this.imgUrl = imgUrl;
     }
 }
