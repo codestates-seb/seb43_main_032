@@ -167,4 +167,38 @@ public class ProjectService {
         Project project = findProject.get();
         return project;
     }
+
+    public void acceptApplicant(Long projectId, Long memberId) {
+        Project project = getProjectById(projectId);
+        List<ProPositionCrew> proPositionCrewList = project.getProPositionCrewList();
+        List<ProApplyCrew> proApplyCrewList = project.getProApplyCrewList();
+        List<ProAcceptedCrew> proAcceptedCrewList = project.getProAcceptedCrewList();
+
+        ProApplyCrew proApplyCrew = proApplyCrewService.getProApplyCrew(projectId, memberId);
+
+        ProAcceptedCrew proAcceptedCrew = new ProAcceptedCrew();
+        proAcceptedCrew.updateProject(project);
+        proAcceptedCrew.updateMemberId(memberId);
+        proAcceptedCrew.updatePosition(proApplyCrew.getPosition());
+
+        proAcceptedCrewList.add(proAcceptedCrew);
+        proAcceptedCrewService.saveProAcceptedCrew(proAcceptedCrew);
+
+        for (int i = 0; i < proPositionCrewList.size(); i++) {
+            if (proPositionCrewList.get(i).getPosition().equals(proApplyCrew.getPosition())) {
+                proPositionCrewList.get(i).plusAcceptedNumber();
+                proPositionCrewService.saveProPositionCrew(proPositionCrewList.get(i));
+            }
+        }
+
+        for (int i = 0; i < proApplyCrewList.size(); i++) {
+            if (proApplyCrewList.get(i).getPosition().equals(proApplyCrew.getPosition()) &&
+                    proApplyCrewList.get(i).getMemberId() == proApplyCrew.getMemberId()) {
+                proApplyCrewService.deleteApplyCrew(proApplyCrewList.get(i));
+                proApplyCrewList.remove(proApplyCrewList.get(i));
+            }
+        }
+
+        projectRepository.save(project);
+    }
 }

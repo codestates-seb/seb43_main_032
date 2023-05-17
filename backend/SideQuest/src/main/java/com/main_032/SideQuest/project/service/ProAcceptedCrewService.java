@@ -2,13 +2,18 @@ package com.main_032.SideQuest.project.service;
 
 import com.main_032.SideQuest.project.dto.ProAcceptedCrewResponseDto;
 import com.main_032.SideQuest.project.entity.ProAcceptedCrew;
+import com.main_032.SideQuest.project.repository.ProAcceptedCrewRepository;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@AllArgsConstructor
 public class ProAcceptedCrewService {
+    private final ProAcceptedCrewRepository proAcceptedCrewRepository;
+
     public List<ProAcceptedCrewResponseDto> proAcceptedCrewToProAcceptedCrewDtoList(List<ProAcceptedCrew> proAcceptedCrewList) {
         List<ProAcceptedCrewResponseDto> proAcceptedCrewResponseDtoList = new ArrayList<>();
         for (int i = 0; i < proAcceptedCrewList.size(); i++) {
@@ -17,5 +22,9 @@ public class ProAcceptedCrewService {
             proAcceptedCrewResponseDtoList.add(proAcceptedCrewResponseDto);
         }
         return proAcceptedCrewResponseDtoList;
+    }
+
+    public void saveProAcceptedCrew(ProAcceptedCrew proAcceptedCrew) {
+        proAcceptedCrewRepository.save(proAcceptedCrew);
     }
 }

@@ -23,69 +23,66 @@ public class ProjectController {
     }
 
     @ApiOperation(value = "프로젝트 생성")
-    @PostMapping("/project/post")
+    @PostMapping("/project")
     public ResponseEntity<Void> postProject(@RequestBody ProjectPostDto projectPostDto) {
         projectService.postProject(projectPostDto);
-        return ResponseEntity.status(HttpStatus.OK).build();
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @ApiOperation(value = "프로젝트 수정")
-    @PatchMapping("/project/update/{projectId}")
-    public ResponseEntity<Void> updateProject(@PathVariable(name = "projectId") Long projectId, @RequestBody ProjectPatchDto projectPatchDto) {
+    @PatchMapping("/project/{project-id}")
+    public ResponseEntity<Void> updateProject(@PathVariable(name = "project-id") Long projectId, @RequestBody ProjectPatchDto projectPatchDto) {
         projectService.updateProject(projectId, projectPatchDto);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @ApiOperation(value = "프로젝트 상세 조회")
-    @GetMapping("/project/{projectId}")
-    public ResponseEntity<SingleResponseDto<ProjectGetResponseDto>> getProject(@PathVariable(name = "projectId") Long projectId) {
+    @GetMapping("/project/{project-id}")
+    public ResponseEntity<SingleResponseDto<ProjectGetResponseDto>> getProject(@PathVariable(name = "project-id") Long projectId) {
         SingleResponseDto<ProjectGetResponseDto> singleResponseDto = projectService.getProject(projectId);
-        ResponseEntity<SingleResponseDto<ProjectGetResponseDto>> responseEntity = new ResponseEntity<>(singleResponseDto, HttpStatus.OK);
-        return responseEntity;
+        return new ResponseEntity<>(singleResponseDto, HttpStatus.OK);
     }
 
     @ApiOperation(value = "프로젝트 리스트 조회")
     @GetMapping("/project/findAll")
     public ResponseEntity<MultiResponseDto<ProjectGetResponseDto>> getAllProjects(@RequestParam int page, @RequestParam int size) {
         MultiResponseDto<ProjectGetResponseDto> multiResponseDto = projectService.getAllProjects(page - 1, size);
-        ResponseEntity<MultiResponseDto<ProjectGetResponseDto>> responseEntity = new ResponseEntity<>(multiResponseDto, HttpStatus.OK);
-        return responseEntity;
+        return new ResponseEntity<>(multiResponseDto, HttpStatus.OK);
     }
 
     @ApiOperation(value = "프로젝트 삭제")
-    @DeleteMapping("/project/{projectId}")
-    public ResponseEntity<Void> deleteProject(@PathVariable(name = "projectId") Long projectId) {
+    @DeleteMapping("/project/{project-id}")
+    public ResponseEntity<Void> deleteProject(@PathVariable(name = "project-id") Long projectId) {
         projectService.deleteProject(projectId);
-        ResponseEntity responseEntity = new ResponseEntity(HttpStatus.OK);
-        return responseEntity;
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @ApiOperation(value = "프로젝트 지원")
-    @PostMapping("/project/apply/{projectId}")
-    public ResponseEntity<Void> applyProject(@PathVariable(name = "projectId") Long projectId, @RequestBody ProjectApplyPostDto projectApplyPostDto) {
+    @PostMapping("/project/{project-id}/apply")
+    public ResponseEntity<Void> applyProject(@PathVariable(name = "project-id") Long projectId, @RequestBody ProjectApplyPostDto projectApplyPostDto) {
         projectService.applyProject(projectId, projectApplyPostDto);
-        ResponseEntity responseEntity = new ResponseEntity(HttpStatus.OK);
-        return responseEntity;
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @ApiOperation(value = "프로젝트 지원 취소")
-    @PostMapping("/project/cancelApply/{projectId}")
-    public ResponseEntity<Void> cancelApplyProject(@PathVariable(name = "projectId") Long projectId, @RequestBody ProjectCancelApplyPostDto projectCancelApplyPostDto) {
+    @PostMapping("/project/{project-id}/cancel-apply")
+    public ResponseEntity<Void> cancelApplyProject(@PathVariable(name = "project-id") Long projectId, @RequestBody ProjectCancelApplyPostDto projectCancelApplyPostDto) {
         projectService.cancelApply(projectId, projectCancelApplyPostDto);
-        ResponseEntity responseEntity = new ResponseEntity(HttpStatus.OK);
-        return responseEntity;
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @ApiOperation(value = "프로젝트 지원자 리스트 조회")
-    @GetMapping("/project/applyList/{projectId}")
-    public ResponseEntity<SingleResponseDto<List<ProApplyCrewResponseDto>>> getApplyCrewList(@PathVariable(name = "projectId") Long projectId) {
+    @GetMapping("/project/{project-id}/applicant-list")
+    public ResponseEntity<SingleResponseDto<List<ProApplyCrewResponseDto>>> getApplyCrewList(@PathVariable(name = "project-id") Long projectId) {
         List<ProApplyCrewResponseDto> proApplyCrewResponseDtoList = projectService.getApplyCrewList(projectId);
         SingleResponseDto<List<ProApplyCrewResponseDto>> singleResponseDto = new SingleResponseDto<>(proApplyCrewResponseDtoList);
-        ResponseEntity<SingleResponseDto<List<ProApplyCrewResponseDto>>> responseEntity = new ResponseEntity<>(singleResponseDto, HttpStatus.OK);
-        return responseEntity;
+        return new ResponseEntity<>(singleResponseDto, HttpStatus.OK);
     }
 
-//    @ApiOperation(value = "프로젝트 지원자 수락/거절")
-//    @PostMapping("/project/acceptApplicant")
-
+    @ApiOperation(value = "프로젝트 지원자 수락")
+    @PostMapping("/project/{project-id}/accept/{member-id}")
+    public ResponseEntity<Void> acceptApplicant(@PathVariable(name = "project-id") Long projectId, @PathVariable(name = "member-id") Long memberId) {
+        projectService.acceptApplicant(projectId, memberId);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 }

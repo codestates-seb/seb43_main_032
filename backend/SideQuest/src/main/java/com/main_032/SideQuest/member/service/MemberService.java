@@ -113,7 +113,7 @@ public class MemberService {
         return singleResponseDto;
     }
 
-    private Member getMember(Long memberId) {
+    public Member getMember(Long memberId) {
         Optional<Member> findMember = memberRepository.findById(memberId);
         findMember.orElseThrow(() -> new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
         Member member = findMember.get();

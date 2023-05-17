@@ -45,4 +45,8 @@ public class ProPositionCrewService {
         }
         return proPositionCrewResponseDtoList;
     }
+
+    public void saveProPositionCrew(ProPositionCrew proPositionCrew) {
+        proPositionCrewRepository.save(proPositionCrew);
+    }
 }

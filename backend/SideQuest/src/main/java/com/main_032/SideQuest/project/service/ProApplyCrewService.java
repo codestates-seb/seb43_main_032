@@ -33,4 +33,17 @@ public class ProApplyCrewService {
         }
         proApplyCrewRepository.save(proApplyCrew);
     }
+
+    public ProApplyCrew getProApplyCrew(Long projectId, Long memberId) {
+        Optional<ProApplyCrew> findProApplyCrew = proApplyCrewRepository.findByMemberIdAndProjectIdAndDeleted(memberId, projectId, false);
+        findProApplyCrew.orElseThrow(() -> new BusinessLogicException(ExceptionCode.APPLY_CREW_NOT_FOUND));
+        ProApplyCrew proApplyCrew = findProApplyCrew.get();
+        return proApplyCrew;
+    }
+
+    @Transactional
+    public void deleteApplyCrew(ProApplyCrew proApplyCrew) {
+        proApplyCrew.updateDeleted(true);
+        proApplyCrewRepository.save(proApplyCrew);
+    }
 }
