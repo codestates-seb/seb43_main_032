@@ -3,7 +3,7 @@ package com.main_032.SideQuest.community.service;
 import com.main_032.SideQuest.community.dto.LikesPostDto;
 import com.main_032.SideQuest.community.entity.Likes;
 import com.main_032.SideQuest.community.entity.Comment;
-import com.main_032.SideQuest.community.repository.Commnet.CommentRepository;
+import com.main_032.SideQuest.community.repository.CommentRepository;
 import com.main_032.SideQuest.community.repository.LikesRepository;
 import com.main_032.SideQuest.member.entity.Member;
 import com.main_032.SideQuest.member.repository.MemberRepository;
