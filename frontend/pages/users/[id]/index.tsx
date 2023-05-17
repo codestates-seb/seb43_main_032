@@ -5,7 +5,6 @@ import { useRouter } from 'next/router';
 import UserProfile from '@/components/user/UserProfile';
 import { useEffect, useState } from 'react';
 import useUser from '@/hooks/react-query/useUser';
-import { USERS } from '@/dummy/users';
 
 //유저 페이지 입니다. 경로 '/user/[id]'  예시 >>  /user/1
 const UserInfoContainer = styled.div`

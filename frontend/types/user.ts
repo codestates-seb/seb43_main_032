@@ -18,9 +18,11 @@ export type UserState = {
   aboutMe: string;
   email: string;
   name: string;
+  location: string;
   phone: string;
   position: string;
   profileImageUrl: string;
+  techList: string[];
   totalStar: number;
   yearOfDev: number;
 };

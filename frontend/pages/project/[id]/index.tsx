@@ -13,18 +13,17 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import Position from '@/components/Position';
 import Message from '@/components/Message';
-import Btn from '@/components/button/Btn';
-import { PROJECTS } from '@/dummy/project';
+import { getUserData } from '@/util/api/user';
+import { useRecoilValue } from 'recoil';
+import { loggedInUserState } from '@/recoil/atom';
+import { UserState } from '@/types/user';
+import { api } from '@/util/api';
 const ReactMarkdown = dynamic(() => import('@/components/editor/ContentBox'), {
   ssr: false,
   loading: () => <ContentSkeleton />,
 });
 
 const ViewProject = () => {
-  const [userHeart, setUserHeart] = useState(false);
-  const project = ['1', '2', '3', '4', '5', '6', '7', '8', '9'];
-  // 110~ 프로젝트 갯수
-
   const router = useRouter();
   useEffect(() => {
     window.scrollTo({
@@ -33,12 +32,23 @@ const ViewProject = () => {
       behavior: 'smooth',
     });
   }, [router]);
-  //react-query
+
+  //임시 데이터
+  const [userHeart, setUserHeart] = useState(false);
+  const project = ['1', '2', '3', '4', '5', '6', '7', '8', '9'];
+
+  //프로젝트 데이터 요청
   const { projectQuery, updateJob, updateHeart, updateState } = useProject();
   const data = projectQuery.data?.data;
-
   //직군 관련
   const positions = data?.positionCrewList;
+
+  //작성자 및 유저 데이터
+  const loggedInUser = useRecoilValue(loggedInUserState);
+  const [writerState, setWriterState] = useState<UserState>();
+  useEffect(() => {
+    if (data) getUserData(data?.memberId).then((res) => setWriterState(res));
+  }, [projectQuery.isLoading]);
 
   //모든 지원이 꽉 찼을 때, 일어나는 이펙트
   // useEffect(() => {
@@ -60,9 +70,15 @@ const ViewProject = () => {
     }
   };
 
+  //프로젝트 삭제
+  const deleteProject = () => {
+    if (confirm('정말 삭제하시겠습니까?'))
+      api.delete(`/project/${data?.projectId}`).then(() => router.push('/'));
+  };
+
   //edit 이동
   const moveEdit = () => {
-    router.push(`${router.asPath}/edit`);
+    if (confirm('정말 수정하시겠습니까?')) router.push(`${router.asPath}/edit`);
   };
 
   //세부 기능 추가 이후에 업데이트 해야할듯??? 아마도 숫자 관리가 아닌 only string 일듯?
@@ -94,22 +110,24 @@ const ViewProject = () => {
                   src="https://noticon-static.tammolo.com/dgggcrkxq/image/upload/v1567008394/noticon/ohybolu4ensol1gzqas1.png"
                   alt="author"
                 />
-                {/* <div className="user-title">{data.author}</div> */}
+                <div className="user-title">{writerState?.name}</div>
                 <div className="noto-medium">
                   <Position text={data.writerPosition} />
                 </div>
-                <div
-                  className="saveStar"
-                  onClick={() => setUserHeart(!userHeart)}
-                >
-                  <span className="icon-box">
-                    {userHeart ? (
-                      <AiOutlineHeart fill={'#ececec'} />
-                    ) : (
-                      <AiFillHeart fill="red" />
-                    )}
-                  </span>
-                </div>
+                {writerState?.email !== loggedInUser?.email && (
+                  <div
+                    className="saveStar"
+                    onClick={() => setUserHeart(!userHeart)}
+                  >
+                    <span className="icon-box">
+                      {userHeart ? (
+                        <AiOutlineHeart fill={'#ececec'} />
+                      ) : (
+                        <AiFillHeart fill="red" />
+                      )}
+                    </span>
+                  </div>
+                )}
               </div>
               <div className="detail-box">
                 <div className="detail-sub-box">
@@ -126,7 +144,9 @@ const ViewProject = () => {
                   <div className="detail-title">평가 점수</div>
                 </div>
               </div>
-              <Tag>쪽지 보내기</Tag>
+              {writerState?.email !== loggedInUser?.email && (
+                <Tag>쪽지 보내기</Tag>
+              )}
             </div>
           </div>
           <PeriodBox
@@ -190,9 +210,16 @@ const ViewProject = () => {
               {<Tag>{data.status}</Tag>}
             </div>
             <div className="right">
-              <a onClick={moveEdit} className="main-btn">
-                <span>프로젝트 수정</span>
-              </a>
+              {writerState?.email === loggedInUser?.email && (
+                <>
+                  <a onClick={deleteProject} className="main-btn">
+                    <span>프로젝트 삭제</span>
+                  </a>
+                  <a onClick={moveEdit} className="main-btn">
+                    <span>프로젝트 수정</span>
+                  </a>
+                </>
+              )}
             </div>
           </div>
           <div className="sub noto-regular-13">
@@ -203,9 +230,7 @@ const ViewProject = () => {
               <div>
                 <span>조회 수</span> : {data.views}
               </div>
-              <div>
-                {/* <span>댓글 수</span> : {data.comment.length} */}
-              </div>
+              <div>{/* <span>댓글 수</span> : {data.comment.length} */}</div>
             </div>
           </div>
           <ReactMarkdown content={data.content} />
@@ -236,6 +261,21 @@ const Main = styled.div`
   display: flex;
   flex-direction: column;
   gap: 32px;
+
+  .title {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .right {
+    display: flex;
+    gap: 16px;
+    flex-direction: column;
+  }
+
+  .main-btn {
+    cursor: pointer;
+  }
 
   > div {
     display: flex;
