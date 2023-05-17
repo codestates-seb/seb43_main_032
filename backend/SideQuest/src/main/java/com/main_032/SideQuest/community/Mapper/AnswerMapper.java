@@ -40,7 +40,8 @@ public class AnswerMapper {
                 member.getName(),
                 member.getTotalStar(),
                 answer.getTotalLikes(),
-                answer.getContent()
+                answer.getContent(),
+                answer.getCreatedAt()
                 //나중에 comment 추가
         );
         return answerResponseDto;

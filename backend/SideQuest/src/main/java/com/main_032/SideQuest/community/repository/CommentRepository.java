@@ -1,8 +1,7 @@
 package com.main_032.SideQuest.community.repository;
 
-import com.main_032.SideQuest.article.entity.Article;
+
 import com.main_032.SideQuest.community.entity.Comment;
-import com.main_032.SideQuest.project.entity.Project;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;

@@ -1,5 +1,6 @@
 package com.main_032.SideQuest.community.entity;
 
+import com.main_032.SideQuest.util.entity.BaseEntity;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -10,7 +11,7 @@ import java.util.List;
 @Entity
 @Getter
 @NoArgsConstructor
-public class Answer {
+public class Answer extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -33,8 +34,8 @@ public class Answer {
     @Column
     private int totalLikes;
 
-//    @OneToMany
-//    private List<Comment> commentList =new ArrayList<>();
+    @OneToMany(mappedBy = "answer")
+    private List<Comment> commentList =new ArrayList<>();
 
     @Column(columnDefinition = "TINYINT")
     private boolean deleted;
@@ -44,7 +45,6 @@ public class Answer {
     public void updateProjectId(Long projectId){this.projectId = projectId;}
     public void updateArticleId(Long articleId){this.articleId = articleId;}
     public void updateContent(String content){this.content = content;}
-
     public void updateDeleted(boolean deleted){this.deleted = deleted;}
     public void delete(){this.deleted = true;}
     public void restore(){this.deleted = false;}
@@ -62,6 +62,12 @@ public class Answer {
         this.category = category;
         this.memberId = memberId;
         this.content = content;
+    }
+    public void setComment(Comment comment){
+        commentList.add(comment);
+        if(comment.getAnswer() != this){
+            comment.setAnswer(this);
+        }
     }
 
 }
