@@ -171,9 +171,7 @@ const Box = styled.div`
       width: 296px;
       white-space: nowrap;
       overflow: hidden;
-      li {
-        display: inline;
-      }
+      text-overflow: ellipsis;
     }
   }
 
