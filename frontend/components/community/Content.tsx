@@ -37,7 +37,6 @@ export default function Content() {
     queryKey,
   });
   const data = communityQuery.data;
-  console.log(data)
 
   const findContentItem = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchVal(e.target.value);
@@ -93,14 +92,14 @@ export default function Content() {
       </ContentTop>
       <ContentBottom>
         <ContentItemList>
-          {data?.data?.map((article: Community) => (
+          {data?.map((article: Community) => (
             <ContentItem {...article} key={article.id} />
           ))}
         </ContentItemList>
         <Pagenation
           page={page}
           onPageChange={setPage}
-          pageSize={data && data.total ? Math.ceil(data.total / 10) : 0}
+          pageSize={data && data ? 30 : 0}
         />
       </ContentBottom>
     </Container>

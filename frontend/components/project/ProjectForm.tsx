@@ -174,6 +174,7 @@ const ProjectForm = () => {
       thumbnailImageUrl: '이미지',
       content,
     };
+    console.log(data);
 
     //수정 이벤트
     if (

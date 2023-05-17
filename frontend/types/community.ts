@@ -9,6 +9,7 @@ export type Community = {
   views: number;
   totalLikes: number;
   techStackList: FiledTag[];
+  view: number;
 };
 
 export type Comment = {
