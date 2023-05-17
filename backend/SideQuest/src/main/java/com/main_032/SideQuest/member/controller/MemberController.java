@@ -10,8 +10,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @RestController
 @Api(tags = {"Member"}, description = "멤버 API")
 public class MemberController {
@@ -41,16 +39,16 @@ public class MemberController {
 
     @ApiOperation(value = "로그인 멤버 정보 조회")
     @GetMapping("/member/info")
-    public ResponseEntity<SingleResponseDto<GetMemberResponseDto>> getLoginMemberInfo() {
-        SingleResponseDto<GetMemberResponseDto> singleResponseDto = memberService.getLoginMemberInfo();
+    public ResponseEntity<SingleResponseDto<MemberGetResponseDto>> getLoginMemberInfo() {
+        SingleResponseDto<MemberGetResponseDto> singleResponseDto = memberService.getLoginMemberInfo();
         ResponseEntity responseEntity = new ResponseEntity<>(singleResponseDto, HttpStatus.OK);
         return responseEntity;
     }
 
     @ApiOperation(value = "다른 회원 정보 조회")
     @GetMapping("/member/info/{memberId}")
-    public ResponseEntity<SingleResponseDto<GetMemberResponseDto>> getMemberInfo(@PathVariable("memberId") Long memberId) {
-        SingleResponseDto<GetMemberResponseDto> singleResponseDto = memberService.getMemberInfo(memberId);
+    public ResponseEntity<SingleResponseDto<MemberGetResponseDto>> getMemberInfo(@PathVariable("memberId") Long memberId) {
+        SingleResponseDto<MemberGetResponseDto> singleResponseDto = memberService.getMemberInfo(memberId);
         ResponseEntity responseEntity = new ResponseEntity(singleResponseDto, HttpStatus.OK);
         return responseEntity;
     }
@@ -64,9 +62,9 @@ public class MemberController {
 
     @ApiOperation(value = "멤버 리스트 조회")
     @GetMapping("/member/findAll")
-    public ResponseEntity<MultiResponseDto<GetMemberResponseDto>> getAllMembers(@RequestParam int page, @RequestParam int size) {
-        MultiResponseDto<GetMemberResponseDto> multiResponseDto = memberService.getAllMembers(page - 1, size);
-        ResponseEntity<MultiResponseDto<GetMemberResponseDto>> responseEntity = new ResponseEntity(multiResponseDto, HttpStatus.OK);
+    public ResponseEntity<MultiResponseDto<MemberGetResponseDto>> getAllMembers(@RequestParam int page, @RequestParam int size) {
+        MultiResponseDto<MemberGetResponseDto> multiResponseDto = memberService.getAllMembers(page - 1, size);
+        ResponseEntity<MultiResponseDto<MemberGetResponseDto>> responseEntity = new ResponseEntity(multiResponseDto, HttpStatus.OK);
         return responseEntity;
     }
 
