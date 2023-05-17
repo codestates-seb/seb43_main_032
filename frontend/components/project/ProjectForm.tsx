@@ -54,7 +54,8 @@ const ProjectForm = () => {
   //스택 모달 관련
   const [stack, setStack] = useState(false);
   const onModal = () => {
-    setStack(true);
+    if (stack) setStack(false);
+    if (!stack) setStack(true);
   };
   const offModal = () => {
     setStack(false);
@@ -192,13 +193,6 @@ const ProjectForm = () => {
 
   return (
     <GridBox>
-      {stack && (
-        <SelectStack
-          selectStack={offModal}
-          stacks={stacks}
-          setStacks={setStacks}
-        />
-      )}
       <Side>
         <PeriodBox
           start={start}
@@ -211,7 +205,13 @@ const ProjectForm = () => {
           tagKeyDown={tagKeyDown}
           deleteTag={deleteTag}
         />
-        <StacksBox stacks={stacks} onModal={onModal} />
+        <StacksBox
+          stacks={stacks}
+          onModal={onModal}
+          selectStack={offModal}
+          setStacks={setStacks}
+          stack={stack}
+        />
         <div className="want-box">
           <div className="title">모집을 원하는 직군</div>
           <div className="job-box">

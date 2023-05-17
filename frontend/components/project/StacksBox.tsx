@@ -2,13 +2,23 @@ import styled from 'styled-components';
 import Stack from '../stack/Stack';
 import Btn from '../button/Btn';
 import { Tech } from '@/types/project';
+import SelectStack from '../stack/SelectStack';
 
 type Props = {
   stacks: Tech[];
   onModal?: () => void;
+  selectStack: () => void;
+  setStacks: React.Dispatch<React.SetStateAction<Tech[]>>;
+  stack: boolean;
 };
 
-const StacksBox = ({ stacks, onModal }: Props) => {
+const StacksBox = ({
+  stacks,
+  onModal,
+  selectStack,
+  setStacks,
+  stack,
+}: Props) => {
   return (
     <Box>
       <div className="title">프로젝트 메인 스택</div>
@@ -30,6 +40,13 @@ const StacksBox = ({ stacks, onModal }: Props) => {
           )}
         </li>
       </ul>
+      {stack && (
+        <SelectStack
+          selectStack={selectStack}
+          stacks={stacks}
+          setStacks={setStacks}
+        />
+      )}
     </Box>
   );
 };
