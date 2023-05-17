@@ -116,6 +116,9 @@ const ProjectForm = () => {
   //직군 상태
   const [jobs, setJob] = useState<WantCrew[]>([]);
   const addJob = () => {
+    if (watch().jobVal === '') {
+      return alert('직군을 선택해주세요.');
+    }
     if (jobs.filter((job) => job.position === watch().jobVal).length > 0) {
       return alert('동일한 직군은 추가할 수 없습니다.');
     }
