@@ -13,6 +13,7 @@ import com.main_032.SideQuest.util.exception.BusinessLogicException;
 import com.main_032.SideQuest.util.exception.ExceptionCode;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
@@ -119,4 +120,34 @@ public class ArticleService {
         return findArticle;
     }
 
+    public SingleResponseDto<ArticleViewsTop5Dto> getViewsTop5Articles() {
+        Pageable pageable = PageRequest.of(0,5);
+        List<Article> articleList = articleRepository.getTop5ViewsArticles(pageable);
+        List<ArticleGetResponseDto> articleGetResponseDtoList= new ArrayList<>();
+
+        for(Article article:articleList){
+            List<ArticleTechStack> articleTechStackList = articleTechStackService.getAllarticleTechStackList(article.getId());
+            List<ArticleTechStackResponseDto> articleTechStackResponseDtoList =
+                    mapper.articleTechStackListToArticleTechStackResponseDtoList(articleTechStackList);
+            ArticleGetResponseDto response = mapper.articleToArticleGetResponseDto(article,articleTechStackResponseDtoList);
+            articleGetResponseDtoList.add(response);
+        }
+        ArticleViewsTop5Dto response = new ArticleViewsTop5Dto(articleGetResponseDtoList);
+        return new SingleResponseDto<ArticleViewsTop5Dto>(response);
+    }
+    public SingleResponseDto<ArticleLikesTop5Dto> getLikesTop5Articles() {
+        Pageable pageable = PageRequest.of(0,5);
+        List<Article> articleList = articleRepository.getTop5LikesArticles(pageable);
+        List<ArticleGetResponseDto> articleGetResponseDtoList= new ArrayList<>();
+
+        for(Article article:articleList){
+            List<ArticleTechStack> articleTechStackList = articleTechStackService.getAllarticleTechStackList(article.getId());
+            List<ArticleTechStackResponseDto> articleTechStackResponseDtoList =
+                    mapper.articleTechStackListToArticleTechStackResponseDtoList(articleTechStackList);
+            ArticleGetResponseDto response = mapper.articleToArticleGetResponseDto(article,articleTechStackResponseDtoList);
+            articleGetResponseDtoList.add(response);
+        }
+        ArticleLikesTop5Dto response = new ArticleLikesTop5Dto(articleGetResponseDtoList);
+        return new SingleResponseDto<ArticleLikesTop5Dto>(response);
+    }
 }

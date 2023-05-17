@@ -1,7 +1,8 @@
 package com.main_032.SideQuest.article.dto;
 
 import com.main_032.SideQuest.article.entity.ArticleCategory;
-import com.main_032.SideQuest.member.dto.GetMemberResponseDto;
+import com.main_032.SideQuest.member.controller.MemberController;
+import com.main_032.SideQuest.member.dto.MemberGetResponseDto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -11,7 +12,7 @@ import java.util.List;
 @AllArgsConstructor
 public class ArticleGetResponseDto {
     private Long articleId;
-    private GetMemberResponseDto getMemberResponseDto;
+    private MemberGetResponseDto memberGetResponseDto;
     private String title;
     private String content;
     private ArticleCategory category;

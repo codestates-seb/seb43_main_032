@@ -10,6 +10,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @Api(tags = "article",description = "게시판 API")
 public class ArticleController {
@@ -68,6 +70,19 @@ public class ArticleController {
 
         return ResponseEntity.ok().build();
     }
+    @ApiOperation(value = "View Top5 조회")
+    @GetMapping("article/view-top5")
+    public ResponseEntity<SingleResponseDto<ArticleViewsTop5Dto>> getViewArticleTop5(){
+        SingleResponseDto<ArticleViewsTop5Dto> response = articleService.getViewsTop5Articles();
 
+        return ResponseEntity.ok(response);
+    }
+    @ApiOperation(value = "Likes Top5 조회")
+    @GetMapping("article/likes-top5")
+    public ResponseEntity<SingleResponseDto<ArticleLikesTop5Dto>> getLikesArticleTop5(){
+        SingleResponseDto<ArticleLikesTop5Dto> response = articleService.getLikesTop5Articles();
+
+        return ResponseEntity.ok(response);
+    }
 
 }
