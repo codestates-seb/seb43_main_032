@@ -20,7 +20,7 @@ import { UserState } from '@/types/user';
 import { api } from '@/util/api';
 import hljs from 'highlight.js';
 import EiditorSkeleton from '@/components/skeleton/EiditorSkeleton';
-import Btn from '@/components/button/Btn';
+import Pagenation from '@/components/Pagenation';
 const ReactMarkdown = dynamic(() => import('@/components/editor/ContentBox'), {
   ssr: false,
   loading: () => <ContentSkeleton />,
@@ -110,18 +110,29 @@ const ViewProject = () => {
     종료: '팀원 리뷰',
   };
 
-  //댓글 관리
+  //댓글 editor 관리
   const [commentVal, setCommentVal] = useState('');
   const changeCommentVal = (value: string) => {
     setCommentVal(value);
   };
 
+  //댓글 페이지 관리
+  const [commentPage, setCommentPage] = useState(1);
+  const commentPageHandler = (page: number) => {
+    setCommentPage(page);
+  };
+
   //임시 댓글 작성 이벤트
   const addComment = () => {
+    if (commentVal === '') {
+      return alert('내용을 작성해주세요.');
+    }
+    if (!loggedInUser) {
+      return alert('먼저 로그인을 해주세요.');
+    }
     setCommentData([...commentData, commentVal]);
     setCommentVal('');
   };
-
   const [commentData, setCommentData] = useState<string[]>([]);
 
   if (projectQuery.isLoading) return <Message>로딩중입니다.</Message>;
@@ -224,8 +235,8 @@ const ViewProject = () => {
           </div>
           <div>
             {data.status !== '모집 중' && (
-              <button onClick={() => projectEvent('모집 중')}>
-                {buttonState['모집 중']}
+              <button onClick={() => projectEvent(data.status)}>
+                {buttonState[data.status]}
               </button>
             )}
           </div>
@@ -277,16 +288,25 @@ const ViewProject = () => {
             </div>
           </div>
           <div className="comment-box">
-            <div>
+            <div className="view-comment">
               <ul>
-                {commentData.map((x) => (
-                  <li key={x}>{x}</li>
+                {commentData.map((comment, i) => (
+                  <li className="comment" key={`${comment}+${i}`}>
+                    {comment}
+                  </li>
                 ))}
               </ul>
             </div>
+            {commentData.length > 0 && (
+              <Pagenation
+                onPageChange={commentPageHandler}
+                page={commentPage}
+                pageSize={Math.ceil(commentData.length / 5)} //서버 데이터로 변경해야함
+              />
+            )}
             <div className="comment-write-box">
               <div className="comment-submit-box">
-                <Btn onClick={addComment}>댓글 작성</Btn>
+                <button onClick={addComment}>댓글 작성</button>
               </div>
               <Editor
                 content={commentVal}
@@ -313,18 +333,41 @@ const Main = styled.div`
     display: flex;
     flex-direction: column;
     font-size: 15px;
-
     > div {
       width: 100%;
     }
+
+    .view-comment {
+      ul {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+        li {
+        }
+      }
+    }
+
     .comment-write-box {
       width: 100%;
       position: relative;
       .comment-submit-box {
         position: absolute;
-        top: 13px;
+        top: 6px;
         z-index: 2;
-        right: 10px;
+        right: 6px;
+        button {
+          height: 100%;
+          padding: 10px 10px;
+          font-size: 14px;
+          border: none;
+          cursor: pointer;
+          transition: background 0.5s ease, color 0.5s ease;
+          :hover {
+            background: #9b7aff;
+            color: white;
+            border-radius: 5px;
+          }
+        }
       }
     }
   }
