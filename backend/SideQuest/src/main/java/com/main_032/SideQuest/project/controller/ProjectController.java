@@ -92,4 +92,11 @@ public class ProjectController {
         projectService.rejectApplicant(projectId, memberId);
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
+    @ApiOperation(value = "프로젝트 상태 변경")
+    @PostMapping("/project/{project-id}/status")
+    public ResponseEntity<Void> updateProjectStatus(@PathVariable(name = "project-id") Long projectId, @RequestBody ProUpdateStatusDto proUpdateStatusDto) {
+        projectService.updateProjectStatus(projectId, proUpdateStatusDto);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 }

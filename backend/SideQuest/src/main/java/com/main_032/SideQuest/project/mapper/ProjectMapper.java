@@ -29,8 +29,9 @@ public class ProjectMapper {
                 project.getEndDate(),
                 project.getThumbnailImageUrl(),
                 project.getViews(),
-                project.getStatus().getDisplayName(),
-                project.getTotalLikes()
+                project.getStatus(),
+                project.getTotalLikes(),
+                project.getCreatedAt()
         );
         return projectGetResponseDto;
     }

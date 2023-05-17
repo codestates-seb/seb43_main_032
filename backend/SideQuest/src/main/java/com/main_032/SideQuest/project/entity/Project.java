@@ -41,7 +41,7 @@ public class Project extends BaseEntity {
     private int views;
 
     @Column
-    private ProjectStatus status = ProjectStatus.PROJECT_STATUS_1;
+    private String status = "모집중";
 
     @Column
     private int totalLikes;
@@ -117,6 +117,10 @@ public class Project extends BaseEntity {
     }
     public void updateDeleted(boolean deleted) {
         this.deleted = deleted;
+    }
+
+    public void updateStatus(String status) {
+        this.status = status;
     }
 }
 

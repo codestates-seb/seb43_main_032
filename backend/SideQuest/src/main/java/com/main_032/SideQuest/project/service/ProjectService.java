@@ -168,6 +168,7 @@ public class ProjectService {
         return project;
     }
 
+    @Transactional
     public void acceptApplicant(Long projectId, Long memberId) {
         Project project = getProjectById(projectId);
         List<ProPositionCrew> proPositionCrewList = project.getProPositionCrewList();
@@ -202,6 +203,7 @@ public class ProjectService {
         projectRepository.save(project);
     }
 
+    @Transactional
     public void rejectApplicant(Long projectId, Long memberId) {
         Project project = getProjectById(projectId);
         List<ProApplyCrew> proApplyCrewList = project.getProApplyCrewList();
@@ -215,6 +217,13 @@ public class ProjectService {
             }
         }
 
+        projectRepository.save(project);
+    }
+
+    @Transactional
+    public void updateProjectStatus(Long projectId, ProUpdateStatusDto proUpdateStatusDto) {
+        Project project = getProjectById(projectId);
+        project.updateStatus(proUpdateStatusDto.getStatus());
         projectRepository.save(project);
     }
 }
