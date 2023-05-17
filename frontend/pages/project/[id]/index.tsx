@@ -41,14 +41,12 @@ const ViewProject = () => {
   //직군 관련
   const positions = data?.positionCrewList;
 
-  //유저 데이터 요청
+  //작성자 및 유저 데이터
   const loggedInUser = useRecoilValue(loggedInUserState);
-  console.log(loggedInUser);
   const [writerState, setWriterState] = useState({});
-  console.log(writerState);
   useEffect(() => {
     if (data) getUserData(data?.memberId).then((res) => setWriterState(res));
-  }, [projectQuery]);
+  }, [projectQuery.isLoading]);
 
   //모든 지원이 꽉 찼을 때, 일어나는 이펙트
   // useEffect(() => {
