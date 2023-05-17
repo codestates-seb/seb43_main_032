@@ -1,6 +1,5 @@
 import Image from 'next/image';
 import { FaUserAlt } from 'react-icons/fa';
-import { FiMenu } from 'react-icons/fi';
 import Link from 'next/link';
 import styled from 'styled-components';
 import { navModalState, userState } from '@/recoil/atom';
@@ -440,21 +439,6 @@ const NavLink = styled(Link)`
     height: 30px;
   }
 `;
-
-const Bars = styled(FiMenu)`
-  display: none;
-  color: #000;
-  @media screen and (max-width: 960px) {
-    display: block;
-    position: absolute;
-    top: 0;
-    right: 0;
-    transform: translate(-100%, 75%);
-    font-size: 1.8rem;
-    cursor: pointer;
-  }
-`;
-
 const NavMenu = styled.ul`
   display: flex;
   align-items: center;
