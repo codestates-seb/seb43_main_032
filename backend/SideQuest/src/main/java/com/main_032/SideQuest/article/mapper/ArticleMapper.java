@@ -22,10 +22,12 @@ import java.util.Optional;
 public class ArticleMapper {
     private final ArticleTechStackService articleTechStackService;
     private final MemberRepository memberRepository;
+    private final MemberService memberService;
 
-    public ArticleMapper(ArticleTechStackService articleTechStackService, MemberRepository memberRepository) {
+    public ArticleMapper(ArticleTechStackService articleTechStackService, MemberRepository memberRepository, MemberService memberService) {
         this.articleTechStackService = articleTechStackService;
         this.memberRepository = memberRepository;
+        this.memberService = memberService;
     }
 
     public Article articlePostDtoToArticle(ArticlePostDto articlePostDto){
@@ -52,9 +54,7 @@ public class ArticleMapper {
         Member member = findMember.get();
         ArticleGetResponseDto articleResponseDto = new ArticleGetResponseDto(
                 article.getId(),
-                member.getName(),
-                member.getProfileImageUrl(),
-                member.getTotalStar(),
+                memberService.getMemberInfo(article.getMemberId()).getData(),
                 article.getTitle(),
                 article.getContent(),
                 article.getCategory(),

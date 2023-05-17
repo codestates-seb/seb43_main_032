@@ -6,6 +6,7 @@ import com.main_032.SideQuest.community.dto.AnswerDto.AnswerResponseDto;
 import com.main_032.SideQuest.community.entity.Answer;
 import com.main_032.SideQuest.member.entity.Member;
 import com.main_032.SideQuest.member.repository.MemberRepository;
+import com.main_032.SideQuest.member.service.MemberService;
 import com.main_032.SideQuest.util.exception.BusinessLogicException;
 import com.main_032.SideQuest.util.exception.ExceptionCode;
 import org.springframework.stereotype.Component;
@@ -18,12 +19,14 @@ import java.util.Optional;
 @Component
 public class AnswerMapper {
     private final MemberRepository memberRepository;
+    private final MemberService memberService;
 
-    public AnswerMapper(MemberRepository memberRepository) {
+    public AnswerMapper(MemberRepository memberRepository, MemberService memberService) {
         this.memberRepository = memberRepository;
+        this.memberService = memberService;
     }
 
-    public Answer AnswerPostDtoToAnswer(AnswerPostDto answerPostDto,Long memberId){
+    public Answer AnswerPostDtoToAnswer(AnswerPostDto answerPostDto, Long memberId){
         Answer answer = new Answer(answerPostDto.getCategory(),memberId,answerPostDto.getUniteId(), answerPostDto.getContent());
         return answer;
     }
@@ -37,8 +40,7 @@ public class AnswerMapper {
 
         Member member = findmember.get();
         AnswerResponseDto answerResponseDto = new AnswerResponseDto(
-                member.getName(),
-                member.getTotalStar(),
+                memberService.getMemberInfo(answer.getMemberId()).getData(),
                 answer.getTotalLikes(),
                 answer.getContent(),
                 answer.getCreatedAt()

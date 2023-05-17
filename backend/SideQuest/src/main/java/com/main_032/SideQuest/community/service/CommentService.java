@@ -78,7 +78,7 @@ public class CommentService {
             Optional<Member> findMember = memberRepository.findById(comment.getMemberId());
             Member member=findMember.get();
             CommentResponseDto commentResponseDto = new CommentResponseDto(
-                    member.getName(),
+                    memberService.getMemberInfo(comment.getMemberId()).getData(),
                     comment.getTotalLikes(),
                     comment.getContent(),
                     comment.getCreatedAt());
@@ -96,7 +96,7 @@ public class CommentService {
             Optional<Member> findMember = memberRepository.findById(comment.getMemberId());
             Member member=findMember.get();
             CommentResponseDto commentResponseDto = new CommentResponseDto(
-                    member.getName(),
+                    memberService.getMemberInfo(comment.getMemberId()).getData(),
                     comment.getTotalLikes(),
                     comment.getContent(),
                     comment.getCreatedAt());
