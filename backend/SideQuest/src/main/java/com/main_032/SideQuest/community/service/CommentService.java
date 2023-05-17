@@ -1,15 +1,16 @@
 package com.main_032.SideQuest.community.service;
 
-import com.main_032.SideQuest.article.entity.Article;
-import com.main_032.SideQuest.article.repository.ArticleRepository;
-import com.main_032.SideQuest.community.dto.CommentDto.CommenntAriticle.CommentArticleDto;
-import com.main_032.SideQuest.community.dto.CommentDto.CommentProject.CommentProjectDto;
+import com.main_032.SideQuest.community.dto.CommentDto.CommentPatchDto;
+import com.main_032.SideQuest.community.dto.CommentDto.CommentPostDto;
+import com.main_032.SideQuest.community.dto.CommentDto.CommentResponseDto;
+import com.main_032.SideQuest.community.entity.Answer;
 import com.main_032.SideQuest.community.entity.Comment;
-import com.main_032.SideQuest.community.repository.Commnet.CommentRepository;
+import com.main_032.SideQuest.community.repository.AnswerRepository;
+import com.main_032.SideQuest.community.repository.CommentRepository;
 import com.main_032.SideQuest.member.entity.Member;
 import com.main_032.SideQuest.member.repository.MemberRepository;
-import com.main_032.SideQuest.project.entity.Project;
-import com.main_032.SideQuest.project.repository.ProjectRepository;
+import com.main_032.SideQuest.member.service.MemberService;
+import com.main_032.SideQuest.util.dto.MultiResponseDto;
 import com.main_032.SideQuest.util.exception.BusinessLogicException;
 import com.main_032.SideQuest.util.exception.ExceptionCode;
 import lombok.RequiredArgsConstructor;
@@ -18,137 +19,111 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Objects;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
 public class CommentService {
-    private final ArticleRepository articleRepository;
-    private final ProjectRepository projectRepository;
-    private final MemberRepository memberRepository;
+    private final AnswerRepository answerRepository;
+    private final MemberService memberService;
     private final CommentRepository commentRepository;
-
+    private final MemberRepository memberRepository;
     @Transactional
-    public CommentArticleDto createArticleComment(CommentArticleDto commentArticleDto, String email) {
-        Member member = getMemberOrException(email);
-        Article article = getArticleOrException(commentArticleDto.getArticleId());
-        Comment comment = Comment.builder()
-                .memberId(member.getId())
-                .article(article)
-                .content(commentArticleDto.getContent())
-                .totalLikes(0)
-                .deleted(false)
-                .build();
-        return CommentArticleDto.from(commentRepository.save(comment));
-    }
-
-    @Transactional
-    public CommentProjectDto createProjectComment(CommentProjectDto commentProjectDto, String email) {
-        Member member = getMemberOrException(email);
-        Project project = getProjectOrException(commentProjectDto.getProjectId());
-        Comment comment = Comment.builder()
-                .memberId(member.getId())
-                .project(project)
-                .content(commentProjectDto.getContent())
-                .totalLikes(0)
-                .deleted(false)
-                .build();
-        return CommentProjectDto.from(commentRepository.save(comment));
-    }
-
-    @Transactional
-    public CommentArticleDto updateArticleComment(Long commentId, CommentArticleDto commentArticleDto, String email) {
-        Member member = getMemberOrException(email);
-        Comment comment = getCommentOrException(commentId);
-        checkCommentMember(comment, member);
-        checkCommentArticle(comment, commentArticleDto.getArticleId());
-
-        comment.setContent(commentArticleDto.getContent());
-
-        return CommentArticleDto.from(commentRepository.save(comment));
-    }
-
-    @Transactional
-    public CommentProjectDto updateProjectComment(Long commentId, CommentProjectDto commentProjectDto, String email) {
-        Member member = getMemberOrException(email);
-        Comment comment = getCommentOrException(commentId);
-        checkCommentMember(comment, member);
-        checkCommentProject(comment, commentProjectDto.getProjectId());
-
-        comment.setContent(commentProjectDto.getContent());
-
-        return CommentProjectDto.from(commentRepository.save(comment));
-    }
-
-    @Transactional
-    public void deleteArticleComment(Long commentId, String email) {
-        Member member = getMemberOrException(email);
-        Comment comment = getCommentOrException(commentId);
-        checkCommentMember(comment, member);
-
-        comment.setDeleted(true);
+    public void createComment(Long answerId, CommentPostDto commentPostDto) {
+        Member member = memberService.getLoginMember();
+        Optional<Answer> findAnswer = answerRepository.findById(answerId);
+        findAnswer.orElseThrow(()-> new BusinessLogicException(ExceptionCode.ANSWER_NOT_FOUND));
+        Answer answer = findAnswer.get();
+        Comment comment = new Comment(member.getId(),
+                commentPostDto.getCategory(),
+                commentPostDto.getContent(),
+                0,
+                answer,
+                answer.getArticleId(),
+                answer.getProjectId());
+        answer.setComment(comment);
         commentRepository.save(comment);
     }
 
     @Transactional
-    public void deleteProjectComment(Long commentId, String email) {
-        Member member = getMemberOrException(email);
-        Comment comment = getCommentOrException(commentId);
-        checkCommentMember(comment, member);
+    public void updateArticleComment(Long commentId, CommentPatchDto commentPatchDto) {
+        //comment 검증
+        Comment comment =getCommentOrException(commentId);
+        // 로그인 한사람, comment에 담겨 있는 member ID 검증
+        matchMemberID(comment);
+//        checkCommentMember(comment, member);
+//        checkCommentArticle(comment, commentArticleDto.getArticleId());
 
+        comment.setContent(commentPatchDto.getContent());
+        commentRepository.save(comment);
+    }
+    @Transactional
+    public void deleteComment(Long commentId) {
+        //comment 검증
+        Comment comment =getCommentOrException(commentId);
+        // 로그인 한사람, comment에 담겨 있는 member ID 검증
+        matchMemberID(comment);
         comment.setDeleted(true);
         commentRepository.save(comment);
     }
 
+    public MultiResponseDto<CommentResponseDto> getArticleComments(Long answerId, Pageable pageable) {
+        Page<Comment> commentPage = commentRepository.findAllComment(answerId,pageable);
+        List<Comment> commentList = commentPage.getContent();
+
+        List<CommentResponseDto> response = new ArrayList<>();
+        for(Comment comment:commentList){
+            Optional<Member> findMember = memberRepository.findById(comment.getMemberId());
+            Member member=findMember.get();
+            CommentResponseDto commentResponseDto = new CommentResponseDto(
+                    memberService.getMemberInfo(comment.getMemberId()).getData(),
+                    comment.getTotalLikes(),
+                    comment.getContent(),
+                    comment.getCreatedAt());
+            response.add(commentResponseDto);
+        }
+        return new MultiResponseDto<CommentResponseDto>(response,commentPage);
+    }
+
+    public MultiResponseDto<CommentResponseDto> getProjectComments(Long answerId, Pageable pageable) {
+        Page<Comment> commentPage = commentRepository.findAllComment(answerId,pageable);
+        List<Comment> commentList = commentPage.getContent();
+
+        List<CommentResponseDto> response = new ArrayList<>();
+        for(Comment comment:commentList){
+            Optional<Member> findMember = memberRepository.findById(comment.getMemberId());
+            Member member=findMember.get();
+            CommentResponseDto commentResponseDto = new CommentResponseDto(
+                    memberService.getMemberInfo(comment.getMemberId()).getData(),
+                    comment.getTotalLikes(),
+                    comment.getContent(),
+                    comment.getCreatedAt());
+            response.add(commentResponseDto);
+        }
+        return new MultiResponseDto<CommentResponseDto>(response,commentPage);
+    }
+
+    private void matchMemberID(Comment findComment) {
+        Member member =memberService.getLoginMember();
+        if(member.getId() != findComment.getMemberId()){
+            throw new BusinessLogicException(ExceptionCode.MEMBER_NOT_MATCH);
+        }
+    }
     private Comment getCommentOrException(Long commentId) {
         return commentRepository.findById(commentId).orElseThrow(() ->
                 new BusinessLogicException(ExceptionCode.COMMENT_NOT_FOUND));
     }
-
-    private void checkCommentMember(Comment comment, Member member) {
-        if (!Objects.equals(comment.getMemberId(), member.getId())) {
-            throw new BusinessLogicException(ExceptionCode.INVALID_PERMISSION);
+    public List<CommentResponseDto> commentListToCommentReponseDtoList(List<Comment> commentList){
+        List<CommentResponseDto> commentResponseDtoList = new ArrayList<>();
+        for(Comment comment : commentList){
+            CommentResponseDto commentResponseDto = new CommentResponseDto(
+                    memberService.getMemberInfo(comment.getMemberId()).getData(),
+                            comment.getTotalLikes(),comment.getContent(),comment.getCreatedAt()
+            );
+            commentResponseDtoList.add(commentResponseDto);
         }
-    }
-
-    private void checkCommentArticle(Comment comment, Long articleId) {
-        if (!Objects.equals(comment.getArticle().getId(), articleId)) {
-            throw new BusinessLogicException(ExceptionCode.INVALID_REQUEST);
-        }
-    }
-
-    private void checkCommentProject(Comment comment, Long projectId) {
-        if (!Objects.equals(comment.getProject().getId(), projectId)) {
-            throw new BusinessLogicException(ExceptionCode.INVALID_REQUEST);
-        }
-    }
-
-    private Member getMemberOrException(String email) {
-        return memberRepository.findByEmail(email).
-                orElseThrow(() -> new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
-    }
-
-
-
-    public Page<CommentArticleDto> listArticleComments(Long articleId, Pageable pageable) {
-        Article article = getArticleOrException(articleId);
-        return commentRepository.findAllByArticleAndDeletedFalse(article, pageable)
-                .map(comment -> CommentArticleDto.from(comment));
-    }
-
-    public Page<CommentProjectDto> listProjectComments(Long projectId, Pageable pageable) {
-        Project project = getProjectOrException(projectId);
-        return commentRepository.findAllByProjectAndDeletedFalse(project, pageable)
-                .map(CommentProjectDto::from);
-    }
-
-    private Article getArticleOrException(Long articleId) {
-        return articleRepository.findById(articleId)
-                .orElseThrow(() -> new BusinessLogicException(ExceptionCode.ARTICLE_NOT_FOUND));
-    }
-
-    private Project getProjectOrException(Long projectId) {
-        return projectRepository.findById(projectId)
-                .orElseThrow(() -> new BusinessLogicException(ExceptionCode.PROJECT_NOT_FOUND));
+        return commentResponseDtoList;
     }
 }
