@@ -145,7 +145,9 @@ public class ProjectService {
     }
 
     public List<ProApplyCrewResponseDto> getApplyCrewList(Long projectId) {
-        List<ProApplyCrew> proApplyCrewList = getProjectById(projectId).getProApplyCrewList();
+        Project project = getProjectById(projectId);
+        List<ProApplyCrew> proApplyCrewList = project.getProApplyCrewList();
+
         List<ProApplyCrewResponseDto> proApplyCrewResponseDtoList = new ArrayList<>();
         for (int i = 0; i < proApplyCrewList.size(); i++) {
             if (proApplyCrewList.get(i).isDeleted() == false) {

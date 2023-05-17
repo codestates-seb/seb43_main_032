@@ -84,4 +84,8 @@ public class ProjectController {
         ResponseEntity<SingleResponseDto<List<ProApplyCrewResponseDto>>> responseEntity = new ResponseEntity<>(singleResponseDto, HttpStatus.OK);
         return responseEntity;
     }
+
+//    @ApiOperation(value = "프로젝트 지원자 수락/거절")
+//    @PostMapping("/project/acceptApplicant")
+
 }
