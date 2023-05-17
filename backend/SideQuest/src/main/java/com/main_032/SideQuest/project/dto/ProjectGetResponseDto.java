@@ -1,5 +1,6 @@
 package com.main_032.SideQuest.project.dto;
 
+import com.main_032.SideQuest.member.dto.MemberGetResponseDto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -9,7 +10,8 @@ import java.util.List;
 @Getter
 public class ProjectGetResponseDto {
     private Long projectId;
-    private Long memberId;
+//    private Long memberId;
+    private MemberGetResponseDto memberGetResponseDto;
 
     private String title;
     private String content;
@@ -26,9 +28,9 @@ public class ProjectGetResponseDto {
 
     private LocalDateTime createdAt;
 
-    public ProjectGetResponseDto(Long projectId, Long memberId, String title, String content, String writerPosition, String startDate, String endDate, String thumbnailImageUrl, int views, String status, int totalLikes, LocalDateTime createdAt) {
+    public ProjectGetResponseDto(Long projectId, MemberGetResponseDto memberGetResponseDto, String title, String content, String writerPosition, String startDate, String endDate, String thumbnailImageUrl, int views, String status, int totalLikes, LocalDateTime createdAt) {
         this.projectId = projectId;
-        this.memberId = memberId;
+        this.memberGetResponseDto = memberGetResponseDto;
         this.title = title;
         this.content = content;
         this.writerPosition = writerPosition;
