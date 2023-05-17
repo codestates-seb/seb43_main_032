@@ -18,10 +18,31 @@ import { useRecoilValue } from 'recoil';
 import { loggedInUserState } from '@/recoil/atom';
 import { UserState } from '@/types/user';
 import { api } from '@/util/api';
+import hljs from 'highlight.js';
+import EiditorSkeleton from '@/components/skeleton/EiditorSkeleton';
+import Btn from '@/components/button/Btn';
 const ReactMarkdown = dynamic(() => import('@/components/editor/ContentBox'), {
   ssr: false,
   loading: () => <ContentSkeleton />,
 });
+
+const Editor = dynamic(() => import('@/components/editor/Editor'), {
+  ssr: false,
+  loading: () => <EiditorSkeleton />,
+});
+
+//이상하게 Editor에서 조건부로 옵션을 설정하면 editor가 고장나서 상위에서 설정한 옵션을 내려주는 방식으로 해결하였음
+const COMMENT_OPTIONS: EasyMDE.Options = {
+  renderingConfig: {
+    codeSyntaxHighlighting: true,
+    hljs,
+  }, //hljs 사용
+  maxHeight: '120px',
+  spellChecker: false, //스펠체크 off
+  status: false, //우측 하단 상태
+  previewClass: ['markdown-body'], //github 마크다운 사용
+  hideIcons: ['guide', 'fullscreen', 'side-by-side'], //버튼 가리기
+};
 
 const ViewProject = () => {
   const router = useRouter();
@@ -60,12 +81,12 @@ const ViewProject = () => {
   //   }
   // }, [projectQuery.data]);
 
-  //세부 기능 추가 이후에 업데이트 해야할듯???
-  const projectEvent = (state: number) => {
-    if (state === 2 && confirm('정말 프로젝트를 시작하시겠습니까?')) {
+  //프로젝트 진행상황 관리 이벤트
+  const projectEvent = (state: string) => {
+    if (state === '모집 완료' && confirm('정말 프로젝트를 시작하시겠습니까?')) {
       updateState.mutate(3);
     }
-    if (state === 3 && confirm('정말 프로젝트를 종료하시겠습니까?')) {
+    if (state === '진행 중' && confirm('정말 프로젝트를 종료하시겠습니까?')) {
       updateState.mutate(4);
     }
   };
@@ -82,20 +103,26 @@ const ViewProject = () => {
   };
 
   //세부 기능 추가 이후에 업데이트 해야할듯??? 아마도 숫자 관리가 아닌 only string 일듯?
-  const postState: { [key: string]: number } = {
-    '모집 중': 1,
-    '모집 완료': 2,
-    '진행 중': 3,
-    종료: 4,
+  const buttonState: { [key: string]: string } = {
+    '모집 중': '',
+    '모집 완료': '프로젝트 시작',
+    '진행 중': '프로젝트 종료',
+    종료: '팀원 리뷰',
   };
 
-  //세부 기능 추가 이후에 업데이트 해야할듯??? 아마도 숫자 관리가 아닌 only string 일듯?
-  const buttonState: { [key: number]: string } = {
-    1: '',
-    2: '프로젝트 시작',
-    3: '프로젝트 종료',
-    4: '팀원 리뷰',
+  //댓글 관리
+  const [commentVal, setCommentVal] = useState('');
+  const changeCommentVal = (value: string) => {
+    setCommentVal(value);
   };
+
+  //임시 댓글 작성 이벤트
+  const addComment = () => {
+    setCommentData([...commentData, commentVal]);
+    setCommentVal('');
+  };
+
+  const [commentData, setCommentData] = useState<string[]>([]);
 
   if (projectQuery.isLoading) return <Message>로딩중입니다.</Message>;
   if (projectQuery.error) return <Message>잠시 후 다시 시도해주세요.</Message>;
@@ -196,9 +223,9 @@ const ViewProject = () => {
             </ul>
           </div>
           <div>
-            {postState[data.status] !== 1 && (
-              <button onClick={() => projectEvent(postState[data.status])}>
-                {buttonState[postState[data.status]]}
+            {data.status !== '모집 중' && (
+              <button onClick={() => projectEvent('모집 중')}>
+                {buttonState['모집 중']}
               </button>
             )}
           </div>
@@ -236,7 +263,8 @@ const ViewProject = () => {
           <ReactMarkdown content={data.content} />
           <div className="heart-box">
             <div onClick={() => updateHeart.mutate()}>
-              {/* {projectQuery.data?.post_state.heart ? (
+              {/*서버작업전 보여주기 용 */}
+              {false ? (
                 <span>
                   <AiFillHeart />
                 </span>
@@ -244,11 +272,30 @@ const ViewProject = () => {
                 <span>
                   <AiOutlineHeart />
                 </span>
-              )} */}
+              )}
               <span>{data.totalLikes}</span>
             </div>
           </div>
-          <div className="comment-box">댓글창</div>
+          <div className="comment-box">
+            <div>
+              <ul>
+                {commentData.map((x) => (
+                  <li key={x}>{x}</li>
+                ))}
+              </ul>
+            </div>
+            <div className="comment-write-box">
+              <div className="comment-submit-box">
+                <Btn onClick={addComment}>댓글 작성</Btn>
+              </div>
+              <Editor
+                content={commentVal}
+                commentOptions={COMMENT_OPTIONS}
+                changeContent={changeCommentVal}
+                type={'comment'}
+              />
+            </div>
+          </div>
         </Main>
       </GridBox>
     );
@@ -262,9 +309,33 @@ const Main = styled.div`
   flex-direction: column;
   gap: 32px;
 
+  .comment-box {
+    display: flex;
+    flex-direction: column;
+    font-size: 15px;
+
+    > div {
+      width: 100%;
+    }
+    .comment-write-box {
+      width: 100%;
+      position: relative;
+      .comment-submit-box {
+        position: absolute;
+        top: 13px;
+        z-index: 2;
+        right: 10px;
+      }
+    }
+  }
+
   .title {
     display: flex;
     justify-content: space-between;
+  }
+
+  .left {
+    display: flex;
   }
 
   .right {

@@ -286,3 +286,4 @@ export const COMMUNITY_CATEGORY: CommunityCategory[] = [
     icon: <AiOutlineSmallDash />,
   },
 ];
+

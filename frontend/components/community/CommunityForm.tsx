@@ -31,7 +31,7 @@ export default function CommunityForm() {
   //작성자 데이터
   const [writerState, setWriterState] = useState<UserState>();
   useEffect(() => {
-    if (data) getUserData(data?.id).then((res) => setWriterState(res));
+    if (data) getUserData(data.id).then((res) => setWriterState(res));
   }, [communityQuery.isLoading]);
 
   const postCommunity = () => {
