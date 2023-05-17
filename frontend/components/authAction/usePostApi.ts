@@ -62,7 +62,7 @@ export default function usePostApi(
     // axios
     //   .post(BASE_URL + endpoint, data)
     api
-      .post('/login', data)
+      .post(endpoint, data)
       .then((res) => {
         setCookie('accessToken', res.headers['authorization'], 40); //로그인 했을 때, 쿠키 설정
         setUser(res.data); //로그인한 유저의 데이터를 atom 관리

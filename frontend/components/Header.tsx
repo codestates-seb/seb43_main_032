@@ -21,6 +21,7 @@ const Header = () => {
 
   //로그아웃 로직
   const [loggedInUser, setLoggedInUser] = useRecoilState(loggedInUserState);
+  console.log(loggedInUser);
   const logout = () => {
     deleteCookie('accessToken');
     setLoggedInUser(null);

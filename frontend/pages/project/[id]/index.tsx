@@ -110,22 +110,24 @@ const ViewProject = () => {
                   src="https://noticon-static.tammolo.com/dgggcrkxq/image/upload/v1567008394/noticon/ohybolu4ensol1gzqas1.png"
                   alt="author"
                 />
-                {/* <div className="user-title">{data.author}</div> */}
+                <div className="user-title">{writerState?.name}</div>
                 <div className="noto-medium">
                   <Position text={data.writerPosition} />
                 </div>
-                <div
-                  className="saveStar"
-                  onClick={() => setUserHeart(!userHeart)}
-                >
-                  <span className="icon-box">
-                    {userHeart ? (
-                      <AiOutlineHeart fill={'#ececec'} />
-                    ) : (
-                      <AiFillHeart fill="red" />
-                    )}
-                  </span>
-                </div>
+                {writerState?.email !== loggedInUser?.email && (
+                  <div
+                    className="saveStar"
+                    onClick={() => setUserHeart(!userHeart)}
+                  >
+                    <span className="icon-box">
+                      {userHeart ? (
+                        <AiOutlineHeart fill={'#ececec'} />
+                      ) : (
+                        <AiFillHeart fill="red" />
+                      )}
+                    </span>
+                  </div>
+                )}
               </div>
               <div className="detail-box">
                 <div className="detail-sub-box">
@@ -142,7 +144,9 @@ const ViewProject = () => {
                   <div className="detail-title">평가 점수</div>
                 </div>
               </div>
-              <Tag>쪽지 보내기</Tag>
+              {writerState?.email !== loggedInUser?.email && (
+                <Tag>쪽지 보내기</Tag>
+              )}
             </div>
           </div>
           <PeriodBox
@@ -257,6 +261,11 @@ const Main = styled.div`
   display: flex;
   flex-direction: column;
   gap: 32px;
+
+  .title {
+    display: flex;
+    justify-content: space-between;
+  }
 
   .right {
     display: flex;
