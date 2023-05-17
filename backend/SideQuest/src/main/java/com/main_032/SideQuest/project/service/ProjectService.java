@@ -201,4 +201,20 @@ public class ProjectService {
 
         projectRepository.save(project);
     }
+
+    public void rejectApplicant(Long projectId, Long memberId) {
+        Project project = getProjectById(projectId);
+        List<ProApplyCrew> proApplyCrewList = project.getProApplyCrewList();
+        ProApplyCrew proApplyCrew = proApplyCrewService.getProApplyCrew(projectId, memberId);
+
+        for (int i = 0; i < proApplyCrewList.size(); i++) {
+            if (proApplyCrewList.get(i).getPosition().equals(proApplyCrew.getPosition()) &&
+                    proApplyCrewList.get(i).getMemberId() == proApplyCrew.getMemberId()) {
+                proApplyCrewService.deleteApplyCrew(proApplyCrewList.get(i));
+                proApplyCrewList.remove(proApplyCrewList.get(i));
+            }
+        }
+
+        projectRepository.save(project);
+    }
 }

@@ -85,4 +85,11 @@ public class ProjectController {
         projectService.acceptApplicant(projectId, memberId);
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
+    @ApiOperation(value = "프로젝트 지원자 거절")
+    @PostMapping("/project/{project-id}/reject/{member-id}")
+    public ResponseEntity<Void> rejectApplicant(@PathVariable(name = "project-id") Long projectId, @PathVariable(name = "member-id") Long memberId) {
+        projectService.rejectApplicant(projectId, memberId);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 }
