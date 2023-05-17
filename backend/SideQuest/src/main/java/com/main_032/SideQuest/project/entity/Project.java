@@ -122,5 +122,9 @@ public class Project extends BaseEntity {
     public void updateStatus(String status) {
         this.status = status;
     }
+
+    public void plusViews() {
+        this.views += 1;
+    }
 }
 

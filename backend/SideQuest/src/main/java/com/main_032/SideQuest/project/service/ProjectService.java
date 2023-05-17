@@ -74,8 +74,11 @@ public class ProjectService {
         return;
     }
 
+    @Transactional
     public SingleResponseDto<ProjectGetResponseDto> getProject(Long projectId) {
         Project project = getProjectById(projectId);
+        project.plusViews();
+        projectRepository.save(project);
 
         ProjectGetResponseDto projectGetResponseDto = projectMapper.projectToProjectGetResponseDto(project);
 
