@@ -2,7 +2,6 @@ import Image from 'next/image';
 import { FaUserAlt } from 'react-icons/fa';
 import Link from 'next/link';
 import styled from 'styled-components';
-import { navModalState, userState } from '@/recoil/atom';
 import { useRouter } from 'next/router';
 import { useEffect, useMemo, useState } from 'react';
 import logo from '../public/images/logo.svg';
@@ -13,6 +12,9 @@ import { useOffResize } from '@/hooks/useOffResize';
 import { HEADER_NAV } from '@/constant/constant';
 import { deleteCookie, getCookie } from '@/util/cookie';
 import { useRecoilState } from 'recoil';
+import { loggedInUserState } from '@/recoil/atom';
+import { setUserState } from '@/util/api/user';
+import { useRecoilState } from 'recoil';
 import Img from '../public/images/second-user.svg';
 import { NavProps } from '@/types/types';
 
@@ -20,11 +22,17 @@ const Header = () => {
   const router = useRouter();
 
   //로그아웃 로직
-  const [, setUser] = useRecoilState(userState);
+  const [loggedInUser, setLoggedInUser] = useRecoilState(loggedInUserState);
+  console.log(loggedInUser);
   const logout = () => {
     deleteCookie('accessToken');
-    setUser(null);
+    setLoggedInUser(null);
   };
+
+  //최초 페이지 로딩 시, 토큰이 유효하다면 유저 데이터 셋팅
+  useEffect(() => {
+    setUserState().then((res) => setLoggedInUser(res));
+  }, []);
 
   //네비 이름 배열
   const navNames = useMemo(() => Object.keys(HEADER_NAV), []);

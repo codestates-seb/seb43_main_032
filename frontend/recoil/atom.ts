@@ -1,8 +1,8 @@
 import { UserState } from '@/types/user';
 import { atom } from 'recoil';
 
-export const userState = atom<UserState | null>({
-  key: 'userState',
+export const loggedInUserState = atom<UserState | null>({
+  key: 'loggedInUserState',
   default: null,
 });
 export const navModalState = atom({

@@ -10,9 +10,12 @@ import CommunityCardBox from '@/components/card_box/CommunityCardBox';
 import ProjectSkeleton from '@/components/skeleton/ProjectSkeleton';
 import CommunityItemSkeleton from '@/components/skeleton/CommunityItemSkeleton';
 import { PageInfo } from '@/types/types';
-
+import { useRecoilValue } from 'recoil';
+import { loggedInUserState } from '@/recoil/atom';
 
 const Home = () => {
+  //현재 로그인한 유저의 데이터
+  const loggedInUser = useRecoilValue(loggedInUserState);
   // useQuery를 사용하여 데이터 fetch
   const { data, isLoading, error } = useQuery<
     {
@@ -27,15 +30,14 @@ const Home = () => {
   //커뮤니티 조회수 높은거 5개만 가져오면 될듯??
   const community_page_limit = 5;
   const queryKey = ['article', 'hot'];
-  const address = `/article/findAll?size=${community_page_limit}&page=0`;
+  const address = `/article/findAll?size=${community_page_limit}&page=1`;
   const { communityQuery } = useCommunity<Community[]>({
     address,
     queryKey,
   });
-  
+
   const projectData = data?.data;
   const communityData = communityQuery.data?.data;
-
 
   if (isLoading) return <Message>로딩중입니다.</Message>;
   if (error) return <Message>잠시 후 다시 시도해주세요.</Message>;

@@ -13,5 +13,3 @@ const Community = () => {
 };
 
 export default Community;
-
-export const MinusTop = styled.div``;

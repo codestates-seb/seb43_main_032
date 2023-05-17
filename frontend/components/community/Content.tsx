@@ -8,7 +8,6 @@ import Message from '../Message';
 import { COMMUNITY_FILTER } from '@/constant/constant';
 import Pagenation from '../Pagenation';
 import { useCommunity } from '@/hooks/react-query/useCommunity';
-import { COMMUNITY } from '@/dummy/community';
 
 export default function Content() {
   const router = useRouter();

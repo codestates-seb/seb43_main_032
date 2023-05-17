@@ -29,7 +29,7 @@
 
 import { useState } from 'react';
 import { useSetRecoilState } from 'recoil';
-import { userState } from '@/recoil/atom';
+import { loggedInUserState } from '@/recoil/atom';
 import { useRouter } from 'next/router';
 import { api } from '@/util/api';
 import { setCookie } from '@/util/cookie';
@@ -52,7 +52,7 @@ export default function usePostApi(
   const [error, setError] = useState<undefined | any>(undefined);
 
   //유저 데이터 저장할 atom
-  const setUser = useSetRecoilState(userState);
+  const setUser = useSetRecoilState(loggedInUserState);
 
   //조회에 성공하면 이동하기 위해
   const router = useRouter();
@@ -62,7 +62,7 @@ export default function usePostApi(
     // axios
     //   .post(BASE_URL + endpoint, data)
     api
-      .post('/login', data)
+      .post(endpoint, data)
       .then((res) => {
         setCookie('accessToken', res.headers['authorization'], 40); //로그인 했을 때, 쿠키 설정
         setUser(res.data); //로그인한 유저의 데이터를 atom 관리
