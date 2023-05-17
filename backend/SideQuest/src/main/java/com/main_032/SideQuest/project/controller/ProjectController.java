@@ -10,6 +10,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @Api(tags = {"Project"}, description = "프로젝트 API")
 public class ProjectController {
@@ -71,6 +73,15 @@ public class ProjectController {
     public ResponseEntity<Void> cancelApplyProject(@PathVariable(name = "projectId") Long projectId, @RequestBody ProjectCancelApplyPostDto projectCancelApplyPostDto) {
         projectService.cancelApply(projectId, projectCancelApplyPostDto);
         ResponseEntity responseEntity = new ResponseEntity(HttpStatus.OK);
+        return responseEntity;
+    }
+
+    @ApiOperation(value = "프로젝트 지원자 리스트 조회")
+    @GetMapping("/project/applyList/{projectId}")
+    public ResponseEntity<SingleResponseDto<List<ProApplyCrewResponseDto>>> getApplyCrewList(@PathVariable(name = "projectId") Long projectId) {
+        List<ProApplyCrewResponseDto> proApplyCrewResponseDtoList = projectService.getApplyCrewList(projectId);
+        SingleResponseDto<List<ProApplyCrewResponseDto>> singleResponseDto = new SingleResponseDto<>(proApplyCrewResponseDtoList);
+        ResponseEntity<SingleResponseDto<List<ProApplyCrewResponseDto>>> responseEntity = new ResponseEntity<>(singleResponseDto, HttpStatus.OK);
         return responseEntity;
     }
 }

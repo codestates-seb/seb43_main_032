@@ -1,15 +1,9 @@
 package com.main_032.SideQuest.member.mapper;
 
-import com.main_032.SideQuest.member.dto.GetMemberResponseDto;
+import com.main_032.SideQuest.member.dto.MemberGetResponseDto;
 import com.main_032.SideQuest.member.dto.MemberPostDto;
-import com.main_032.SideQuest.member.dto.MemberTechStackResponseDto;
 import com.main_032.SideQuest.member.entity.Member;
-import com.main_032.SideQuest.member.entity.MemberTechStack;
-import com.main_032.SideQuest.util.dto.SingleResponseDto;
 import org.springframework.stereotype.Component;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @Component
 public class MemberMapper {
@@ -21,8 +15,8 @@ public class MemberMapper {
         return member;
     }
 
-    public GetMemberResponseDto memberToGetMemberResponseDto(Member member) {
-        GetMemberResponseDto getMemberResponseDto = new GetMemberResponseDto(
+    public MemberGetResponseDto memberToGetMemberResponseDto(Member member) {
+        MemberGetResponseDto memberGetResponseDto = new MemberGetResponseDto(
                 member.getName(),
                 member.getEmail(),
                 member.getPhone(),
@@ -33,7 +27,7 @@ public class MemberMapper {
                 member.getYearOfDev(),
                 member.getTotalStar()
                 );
-        return getMemberResponseDto;
+        return memberGetResponseDto;
     }
 
 }

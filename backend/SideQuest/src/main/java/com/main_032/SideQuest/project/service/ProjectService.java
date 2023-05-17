@@ -48,12 +48,10 @@ public class ProjectService {
 
     @Transactional
     public void updateProject(Long projectId, ProjectPatchDto projectPatchDto) {
-        Optional<Project> findProject = projectRepository.findById(projectId);
-        findProject.orElseThrow(()->new BusinessLogicException(ExceptionCode.PROJECT_NOT_FOUND));
-        Project project = findProject.get();
+        Project project = getProjectById(projectId);
 
         Member member = memberService.getLoginMember();
-        if(project.getMemberId() != member.getId()) throw new BusinessLogicException(ExceptionCode.MEMBER_NOT_MATCH);
+        if (project.getMemberId() != member.getId()) throw new BusinessLogicException(ExceptionCode.MEMBER_NOT_MATCH);
 
         project.updateTitle(projectPatchDto.getTitle());
         project.updateContent(projectPatchDto.getContent());
@@ -77,9 +75,7 @@ public class ProjectService {
     }
 
     public SingleResponseDto<ProjectGetResponseDto> getProject(Long projectId) {
-        Optional<Project> findProject = projectRepository.findById(projectId);
-        findProject.orElseThrow(() -> new BusinessLogicException(ExceptionCode.PROJECT_NOT_FOUND));
-        Project project = findProject.get();
+        Project project = getProjectById(projectId);
 
         ProjectGetResponseDto projectGetResponseDto = projectMapper.projectToProjectGetResponseDto(project);
 
@@ -111,9 +107,7 @@ public class ProjectService {
 
     @Transactional
     public void deleteProject(Long projectId) {
-        Optional<Project> findProject = projectRepository.findById(projectId);
-        findProject.orElseThrow(() -> new BusinessLogicException(ExceptionCode.PROJECT_NOT_FOUND));
-        Project project = findProject.get();
+        Project project = getProjectById(projectId);
 
         project.updateDeleted(true);
         projectRepository.save(project);
@@ -122,23 +116,22 @@ public class ProjectService {
 
     @Transactional
     public void applyProject(Long projectId, ProjectApplyPostDto projectApplyPostDto) {
-        Optional<Project> findProject = projectRepository.findById(projectId);
-        findProject.orElseThrow(() -> new BusinessLogicException(ExceptionCode.PROJECT_NOT_FOUND));
-        Project project = findProject.get();
+        Project project = getProjectById(projectId);
 
         Member member = memberService.getLoginMember();
         List<ProApplyCrew> proApplyCrewList = project.getProApplyCrewList();
         for (int i = 0; i < proApplyCrewList.size(); i++) {
-            if(proApplyCrewList.get(i).getMemberId() == member.getId() && proApplyCrewList.get(i).isDeleted() == false) throw new BusinessLogicException(ExceptionCode.ALREADY_APPLY_PROJECT);
+            if (proApplyCrewList.get(i).getMemberId() == member.getId() && proApplyCrewList.get(i).isDeleted() == false)
+                throw new BusinessLogicException(ExceptionCode.ALREADY_APPLY_PROJECT);
         }
         boolean exist = false;
         for (int i = 0; i < project.getProPositionCrewList().size(); i++) {
-            if(project.getProPositionCrewList().get(i).getPosition().equals(projectApplyPostDto.getPosition())) {
+            if (project.getProPositionCrewList().get(i).getPosition().equals(projectApplyPostDto.getPosition())) {
                 exist = true;
                 break;
             }
         }
-        if(exist == false) throw new BusinessLogicException(ExceptionCode.POSITION_NOT_FOUND);
+        if (exist == false) throw new BusinessLogicException(ExceptionCode.POSITION_NOT_FOUND);
 
         ProApplyCrew proApplyCrew = new ProApplyCrew(project, member.getId(), projectApplyPostDto.getPosition());
         proApplyCrewList.add(proApplyCrew);
@@ -149,5 +142,27 @@ public class ProjectService {
     public void cancelApply(Long projectId, ProjectCancelApplyPostDto projectCancelApplyPostDto) {
         Member member = memberService.getLoginMember();
         proApplyCrewService.cancelApply(projectId, member.getId(), projectCancelApplyPostDto);
+    }
+
+    public List<ProApplyCrewResponseDto> getApplyCrewList(Long projectId) {
+        List<ProApplyCrew> proApplyCrewList = getProjectById(projectId).getProApplyCrewList();
+        List<ProApplyCrewResponseDto> proApplyCrewResponseDtoList = new ArrayList<>();
+        for (int i = 0; i < proApplyCrewList.size(); i++) {
+            if (proApplyCrewList.get(i).isDeleted() == false) {
+                ProApplyCrewResponseDto proApplyCrewResponseDto = new ProApplyCrewResponseDto(projectId,
+                        proApplyCrewList.get(i).getPosition(),
+                        memberService.getMemberGetResponseDto(proApplyCrewList.get(i).getMemberId()));
+                proApplyCrewResponseDtoList.add(proApplyCrewResponseDto);
+            }
+        }
+
+        return proApplyCrewResponseDtoList;
+    }
+
+    private Project getProjectById(Long projectId) {
+        Optional<Project> findProject = projectRepository.findById(projectId);
+        findProject.orElseThrow(() -> new BusinessLogicException(ExceptionCode.PROJECT_NOT_FOUND));
+        Project project = findProject.get();
+        return project;
     }
 }
