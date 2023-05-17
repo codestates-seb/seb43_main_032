@@ -7,12 +7,10 @@ import Footer from '../components/Footer';
 import styled from 'styled-components';
 import 'animate.css';
 import { useState } from 'react';
-import { FcSms } from 'react-icons/fc';
 import Contact from '@/components/Contact';
 import ModalBg from '@/components/ModalBg';
 import Image from 'next/image';
-import icon60 from '../public/images/chat-icon-60.svg';
-import icon100 from '../public/images/chat-icon-100.svg';
+import icon from '../public/images/icon.svg';
 
 const queryClient = new QueryClient();
 
@@ -22,8 +20,15 @@ if (process.env.NODE_ENV === 'development') {
 
 const App = ({ Component, pageProps }: AppProps) => {
   const [isContact, setIsContact] = useState(false);
+  const [isSlideVisible, setIsSlideVisible] = useState(false);
   const contactHandler = () => {
     setIsContact(!isContact);
+    setIsSlideVisible(true);
+  };
+
+  const closeContact = () => {
+    setIsContact(false);
+    setIsSlideVisible(false);
   };
   return (
     <QueryClientProvider client={queryClient}>
@@ -32,15 +37,12 @@ const App = ({ Component, pageProps }: AppProps) => {
         <Box>
           <Component {...pageProps} />
         </Box>
-        <ModalBox>
-          {isContact ? (
-            <Contact contactHandler={contactHandler} />
-          ) : (
-            <div className="chat-icon">
-              <Image src={icon100} onClick={contactHandler} alt="chat-icon" />
-            </div>
-          )}
-        </ModalBox>
+        <IconBox>
+          <Image src={icon} onClick={contactHandler} alt="chat-icon" />
+        </IconBox>
+        <AskBox isVisible={isSlideVisible}>
+          <Contact closeContact={closeContact} />
+        </AskBox>
         <ModalBg></ModalBg>
         <Footer />
       </RecoilRoot>
@@ -57,17 +59,19 @@ const Box = styled.main`
   flex: 1;
 `;
 
-const ModalBox = styled.div`
-  position: fixed;
+const IconBox = styled.div`
+  transition: all 1s ease-in-out;
   bottom: 20px;
   right: 20px;
-  transition: all 1s ease-in-out;
+  position: fixed;
+  cursor: pointer;
+`;
 
-  .chat-icon {
-    width: 100px;
-    height: 100px;
-    object-fit: cover;
-    img {
-    }
-  }
+const AskBox = styled.div<{ isVisible: boolean }>`
+  min-width: 300px;
+  max-height: 500px;
+  bottom: ${({ isVisible }) => (isVisible ? '20px' : '-100%')};
+  right: 20px;
+  position: fixed;
+  transition: bottom 0.5s ease-in-out;
 `;
