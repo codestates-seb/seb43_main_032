@@ -6,6 +6,7 @@ import java.util.List;
 
 @Getter
 public class MemberGetResponseDto {
+    private Long memberId;
     private String name;
     private String email;
     private String phone;
@@ -17,7 +18,8 @@ public class MemberGetResponseDto {
     private int totalStar;
     private List<MemberTechStackResponseDto> techList;
 
-    public MemberGetResponseDto(String name, String email, String phone, String position, String aboutMe, String profileImageUrl, String location, int yearOfDev, int totalStar) {
+    public MemberGetResponseDto(Long memberId, String name, String email, String phone, String position, String aboutMe, String profileImageUrl, String location, int yearOfDev, int totalStar) {
+        this.memberId = memberId;
         this.name = name;
         this.email = email;
         this.phone = phone;

@@ -17,6 +17,7 @@ public class MemberMapper {
 
     public MemberGetResponseDto memberToGetMemberResponseDto(Member member) {
         MemberGetResponseDto memberGetResponseDto = new MemberGetResponseDto(
+                member.getId(),
                 member.getName(),
                 member.getEmail(),
                 member.getPhone(),
