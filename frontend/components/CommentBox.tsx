@@ -46,7 +46,7 @@ const CommentBox = ({
     <Box>
       <div className="comment-write-box">
         <div className="comment-submit-box">
-          <button onClick={addComment}>댓글 작성</button>
+          <button onClick={addComment}>답글 작성</button>
         </div>
         <Editor
           content={commentVal}

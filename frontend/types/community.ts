@@ -11,10 +11,7 @@ export type Community = {
   view: number;
 };
 
-enum CategoryType {
-  Community = 0,
-  Project = 1,
-}
+type CategoryType = 'PROJECT' | 'COMMUNITY';
 
 export type Comment = {
   id: number;
