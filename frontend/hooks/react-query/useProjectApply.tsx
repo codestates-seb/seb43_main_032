@@ -11,7 +11,6 @@ type ApplyList = {
 export const useProjectApply = () => {
   const router = useRouter();
   const { id } = router.query;
-
   const { isLoading, error, data, refetch } = useQuery<ApplyList, Error>(
     ['project', id],
     async () => {

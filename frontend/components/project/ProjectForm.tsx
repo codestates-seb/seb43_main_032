@@ -21,7 +21,7 @@ const ProjectForm = () => {
   const router = useRouter();
 
   //데이터
-  const { projectQuery } = useProject();
+  const { projectQuery, submitEdit, submitPost } = useProject();
   const data = projectQuery.data?.data;
   useEffect(() => {
     if (data) {
@@ -179,25 +179,18 @@ const ProjectForm = () => {
         positionNumberList: jobs.map((job) => job.number),
       },
     };
-    console.log(data)
 
     //수정 이벤트
     if (
       router.route.includes('edit') &&
       confirm('정말 수정을 완료하시겠습니까?')
     ) {
-      return api
-        .patch(`/projects/${router.query.id}`, data)
-        .then(() => router.push('/'))
-        .catch(() => alert('잠시 후에 다시 시도해주세요.'));
+      return submitEdit(data);
     }
 
     //작성 이벤트
     if (confirm('정말 작성을 완료하시겠습니까?')) {
-      return api
-        .post('/projects', data)
-        .then(() => router.push('/'))
-        .catch(() => alert('잠시 후에 다시 시도해주세요.'));
+      return submitPost(data);
     }
   };
 
