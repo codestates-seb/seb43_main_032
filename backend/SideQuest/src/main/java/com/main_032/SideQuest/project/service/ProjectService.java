@@ -237,6 +237,10 @@ public class ProjectService {
         List<ProjectGetResponseDto> projectGetResponseDtoList = new ArrayList<>();
         for (int i = 0; i < projectList.size(); i++) {
             ProjectGetResponseDto projectGetResponseDto = projectMapper.projectToProjectGetResponseDto(projectList.get(i));
+            projectGetResponseDto.updateProTechStackResponseDtoList(proTechStackService.proTechStackListToProTechStackResponseDtoList(projectList.get(i).getProTechStackList()));
+            projectGetResponseDto.updateProFieldResponseDtoList(proFieldService.proFieldListToProFieldResponseDtoList(projectList.get(i).getProFieldList()));
+            projectGetResponseDto.updateProPositionCrewResponseDtoList(proPositionCrewService.proPositionCrewListToProPositionCrewDtoList(projectList.get(i).getProPositionCrewList()));
+            projectGetResponseDto.updateProAcceptedCrewResponseDtoList(proAcceptedCrewService.proAcceptedCrewToProAcceptedCrewDtoList(projectList.get(i).getProAcceptedCrewList()));
             projectGetResponseDtoList.add(projectGetResponseDto);
         }
         ProjectViewsTop5Dto projectViewsTop5Dto = new ProjectViewsTop5Dto(projectGetResponseDtoList);
@@ -249,6 +253,10 @@ public class ProjectService {
         List<ProjectGetResponseDto> projectGetResponseDtoList = new ArrayList<>();
         for (int i = 0; i < projectList.size(); i++) {
             ProjectGetResponseDto projectGetResponseDto = projectMapper.projectToProjectGetResponseDto(projectList.get(i));
+            projectGetResponseDto.updateProTechStackResponseDtoList(proTechStackService.proTechStackListToProTechStackResponseDtoList(projectList.get(i).getProTechStackList()));
+            projectGetResponseDto.updateProFieldResponseDtoList(proFieldService.proFieldListToProFieldResponseDtoList(projectList.get(i).getProFieldList()));
+            projectGetResponseDto.updateProPositionCrewResponseDtoList(proPositionCrewService.proPositionCrewListToProPositionCrewDtoList(projectList.get(i).getProPositionCrewList()));
+            projectGetResponseDto.updateProAcceptedCrewResponseDtoList(proAcceptedCrewService.proAcceptedCrewToProAcceptedCrewDtoList(projectList.get(i).getProAcceptedCrewList()));
             projectGetResponseDtoList.add(projectGetResponseDto);
         }
         ProjectLikesTop5Dto projectLikesTop5Dto = new ProjectLikesTop5Dto(projectGetResponseDtoList);

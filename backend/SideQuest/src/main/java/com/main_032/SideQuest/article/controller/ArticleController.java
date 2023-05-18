@@ -59,7 +59,7 @@ public class ArticleController {
     public ResponseEntity<MultiResponseDto<ArticleGetResponseDto>> getAllArticle(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "8") int size) {
-        MultiResponseDto<ArticleGetResponseDto> articlePage = articleService.findAllArticle(page, size);
+        MultiResponseDto<ArticleGetResponseDto> articlePage = articleService.findAllArticle(page - 1, size);
         return ResponseEntity.ok(articlePage);
     }
 
@@ -69,7 +69,7 @@ public class ArticleController {
             @RequestParam String searchWord,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "8") int size) {
-        MultiResponseDto<ArticleGetResponseDto> articlePage = articleService.searchArticle(searchWord, page, size);
+        MultiResponseDto<ArticleGetResponseDto> articlePage = articleService.searchArticle(searchWord, page - 1, size);
         return ResponseEntity.ok(articlePage);
     }
 
