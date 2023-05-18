@@ -12,13 +12,13 @@ export default function ContentItem(article: Community) {
   };
   return (
     <Container>
-      <div className={`color-bar ${article.position}`}></div>
+      {/* <div className={`color-bar ${article.position}`}></div> */}
       <Right>
         {/* memberID에서 이메일 받아와야함 or nickName */}
-        <img src={article.avatar}></img>
-        <div className="email-box">{article.email.split('@')[0]}</div>
+        <img src={article.profileImageUrl}></img>
+        {/* <div className="email-box">{article.email.split('@')[0]}</div> */}
         <div className="star-box">
-          <FaStar color="#FF9900"></FaStar> {article.userStar}
+          <FaStar color="#FF9900"></FaStar> {article.totalStar}
         </div>
       </Right>
       <a onClick={moveArticle}>
@@ -28,8 +28,8 @@ export default function ContentItem(article: Community) {
             <div className="content">{article.content}</div>
           </Top>
           <div className="tagBox">
-            {article.tags.map((tag) => (
-              <Tag key={tag}>{tag}</Tag>
+            {article.techStackList.map((tag) => (
+              <Tag key={tag.tech}>{tag.tech}</Tag>
             ))}
           </div>
         </Center>
@@ -37,7 +37,7 @@ export default function ContentItem(article: Community) {
       <Left>
         <div className="heartBox">
           <FaHeart color="red"></FaHeart>
-          <span>{article.heart}</span>
+          <span>{article.totalLikes}</span>
         </div>
         <div>
           <FaEye color="#909090"></FaEye>
@@ -45,7 +45,7 @@ export default function ContentItem(article: Community) {
         </div>
         <div>
           <FaComment color="#909090"></FaComment>
-          <span>{article.comment.length}</span>
+          {/* <span>{article.comment.length}</span> */}
         </div>
       </Left>
     </Container>

@@ -19,9 +19,9 @@ import { setUserState } from '@/util/api/user';
 const Header = () => {
   const router = useRouter();
 
-  //로그아웃 로직
+  //로그인한 유저의 데이터 상태
   const [loggedInUser, setLoggedInUser] = useRecoilState(loggedInUserState);
-  console.log(loggedInUser);
+  //로그아웃
   const logout = () => {
     deleteCookie('accessToken');
     setLoggedInUser(null);

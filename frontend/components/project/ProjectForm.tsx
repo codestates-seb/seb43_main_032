@@ -159,19 +159,11 @@ const ProjectForm = () => {
     if (content === '') {
       return alert('내용을 입력해주세요.');
     }
+
+    //공통 데이터
     const data = {
       startDate: formatDate3(start),
       endDate: end && formatDate3(end),
-      techStackList: {
-        techStackList: stacks.map((stack) => stack.tech),
-      },
-      fieldList: {
-        filedList: tags.map((tag) => tag.field), //백엔드분들이 키를 잘못적어주셔서 나중에 다시 고쳐야할듯??
-      },
-      positionCrewList: {
-        positionCrewList: jobs.map((job) => job.position),
-        positionNumberList: jobs.map((job) => job.number),
-      },
       writerPosition: watch().position,
       title: watch().title,
       thumbnailImageUrl: '이미지',
@@ -182,14 +174,47 @@ const ProjectForm = () => {
     if (
       router.route.includes('edit') &&
       confirm('정말 수정을 완료하시겠습니까?')
-    )
+    ) {
+      const patchData = {
+        ...data,
+        proTechStackPostDto: {
+          techStackList: stacks.map((stack) => stack.tech),
+        },
+        proFieldPostDto: {
+          filedList: tags.map((tag) => tag.field),
+        },
+        proPositionCrewPostDto: {
+          positionCrewList: jobs.map((job) => job.position),
+          positionNumberList: jobs.map((job) => job.number),
+        },
+      };
+      console.log(patchData);
       return api
-        .put(`/project/update/${router.query.id}`, data)
-        .then(() => router.push('/'));
+        .patch(`/project/update/${router.query.id}`, patchData)
+        .then(() => router.push('/'))
+        .catch(() => alert('잠시 후에 다시 시도해주세요.'));
+    }
 
     //작성 이벤트
-    if (confirm('정말 작성을 완료하시겠습니까?'))
-      return api.post('/project/post', data).then(() => router.push('/'));
+    if (confirm('정말 작성을 완료하시겠습니까?')) {
+      const createData = {
+        ...data,
+        techStackList: {
+          techStackList: stacks.map((stack) => stack.tech),
+        },
+        fieldList: {
+          filedList: tags.map((tag) => tag.field),
+        },
+        positionCrewList: {
+          positionCrewList: jobs.map((job) => job.position),
+          positionNumberList: jobs.map((job) => job.number),
+        },
+      };
+      return api
+        .post('/project/post', createData)
+        .then(() => router.push('/'))
+        .catch(() => alert('잠시 후에 다시 시도해주세요.'));
+    }
   };
 
   return (

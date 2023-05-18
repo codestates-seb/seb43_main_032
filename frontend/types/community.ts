@@ -5,12 +5,16 @@ export type Community = {
   totalStar: number;
   title: string;
   content: string;
-  category: string;
-  views: number;
+  category: CategoryType;
   totalLikes: number;
-  techStackList: FiledTag[];
+  techStackList: TechTag[];
   view: number;
 };
+
+enum CategoryType {
+  Community = 0,
+  Project = 1,
+}
 
 export type Comment = {
   id: number;
@@ -20,6 +24,6 @@ export type Comment = {
   content: string;
 };
 
-export type FiledTag = {
-  field: string;
+export type TechTag = {
+  tech: string;
 };
