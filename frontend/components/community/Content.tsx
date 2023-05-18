@@ -26,17 +26,18 @@ export default function Content() {
   const [filter, setFilter] = useState(urlFilter || 'sorted');
   const { category } = router.query;
   const page_limit = 10;
-  const endPoint = category ? `/article/findAll/${category}` : `/article/findAll`;
+  const endPoint = category
+    ? `/article/findAll/${category}`
+    : `/article/findAll`;
   const address = `${endPoint}?size=${page_limit}&page=${page}&search=${searchVal}&filter=${filter}`;
-  const queryKey = category
-    ? ['article', page, category]
-    : ['article', page];
+  const queryKey = category ? ['article', page, category] : ['article', page];
 
   const { communityQuery, refetch } = useCommunity<Community[]>({
     address,
     queryKey,
   });
-  const data = communityQuery.data;
+  const data = communityQuery.data?.data;
+  const totalPage = communityQuery.data?.pageInfo.totalPages;
 
   const findContentItem = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchVal(e.target.value);
@@ -99,7 +100,7 @@ export default function Content() {
         <Pagenation
           page={page}
           onPageChange={setPage}
-          pageSize={data && data ? 30 : 0}
+          pageSize={totalPage ? totalPage : 1}
         />
       </ContentBottom>
     </Container>

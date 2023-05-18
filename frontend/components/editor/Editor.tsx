@@ -6,28 +6,33 @@ import 'highlight.js/styles/stackoverflow-light.css';
 import styled from 'styled-components';
 
 type Props = {
-  changeContent?: (value: string) => void;
+  changeContent: (value: string) => void;
   content?: string;
+  type?: string;
+  commentOptions?: EasyMDE.Options;
 };
 
-const OPTIONS: EasyMDE.Options = {
+const DEFAULT_OPTIONS: EasyMDE.Options = {
   renderingConfig: {
     codeSyntaxHighlighting: true,
     hljs,
   }, //hljs 사용
+  maxHeight: '400px',
   spellChecker: false, //스펠체크 off
   status: false, //우측 하단 상태
-  maxHeight: '400px', //최대높이 설정
   previewClass: ['markdown-body'], //github 마크다운 사용
   hideIcons: ['guide', 'fullscreen', 'side-by-side'], //버튼 가리기
 };
-const EditorBox = ({ changeContent, content }: Props) => {
+
+const EditorBox = ({ commentOptions, changeContent, content, type }: Props) => {
   return (
     <Box>
       <SimpleMDEEditor
-        placeholder="내용을 등록해주세요."
+        placeholder={
+          type === 'comment' ? '댓글을 등록해주세요.' : '내용을 등록해주세요.'
+        }
         onChange={changeContent}
-        options={OPTIONS}
+        options={commentOptions ? commentOptions : DEFAULT_OPTIONS}
         value={content}
       />
     </Box>
@@ -37,6 +42,8 @@ const EditorBox = ({ changeContent, content }: Props) => {
 export default EditorBox;
 
 const Box = styled.div`
+  width: 100%;
+
   span {
     background: none !important;
   }

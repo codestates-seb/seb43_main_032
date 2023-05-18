@@ -10,12 +10,13 @@ type ProjectData = {
 
 export const useProject = () => {
   const router = useRouter();
+  const { id } = router.query;
 
   const { isLoading, error, data, refetch } = useQuery<ProjectData, Error>(
-    ['project', router.query.id],
+    ['project', id],
     async () => {
       if (!router.route.includes('create')) {
-        return await api(`/project/${router.query.id}`).then((res) => res.data);
+        return await api(`/project/${id}`).then((res) => res.data);
       }
     }
   );
@@ -48,10 +49,35 @@ export const useProject = () => {
     }
   );
 
+  //프로젝트 진행상황 관리 이벤트
+  const projectEvent = (state: string) => {
+    if (state === '모집 완료' && confirm('정말 프로젝트를 시작하시겠습니까?')) {
+      updateState.mutate(3);
+    }
+    if (state === '진행 중' && confirm('정말 프로젝트를 종료하시겠습니까?')) {
+      updateState.mutate(4);
+    }
+  };
+
+  //프로젝트 삭제
+  const deleteProject = () => {
+    if (confirm('정말 삭제하시겠습니까?'))
+      api.delete(`/project/${id}`).then(() => router.push('/'));
+  };
+
+  //edit 이동
+  const moveEdit = () => {
+    if (confirm('정말 수정하시겠습니까?')) router.push(`${router.asPath}/edit`);
+  };
+  
+
   return {
     projectQuery: { isLoading, error, data },
     updateJob,
     updateHeart,
     updateState,
+    projectEvent,
+    deleteProject,
+    moveEdit
   };
 };
