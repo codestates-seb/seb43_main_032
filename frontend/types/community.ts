@@ -14,11 +14,3 @@ export type Community = {
 };
 
 type CategoryType = 'PROJECT' | 'COMMUNITY';
-
-export type Comment = {
-  id: number;
-  email: string;
-  userStar: number;
-  avatar: string;
-  content: string;
-};

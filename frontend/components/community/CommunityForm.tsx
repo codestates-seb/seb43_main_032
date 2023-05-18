@@ -5,11 +5,11 @@ import { Form } from '@/types/types';
 import { useForm } from 'react-hook-form';
 import { useRouter } from 'next/router';
 import { api } from '@/util/api';
-import { useCommunity } from '@/hooks/react-query/useCommunity';
 import { Community } from '@/types/community';
 import Message from '../Message';
 import { UserState } from '@/types/user';
 import { getUserData } from '@/util/api/user';
+import { useCommunity } from '@/hooks/react-query/community/useCommunity';
 
 export default function CommunityForm() {
   const router = useRouter();

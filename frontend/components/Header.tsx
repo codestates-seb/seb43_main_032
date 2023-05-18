@@ -28,11 +28,14 @@ const Header = () => {
     setLoggedInUser(null);
   };
 
-  //최초 페이지 로딩 시, 토큰이 유효하다면 유저 데이터 셋팅
+  //최초 페이지 로딩 시, 토큰이 유효하다면 유저 데이터 셋팅을하고 실패하면 토큰을 모두 삭제
   useEffect(() => {
     setUserState()
       .then((res) => setLoggedInUser(res))
-      .catch(() => {});
+      .catch(() => {
+        deleteCookie('accessToken');
+        deleteCookie('refreshToken');
+      });
   }, [router]);
 
   //네비 이름 배열

@@ -7,9 +7,9 @@ import ContentSkeleton from '../skeleton/ContentSkeleton';
 import EiditorSkeleton from '../skeleton/EiditorSkeleton';
 import Message from '../Message';
 import Btn from '../button/Btn';
-import { useCommunity } from '@/hooks/react-query/useCommunity';
 import { Community } from '@/types/community';
 import CommentBox from '../CommentBox';
+import { useCommunity } from '@/hooks/react-query/community/useCommunity';
 
 const ReactMarkdown = dynamic(() => import('@/components/editor/ContentBox'), {
   ssr: false,

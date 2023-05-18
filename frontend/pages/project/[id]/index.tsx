@@ -7,7 +7,6 @@ import dynamic from 'next/dynamic';
 import styled from 'styled-components';
 import ContentSkeleton from '@/components/skeleton/ContentSkeleton';
 import { AiFillHeart, AiOutlineHeart } from 'react-icons/ai';
-import { useProject } from '@/hooks/react-query/useProject';
 import { formatDate2 } from '@/util/date';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
@@ -17,6 +16,7 @@ import { useRecoilValue } from 'recoil';
 import { loggedInUserState } from '@/recoil/atom';
 import { BUTTON_STATE } from '@/constant/constant';
 import CommentBox from '@/components/CommentBox';
+import { useProject } from '@/hooks/react-query/project/useProject';
 const ReactMarkdown = dynamic(() => import('@/components/editor/ContentBox'), {
   ssr: false,
   loading: () => <ContentSkeleton />,

@@ -12,7 +12,7 @@ export const useProjectApply = () => {
   const router = useRouter();
   const { id } = router.query;
   const { isLoading, error, data, refetch } = useQuery<ApplyList, Error>(
-    ['project', id],
+    ['project-applicant-list', id],
     async () => {
       if (!router.route.includes('create')) {
         return await api(`/projects/${id}/applicant-list`).then(

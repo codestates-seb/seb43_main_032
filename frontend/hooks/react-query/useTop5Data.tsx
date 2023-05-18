@@ -1,7 +1,7 @@
 import { Project } from '@/types/project';
 import { api } from '@/util/api';
 import { useQuery } from 'react-query';
-import { useCommunity } from './useCommunity';
+import { useCommunity } from './community/useCommunity';
 import { Community } from '@/types/community';
 
 export const useTop5Data = () => {
