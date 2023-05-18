@@ -31,6 +31,12 @@ const ProjectHome = () => {
   //서버에서 필터링 작업이 완성되기 전, 눈속임을 위한 필터 데이터
   const [allData, setAllData] = useState<Project[]>([]);
   const [filterData, setFilterData] = useState<Project[]>([]);
+  const [onSearch, setOnSearch] = useState(false);
+  const onSubmit = (e: { preventDefault: () => void }) => {
+    e.preventDefault();
+    setOnSearch(!onSearch);
+  };
+  console.log(watch());
 
   useEffect(() => {
     getAllData().then((res) => setAllData(res));
@@ -52,6 +58,12 @@ const ProjectHome = () => {
       setFilterData(allData.sort((x, y) => y.totalLikes - x.totalLikes));
     }
   }, [filter]);
+
+  useEffect(() => {
+    setFilterData(
+      allData.filter((data) => data.title.includes(watch().search))
+    );
+  }, [onSearch]);
 
   //주소, 서버 필터 작업 전까지 주석처리
   const address = () => {
@@ -175,7 +187,9 @@ const ProjectHome = () => {
         <ProjectCardBox
           title={search ? `${search}의 결과입니다.` : '전체 프로젝트'}
           data={
-            filter !== 0 ? filterData : data.pages?.flatMap((page) => page.data)
+            filterData.length !== 0
+              ? filterData
+              : data.pages?.flatMap((page) => page.data)
           }
           skeleton={isFetching && hasNextPage && <ProjectSkeleton />}
         >
@@ -192,7 +206,7 @@ const ProjectHome = () => {
               ))}
             </div>
             <div className="search-box">
-              <form>
+              <form onSubmit={onSubmit}>
                 <input
                   {...register('search')}
                   type="text"
