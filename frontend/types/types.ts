@@ -39,3 +39,10 @@ export type BannerProps = {
   isScrolled?: boolean;
   showImg?: boolean;
 };
+
+export enum Filter {
+  최신순 = 0,
+  오래된순 = 1,
+  조회순 = 2,
+  찜순 = 3,
+}

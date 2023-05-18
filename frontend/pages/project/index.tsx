@@ -13,7 +13,7 @@ import Btn from '@/components/button/Btn';
 import { BsSearch } from 'react-icons/bs';
 import { PROJECT_FILTER } from '@/constant/constant';
 import ProjectCardBox from '@/components/card_box/ProjectCardBox';
-import { Form } from '@/types/types';
+import { Filter, Form } from '@/types/types';
 import { AiOutlineArrowUp } from 'react-icons/ai';
 const page_limit = 4;
 type PageProps = { data: Project[]; total: number };
@@ -22,7 +22,7 @@ const ProjectHome = () => {
   const router = useRouter();
   const { register, watch } = useForm<Form>();
   const search = router.query.search;
-  const [filter, setFilter] = useState(0);
+  const [filter, setFilter] = useState<Filter>(0);
   const filterNames = useMemo(() => Object.keys(PROJECT_FILTER), []);
   const filterHandler = (name: string) => {
     setFilter(PROJECT_FILTER[name]);
