@@ -1,5 +1,4 @@
 import { getUserById, getUsers } from '@/util/api/user';
-import axios from 'axios';
 import { useQuery } from 'react-query';
 
 export default function useUser() {
