@@ -22,10 +22,14 @@ export default function Content() {
   const urlPage = new URLSearchParams(router.asPath).get('page');
   const urlFilter = new URLSearchParams(router.asPath).get('filter');
   const [page, setPage] = useState(Number(urlPage) || 0);
+  const [page, setPage] = useState(Number(urlPage) || 0);
   const [searchVal, setSearchVal] = useState(urlSearch || '');
   const [filter, setFilter] = useState(urlFilter || 'sorted');
   const { category } = router.query;
   const page_limit = 10;
+  const endPoint = category
+    ? `/article/findAll/${category}`
+    : `/article/findAll`;
   const endPoint = category
     ? `/article/findAll/${category}`
     : `/article/findAll`;
@@ -38,8 +42,8 @@ export default function Content() {
     address,
     queryKey,
   });
-  const data = communityQuery.data;
-  // console.log(data);
+  const data = communityQuery.data?.data;
+  const totalPage = communityQuery.data?.pageInfo.totalPages;
 
   const findContentItem = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchVal(e.target.value);
@@ -95,16 +99,14 @@ export default function Content() {
       </ContentTop>
       <ContentBottom>
         <ContentItemList>
-          {data?.data?.map((article: Community) => (
+          {data?.map((article: Community) => (
             <ContentItem {...article} key={article.id} />
           ))}
         </ContentItemList>
         <Pagenation
           page={page}
           onPageChange={setPage}
-          pageSize={
-            data && data.totalPages ? Math.ceil(data.totalPages / 10) : 0
-          }
+          pageSize={totalPage ? totalPage : 1}
         />
       </ContentBottom>
     </Container>

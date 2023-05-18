@@ -12,18 +12,25 @@ import Btn from './button/Btn';
 import { useOffResize } from '@/hooks/useOffResize';
 import { HEADER_NAV } from '@/constant/constant';
 import { deleteCookie, getCookie } from '@/util/cookie';
-import { useSetRecoilState } from 'recoil';
-import { userState } from '@/recoil/atom';
+import { useRecoilState } from 'recoil';
+import { loggedInUserState } from '@/recoil/atom';
+import { setUserState } from '@/util/api/user';
 
 const Header = () => {
   const router = useRouter();
 
-  //로그아웃 로직
-  const setUser = useSetRecoilState(userState);
+  //로그인한 유저의 데이터 상태
+  const [loggedInUser, setLoggedInUser] = useRecoilState(loggedInUserState);
+  //로그아웃
   const logout = () => {
     deleteCookie('accessToken');
-    setUser(null);
+    setLoggedInUser(null);
   };
+
+  //최초 페이지 로딩 시, 토큰이 유효하다면 유저 데이터 셋팅
+  useEffect(() => {
+    setUserState().then((res) => setLoggedInUser(res));
+  }, []);
 
   //네비 이름 배열
   const navNames = useMemo(() => Object.keys(HEADER_NAV), []);

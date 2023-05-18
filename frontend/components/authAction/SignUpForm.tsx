@@ -1,39 +1,36 @@
 import styled from 'styled-components';
 import AuthInput from './AuthInput';
 import { useForm, FieldErrors } from 'react-hook-form';
-import usePostApi from './usePostApi';
-import { useEffect } from 'react';
+import usePostApi from '../../hooks/useLogin';
 
 interface ISignUpForm {
-  nickName: string;
+  name: string;
   email: string;
   password: string;
   verifyPw: string;
 }
 export default function SignUpForm() {
-  const [signUp, { data, isLoading }] = usePostApi('signup');
+  const [, signUp] = usePostApi('member/signup');
   const {
     register,
     watch,
     handleSubmit,
     formState: { errors },
   } = useForm<ISignUpForm>();
-  console.log(watch('password'));
+
   const onValid = (data: ISignUpForm) => {
-    console.log(data);
     signUp(data);
   };
+
   const onInValid = (errors: FieldErrors) => {
     console.log(errors);
   };
-  useEffect(() => {
-    data && console.log(data);
-  }, [data]);
+
   return (
     <Wrapper>
       <Form onSubmit={handleSubmit(onValid, onInValid)}>
         <AuthInput //
-          register={register('nickName', {
+          register={register('name', {
             required: '닉네임을 입력해주세요',
           })}
           name="User Name"

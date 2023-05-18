@@ -15,6 +15,7 @@ import { POSITIONS } from '@/constant/constant';
 import Btn from '../button/Btn';
 import { Form } from '@/types/types';
 import { Tech, FiledTag, WantCrew } from '@/types/project';
+import { formatDate3 } from '@/util/date';
 
 const ProjectForm = () => {
   const router = useRouter();
@@ -115,6 +116,9 @@ const ProjectForm = () => {
   //직군 상태
   const [jobs, setJob] = useState<WantCrew[]>([]);
   const addJob = () => {
+    if (watch().jobVal === '') {
+      return alert('직군을 선택해주세요.');
+    }
     if (jobs.filter((job) => job.position === watch().jobVal).length > 0) {
       return alert('동일한 직군은 추가할 수 없습니다.');
     }
@@ -155,34 +159,62 @@ const ProjectForm = () => {
     if (content === '') {
       return alert('내용을 입력해주세요.');
     }
+
+    //공통 데이터
     const data = {
-      startDate: String(start),
-      endDate: String(end),
-      techStackList: {
-        techStackList: stacks.map((stack) => stack.tech),
-      },
-      fieldList: {
-        fieldList: tags.map((tag) => tag.field),
-      },
-      positionCrewList: {
-        positionCrewList: jobs.map((job) => job.position),
-        positionNumberList: jobs.map((job) => job.number),
-      },
+      startDate: formatDate3(start),
+      endDate: end && formatDate3(end),
       writerPosition: watch().position,
       title: watch().title,
-      thumbnailImageUrl: '',
+      thumbnailImageUrl: '이미지',
       content,
     };
-    console.log(data);
 
-    if (router.route.includes('create')) {
-      if (confirm('정말 작성을 완료하시겠습니까?'))
-        return api.post('/project/post', data).then(() => router.push('/'));
-    }
-    if (confirm('정말 수정을 완료하시겠습니까?'))
+    //수정 이벤트
+    if (
+      router.route.includes('edit') &&
+      confirm('정말 수정을 완료하시겠습니까?')
+    ) {
+      const patchData = {
+        ...data,
+        proTechStackPostDto: {
+          techStackList: stacks.map((stack) => stack.tech),
+        },
+        proFieldPostDto: {
+          filedList: tags.map((tag) => tag.field),
+        },
+        proPositionCrewPostDto: {
+          positionCrewList: jobs.map((job) => job.position),
+          positionNumberList: jobs.map((job) => job.number),
+        },
+      };
+      console.log(patchData);
       return api
-        .put(`/project/update/${router.query.id}`, data)
-        .then(() => router.push('/'));
+        .patch(`/project/update/${router.query.id}`, patchData)
+        .then(() => router.push('/'))
+        .catch(() => alert('잠시 후에 다시 시도해주세요.'));
+    }
+
+    //작성 이벤트
+    if (confirm('정말 작성을 완료하시겠습니까?')) {
+      const createData = {
+        ...data,
+        techStackList: {
+          techStackList: stacks.map((stack) => stack.tech),
+        },
+        fieldList: {
+          filedList: tags.map((tag) => tag.field),
+        },
+        positionCrewList: {
+          positionCrewList: jobs.map((job) => job.position),
+          positionNumberList: jobs.map((job) => job.number),
+        },
+      };
+      return api
+        .post('/project/post', createData)
+        .then(() => router.push('/'))
+        .catch(() => alert('잠시 후에 다시 시도해주세요.'));
+    }
   };
 
   return (

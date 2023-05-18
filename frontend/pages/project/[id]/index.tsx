@@ -13,17 +13,18 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import Position from '@/components/Position';
 import Message from '@/components/Message';
-import Btn from '@/components/button/Btn';
+import { getUserData } from '@/util/api/user';
+import { useRecoilValue } from 'recoil';
+import { loggedInUserState } from '@/recoil/atom';
+import { UserState } from '@/types/user';
+import { BUTTON_STATE } from '@/constant/constant';
+import CommentBox from '@/components/CommentBox';
 const ReactMarkdown = dynamic(() => import('@/components/editor/ContentBox'), {
   ssr: false,
   loading: () => <ContentSkeleton />,
 });
 
 const ViewProject = () => {
-  const [userHeart, setUserHeart] = useState(false);
-  const project = ['1', '2', '3', '4', '5', '6', '7', '8', '9'];
-  // 110~ 프로젝트 갯수
-
   const router = useRouter();
   useEffect(() => {
     window.scrollTo({
@@ -32,12 +33,33 @@ const ViewProject = () => {
       behavior: 'smooth',
     });
   }, [router]);
-  //react-query
-  const { projectQuery, updateJob, updateHeart, updateState } = useProject();
+
+  //임시 데이터
+  const [userHeart, setUserHeart] = useState(false);
+  const project = ['1', '2', '3', '4', '5', '6', '7', '8', '9'];
+
+  //프로젝트 데이터 요청
+  const {
+    projectQuery,
+    updateJob,
+    updateHeart,
+    updateState,
+    projectEvent,
+    deleteProject,
+    moveEdit,
+  } = useProject();
+  //데이터 치환
   const data = projectQuery.data?.data;
 
-  //직군 관련
+  //직군 데이터 관련
   const positions = data?.positionCrewList;
+
+  //작성자 및 유저 데이터
+  const loggedInUser = useRecoilValue(loggedInUserState);
+  const [writerState, setWriterState] = useState<UserState>();
+  useEffect(() => {
+    if (data) getUserData(data?.memberId).then((res) => setWriterState(res));
+  }, [projectQuery.isLoading]);
 
   //모든 지원이 꽉 찼을 때, 일어나는 이펙트
   // useEffect(() => {
@@ -49,36 +71,30 @@ const ViewProject = () => {
   //   }
   // }, [projectQuery.data]);
 
-  //세부 기능 추가 이후에 업데이트 해야할듯???
-  const projectEvent = (state: number) => {
-    if (state === 2 && confirm('정말 프로젝트를 시작하시겠습니까?')) {
-      updateState.mutate(3);
+  //댓글 editor 관리
+  const [commentVal, setCommentVal] = useState('');
+  const changeCommentVal = (value: string) => {
+    setCommentVal(value);
+  };
+
+  //댓글 페이지 관리
+  const [commentPage, setCommentPage] = useState(1);
+  const commentPageHandler = (page: number) => {
+    setCommentPage(page);
+  };
+
+  //임시 댓글 작성 이벤트
+  const addComment = () => {
+    if (commentVal === '') {
+      return alert('내용을 작성해주세요.');
     }
-    if (state === 3 && confirm('정말 프로젝트를 종료하시겠습니까?')) {
-      updateState.mutate(4);
+    if (!loggedInUser) {
+      return alert('먼저 로그인을 해주세요.');
     }
+    setCommentData([...commentData, commentVal]);
+    setCommentVal('');
   };
-
-  //edit 이동
-  const moveEdit = () => {
-    router.push(`${router.asPath}/edit`);
-  };
-
-  //세부 기능 추가 이후에 업데이트 해야할듯??? 아마도 숫자 관리가 아닌 only string 일듯?
-  const postState: { [key: string]: number } = {
-    '모집 중': 1,
-    '모집 완료': 2,
-    '진행 중': 3,
-    종료: 4,
-  };
-
-  //세부 기능 추가 이후에 업데이트 해야할듯??? 아마도 숫자 관리가 아닌 only string 일듯?
-  const buttonState: { [key: number]: string } = {
-    1: '',
-    2: '프로젝트 시작',
-    3: '프로젝트 종료',
-    4: '팀원 리뷰',
-  };
+  const [commentData, setCommentData] = useState<string[]>([]);
 
   if (projectQuery.isLoading) return <Message>로딩중입니다.</Message>;
   if (projectQuery.error) return <Message>잠시 후 다시 시도해주세요.</Message>;
@@ -93,22 +109,24 @@ const ViewProject = () => {
                   src="https://noticon-static.tammolo.com/dgggcrkxq/image/upload/v1567008394/noticon/ohybolu4ensol1gzqas1.png"
                   alt="author"
                 />
-                {/* <div className="user-title">{data.author}</div> */}
+                <div className="user-title">{writerState?.name}</div>
                 <div className="noto-medium">
                   <Position text={data.writerPosition} />
                 </div>
-                <div
-                  className="saveStar"
-                  onClick={() => setUserHeart(!userHeart)}
-                >
-                  <span className="icon-box">
-                    {userHeart ? (
-                      <AiOutlineHeart fill={'#ececec'} />
-                    ) : (
-                      <AiFillHeart fill="red" />
-                    )}
-                  </span>
-                </div>
+                {writerState?.email !== loggedInUser?.email && (
+                  <div
+                    className="saveStar"
+                    onClick={() => setUserHeart(!userHeart)}
+                  >
+                    <span className="icon-box">
+                      {userHeart ? (
+                        <AiOutlineHeart fill={'#ececec'} />
+                      ) : (
+                        <AiFillHeart fill="red" />
+                      )}
+                    </span>
+                  </div>
+                )}
               </div>
               <div className="detail-box">
                 <div className="detail-sub-box">
@@ -125,7 +143,9 @@ const ViewProject = () => {
                   <div className="detail-title">평가 점수</div>
                 </div>
               </div>
-              <Tag>쪽지 보내기</Tag>
+              {writerState?.email !== loggedInUser?.email && (
+                <Tag>쪽지 보내기</Tag>
+              )}
             </div>
           </div>
           <PeriodBox
@@ -175,9 +195,9 @@ const ViewProject = () => {
             </ul>
           </div>
           <div>
-            {postState[data.status] !== 1 && (
-              <button onClick={() => projectEvent(postState[data.status])}>
-                {buttonState[postState[data.status]]}
+            {data.status !== '모집 중' && (
+              <button onClick={() => projectEvent(data.status)}>
+                {BUTTON_STATE[data.status]}
               </button>
             )}
           </div>
@@ -189,9 +209,16 @@ const ViewProject = () => {
               {<Tag>{data.status}</Tag>}
             </div>
             <div className="right">
-              <a onClick={moveEdit} className="main-btn">
-                <span>프로젝트 수정</span>
-              </a>
+              {writerState?.email === loggedInUser?.email && (
+                <>
+                  <a onClick={deleteProject} className="main-btn">
+                    <span>프로젝트 삭제</span>
+                  </a>
+                  <a onClick={moveEdit} className="main-btn">
+                    <span>프로젝트 수정</span>
+                  </a>
+                </>
+              )}
             </div>
           </div>
           <div className="sub noto-regular-13">
@@ -202,15 +229,14 @@ const ViewProject = () => {
               <div>
                 <span>조회 수</span> : {data.views}
               </div>
-              <div>
-                {/* <span>댓글 수</span> : {data.comment.length} */}
-              </div>
+              <div>{/* <span>댓글 수</span> : {data.comment.length} */}</div>
             </div>
           </div>
           <ReactMarkdown content={data.content} />
           <div className="heart-box">
             <div onClick={() => updateHeart.mutate()}>
-              {/* {projectQuery.data?.post_state.heart ? (
+              {/*서버작업전 보여주기 용 */}
+              {false ? (
                 <span>
                   <AiFillHeart />
                 </span>
@@ -218,11 +244,18 @@ const ViewProject = () => {
                 <span>
                   <AiOutlineHeart />
                 </span>
-              )} */}
+              )}
               <span>{data.totalLikes}</span>
             </div>
           </div>
-          <div className="comment-box">댓글창</div>
+          <CommentBox
+            commentData={commentData}
+            addComment={addComment}
+            commentVal={commentVal}
+            changeCommentVal={changeCommentVal}
+            commentPageHandler={commentPageHandler}
+            commentPage={commentPage}
+          />
         </Main>
       </GridBox>
     );
@@ -235,6 +268,25 @@ const Main = styled.div`
   display: flex;
   flex-direction: column;
   gap: 32px;
+
+  .title {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .left {
+    display: flex;
+  }
+
+  .right {
+    display: flex;
+    gap: 16px;
+    flex-direction: column;
+  }
+
+  .main-btn {
+    cursor: pointer;
+  }
 
   > div {
     display: flex;

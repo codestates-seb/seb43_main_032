@@ -24,23 +24,24 @@ const ProjectCard = ({ data, size }: Props) => {
   };
   return (
     <Box>
-      {router.pathname === '/' && (
-        <div className="info-heart">
-          <span>
-            <AiFillHeart
-              size={30}
-              fill={!heartState ? 'rgba(106, 106, 106, 0.5)' : 'red'}
-              onClick={() => {
-                setHeartState(!heartState), console.log(heartState);
-              }}
-            />
-          </span>
-        </div>
-      )}
       <Card
         onClick={() => viewProject(data.projectId)}
         width={size === 'lg' ? '416px' : '298px'}
       >
+        {router.pathname === '/' && (
+          <div className="info-heart">
+            <span>
+              <AiFillHeart
+                size={30}
+                fill={!heartState ? 'rgba(106, 106, 106, 0.5)' : 'red'}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setHeartState(!heartState);
+                }}
+              />
+            </span>
+          </div>
+        )}
         <div className="img-box">
           <div>
             <img src={srcSvg} alt="thumbnail" className="thumbnail-image" />
@@ -49,76 +50,20 @@ const ProjectCard = ({ data, size }: Props) => {
         <strong className="nanum-bold title-box">{data.title}</strong>
         <div className="tag-box">
           <ul>
-            {size === 'lg' ? (
-              data.fieldList.length > 6 ? (
-                <>
-                  {data.fieldList.slice(0, 6).map((tag, i) => (
-                    <li key={`${tag.field}+${i}`}>
-                      <Tag>
-                        <div>{tag.field}</div>
-                      </Tag>
-                    </li>
-                  ))}
-                  .....
-                </>
-              ) : (
-                data.fieldList.map((tag, i) => (
-                  <li key={`${tag.field}+${i}`}>
-                    <Tag>
-                      <div>{tag.field}</div>
-                    </Tag>
-                  </li>
-                ))
-              )
-            ) : data.fieldList.length > 4 ? (
-              <>
-                {data.fieldList.slice(0, 4).map((tag, i) => (
-                  <li key={`${tag.field}+${i}`}>
-                    <Tag>
-                      <div>{tag.field}</div>
-                    </Tag>
-                  </li>
-                ))}
-                .....
-              </>
-            ) : (
-              data.fieldList.map((tag, i) => (
-                <li key={`${tag.field}+${i}`}>
-                  <Tag>
-                    <div>{tag.field}</div>
-                  </Tag>
-                </li>
-              ))
-            )}
+            {data.fieldList.map((tag, i) => (
+              <li key={`${tag.field}+${i}`}>
+                <Tag>
+                  <div>{tag.field}</div>
+                </Tag>
+              </li>
+            ))}
           </ul>
         </div>
         <div className="select-box">
           <ul>
-            {size === 'lg' ? (
-              data.techStackList.length > 11 ? (
-                <>
-                  {data.techStackList.slice(0, 11).map((tech) => (
-                    <Stack key={tech.tech} tech={tech.tech} />
-                  ))}
-                  .....
-                </>
-              ) : (
-                data.techStackList.map((tech) => (
-                  <Stack key={tech.tech} tech={tech.tech} />
-                ))
-              )
-            ) : data.techStackList.length > 7 ? (
-              <>
-                {data.techStackList.slice(0, 7).map((tech) => (
-                  <Stack key={tech.tech} tech={tech.tech} />
-                ))}
-                .....
-              </>
-            ) : (
-              data.techStackList.map((tech) => (
-                <Stack key={tech.tech} tech={tech.tech} />
-              ))
-            )}
+            {data.techStackList.map((tech) => (
+              <Stack key={tech.tech} tech={tech.tech} />
+            ))}
           </ul>
         </div>
         <div className="detail-box">
@@ -151,7 +96,6 @@ const ProjectCard = ({ data, size }: Props) => {
 export default ProjectCard;
 
 const Box = styled.div`
-  position: relative;
   width: 100%;
   display: flex;
   justify-content: center;
@@ -161,7 +105,9 @@ const Box = styled.div`
 
   &:hover {
     transform: translateY(-20px);
+    background-color: white;
   }
+
   @media (max-width: 960px) {
     margin: 2px 0px;
   }
@@ -190,7 +136,7 @@ const Box = styled.div`
       height: 100%;
       box-sizing: border-box;
 
-      > thumbnail-image {
+      > .thumbnail-image {
         font-size: 0;
         width: 120%;
         height: 120%;
@@ -201,10 +147,12 @@ const Box = styled.div`
 
   .info-heart {
     position: absolute;
-    z-index: 100;
     top: 130px;
     right: 15px;
     cursor: pointer;
+    @media (max-width: 960px) {
+      top: 112px;
+    }
   }
 
   .title-box {
@@ -220,15 +168,25 @@ const Box = styled.div`
 
   .tag-box {
     padding: 5px 13px;
+    ul {
+      width: 296px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
   }
 
   .select-box {
     position: relative;
     padding: 5px 13px 10px;
     margin-bottom: 8px;
-
-    li {
-      box-shadow: var(--box-shadow);
+    ul {
+      width: 296px;
+      white-space: nowrap;
+      overflow: hidden;
+      li {
+        box-shadow: var(--box-shadow);
+      }
     }
   }
 
