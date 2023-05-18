@@ -21,7 +21,6 @@ export default function ContentItem(article: Community) {
         {/* <div className="email-box">{article.email.split('@')[0]}</div> */}
         <div className="star-box">
           <FaStar color="#FF9900"></FaStar> {article.totalStar}
-          <FaStar color="#FF9900"></FaStar> {article.totalStar}
         </div>
       </Right>
       <a onClick={moveArticle}>

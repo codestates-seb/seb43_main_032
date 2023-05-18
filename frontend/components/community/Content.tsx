@@ -21,15 +21,12 @@ export default function Content() {
   const urlSearch = new URLSearchParams(router.asPath).get('search');
   const urlPage = new URLSearchParams(router.asPath).get('page');
   const urlFilter = new URLSearchParams(router.asPath).get('filter');
-  const [page, setPage] = useState(Number(urlPage) || 0);
-  const [page, setPage] = useState(Number(urlPage) || 0);
+  const [page, setPage] = useState(Number(urlPage) || 1);
   const [searchVal, setSearchVal] = useState(urlSearch || '');
   const [filter, setFilter] = useState(urlFilter || 'sorted');
   const { category } = router.query;
   const page_limit = 10;
-  const endPoint = category
-    ? `/article/findAll/${category}`
-    : `/article/findAll`;
+
   const endPoint = category
     ? `/article/findAll/${category}`
     : `/article/findAll`;
