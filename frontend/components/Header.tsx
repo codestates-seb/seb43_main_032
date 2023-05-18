@@ -29,9 +29,7 @@ const Header = () => {
 
   //최초 페이지 로딩 시, 토큰이 유효하다면 유저 데이터 셋팅
   useEffect(() => {
-    setUserState()
-      .then((res) => setLoggedInUser(res))
-      .catch(() => {});
+    setUserState().then((res) => setLoggedInUser(res));
   }, []);
 
   //네비 이름 배열
