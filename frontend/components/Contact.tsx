@@ -63,6 +63,7 @@ const Container = styled.div`
   max-height: 500px;
   background: linear-gradient(170deg, #efefef, #e4e4e4, #b8b8b8);
   border-radius: 15px;
+  box-shadow: 2px 2px 9px rgba(0, 0, 0, 0.5);
 
   .title {
     margin-top: 50px;

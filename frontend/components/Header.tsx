@@ -12,9 +12,8 @@ import { useOffResize } from '@/hooks/useOffResize';
 import { HEADER_NAV } from '@/constant/constant';
 import { deleteCookie, getCookie } from '@/util/cookie';
 import { useRecoilState } from 'recoil';
-import { loggedInUserState } from '@/recoil/atom';
+import { loggedInUserState, navModalState } from '@/recoil/atom';
 import { setUserState } from '@/util/api/user';
-import { useRecoilState } from 'recoil';
 import Img from '../public/images/second-user.svg';
 import { NavProps } from '@/types/types';
 
