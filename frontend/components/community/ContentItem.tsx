@@ -15,7 +15,7 @@ export default function ContentItem(article: Community) {
       <div className={`color-bar ${article.category}`}></div>
       <Right>
         <img src={article.memberInfo.profileImageUrl}></img>
-        <div className="email-box">{article.memberInfo.email}</div>
+        <div className="email-box">{article.memberInfo.name}</div>
         <div className="star-box">
           <FaStar color="#FF9900"></FaStar> {article.totalLikes}
         </div>
