@@ -5,7 +5,7 @@ import AuthCheckBox from './AuthCheckBox';
 import LogoImage from '../../public/images/logo.svg';
 import Image from 'next/image';
 import edit from '@/pages/users/me/edit';
-import usePostApi from './useLogin';
+import usePostApi from '../../hooks/useLogin';
 import { useEffect } from 'react';
 
 const Wrapper = styled.div`
