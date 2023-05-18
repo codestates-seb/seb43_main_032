@@ -46,9 +46,12 @@ export default function useUser({ id, keyword, page, pageSize }: IProps) {
 //   return response.data.ok;
 // }
 async function getUsers(page?: number, pageSize?: number) {
-  const response = await fetch(
-    'https://2e7e-1-228-217-180.ngrok-free.app/member/findAll?page=1&size=12'
-  );
+  const response = await api.get('/member/findall', {
+    params: {
+      page,
+      size: pageSize,
+    },
+  });
   return response;
 }
 // async function getMe() {
@@ -72,9 +75,9 @@ const getUser = async (id: number | undefined) => {
 };
 
 export const searchUser = async (keyword: string | undefined) => {
-  // if (!name) throw new Error('ID is undefined');
+  //endpoint 수정 필요
   if (!keyword) return;
-  const response = await axios.get(`/api/users/search`, {
+  const response = await axios.get(`/member/find`, {
     params: { keyword },
   });
   return response.data;
