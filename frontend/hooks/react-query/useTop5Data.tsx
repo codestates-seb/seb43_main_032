@@ -41,13 +41,9 @@ export const useTop5Data = () => {
     queryKey,
   });
 
-  console.log(topLikeProjects)
-  console.log(topViewProjects)
-  console.log(communityQuery)
-
   //데이터 모음
-  const topLikeProjectData = topLikeProjects?.data?.projectList;
-  const topViewProjectData = topViewProjects?.data?.projectList;
+  const topLikeProjectData = topLikeProjects?.data?.projectList.slice(0, 4);
+  const topViewProjectData = topViewProjects?.data?.projectList.slice(0, 4);
   const topViewcommunityData = communityQuery.data?.data?.articleList;
 
   return {

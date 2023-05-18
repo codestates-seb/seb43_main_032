@@ -21,27 +21,16 @@ export const useProject = () => {
     }
   );
 
-  //직군 업데이트
-  const updateJob = useMutation(
-    ({ job, update }: { job: string; update: string }) =>
-      api.post(`/projects/job`, { job, update }),
-    {
-      onSuccess: () => {
-        refetch();
-      },
-    }
-  );
-
-  //하트관련
-  const updateHeart = useMutation(() => api.post(`/projects/heart`), {
-    onSuccess: () => {
-      refetch();
-    },
-  });
+  //하트관련 (아직 서버 미 구현)
+  // const updateHeart = useMutation(() => api.post(`/projects/heart`), {
+  //   onSuccess: () => {
+  //     refetch();
+  //   },
+  // });
 
   //모집 상태
   const updateState = useMutation(
-    (state: number) => api.post(`/projects/state`, { data: state }),
+    (status: string) => api.post(`/projects/${id}/status`, { status }),
     {
       onSuccess: () => {
         refetch();
@@ -52,10 +41,10 @@ export const useProject = () => {
   //프로젝트 진행상황 관리 이벤트
   const projectEvent = (state: string) => {
     if (state === '모집 완료' && confirm('정말 프로젝트를 시작하시겠습니까?')) {
-      updateState.mutate(3);
+      updateState.mutate('진행 중');
     }
     if (state === '진행 중' && confirm('정말 프로젝트를 종료하시겠습니까?')) {
-      updateState.mutate(4);
+      updateState.mutate('종료');
     }
   };
 
@@ -65,15 +54,14 @@ export const useProject = () => {
       api.delete(`/projects/${id}`).then(() => router.push('/'));
   };
 
-  //edit 이동
+  //edit 페이지로 이동
   const moveEdit = () => {
-    if (confirm('정말 수정하시겠습니까?')) router.push(`/projects/edit`);
+    if (confirm('정말 수정하시겠습니까?')) router.push(`/project/edit`);
   };
 
   return {
     projectQuery: { isLoading, error, data },
-    updateJob,
-    updateHeart,
+    // updateHeart,
     updateState,
     projectEvent,
     deleteProject,

@@ -33,7 +33,7 @@ const Header = () => {
     setUserState()
       .then((res) => setLoggedInUser(res))
       .catch(() => {});
-  }, []);
+  }, [router]);
 
   //네비 이름 배열
   const navNames = useMemo(() => Object.keys(HEADER_NAV), []);

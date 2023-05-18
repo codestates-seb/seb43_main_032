@@ -34,13 +34,11 @@ const ViewProject = () => {
 
   //임시 데이터
   const [userHeart, setUserHeart] = useState(false);
-  const project = ['1', '2', '3', '4', '5', '6', '7', '8', '9'];
 
   //프로젝트 데이터 요청
   const {
     projectQuery,
-    updateJob,
-    updateHeart,
+    // updateHeart,
     updateState,
     projectEvent,
     deleteProject,
@@ -56,14 +54,15 @@ const ViewProject = () => {
   const loggedInUser = useRecoilValue(loggedInUserState);
 
   //모든 지원이 꽉 찼을 때, 일어나는 이펙트
-  // useEffect(() => {
-  //   if (
-  //     jobCount &&
-  //     jobCount?.filter((x) => x.current === x.want).length == jobCount?.length
-  //   ) {
-  //     updateState.mutate(2);
-  //   }
-  // }, [projectQuery.data]);
+  useEffect(() => {
+    if (
+      data?.positionCrewList.filter(
+        (crew) => crew.number !== crew.acceptedNumber
+      ).length === 0
+    ) {
+      updateState.mutate('모집 완료');
+    }
+  }, [projectQuery.data]);
 
   //댓글 editor 관리
   const [commentVal, setCommentVal] = useState('');
@@ -125,14 +124,15 @@ const ViewProject = () => {
               <div className="detail-box">
                 <div className="detail-sub-box">
                   <div className="detail-num">
-                    {project.length} <span>개</span>
+                    {/* 서버 데이터가 들어오면 작업해줘야할 부분 */}
+                    {3} <span>개</span>
                   </div>
                   <div className="detail-title">진행 프로젝트</div>
                 </div>
                 <div className="center-border"></div>
                 <div className="detail-sub-box">
                   <div className="detail-num">
-                    {data.totalLikes} <span>개</span>
+                    {data.memberInfo.totalStar} <span>개</span>
                   </div>
                   <div className="detail-title">평가 점수</div>
                 </div>
@@ -164,6 +164,7 @@ const ViewProject = () => {
                         : 'green light'
                     }
                   ></div>
+                  {/* 지원자 리스트랑 비교해서 맞춰야함 */}
                   {/* {position.acceptedNumber === position.number ? (
                     <Tag>마감</Tag>
                   ) : job === projectQuery.data?.post_state.want ? (
@@ -189,7 +190,7 @@ const ViewProject = () => {
             </ul>
           </div>
           <div>
-            {data.status !== '모집 중' && (
+            {data.status !== '모집중' && (
               <button onClick={() => projectEvent(data.status)}>
                 {BUTTON_STATE[data.status]}
               </button>
@@ -218,7 +219,7 @@ const ViewProject = () => {
           <div className="sub noto-regular-13">
             <div>
               <div>
-                {/* <span>작성일자</span> : {formatDate2(new Date(data.createAt))} */}
+                <span>작성일자</span> : {formatDate2(new Date(data.createdAt))}
               </div>
               <div>
                 <span>조회 수</span> : {data.views}
@@ -228,7 +229,9 @@ const ViewProject = () => {
           </div>
           <ReactMarkdown content={data.content} />
           <div className="heart-box">
-            <div onClick={() => updateHeart.mutate()}>
+            <div
+            // onClick={() => updateHeart.mutate()}
+            >
               {/*서버작업전 보여주기 용 */}
               {false ? (
                 <span>
