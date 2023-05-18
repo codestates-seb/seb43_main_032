@@ -11,22 +11,43 @@ type AnswerData = {
 
 type Props = {
   category: 'PROJECT' | 'ARTICLE';
+  postId?: number;
+  params: string;
 };
 
-export const useGetAnswer = ({ category }: Props) => {
+export const useGetAnswer = ({ category, postId, params }: Props) => {
   const router = useRouter();
   const { id } = router.query;
+
+  const queryKey = postId
+    ? [`${category}-answer-list`, postId]
+    : [`${category}-answer-list`, id];
+
   const { isLoading, error, data, refetch } = useQuery<AnswerData, Error>(
-    [`${category}-answer-list`, id],
+    queryKey,
     async () => {
       if (router.route.includes('create')) {
         return;
       }
       if (category === 'ARTICLE') {
-        return await api(`/articles/${id}/answers`).then((res) => res.data);
+        if (postId) {
+          return await api(`/articles/${postId}/answers?${params}`).then(
+            (res) => res.data
+          );
+        }
+        return await api(`/articles/${id}/answers?${params}`).then(
+          (res) => res.data
+        );
       }
       if (category === 'PROJECT') {
-        return await api(`/projects/${id}/answers`).then((res) => res.data);
+        if (postId) {
+          return await api(`/projects/${postId}/answers?${params}`).then(
+            (res) => res.data
+          );
+        }
+        return await api(`/projects/${id}/answers?${params}`).then(
+          (res) => res.data
+        );
       }
     }
   );

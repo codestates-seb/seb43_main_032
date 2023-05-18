@@ -12,9 +12,10 @@ type CommentData = {
 type Props = {
   category: 'PROJECT' | 'ARTICLE';
   answerId: number;
+  params: string;
 };
 
-export const useGetComment = ({ answerId, category }: Props) => {
+export const useGetComment = ({ answerId, category, params }: Props) => {
   const router = useRouter();
   const { id } = router.query;
   const { isLoading, error, data, refetch } = useQuery<CommentData, Error>(
@@ -25,12 +26,12 @@ export const useGetComment = ({ answerId, category }: Props) => {
       }
       if (category === 'ARTICLE') {
         return await await api(
-          `/articles/${id}/answers/${answerId}/comments`
+          `/articles/${id}/answers/${answerId}/comments?${params}`
         ).then((res) => res.data);
       }
       if (category === 'PROJECT') {
         return await await api(
-          `/projects/${id}/answers/${answerId}/comments`
+          `/projects/${id}/answers/${answerId}/comments?${params}`
         ).then((res) => res.data);
       }
     }

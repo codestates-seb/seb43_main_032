@@ -1,12 +1,14 @@
 import { GrView } from 'react-icons/gr';
 import Card from '../Card';
-import { AiFillHeart, AiFillStar } from 'react-icons/ai';
+import { AiFillHeart } from 'react-icons/ai';
 import Stack from '../stack/Stack';
 import Tag from '../Tag';
 import styled from 'styled-components';
 import { useRouter } from 'next/router';
 import { Project } from '@/types/project';
 import { useState } from 'react';
+import { FaComment } from 'react-icons/fa';
+import { useGetAnswer } from '@/hooks/react-query/answer/useGetAnswer';
 type Props = {
   size: string;
   data: Project;
@@ -22,6 +24,14 @@ const ProjectCard = ({ data, size }: Props) => {
   const viewProject = (id: number) => {
     router.push(`project/${id}`);
   };
+
+  const { answerQuery } = useGetAnswer({
+    category: 'PROJECT',
+    postId: data.projectId,
+    params: 'page=1&size=4',
+  });
+console.log(answerQuery.data?.pageInfo.totalElements)
+
 
   return (
     <Box>
@@ -91,9 +101,9 @@ const ProjectCard = ({ data, size }: Props) => {
             </div>
             <div className="infor-box">
               <span>
-                <AiFillStar fill="#e1e439cf" />
+                <FaComment color="#909090" />
               </span>
-              <span>{data.memberInfo.totalStar}</span>
+              <span>{answerQuery.data?.pageInfo.totalElements}</span>
             </div>
           </div>
         </div>
