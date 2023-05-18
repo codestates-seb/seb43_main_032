@@ -37,8 +37,8 @@ const ViewProject = () => {
 
   //프로젝트 데이터 요청
   const {
-    projectQuery,
     // updateHeart,
+    projectQuery,
     updateState,
     projectEvent,
     deleteProject,

@@ -55,6 +55,9 @@ export const useProject = () => {
       onSuccess: () => {
         refetch();
       },
+      onError: () => {
+        alert('잠시 후에 다시 시도해주세요.');
+      },
     }
   );
 
