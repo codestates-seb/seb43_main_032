@@ -23,7 +23,8 @@
     "**/*.ts",
     "**/*.tsx",
     "public/mockServiceWorker.js",
-    "next.config.js"
-, "dummy/users.ts"  ],
+    "next.config.js",
+    "dummy/users.ts"
+  ],
   "exclude": ["node_modules"]
 }

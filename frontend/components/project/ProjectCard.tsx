@@ -147,7 +147,6 @@ const Box = styled.div`
 
   .info-heart {
     position: absolute;
-    z-index: 0;
     top: 130px;
     right: 15px;
     cursor: pointer;

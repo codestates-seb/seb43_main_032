@@ -5,7 +5,7 @@ import AuthCheckBox from './AuthCheckBox';
 import LogoImage from '../../public/images/logo.svg';
 import Image from 'next/image';
 import edit from '@/pages/users/me/edit';
-import usePostApi from './usePostApi';
+import usePostApi from './useLogin';
 import { useEffect } from 'react';
 
 const Wrapper = styled.div`
@@ -43,20 +43,16 @@ interface ILoginForm {
   rememberMe: boolean;
 }
 export default function LoginForm() {
-  const [login, { data, auth, isLoading, error }] = usePostApi('login');
+  const [login] = usePostApi('login');
   const { register, watch, handleSubmit } = useForm<ILoginForm>();
-  console.log(watch());
+
   const onValid = (data: ILoginForm) => {
-    console.log('valid');
     login(data);
   };
   const onInValid = (errors: FieldErrors) => {
     console.log(errors);
   };
 
-  useEffect(() => {
-    data && console.log('data', data);
-  }, [data]);
   return (
     <Wrapper>
       <LogoBox>
