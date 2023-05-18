@@ -160,13 +160,17 @@ const ProjectForm = () => {
       return alert('내용을 입력해주세요.');
     }
 
+    //랜덤 이미지 생성
+    const randomNumber = Math.floor(Math.random() * 5) + 1;
+    const srcSvg = `/images/thum (${randomNumber}).svg`;
+
     //공통 데이터
     const data = {
       startDate: formatDate3(start),
       endDate: end && formatDate3(end),
       writerPosition: watch().position,
       title: watch().title,
-      thumbnailImageUrl: '이미지',
+      thumbnailImageUrl: srcSvg,
       content,
       techList: {
         techList: stacks.map((stack) => stack.tech),

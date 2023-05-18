@@ -38,7 +38,7 @@ export const useTopData = () => {
   );
 
   //커뮤니티 조회 수 높은 순 5개
-  const queryKey = ['article', 'hot'];
+  const queryKey = ['article-top-hot-list'];
   const address = `/articles/view-top5`;
   const { communityQuery } = useCommunity<{ articleList: Community[] }>({
     address,

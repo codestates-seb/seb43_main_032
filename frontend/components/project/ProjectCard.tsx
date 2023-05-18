@@ -1,6 +1,6 @@
 import { GrView } from 'react-icons/gr';
 import Card from '../Card';
-import { AiFillHeart } from 'react-icons/ai';
+import { AiFillHeart, AiFillStar } from 'react-icons/ai';
 import Stack from '../stack/Stack';
 import Tag from '../Tag';
 import styled from 'styled-components';
@@ -17,10 +17,12 @@ const ProjectCard = ({ data, size }: Props) => {
   const [heartState, setHeartState] = useState<boolean>(false);
   const randomNumber = Math.floor(Math.random() * 5) + 1;
   const srcSvg = `/images/thum (${randomNumber}).svg`;
-  //프로젝트 글 조회
+
+  //프로젝트 조회 이동
   const viewProject = (id: number) => {
     router.push(`project/${id}`);
   };
+
   return (
     <Box>
       <Card
@@ -43,7 +45,15 @@ const ProjectCard = ({ data, size }: Props) => {
         )}
         <div className="img-box">
           <div>
-            <img src={srcSvg} alt="thumbnail" className="thumbnail-image" />
+            <img
+              src={
+                data.thumbnailImageUrl.includes('http')
+                  ? data.thumbnailImageUrl
+                  : srcSvg
+              }
+              alt="thumbnail"
+              className="thumbnail-image"
+            />
           </div>
         </div>
         <strong className="nanum-bold title-box">{data.title}</strong>
@@ -81,9 +91,9 @@ const ProjectCard = ({ data, size }: Props) => {
             </div>
             <div className="infor-box">
               <span>
-                <AiFillHeart />
+                <AiFillStar fill="#e1e439cf" />
               </span>
-              <span>{data.totalLikes}</span>
+              <span>{data.memberInfo.totalStar}</span>
             </div>
           </div>
         </div>

@@ -3,6 +3,8 @@ import EiditorSkeleton from './skeleton/EiditorSkeleton';
 import dynamic from 'next/dynamic';
 import hljs from 'highlight.js';
 import Pagenation from './Pagenation';
+import { RiThumbUpFill, RiThumbUpLine } from 'react-icons/ri';
+import { AiFillStar } from 'react-icons/ai';
 
 const Editor = dynamic(() => import('@/components/editor/Editor'), {
   ssr: false,
@@ -56,7 +58,38 @@ const CommentBox = ({
         <ul>
           {commentData.map((comment, i) => (
             <li className="comment" key={`${comment}+${i}`}>
-              {comment}
+              <div className="like-box">
+                {true ? (
+                  <RiThumbUpLine size={30} />
+                ) : (
+                  <RiThumbUpFill size={30} />
+                )}
+              </div>
+              <div className="content-box">
+                <div className="top">{comment} 내용</div>
+                <div className="bottom">
+                  <div className="update-box">
+                    <button>댓글 작성</button>
+                    <button>삭제</button>
+                    <button>수정</button>
+                  </div>
+                  <div className="user-box">
+                    <div className="user-img">
+                      <img
+                        src="https://noticon-static.tammolo.com/dgggcrkxq/image/upload/v1567008394/noticon/ohybolu4ensol1gzqas1.png"
+                        alt="user"
+                      />
+                    </div>
+                    <div className="user-detail">
+                      <div className="user-id">유저 아디</div>
+                      <div className="user-star">
+                        <AiFillStar />
+                        65
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </li>
           ))}
         </ul>

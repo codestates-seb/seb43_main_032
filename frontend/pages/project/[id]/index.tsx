@@ -24,7 +24,6 @@ const ReactMarkdown = dynamic(() => import('@/components/editor/ContentBox'), {
 
 const ViewProject = () => {
   const router = useRouter();
-  console.log(router.asPath)
   useEffect(() => {
     window.scrollTo({
       top: 600,
