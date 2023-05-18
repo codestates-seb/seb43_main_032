@@ -1,10 +1,9 @@
 import GridBox from '@/components/GridBox';
 import UserCard from '@/components/user/UserCard';
 import UserSideBar from '@/components/user/UserSideBar';
-import { USERS } from '@/dummy/users';
 import useUser from '@/hooks/react-query/useUser';
 import { useRouter } from 'next/router';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 //유저 페이지 입니다. 경로 '/user/'
 
@@ -28,7 +27,13 @@ const CardWrapper = styled.div`
   } */
 `;
 const User = () => {
+  const [page, setPage] = useState<number>(1);
+  const [size, setSize] = useState<number>(12);
+  const {
+    userQuery: { data: users },
+  } = useUser({ page, pageSize: size });
   const router = useRouter();
+
   useEffect(() => {
     window.scrollTo({
       top: 670,
@@ -36,9 +41,7 @@ const User = () => {
       behavior: 'smooth',
     });
   }, [router]);
-  // const {
-  //   userQuery: { data: users },
-  // } = useUser();
+
   return (
     <GridBox>
       <UserSideBar />
