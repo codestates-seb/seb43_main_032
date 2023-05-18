@@ -13,15 +13,13 @@ type Props = {
 };
 
 const ProjectCard = ({ data, size }: Props) => {
-  console.log(data);
   const router = useRouter();
   const [heartState, setHeartState] = useState<boolean>(false);
-
   const randomNumber = Math.floor(Math.random() * 5) + 1;
   const srcSvg = `/images/thum (${randomNumber}).svg`;
   //프로젝트 글 조회
   const viewProject = (id: number) => {
-    router.push(`projects/${id}`);
+    router.push(`project/${id}`);
   };
   return (
     <Box>

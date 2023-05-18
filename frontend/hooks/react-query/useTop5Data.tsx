@@ -41,6 +41,10 @@ export const useTop5Data = () => {
     queryKey,
   });
 
+  console.log(topLikeProjects)
+  console.log(topViewProjects)
+  console.log(communityQuery)
+
   //데이터 모음
   const topLikeProjectData = topLikeProjects?.data?.projectList;
   const topViewProjectData = topViewProjects?.data?.projectList;

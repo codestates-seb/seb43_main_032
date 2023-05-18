@@ -10,16 +10,16 @@ import { useState } from 'react';
 import { FcSms } from 'react-icons/fc';
 import Contact from '@/components/Contact';
 
-// const queryClient = new QueryClient();
-const queryClient = new QueryClient({
-  defaultOptions: {
-    queries: {
-      refetchOnWindowFocus: false,
-      retry: 0,
-      staleTime: 1000 * 60 * 5,
-    },
-  },
-});
+const queryClient = new QueryClient();
+// const queryClient = new QueryClient({
+//   defaultOptions: {
+//     queries: {
+//       refetchOnWindowFocus: false,
+//       retry: 0,
+//       staleTime: 1000 * 60 * 5,
+//     },
+//   },
+// });
 
 // if (process.env.NODE_ENV === 'development') {
 //   require('../__mocks__');
