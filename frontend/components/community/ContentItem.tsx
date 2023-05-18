@@ -10,6 +10,7 @@ export default function ContentItem(article: Community) {
   const moveArticle = () => {
     router.push(`community/post/${article.articleId}`);
   };
+
   return (
     <Container>
       <div className={`color-bar ${article.category}`}></div>

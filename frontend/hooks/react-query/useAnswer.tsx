@@ -4,12 +4,13 @@ import { useMutation } from 'react-query';
 
 type Props = {
   answerRefetch: () => void;
+  category: 'PROJECT' | 'ARTICLE';
 };
 
 /**
  * 답글 CRUD
  */
-export const useAnswer = ({ answerRefetch }: Props) => {
+export const useAnswer = ({ answerRefetch, category }: Props) => {
   const router = useRouter();
   const { id } = router.query;
 
@@ -21,17 +22,9 @@ export const useAnswer = ({ answerRefetch }: Props) => {
       const data = {
         content,
         uniteId: id,
+        category,
       };
-      if (router.asPath.includes('project')) {
-        return api.post(`/answers`, {
-          ...data,
-          category: 'PROJECT',
-        });
-      }
-      return api.post(`/answers`, {
-        ...data,
-        category: 'ARTICLE',
-      });
+      return api.post(`/answers`, data);
     },
     {
       onSuccess: () => {
