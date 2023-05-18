@@ -12,6 +12,7 @@ export default function AuthContainer({ isLogin }: { isLogin: Boolean }) {
   const onActionChange = () => {
     isLogin ? router.push('/users/signup') : router.push('/users/login');
   };
+
   return (
     <LoginWrapper>
       <LoginContainer>
@@ -29,16 +30,16 @@ export default function AuthContainer({ isLogin }: { isLogin: Boolean }) {
         {isLogin ? <P>Or sign in with:</P> : <P>Or sign in with:</P>}
         <OAuthBtnBox>
           <OAuthButton>
-            <FcGoogle size={50} />
+            <FcGoogle size={40} />
           </OAuthButton>
           <OAuthButton>
-            <AiFillFacebook size={50} color="#3C8AFF" />
+            <AiFillFacebook size={40} color="#3C8AFF" />
           </OAuthButton>
           <OAuthButton style={{ backgroundColor: '#F2D800' }}>
-            <RiKakaoTalkFill size={50} />
+            <RiKakaoTalkFill size={40} />
           </OAuthButton>
           <OAuthButton>
-            <AiFillGithub size={50} />
+            <AiFillGithub size={40} />
           </OAuthButton>
         </OAuthBtnBox>
       </LoginContainer>

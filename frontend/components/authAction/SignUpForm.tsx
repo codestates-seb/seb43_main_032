@@ -108,5 +108,5 @@ const Submit = styled.input`
 `;
 const ErrMsg = styled.p`
   position: absolute;
-  color: teal;
+  color: red;
 `;
