@@ -1,7 +1,6 @@
 import GridBox from '@/components/GridBox';
 import UserCard from '@/components/user/UserCard';
 import UserSideBar from '@/components/user/UserSideBar';
-import { USERS } from '@/dummy/users';
 import useUser from '@/hooks/react-query/useUser';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
@@ -36,9 +35,9 @@ const User = () => {
       behavior: 'smooth',
     });
   }, [router]);
-  // const {
-  //   userQuery: { data: users },
-  // } = useUser();
+  const {
+    userQuery: { data: users },
+  } = useUser();
   return (
     <GridBox>
       <UserSideBar />

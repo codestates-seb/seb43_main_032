@@ -17,7 +17,8 @@ import { getUserData } from '@/util/api/user';
 import { useRecoilValue } from 'recoil';
 import { loggedInUserState } from '@/recoil/atom';
 import { UserState } from '@/types/user';
-import { api } from '@/util/api';
+import { BUTTON_STATE } from '@/constant/constant';
+import CommentBox from '@/components/CommentBox';
 const ReactMarkdown = dynamic(() => import('@/components/editor/ContentBox'), {
   ssr: false,
   loading: () => <ContentSkeleton />,
@@ -38,9 +39,19 @@ const ViewProject = () => {
   const project = ['1', '2', '3', '4', '5', '6', '7', '8', '9'];
 
   //프로젝트 데이터 요청
-  const { projectQuery, updateJob, updateHeart, updateState } = useProject();
+  const {
+    projectQuery,
+    updateJob,
+    updateHeart,
+    updateState,
+    projectEvent,
+    deleteProject,
+    moveEdit,
+  } = useProject();
+  //데이터 치환
   const data = projectQuery.data?.data;
-  //직군 관련
+
+  //직군 데이터 관련
   const positions = data?.positionCrewList;
 
   //작성자 및 유저 데이터
@@ -60,42 +71,30 @@ const ViewProject = () => {
   //   }
   // }, [projectQuery.data]);
 
-  //세부 기능 추가 이후에 업데이트 해야할듯???
-  const projectEvent = (state: number) => {
-    if (state === 2 && confirm('정말 프로젝트를 시작하시겠습니까?')) {
-      updateState.mutate(3);
+  //댓글 editor 관리
+  const [commentVal, setCommentVal] = useState('');
+  const changeCommentVal = (value: string) => {
+    setCommentVal(value);
+  };
+
+  //댓글 페이지 관리
+  const [commentPage, setCommentPage] = useState(1);
+  const commentPageHandler = (page: number) => {
+    setCommentPage(page);
+  };
+
+  //임시 댓글 작성 이벤트
+  const addComment = () => {
+    if (commentVal === '') {
+      return alert('내용을 작성해주세요.');
     }
-    if (state === 3 && confirm('정말 프로젝트를 종료하시겠습니까?')) {
-      updateState.mutate(4);
+    if (!loggedInUser) {
+      return alert('먼저 로그인을 해주세요.');
     }
+    setCommentData([...commentData, commentVal]);
+    setCommentVal('');
   };
-
-  //프로젝트 삭제
-  const deleteProject = () => {
-    if (confirm('정말 삭제하시겠습니까?'))
-      api.delete(`/project/${data?.projectId}`).then(() => router.push('/'));
-  };
-
-  //edit 이동
-  const moveEdit = () => {
-    if (confirm('정말 수정하시겠습니까?')) router.push(`${router.asPath}/edit`);
-  };
-
-  //세부 기능 추가 이후에 업데이트 해야할듯??? 아마도 숫자 관리가 아닌 only string 일듯?
-  const postState: { [key: string]: number } = {
-    '모집 중': 1,
-    '모집 완료': 2,
-    '진행 중': 3,
-    종료: 4,
-  };
-
-  //세부 기능 추가 이후에 업데이트 해야할듯??? 아마도 숫자 관리가 아닌 only string 일듯?
-  const buttonState: { [key: number]: string } = {
-    1: '',
-    2: '프로젝트 시작',
-    3: '프로젝트 종료',
-    4: '팀원 리뷰',
-  };
+  const [commentData, setCommentData] = useState<string[]>([]);
 
   if (projectQuery.isLoading) return <Message>로딩중입니다.</Message>;
   if (projectQuery.error) return <Message>잠시 후 다시 시도해주세요.</Message>;
@@ -196,9 +195,9 @@ const ViewProject = () => {
             </ul>
           </div>
           <div>
-            {postState[data.status] !== 1 && (
-              <button onClick={() => projectEvent(postState[data.status])}>
-                {buttonState[postState[data.status]]}
+            {data.status !== '모집 중' && (
+              <button onClick={() => projectEvent(data.status)}>
+                {BUTTON_STATE[data.status]}
               </button>
             )}
           </div>
@@ -236,7 +235,8 @@ const ViewProject = () => {
           <ReactMarkdown content={data.content} />
           <div className="heart-box">
             <div onClick={() => updateHeart.mutate()}>
-              {/* {projectQuery.data?.post_state.heart ? (
+              {/*서버작업전 보여주기 용 */}
+              {false ? (
                 <span>
                   <AiFillHeart />
                 </span>
@@ -244,11 +244,18 @@ const ViewProject = () => {
                 <span>
                   <AiOutlineHeart />
                 </span>
-              )} */}
+              )}
               <span>{data.totalLikes}</span>
             </div>
           </div>
-          <div className="comment-box">댓글창</div>
+          <CommentBox
+            commentData={commentData}
+            addComment={addComment}
+            commentVal={commentVal}
+            changeCommentVal={changeCommentVal}
+            commentPageHandler={commentPageHandler}
+            commentPage={commentPage}
+          />
         </Main>
       </GridBox>
     );
@@ -265,6 +272,10 @@ const Main = styled.div`
   .title {
     display: flex;
     justify-content: space-between;
+  }
+
+  .left {
+    display: flex;
   }
 
   .right {

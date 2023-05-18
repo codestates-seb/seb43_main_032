@@ -34,8 +34,9 @@ const ProjectCard = ({ data, size }: Props) => {
               <AiFillHeart
                 size={30}
                 fill={!heartState ? 'rgba(106, 106, 106, 0.5)' : 'red'}
-                onClick={() => {
-                  setHeartState(!heartState), console.log(heartState);
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setHeartState(!heartState);
                 }}
               />
             </span>
@@ -95,7 +96,6 @@ const ProjectCard = ({ data, size }: Props) => {
 export default ProjectCard;
 
 const Box = styled.div`
-  position: relative;
   width: 100%;
   display: flex;
   justify-content: center;
@@ -105,7 +105,9 @@ const Box = styled.div`
 
   &:hover {
     transform: translateY(-20px);
+    background-color: white;
   }
+
   @media (max-width: 960px) {
     margin: 2px 0px;
   }
@@ -133,19 +135,11 @@ const Box = styled.div`
       width: 100%;
       height: 100%;
       box-sizing: border-box;
-
-      > thumbnail-image {
-        font-size: 0;
-        width: 120%;
-        height: 120%;
-        vertical-align: middle;
-      }
     }
   }
 
   .info-heart {
     position: absolute;
-    z-index: 100;
     top: 130px;
     right: 15px;
     cursor: pointer;
