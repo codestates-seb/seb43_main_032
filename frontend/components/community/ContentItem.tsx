@@ -8,17 +8,16 @@ import { useRouter } from 'next/router';
 export default function ContentItem(article: Community) {
   const router = useRouter();
   const moveArticle = () => {
-    router.push(`community/post/${article.id}`);
+    router.push(`community/post/${article.articleId}`);
   };
   return (
     <Container>
-      {/* <div className={`color-bar ${article.position}`}></div> */}
+      <div className={`color-bar ${article.category}`}></div>
       <Right>
-        {/* memberID에서 이메일 받아와야함 or nickName */}
-        <img src={article.profileImageUrl}></img>
-        {/* <div className="email-box">{article.email.split('@')[0]}</div> */}
+        <img src={article.memberInfo.profileImageUrl}></img>
+        <div className="email-box">{article.memberInfo.email}</div>
         <div className="star-box">
-          <FaStar color="#FF9900"></FaStar> {article.totalStar}
+          <FaStar color="#FF9900"></FaStar> {article.totalLikes}
         </div>
       </Right>
       <a onClick={moveArticle}>
@@ -28,7 +27,7 @@ export default function ContentItem(article: Community) {
             <div className="content">{article.content}</div>
           </Top>
           <div className="tagBox">
-            {article.techStackList.map((tag) => (
+            {article.techList.map((tag) => (
               <Tag key={tag.tech}>{tag.tech}</Tag>
             ))}
           </div>

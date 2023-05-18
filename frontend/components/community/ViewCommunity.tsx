@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router';
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import { FaHeart } from 'react-icons/fa';
 import dynamic from 'next/dynamic';
@@ -9,6 +9,7 @@ import Message from '../Message';
 import Btn from '../button/Btn';
 import { useCommunity } from '@/hooks/react-query/useCommunity';
 import { Community } from '@/types/community';
+import CommentBox from '../CommentBox';
 
 const ReactMarkdown = dynamic(() => import('@/components/editor/ContentBox'), {
   ssr: false,
@@ -24,61 +25,73 @@ const Editor = dynamic(() => import('@/components/editor/Editor'), {
 const ViewCommunity = () => {
   const router = useRouter();
   const id = router.query.id;
-  const address = `/community/post/${id}`;
-  const queryKey = ['post', id];
+  const address = `/articles/${id}`;
+  const queryKey = ['articles', 'post', id];
 
   const { communityQuery } = useCommunity<Community>({
     address,
     queryKey,
   });
-
   const data = communityQuery.data?.data;
+
+  //댓글 관련
+  const [commentVal, setCommentVal] = useState('');
+  const changeCommentVal = (val: string) => {
+    setCommentVal(val);
+  };
+
+  const addComment = () => {
+    //댓글 추가 이벤트를 작성해주세요~~~
+  };
+
+  //댓글 페이지 네이션
+  const [commentPage, setCommentPage] = useState(1);
+  const commentPageHandler = (num: number) => {
+    setCommentPage(num);
+  };
 
   if (communityQuery.isLoading) return <Message>로딩중입니다.</Message>;
   if (communityQuery.error)
     return <Message>잠시 후 다시 시도해주세요.</Message>;
-  if (data)
-    return (
-      <Container>
-        <Top>
-          <div className="left">
-            <div className="title">{data.title}</div>
-            {/* <div className="date">{data.createdAt}</div> */}
-          </div>
-          <div className="right">
-            <img src={data.profileImageUrl}></img>
-            <div className="userBox nanum-bold userStar">
-              <FaHeart color="red" /> {data.totalStar}
+  return (
+    <Container>
+      {data && (
+        <>
+          <Top>
+            <div className="left">
+              <div className="title">{data.title}</div>
+              <div className="date">{data.createdAt}</div>
             </div>
-            <div className="userBox nanum-bold userMail">
-              {/* {data.email.split('@')[0]} */}
+            <div className="right">
+              <img src={data.memberInfo.profileImageUrl}></img>
+              <div className="userBox nanum-bold userStar">
+                <FaHeart color="red" /> {data.totalLikes}
+              </div>
+              <div className="userBox nanum-bold userMail">
+                {data.memberInfo.email}
+              </div>
             </div>
-          </div>
-        </Top>
-        <Bottom>
-          <div className="content">
-            <ReactMarkdown
-              content={data.content}
-              backColor="white"
-            ></ReactMarkdown>
-          </div>
-          <div className="comment">
-            <Editor />
-            <Btn>
-              <span>제출하기</span>
-            </Btn>
-            <div className="each">
-              {/* 임시로 el.id가 없기 때문에 i 활용 중 */}
-              {/* {data.comment.map((el, i) => (
-                <div key={i} className="box">
-                  <div>{i}</div>
-                </div>
-              ))} */}
+          </Top>
+          <Bottom>
+            <div className="content">
+              <ReactMarkdown
+                content={data.content}
+                backColor="white"
+              ></ReactMarkdown>
+              <CommentBox
+                commentPage={commentPage}
+                commentPageHandler={commentPageHandler}
+                addComment={addComment}
+                commentVal={commentVal}
+                changeCommentVal={changeCommentVal}
+                commentData={[]}
+              />
             </div>
-          </div>
-        </Bottom>
-      </Container>
-    );
+          </Bottom>
+        </>
+      )}
+    </Container>
+  );
 };
 
 export default ViewCommunity;
@@ -215,6 +228,9 @@ const Bottom = styled.div`
   > .content {
     width: 68%;
     position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
   }
 
   > .comment {

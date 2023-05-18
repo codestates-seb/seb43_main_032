@@ -15,6 +15,7 @@ const api = axios.create({
   headers: {
     'Content-Type': 'application/json',
     Authorization: getCookie('accessToken'),
+    // Refresh: getCookie('refreshToken'),
   },
 });
 

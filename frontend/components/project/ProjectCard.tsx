@@ -15,7 +15,6 @@ type Props = {
 const ProjectCard = ({ data, size }: Props) => {
   const router = useRouter();
   const [heartState, setHeartState] = useState<boolean>(false);
-
   const randomNumber = Math.floor(Math.random() * 5) + 1;
   const srcSvg = `/images/thum (${randomNumber}).svg`;
   //프로젝트 글 조회
@@ -61,7 +60,7 @@ const ProjectCard = ({ data, size }: Props) => {
         </div>
         <div className="select-box">
           <ul>
-            {data.techStackList.map((tech) => (
+            {data.techList.map((tech) => (
               <Stack key={tech.tech} tech={tech.tech} />
             ))}
           </ul>

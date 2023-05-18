@@ -7,7 +7,7 @@ export async function getAuth(): Promise<IUser> {
 }
 
 export async function getUsers(): Promise<IUser[]> {
-  return api('/member/findAll?page=1&size=12') //
+  return api('/users') //
     .then((res) => res.data);
 }
 
