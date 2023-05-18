@@ -13,6 +13,9 @@ export const useAnswer = ({ answerRefetch }: Props) => {
   const router = useRouter();
   const { id } = router.query;
 
+  /**
+   * 답글을 작성하는 이벤트
+   */
   const postAnswer = useMutation(
     ({ content }: { content: string }) => {
       if (router.asPath.includes('project')) {
@@ -38,6 +41,9 @@ export const useAnswer = ({ answerRefetch }: Props) => {
     }
   );
 
+  /**
+   * 답글을 삭제하는 이벤트
+   */
   const deleteAnswer = useMutation(
     ({ answerId }: { answerId: number }) => api.delete(`/answers/${answerId}`),
     {
@@ -50,6 +56,9 @@ export const useAnswer = ({ answerRefetch }: Props) => {
     }
   );
 
+  /**
+   * 답글을 수정하는 이벤트
+   */
   const editAnswer = useMutation(
     ({ answerId, content }: { answerId: number; content: string }) =>
       api.patch(`/answers/${answerId}`, { content }),

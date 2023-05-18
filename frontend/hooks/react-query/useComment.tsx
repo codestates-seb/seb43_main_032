@@ -13,6 +13,9 @@ export const useComment = ({ commentRefetch }: Props) => {
   const router = useRouter();
   const { id } = router.query;
 
+  /**
+   * 댓글을 작성하는 이벤트
+   */
   const postComment = useMutation(
     ({ answerId, content }: { answerId: number; content: string }) => {
       if (router.asPath.includes('project')) {
@@ -38,6 +41,9 @@ export const useComment = ({ commentRefetch }: Props) => {
     }
   );
 
+  /**
+   * 댓글을 삭제하는 이벤트
+   */
   const deleteComment = useMutation(
     ({ commentId }: { commentId: number }) =>
       api.delete(`/comments/${commentId}`),
@@ -51,6 +57,9 @@ export const useComment = ({ commentRefetch }: Props) => {
     }
   );
 
+  /**
+   * 댓글을 수정하는 이벤트
+   */
   const editComment = useMutation(
     ({ commentId, content }: { commentId: number; content: string }) =>
       api.patch(`/comments/${commentId}`, { content }),
