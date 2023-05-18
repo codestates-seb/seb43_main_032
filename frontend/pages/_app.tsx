@@ -21,6 +21,8 @@ if (process.env.NODE_ENV === 'development') {
 const App = ({ Component, pageProps }: AppProps) => {
   const [isContact, setIsContact] = useState(false);
   const [isSlideVisible, setIsSlideVisible] = useState(false);
+  const [isHovered, setIsHovered] = useState(false);
+
   const contactHandler = () => {
     setIsContact(!isContact);
     setIsSlideVisible(true);
@@ -30,6 +32,15 @@ const App = ({ Component, pageProps }: AppProps) => {
     setIsContact(false);
     setIsSlideVisible(false);
   };
+
+  const handleMouseEnter = () => {
+    setIsHovered(true);
+  };
+
+  const handleMouseLeave = () => {
+    setIsHovered(false);
+  };
+
   return (
     <QueryClientProvider client={queryClient}>
       <RecoilRoot>
@@ -38,7 +49,18 @@ const App = ({ Component, pageProps }: AppProps) => {
           <Component {...pageProps} />
         </Box>
         <IconBox>
-          <Image src={icon} onClick={contactHandler} alt="chat-icon" />
+          <Image
+            src={icon}
+            onClick={contactHandler}
+            alt="chat-icon"
+            onMouseEnter={handleMouseEnter}
+            onMouseLeave={handleMouseLeave}
+            className={
+              isHovered
+                ? 'animate__animated animate__bounce animate__infinite animate-duration-2'
+                : ''
+            }
+          />
         </IconBox>
         <AskBox isVisible={isSlideVisible}>
           <Contact closeContact={closeContact} />
