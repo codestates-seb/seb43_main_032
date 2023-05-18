@@ -17,33 +17,12 @@ import { getUserData } from '@/util/api/user';
 import { useRecoilValue } from 'recoil';
 import { loggedInUserState } from '@/recoil/atom';
 import { UserState } from '@/types/user';
-import hljs from 'highlight.js';
-import EiditorSkeleton from '@/components/skeleton/EiditorSkeleton';
-import Pagenation from '@/components/Pagenation';
 import { BUTTON_STATE } from '@/constant/constant';
 import CommentBox from '@/components/CommentBox';
 const ReactMarkdown = dynamic(() => import('@/components/editor/ContentBox'), {
   ssr: false,
   loading: () => <ContentSkeleton />,
 });
-
-const Editor = dynamic(() => import('@/components/editor/Editor'), {
-  ssr: false,
-  loading: () => <EiditorSkeleton />,
-});
-
-//이상하게 Editor에서 조건부로 옵션을 설정하면 editor가 고장나서 상위에서 설정한 옵션을 내려주는 방식으로 해결하였음
-const COMMENT_OPTIONS: EasyMDE.Options = {
-  renderingConfig: {
-    codeSyntaxHighlighting: true,
-    hljs,
-  }, //hljs 사용
-  maxHeight: '120px',
-  spellChecker: false, //스펠체크 off
-  status: false, //우측 하단 상태
-  previewClass: ['markdown-body'], //github 마크다운 사용
-  hideIcons: ['guide', 'fullscreen', 'side-by-side'], //버튼 가리기
-};
 
 const ViewProject = () => {
   const router = useRouter();
