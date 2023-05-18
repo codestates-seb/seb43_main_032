@@ -11,7 +11,12 @@ type Props = {
   children?: ReactNode;
 };
 
-const ProjectCardBox = ({ title, data, skeleton, children }: Props) => {
+const ProjectCardBox = ({
+  title,
+  data,
+  skeleton,
+  children,
+}: Props) => {
   const router = useRouter();
 
   return (

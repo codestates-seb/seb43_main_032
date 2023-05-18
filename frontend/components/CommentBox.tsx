@@ -43,7 +43,7 @@ const CommentBox = ({
     <Box>
       <div className="comment-write-box">
         <div className="comment-submit-box">
-          <button onClick={addComment}>댓글 작성</button>
+          <button onClick={addComment}>답글 작성</button>
         </div>
         <Editor
           content={commentVal}
@@ -86,7 +86,65 @@ const Box = styled.div`
       display: flex;
       flex-direction: column;
       gap: 16px;
-      li {
+      .comment {
+        border: 1px solid black;
+        min-height: 140px;
+        display: flex;
+        .like-box {
+          min-width: 60px;
+          padding: 8px;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          > svg {
+            cursor: pointer;
+          }
+        }
+        .content-box {
+          display: flex;
+          flex-direction: column;
+          flex: 2;
+          .top {
+            padding: 12px;
+            flex: 0.7;
+          }
+          .bottom {
+            flex: 0.3;
+            display: flex;
+            justify-content: space-between;
+            padding: 8px;
+            .update-box {
+              display: flex;
+              align-items: center;
+              gap: 16px;
+              button {
+                cursor: pointer;
+              }
+            }
+            .user-box {
+              display: flex;
+              gap: 16px;
+              .user-img {
+                height: 40px;
+                width: 40px;
+                > img {
+                  border-radius: 50%;
+                  width: 100%;
+                  height: 100%;
+                }
+              }
+              .user-detail {
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                .user-id {
+                }
+                .user-star {
+                }
+              }
+            }
+          }
+        }
       }
     }
   }

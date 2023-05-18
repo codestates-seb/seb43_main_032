@@ -27,7 +27,7 @@ const ProjectForm = () => {
     if (data) {
       setStart(new Date(data.startDate));
       setEnd(new Date(data.endDate));
-      setStacks(data.techStackList);
+      setStacks(data.techList);
       setTags(data.fieldList);
       setContent(data.content);
       setJob(data.positionCrewList);
@@ -168,50 +168,34 @@ const ProjectForm = () => {
       title: watch().title,
       thumbnailImageUrl: '이미지',
       content,
+      techList: {
+        techList: stacks.map((stack) => stack.tech),
+      },
+      fieldList: {
+        fieldList: tags.map((tag) => tag.field),
+      },
+      positionCrewList: {
+        positionList: jobs.map((job) => job.position),
+        positionNumberList: jobs.map((job) => job.number),
+      },
     };
+    console.log(data)
 
     //수정 이벤트
     if (
       router.route.includes('edit') &&
       confirm('정말 수정을 완료하시겠습니까?')
     ) {
-      const patchData = {
-        ...data,
-        proTechStackPostDto: {
-          techStackList: stacks.map((stack) => stack.tech),
-        },
-        proFieldPostDto: {
-          filedList: tags.map((tag) => tag.field),
-        },
-        proPositionCrewPostDto: {
-          positionCrewList: jobs.map((job) => job.position),
-          positionNumberList: jobs.map((job) => job.number),
-        },
-      };
-      console.log(patchData);
       return api
-        .patch(`/project/update/${router.query.id}`, patchData)
+        .patch(`/projects/${router.query.id}`, data)
         .then(() => router.push('/'))
         .catch(() => alert('잠시 후에 다시 시도해주세요.'));
     }
 
     //작성 이벤트
     if (confirm('정말 작성을 완료하시겠습니까?')) {
-      const createData = {
-        ...data,
-        techStackList: {
-          techStackList: stacks.map((stack) => stack.tech),
-        },
-        fieldList: {
-          filedList: tags.map((tag) => tag.field),
-        },
-        positionCrewList: {
-          positionCrewList: jobs.map((job) => job.position),
-          positionNumberList: jobs.map((job) => job.number),
-        },
-      };
       return api
-        .post('/project/post', createData)
+        .post('/projects', data)
         .then(() => router.push('/'))
         .catch(() => alert('잠시 후에 다시 시도해주세요.'));
     }

@@ -28,12 +28,10 @@ export default function Content() {
   const page_limit = 10;
 
   const endPoint = category
-    ? `/article/findAll/${category}`
-    : `/article/findAll`;
+    ? `/articles/find-all/${category}`
+    : `/articles/find-all`;
   const address = `${endPoint}?size=${page_limit}&page=${page}&search=${searchVal}&filter=${filter}`;
-  const queryKey = category
-    ? ['/article/findAll/', page, category]
-    : ['/article/findAll/', page];
+  const queryKey = category ? ['articles', page, category] : ['articles', page];
 
   const { communityQuery, refetch } = useCommunity<Community[]>({
     address,
@@ -97,7 +95,7 @@ export default function Content() {
       <ContentBottom>
         <ContentItemList>
           {data?.map((article: Community) => (
-            <ContentItem {...article} key={article.id} />
+            <ContentItem {...article} key={article.articleId} />
           ))}
         </ContentItemList>
         <Pagenation

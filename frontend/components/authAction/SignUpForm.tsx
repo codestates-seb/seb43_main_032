@@ -10,7 +10,7 @@ interface ISignUpForm {
   verifyPw: string;
 }
 export default function SignUpForm() {
-  const [, signUp] = usePostApi('member/signup');
+  const [, signUp] = usePostApi('members/signup');
   const {
     register,
     watch,

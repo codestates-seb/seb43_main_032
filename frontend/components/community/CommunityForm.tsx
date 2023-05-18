@@ -32,19 +32,20 @@ export default function CommunityForm() {
   //작성자 데이터
   const [writerState, setWriterState] = useState<UserState>();
   useEffect(() => {
-    if (data) getUserData(data.id).then((res) => setWriterState(res));
+    if (data) getUserData(data.articleId).then((res) => setWriterState(res));
   }, [communityQuery.isLoading]);
 
   const postCommunity = () => {
     const data = {
       title: watch().title,
-      position: watch().position,
-      editor,
+      category: watch().position,
+      content: editor,
+      techList: ['recoil'], // 태그 추가 전 테스트용
     };
 
     api
-      .post('/article/create', data)
-      .then(() => router.push('/article'))
+      .post('/articles', data)
+      .then(() => router.push('/community'))
       .catch(() => alert('잠시 후에 다시 시도해주세요.'));
   };
 
