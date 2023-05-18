@@ -5,15 +5,18 @@ import BannerSecond from './BannerSecond';
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import BannerText from './BannerText';
 import BannerThird from './BannerThird';
 import { AiOutlineArrowLeft, AiOutlineArrowRight } from 'react-icons/ai';
+import { TbMoodLookLeft, TbMoodLookRight } from 'react-icons/tb';
+import { FaCaretSquareLeft, FaCaretSquareRight } from 'react-icons/fa';
 
 export default function BannerSlider({ isScrolled }: { isScrolled: boolean }) {
   const [activeSlide, setActiveSlide] = useState(0);
   const [current, setCurrent] = useState(1);
   const [autoplayPaused, setAutoplayPaused] = useState(false); // autoplay 일시 정지 여부 상태 변수
+  const sliderRef = useRef<Slider>(null);
 
   const settings = {
     dots: true,
@@ -31,13 +34,43 @@ export default function BannerSlider({ isScrolled }: { isScrolled: boolean }) {
     },
     nextArrow: (
       <Div>
-        <AiOutlineArrowRight />
+        <FaCaretSquareRight fill="white" />
       </Div>
     ),
     prevArrow: (
       <DivPre>
-        <AiOutlineArrowLeft />
+        <FaCaretSquareLeft fill="white" />
       </DivPre>
+    ),
+    appendDots: (dots: React.ReactNode) => (
+      // 페이징 요소들을 감싸는 컨테이너 커스터마이징
+      <div
+        style={{
+          backgroundColor: '#ddd',
+          borderRadius: '10px',
+          padding: '10px',
+        }}
+      >
+        <ul style={{ margin: '0px' }}> {dots} </ul>
+      </div>
+    ),
+    customPaging: (i: number) => (
+      // 각 페이징 요소 커스터마이징
+      <li
+        key={i}
+        style={{
+          width: '30px',
+          color: 'blue',
+          border: '1px blue solid',
+        }}
+        onClick={() => {
+          if (sliderRef.current) {
+            sliderRef.current.slickGoTo(i, true); // Use the second parameter to enable animation
+          }
+        }}
+      >
+        {i + 1}
+      </li>
     ),
   };
 
@@ -57,7 +90,6 @@ export default function BannerSlider({ isScrolled }: { isScrolled: boolean }) {
 }
 
 const StyledSlider = styled(Slider)`
-  width: 100%;
   transition: opacity 0.3s ease, transform 0.3s ease;
   position: relative;
 
@@ -65,7 +97,9 @@ const StyledSlider = styled(Slider)`
     transition: transform 0.5s ease-in-out;
   }
 
-  .slick-slide {
+  .slick-slider {
+    display: flex;
+    position: relative;
     transition: transform 0.5s ease-in-out;
   }
 
@@ -75,39 +109,22 @@ const StyledSlider = styled(Slider)`
 
   .slick-prev::before,
   .slick-next::before {
+    position: absolute;
+    top: 0;
     opacity: 0;
     display: none;
   }
 
-  > ul {
-    width: 100%;
-    max-width: 1280px;
-    display: flex !important;
-    position: absolute;
-    bottom: 10%;
-    margin: 0 auto;
-  }
-
   .slick-dots {
-    display: flex !important;
-    gap: 16px;
-    li {
-      button {
-        width: 100px;
-        height: 10px;
-        background-color: #ccc;
-        border: none;
-        cursor: pointer;
-      }
+    position: absolute;
+    right: 5%;
+    bottom: 5%;
+    width: auto;
+    z-index: 100;
 
-      &::before {
-        width: 30px;
-        height: 30px;
-        border-radius: 50%;
-        background-color: #ccc;
-        border: none;
-        cursor: pointer;
-      }
+    ul {
+      display: flex;
+      gap: 16px;
     }
   }
 
@@ -152,19 +169,28 @@ const Div = styled.div`
   height: 30px;
   position: absolute;
   right: 16px;
+  bottom: 100px;
   z-index: 99;
   text-align: right;
   line-height: 30px;
-  background: black;
+
+  > svg {
+    width: 100%;
+    height: 100%;
+  }
 `;
 
 const DivPre = styled.div`
-  width: 30px;
-  height: 30px;
   position: absolute;
-  left: 16px;
-  z-index: 99;
+  left: 90%;
+  bottom: 10%;
+  z-index: 99999;
   text-align: left;
   line-height: 30px;
-  background-color: black;
+  transform: translateY(-50%);
+  > svg {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+  }
 `;
