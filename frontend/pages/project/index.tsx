@@ -36,7 +36,6 @@ const ProjectHome = () => {
     e.preventDefault();
     setOnSearch(!onSearch);
   };
-  console.log(watch());
 
   useEffect(() => {
     getAllData().then((res) => setAllData(res));
@@ -68,12 +67,12 @@ const ProjectHome = () => {
   //주소, 서버 필터 작업 전까지 주석처리
   const address = () => {
     // if (search && filter) {
-    //   return `/project/findAll&size=${page_limit}&filter=${filter}`;
+    //   return `/projects/findAll&size=${page_limit}&filter=${filter}`;
     // }
     // if (search || filter) {
-    //   return `/project/findAll&size=${page_limit}`;
+    //   return `/projects/findAll&size=${page_limit}`;
     // }
-    return `/project/findAll?size=${page_limit}`;
+    return `/projects/findAll?size=${page_limit}`;
   };
 
   //쿼리 키, 서버 필터 작업 전까지 주석처리

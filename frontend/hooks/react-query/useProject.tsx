@@ -16,7 +16,7 @@ export const useProject = () => {
     ['project', id],
     async () => {
       if (!router.route.includes('create')) {
-        return await api(`/project/${id}`).then((res) => res.data);
+        return await api(`/projects/${id}`).then((res) => res.data);
       }
     }
   );
@@ -62,14 +62,13 @@ export const useProject = () => {
   //프로젝트 삭제
   const deleteProject = () => {
     if (confirm('정말 삭제하시겠습니까?'))
-      api.delete(`/project/${id}`).then(() => router.push('/'));
+      api.delete(`/projects/${id}`).then(() => router.push('/'));
   };
 
   //edit 이동
   const moveEdit = () => {
     if (confirm('정말 수정하시겠습니까?')) router.push(`${router.asPath}/edit`);
   };
-  
 
   return {
     projectQuery: { isLoading, error, data },
@@ -78,6 +77,6 @@ export const useProject = () => {
     updateState,
     projectEvent,
     deleteProject,
-    moveEdit
+    moveEdit,
   };
 };

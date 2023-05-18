@@ -20,7 +20,7 @@ const ProjectCard = ({ data, size }: Props) => {
   const srcSvg = `/images/thum (${randomNumber}).svg`;
   //프로젝트 글 조회
   const viewProject = (id: number) => {
-    router.push(`project/${id}`);
+    router.push(`projects/${id}`);
   };
   return (
     <Box>
