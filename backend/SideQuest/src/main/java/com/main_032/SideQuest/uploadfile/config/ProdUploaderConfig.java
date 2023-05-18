@@ -12,7 +12,7 @@ import org.springframework.web.multipart.MultipartResolver;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 
 @Configuration
-@Profile("prod")
+//@Profile("prod")
 public class ProdUploaderConfig {
     private final MemberService memberService;
     public ProdUploaderConfig(MemberService memberService) {
