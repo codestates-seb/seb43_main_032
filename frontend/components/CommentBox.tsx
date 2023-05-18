@@ -168,6 +168,9 @@ const Box = styled.div`
                 }
               }
               .user-detail {
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
                 .user-id {
                 }
                 .user-star {
