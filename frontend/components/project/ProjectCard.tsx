@@ -28,20 +28,18 @@ const ProjectCard = ({ data, size }: Props) => {
         onClick={() => viewProject(data.projectId)}
         width={size === 'lg' ? '416px' : '298px'}
       >
-        {router.pathname === '/' && (
-          <div className="info-heart">
-            <span>
-              <AiFillHeart
-                size={30}
-                fill={!heartState ? 'rgba(106, 106, 106, 0.5)' : 'red'}
-                onClick={(e) => {
-                  e.stopPropagation();
-                  setHeartState(!heartState);
-                }}
-              />
-            </span>
-          </div>
-        )}
+        <div className="info-heart">
+          <span>
+            <AiFillHeart
+              size={30}
+              fill={!heartState ? 'rgba(106, 106, 106, 0.5)' : 'red'}
+              onClick={(e) => {
+                e.stopPropagation();
+                setHeartState(!heartState);
+              }}
+            />
+          </span>
+        </div>
         <div className="img-box">
           <div>
             <img src={srcSvg} alt="thumbnail" className="thumbnail-image" />
