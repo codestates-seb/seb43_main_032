@@ -15,7 +15,7 @@ import { PROJECT_FILTER } from '@/constant/constant';
 import ProjectCardBox from '@/components/card_box/ProjectCardBox';
 import { Filter, Form } from '@/types/types';
 import { AiOutlineArrowUp } from 'react-icons/ai';
-import { setAllData } from '@/util/api/ProjectFilter';
+import { getAllData } from '@/util/api/ProjectFilter';
 const page_limit = 4;
 type PageProps = { data: Project[]; total: number };
 
@@ -30,14 +30,27 @@ const ProjectHome = () => {
   };
 
   //서버에서 필터링 작업이 완성되기 전, 눈속임을 위한 필터 데이터
+  const [allData, setAllData] = useState<Project[]>([]);
   const [filterData, setFilterData] = useState<Project[]>([]);
+
+  useEffect(() => {
+    getAllData().then((res) => setAllData(res));
+  }, []);
 
   //필터 변경 시, 이펙트
   useEffect(() => {
     if (filter === 0) {
+      setFilterData([]);
       refetch();
-    } else {
-      setAllData().then((res) => console.log(res));
+    }
+    if (filter === 1) {
+      setFilterData(allData.reverse());
+    }
+    if (filter === 2) {
+      setFilterData(allData.sort((x, y) => y.views - x.views));
+    }
+    if (filter === 3) {
+      setFilterData(allData.sort((x, y) => y.totalLikes - x.totalLikes));
     }
   }, [filter]);
 
@@ -154,7 +167,9 @@ const ProjectHome = () => {
         </div>
         <ProjectCardBox
           title={search ? `${search}의 결과입니다.` : '전체 프로젝트'}
-          data={data.pages?.flatMap((page) => page.data)}
+          data={
+            filter !== 0 ? filterData : data.pages?.flatMap((page) => page.data)
+          }
           skeleton={isFetching && hasNextPage && <ProjectSkeleton />}
         >
           <div className="filter-box noto-regular-13">
