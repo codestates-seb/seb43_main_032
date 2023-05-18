@@ -7,6 +7,6 @@ import lombok.Getter;
 @Getter
 public class AnswerPostDto {
     private Category category;
-    private Long uniteId;//articleId,projectId
+    private Long uniteId;   //articleId,projectId
     private String content;
 }

@@ -41,9 +41,9 @@ public class ProjectService {
         Member member = memberService.getLoginMember();
         project.updateMemberId(member.getId());
         project = projectRepository.save(project);
-        proTechStackService.postTechStack(project, projectPostDto.getProTechStackPostDto());
-        proFieldService.postField(project, projectPostDto.getProFieldPostDto());
-        proPositionCrewService.postPositionCrew(project, projectPostDto.getProPositionCrewPostDto());
+        proTechStackService.postTechStack(project, projectPostDto.getTechList());
+        proFieldService.postField(project, projectPostDto.getFieldList());
+        proPositionCrewService.postPositionCrew(project, projectPostDto.getPositionCrewList());
         return;
     }
 
@@ -63,11 +63,11 @@ public class ProjectService {
 
         project.updateThumbnailImageUrl(projectPatchDto.getThumbnailImageUrl());
 
-        List<ProTechStack> proTechStackList = proTechStackService.updateProTechStack(project, projectPatchDto.getProTechStackPostDto());
+        List<ProTechStack> proTechStackList = proTechStackService.updateProTechStack(project, projectPatchDto.getTechList());
         project.updateProTechStackList(proTechStackList);
-        List<ProField> proFieldList = proFieldService.updateProField(project, projectPatchDto.getProFieldPostDto());
+        List<ProField> proFieldList = proFieldService.updateProField(project, projectPatchDto.getFieldList());
         project.updateProFieldList(proFieldList);
-        List<ProPositionCrew> proPositionCrewList = proPositionCrewService.updateProPositionCrew(project, projectPatchDto.getProPositionCrewPostDto());
+        List<ProPositionCrew> proPositionCrewList = proPositionCrewService.updateProPositionCrew(project, projectPatchDto.getPositionCrewList());
         project.updateProPositionCrewList(proPositionCrewList);
 
         projectRepository.save(project);

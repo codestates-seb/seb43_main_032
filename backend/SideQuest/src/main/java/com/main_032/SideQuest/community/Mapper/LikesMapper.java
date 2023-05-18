@@ -5,6 +5,6 @@ import com.main_032.SideQuest.community.entity.Likes;
 
 public class LikesMapper {
     public static Likes toEntity(LikesPostDto dto) {
-        return new Likes(dto.getMemberId(), dto.getCategory(), dto.getCommentId());
+        return new Likes(dto.getMemberId(), dto.getCategory(), dto.getUniteId());
     }
 }

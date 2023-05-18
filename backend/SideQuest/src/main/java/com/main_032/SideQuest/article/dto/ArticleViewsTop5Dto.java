@@ -8,5 +8,5 @@ import java.util.List;
 @Getter
 @AllArgsConstructor
 public class ArticleViewsTop5Dto {
-    private List<ArticleGetResponseDto> articleGetResponseDtoList;
+    private List<ArticleGetResponseDto> articleList;
 }

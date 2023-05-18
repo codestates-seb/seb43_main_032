@@ -50,7 +50,7 @@ public class Answer extends BaseEntity {
     public void restore(){this.deleted = false;}
 
     public Answer(Category category, Long memberId, Long uniteId, String content) {
-        if(category == Category.CATEGORY_1){
+        if(category == Category.PROJECT){
 
             this.projectId = uniteId;
             this.articleId = -1L;

@@ -7,5 +7,5 @@ import java.util.List;
 @Getter
 @AllArgsConstructor
 public class ArticleLikesTop5Dto {
-    private List<ArticleGetResponseDto> articleGetResponseDtoList;
+    private List<ArticleGetResponseDto> articleList;
 }

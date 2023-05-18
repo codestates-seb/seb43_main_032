@@ -29,8 +29,8 @@ public class ProPositionCrewService {
 
     public List<ProPositionCrew> updateProPositionCrew(Project project, ProPositionCrewPostDto proPositionCrewPostDto) {
         List<ProPositionCrew> proPositionCrewList = new ArrayList<>();
-        for (int i = 0; i < proPositionCrewPostDto.getPositionCrewList().size(); i++) {
-            ProPositionCrew proPositionCrew = new ProPositionCrew(project, proPositionCrewPostDto.getPositionCrewList().get(i), proPositionCrewPostDto.getPositionNumberList().get(i));
+        for (int i = 0; i < proPositionCrewPostDto.getPositionList().size(); i++) {
+            ProPositionCrew proPositionCrew = new ProPositionCrew(project, proPositionCrewPostDto.getPositionList().get(i), proPositionCrewPostDto.getPositionNumberList().get(i));
             proPositionCrewList.add(proPositionCrew);
         }
         return proPositionCrewList;

@@ -1,10 +1,10 @@
 package com.main_032.SideQuest.community.entity;
 
 public enum Category {
-    CATEGORY_1("프로젝트"),
-    CATEGORY_2("게시글"),
-    CATEGORY_3("답변"),
-    CATEGORY_4("댓글");
+    PROJECT("프로젝트"),
+    ARTICLE("게시글"),
+    ANSWER("답변"),
+    COMMENT("댓글");
 
     private final String displayName;
 
@@ -15,7 +15,5 @@ public enum Category {
     public String getDisplayName() {//get
         return displayName;
     }
-
-
 }
 

@@ -5,7 +5,6 @@ import com.main_032.SideQuest.article.repository.ArticleRepository;
 import com.main_032.SideQuest.community.Mapper.AnswerMapper;
 import com.main_032.SideQuest.community.dto.AnswerDto.AnswerPatchDto;
 import com.main_032.SideQuest.community.dto.AnswerDto.AnswerResponseDto;
-import com.main_032.SideQuest.community.dto.CommentDto.CommentResponseDto;
 import com.main_032.SideQuest.community.entity.Category;
 import com.main_032.SideQuest.community.repository.AnswerRepository;
 import com.main_032.SideQuest.community.dto.AnswerDto.AnswerPostDto;
@@ -55,7 +54,7 @@ public class AnswerService {
         //멤버 ID 매치 확인
         memberMatchId(findAnswer);
         Answer answer= findAnswer.get();
-        if(answer.getCategory()!=Category.CATEGORY_2){//프로젝트일때
+        if(answer.getCategory()!=Category.ARTICLE){//프로젝트일때
             verifyProject(answer.getProjectId());
         }
         else{

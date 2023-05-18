@@ -2,8 +2,6 @@ package com.main_032.SideQuest.project.dto;
 
 import lombok.Getter;
 
-import java.time.LocalDateTime;
-
 @Getter
 public class ProjectPatchDto {
     private String title;
@@ -15,7 +13,7 @@ public class ProjectPatchDto {
 
     private String thumbnailImageUrl;
 
-    private ProTechStackPostDto proTechStackPostDto;
-    private ProFieldPostDto proFieldPostDto;
-    private ProPositionCrewPostDto proPositionCrewPostDto;
+    private ProTechStackPostDto techList;
+    private ProFieldPostDto fieldList;
+    private ProPositionCrewPostDto positionCrewList;
 }

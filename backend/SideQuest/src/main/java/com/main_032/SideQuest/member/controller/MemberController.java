@@ -11,7 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@Api(tags = {"Member"}, description = "멤버 API")
+@Api(tags = {"Members"}, description = "멤버 API")
 public class MemberController {
 
     private final MemberService memberService;
@@ -21,7 +21,7 @@ public class MemberController {
     }
 
     @ApiOperation(value = "회원 가입") //회원가입
-    @PostMapping("/member/signup")
+    @PostMapping("/members/signup")
     public ResponseEntity<Void> signup(@RequestBody MemberPostDto memberPostDto) {
         memberService.signup(memberPostDto);
         ResponseEntity responseEntity = new ResponseEntity(HttpStatus.OK);
@@ -30,7 +30,7 @@ public class MemberController {
 
     // Swagger API 뽑아내기용 함수
     @ApiOperation(value = "로그인")
-    @PostMapping("/member/login")
+    @PostMapping("/members/login")
     @ResponseStatus(HttpStatus.OK)
     public LoginResponseDto login(@RequestBody LoginPostDto loginPostDto) {
         LoginResponseDto loginResponseDto = new LoginResponseDto();
@@ -38,7 +38,7 @@ public class MemberController {
     }
 
     @ApiOperation(value = "로그인 멤버 정보 조회")
-    @GetMapping("/member/info")
+    @GetMapping("/members/info")
     public ResponseEntity<SingleResponseDto<MemberGetResponseDto>> getLoginMemberInfo() {
         SingleResponseDto<MemberGetResponseDto> singleResponseDto = memberService.getLoginMemberInfo();
         ResponseEntity responseEntity = new ResponseEntity<>(singleResponseDto, HttpStatus.OK);
@@ -46,7 +46,7 @@ public class MemberController {
     }
 
     @ApiOperation(value = "다른 회원 정보 조회")
-    @GetMapping("/member/info/{memberId}")
+    @GetMapping("/members/info/{memberId}")
     public ResponseEntity<SingleResponseDto<MemberGetResponseDto>> getMemberInfo(@PathVariable("memberId") Long memberId) {
         SingleResponseDto<MemberGetResponseDto> singleResponseDto = memberService.getMemberInfo(memberId);
         ResponseEntity responseEntity = new ResponseEntity(singleResponseDto, HttpStatus.OK);
@@ -54,14 +54,14 @@ public class MemberController {
     }
 
     @ApiOperation(value = "멤버 정보 수정")
-    @PatchMapping("/member/update")
+    @PatchMapping("/members")
     public ResponseEntity<Void> updateMember(@RequestBody MemberPatchDto memberPatchDto) {
         memberService.updateMember(memberPatchDto);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @ApiOperation(value = "멤버 리스트 조회")
-    @GetMapping("/member/findAll")
+    @GetMapping("/members/find-all")
     public ResponseEntity<MultiResponseDto<MemberGetResponseDto>> getAllMembers(@RequestParam int page, @RequestParam int size) {
         MultiResponseDto<MemberGetResponseDto> multiResponseDto = memberService.getAllMembers(page - 1, size);
         ResponseEntity<MultiResponseDto<MemberGetResponseDto>> responseEntity = new ResponseEntity(multiResponseDto, HttpStatus.OK);
@@ -69,7 +69,7 @@ public class MemberController {
     }
 
     @ApiOperation(value = "멤버 탈퇴")
-    @DeleteMapping("/member/delete")
+    @DeleteMapping("/members")
     public ResponseEntity deleteMember() {
         memberService.deleteMember();
         return new ResponseEntity<>(HttpStatus.OK);

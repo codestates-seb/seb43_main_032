@@ -9,5 +9,5 @@ import lombok.Getter;
 public class ProApplyCrewResponseDto {
     private Long projectId;
     private String position;
-    private MemberGetResponseDto memberGetResponseDto;
+    private MemberGetResponseDto memberInfo;
 }

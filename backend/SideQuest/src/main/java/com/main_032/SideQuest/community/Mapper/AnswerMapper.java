@@ -44,6 +44,7 @@ public class AnswerMapper {
         Member member = findmember.get();
         AnswerResponseDto answerResponseDto = new AnswerResponseDto(
                 memberService.getMemberInfo(answer.getMemberId()).getData(),
+                answer.getId(),
                 answer.getTotalLikes(),
                 answer.getContent(),
                 answer.getCreatedAt(),

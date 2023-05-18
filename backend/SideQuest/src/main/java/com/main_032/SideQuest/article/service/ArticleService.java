@@ -42,7 +42,7 @@ public class ArticleService {
         Article article = mapper.articlePostDtoToArticle(articlePostDto);
         article.updateMemberId(member.getId());
         article = articleRepository.save(article);
-        articleTechStackService.updateArticleTechStack(articlePostDto.getArticleTechStackList(), article.getId());
+        articleTechStackService.updateArticleTechStack(articlePostDto.getTechList(), article.getId());
     }
     public void updateArticle(Long articleId,ArticlePatchDto articlePatchDto){
         //게시물 존재 여부 확인
@@ -52,8 +52,8 @@ public class ArticleService {
         Article updateArticle = findArticle.get();
         updateArticle.updateTitle(articlePatchDto.getTitle());
         updateArticle.updateContent(articlePatchDto.getContent());
-        updateArticle.updateCategory(articlePatchDto.getArticleCategory());
-        articleTechStackService.updateArticleTechStack(articlePatchDto.getArticleTechStackList(),updateArticle.getId());
+        updateArticle.updateCategory(articlePatchDto.getCategory());
+        articleTechStackService.updateArticleTechStack(articlePatchDto.getTechList(),updateArticle.getId());
         articleRepository.save(updateArticle);
 //        ArticleResponseDto articleResponseDto = mapper.articleToArticleResponseDto(article);
 //        SingleResponseDto<ArticleResponseDto> singleResponse = new SingleResponseDto<>(articleResponseDto);
