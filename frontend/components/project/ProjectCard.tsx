@@ -13,6 +13,7 @@ type Props = {
 };
 
 const ProjectCard = ({ data, size }: Props) => {
+  console.log(data);
   const router = useRouter();
   const [heartState, setHeartState] = useState<boolean>(false);
 
@@ -61,7 +62,7 @@ const ProjectCard = ({ data, size }: Props) => {
         </div>
         <div className="select-box">
           <ul>
-            {data.techStackList.map((tech) => (
+            {data.techList.map((tech) => (
               <Stack key={tech.tech} tech={tech.tech} />
             ))}
           </ul>

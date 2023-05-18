@@ -1,4 +1,4 @@
-// 기타 타입 선언을 해주시면 됩니다. 특정 타입들은 새 파일을 생성해주세요.
+import { Tech } from './project';
 
 export interface StackCategoryName {
   [key: string]: string;
@@ -55,4 +55,18 @@ export type PageProps<T> = {
     totalElements: number;
     totalPages: number;
   };
+};
+
+export type MemberInfo = {
+  aboutMe: string;
+  email: string;
+  location: string;
+  memberId: number;
+  name: string;
+  phone: string;
+  position: string;
+  profileImageUrl: string;
+  techList: Tech[];
+  totalStar: number;
+  yearOfDev: number;
 };

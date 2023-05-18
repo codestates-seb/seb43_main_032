@@ -1,13 +1,15 @@
+import { Tech } from './project';
+import { MemberInfo } from './types';
+
 export type Community = {
-  id: number;
-  name: string;
-  profileImageUrl: string;
-  totalStar: number;
-  title: string;
+  articleId: number;
+  category: string;
   content: string;
-  category: CategoryType;
+  createdAt: string;
+  memberInfo: MemberInfo;
+  techList: Tech[];
+  title: string;
   totalLikes: number;
-  techStackList: TechTag[];
   view: number;
 };
 
@@ -19,8 +21,4 @@ export type Comment = {
   userStar: number;
   avatar: string;
   content: string;
-};
-
-export type TechTag = {
-  tech: string;
 };

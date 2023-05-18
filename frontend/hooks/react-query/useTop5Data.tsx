@@ -42,8 +42,8 @@ export const useTop5Data = () => {
   });
 
   //데이터 모음
-  const topLikeProjectData = topLikeProjects?.data.projectList;
-  const topViewProjectData = topViewProjects?.data.projectList;
+  const topLikeProjectData = topLikeProjects?.data?.projectList;
+  const topViewProjectData = topViewProjects?.data?.projectList;
   const topViewcommunityData = communityQuery.data?.data?.articleList;
 
   return {

@@ -1,5 +1,10 @@
 import styled from 'styled-components';
+import { useQuery } from 'react-query';
+import { api } from '@/util/api';
 import Message from '@/components/Message';
+import { Project } from '@/types/project';
+import { Community } from '@/types/community';
+import { useCommunity } from '@/hooks/react-query/useCommunity';
 import ProjectCardBox from '@/components/card_box/ProjectCardBox';
 import CommunityCardBox from '@/components/card_box/CommunityCardBox';
 import ProjectSkeleton from '@/components/skeleton/ProjectSkeleton';
@@ -13,14 +18,14 @@ const Home = () => {
   const loggedInUser = useRecoilValue(loggedInUserState);
 
   const {
-    communityQuery,
-    topLikeProjectError,
-    topViewProjectError,
-    topLikeProjectLoading,
-    topViewProjectLoading,
     topLikeProjectData,
     topViewProjectData,
     topViewcommunityData,
+    communityQuery,
+    topLikeProjectLoading,
+    topViewProjectLoading,
+    topLikeProjectError,
+    topViewProjectError,
   } = useTop5Data();
 
   if (topLikeProjectError || topViewProjectError || communityQuery.error)

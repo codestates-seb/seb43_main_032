@@ -27,7 +27,7 @@ const ProjectForm = () => {
     if (data) {
       setStart(new Date(data.startDate));
       setEnd(new Date(data.endDate));
-      setStacks(data.techStackList);
+      setStacks(data.techList);
       setTags(data.fieldList);
       setContent(data.content);
       setJob(data.positionCrewList);
@@ -179,6 +179,7 @@ const ProjectForm = () => {
         positionNumberList: jobs.map((job) => job.number),
       },
     };
+    console.log(data)
 
     //수정 이벤트
     if (

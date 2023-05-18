@@ -24,6 +24,7 @@ const Header = () => {
   //로그아웃
   const logout = () => {
     deleteCookie('accessToken');
+    deleteCookie('refreshToken');
     setLoggedInUser(null);
   };
 
