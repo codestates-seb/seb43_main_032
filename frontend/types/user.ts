@@ -12,6 +12,22 @@ export interface IUser {
   TOTAL_STAR: string;
   PROFILE_IMAGE: string;
 }
+interface Tech {
+  tech: string;
+}
+
+export interface UserData {
+  aboutMe: string;
+  email: string;
+  location: string;
+  name: string;
+  phone: string;
+  position: string;
+  profileImageUrl: string;
+  techList?: Tech[];
+  totalStar: number;
+  yearOfDev: number;
+}
 
 //로그인한 유저의 데이터 상태
 export type UserState = {

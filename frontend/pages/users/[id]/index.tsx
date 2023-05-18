@@ -3,8 +3,11 @@ import styled from 'styled-components';
 import ContentCard from '@/components/user/ContentCard';
 import { useRouter } from 'next/router';
 import UserProfile from '@/components/user/UserProfile';
-import { useEffect, useState } from 'react';
+import { MouseEvent, useEffect, useState } from 'react';
 import useUser from '@/hooks/react-query/useUser';
+import { USER } from '../me';
+import ProjectCard from '@/components/project/ProjectCard';
+import Skeleton from '@/components/skeleton/Skeleton';
 
 //유저 페이지 입니다. 경로 '/user/[id]'  예시 >>  /user/1
 const UserInfoContainer = styled.div`
@@ -53,10 +56,30 @@ const Category = styled.div.attrs({
   padding: 20px;
   padding-bottom: 10px;
 `;
+const FilterBtn = styled.button`
+  border: none;
+  cursor: pointer;
+  padding-right: 10px;
+  padding-left: 10px;
+`;
 
 const UserPage = () => {
+  const [filter, setFilter] = useState('projects');
   const router = useRouter();
   const id = router.query.id;
+
+  // const {
+  //   getUserById: { data: user, isLoading },
+  //   getProjectByUserId: { data: projects },
+  // 	getPostsByUserId:{data:posts}
+  // } = useUser({ id: id ? +id : undefined });
+  const user = USER;
+
+  const handleClick = (e: MouseEvent<HTMLButtonElement>) => {
+    const name = e.currentTarget.name;
+    setFilter(name);
+  };
+
   useEffect(() => {
     window.scrollTo({
       top: 670,
@@ -64,30 +87,54 @@ const UserPage = () => {
       behavior: 'smooth',
     });
   }, [router]);
-  //서버에 유저 확인 요청
-  if (!id) return 'Loading...';
 
-  const { getUser } = useUser();
-  const { data: user } = getUser(+id);
+  // if (isLoading) return 'Loading...';
 
   return user ? (
     <GridBox>
       <UserInfoContainer>
-        <UserProfile user={USERS[0]} />
+        <UserProfile user={user} />
         <Button>메일 보내기</Button>
         <Button>채팅하기</Button>
       </UserInfoContainer>
       <ContentsContainer>
         <UserDescription>
           <ContentTitle>자기 소개란</ContentTitle>
-          <span>{user?.ABOUT_ME}</span>
+          <span>{user?.aboutMe}</span>
         </UserDescription>
-        <Category>프로젝트 | 게시글 | 댓글 </Category>
+        <Category>
+          <FilterBtn name="projects" onClick={handleClick}>
+            프로젝트
+          </FilterBtn>
+          |
+          <FilterBtn name="posts" onClick={handleClick}>
+            게시글
+          </FilterBtn>
+        </Category>
         <Contents>
-          <ContentTitle>참여 프로젝트</ContentTitle>
-          {[1, 2, 3, 4, 5].map((el) => (
-            <ContentCard key={el} />
-          ))}
+          {filter === 'projects' ? (
+            <>
+              <ContentTitle>참여 프로젝트</ContentTitle>
+              {/* {projects.map((project) => (
+                <ProjectCard key={project.id} size="md" data={project} />
+              ))} */}
+              {[1, 2, 3, 4, 5].map((el) => (
+                <ContentCard key={el} />
+              ))}
+            </>
+          ) : (
+            <>
+              <ContentTitle>작성 게시글</ContentTitle>
+              {/* {posts.map((post) => (
+                <CommunityCardBox key={post.id} title={post.title} data={post}>
+							<Skeleton/>
+							</CommunityCardBox>
+              ))} */}
+              {[1, 2, 3, 4, 5].map((el) => (
+                <ContentCard key={el} />
+              ))}
+            </>
+          )}
         </Contents>
       </ContentsContainer>
     </GridBox>

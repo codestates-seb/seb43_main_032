@@ -17,7 +17,7 @@ export default function useUser({ id, keyword, page, pageSize }: IProps) {
   const userQuery = useQuery(['users'], () => getUsers(page, pageSize));
 
   // const getUserStatus = useQuery(['loggedIn'], getStatus);
-  // const getMyInfo = useQuery(['users', 'me'], getMe);
+  const getMyInfo = useQuery(['users', 'me'], getMe);
   // const setUserLogOut = useMutation(logOut, {
   //   onSuccess: () => {
   //     queryClient.invalidateQueries(['loggedIn']);
@@ -26,6 +26,14 @@ export default function useUser({ id, keyword, page, pageSize }: IProps) {
   // });
 
   const getUserById = useQuery(['loggedIn', id], () => getUser(id));
+
+  const getProjectByUserId = useQuery(['userProjects', id], () =>
+    getUserProjects(id)
+  );
+
+  const getPostsByUserId = useQuery(['userProjects', id], () =>
+    getUserPosts(id)
+  );
 
   const searchUserByKeyword = useQuery(['users', keyword], () =>
     searchUser(keyword)
@@ -38,6 +46,8 @@ export default function useUser({ id, keyword, page, pageSize }: IProps) {
     // setUserLogOut,
     // getMyInfo,
     searchUserByKeyword,
+    getProjectByUserId,
+    getPostsByUserId,
   };
 }
 
@@ -54,10 +64,10 @@ async function getUsers(page?: number, pageSize?: number) {
   });
   return response;
 }
-// async function getMe() {
-//   const response = await axios.get('/api/users/me');
-//   return response.data;
-// }
+async function getMe() {
+  const response = await axios.get('/member/info');
+  return response.data;
+}
 
 // const logOut = async () => {
 //   const response = await fetch('/api/users/logout', {
@@ -70,10 +80,20 @@ async function getUsers(page?: number, pageSize?: number) {
 // };
 const getUser = async (id: number | undefined) => {
   if (!id) return;
-  const response = await axios.get(`/api/users/${id}`);
+  const response = await axios.get(`/member/info/${id}`);
   return response.data;
 };
 
+const getUserProjects = async (id: number | undefined) => {
+  if (!id) return;
+  const response = await axios.get(`/member/${id}/projects`);
+  return response.data;
+};
+const getUserPosts = async (id: number | undefined) => {
+  if (!id) return;
+  const response = await axios.get(`/member/${id}/articles`);
+  return response.data;
+};
 export const searchUser = async (keyword: string | undefined) => {
   //endpoint 수정 필요
   if (!keyword) return;

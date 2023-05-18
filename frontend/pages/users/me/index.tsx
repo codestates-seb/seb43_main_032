@@ -2,6 +2,7 @@ import GridBox from '@/components/GridBox';
 import InfoContainer from '@/components/user/InfoContainer';
 import UserInfoCard from '@/components/user/UserProfile';
 import useAuth from '@/hooks/react-query/useAuth';
+import { UserData } from '@/types/user';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
@@ -78,7 +79,8 @@ const DummyBox2 = styled.div`
   border-radius: 10px;
 `;
 export default function me() {
-  const user = useAuth();
+  // const user = useAuth();
+  const user = USER;
   const router = useRouter();
   useEffect(() => {
     window.scrollTo({
@@ -101,22 +103,19 @@ export default function me() {
                 <InfoContainer
                   keyNode={
                     <AvatarContainer style={{ width: '70px', height: '70px' }}>
-                      <img alt={user.NICK_NAME} src={user.PROFILE_IMAGE} />
+                      <img alt={user.name} src={user.profileImageUrl} />
                     </AvatarContainer>
                   }
                   contentNode={
                     <>
-                      <p className="nanum-bold">{user.NICK_NAME}</p>
+                      <p className="nanum-bold">{user.name}</p>
                       <p className="noto-regular">프론트엔드</p>
                     </>
                   }
                 />
               </ProfileContainer>
-              <InfoContainer
-                keyNode={'휴대전화'}
-                contentNode={user.PHONE_NUMBER}
-              />
-              <InfoContainer keyNode={'이메일'} contentNode={user.EMAIL} />
+              <InfoContainer keyNode={'휴대전화'} contentNode={user.phone} />
+              <InfoContainer keyNode={'이메일'} contentNode={user.email} />
               <InfoContainer
                 keyNode={'기술스텍'}
                 contentNode={'#react #python'}
@@ -161,3 +160,15 @@ export default function me() {
     </>
   );
 }
+
+export const USER: UserData = {
+  email: 'uverrills0@bloomberg.com',
+  location: 'Seoul',
+  name: 'Ursulina Verrills',
+  aboutMe: 'Poisoning by benzodiazepines, intentional self-harm, init',
+  yearOfDev: 1,
+  position: 'fe',
+  phone: '660 384 5454',
+  totalStar: 10,
+  profileImageUrl: 'http://dummyimage.com/183x100.png/ff4444/ffffff',
+};
