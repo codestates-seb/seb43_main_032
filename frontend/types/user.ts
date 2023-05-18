@@ -1,3 +1,5 @@
+import { Tech } from './project';
+
 export interface IUser {
   MEMBER_ID: number;
   EMAIL: string;
@@ -11,9 +13,6 @@ export interface IUser {
   PHONE_NUMBER: string;
   TOTAL_STAR: string;
   PROFILE_IMAGE: string;
-}
-interface Tech {
-  tech: string;
 }
 
 export interface UserData {

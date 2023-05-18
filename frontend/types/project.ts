@@ -1,6 +1,11 @@
-interface Crew {
-  [key: string]: string;
-}
+import { MemberInfo } from './types';
+
+type Crew = {
+  memberId: number;
+  position: string;
+  projectId: number;
+};
+
 export type FiledTag = {
   field: string;
 };
@@ -10,22 +15,23 @@ export type Tech = {
 };
 
 export type WantCrew = {
-  position: string;
-  number: number;
   acceptedNumber: number;
+  number: number;
+  position: string;
 };
 
 export type Project = {
   acceptedCrewList: Crew[];
   content: string;
+  createdAt: string;
   endDate: string;
   fieldList: FiledTag[];
-  memberId: number;
+  memberInfo: MemberInfo;
   positionCrewList: WantCrew[];
   projectId: number;
   startDate: string;
   status: string;
-  techStackList: Tech[];
+  techList: Tech[];
   thumbnailImageUrl: string;
   title: string;
   totalLikes: number;

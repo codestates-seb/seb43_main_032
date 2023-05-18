@@ -16,7 +16,8 @@ export default function usePostApi(endpoint: string) {
     api
       .post(endpoint, data)
       .then((res) => {
-        setCookie('accessToken', res.headers['authorization'], 40); //로그인 했을 때, 쿠키 설정
+        setCookie('accessToken', res.headers['authorization'], 40); //로그인 했을 때, 엑세스 토큰 설정
+        setCookie('refreshToken', res.headers['refreshtoken'], 40); //로그인 했을 때, 리프레시 토큰 설정
         setUser(res.data); //로그인한 유저의 데이터를 atom 관리
       })
       .then(() => {

@@ -1,7 +1,7 @@
 import { useQuery, useMutation } from 'react-query';
 import { useRouter } from 'next/router';
-import { api } from '@/util/api';
 import { Project } from '@/types/project';
+import { api } from '@/util/api';
 
 type ProjectData = {
   data: Project;
@@ -16,7 +16,7 @@ export const useProject = () => {
     ['project', id],
     async () => {
       if (!router.route.includes('create')) {
-        return await api(`/project/${id}`).then((res) => res.data);
+        return await api(`/projects/${id}`).then((res) => res.data);
       }
     }
   );
@@ -24,7 +24,7 @@ export const useProject = () => {
   //직군 업데이트
   const updateJob = useMutation(
     ({ job, update }: { job: string; update: string }) =>
-      api.post(`${router.asPath}/job`, { job, update }),
+      api.post(`/projects/job`, { job, update }),
     {
       onSuccess: () => {
         refetch();
@@ -33,7 +33,7 @@ export const useProject = () => {
   );
 
   //하트관련
-  const updateHeart = useMutation(() => api.post(`${router.asPath}/heart`), {
+  const updateHeart = useMutation(() => api.post(`/projects/heart`), {
     onSuccess: () => {
       refetch();
     },
@@ -41,7 +41,7 @@ export const useProject = () => {
 
   //모집 상태
   const updateState = useMutation(
-    (state: number) => api.post(`${router.asPath}/state`, { data: state }),
+    (state: number) => api.post(`/projects/state`, { data: state }),
     {
       onSuccess: () => {
         refetch();
@@ -62,14 +62,13 @@ export const useProject = () => {
   //프로젝트 삭제
   const deleteProject = () => {
     if (confirm('정말 삭제하시겠습니까?'))
-      api.delete(`/project/${id}`).then(() => router.push('/'));
+      api.delete(`/projects/${id}`).then(() => router.push('/'));
   };
 
   //edit 이동
   const moveEdit = () => {
-    if (confirm('정말 수정하시겠습니까?')) router.push(`${router.asPath}/edit`);
+    if (confirm('정말 수정하시겠습니까?')) router.push(`/projects/edit`);
   };
-  
 
   return {
     projectQuery: { isLoading, error, data },
@@ -78,6 +77,6 @@ export const useProject = () => {
     updateState,
     projectEvent,
     deleteProject,
-    moveEdit
+    moveEdit,
   };
 };

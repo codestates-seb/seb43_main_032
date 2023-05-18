@@ -10,8 +10,6 @@ const Editor = dynamic(() => import('@/components/editor/Editor'), {
   loading: () => <EiditorSkeleton />,
 });
 
-
-
 type Props = {
   type: number;
   register: UseFormRegister<Form>;

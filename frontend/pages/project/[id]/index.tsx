@@ -13,10 +13,8 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import Position from '@/components/Position';
 import Message from '@/components/Message';
-import { getUserData } from '@/util/api/user';
 import { useRecoilValue } from 'recoil';
 import { loggedInUserState } from '@/recoil/atom';
-import { UserState } from '@/types/user';
 import { BUTTON_STATE } from '@/constant/constant';
 import CommentBox from '@/components/CommentBox';
 const ReactMarkdown = dynamic(() => import('@/components/editor/ContentBox'), {
@@ -56,10 +54,6 @@ const ViewProject = () => {
 
   //작성자 및 유저 데이터
   const loggedInUser = useRecoilValue(loggedInUserState);
-  const [writerState, setWriterState] = useState<UserState>();
-  useEffect(() => {
-    if (data) getUserData(data?.memberId).then((res) => setWriterState(res));
-  }, [projectQuery.isLoading]);
 
   //모든 지원이 꽉 찼을 때, 일어나는 이펙트
   // useEffect(() => {
@@ -109,11 +103,11 @@ const ViewProject = () => {
                   src="https://noticon-static.tammolo.com/dgggcrkxq/image/upload/v1567008394/noticon/ohybolu4ensol1gzqas1.png"
                   alt="author"
                 />
-                <div className="user-title">{writerState?.name}</div>
+                <div className="user-title">{data.memberInfo.name}</div>
                 <div className="noto-medium">
                   <Position text={data.writerPosition} />
                 </div>
-                {writerState?.email !== loggedInUser?.email && (
+                {data.memberInfo.email !== loggedInUser?.email && (
                   <div
                     className="saveStar"
                     onClick={() => setUserHeart(!userHeart)}
@@ -143,7 +137,7 @@ const ViewProject = () => {
                   <div className="detail-title">평가 점수</div>
                 </div>
               </div>
-              {writerState?.email !== loggedInUser?.email && (
+              {data.memberInfo.email !== loggedInUser?.email && (
                 <Tag>쪽지 보내기</Tag>
               )}
             </div>
@@ -153,7 +147,7 @@ const ViewProject = () => {
             end={new Date(data.endDate)}
           />
           <TagBox tags={data.fieldList} />
-          <StacksBox stacks={data.techStackList} />
+          <StacksBox stacks={data.techList} />
           <div className="want-box">
             <div className="title">모집 중인 직군</div>
             <ul>
@@ -209,7 +203,7 @@ const ViewProject = () => {
               {<Tag>{data.status}</Tag>}
             </div>
             <div className="right">
-              {writerState?.email === loggedInUser?.email && (
+              {data.memberInfo.email === loggedInUser?.email && (
                 <>
                   <a onClick={deleteProject} className="main-btn">
                     <span>프로젝트 삭제</span>

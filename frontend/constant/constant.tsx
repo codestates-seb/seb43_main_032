@@ -213,10 +213,10 @@ export const COMMUNITY_FILTER: CommunityFilter[] = [
 ];
 
 export const PROJECT_FILTER: ProjectFilter = {
-  '최신 순': '',
-  '오래된 순': 'old',
-  '조회 순': 'view',
-  '찜 순': 'heart',
+  '최신 순': 0,
+  '오래된 순': 1,
+  '조회 순': 2,
+  '찜 순': 3,
 };
 
 export const COMMUNITY_CATEGORY: CommunityCategory[] = [

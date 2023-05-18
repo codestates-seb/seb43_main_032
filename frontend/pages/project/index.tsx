@@ -13,45 +13,76 @@ import Btn from '@/components/button/Btn';
 import { BsSearch } from 'react-icons/bs';
 import { PROJECT_FILTER } from '@/constant/constant';
 import ProjectCardBox from '@/components/card_box/ProjectCardBox';
-import { Form } from '@/types/types';
+import { Filter, Form, PageProps } from '@/types/types';
 import { AiOutlineArrowUp } from 'react-icons/ai';
+import { getAllData } from '@/util/api/ProjectFilter';
 const page_limit = 4;
-type PageProps = { data: Project[]; total: number };
 
 const ProjectHome = () => {
   const router = useRouter();
   const { register, watch } = useForm<Form>();
   const search = router.query.search;
-  const [filter, setFilter] = useState('');
+  const [filter, setFilter] = useState<Filter>(0);
   const filterNames = useMemo(() => Object.keys(PROJECT_FILTER), []);
   const filterHandler = (name: string) => {
     setFilter(PROJECT_FILTER[name]);
   };
 
-  //필터 변경 시, 이펙트
-  useEffect(() => {
-    refetch();
-  }, [filter]);
-
-  //주소
-  const address = () => {
-    if (search && filter) {
-      return `/project/findAll&size=${page_limit}&filter=${filter}`;
-    }
-    if (search || filter) {
-      return `/project/findAll&size=${page_limit}`;
-    }
-    return `/project/findAll?size=${page_limit}`;
+  //서버에서 필터링 작업이 완성되기 전, 눈속임을 위한 필터 데이터
+  const [allData, setAllData] = useState<Project[]>([]);
+  const [filterData, setFilterData] = useState<Project[]>([]);
+  const [onSearch, setOnSearch] = useState(false);
+  const onSubmit = (e: { preventDefault: () => void }) => {
+    e.preventDefault();
+    setOnSearch(!onSearch);
   };
 
-  //쿼리 키
+  useEffect(() => {
+    getAllData().then((res) => setAllData(res));
+  }, []);
+
+  //필터 변경 시, 이펙트
+  useEffect(() => {
+    if (filter === 0) {
+      setFilterData([]);
+      refetch();
+    }
+    if (filter === 1) {
+      setFilterData(allData.reverse());
+    }
+    if (filter === 2) {
+      setFilterData(allData.sort((x, y) => y.views - x.views));
+    }
+    if (filter === 3) {
+      setFilterData(allData.sort((x, y) => y.totalLikes - x.totalLikes));
+    }
+  }, [filter]);
+
+  useEffect(() => {
+    setFilterData(
+      allData.filter((data) => data.title.includes(watch().search))
+    );
+  }, [onSearch]);
+
+  //주소, 서버 필터 작업 전까지 주석처리
+  const address = () => {
+    // if (search && filter) {
+    //   return `/projects/findAll&size=${page_limit}&filter=${filter}`;
+    // }
+    // if (search || filter) {
+    //   return `/projects/findAll&size=${page_limit}`;
+    // }
+    return `/projects/findAll?size=${page_limit}`;
+  };
+
+  //쿼리 키, 서버 필터 작업 전까지 주석처리
   const queryKey = () => {
-    if (search && filter) {
-      return ['projects', search, filter];
-    }
-    if (search || filter) {
-      return ['projects', search || filter];
-    }
+    // if (search && filter) {
+    //   return ['projects', search, filter];
+    // }
+    // if (search || filter) {
+    //   return ['projects', search || filter];
+    // }
     return 'projects';
   };
 
@@ -78,10 +109,18 @@ const ProjectHome = () => {
   } = useInfiniteQuery(
     queryKey(),
     ({ pageParam = 1 }) =>
-      api(`${address()}&page=${pageParam}`).then((res) => res.data),
+      api(`${address()}&page=${pageParam}`)
+        .then((res) => res.data)
+        .catch(() => {}),
     {
-      getNextPageParam: (lastPage: PageProps, allPages: PageProps[]) => {
-        if (lastPage.data.length < page_limit) {
+      getNextPageParam: (
+        lastPage: PageProps<Project>,
+        allPages: PageProps<Project>[]
+      ) => {
+        if (
+          page_limit * lastPage.pageInfo.page >
+          lastPage.pageInfo.totalElements
+        ) {
           return null;
         }
         return allPages.length + 1;
@@ -95,7 +134,7 @@ const ProjectHome = () => {
     if (
       target.current &&
       data?.pageParams &&
-      data?.pageParams[data.pageParams.length - 1] === null
+      data?.pageParams[data.pageParams.length - 1]
     ) {
       return;
     }
@@ -146,7 +185,11 @@ const ProjectHome = () => {
         </div>
         <ProjectCardBox
           title={search ? `${search}의 결과입니다.` : '전체 프로젝트'}
-          data={data.pages?.flatMap((page) => page.data)}
+          data={
+            filterData.length !== 0
+              ? filterData
+              : data.pages?.flatMap((page) => page.data)
+          }
           skeleton={isFetching && hasNextPage && <ProjectSkeleton />}
         >
           <div className="filter-box noto-regular-13">
@@ -162,7 +205,7 @@ const ProjectHome = () => {
               ))}
             </div>
             <div className="search-box">
-              <form>
+              <form onSubmit={onSubmit}>
                 <input
                   {...register('search')}
                   type="text"
