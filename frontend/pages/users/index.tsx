@@ -1,9 +1,10 @@
 import GridBox from '@/components/GridBox';
+import Pagenation from '@/components/Pagenation';
 import UserCard from '@/components/user/UserCard';
 import UserSideBar from '@/components/user/UserSideBar';
 import useUser from '@/hooks/react-query/useUser';
 import { useRouter } from 'next/router';
-import { useEffect } from 'react';
+import { ChangeEvent, useEffect, useState } from 'react';
 import styled from 'styled-components';
 //유저 페이지 입니다. 경로 '/user/'
 
@@ -27,7 +28,29 @@ const CardWrapper = styled.div`
   } */
 `;
 const User = () => {
+  const [inputValue, setInputValue] = useState<string>('');
+  const [users, setUsers] = useState<any>();
+  const [keyword, setKeyword] = useState<string | undefined>(undefined);
+  const [page, setPage] = useState<number>(1);
+  const [size, setSize] = useState<number>(12);
+
+  const {
+    userQuery: { data: allUsers },
+    searchUserByKeyword: { data: searchedUsers },
+  } = useUser({ page, pageSize: size, keyword });
+
   const router = useRouter();
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setInputValue(e.target.value);
+  };
+  const handleClick = () => {
+    if (inputValue.trim().length < 1) {
+      setUsers(allUsers);
+    } else {
+      setKeyword(inputValue);
+    }
+  };
+
   useEffect(() => {
     window.scrollTo({
       top: 670,
@@ -35,13 +58,24 @@ const User = () => {
       behavior: 'smooth',
     });
   }, [router]);
-  const {
-    userQuery: { data: users },
-  } = useUser();
+
+  useEffect(() => {
+    setUsers(allUsers);
+  }, [allUsers]);
+  useEffect(() => {
+    setUsers(searchedUsers);
+  }, [searchedUsers]);
+
   return (
     <GridBox>
       <UserSideBar />
       <RightColumn>
+        <input
+          onChange={handleChange}
+          value={inputValue}
+          placeholder="Search user..."
+        />
+        <button onClick={handleClick}>찾기</button>
         <p className="nanum-bold">Star | 가입일 | 활동</p>
         <CardWrapper>
           {Array.isArray(users) &&
@@ -49,6 +83,7 @@ const User = () => {
               .filter((el) => el.MEMBER_ID < 30 && el.MEMBER_ID > 0)
               .map((user) => <UserCard key={user.MEMBER_ID} user={user} />)}
         </CardWrapper>
+        <Pagenation pageSize={size} page={page} onPageChange={setPage} />
       </RightColumn>
     </GridBox>
   );

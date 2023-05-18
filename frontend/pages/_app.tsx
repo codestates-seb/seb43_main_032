@@ -10,11 +10,21 @@ import { useState } from 'react';
 import { FcSms } from 'react-icons/fc';
 import Contact from '@/components/Contact';
 
-const queryClient = new QueryClient();
+// const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      refetchOnWindowFocus: false,
+      retry: 0,
+      staleTime: 1000 * 60 * 5,
+      enabled: false, // 마지막 데이터를 갖고온 후에 자동으로 쿼리를 비활성화
+    },
+  },
+});
 
-if (process.env.NODE_ENV === 'development') {
-  require('../__mocks__');
-}
+// if (process.env.NODE_ENV === 'development') {
+//   require('../__mocks__');
+// }
 
 const App = ({ Component, pageProps }: AppProps) => {
   const [isContact, setIsContact] = useState(false);

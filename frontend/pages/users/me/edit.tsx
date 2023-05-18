@@ -1,12 +1,14 @@
 import Btn from '@/components/button/Btn';
 import useAuth from '@/hooks/react-query/useAuth';
 import axios from 'axios';
-import { IUser } from '@/types/user';
+import { IUser, UserData } from '@/types/user';
 import { useRouter } from 'next/router';
 import { useEffect, useRef, useState } from 'react';
 import { FieldErrors, useForm } from 'react-hook-form';
 import styled from 'styled-components';
 import { BiImageAdd } from 'react-icons/bi';
+import { USER } from '.';
+import usePostApi from '@/hooks/usePostApi';
 
 const Container = styled.div`
   display: flex;
@@ -115,16 +117,9 @@ interface ISubmit {
   [key: string]: string;
 }
 const BASE_URL = 'http://43.201.253.57:8080/';
-export default function edit() {
-  const router = useRouter();
-  useEffect(() => {
-    window.scrollTo({
-      top: 670,
-      left: 0,
-      behavior: 'smooth',
-    });
-  }, [router]);
-  const user: IUser = useAuth();
+export default function Edit() {
+  const [update, { data: updatedData }] = usePostApi('/member/update');
+  const user: UserData = USER;
   const {
     register,
     handleSubmit,
@@ -144,9 +139,11 @@ export default function edit() {
 
   const onValid = (data: ISubmit) => {
     console.log(data);
-    axios
-      .patch(BASE_URL + 'member/update', data)
-      .then((res) => console.log(res));
+    // update(data);
+
+    // axios
+    //   .patch(BASE_URL + 'member/update', data)
+    //   .then((res) => console.log(res));
   };
   const onInValid = (errors: FieldErrors) => {
     console.log(errors);
@@ -170,6 +167,14 @@ export default function edit() {
       reader.readAsDataURL(file);
     }
   };
+  const router = useRouter();
+  useEffect(() => {
+    window.scrollTo({
+      top: 670,
+      left: 0,
+      behavior: 'smooth',
+    });
+  }, [router]);
 
   return (
     <Container>
@@ -197,10 +202,7 @@ export default function edit() {
                 </ImgWrapper>
                 <LabelContainer>
                   <Label>UserName</Label>
-                  <Input
-                    {...register('nickName')}
-                    placeholder={user.NICK_NAME}
-                  />
+                  <Input {...register('name')} placeholder={user.name} />
                   <Label>개발기간</Label>
                   <Input
                     {...register('yearOfDev', {
@@ -209,17 +211,14 @@ export default function edit() {
                         message: 'Please enter only numbers',
                       },
                     })}
-                    placeholder={user.YEAR_OF_DEV + ''}
+                    placeholder={user.yearOfDev + ''}
                   />
                   <Label>Phone</Label>
-                  <Input
-                    {...register('phoneNumber')}
-                    placeholder={user.PHONE_NUMBER}
-                  />
+                  <Input {...register('phone')} placeholder={user.phone} />
                   <Label>Email</Label>
-                  <Input {...register('email')} placeholder={user.EMAIL} />
+                  <Input {...register('email')} placeholder={user.email} />
                   <Label>About Me</Label>
-                  <Input {...register('aboutMe')} placeholder={user.ABOUT_ME} />
+                  <Input {...register('aboutMe')} placeholder={user.aboutMe} />
                   <Btn>Submit</Btn>
                 </LabelContainer>
               </InnerContainer>

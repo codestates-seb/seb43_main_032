@@ -46,3 +46,13 @@ export enum Filter {
   조회순 = 2,
   찜순 = 3,
 }
+
+export type PageProps<T> = {
+  data: T[];
+  pageInfo: {
+    page: number;
+    size: number;
+    totalElements: number;
+    totalPages: number;
+  };
+};

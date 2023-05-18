@@ -13,11 +13,10 @@ import Btn from '@/components/button/Btn';
 import { BsSearch } from 'react-icons/bs';
 import { PROJECT_FILTER } from '@/constant/constant';
 import ProjectCardBox from '@/components/card_box/ProjectCardBox';
-import { Filter, Form } from '@/types/types';
+import { Filter, Form, PageProps } from '@/types/types';
 import { AiOutlineArrowUp } from 'react-icons/ai';
 import { getAllData } from '@/util/api/ProjectFilter';
 const page_limit = 4;
-type PageProps = { data: Project[]; total: number };
 
 const ProjectHome = () => {
   const router = useRouter();
@@ -99,10 +98,18 @@ const ProjectHome = () => {
   } = useInfiniteQuery(
     queryKey(),
     ({ pageParam = 1 }) =>
-      api(`${address()}&page=${pageParam}`).then((res) => res.data),
+      api(`${address()}&page=${pageParam}`)
+        .then((res) => res.data)
+        .catch(() => {}),
     {
-      getNextPageParam: (lastPage: PageProps, allPages: PageProps[]) => {
-        if (lastPage.data.length < page_limit) {
+      getNextPageParam: (
+        lastPage: PageProps<Project>,
+        allPages: PageProps<Project>[]
+      ) => {
+        if (
+          page_limit * lastPage.pageInfo.page >
+          lastPage.pageInfo.totalElements
+        ) {
           return null;
         }
         return allPages.length + 1;
@@ -116,7 +123,7 @@ const ProjectHome = () => {
     if (
       target.current &&
       data?.pageParams &&
-      data?.pageParams[data.pageParams.length - 1] === null
+      data?.pageParams[data.pageParams.length - 1]
     ) {
       return;
     }
