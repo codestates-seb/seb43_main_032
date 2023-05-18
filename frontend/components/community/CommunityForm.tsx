@@ -12,13 +12,14 @@ import Message from '../Message';
 export default function CommunityForm() {
   const router = useRouter();
   const id = router.query.id;
-  const address = `/community/post/${id}`;
-  const queryKey = ['community', 'post', id];
+  const address = `/article/update/post/${id}`;
+  const queryKey = ['article', 'post', id];
   const { communityQuery } = useCommunity<Community>({
     address,
     queryKey,
   });
   const data = communityQuery.data?.data;
+  // console.log(data);
 
   const { register, watch } = useForm<Form>();
   const [editor, setEditor] = useState('');
@@ -32,9 +33,10 @@ export default function CommunityForm() {
       position: watch().position,
       editor,
     };
+
     api
-      .post('/community/create', data)
-      .then(() => router.push('/community'))
+      .post('/article/create', data)
+      .then(() => router.push('/article'))
       .catch(() => alert('잠시 후에 다시 시도해주세요.'));
   };
 

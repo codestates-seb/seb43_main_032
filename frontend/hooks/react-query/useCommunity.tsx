@@ -11,6 +11,7 @@ type Props = {
 export const useCommunity = <T extends {}>({ address, queryKey }: Props) => {
   const router = useRouter();
   const { isLoading, error, data, refetch } = useQuery<{
+    totalPages: number;
     data: T;
     pageInfo: PageInfo;
   }>(queryKey, async () => {

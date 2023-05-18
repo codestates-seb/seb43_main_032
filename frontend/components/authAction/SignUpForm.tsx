@@ -4,28 +4,6 @@ import { useForm, FieldErrors } from 'react-hook-form';
 import usePostApi from './usePostApi';
 import { useEffect } from 'react';
 
-const Wrapper = styled.div`
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-`;
-const Form = styled.form`
-  width: 100%;
-`;
-
-const Submit = styled.input`
-  width: 100%;
-  border: none;
-  margin-bottom: 20px;
-  padding: 20px;
-  margin-top: 60px;
-  border-radius: 10px;
-`;
-const ErrMsg = styled.p`
-  position: absolute;
-  color: teal;
-`;
 interface ISignUpForm {
   nickName: string;
   email: string;
@@ -58,13 +36,13 @@ export default function SignUpForm() {
           register={register('nickName', {
             required: '닉네임을 입력해주세요',
           })}
-          name="닉네임"
+          name="User Name"
         />
         <AuthInput //
           register={register('email', {
             required: 'Email을 입력해주세요',
           })}
-          name="이메일"
+          name="Email Address"
           type="email"
         />
         <AuthInput
@@ -75,7 +53,7 @@ export default function SignUpForm() {
               value: 8,
             },
           })}
-          name="비밀번호"
+          name="Password"
           type="password"
         />
         {errors.password && <ErrMsg>{`${errors?.password?.message}`} </ErrMsg>}
@@ -93,3 +71,45 @@ export default function SignUpForm() {
     </Wrapper>
   );
 }
+
+const Wrapper = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border: 1px solid red;
+  border-radius: 10px;
+  backdrop-filter: blur(5px);
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  border-right: 1px solid rgba(255, 255, 255, 0.2);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+`;
+const Form = styled.form`
+  width: 100%;
+`;
+
+const Submit = styled.input`
+  width: 100%;
+  border: none;
+  margin-bottom: 20px;
+  padding: 20px;
+  margin-top: 50px;
+  border-radius: 35px;
+  /* background-color: #f0ecfc; */
+  line-height: 42px;
+  padding: 0;
+  border: none;
+  cursor: pointer;
+  display: inline-block;
+  box-shadow: 2px 2px 5px #babecc, -5px -5px 10px #ffffff73;
+  overflow: hidden;
+
+  &:hover {
+    box-shadow: inset 2px 2px 5px #babecc, inset -5px -5px 10px #ffffff73;
+  }
+`;
+const ErrMsg = styled.p`
+  position: absolute;
+  color: teal;
+`;
