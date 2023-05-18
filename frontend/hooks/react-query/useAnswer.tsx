@@ -30,7 +30,7 @@ export const useAnswer = ({ answerRefetch }: Props) => {
       }
       return api.post(`/answers`, {
         ...data,
-        category: 'COMMUNITY',
+        category: 'ARTICLE',
       });
     },
     {

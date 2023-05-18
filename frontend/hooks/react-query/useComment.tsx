@@ -30,7 +30,7 @@ export const useComment = ({ commentRefetch }: Props) => {
       }
       return api.post(`/comments`, {
         ...data,
-        category: 'COMMUNITY',
+        category: 'ARTICLE',
       });
     },
     {
