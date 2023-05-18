@@ -5,9 +5,9 @@ spring:
     # Local
     url: jdbc:mysql://localhost:3306/sidequestdb?serverTimezone=UTC&characterEncoding=UTF-8
     username: root
-    password: thrmEkel123!
+    password: root
 
-#     RDS
+##     RDS
 #    url: jdbc:mysql://sidequestdb.cinzzb9ewscr.ap-northeast-2.rds.amazonaws.com:3306/sidequestdb?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
 #    username: ${SIDEQUEST_RDS_USERNAME}
 #    password: ${SIDEQUEST_RDS_PASSWORD}
@@ -31,4 +31,15 @@ jwt:
   access-token-expiration-minutes: 40
   refresh-token-expiration-minutes: 420
 
-
+#img-test
+cloud:
+  aws:
+    credentials:
+      accessKey: ${AWS_ACCESS_KEY_ID}
+      secretKey: ${AWS_SECRET_ACCESS_KEY}
+    s3:
+      bucket: sidequest-bucket
+    stack:
+      auto-: 'false'
+    region:
+      static: ap-northeast-2
