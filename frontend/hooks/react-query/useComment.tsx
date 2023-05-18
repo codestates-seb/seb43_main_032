@@ -18,17 +18,19 @@ export const useComment = ({ commentRefetch }: Props) => {
    */
   const postComment = useMutation(
     ({ answerId, content }: { answerId: number; content: string }) => {
+      const data = {
+        content,
+        uniteId: id,
+      };
       if (router.asPath.includes('project')) {
         return api.post(`/comments/${answerId}`, {
-          content,
+          ...data,
           category: 'PROJECT',
-          uniteId: id,
         });
       }
       return api.post(`/comments`, {
-        content,
+        ...data,
         category: 'COMMUNITY',
-        uniteId: id,
       });
     },
     {

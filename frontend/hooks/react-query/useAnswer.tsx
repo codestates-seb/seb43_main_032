@@ -18,17 +18,19 @@ export const useAnswer = ({ answerRefetch }: Props) => {
    */
   const postAnswer = useMutation(
     ({ content }: { content: string }) => {
+      const data = {
+        content,
+        uniteId: id,
+      };
       if (router.asPath.includes('project')) {
         return api.post(`/answers`, {
-          content,
+          ...data,
           category: 'PROJECT',
-          uniteId: id,
         });
       }
       return api.post(`/answers`, {
-        content,
+        ...data,
         category: 'COMMUNITY',
-        uniteId: id,
       });
     },
     {
