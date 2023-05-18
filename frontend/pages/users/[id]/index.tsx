@@ -8,6 +8,7 @@ import useUser from '@/hooks/react-query/useUser';
 import { USER } from '../me';
 import ProjectCard from '@/components/project/ProjectCard';
 import Skeleton from '@/components/skeleton/Skeleton';
+import UserContentsBox from '@/components/user/UserContentsBox';
 
 //유저 페이지 입니다. 경로 '/user/[id]'  예시 >>  /user/1
 const UserInfoContainer = styled.div`
@@ -64,7 +65,6 @@ const FilterBtn = styled.button`
 `;
 
 const UserPage = () => {
-  const [filter, setFilter] = useState('projects');
   const router = useRouter();
   const id = router.query.id;
 
@@ -74,11 +74,6 @@ const UserPage = () => {
   // 	getPostsByUserId:{data:posts}
   // } = useUser({ id: id ? +id : undefined });
   const user = USER;
-
-  const handleClick = (e: MouseEvent<HTMLButtonElement>) => {
-    const name = e.currentTarget.name;
-    setFilter(name);
-  };
 
   useEffect(() => {
     window.scrollTo({
@@ -102,40 +97,7 @@ const UserPage = () => {
           <ContentTitle>자기 소개란</ContentTitle>
           <span>{user?.aboutMe}</span>
         </UserDescription>
-        <Category>
-          <FilterBtn name="projects" onClick={handleClick}>
-            프로젝트
-          </FilterBtn>
-          |
-          <FilterBtn name="posts" onClick={handleClick}>
-            게시글
-          </FilterBtn>
-        </Category>
-        <Contents>
-          {filter === 'projects' ? (
-            <>
-              <ContentTitle>참여 프로젝트</ContentTitle>
-              {/* {projects.map((project) => (
-                <ProjectCard key={project.id} size="md" data={project} />
-              ))} */}
-              {[1, 2, 3, 4, 5].map((el) => (
-                <ContentCard key={el} />
-              ))}
-            </>
-          ) : (
-            <>
-              <ContentTitle>작성 게시글</ContentTitle>
-              {/* {posts.map((post) => (
-                <CommunityCardBox key={post.id} title={post.title} data={post}>
-							<Skeleton/>
-							</CommunityCardBox>
-              ))} */}
-              {[1, 2, 3, 4, 5].map((el) => (
-                <ContentCard key={el} />
-              ))}
-            </>
-          )}
-        </Contents>
+        {id && <UserContentsBox id={+id} contents={['Projects', 'Posts']} />}
       </ContentsContainer>
     </GridBox>
   ) : (

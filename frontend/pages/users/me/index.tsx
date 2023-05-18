@@ -1,5 +1,6 @@
 import GridBox from '@/components/GridBox';
 import InfoContainer from '@/components/user/InfoContainer';
+import UserContentsBox from '@/components/user/UserContentsBox';
 import UserInfoCard from '@/components/user/UserProfile';
 import useAuth from '@/hooks/react-query/useAuth';
 import { UserData } from '@/types/user';
@@ -122,7 +123,7 @@ export default function me() {
                 lastItem
               />
             </UserInfo>
-            <div style={{ display: 'flex' }}>
+            {/* <div style={{ display: 'flex' }}>
               <p
                 className="nanum-bold"
                 style={{ margin: '10px', marginRight: '0', color: 'tomato' }}
@@ -153,7 +154,12 @@ export default function me() {
                 </div>
                 <DummyBox2 />
               </DummyBox>
-            </Works>
+            </Works> */}
+            <UserContentsBox id={0} contents={['Projects', 'Posts']} />
+            <UserContentsBox
+              id={0}
+              contents={['Projects replies', 'Post replies']}
+            />
           </RightColumn>
         </GridBox>
       )}
