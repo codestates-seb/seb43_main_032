@@ -22,7 +22,7 @@ const ProjectHome = () => {
   const router = useRouter();
   const { register, watch } = useForm<Form>();
   const search = router.query.search;
-  const [filter, setFilter] = useState('');
+  const [filter, setFilter] = useState(0);
   const filterNames = useMemo(() => Object.keys(PROJECT_FILTER), []);
   const filterHandler = (name: string) => {
     setFilter(PROJECT_FILTER[name]);

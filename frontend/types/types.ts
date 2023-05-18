@@ -3,21 +3,17 @@
 export interface StackCategoryName {
   [key: string]: string;
 }
-
-export type ArrObj = { [key: string]: string[] };
-
-export type BannerProps = {
-  imgWidth?: boolean;
-  isScrolled?: boolean;
-  showImg?: boolean;
-};
 export interface HeaderNav extends StackCategoryName {}
 
 export interface Form extends StackCategoryName {}
 
-export interface ProjectFilter extends StackCategoryName {}
-
 export interface CommunityFilter extends StackCategoryName {}
+
+export interface ProjectFilter {
+  [key: string]: number;
+}
+
+export type ArrObj = { [key: string]: string[] };
 
 export interface StackCategory {
   [key: string]: string[];
@@ -36,4 +32,10 @@ export type PageInfo = {
   size: number;
   totalElement: number;
   totalPages: number;
+};
+
+export type BannerProps = {
+  imgWidth?: boolean;
+  isScrolled?: boolean;
+  showImg?: boolean;
 };
