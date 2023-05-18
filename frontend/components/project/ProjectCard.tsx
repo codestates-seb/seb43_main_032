@@ -135,13 +135,6 @@ const Box = styled.div`
       width: 100%;
       height: 100%;
       box-sizing: border-box;
-
-      > .thumbnail-image {
-        font-size: 0;
-        width: 120%;
-        height: 120%;
-        vertical-align: middle;
-      }
     }
   }
 
