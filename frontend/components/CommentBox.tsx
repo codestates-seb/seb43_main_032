@@ -3,6 +3,9 @@ import EiditorSkeleton from './skeleton/EiditorSkeleton';
 import dynamic from 'next/dynamic';
 import hljs from 'highlight.js';
 import Pagenation from './Pagenation';
+import { UserState } from '@/types/user';
+import { RiThumbUpFill, RiThumbUpLine } from 'react-icons/ri';
+import { AiFillStar } from 'react-icons/ai';
 
 const Editor = dynamic(() => import('@/components/editor/Editor'), {
   ssr: false,
@@ -56,7 +59,38 @@ const CommentBox = ({
         <ul>
           {commentData.map((comment, i) => (
             <li className="comment" key={`${comment}+${i}`}>
-              {comment}
+              <div className="like-box">
+                {true ? (
+                  <RiThumbUpLine size={30} />
+                ) : (
+                  <RiThumbUpFill size={30} />
+                )}
+              </div>
+              <div className="content-box">
+                <div className="top">{comment} 내용</div>
+                <div className="bottom">
+                  <div className="update-box">
+                    <button>댓글 작성</button>
+                    <button>삭제</button>
+                    <button>수정</button>
+                  </div>
+                  <div className="user-box">
+                    <div className="user-img">
+                      <img
+                        src="https://noticon-static.tammolo.com/dgggcrkxq/image/upload/v1567008394/noticon/ohybolu4ensol1gzqas1.png"
+                        alt="user"
+                      />
+                    </div>
+                    <div className="user-detail">
+                      <div className="user-id">유저 아디</div>
+                      <div className="user-star">
+                        <AiFillStar />
+                        65
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </li>
           ))}
         </ul>
@@ -82,11 +116,66 @@ const Box = styled.div`
   }
 
   .view-comment {
-    ul {
+    > ul {
       display: flex;
       flex-direction: column;
       gap: 16px;
-      li {
+      .comment {
+        border: 1px solid black;
+        min-height: 140px;
+        display: flex;
+        .like-box {
+          min-width: 60px;
+          padding: 8px;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          > svg {
+            cursor: pointer;
+          }
+        }
+        .content-box {
+          display: flex;
+          flex-direction: column;
+          flex: 2;
+          .top {
+            padding: 12px;
+            flex: 0.7;
+          }
+          .bottom {
+            flex: 0.3;
+            display: flex;
+            justify-content: space-between;
+            padding: 8px;
+            .update-box {
+              display: flex;
+              align-items: center;
+              gap: 16px;
+              button {
+                cursor: pointer;
+              }
+            }
+            .user-box {
+              display: flex;
+              gap: 16px;
+              .user-img {
+                height: 40px;
+                width: 40px;
+                > img {
+                  border-radius: 50%;
+                  width: 100%;
+                  height: 100%;
+                }
+              }
+              .user-detail {
+                .user-id {
+                }
+                .user-star {
+                }
+              }
+            }
+          }
+        }
       }
     }
   }
