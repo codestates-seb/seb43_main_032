@@ -36,9 +36,9 @@ const User = () => {
       behavior: 'smooth',
     });
   }, [router]);
-  // const {
-  //   userQuery: { data: users },
-  // } = useUser();
+  const {
+    userQuery: { data: users },
+  } = useUser();
   return (
     <GridBox>
       <UserSideBar />
