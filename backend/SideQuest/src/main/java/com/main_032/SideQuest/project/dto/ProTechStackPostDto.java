@@ -6,6 +6,6 @@ import java.util.List;
 @Getter
 public class ProTechStackPostDto {
 
-    private List<String> techStackList;
+    private List<String> techList;
 
 }

@@ -8,6 +8,7 @@ import com.main_032.SideQuest.community.dto.CommentDto.CommentPatchDto;
 import com.main_032.SideQuest.community.dto.CommentDto.CommentPostDto;
 import com.main_032.SideQuest.community.dto.CommentDto.CommentResponseDto;
 import com.main_032.SideQuest.community.dto.LikesPostDto;
+import com.main_032.SideQuest.community.entity.Category;
 import com.main_032.SideQuest.community.entity.Likes;
 import com.main_032.SideQuest.community.service.AnswerService;
 import com.main_032.SideQuest.community.service.CommentService;
@@ -22,7 +23,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 @Api(tags = {"Community"}, description = "커뮤니티 API")
 @RestController
-@RequestMapping("/comments")
 public class CommunityController {
 
     private final CommentService commentService;
@@ -34,76 +34,16 @@ public class CommunityController {
         this.likesService = likesService;
         this.answerService = answerService;
     }
-    @ApiOperation(value = "댓글 생성")
-    @PostMapping("/comment/{answer-Id}")
-    public ResponseEntity<Void> createComment(
-            @PathVariable("answer-Id") Long answerId,
-            @RequestBody CommentPostDto commentPostDto) {
-        commentService.createComment(answerId,commentPostDto);
-        return ResponseEntity.ok().build();
-    }
-
-    @ApiOperation(value = "댓글 수정")
-    @PatchMapping("/update/{comment-id}")
-    public ResponseEntity<Void> updateArticleComment(@PathVariable("comment-id") Long commentId,
-                                                     @RequestBody CommentPatchDto commentPatchDto
-    ) {
-        commentService.updateArticleComment(commentId, commentPatchDto);
-        return ResponseEntity.ok().build();
-    }
-    @ApiOperation(value = "댓글 삭제")
-    @DeleteMapping("/comment/article/{id}")
-    public ResponseEntity<Void> deleteArticleComment(@PathVariable("id") Long id) {
-        commentService.deleteComment(id);
-        return ResponseEntity.noContent().build();
-    }
-    @ApiOperation(value = "아티클 댓글 조회")
-    @GetMapping("/comment/article/{answerId}")
-    public ResponseEntity<MultiResponseDto<CommentResponseDto>> listArticleComments(@PathVariable("answerId") Long answerId,
-                                                                                    Pageable pageable) {
-        MultiResponseDto<CommentResponseDto> response = commentService.getArticleComments(answerId,pageable);
-        return ResponseEntity.ok(response);
-    }
-    @ApiOperation(value = "프로젝트 댓글 조회")
-    @GetMapping("/comment/project/{answerId}")
-    public ResponseEntity<MultiResponseDto<CommentResponseDto>> listProjectComments(@PathVariable("answerId") Long answerId,
-                                                                                    Pageable pageable) {
-        MultiResponseDto<CommentResponseDto> response = commentService.getProjectComments(answerId,pageable);
-        return ResponseEntity.ok(response);
-    }
-
-    @ApiOperation(value = "댓글에 좋아요 추가")
-    @PostMapping("/comment/likes")
-    public ResponseEntity<Likes> likeComment(@RequestBody LikesPostDto likesPostDto,
-                                             @RequestHeader("email") String email) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(likesService.likeComment(likesPostDto, email));
-    }
-
-    @ApiOperation(value = "댓글에 좋아요 취소")
-    @DeleteMapping("/comment/likes/{commentId}")
-    public ResponseEntity<Void> unlikeComment(@PathVariable Long commentId,
-                                              @RequestHeader("email") String email) {
-        likesService.unlikeComment(commentId, email);
-        return ResponseEntity.noContent().build();
-    }
-
-    @ApiOperation(value = "댓글에 대한 좋아요 개수 조회")
-    @GetMapping("/comment/likes/{commentId}")
-    public ResponseEntity<Integer> countLikesByCommentId(@PathVariable Long commentId) {
-        return ResponseEntity.ok(likesService.countLikesByCommentId(commentId));
-    }
-
 
     @ApiOperation(value = "답글 작성")
-    @PostMapping("/answer/post")
+    @PostMapping("/answers")
     public ResponseEntity<Void> postAnswer(@RequestBody AnswerPostDto answerPostDto){
         answerService.createAnswer(answerPostDto);
         return ResponseEntity.ok().build();
     }
 
-    //patch
     @ApiOperation(value = "답글 수정")
-    @PatchMapping("/answer/{answerId}")
+    @PatchMapping("/answers/{answerId}")
     public ResponseEntity<Void> patchAnswer(@PathVariable("answerId") Long answerId,
                                             @RequestBody AnswerPatchDto answerPatchDto){
         answerService.updateAnswer(answerId,answerPatchDto);
@@ -111,31 +51,56 @@ public class CommunityController {
     }
 
     @ApiOperation(value = "답글 삭제")
-    @DeleteMapping("/answer/deleted/{answerId}")
+    @DeleteMapping("/answers/{answerId}")
     public ResponseEntity<Void> deleteAnswer(@PathVariable("answerId") Long answerId){
         answerService.deleteAnswer(answerId);
         return ResponseEntity.ok().build();
     }
 
-    @ApiOperation(value = "게시글 답글 조회")
-    @GetMapping("/answer/ArticleAnswer/{article-id}")
-    public ResponseEntity<MultiResponseDto<AnswerResponseDto>> getArticleAnswers(
-            @PathVariable("article-id") Long articleId,
-            @RequestParam int page,
-            @RequestParam int size){
-        MultiResponseDto<AnswerResponseDto> answerPage = answerService.findAllArticleAnswer(articleId,page,size);
-        return ResponseEntity.ok(answerPage);
-    }
-    @ApiOperation(value = "프로젝트 답글 조회")
-    @GetMapping("/answer/ProjectAnswer/{project-id}")
-    public ResponseEntity<MultiResponseDto<AnswerResponseDto>> getProjectAnswers(
-            @PathVariable("project-id") Long projectId,
-            @RequestParam int page,
-            @RequestParam int size){
-        MultiResponseDto<AnswerResponseDto> answerPage = answerService.findAllProjectAnswer(projectId,page,size);
-        return ResponseEntity.ok(answerPage);
+    @ApiOperation(value = "댓글 생성")
+    @PostMapping("/comments/{answerId}")
+    public ResponseEntity<Void> createComment(
+            @PathVariable("answerId") Long answerId,
+            @RequestBody CommentPostDto commentPostDto) {
+        commentService.createComment(answerId,commentPostDto);
+        return ResponseEntity.ok().build();
     }
 
+    @ApiOperation(value = "댓글 수정")
+    @PatchMapping("/comments/{commentId}")
+    public ResponseEntity<Void> updateArticleComment(@PathVariable("commentId") Long commentId,
+                                                     @RequestBody CommentPatchDto commentPatchDto
+    ) {
+        commentService.updateArticleComment(commentId, commentPatchDto);
+        return ResponseEntity.ok().build();
+    }
 
+    @ApiOperation(value = "댓글 삭제")
+    @DeleteMapping("/comments/{commentId}")
+    public ResponseEntity<Void> deleteArticleComment(@PathVariable("commentId") Long commentId) {
+        commentService.deleteComment(commentId);
+        return ResponseEntity.noContent().build();
+    }
+
+//    @ApiOperation(value = "댓글에 좋아요 추가")
+//    @PostMapping("/comments/likes")
+//    public ResponseEntity<Likes> likeComment(@RequestBody LikesPostDto likesPostDto,
+//                                             @RequestHeader("email") String email) {
+//        return ResponseEntity.status(HttpStatus.CREATED).body(likesService.likeComment(likesPostDto, email));
+//    }
+//
+//    @ApiOperation(value = "댓글에 좋아요 취소")
+//    @DeleteMapping("/comment/likes/{commentId}")
+//    public ResponseEntity<Void> unlikeComment(@PathVariable Long commentId,
+//                                              @RequestHeader("email") String email) {
+//        likesService.unlikeComment(commentId, email);
+//        return ResponseEntity.noContent().build();
+//    }
+//
+//    @ApiOperation(value = "댓글에 대한 좋아요 개수 조회")
+//    @GetMapping("/comment/likes/{commentId}")
+//    public ResponseEntity<Integer> countLikesByCommentId(@PathVariable Long commentId) {
+//        return ResponseEntity.ok(likesService.countLikesByCommentId(commentId));
+//    }
 
 }

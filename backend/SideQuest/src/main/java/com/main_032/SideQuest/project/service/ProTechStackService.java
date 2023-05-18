@@ -30,8 +30,8 @@ public class ProTechStackService {
 
     public List<ProTechStack> updateProTechStack(Project project, ProTechStackPostDto proTechStackPostDto) {
         List<ProTechStack> proTechStackList = new ArrayList<>();
-        for (int i = 0; i < proTechStackPostDto.getTechStackList().size(); i++) {
-            ProTechStack proTechStack = new ProTechStack(project, proTechStackPostDto.getTechStackList().get(i));
+        for (int i = 0; i < proTechStackPostDto.getTechList().size(); i++) {
+            ProTechStack proTechStack = new ProTechStack(project, proTechStackPostDto.getTechList().get(i));
             proTechStackList.add(proTechStack);
         }
         return proTechStackList;

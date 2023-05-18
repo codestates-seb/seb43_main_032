@@ -8,5 +8,5 @@ import lombok.Getter;
 public class LikesPostDto {
     private Long memberId;
     private Category category;
-    private Long commentId;
+    private Long uniteId;
 }

@@ -15,6 +15,7 @@ import com.main_032.SideQuest.util.exception.BusinessLogicException;
 import com.main_032.SideQuest.util.exception.ExceptionCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,11 +31,12 @@ public class CommentService {
     private final MemberService memberService;
     private final CommentRepository commentRepository;
     private final MemberRepository memberRepository;
+
     @Transactional
     public void createComment(Long answerId, CommentPostDto commentPostDto) {
         Member member = memberService.getLoginMember();
         Optional<Answer> findAnswer = answerRepository.findById(answerId);
-        findAnswer.orElseThrow(()-> new BusinessLogicException(ExceptionCode.ANSWER_NOT_FOUND));
+        findAnswer.orElseThrow(() -> new BusinessLogicException(ExceptionCode.ANSWER_NOT_FOUND));
         Answer answer = findAnswer.get();
         Comment comment = new Comment(member.getId(),
                 commentPostDto.getCategory(),
@@ -50,7 +52,7 @@ public class CommentService {
     @Transactional
     public void updateArticleComment(Long commentId, CommentPatchDto commentPatchDto) {
         //comment 검증
-        Comment comment =getCommentOrException(commentId);
+        Comment comment = getCommentOrException(commentId);
         // 로그인 한사람, comment에 담겨 있는 member ID 검증
         matchMemberID(comment);
 //        checkCommentMember(comment, member);
@@ -59,68 +61,79 @@ public class CommentService {
         comment.setContent(commentPatchDto.getContent());
         commentRepository.save(comment);
     }
+
     @Transactional
     public void deleteComment(Long commentId) {
         //comment 검증
-        Comment comment =getCommentOrException(commentId);
+        Comment comment = getCommentOrException(commentId);
         // 로그인 한사람, comment에 담겨 있는 member ID 검증
         matchMemberID(comment);
         comment.setDeleted(true);
         commentRepository.save(comment);
     }
 
-    public MultiResponseDto<CommentResponseDto> getArticleComments(Long answerId, Pageable pageable) {
-        Page<Comment> commentPage = commentRepository.findAllComment(answerId,pageable);
+    public MultiResponseDto<CommentResponseDto> getArticleComments(Long answerId, int page, int size) {
+        Pageable pageable = PageRequest.of(page,size);
+        Page<Comment> commentPage = commentRepository.findAllComment(answerId, pageable);
         List<Comment> commentList = commentPage.getContent();
 
         List<CommentResponseDto> response = new ArrayList<>();
-        for(Comment comment:commentList){
+        for (Comment comment : commentList) {
             Optional<Member> findMember = memberRepository.findById(comment.getMemberId());
-            Member member=findMember.get();
+            Member member = findMember.get();
             CommentResponseDto commentResponseDto = new CommentResponseDto(
                     memberService.getMemberInfo(comment.getMemberId()).getData(),
-                    comment.getTotalLikes(),
+                    comment.getId(),
                     comment.getContent(),
-                    comment.getCreatedAt());
+                    comment.getTotalLikes(),
+                    comment.getCreatedAt()
+            );
             response.add(commentResponseDto);
         }
-        return new MultiResponseDto<CommentResponseDto>(response,commentPage);
+        return new MultiResponseDto<CommentResponseDto>(response, commentPage);
     }
 
-    public MultiResponseDto<CommentResponseDto> getProjectComments(Long answerId, Pageable pageable) {
-        Page<Comment> commentPage = commentRepository.findAllComment(answerId,pageable);
+    public MultiResponseDto<CommentResponseDto> getProjectComments(Long answerId, int page, int size) {
+        Pageable pageable = PageRequest.of(page,size);
+        Page<Comment> commentPage = commentRepository.findAllComment(answerId, pageable);
         List<Comment> commentList = commentPage.getContent();
 
         List<CommentResponseDto> response = new ArrayList<>();
-        for(Comment comment:commentList){
+        for (Comment comment : commentList) {
             Optional<Member> findMember = memberRepository.findById(comment.getMemberId());
-            Member member=findMember.get();
+            Member member = findMember.get();
             CommentResponseDto commentResponseDto = new CommentResponseDto(
                     memberService.getMemberInfo(comment.getMemberId()).getData(),
-                    comment.getTotalLikes(),
+                    comment.getId(),
                     comment.getContent(),
+                    comment.getTotalLikes(),
                     comment.getCreatedAt());
             response.add(commentResponseDto);
         }
-        return new MultiResponseDto<CommentResponseDto>(response,commentPage);
+        return new MultiResponseDto<CommentResponseDto>(response, commentPage);
     }
 
     private void matchMemberID(Comment findComment) {
-        Member member =memberService.getLoginMember();
-        if(member.getId() != findComment.getMemberId()){
+        Member member = memberService.getLoginMember();
+        if (member.getId() != findComment.getMemberId()) {
             throw new BusinessLogicException(ExceptionCode.MEMBER_NOT_MATCH);
         }
     }
+
     private Comment getCommentOrException(Long commentId) {
         return commentRepository.findById(commentId).orElseThrow(() ->
                 new BusinessLogicException(ExceptionCode.COMMENT_NOT_FOUND));
     }
-    public List<CommentResponseDto> commentListToCommentReponseDtoList(List<Comment> commentList){
+
+    public List<CommentResponseDto> commentListToCommentReponseDtoList(List<Comment> commentList) {
         List<CommentResponseDto> commentResponseDtoList = new ArrayList<>();
-        for(Comment comment : commentList){
+        for (Comment comment : commentList) {
             CommentResponseDto commentResponseDto = new CommentResponseDto(
                     memberService.getMemberInfo(comment.getMemberId()).getData(),
-                            comment.getTotalLikes(),comment.getContent(),comment.getCreatedAt()
+                    comment.getId(),
+                    comment.getContent(),
+                    comment.getTotalLikes(),
+                    comment.getCreatedAt()
             );
             commentResponseDtoList.add(commentResponseDto);
         }

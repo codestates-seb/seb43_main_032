@@ -14,6 +14,7 @@ public class WebConfig implements WebMvcConfigurer {
                 .allowedHeaders("*")
                 .allowCredentials(true)
                 .maxAge(3600)
-                .exposedHeaders("Authorization");   // 토큰 까버리기! 메인 프로젝트에선 쓰면 안된다!
+                .exposedHeaders("Authorization")
+                .exposedHeaders("RefreshToken");
     }
 }

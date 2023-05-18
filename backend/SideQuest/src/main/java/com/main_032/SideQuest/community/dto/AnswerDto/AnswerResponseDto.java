@@ -11,10 +11,10 @@ import java.util.List;
 @Getter
 @AllArgsConstructor
 public class AnswerResponseDto {
-    private MemberGetResponseDto memberGetResponseDto;
+    private MemberGetResponseDto memberInfo;
+    private Long answerId;
     private int totalLikes;
     private String content;
-    private LocalDateTime createAt;
-    private List<CommentResponseDto> commentResponseDtoList;
-
+    private LocalDateTime createdAt;
+    private List<CommentResponseDto> commentList;
 }

@@ -28,7 +28,7 @@ public class LikesService {
     public Likes likeComment(LikesPostDto likesPostDto, String email) {
         Member member = memberRepository.findByEmail(email)
                 .orElseThrow(() -> new NoSuchElementException("No Member found with the given email."));
-        Comment comment = commentRepository.findById(likesPostDto.getCommentId())
+        Comment comment = commentRepository.findById(likesPostDto.getUniteId())
                 .orElseThrow(() -> new NoSuchElementException("No Comment found with the given id."));
         Likes existingLike = likesRepository.findByMemberIdAndCommentId(member.getId(), comment.getId())
                 .orElse(null);

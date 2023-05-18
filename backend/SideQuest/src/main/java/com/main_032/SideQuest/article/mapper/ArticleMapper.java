@@ -2,7 +2,6 @@ package com.main_032.SideQuest.article.mapper;
 
 import com.main_032.SideQuest.article.dto.ArticlePostDto;
 import com.main_032.SideQuest.article.dto.ArticleGetResponseDto;
-import com.main_032.SideQuest.article.dto.ArticleResponseDto;
 import com.main_032.SideQuest.article.dto.ArticleTechStackResponseDto;
 import com.main_032.SideQuest.article.entity.Article;
 import com.main_032.SideQuest.article.entity.ArticleTechStack;
@@ -34,8 +33,8 @@ public class ArticleMapper {
             Article article = new Article();
             article.updateTitle(articlePostDto.getTitle());
             article.updateContent(articlePostDto.getContent());
-            article.updateCategory(articlePostDto.getArticleCategory());
-            articleTechStackService.updateArticleTechStack(articlePostDto.getArticleTechStackList(), article.getId());
+            article.updateCategory(articlePostDto.getCategory());
+            articleTechStackService.updateArticleTechStack(articlePostDto.getTechList(), article.getId());
             return article;
 
     }

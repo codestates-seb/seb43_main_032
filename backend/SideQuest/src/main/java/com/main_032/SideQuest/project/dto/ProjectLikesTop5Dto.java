@@ -8,5 +8,5 @@ import java.util.List;
 @Getter
 @AllArgsConstructor
 public class ProjectLikesTop5Dto {
-    private List<ProjectGetResponseDto> projectGetResponseDtoList;
+    private List<ProjectGetResponseDto> projectList;
 }

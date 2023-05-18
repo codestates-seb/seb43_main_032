@@ -1,7 +1,6 @@
 package com.main_032.SideQuest.article.dto;
 
 import com.main_032.SideQuest.article.entity.ArticleCategory;
-import com.main_032.SideQuest.article.entity.ArticleTechStack;
 import lombok.Getter;
 
 import java.util.List;
@@ -12,7 +11,7 @@ public class ArticlePatchDto {
 
     private String content;
 
-    private ArticleCategory articleCategory;
+    private ArticleCategory category;
 
-    private List<String> articleTechStackList;
+    private List<String> techList;
 }

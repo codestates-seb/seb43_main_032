@@ -10,8 +10,9 @@ import java.time.LocalDateTime;
 @Getter
 @AllArgsConstructor
 public class CommentResponseDto {
-    private MemberGetResponseDto memberGetResponseDto;
-    private int totalLikes;
+    private MemberGetResponseDto memberInfo;
+    private Long commentId;
     private String content;
-    private LocalDateTime createAt;
+    private int totalLikes;
+    private LocalDateTime createdAt;
 }

@@ -1,7 +1,6 @@
 package com.main_032.SideQuest.project.dto;
 
 import com.main_032.SideQuest.member.dto.MemberGetResponseDto;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 import java.time.LocalDateTime;
@@ -11,7 +10,7 @@ import java.util.List;
 public class ProjectGetResponseDto {
     private Long projectId;
 //    private Long memberId;
-    private MemberGetResponseDto memberGetResponseDto;
+    private MemberGetResponseDto memberInfo;
 
     private String title;
     private String content;
@@ -28,9 +27,9 @@ public class ProjectGetResponseDto {
 
     private LocalDateTime createdAt;
 
-    public ProjectGetResponseDto(Long projectId, MemberGetResponseDto memberGetResponseDto, String title, String content, String writerPosition, String startDate, String endDate, String thumbnailImageUrl, int views, String status, int totalLikes, LocalDateTime createdAt) {
+    public ProjectGetResponseDto(Long projectId, MemberGetResponseDto memberInfo, String title, String content, String writerPosition, String startDate, String endDate, String thumbnailImageUrl, int views, String status, int totalLikes, LocalDateTime createdAt) {
         this.projectId = projectId;
-        this.memberGetResponseDto = memberGetResponseDto;
+        this.memberInfo = memberInfo;
         this.title = title;
         this.content = content;
         this.writerPosition = writerPosition;
@@ -43,24 +42,24 @@ public class ProjectGetResponseDto {
         this.createdAt = createdAt;
     }
 
-    private List<ProTechStackResponseDto> proTechStackResponseDtoList;
-    private List<ProFieldResponseDto> proFieldResponseDtoList;
-    private List<ProPositionCrewResponseDto> proPositionCrewResponseDtoList;
-    private List<ProAcceptedCrewResponseDto> proAcceptedCrewResponseDtoList;
+    private List<ProTechStackResponseDto> techList;
+    private List<ProFieldResponseDto> fieldList;
+    private List<ProPositionCrewResponseDto> positionCrewList;
+    private List<ProAcceptedCrewResponseDto> acceptedCrewList;
 
     public void updateProTechStackResponseDtoList(List<ProTechStackResponseDto> proTechStackResponseDtoList) {
-        this.proTechStackResponseDtoList = proTechStackResponseDtoList;
+        this.techList = proTechStackResponseDtoList;
     }
 
     public void updateProFieldResponseDtoList(List<ProFieldResponseDto> proFieldResponseDtoList) {
-        this.proFieldResponseDtoList = proFieldResponseDtoList;
+        this.fieldList = proFieldResponseDtoList;
     }
 
     public void updateProPositionCrewResponseDtoList(List<ProPositionCrewResponseDto> proPositionCrewResponseDtoList) {
-        this.proPositionCrewResponseDtoList = proPositionCrewResponseDtoList;
+        this.positionCrewList = proPositionCrewResponseDtoList;
     }
 
     public void updateProAcceptedCrewResponseDtoList(List<ProAcceptedCrewResponseDto> proAcceptedCrewResponseDtoList) {
-        this.proAcceptedCrewResponseDtoList = proAcceptedCrewResponseDtoList;
+        this.acceptedCrewList = proAcceptedCrewResponseDtoList;
     }
 }
