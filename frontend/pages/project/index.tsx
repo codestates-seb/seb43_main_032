@@ -15,6 +15,7 @@ import { PROJECT_FILTER } from '@/constant/constant';
 import ProjectCardBox from '@/components/card_box/ProjectCardBox';
 import { Filter, Form } from '@/types/types';
 import { AiOutlineArrowUp } from 'react-icons/ai';
+import { setAllData } from '@/util/api/ProjectFilter';
 const page_limit = 4;
 type PageProps = { data: Project[]; total: number };
 
@@ -28,30 +29,37 @@ const ProjectHome = () => {
     setFilter(PROJECT_FILTER[name]);
   };
 
+  //서버에서 필터링 작업이 완성되기 전, 눈속임을 위한 필터 데이터
+  const [filterData, setFilterData] = useState<Project[]>([]);
+
   //필터 변경 시, 이펙트
   useEffect(() => {
-    refetch();
+    if (filter === 0) {
+      refetch();
+    } else {
+      setAllData().then((res) => console.log(res));
+    }
   }, [filter]);
 
-  //주소
+  //주소, 서버 필터 작업 전까지 주석처리
   const address = () => {
-    if (search && filter) {
-      return `/project/findAll&size=${page_limit}&filter=${filter}`;
-    }
-    if (search || filter) {
-      return `/project/findAll&size=${page_limit}`;
-    }
+    // if (search && filter) {
+    //   return `/project/findAll&size=${page_limit}&filter=${filter}`;
+    // }
+    // if (search || filter) {
+    //   return `/project/findAll&size=${page_limit}`;
+    // }
     return `/project/findAll?size=${page_limit}`;
   };
 
-  //쿼리 키
+  //쿼리 키, 서버 필터 작업 전까지 주석처리
   const queryKey = () => {
-    if (search && filter) {
-      return ['projects', search, filter];
-    }
-    if (search || filter) {
-      return ['projects', search || filter];
-    }
+    // if (search && filter) {
+    //   return ['projects', search, filter];
+    // }
+    // if (search || filter) {
+    //   return ['projects', search || filter];
+    // }
     return 'projects';
   };
 
