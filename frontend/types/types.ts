@@ -70,3 +70,8 @@ export type MemberInfo = {
   totalStar: number;
   yearOfDev: number;
 };
+
+export type NavProps = {
+  nav?: boolean;
+  isScrolled?: boolean;
+};
