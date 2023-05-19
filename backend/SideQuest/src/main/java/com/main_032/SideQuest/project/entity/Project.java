@@ -46,6 +46,9 @@ public class Project extends BaseEntity {
     @Column
     private int totalLikes;
 
+    @Column
+    private int totalAnswers;
+
     @OneToMany(mappedBy = "project")
     List<ProTechStack> proTechStackList;
 
@@ -100,6 +103,7 @@ public class Project extends BaseEntity {
     public void updateThumbnailImageUrl(String thumbnailImageUrl) {
         this.thumbnailImageUrl = thumbnailImageUrl;
     }
+    public void updateTotalAnswers(int totalAnswers){this.totalAnswers = totalAnswers;}
     public void updateProTechStackList(List<ProTechStack> proTechStackList) {
         this.proTechStackList = proTechStackList;
     }
@@ -126,5 +130,6 @@ public class Project extends BaseEntity {
     public void plusViews() {
         this.views += 1;
     }
+
 }
 
