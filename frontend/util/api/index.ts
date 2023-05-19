@@ -1,6 +1,8 @@
 import axios from 'axios';
 import { getCookie } from '../cookie';
 
+axios.defaults.withCredentials = true;
+
 const baseURL =
   process.env.NODE_ENV === 'production'
     ? process.env.NEXT_RESOURCE_URL

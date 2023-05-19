@@ -15,7 +15,7 @@ import { useRecoilState } from 'recoil';
 import { loggedInUserState, navModalState } from '@/recoil/atom';
 import { setUserState } from '@/util/api/user';
 import Img from '../public/images/second-user.svg';
-import { NavProps } from '@/types/types';
+// import { NavProps } from '@/types/tspes';
 
 const Header = () => {
   const router = useRouter();
