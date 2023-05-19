@@ -22,6 +22,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -77,19 +78,8 @@ public class CommentService {
         Page<Comment> commentPage = commentRepository.findAllComment(answerId, pageable);
         List<Comment> commentList = commentPage.getContent();
 
-        List<CommentResponseDto> response = new ArrayList<>();
-        for (Comment comment : commentList) {
-            Optional<Member> findMember = memberRepository.findById(comment.getMemberId());
-            Member member = findMember.get();
-            CommentResponseDto commentResponseDto = new CommentResponseDto(
-                    memberService.getMemberInfo(comment.getMemberId()).getData(),
-                    comment.getId(),
-                    comment.getContent(),
-                    comment.getTotalLikes(),
-                    comment.getCreatedAt()
-            );
-            response.add(commentResponseDto);
-        }
+        List<CommentResponseDto> response = commentListToCommentReponseDtoList(commentList);
+
         return new MultiResponseDto<CommentResponseDto>(response, commentPage);
     }
 
@@ -98,18 +88,7 @@ public class CommentService {
         Page<Comment> commentPage = commentRepository.findAllComment(answerId, pageable);
         List<Comment> commentList = commentPage.getContent();
 
-        List<CommentResponseDto> response = new ArrayList<>();
-        for (Comment comment : commentList) {
-            Optional<Member> findMember = memberRepository.findById(comment.getMemberId());
-            Member member = findMember.get();
-            CommentResponseDto commentResponseDto = new CommentResponseDto(
-                    memberService.getMemberInfo(comment.getMemberId()).getData(),
-                    comment.getId(),
-                    comment.getContent(),
-                    comment.getTotalLikes(),
-                    comment.getCreatedAt());
-            response.add(commentResponseDto);
-        }
+        List<CommentResponseDto> response = commentListToCommentReponseDtoList(commentList);
         return new MultiResponseDto<CommentResponseDto>(response, commentPage);
     }
 
@@ -128,11 +107,26 @@ public class CommentService {
     public List<CommentResponseDto> commentListToCommentReponseDtoList(List<Comment> commentList) {
         List<CommentResponseDto> commentResponseDtoList = new ArrayList<>();
         for (Comment comment : commentList) {
+            boolean isLoginMember = memberService.isLoginMember();
+            boolean isAuthor;
+            if(isLoginMember){//로그인 안하면
+                isAuthor = false;
+            }
+            else{
+                Member member = memberService.getLoginMember();
+                if(Objects.equals(member.getId(), comment.getMemberId())){
+                    isAuthor =true;
+                }
+                else {
+                    isAuthor=false;
+                }
+            }
             CommentResponseDto commentResponseDto = new CommentResponseDto(
                     memberService.getMemberInfo(comment.getMemberId()).getData(),
                     comment.getId(),
                     comment.getContent(),
                     comment.getTotalLikes(),
+                    isAuthor,
                     comment.getCreatedAt()
             );
             commentResponseDtoList.add(commentResponseDto);
