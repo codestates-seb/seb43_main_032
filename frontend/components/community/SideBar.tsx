@@ -8,7 +8,6 @@ export default function SideBar() {
 
   return (
     <Container>
-      <div className="top-category">CATEGORY</div>
       <ul>
         {COMMUNITY_CATEGORY.map((item) => (
           <li
@@ -35,7 +34,17 @@ export default function SideBar() {
             >
               {item.icon}
             </span>
-            <span className="nanum-regular title">{item.title}</span>
+            <span
+              className={`nanum-regular title ${
+                router.asPath === `/community${item.link}`
+                  ? router.asPath === '/community'
+                    ? 'icon allTitle'
+                    : `icon ${router.query.category}Title`
+                  : 'icon'
+              }`}
+            >
+              {item.title}
+            </span>
           </li>
         ))}
       </ul>
@@ -44,84 +53,179 @@ export default function SideBar() {
 }
 
 const Container = styled.div`
-  width: 90%;
+  width: 100%;
   height: 100%;
-  display: flex;
-  flex-direction: column;
   align-items: center;
   border-radius: 15px;
-  margin-bottom: 20px;
-  padding: 0 20px;
-  background: #9b7aff;
-
-  .top-category {
-    width: 100%;
-    height: 7%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 15px;
-    font-weight: 500;
-    color: white;
-  }
+  padding: 0 60px;
+  margin-bottom: 50px;
 
   .all {
     background: white;
+    border-radius: 10px;
+    span {
+      background: none;
+    }
+
+    .allTitle {
+      color: #4512eb;
+      font-weight: 700;
+    }
+
     > svg {
       color: #09adea;
     }
   }
   .frontend {
+    background: white;
+    span {
+      background: none;
+    }
+
+    .frontendTitle {
+      color: #4512eb;
+      font-weight: 700;
+    }
     > svg {
       color: #2af599;
     }
   }
   .backend {
+    background: white;
+    span {
+      background: none;
+    }
+
+    .backendTitle {
+      color: #4512eb;
+      font-weight: 700;
+    }
     > svg {
       color: #f98bfe;
     }
   }
   .uxui {
+    background: white;
+    span {
+      background: none;
+    }
+
+    .uxuiTitle {
+      color: #4512eb;
+      font-weight: 700;
+    }
     > svg {
       color: #4512eb;
     }
   }
   .plan {
+    background: white;
+    span {
+      background: none;
+    }
+
+    .planTitle {
+      color: #4512eb;
+      font-weight: 700;
+    }
     > svg {
       color: #aac02f;
     }
   }
   .design {
+    background: white;
+    span {
+      background: none;
+    }
+
+    .designTitle {
+      color: #4512eb;
+      font-weight: 700;
+    }
     > svg {
       color: #a1f36b;
     }
   }
   .pm {
+    background: white;
+    span {
+      background: none;
+    }
+
+    .pmTitle {
+      color: #4512eb;
+      font-weight: 700;
+    }
     > svg {
       color: #3acec1;
     }
   }
   .businessplan {
+    background: white;
+    span {
+      background: none;
+    }
+
+    .businessplanTitle {
+      color: #4512eb;
+      font-weight: 700;
+    }
     > svg {
       color: #f1da8b;
     }
   }
   .marketing {
+    background: white;
+    span {
+      background: none;
+    }
+
+    .marketingTitle {
+      color: #4512eb;
+      font-weight: 700;
+    }
     > svg {
       color: #e48cb5;
     }
   }
   .android {
+    background: white;
+    span {
+      background: none;
+    }
+
+    .androidTitle {
+      color: #4512eb;
+      font-weight: 700;
+    }
     > svg {
       color: #53f8a6;
     }
   }
   .ios {
+    background: white;
+    span {
+      background: none;
+    }
+
+    .iosTitle {
+      color: #4512eb;
+      font-weight: 700;
+    }
     > svg {
       color: #c0c0c0;
     }
   }
   .etc {
+    background: white;
+    span {
+      background: none;
+    }
+
+    .etcTitle {
+      color: #4512eb;
+      font-weight: 700;
+    }
     > svg {
       color: #ff0606;
     }
@@ -129,22 +233,28 @@ const Container = styled.div`
 
   > ul {
     width: 100%;
+    display: flex;
+    gap: 20px;
+
     li {
-      width: 100%;
       display: flex;
-      justify-content: start;
+      min-width: 75px;
+      min-height: 75px;
+      background-color: #c0c0c0;
+      border-radius: 50%;
+      flex-direction: column;
+      justify-content: center;
       align-items: center;
       color: white;
-      padding: 10px 20px;
-      margin-bottom: 12px;
+      gap: 10px;
       transition: all 0.2s ease-in-out;
+
       @media (max-width: 960px) {
         justify-content: center;
       }
 
       > .icon {
         font-size: 18px;
-        margin-right: 16px;
       }
 
       > .title {
@@ -154,10 +264,13 @@ const Container = styled.div`
       }
 
       &:hover {
-        box-shadow: 1px 1px 5px #d9d9d9, -1px -1px 10px #e7e7e7;
-        background: rgba(255, 255, 255, 0.7);
-        border-radius: 10px;
+        box-shadow: 1px 1px 3px #d9d9d9, -1px -1px 10px #e7e7e7;
+        background: #4512eb;
         cursor: pointer;
+
+        span.title {
+          font-weight: 600;
+        }
       }
     }
   }
