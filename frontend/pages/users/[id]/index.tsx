@@ -68,12 +68,12 @@ const UserPage = () => {
   const router = useRouter();
   const id = router.query.id;
 
-  // const {
-  //   getUserById: { data: user, isLoading },
-  //   getProjectByUserId: { data: projects },
-  // 	getPostsByUserId:{data:posts}
-  // } = useUser({ id: id ? +id : undefined });
-  const user = USER;
+  const {
+    getUserById: { data: user, isLoading },
+    // getProjectByUserId: { data: projects },
+    // getPostsByUserId:{data:posts}
+  } = useUser({ id: id ? +id : undefined });
+  // const user = USER;
 
   useEffect(() => {
     window.scrollTo({

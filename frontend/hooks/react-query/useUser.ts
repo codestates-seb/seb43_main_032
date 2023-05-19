@@ -45,7 +45,7 @@ export default function useUser({ id, keyword, page, pageSize }: IProps) {
     getUserById,
     // getUserStatus,
     // setUserLogOut,
-    // getMyInfo,
+    getMyInfo,
     searchUserByKeyword,
     getProjectByUserId,
     getPostsByUserId,
@@ -69,8 +69,8 @@ async function getUsers(
   return response.data.data;
 }
 async function getMe() {
-  const response = await axios.get('/members/info');
-  return response.data;
+  const response = await api.get('/members/info');
+  return response.data.data;
 }
 
 // const logOut = async () => {
@@ -86,8 +86,8 @@ const getUser = async (
   id: number | undefined
 ): Promise<UserState | undefined> => {
   if (!id) return;
-  const response = await axios.get(`/members/info/${id}`);
-  return response.data;
+  const response = await api.get(`/members/info/${id}`);
+  return response.data.data;
 };
 
 const getUserProjects = async (id: number | undefined) => {

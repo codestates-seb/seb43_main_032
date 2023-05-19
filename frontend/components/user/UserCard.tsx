@@ -1,9 +1,6 @@
 import { AiFillStar } from 'react-icons/ai';
-import { FaLocationArrow, FaNodeJs } from 'react-icons/fa';
-import { FaReact } from 'react-icons/fa';
-import { IoLogoCss3, IoLogoFirebase } from 'react-icons/io5';
+import { FaLocationArrow } from 'react-icons/fa';
 import styled from 'styled-components';
-import Tag from '../Tag';
 import Link from 'next/link';
 import Stack from '../stack/Stack';
 import { UserState } from '@/types/user';
@@ -77,13 +74,13 @@ const Group = styled.div`
   display: flex;
   width: 100%;
   /* @media screen and (min-width: 640px) {
-    width: 49%; 
+    width: 49%;
   }
   @media screen and (min-width: 960px) {
-    width: 32%; 
+    width: 32%;
   }
   @media screen and (min-width: 1280px) {
-    width: 24%; 
+    width: 24%;
   } */
   ${Wrapper}:hover ${Overlay} {
     opacity: 1;
@@ -95,17 +92,20 @@ interface IProps {
 export default function UserCard({ user }: IProps) {
   return (
     <Group>
-      <Link href={`users/${user.name}`}>
+      <Link href={`users/${user.memberId}`}>
         <Wrapper>
           <Overlay />
           <CardWrapper>
             <ContentsContainer>
               <AvatarContainer>
-                {/* <img alt={user.name} src={user.profileImageUrl} /> */}
-                <img
-                  alt={user.name}
-                  src="https://pbs.twimg.com/media/FmynZRjWYAgEEpL.jpg"
-                />
+                {user.profileImageUrl ? (
+                  <img alt={user.name} src={user.profileImageUrl} />
+                ) : (
+                  <img
+                    alt={user.name}
+                    src="https://pbs.twimg.com/media/FmynZRjWYAgEEpL.jpg"
+                  />
+                )}
               </AvatarContainer>
               <InfoContainer>
                 <p style={{ fontWeight: '600' }}>{user.name}</p>
@@ -131,11 +131,6 @@ export default function UserCard({ user }: IProps) {
                 <Stack key={stack} tech={stack} />
               ))}
             </StackWrapper>
-            {/* <TagWrapper>
-              {['react', 'js', 'recoil', 'firebase', 'TS'].map((stack) => (
-                <Tag key={stack}>{stack}</Tag>
-              ))}
-            </TagWrapper> */}
           </CardWrapper>
         </Wrapper>
       </Link>

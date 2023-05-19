@@ -12,6 +12,7 @@ export type UserState = {
   techList: string[];
   totalStar: number;
   yearOfDev: number;
+  memberId?: number;
 };
 
 //로그인 또는 회원가입 할때 데이터 타입

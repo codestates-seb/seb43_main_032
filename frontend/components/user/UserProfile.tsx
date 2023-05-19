@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import Tag from '../Tag';
 import { UserState } from '@/types/user';
+import Stack from '../stack/Stack';
 
 const Wrapper = styled.div`
   display: flex;
@@ -35,25 +36,33 @@ const StackWrapper = styled.div.attrs({})`
   color: white;
 `;
 const stacks = [
-  'React',
-  'Java',
-  'Python',
-  'C+',
-  'TypeScript',
-  'Styled-Components',
+  'java_script',
+  'react',
+  'next_js',
+  'recoil',
+  'react_query',
+  'type_scriypt',
 ];
 export default function UserProfile({ user }: { user: UserState }) {
   return (
     <Wrapper>
       <AvatarContainer>
-        <img alt={user.name} src={user.profileImageUrl} />
+        {user.profileImageUrl ? (
+          <img alt={user.name} src={user.profileImageUrl} />
+        ) : (
+          <img
+            alt={user.name}
+            src="https://pbs.twimg.com/media/FmynZRjWYAgEEpL.jpg"
+          />
+        )}
       </AvatarContainer>
       <Tag>{`${user?.yearOfDev} 년차`}</Tag>
       <Name>{user?.name}</Name>
       <p className="noto-regular-13">프론트엔드</p>
       <StackWrapper>
         {stacks.map((stack) => (
-          <Tag key={`${stack}`}>{stack}</Tag>
+          // <Tag key={`${stack}`}>{stack}</Tag>
+          <Stack key={stack} tech={stack} />
         ))}
       </StackWrapper>
     </Wrapper>

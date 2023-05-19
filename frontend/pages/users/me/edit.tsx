@@ -1,12 +1,11 @@
 import Btn from '@/components/button/Btn';
 import { useRouter } from 'next/router';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
 import { FieldErrors, useForm } from 'react-hook-form';
 import styled from 'styled-components';
-import { BiImageAdd } from 'react-icons/bi';
-import { USER } from '.';
-import usePostApi from '@/hooks/usePostApi';
-import { UserState } from '@/types/user';
+import useUser from '@/hooks/react-query/useUser';
+import EditInput from '@/components/authAction/EditInput';
+import { api } from '@/util/api';
 
 const Container = styled.div`
   display: flex;
@@ -116,8 +115,9 @@ interface ISubmit {
 }
 const BASE_URL = 'http://43.201.253.57:8080/';
 export default function Edit() {
-  const [update, { data: updatedData }] = usePostApi('/members/update');
-  const user: UserState = USER;
+  const {
+    getMyInfo: { data: user },
+  } = useUser({});
   const {
     register,
     handleSubmit,
@@ -125,23 +125,28 @@ export default function Edit() {
     formState: { errors },
   } = useForm();
 
-  const [imagePreview, setImagePreview] = useState('');
-  console.log(imagePreview);
-  const image = watch('image');
-  useEffect(() => {
-    if (image && image.length > 0) {
-      const file = image[0];
-      setImagePreview(URL.createObjectURL(file));
-    }
-  }, [image]);
+  // const [imagePreview, setImagePreview] = useState('');
+  // console.log(imagePreview);
+  // const image = watch('image');
+  // useEffect(() => {
+  //   if (image && image.length > 0) {
+  //     const file = image[0];
+  //     setImagePreview(URL.createObjectURL(file));
+  //   }
+  // }, [image]);
 
   const onValid = (data: ISubmit) => {
     console.log(data);
-    // update(data);
-
-    // axios
-    //   .patch(BASE_URL + 'member/update', data)
-    //   .then((res) => console.log(res));
+    const updatedData = {
+      ...data,
+      techList: [''],
+      profileImageUrl: '',
+      yearOfDev: +data.yearOfDev,
+    };
+    console.log(updatedData);
+    api
+      .patch('/members', updatedData) //
+      .then((res) => console.log(res));
   };
   const onInValid = (errors: FieldErrors) => {
     console.log(errors);
@@ -154,17 +159,17 @@ export default function Edit() {
     }
   };
 
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
+  // const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  //   const file = e.target.files?.[0];
 
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = (event) => {
-        setImagePreview(event.target?.result as string);
-      };
-      reader.readAsDataURL(file);
-    }
-  };
+  //   if (file) {
+  //     const reader = new FileReader();
+  //     reader.onload = (event) => {
+  //       setImagePreview(event.target?.result as string);
+  //     };
+  //     reader.readAsDataURL(file);
+  //   }
+  // };
   const router = useRouter();
   useEffect(() => {
     window.scrollTo({
@@ -189,34 +194,52 @@ export default function Edit() {
             >
               <InnerContainer>
                 <ImgWrapper>
-                  <input
+                  {/* <input
                     {...register('image')}
                     id="picture"
                     type="file"
                     ref={fileInputRef}
                     onChange={handleFileChange}
-                  />
-                  <img src={imagePreview} onClick={handleImageClick}></img>
+                  /> */}
+                  {/* <img src={imagePreview} onClick={handleImageClick}></img> */}
                 </ImgWrapper>
                 <LabelContainer>
-                  <Label>UserName</Label>
-                  <Input {...register('name')} placeholder={user.name} />
-                  <Label>개발기간</Label>
-                  <Input
-                    {...register('yearOfDev', {
+                  <EditInput
+                    label="NAME"
+                    placeholder={user.name}
+                    register={register('name')}
+                  />
+                  <EditInput
+                    label="Year Of Develop"
+                    register={register('yearOfDev', {
                       pattern: {
                         value: /^[0-9]*$/,
                         message: 'Please enter only numbers',
                       },
                     })}
-                    placeholder={user.yearOfDev + ''}
+                    placeholder={`${user.yearOfDev} 년차`}
                   />
-                  <Label>Phone</Label>
-                  <Input {...register('phone')} placeholder={user.phone} />
-                  <Label>Email</Label>
-                  <Input {...register('email')} placeholder={user.email} />
-                  <Label>About Me</Label>
-                  <Input {...register('aboutMe')} placeholder={user.aboutMe} />
+                  <EditInput
+                    label="Location"
+                    placeholder={user.location}
+                    register={register('location')}
+                  />
+                  <EditInput
+                    label="Phone Number"
+                    placeholder={user.phone}
+                    register={register('phone')}
+                  />
+                  <EditInput
+                    label="Position"
+                    placeholder={user.position}
+                    register={register('position')}
+                  />
+                  <EditInput
+                    label="About Me"
+                    placeholder={user.aboutMe}
+                    register={register('aboutMe')}
+                  />
+
                   <Btn>Submit</Btn>
                 </LabelContainer>
               </InnerContainer>

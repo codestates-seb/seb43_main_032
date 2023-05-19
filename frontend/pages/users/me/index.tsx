@@ -1,7 +1,9 @@
 import GridBox from '@/components/GridBox';
+import Stack from '@/components/stack/Stack';
 import InfoContainer from '@/components/user/InfoContainer';
 import UserContentsBox from '@/components/user/UserContentsBox';
 import UserInfoCard from '@/components/user/UserProfile';
+import useUser from '@/hooks/react-query/useUser';
 import { UserState } from '@/types/user';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
@@ -48,11 +50,30 @@ const AvatarContainer = styled.div`
   -webkit-box-shadow: 5px 5px 10px 0px rgba(0, 0, 0, 0.25);
   -moz-box-shadow: 5px 5px 10px 0px rgba(0, 0, 0, 0.25);
 `;
+const StackContainer = styled.div`
+  display: flex;
+`;
+const EditButton = styled.button`
+  border: none;
+  padding: 10px;
+  background-color: skyblue;
+  border-radius: 5px;
+  cursor: pointer;
+`;
 
 export default function me() {
   // const user = useAuth();
-  const user = USER;
+  // const user = USER;
+  const {
+    getMyInfo: { data: user },
+  } = useUser({});
   const router = useRouter();
+  user && console.log(user);
+
+  const handleClick = () => {
+    router.push('/users/me/edit');
+  };
+
   useEffect(() => {
     window.scrollTo({
       top: 670,
@@ -66,6 +87,7 @@ export default function me() {
       {user && (
         <GridBox>
           <LeftColumn>
+            <EditButton onClick={handleClick}>edit</EditButton>
             <UserInfoCard user={user} />
           </LeftColumn>
           <RightColumn>
@@ -74,7 +96,14 @@ export default function me() {
                 <InfoContainer
                   keyNode={
                     <AvatarContainer style={{ width: '70px', height: '70px' }}>
-                      <img alt={user.name} src={user.profileImageUrl} />
+                      {user.profileImageUrl ? (
+                        <img alt={user.name} src={user.profileImageUrl} />
+                      ) : (
+                        <img
+                          alt={user.name}
+                          src="https://pbs.twimg.com/media/FmynZRjWYAgEEpL.jpg"
+                        />
+                      )}
                     </AvatarContainer>
                   }
                   contentNode={
@@ -84,12 +113,29 @@ export default function me() {
                     </>
                   }
                 />
+                <InfoContainer
+                  keyNode={'기술스텍'}
+                  contentNode={
+                    <StackContainer>
+                      {[
+                        'java_script',
+                        'react',
+                        'next_js',
+                        'recoil',
+                        'react_query',
+                        'type_scriypt',
+                      ].map((stack) => (
+                        <Stack key={stack} tech={stack} />
+                      ))}
+                    </StackContainer>
+                  }
+                />
               </ProfileContainer>
+              <InfoContainer keyNode={'AboutMe'} contentNode={user.aboutMe} />
               <InfoContainer keyNode={'휴대전화'} contentNode={user.phone} />
-              <InfoContainer keyNode={'이메일'} contentNode={user.email} />
               <InfoContainer
-                keyNode={'기술스텍'}
-                contentNode={'#react #python'}
+                keyNode={'이메일'}
+                contentNode={user.email}
                 lastItem
               />
             </UserInfo>

@@ -30,14 +30,13 @@ const CardWrapper = styled.div`
 `;
 const User = () => {
   const [inputValue, setInputValue] = useState<string>('');
-  const [users, setUsers] = useState<any>();
   const [keyword, setKeyword] = useState<string | undefined>(undefined);
   const [page, setPage] = useState<number>(1);
   const [size, setSize] = useState<number>(12);
 
   const {
-    userQuery: { data: allUsers },
-    searchUserByKeyword: { data: searchedUsers },
+    userQuery: { data: users, isLoading: allUserLoading },
+    searchUserByKeyword: { data: searchedUsers, isLoading: searchUserLoading },
   } = useUser({ page, pageSize: size, keyword });
 
   const router = useRouter();
@@ -46,7 +45,6 @@ const User = () => {
   };
   const handleClick = () => {
     if (inputValue.trim().length < 1) {
-      setUsers(allUsers);
     } else {
       setKeyword(inputValue);
     }
@@ -60,14 +58,16 @@ const User = () => {
     });
   }, [router]);
 
-  useEffect(() => {
-    setUsers(allUsers);
-  }, [allUsers]);
-  useEffect(() => {
-    setUsers(searchedUsers);
-  }, [searchedUsers]);
-  users && console.log(users);
+  // useEffect(() => {
+  //   if (allUserLoading) return;
+  //   setUsers(allUsers);
+  // }, [allUsers]);
+  // useEffect(() => {
+  //   if (searchUserLoading) return;
+  //   setUsers(searchedUsers);
+  // }, [searchedUsers]);
 
+  users && console.log(users);
   return (
     <GridBox>
       <UserSideBar />
