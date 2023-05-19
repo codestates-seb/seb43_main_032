@@ -10,6 +10,8 @@ import { useState } from 'react';
 import { UseMutationResult } from 'react-query';
 import { AxiosResponse } from 'axios';
 import styled from 'styled-components';
+import { useGetComment } from '@/hooks/react-query/comment/useGetComment';
+import { useRouter } from 'next/router';
 
 const Editor = dynamic(() => import('@/components/editor/Editor'), {
   ssr: false,
@@ -55,6 +57,7 @@ type Props = {
 };
 
 const AnswerItem = ({ answer, deleteAnswer, editAnswer }: Props) => {
+  const router = useRouter();
   //유저 데이터
   const loggedInUser = useRecoilValue(loggedInUserState);
 
@@ -70,7 +73,6 @@ const AnswerItem = ({ answer, deleteAnswer, editAnswer }: Props) => {
   const changeEditVal = (value: string) => {
     setEditVal(value);
   };
-
   const editEvent = () => {
     editAnswer.mutate({
       answerId: answer.answerId,
@@ -78,10 +80,22 @@ const AnswerItem = ({ answer, deleteAnswer, editAnswer }: Props) => {
     });
     offEdit();
   };
-
   const deleteEvent = () => {
     deleteAnswer.mutate({ answerId: answer.answerId });
   };
+
+  //댓글 관련
+  const setCategory: 'PROJECT' | 'ARTICLE' = router.route.includes('project')
+    ? 'PROJECT'
+    : 'ARTICLE';
+  const setCommentProps = {
+    answerId: answer.answerId,
+    category: setCategory,
+    params: 'size=10&page=1',
+  };
+  const { commentQuery, commentRefetch } = useGetComment(setCommentProps);
+  console.log();
+
   return (
     <Box>
       {edit ? (
@@ -107,6 +121,7 @@ const AnswerItem = ({ answer, deleteAnswer, editAnswer }: Props) => {
             <div className="top">{answer.content}</div>
             <div className="bottom">
               <div className="update-box">
+                <button>댓글 {14}개</button>
                 <button>댓글 작성</button>
                 {loggedInUser?.email === answer.memberInfo.email && (
                   <>
