@@ -1,15 +1,12 @@
 import GridBox from '@/components/GridBox';
 import styled from 'styled-components';
 import { ChangeEvent, useEffect, useState } from 'react';
-import SelectStack from '@/components/stack/SelectStack';
-import { api } from '@/util/api';
 import { useRouter } from 'next/router';
 import MainPost from '@/components/MainPost';
 import { useForm } from 'react-hook-form';
 import TagBox from '@/components/project/TagBox';
 import PeriodBox from '@/components/project/PeriodBox';
 import StacksBox from '@/components/project/StacksBox';
-import { GrFormClose } from 'react-icons/gr';
 import { POSITIONS } from '@/constant/constant';
 import Btn from '../button/Btn';
 import { Form } from '@/types/types';

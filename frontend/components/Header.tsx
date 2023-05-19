@@ -71,7 +71,6 @@ const Header = () => {
     setNav(!nav);
   };
   useOffResize(960, 'up', setNav);
-  console.log(nav);
 
   return (
     <>
@@ -99,10 +98,13 @@ const Header = () => {
           ))}
           {getCookie('accessToken')
             ? navNames.slice(3, 5).map((name) =>
-                name === 'mypage' ? (
+                name === 'MY' ? (
                   <li key={name}>
-                    <Link href={HEADER_NAV[name]}>
-                      <FaUserAlt size={20} />
+                    <Link
+                      href={HEADER_NAV[name]}
+                      className="noto-regular-12 main-btn"
+                    >
+                      <span>{name.toUpperCase()}</span>
                     </Link>
                   </li>
                 ) : (
@@ -119,7 +121,7 @@ const Header = () => {
             : navNames.slice(5).map((name) => (
                 <li key={name}>
                   <Link
-                    href={`/users${HEADER_NAV[name]}`}
+                    href={`${HEADER_NAV[name]}`}
                     className="nanum-regular main-btn"
                   >
                     <span>{name.toUpperCase()}</span>
