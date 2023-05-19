@@ -25,10 +25,10 @@ public class ProjectGetResponseDto {
     private int totalLikes;
     private boolean isAuthor;
     private boolean liked;
-
+    private int totalAnswers;
     private LocalDateTime createdAt;
 
-    public ProjectGetResponseDto(Long projectId, MemberGetResponseDto memberInfo, String title, String content, String writerPosition, String startDate, String endDate, String thumbnailImageUrl, int views, String status, int totalLikes, boolean isAuthor, boolean liked, LocalDateTime createdAt) {
+    public ProjectGetResponseDto(Long projectId, MemberGetResponseDto memberInfo, String title, String content, String writerPosition, String startDate, String endDate, String thumbnailImageUrl, int views, String status, int totalLikes, int totalAnswers,LocalDateTime createdAt) {
         this.projectId = projectId;
         this.memberInfo = memberInfo;
         this.title = title;
@@ -42,6 +42,7 @@ public class ProjectGetResponseDto {
         this.totalLikes = totalLikes;
         this.isAuthor = isAuthor;
         this.liked = liked;
+        this.totalAnswers = totalAnswers;
         this.createdAt = createdAt;
     }
 

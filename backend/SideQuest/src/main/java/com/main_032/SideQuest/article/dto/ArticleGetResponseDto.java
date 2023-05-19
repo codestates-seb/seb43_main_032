@@ -19,6 +19,7 @@ public class ArticleGetResponseDto {
     private int totalLikes;
     private boolean isAuthor;
     private boolean liked;
+    private int totalAnswers;
     private LocalDateTime createdAt;
     private List<ArticleTechStackResponseDto> techList;
 }

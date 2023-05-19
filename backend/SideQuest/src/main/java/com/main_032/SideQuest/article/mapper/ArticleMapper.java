@@ -69,6 +69,7 @@ public class ArticleMapper {
                 article.getTotalLikes(),
                 isAuthor,
                 liked,
+                article.getTotalAnswers(),
                 article.getCreatedAt(),
                 articleTechStackResponseDtoList
                 );

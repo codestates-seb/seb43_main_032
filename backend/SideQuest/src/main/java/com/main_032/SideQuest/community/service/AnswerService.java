@@ -48,6 +48,7 @@ public class AnswerService {
 
         Answer answer = mapper.AnswerPostDtoToAnswer(answerPostDto,memberService.getLoginMember().getId());
         answerRepository.save(answer);
+        PlusAnswer(answer);
     }
 
     @Transactional
@@ -74,7 +75,10 @@ public class AnswerService {
         Answer answer = findAnswer.get();
         answer.delete();
         answerRepository.save(answer);
+        minusAnswer(answer);
     }
+
+
 
     public MultiResponseDto<AnswerResponseDto> findAllArticleAnswer(Long articleId, int page, int size) {
         Page<Answer> answerPage = answerRepository.findAllArticleAnswer(articleId, PageRequest.of(page, size, Sort.by("id").descending()));
@@ -134,5 +138,36 @@ public class AnswerService {
         Answer answer = getAnswerById(answerId);
         answer.minusTotalLikes();
         answerRepository.save(answer);
+      
+    @Transactional
+    private void PlusAnswer(Answer answer) {
+        if(answer.getCategory().equals(Category.ARTICLE)){
+            Optional<Article> findArticle = articleRepository.findById(answer.getArticleId());
+            Article article =findArticle.get();
+            article.updateTotalAnswers(article.getTotalAnswers()+1);
+            articleRepository.save(article);
+        }
+        else{
+            Optional<Project> findProject = projectRepository.findById(answer.getProjectId());
+            Project project =findProject.get();
+            project.updateTotalAnswers(project.getTotalAnswers()+1);
+            projectRepository.save(project);
+        }
+    }
+      
+    @Transactional
+    private void minusAnswer(Answer answer) {
+        if(answer.getCategory().equals(Category.ARTICLE)){
+            Optional<Article> findArticle = articleRepository.findById(answer.getArticleId());
+            Article article =findArticle.get();
+            article.updateTotalAnswers(article.getTotalAnswers()-1);
+            articleRepository.save(article);
+        }
+        else{
+            Optional<Project> findProject = projectRepository.findById(answer.getProjectId());
+            Project project =findProject.get();
+            project.updateTotalAnswers(project.getTotalAnswers()-1);
+            projectRepository.save(project);
+        }
     }
 }

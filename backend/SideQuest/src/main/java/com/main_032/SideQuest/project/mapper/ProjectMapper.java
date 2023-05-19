@@ -58,6 +58,7 @@ public class ProjectMapper {
                 project.getTotalLikes(),
                 isAuthor,
                 liked,
+                project.getTotalAnswers(),
                 project.getCreatedAt()
         );
         return projectGetResponseDto;
