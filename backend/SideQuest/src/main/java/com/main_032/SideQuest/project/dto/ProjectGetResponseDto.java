@@ -9,7 +9,6 @@ import java.util.List;
 @Getter
 public class ProjectGetResponseDto {
     private Long projectId;
-//    private Long memberId;
     private MemberGetResponseDto memberInfo;
 
     private String title;
@@ -24,10 +23,11 @@ public class ProjectGetResponseDto {
     private int views;
     private String status;
     private int totalLikes;
+    private boolean liked;
 
     private LocalDateTime createdAt;
 
-    public ProjectGetResponseDto(Long projectId, MemberGetResponseDto memberInfo, String title, String content, String writerPosition, String startDate, String endDate, String thumbnailImageUrl, int views, String status, int totalLikes, LocalDateTime createdAt) {
+    public ProjectGetResponseDto(Long projectId, MemberGetResponseDto memberInfo, String title, String content, String writerPosition, String startDate, String endDate, String thumbnailImageUrl, int views, String status, int totalLikes, boolean liked, LocalDateTime createdAt) {
         this.projectId = projectId;
         this.memberInfo = memberInfo;
         this.title = title;
@@ -39,6 +39,7 @@ public class ProjectGetResponseDto {
         this.views = views;
         this.status = status;
         this.totalLikes = totalLikes;
+        this.liked = liked;
         this.createdAt = createdAt;
     }
 
