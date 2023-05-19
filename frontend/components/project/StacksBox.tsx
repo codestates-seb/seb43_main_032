@@ -3,6 +3,7 @@ import Stack from '../stack/Stack';
 import Btn from '../button/Btn';
 import { Tech } from '@/types/project';
 import SelectStack from '../stack/SelectStack';
+import { useRouter } from 'next/router';
 
 type Props = {
   stacks: Tech[];
@@ -19,6 +20,8 @@ const StacksBox = ({
   setStacks,
   stack,
 }: Props) => {
+  const router = useRouter().pathname;
+
   return (
     <Box>
       <div className="title">프로젝트 메인 스택</div>
@@ -33,9 +36,11 @@ const StacksBox = ({
               {stacks.map((tech) => (
                 <Stack key={tech.tech} tech={tech.tech} />
               ))}
-              <Btn onClick={onModal}>
-                <span>+</span>
-              </Btn>
+              {router !== '/project/[id]' && (
+                <Btn onClick={onModal}>
+                  <span>+</span>
+                </Btn>
+              )}
             </ul>
           )}
         </li>
