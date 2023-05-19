@@ -1,3 +1,4 @@
+import { UserState } from '@/types/user';
 import { api } from '@/util/api';
 import axios from 'axios';
 import { useQuery } from 'react-query';
@@ -55,17 +56,20 @@ export default function useUser({ id, keyword, page, pageSize }: IProps) {
 //   const response = await axios.get('/api/users/status');
 //   return response.data.ok;
 // }
-async function getUsers(page?: number, pageSize?: number) {
-  const response = await api.get('/member/findall', {
+async function getUsers(
+  page?: number,
+  pageSize?: number
+): Promise<UserState[]> {
+  const response = await api.get('/members/find-all', {
     params: {
       page,
       size: pageSize,
     },
   });
-  return response;
+  return response.data.data;
 }
 async function getMe() {
-  const response = await axios.get('/member/info');
+  const response = await axios.get('/members/info');
   return response.data;
 }
 
@@ -78,26 +82,30 @@ async function getMe() {
 //     throw new Error('Logout failed');
 //   }
 // };
-const getUser = async (id: number | undefined) => {
+const getUser = async (
+  id: number | undefined
+): Promise<UserState | undefined> => {
   if (!id) return;
-  const response = await axios.get(`/member/info/${id}`);
+  const response = await axios.get(`/members/info/${id}`);
   return response.data;
 };
 
 const getUserProjects = async (id: number | undefined) => {
   if (!id) return;
-  const response = await axios.get(`/member/${id}/projects`);
+  const response = await axios.get(`/members/${id}/projects`);
   return response.data;
 };
 const getUserPosts = async (id: number | undefined) => {
   if (!id) return;
-  const response = await axios.get(`/member/${id}/articles`);
+  const response = await axios.get(`/members/${id}/articles`);
   return response.data;
 };
-export const searchUser = async (keyword: string | undefined) => {
+export const searchUser = async (
+  keyword: string | undefined
+): Promise<UserState | undefined> => {
   //endpoint 수정 필요
   if (!keyword) return;
-  const response = await axios.get(`/member/find`, {
+  const response = await axios.get(`/members/find`, {
     params: { keyword },
   });
   return response.data;

@@ -3,6 +3,7 @@ import Pagenation from '@/components/Pagenation';
 import UserCard from '@/components/user/UserCard';
 import UserSideBar from '@/components/user/UserSideBar';
 import useUser from '@/hooks/react-query/useUser';
+import { UserState } from '@/types/user';
 import { useRouter } from 'next/router';
 import { ChangeEvent, useEffect, useState } from 'react';
 import styled from 'styled-components';
@@ -65,6 +66,7 @@ const User = () => {
   useEffect(() => {
     setUsers(searchedUsers);
   }, [searchedUsers]);
+  users && console.log(users);
 
   return (
     <GridBox>
@@ -78,10 +80,10 @@ const User = () => {
         <button onClick={handleClick}>찾기</button>
         <p className="nanum-bold">Star | 가입일 | 활동</p>
         <CardWrapper>
-          {Array.isArray(users) &&
-            users
-              .filter((el) => el.MEMBER_ID < 30 && el.MEMBER_ID > 0)
-              .map((user) => <UserCard key={user.MEMBER_ID} user={user} />)}
+          {users &&
+            users.map((user: UserState) => (
+              <UserCard key={user.name} user={user} />
+            ))}
         </CardWrapper>
         <Pagenation pageSize={size} page={page} onPageChange={setPage} />
       </RightColumn>

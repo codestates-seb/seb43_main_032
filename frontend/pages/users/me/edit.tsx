@@ -1,7 +1,4 @@
 import Btn from '@/components/button/Btn';
-import useAuth from '@/hooks/react-query/useAuth';
-import axios from 'axios';
-import { IUser, UserData } from '@/types/user';
 import { useRouter } from 'next/router';
 import { useEffect, useRef, useState } from 'react';
 import { FieldErrors, useForm } from 'react-hook-form';
@@ -9,6 +6,7 @@ import styled from 'styled-components';
 import { BiImageAdd } from 'react-icons/bi';
 import { USER } from '.';
 import usePostApi from '@/hooks/usePostApi';
+import { UserState } from '@/types/user';
 
 const Container = styled.div`
   display: flex;
@@ -118,8 +116,8 @@ interface ISubmit {
 }
 const BASE_URL = 'http://43.201.253.57:8080/';
 export default function Edit() {
-  const [update, { data: updatedData }] = usePostApi('/member/update');
-  const user: UserData = USER;
+  const [update, { data: updatedData }] = usePostApi('/members/update');
+  const user: UserState = USER;
   const {
     register,
     handleSubmit,

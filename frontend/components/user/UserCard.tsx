@@ -6,7 +6,7 @@ import styled from 'styled-components';
 import Tag from '../Tag';
 import Link from 'next/link';
 import Stack from '../stack/Stack';
-import { IUser } from '@/types/user';
+import { UserState } from '@/types/user';
 
 const Wrapper = styled.div`
   position: relative;
@@ -90,21 +90,25 @@ const Group = styled.div`
   }
 `;
 interface IProps {
-  user: IUser;
+  user: UserState;
 }
 export default function UserCard({ user }: IProps) {
   return (
     <Group>
-      <Link href={`users/${user.MEMBER_ID}`}>
+      <Link href={`users/${user.name}`}>
         <Wrapper>
           <Overlay />
           <CardWrapper>
             <ContentsContainer>
               <AvatarContainer>
-                <img alt={user.NICK_NAME} src={user.PROFILE_IMAGE} />
+                {/* <img alt={user.name} src={user.profileImageUrl} /> */}
+                <img
+                  alt={user.name}
+                  src="https://pbs.twimg.com/media/FmynZRjWYAgEEpL.jpg"
+                />
               </AvatarContainer>
               <InfoContainer>
-                <p style={{ fontWeight: '600' }}>{user.NICK_NAME}</p>
+                <p style={{ fontWeight: '600' }}>{user.name}</p>
                 <Location>
                   <FaLocationArrow />
                   <p>Seoul</p>
@@ -124,14 +128,14 @@ export default function UserCard({ user }: IProps) {
                 'react_query',
                 'type_scriypt',
               ].map((stack) => (
-                <Stack skill={stack} />
+                <Stack key={stack} tech={stack} />
               ))}
             </StackWrapper>
-            <TagWrapper>
+            {/* <TagWrapper>
               {['react', 'js', 'recoil', 'firebase', 'TS'].map((stack) => (
                 <Tag key={stack}>{stack}</Tag>
               ))}
-            </TagWrapper>
+            </TagWrapper> */}
           </CardWrapper>
         </Wrapper>
       </Link>

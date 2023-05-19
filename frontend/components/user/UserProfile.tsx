@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import Tag from '../Tag';
-import { IUser, UserData } from '@/types/user';
+import { UserState } from '@/types/user';
 
 const Wrapper = styled.div`
   display: flex;
@@ -42,7 +42,7 @@ const stacks = [
   'TypeScript',
   'Styled-Components',
 ];
-export default function UserProfile({ user }: { user: UserData }) {
+export default function UserProfile({ user }: { user: UserState }) {
   return (
     <Wrapper>
       <AvatarContainer>
