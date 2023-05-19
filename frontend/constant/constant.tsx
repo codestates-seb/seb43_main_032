@@ -7,6 +7,7 @@ import {
   StackCategory,
   StackCategoryName,
 } from '@/types/types';
+import link from 'next/link';
 import {
   AiFillAndroid,
   AiFillApple,
@@ -192,17 +193,30 @@ export const POSITIONS = [
 ];
 
 //나중에 객체의 형태로 바꿔서 주소를 넣어주는 작업을 해야할 것 같음
-export const FOOTER_DATA: FooterCategory = {
+
+interface FooterData {
+  [key: string]: FooterCategory[];
+}
+
+export const FOOTER_DATA: FooterData = {
   information: [
-    '1:1 문의 카카오톡 연결',
-    '상담 사이드퀘스트 운영자 연결',
-    '오픈챗 코드 7777',
-    '제휴문의 help@sideQues.com',
-    `Copyright©2023 SideQuest.All rights reserved.`,
+    { name: '1:1 문의 카카오톡 연결', link: '' },
+    { name: '상담 사이드퀘스트 운영자 연결', link: 'onMailBot' },
+    { name: '오픈챗 코드 7777', link: '' },
+    { name: '제휴문의 help@sideQues.com', link: '' },
+    { name: 'Copyright©2023 SideQuest.All rights reserved.', link: '' },
   ],
-  about: ['SideQuest 소개'],
-  service: ['프로젝트 등록', '프로젝트 찾기', '파트너 등록'],
-  support: ['서비스 이용약관', '개인정보처리방침', 'FAQ'],
+  about: [{ name: 'SideQuest 소개', link: '/' }],
+  service: [
+    { name: '프로젝트 등록', link: '/project/create' },
+    { name: '프로젝트 찾기', link: '/project' },
+    { name: '프로젝트 지원', link: '' },
+  ],
+  support: [
+    { name: '서비스 이용약관', link: '' },
+    { name: '개인정보처리방침', link: '' },
+    { name: 'FAQ', link: 'onMailBot' },
+  ],
 };
 
 export const COMMUNITY_FILTER: CommunityFilter[] = [
