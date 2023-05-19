@@ -293,3 +293,17 @@ export const BUTTON_STATE: { [key: string]: string } = {
   '진행 중': '프로젝트 종료',
   종료: '팀원 리뷰',
 };
+
+export const POST_COMMUNITY_CATEGORY: { [key: string]: string } = {
+  프론트엔드: 'FRONTEND',
+  백엔드: 'BACKEND',
+  'UI/UX': 'UIUX',
+  기획: 'PLANNING',
+  디자이너: 'DESIGNER',
+  PM: 'PM',
+  사업기획: 'BUSINESS',
+  마케팅: 'MARKETING',
+  안드로이드: 'ANDROID',
+  IOS: 'IOS',
+  기타: 'OTHER',
+};

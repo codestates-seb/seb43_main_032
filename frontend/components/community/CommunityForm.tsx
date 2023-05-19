@@ -10,6 +10,7 @@ import { useCommunity } from '@/hooks/react-query/community/useCommunity';
 import TagBox from '../project/TagBox';
 import { FiledTag } from '@/types/project';
 import GridBox from '../GridBox';
+import { POST_COMMUNITY_CATEGORY } from '@/constant/constant';
 
 export default function CommunityForm() {
   const router = useRouter();
@@ -63,11 +64,12 @@ export default function CommunityForm() {
   //글 제출 이벤트
   const postCommunity = (e: { preventDefault: () => void }) => {
     e.preventDefault();
+    const category = POST_COMMUNITY_CATEGORY[watch().position];
     const data = {
       title: watch().title,
-      category: watch().position,
       content: editor,
       techList: tags.map((tag) => tag.field),
+      category,
     };
 
     if (
