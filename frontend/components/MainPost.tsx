@@ -35,7 +35,7 @@ const MainPost = ({
       <form onSubmit={postProject}>
         <div className="nanum-bold">
           <div className="position-box">
-            <div>나의 포지션</div>
+            <div>카테고리</div>
             <div>
               <select
                 {...register('position', { value: data && data.position })}
@@ -73,7 +73,6 @@ const MainPost = ({
 export default MainPost;
 
 const Main = styled.div`
-  padding: var(--padding-2);
   margin-bottom: 50px;
   input {
     width: 100%;

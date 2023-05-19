@@ -60,6 +60,24 @@ const Box = styled.div<BoxProps>`
   width: 100%;
   padding: 0 30px;
 
+  input {
+    width: 100%;
+    padding: 10px;
+    border: solid 2px #ececec;
+    border-radius: 10px;
+    color: #7d7d7d;
+
+    :focus {
+      background-color: white;
+      outline: solid 2px #9b7aff;
+    }
+
+    ::placeholder {
+      font-size: 13px;
+      color: #a5a5a5;
+    }
+  }
+
   > .title {
     font-size: 15px;
     margin-bottom: 10px;

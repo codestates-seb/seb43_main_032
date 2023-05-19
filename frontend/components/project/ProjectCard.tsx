@@ -54,11 +54,7 @@ const ProjectCard = ({ data, size }: Props) => {
         <div className="img-box">
           <div>
             <img
-              src={
-                data.thumbnailImageUrl.includes('http')
-                  ? data.thumbnailImageUrl
-                  : srcSvg
-              }
+              src={data.thumbnailImageUrl}
               alt="thumbnail"
               className="thumbnail-image"
             />

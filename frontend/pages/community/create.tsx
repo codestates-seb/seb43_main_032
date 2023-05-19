@@ -1,4 +1,3 @@
-import GridBox from '@/components/GridBox';
 import CommunityForm from '@/components/community/CommunityForm';
 import SideBar from '@/components/community/SideBar';
 import { useRouter } from 'next/router';
@@ -14,10 +13,10 @@ const CreateCommunity = () => {
     });
   }, [router]);
   return (
-    <GridBox>
+    <>
       <SideBar />
       <CommunityForm />
-    </GridBox>
+    </>
   );
 };
 

@@ -6,7 +6,6 @@ import MainPost from '@/components/MainPost';
 import { useForm } from 'react-hook-form';
 import TagBox from '@/components/project/TagBox';
 import PeriodBox from '@/components/project/PeriodBox';
-import StacksBox from '@/components/project/StacksBox';
 import { POSITIONS } from '@/constant/constant';
 import Btn from '../button/Btn';
 import { Form } from '@/types/types';
@@ -14,7 +13,7 @@ import { Tech, FiledTag, WantCrew } from '@/types/project';
 import { formatDate3 } from '@/util/date';
 import { AiOutlineClose } from 'react-icons/ai';
 import { useProject } from '@/hooks/react-query/project/useProject';
-import { getCookie } from '@/util/cookie';
+import StacksBox from './StacksBox';
 
 const ProjectForm = () => {
   const router = useRouter();
