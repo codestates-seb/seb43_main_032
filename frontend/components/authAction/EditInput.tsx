@@ -3,7 +3,7 @@ import styled from 'styled-components';
 
 const Wrapper = styled.div``;
 
-const TextArea = styled.textarea`
+export const TextArea = styled.textarea`
   position: relative;
   resize: none;
   width: 100%;
