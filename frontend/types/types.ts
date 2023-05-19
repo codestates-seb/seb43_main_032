@@ -30,7 +30,7 @@ export type CommunityCategory = {
 export type PageInfo = {
   page: number;
   size: number;
-  totalElement: number;
+  totalElements: number;
   totalPages: number;
 };
 

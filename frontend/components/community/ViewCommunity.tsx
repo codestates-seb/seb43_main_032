@@ -4,27 +4,20 @@ import styled from 'styled-components';
 import { FaHeart } from 'react-icons/fa';
 import dynamic from 'next/dynamic';
 import ContentSkeleton from '../skeleton/ContentSkeleton';
-import EiditorSkeleton from '../skeleton/EiditorSkeleton';
 import Message from '../Message';
-import Btn from '../button/Btn';
-import { useCommunity } from '@/hooks/react-query/useCommunity';
 import { Community } from '@/types/community';
-import CommentBox from '../CommentBox';
+import { useCommunity } from '@/hooks/react-query/community/useCommunity';
+import AnswerBox from '../AnswerBox';
 import GridBox from '../GridBox';
-import Position from '../Position';
 import Tag from '../Tag';
 import { useRecoilValue } from 'recoil';
 import { loggedInUserState } from '@/recoil/atom';
 import { AiFillHeart, AiOutlineHeart } from 'react-icons/ai';
+import { formatDate2 } from '@/util/date';
 
 const ReactMarkdown = dynamic(() => import('@/components/editor/ContentBox'), {
   ssr: false,
   loading: () => <ContentSkeleton />,
-});
-
-const Editor = dynamic(() => import('@/components/editor/Editor'), {
-  ssr: false,
-  loading: () => <EiditorSkeleton />,
 });
 
 // item 개별 페이지
@@ -46,22 +39,6 @@ const ViewCommunity = () => {
   const data = communityQuery.data?.data;
   console.log(data);
 
-  //댓글 관련
-  const [commentVal, setCommentVal] = useState('');
-  const changeCommentVal = (val: string) => {
-    setCommentVal(val);
-  };
-
-  const addComment = () => {
-    //댓글 추가 이벤트를 작성해주세요~~~
-  };
-
-  //댓글 페이지 네이션
-  const [commentPage, setCommentPage] = useState(1);
-  const commentPageHandler = (num: number) => {
-    setCommentPage(num);
-  };
-
   if (communityQuery.isLoading) return <Message>로딩중입니다.</Message>;
   if (communityQuery.error)
     return <Message>잠시 후 다시 시도해주세요.</Message>;
@@ -70,6 +47,12 @@ const ViewCommunity = () => {
       {data && (
         <>
           <Top>
+            <div className="left">
+              <div className="title">{data.title}</div>
+              <div className="date">
+                {formatDate2(new Date(data.createdAt))}
+              </div>
+            </div>
             <div className="right">
               <div className="top-box">
                 <img src={data.memberInfo.profileImageUrl}></img>
@@ -131,15 +114,11 @@ const ViewCommunity = () => {
               </div>
             </div>
             <div className="content">
-              <ReactMarkdown content={data.content}></ReactMarkdown>
-              <CommentBox
-                commentPage={commentPage}
-                commentPageHandler={commentPageHandler}
-                addComment={addComment}
-                commentVal={commentVal}
-                changeCommentVal={changeCommentVal}
-                commentData={[]}
-              />
+              <ReactMarkdown
+                content={data.content}
+                backColor="white"
+              ></ReactMarkdown>
+              <AnswerBox />
             </div>
           </Bottom>
         </>
@@ -192,71 +171,64 @@ const Top = styled.div`
         font-weight: bold;
       }
 
-      > .userName {
-        display: flex;
-        justify-content: center;
-        width: 100%;
+      > .userMail {
         padding-top: 0;
-        border-bottom: solid 2px #ececec;
-        padding-bottom: 20px;
-        font-size: 18px;
-        color: #9f9f9f;
-      }
-
-      > .saveStar {
-        position: absolute;
-        width: 50px;
-        height: 50px;
-        background-color: #cecece;
-        border-radius: 50%;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        top: 0;
-        right: 0;
-        cursor: pointer;
-
-        > .icon-box {
-          width: 50%;
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          font-size: 30px;
-        }
       }
     }
 
-    > .detail-box {
+    > .saveStar {
+      position: absolute;
+      width: 50px;
+      height: 50px;
+      background-color: #cecece;
+      border-radius: 50%;
       display: flex;
-      width: 80%;
-      justify-content: space-between;
-      margin-bottom: 24px;
+      justify-content: center;
+      align-items: center;
+      top: 0;
+      right: 0;
+      cursor: pointer;
 
-      > .center-border {
-        width: 1px;
-        height: 150%;
-        border: solid 1px #ececec;
-      }
-
-      > .detail-sub-box {
+      > .icon-box {
+        width: 50%;
         display: flex;
-        flex-direction: column;
         justify-content: center;
         align-items: center;
+        font-size: 30px;
+      }
+    }
+  }
 
-        > .detail-num {
-          padding: 10px;
-          font-size: 24px;
+  > .detail-box {
+    display: flex;
+    width: 80%;
+    justify-content: space-between;
+    margin-bottom: 24px;
 
-          > span {
-            font-size: 15px;
-            color: #828282;
-          }
+    > .center-border {
+      width: 1px;
+      height: 150%;
+      border: solid 1px #ececec;
+    }
+
+    > .detail-sub-box {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+
+      > .detail-num {
+        padding: 10px;
+        font-size: 24px;
+
+        > span {
+          font-size: 15px;
+          color: #828282;
         }
+      }
 
-        > .detail-title {
-          font-size: 12px;
-        }
+      > .detail-title {
+        font-size: 12px;
       }
     }
   }

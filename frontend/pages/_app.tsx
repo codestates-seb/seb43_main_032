@@ -12,16 +12,16 @@ import ModalBg from '@/components/ModalBg';
 import Image from 'next/image';
 import icon from '../public/images/icon.svg';
 
-const queryClient = new QueryClient();
-// const queryClient = new QueryClient({
-//   defaultOptions: {
-//     queries: {
-//       refetchOnWindowFocus: false,
-//       retry: 0,
-//       staleTime: 1000 * 60 * 5,
-//     },
-//   },
-// });
+// const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      refetchOnWindowFocus: false,
+      retry: 0,
+      staleTime: 1000 * 60 * 5,
+    },
+  },
+});
 
 // if (process.env.NODE_ENV === 'development') {
 //   require('../__mocks__');

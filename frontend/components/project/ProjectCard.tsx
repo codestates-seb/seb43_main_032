@@ -7,6 +7,8 @@ import styled from 'styled-components';
 import { useRouter } from 'next/router';
 import { Project } from '@/types/project';
 import { useState } from 'react';
+import { FaComment } from 'react-icons/fa';
+import { useGetAnswer } from '@/hooks/react-query/answer/useGetAnswer';
 type Props = {
   size: string;
   data: Project;
@@ -17,10 +19,20 @@ const ProjectCard = ({ data, size }: Props) => {
   const [heartState, setHeartState] = useState<boolean>(false);
   const randomNumber = Math.floor(Math.random() * 5) + 1;
   const srcSvg = `/images/thum (${randomNumber}).svg`;
-  //프로젝트 글 조회
+
+  //프로젝트 조회 이동
   const viewProject = (id: number) => {
     router.push(`project/${id}`);
   };
+
+  const { answerQuery } = useGetAnswer({
+    category: 'PROJECT',
+    postId: data.projectId,
+    params: 'page=1&size=4',
+  });
+console.log(answerQuery.data?.pageInfo.totalElements)
+
+
   return (
     <Box>
       <Card
@@ -43,7 +55,15 @@ const ProjectCard = ({ data, size }: Props) => {
         )}
         <div className="img-box">
           <div>
-            <img src={srcSvg} alt="thumbnail" className="thumbnail-image" />
+            <img
+              src={
+                data.thumbnailImageUrl.includes('http')
+                  ? data.thumbnailImageUrl
+                  : srcSvg
+              }
+              alt="thumbnail"
+              className="thumbnail-image"
+            />
           </div>
         </div>
         <strong className="nanum-bold title-box">{data.title}</strong>
@@ -81,9 +101,9 @@ const ProjectCard = ({ data, size }: Props) => {
             </div>
             <div className="infor-box">
               <span>
-                <AiFillHeart />
+                <FaComment color="#909090" />
               </span>
-              <span>{data.totalLikes}</span>
+              <span>{answerQuery.data?.pageInfo.totalElements}</span>
             </div>
           </div>
         </div>
