@@ -119,7 +119,7 @@ const Header = () => {
             : navNames.slice(5).map((name) => (
                 <li key={name}>
                   <Link
-                    href={`/users${HEADER_NAV[name]}`}
+                    href={`${HEADER_NAV[name]}`}
                     className="nanum-regular main-btn"
                   >
                     <span>{name.toUpperCase()}</span>

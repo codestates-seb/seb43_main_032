@@ -17,15 +17,15 @@ const Footer = () => {
         </Link>
       </div>
       <nav>
-        {categories.map((category) => (
-          <div key={category}>
+        {categories.map((category, i) => (
+          <div key={i}>
             <div className="sub-btn">
               <span className="sub-btn-top">{category.toUpperCase()}</span>
             </div>
             <ul>
-              {FOOTER_DATA[category].map((content) => (
-                <li key={content} className="noto-medium">
-                  <a href="#">{content}</a>
+              {FOOTER_DATA[category].map((item, j) => (
+                <li key={j}>
+                  <a href={item.link}>{item.name}</a>
                 </li>
               ))}
             </ul>
