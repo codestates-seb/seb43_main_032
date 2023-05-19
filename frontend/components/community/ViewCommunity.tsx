@@ -37,7 +37,6 @@ const ViewCommunity = () => {
     queryKey,
   });
   const data = communityQuery.data?.data;
-  console.log(data);
 
   if (communityQuery.isLoading) return <Message>로딩중입니다.</Message>;
   if (communityQuery.error)
@@ -47,12 +46,6 @@ const ViewCommunity = () => {
       {data && (
         <>
           <Top>
-            <div className="left">
-              <div className="title">{data.title}</div>
-              <div className="date">
-                {formatDate2(new Date(data.createdAt))}
-              </div>
-            </div>
             <div className="right">
               <div className="top-box">
                 <img src={data.memberInfo.profileImageUrl}></img>
@@ -114,10 +107,7 @@ const ViewCommunity = () => {
               </div>
             </div>
             <div className="content">
-              <ReactMarkdown
-                content={data.content}
-                backColor="white"
-              ></ReactMarkdown>
+              <ReactMarkdown content={data.content}></ReactMarkdown>
               <AnswerBox />
             </div>
           </Bottom>
@@ -152,6 +142,13 @@ const Top = styled.div`
     .top-box {
       width: 100%;
       position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      border-bottom: solid 2px #ececec;
+      padding-bottom: 20px;
+
       > img {
         width: 200px;
         height: 200px;
@@ -163,72 +160,73 @@ const Top = styled.div`
 
       > .userBox {
         display: flex;
+        justify-content: center;
         align-items: center;
         gap: 16px;
         padding: 10px;
         padding-bottom: 4px;
-        font-size: 15px;
         font-weight: bold;
+        color: #9f9f9f;
       }
 
-      > .userMail {
+      > .userName {
+        font-size: 18px;
         padding-top: 0;
       }
-    }
-
-    > .saveStar {
-      position: absolute;
-      width: 50px;
-      height: 50px;
-      background-color: #cecece;
-      border-radius: 50%;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      top: 0;
-      right: 0;
-      cursor: pointer;
-
-      > .icon-box {
-        width: 50%;
+      > .saveStar {
+        position: absolute;
+        width: 50px;
+        height: 50px;
+        background-color: #cecece;
+        border-radius: 50%;
         display: flex;
         justify-content: center;
         align-items: center;
-        font-size: 30px;
-      }
-    }
-  }
+        top: 0;
+        right: 0;
+        cursor: pointer;
 
-  > .detail-box {
-    display: flex;
-    width: 80%;
-    justify-content: space-between;
-    margin-bottom: 24px;
-
-    > .center-border {
-      width: 1px;
-      height: 150%;
-      border: solid 1px #ececec;
-    }
-
-    > .detail-sub-box {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-
-      > .detail-num {
-        padding: 10px;
-        font-size: 24px;
-
-        > span {
-          font-size: 15px;
-          color: #828282;
+        > .icon-box {
+          width: 50%;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          font-size: 30px;
         }
       }
+    }
 
-      > .detail-title {
-        font-size: 12px;
+    > .detail-box {
+      display: flex;
+      width: 80%;
+      justify-content: space-between;
+      margin-bottom: 24px;
+
+      > .center-border {
+        width: 1px;
+        height: 150%;
+        border: solid 1px #ececec;
+      }
+
+      > .detail-sub-box {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+
+        > .detail-num {
+          padding: 10px;
+          font-size: 24px;
+
+          > span {
+            font-size: 15px;
+            color: #828282;
+          }
+        }
+
+        > .detail-title {
+          font-size: 12px;
+        }
       }
     }
   }
