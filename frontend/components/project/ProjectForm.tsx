@@ -21,6 +21,7 @@ const ProjectForm = () => {
   //데이터
   const { projectQuery, submitEdit, submitPost } = useProject();
   const data = projectQuery.data?.data;
+  console.log(data)
   useEffect(() => {
     if (data) {
       setStart(new Date(data.startDate));

@@ -74,7 +74,7 @@ export const useProject = () => {
    * edit 페이지 이동 이벤트
    */
   const moveEdit = () => {
-    if (confirm('정말 수정하시겠습니까?')) router.push(`/project/edit`);
+    if (confirm('정말 수정하시겠습니까?')) router.push(`/project/${id}/edit`);
   };
 
   /**
