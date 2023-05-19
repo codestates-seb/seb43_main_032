@@ -8,7 +8,7 @@ import styled from 'styled-components';
 import ContentSkeleton from '@/components/skeleton/ContentSkeleton';
 import { AiFillHeart, AiOutlineHeart } from 'react-icons/ai';
 import { formatDate2 } from '@/util/date';
-import { useEffect, useState } from 'react';
+import { SetStateAction, useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import Position from '@/components/Position';
 import Message from '@/components/Message';
@@ -18,6 +18,7 @@ import { BUTTON_STATE } from '@/constant/constant';
 import { useProject } from '@/hooks/react-query/project/useProject';
 import { useGetAnswer } from '@/hooks/react-query/answer/useGetAnswer';
 import AnswerBox from '@/components/AnswerBox';
+import { Tech } from '@/types/project';
 const ReactMarkdown = dynamic(() => import('@/components/editor/ContentBox'), {
   ssr: false,
   loading: () => <ContentSkeleton />,
@@ -131,7 +132,16 @@ const ViewProject = () => {
             end={new Date(data.endDate)}
           />
           <TagBox tags={data.fieldList} />
-          <StacksBox stacks={data.techList} />
+          <StacksBox
+            stacks={data.techList}
+            selectStack={function (): void {
+              throw new Error('Function not implemented.');
+            }}
+            setStacks={function (value: SetStateAction<Tech[]>): void {
+              throw new Error('Function not implemented.');
+            }}
+            stack={false}
+          />
           <div className="want-box">
             <div className="title">모집 중인 직군</div>
             <ul>
