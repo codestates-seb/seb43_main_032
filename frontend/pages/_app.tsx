@@ -11,6 +11,7 @@ import Contact from '@/components/Contact';
 import ModalBg from '@/components/ModalBg';
 import Image from 'next/image';
 import icon from '../public/images/icon.svg';
+import { useRouter } from 'next/router';
 
 // const queryClient = new QueryClient();
 const queryClient = new QueryClient({
@@ -31,6 +32,7 @@ const App = ({ Component, pageProps }: AppProps) => {
   const [isContact, setIsContact] = useState(false);
   const [isSlideVisible, setIsSlideVisible] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
+  const router = useRouter().pathname;
 
   const contactHandler = () => {
     setIsContact(!isContact);
@@ -53,29 +55,33 @@ const App = ({ Component, pageProps }: AppProps) => {
   return (
     <QueryClientProvider client={queryClient}>
       <RecoilRoot>
-        <Header />
+        {router !== '/404' && <Header />}
         <Box>
           <Component {...pageProps} />
         </Box>
-        <IconBox>
-          <Image
-            src={icon}
-            onClick={contactHandler}
-            alt="chat-icon"
-            onMouseEnter={handleMouseEnter}
-            onMouseLeave={handleMouseLeave}
-            className={
-              isHovered
-                ? 'animate__animated animate__bounce animate__infinite animate-duration-2'
-                : ''
-            }
-          />
-        </IconBox>
-        <AskBox isVisible={isSlideVisible}>
-          <Contact closeContact={closeContact} />
-        </AskBox>
-        <ModalBg></ModalBg>
-        <Footer />
+        {router !== '/404' && (
+          <>
+            <IconBox>
+              <Image
+                src={icon}
+                onClick={contactHandler}
+                alt="chat-icon"
+                onMouseEnter={handleMouseEnter}
+                onMouseLeave={handleMouseLeave}
+                className={
+                  isHovered
+                    ? 'animate__animated animate__bounce animate__infinite animate-duration-2'
+                    : ''
+                }
+              />
+            </IconBox>
+            <AskBox isVisible={isSlideVisible}>
+              <Contact closeContact={closeContact} />
+            </AskBox>
+            <ModalBg></ModalBg>
+            <Footer />{' '}
+          </>
+        )}
       </RecoilRoot>
     </QueryClientProvider>
   );
