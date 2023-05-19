@@ -59,6 +59,7 @@ public class ArticleMapper {
                 article.getCategory(),
                 article.getViews(),
                 article.getTotalLikes(),
+                article.getTotalLikes(),
                 article.getCreatedAt(),
                 articleTechStackResponseDtoList
                 );

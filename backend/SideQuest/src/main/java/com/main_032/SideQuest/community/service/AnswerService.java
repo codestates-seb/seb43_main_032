@@ -46,6 +46,7 @@ public class AnswerService {
 
         Answer answer = mapper.AnswerPostDtoToAnswer(answerPostDto,memberService.getLoginMember().getId());
         answerRepository.save(answer);
+        PlusAnswer(answer);
     }
 
     public void updateAnswer(Long answerId, AnswerPatchDto answerPatchDto) {
@@ -70,7 +71,10 @@ public class AnswerService {
         Answer answer = findAnswer.get();
         answer.delete();
         answerRepository.save(answer);
+        minusAnswer(answer);
     }
+
+
 
     public MultiResponseDto<AnswerResponseDto> findAllArticleAnswer(Long articleId, int page, int size) {
         Page<Answer> answerPage = answerRepository.findAllArticleAnswer(articleId, PageRequest.of(page, size, Sort.by("id").descending()));
@@ -115,5 +119,17 @@ public class AnswerService {
     private void verifyProject(Long projectId) {
         Optional<Project> findProject = projectRepository.findById(projectId);
         findProject.orElseThrow(() -> new BusinessLogicException(ExceptionCode.PROJECT_NOT_FOUND));
+    }
+    private void PlusAnswer(Answer answer) {
+        Optional<Article> findArticle = articleRepository.findById(answer.getArticleId());
+        Article article =findArticle.get();
+        article.updateTotalAnswers(article.getTotalAnswers()+1);
+        articleRepository.save(article);
+    }
+    private void minusAnswer(Answer answer) {
+        Optional<Article> findArticle = articleRepository.findById(answer.getArticleId());
+        Article article =findArticle.get();
+        article.updateTotalAnswers(article.getTotalAnswers()-1);
+        articleRepository.save(article);
     }
 }
