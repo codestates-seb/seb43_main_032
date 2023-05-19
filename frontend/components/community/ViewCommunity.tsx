@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { FaHeart } from 'react-icons/fa';
 import dynamic from 'next/dynamic';
@@ -44,12 +44,12 @@ const ViewCommunity = () => {
     setCommentPage(num);
   };
 
-  //게시글에 해당하는 답글 데이터
-  const { answerQuery, answerRefetch } = useGetAnswer({
-    category: 'ARTICLE',
-    postId: data?.articleId,
-    params: `size=5&page=${answerPage}`,
-  });
+  // //게시글에 해당하는 답글 데이터
+  // const { answerPageCount } = useGetAnswer({
+  //   category: 'ARTICLE',
+  //   postId: data?.articleId,
+  //   params: `size=5&page=${answerPage}`,
+  // });
 
   if (communityQuery.isLoading) return <Message>로딩중입니다.</Message>;
   if (communityQuery.error)
@@ -80,17 +80,11 @@ const ViewCommunity = () => {
                 backColor="white"
               ></ReactMarkdown>
               <AnswerBox
-                answerPageCount={
-                  answerQuery.data?.pageInfo.totalElements
-                    ? Math.ceil(answerQuery.data?.pageInfo.totalElements / 5)
-                    : 0
-                }
                 answerPage={answerPage}
                 answerPageHandler={answerPageHandler}
                 addAnswer={addAnswer}
                 answerVal={answerVal}
                 changeAnswerVal={changeAnswerVal}
-                answerData={[]}
               />
             </div>
           </Bottom>

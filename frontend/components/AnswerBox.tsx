@@ -5,6 +5,9 @@ import hljs from 'highlight.js';
 import Pagenation from './Pagenation';
 import { RiThumbUpFill, RiThumbUpLine } from 'react-icons/ri';
 import { AiFillStar } from 'react-icons/ai';
+import { useRouter } from 'next/router';
+import { useGetAnswer } from '@/hooks/react-query/answer/useGetAnswer';
+import { useEffect } from 'react';
 
 const Editor = dynamic(() => import('@/components/editor/Editor'), {
   ssr: false,
@@ -25,24 +28,51 @@ const ANSWER_OPTIONS: EasyMDE.Options = {
 };
 
 type Props = {
-  answerData: string[];
   addAnswer: () => void;
   answerVal: string;
   changeAnswerVal: (value: string) => void;
   answerPageHandler: (page: number) => void;
   answerPage: number;
-  answerPageCount: number;
+};
+
+type Form = {
+  category: 'PROJECT' | 'ARTICLE';
+  postId: number;
+  params: string;
 };
 
 const AnswerBox = ({
-  answerData,
   addAnswer,
   answerVal,
   changeAnswerVal,
   answerPageHandler,
   answerPage,
-  answerPageCount,
 }: Props) => {
+  const router = useRouter();
+  const { id } = router.query;
+  const getForm: Form = router.asPath.includes('project')
+    ? {
+        category: 'PROJECT',
+        postId: Number(id),
+        params: `size=5&page=${answerPage}`,
+      }
+    : {
+        category: 'ARTICLE',
+        postId: Number(id),
+        params: `size=5&page=${answerPage}`,
+      };
+
+  //게시글에 해당하는 답글 데이터
+  const { answerQuery, answerRefetch, answerPageCount } = useGetAnswer(getForm);
+
+  //답글 데이터
+  const answerData = answerQuery.data?.data;
+
+  //답글 페이지가 바뀌면 refetch를 실행하기 위한 effect긴한데 answer페이지가 이미 상태로 들어가있어서 필요없을수도?? 상황보고 지울듯
+  useEffect(() => {
+    answerRefetch();
+  }, [answerPage]);
+
   return (
     <Box>
       <div className="comment-write-box">
@@ -58,51 +88,51 @@ const AnswerBox = ({
       </div>
       <div className="view-comment">
         <ul>
-          {answerData.map((answer, i) => (
-            <li className="comment" key={`${answer}+${i}`}>
-              <div className="like-box">
-                {true ? (
-                  <RiThumbUpLine size={30} />
-                ) : (
-                  <RiThumbUpFill size={30} />
-                )}
-              </div>
-              <div className="content-box">
-                <div className="top">{answer} 내용</div>
-                <div className="bottom">
-                  <div className="update-box">
-                    <button>댓글 작성</button>
-                    <button>삭제</button>
-                    <button>수정</button>
-                  </div>
-                  <div className="user-box">
-                    <div className="user-img">
-                      <img
-                        src="https://noticon-static.tammolo.com/dgggcrkxq/image/upload/v1567008394/noticon/ohybolu4ensol1gzqas1.png"
-                        alt="user"
-                      />
+          {answerData &&
+            answerData.map((answer, i) => (
+              <li className="comment" key={`${answer}+${i}`}>
+                <div className="like-box">
+                  {/* 좋아요 추가되면 넣을 듯?*/}
+                  {true ? (
+                    <RiThumbUpLine size={30} />
+                  ) : (
+                    <RiThumbUpFill size={30} />
+                  )}
+                </div>
+                <div className="content-box">
+                  <div className="top">{answer.content}</div>
+                  <div className="bottom">
+                    <div className="update-box">
+                      <button>댓글 작성</button>
+                      <button>삭제</button>
+                      <button>수정</button>
                     </div>
-                    <div className="user-detail">
-                      <div className="user-id">유저 아디</div>
-                      <div className="user-star">
-                        <AiFillStar />
-                        65
+                    <div className="user-box">
+                      <div className="user-img">
+                        <img
+                          src="https://noticon-static.tammolo.com/dgggcrkxq/image/upload/v1567008394/noticon/ohybolu4ensol1gzqas1.png"
+                          alt="user"
+                        />
+                      </div>
+                      <div className="user-detail">
+                        <div className="user-id">{answer.memberInfo.name}</div>
+                        <div className="user-star">
+                          <AiFillStar />
+                          {answer.memberInfo.totalStar}
+                        </div>
                       </div>
                     </div>
                   </div>
                 </div>
-              </div>
-            </li>
-          ))}
+              </li>
+            ))}
         </ul>
       </div>
-      {answerData.length > 0 && (
-        <Pagenation
-          onPageChange={answerPageHandler}
-          page={answerPage}
-          pageSize={answerPageCount}
-        />
-      )}
+      <Pagenation
+        onPageChange={answerPageHandler}
+        page={answerPage}
+        pageSize={answerPageCount ? Math.ceil(answerPageCount / 5) : 0}
+      />
     </Box>
   );
 };

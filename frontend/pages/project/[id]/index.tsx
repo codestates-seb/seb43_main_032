@@ -78,12 +78,11 @@ const ViewProject = () => {
   };
 
   //게시글에 해당하는 답글 데이터
-  const { answerQuery, answerRefetch } = useGetAnswer({
+  const { answerPageCount } = useGetAnswer({
     category: 'PROJECT',
     postId: data?.projectId,
     params: `size=5&page=${answerPage}`,
   });
-  console.log(answerQuery);
 
   //임시 댓글 작성 이벤트
   const addAnswer = () => {
@@ -91,12 +90,10 @@ const ViewProject = () => {
       return alert('내용을 작성해주세요.');
     }
     if (!loggedInUser) {
-      return alert('먼저 로그인을 해주세요.');
+      return alert('로그인을 해주세요.');
     }
-    setAnswerData([...answerData, answerVal]);
     setAnswerVal('');
   };
-  const [answerData, setAnswerData] = useState<string[]>([]);
 
   if (projectQuery.isLoading) return <Message>로딩중입니다.</Message>;
   if (projectQuery.error) return <Message>잠시 후 다시 시도해주세요.</Message>;
@@ -234,8 +231,7 @@ const ViewProject = () => {
                 <span>조회 수</span> : {data.views}
               </div>
               <div>
-                <span>답글 수</span> :{' '}
-                {answerQuery.data?.pageInfo.totalElements}
+                <span>답글 수</span> : {answerPageCount}
               </div>
             </div>
           </div>
@@ -258,12 +254,6 @@ const ViewProject = () => {
             </div>
           </div>
           <AnswerBox
-            answerPageCount={
-              answerQuery.data?.pageInfo.totalElements
-                ? Math.ceil(answerQuery.data?.pageInfo.totalElements / 5)
-                : 0
-            }
-            answerData={answerData}
             addAnswer={addAnswer}
             answerVal={answerVal}
             changeAnswerVal={changeAnswerVal}

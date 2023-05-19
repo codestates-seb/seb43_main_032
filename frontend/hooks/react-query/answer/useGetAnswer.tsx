@@ -52,8 +52,12 @@ export const useGetAnswer = ({ category, postId, params }: Props) => {
     }
   );
 
+  //답글 페이지 숫자
+  const answerPageCount = data?.pageInfo.totalElements;
+
   return {
     answerQuery: { isLoading, error, data },
     answerRefetch: refetch,
+    answerPageCount,
   };
 };
