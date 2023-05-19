@@ -14,7 +14,6 @@ const LeftColumn = styled.div`
   flex-direction: column;
   align-items: center;
   padding: 20px;
-  padding-top: 100px;
   background-color: rgba(0, 0, 0, 0.1);
   @media (max-width: 960px) {
     display: none;

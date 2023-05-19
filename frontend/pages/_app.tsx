@@ -1,5 +1,5 @@
 import type { AppProps } from 'next/app';
-import { RecoilRoot } from 'recoil';
+import { RecoilRoot, useRecoilValue } from 'recoil';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import '../styles/App.css';
 import Header from '../components/Header';
@@ -7,8 +7,10 @@ import Footer from '../components/Footer';
 import styled from 'styled-components';
 import 'animate.css';
 import { useState } from 'react';
-import { FcSms } from 'react-icons/fc';
 import Contact from '@/components/Contact';
+import ModalBg from '@/components/ModalBg';
+import Image from 'next/image';
+import icon from '../public/images/icon.svg';
 
 // const queryClient = new QueryClient();
 const queryClient = new QueryClient({
@@ -27,9 +29,27 @@ const queryClient = new QueryClient({
 
 const App = ({ Component, pageProps }: AppProps) => {
   const [isContact, setIsContact] = useState(false);
+  const [isSlideVisible, setIsSlideVisible] = useState(false);
+  const [isHovered, setIsHovered] = useState(false);
+
   const contactHandler = () => {
     setIsContact(!isContact);
+    setIsSlideVisible(true);
   };
+
+  const closeContact = () => {
+    setIsContact(false);
+    setIsSlideVisible(false);
+  };
+
+  const handleMouseEnter = () => {
+    setIsHovered(true);
+  };
+
+  const handleMouseLeave = () => {
+    setIsHovered(false);
+  };
+
   return (
     <QueryClientProvider client={queryClient}>
       <RecoilRoot>
@@ -37,13 +57,24 @@ const App = ({ Component, pageProps }: AppProps) => {
         <Box>
           <Component {...pageProps} />
         </Box>
-        <ModalBox>
-          {isContact ? (
-            <Contact contactHandler={contactHandler} />
-          ) : (
-            <FcSms onClick={contactHandler} />
-          )}
-        </ModalBox>
+        <IconBox>
+          <Image
+            src={icon}
+            onClick={contactHandler}
+            alt="chat-icon"
+            onMouseEnter={handleMouseEnter}
+            onMouseLeave={handleMouseLeave}
+            className={
+              isHovered
+                ? 'animate__animated animate__bounce animate__infinite animate-duration-2'
+                : ''
+            }
+          />
+        </IconBox>
+        <AskBox isVisible={isSlideVisible}>
+          <Contact closeContact={closeContact} />
+        </AskBox>
+        <ModalBg></ModalBg>
         <Footer />
       </RecoilRoot>
     </QueryClientProvider>
@@ -59,13 +90,20 @@ const Box = styled.main`
   flex: 1;
 `;
 
-const ModalBox = styled.div`
-  position: fixed;
+const IconBox = styled.div`
+  transition: all 1s ease-in-out;
   bottom: 20px;
   right: 20px;
-  > svg {
-    height: 70px;
-    width: 70px;
-    cursor: pointer;
-  }
+  position: fixed;
+  cursor: pointer;
+  z-index: 9999;
+`;
+
+const AskBox = styled.div<{ isVisible: boolean }>`
+  min-width: 300px;
+  max-height: 500px;
+  bottom: ${({ isVisible }) => (isVisible ? '20px' : '-100%')};
+  right: 20px;
+  position: fixed;
+  transition: bottom 0.5s ease-in-out;
 `;

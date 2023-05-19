@@ -26,13 +26,13 @@ import { MdDesignServices } from 'react-icons/md';
 import { TbBusinessplan } from 'react-icons/tb';
 
 export const HEADER_NAV: HeaderNav = {
-  community: '/community',
-  project: '/project',
-  users: '/users',
-  mypage: '/users/me',
-  logout: '/',
-  login: '/login',
-  signUp: '/signup',
+  COMMUNITY: '/community',
+  PROJECT: '/project',
+  USERS: '/users',
+  MY: '/users/me',
+  LOGOUT: '/',
+  LOGIN: '/users/login',
+  SINGUP: '/users/signup',
 };
 
 export const STACKS_CATEGORIES: StackCategoryName = {
@@ -223,7 +223,7 @@ export const COMMUNITY_CATEGORY: CommunityCategory[] = [
   {
     title: '질문하기',
     link: '/create',
-    icon: <FaQuestion className="questions" color="#8216f5" />,
+    icon: <FaQuestion className="questions" color="#d2c4ff" />,
   },
   {
     title: '전체보기',

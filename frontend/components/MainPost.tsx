@@ -39,6 +39,7 @@ const MainPost = ({
             <div>
               <select
                 {...register('position', { value: data && data.position })}
+                className="position-select"
               >
                 {POSITIONS.map((position) => (
                   <option key={position} value={position}>
@@ -48,7 +49,7 @@ const MainPost = ({
               </select>
             </div>
           </div>
-          <div>
+          <div className="submit-box">
             <Btn>
               <span>작성 완료</span>
             </Btn>
@@ -73,14 +74,14 @@ export default MainPost;
 
 const Main = styled.div`
   padding: var(--padding-2);
+  margin-bottom: 50px;
   input {
     width: 100%;
     padding: 12px;
     font-size: 14px;
     border: 1px solid #d0d3d2;
-    box-shadow: var(--box-shadow);
     border-radius: var(--radius-def);
-    padding-left: 8px;
+    padding-left: 16px;
   }
   .explanation-box {
     width: 100%;
@@ -95,6 +96,7 @@ const Main = styled.div`
     > .title {
       font-size: 18px;
     }
+    font-family: 'Pretendard';
     > .sub {
       font-size: 13px;
     }
@@ -104,6 +106,8 @@ const Main = styled.div`
       flex-direction: column;
       gap: 16px;
       li {
+        font-family: 'Pretendard';
+        color: #4a13ff;
         font-size: 12px;
         list-style: disc;
       }
@@ -121,6 +125,21 @@ const Main = styled.div`
           box-shadow: var(--box-shadow);
         }
       }
+
+      .search-btn {
+        background: #9b7aff;
+        padding: 8px 20px;
+        color: white;
+        border-radius: 5px;
+        border: none;
+        font-size: 15px;
+        font-weight: 500;
+        transition: background 0.3s ease-out;
+
+        :hover {
+          background: #6333ff;
+        }
+      }
     }
     > div:last-child {
       margin-top: 16px;
@@ -132,10 +151,13 @@ const Main = styled.div`
       gap: 16px;
       select {
         margin: 0px 8px;
-        border: 1px solid #e1e7e5;
-        box-shadow: var(--box-shadow);
-        border-radius: var(--radius-def);
-        padding: 7.5px 8px;
+        border: solid 2px #ececec;
+        border-radius: 10px;
+        padding: 8px;
+        color: #7d7d7d;
+        :focus {
+          outline: none;
+        }
       }
     }
   }
