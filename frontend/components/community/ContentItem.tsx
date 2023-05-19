@@ -47,6 +47,7 @@ export default function ContentItem(article: Community) {
         <div className="heartBox">
           <FaHeart color="red"></FaHeart>
           <span>{article.totalLikes}</span>
+          <span>{article.totalLikes}</span>
         </div>
         <div>
           <FaEye color="#909090"></FaEye>

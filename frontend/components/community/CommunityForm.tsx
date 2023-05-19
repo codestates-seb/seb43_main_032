@@ -14,13 +14,14 @@ import { useCommunity } from '@/hooks/react-query/community/useCommunity';
 export default function CommunityForm() {
   const router = useRouter();
   const id = router.query.id;
-  const address = `/community/post/${id}`;
-  const queryKey = ['community', 'post', id];
+  const address = `/article/update/post/${id}`;
+  const queryKey = ['article', 'post', id];
   const { communityQuery } = useCommunity<Community>({
     address,
     queryKey,
   });
   const data = communityQuery.data?.data;
+  // console.log(data);
 
   const { register, watch } = useForm<Form>();
   const [editor, setEditor] = useState('');
@@ -41,6 +42,7 @@ export default function CommunityForm() {
       content: editor,
       techList: ['recoil'], // 태그 추가 전 테스트용
     };
+
     api
       .post('/articles', data)
       .then(() => router.push('/community'))
