@@ -10,10 +10,13 @@ type Props = {
 
 export const useCommunity = <T extends {}>({ address, queryKey }: Props) => {
   const router = useRouter();
-  const { isLoading, error, data, refetch } = useQuery<{
-    data: T;
-    pageInfo: PageInfo;
-  }>(queryKey, async () => {
+  const { isLoading, error, data, refetch } = useQuery<
+    {
+      data: T;
+      pageInfo: PageInfo;
+    },
+    Error
+  >(queryKey, async () => {
     if (!router.route.includes('create')) {
       return await api(address).then((res) => res.data);
     }

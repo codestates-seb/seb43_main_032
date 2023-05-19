@@ -6,7 +6,7 @@ import ProjectSkeleton from '@/components/skeleton/ProjectSkeleton';
 import CommunityItemSkeleton from '@/components/skeleton/CommunityItemSkeleton';
 import { useRecoilValue } from 'recoil';
 import { loggedInUserState } from '@/recoil/atom';
-import { useTop5Data } from '@/hooks/react-query/useTop5Data';
+import { useTopData } from '@/hooks/react-query/useTopData';
 
 const Home = () => {
   //현재 로그인한 유저의 데이터
@@ -21,7 +21,7 @@ const Home = () => {
     topViewProjectLoading,
     topLikeProjectError,
     topViewProjectError,
-  } = useTop5Data();
+  } = useTopData();
 
   if (topLikeProjectError || topViewProjectError || communityQuery.error)
     return <Message>잠시 후 다시 시도해주세요.</Message>;

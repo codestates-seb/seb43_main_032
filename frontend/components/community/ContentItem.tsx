@@ -4,18 +4,28 @@ import Tag from '../Tag';
 import { FaComment, FaEye, FaHeart, FaStar } from 'react-icons/fa';
 import { Community } from '@/types/community';
 import { useRouter } from 'next/router';
+import { useGetAnswer } from '@/hooks/react-query/answer/useGetAnswer';
 
 export default function ContentItem(article: Community) {
   const router = useRouter();
   const moveArticle = () => {
     router.push(`community/post/${article.articleId}`);
   };
+
+  const { answerQuery } = useGetAnswer({
+    category: 'ARTICLE',
+    postId: article.articleId,
+    params: 'page=1&size=4',
+  });
+
+  console.log(answerQuery.data?.pageInfo.totalElements);
+
   return (
     <Container>
       <div className={`color-bar ${article.category}`}></div>
       <Right>
         <img src={article.memberInfo.profileImageUrl}></img>
-        <div className="email-box">{article.memberInfo.email}</div>
+        <div className="name-box">{article.memberInfo.name}</div>
         <div className="star-box">
           <FaStar color="#FF9900"></FaStar> {article.totalLikes}
         </div>
@@ -44,7 +54,7 @@ export default function ContentItem(article: Community) {
         </div>
         <div>
           <FaComment color="#909090"></FaComment>
-          {/* <span>{article.comment.length}</span> */}
+          <span>{answerQuery.data?.pageInfo.totalElements}</span>
         </div>
       </Left>
     </Container>
@@ -66,7 +76,7 @@ const Container = styled.div`
   overflow: hidden;
   cursor: pointer;
 
-  > .email-box {
+  > .name-box {
     font-size: 12px;
     font-weight: bold;
     color: #6e6e6e;

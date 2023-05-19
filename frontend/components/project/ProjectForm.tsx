@@ -10,18 +10,18 @@ import TagBox from '@/components/project/TagBox';
 import PeriodBox from '@/components/project/PeriodBox';
 import StacksBox from '@/components/project/StacksBox';
 import { GrFormClose } from 'react-icons/gr';
-import { useProject } from '@/hooks/react-query/useProject';
 import { POSITIONS } from '@/constant/constant';
 import Btn from '../button/Btn';
 import { Form } from '@/types/types';
 import { Tech, FiledTag, WantCrew } from '@/types/project';
 import { formatDate3 } from '@/util/date';
+import { useProject } from '@/hooks/react-query/project/useProject';
 
 const ProjectForm = () => {
   const router = useRouter();
 
   //데이터
-  const { projectQuery } = useProject();
+  const { projectQuery, submitEdit, submitPost } = useProject();
   const data = projectQuery.data?.data;
   useEffect(() => {
     if (data) {
@@ -160,13 +160,17 @@ const ProjectForm = () => {
       return alert('내용을 입력해주세요.');
     }
 
+    //랜덤 이미지 생성
+    const randomNumber = Math.floor(Math.random() * 5) + 1;
+    const srcSvg = `/images/thum (${randomNumber}).svg`;
+
     //공통 데이터
     const data = {
       startDate: formatDate3(start),
       endDate: end && formatDate3(end),
       writerPosition: watch().position,
       title: watch().title,
-      thumbnailImageUrl: '이미지',
+      thumbnailImageUrl: srcSvg,
       content,
       techList: {
         techList: stacks.map((stack) => stack.tech),
@@ -179,25 +183,18 @@ const ProjectForm = () => {
         positionNumberList: jobs.map((job) => job.number),
       },
     };
-    console.log(data)
 
     //수정 이벤트
     if (
       router.route.includes('edit') &&
       confirm('정말 수정을 완료하시겠습니까?')
     ) {
-      return api
-        .patch(`/projects/${router.query.id}`, data)
-        .then(() => router.push('/'))
-        .catch(() => alert('잠시 후에 다시 시도해주세요.'));
+      return submitEdit(data);
     }
 
     //작성 이벤트
     if (confirm('정말 작성을 완료하시겠습니까?')) {
-      return api
-        .post('/projects', data)
-        .then(() => router.push('/'))
-        .catch(() => alert('잠시 후에 다시 시도해주세요.'));
+      return submitPost(data);
     }
   };
 

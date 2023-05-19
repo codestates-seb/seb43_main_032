@@ -7,7 +7,6 @@ import dynamic from 'next/dynamic';
 import styled from 'styled-components';
 import ContentSkeleton from '@/components/skeleton/ContentSkeleton';
 import { AiFillHeart, AiOutlineHeart } from 'react-icons/ai';
-import { useProject } from '@/hooks/react-query/useProject';
 import { formatDate2 } from '@/util/date';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
@@ -16,7 +15,9 @@ import Message from '@/components/Message';
 import { useRecoilValue } from 'recoil';
 import { loggedInUserState } from '@/recoil/atom';
 import { BUTTON_STATE } from '@/constant/constant';
-import CommentBox from '@/components/CommentBox';
+import { useProject } from '@/hooks/react-query/project/useProject';
+import { useGetAnswer } from '@/hooks/react-query/answer/useGetAnswer';
+import AnswerBox from '@/components/AnswerBox';
 const ReactMarkdown = dynamic(() => import('@/components/editor/ContentBox'), {
   ssr: false,
   loading: () => <ContentSkeleton />,
@@ -24,6 +25,7 @@ const ReactMarkdown = dynamic(() => import('@/components/editor/ContentBox'), {
 
 const ViewProject = () => {
   const router = useRouter();
+  const { id } = router.query;
   useEffect(() => {
     window.scrollTo({
       top: 600,
@@ -34,13 +36,11 @@ const ViewProject = () => {
 
   //임시 데이터
   const [userHeart, setUserHeart] = useState(false);
-  const project = ['1', '2', '3', '4', '5', '6', '7', '8', '9'];
 
   //프로젝트 데이터 요청
   const {
+    // updateHeart,
     projectQuery,
-    updateJob,
-    updateHeart,
     updateState,
     projectEvent,
     deleteProject,
@@ -52,43 +52,26 @@ const ViewProject = () => {
   //직군 데이터 관련
   const positions = data?.positionCrewList;
 
-  //작성자 및 유저 데이터
+  //유저 데이터
   const loggedInUser = useRecoilValue(loggedInUserState);
 
   //모든 지원이 꽉 찼을 때, 일어나는 이펙트
-  // useEffect(() => {
-  //   if (
-  //     jobCount &&
-  //     jobCount?.filter((x) => x.current === x.want).length == jobCount?.length
-  //   ) {
-  //     updateState.mutate(2);
-  //   }
-  // }, [projectQuery.data]);
-
-  //댓글 editor 관리
-  const [commentVal, setCommentVal] = useState('');
-  const changeCommentVal = (value: string) => {
-    setCommentVal(value);
-  };
-
-  //댓글 페이지 관리
-  const [commentPage, setCommentPage] = useState(1);
-  const commentPageHandler = (page: number) => {
-    setCommentPage(page);
-  };
-
-  //임시 댓글 작성 이벤트
-  const addComment = () => {
-    if (commentVal === '') {
-      return alert('내용을 작성해주세요.');
+  useEffect(() => {
+    if (
+      data?.positionCrewList.filter(
+        (crew) => crew.number !== crew.acceptedNumber
+      ).length === 0
+    ) {
+      updateState.mutate('모집 완료');
     }
-    if (!loggedInUser) {
-      return alert('먼저 로그인을 해주세요.');
-    }
-    setCommentData([...commentData, commentVal]);
-    setCommentVal('');
-  };
-  const [commentData, setCommentData] = useState<string[]>([]);
+  }, [projectQuery.data]);
+
+  //답글 총 개수를 가져오기 위함
+  const { answerPageCount } = useGetAnswer({
+    category: 'PROJECT',
+    postId: Number(id),
+    params: `size=5&page=1`,
+  });
 
   if (projectQuery.isLoading) return <Message>로딩중입니다.</Message>;
   if (projectQuery.error) return <Message>잠시 후 다시 시도해주세요.</Message>;
@@ -125,14 +108,15 @@ const ViewProject = () => {
               <div className="detail-box">
                 <div className="detail-sub-box">
                   <div className="detail-num">
-                    {project.length} <span>개</span>
+                    {/* 서버 데이터가 들어오면 작업해줘야할 부분 */}
+                    {3} <span>개</span>
                   </div>
                   <div className="detail-title">진행 프로젝트</div>
                 </div>
                 <div className="center-border"></div>
                 <div className="detail-sub-box">
                   <div className="detail-num">
-                    {data.totalLikes} <span>개</span>
+                    {data.memberInfo.totalStar} <span>개</span>
                   </div>
                   <div className="detail-title">평가 점수</div>
                 </div>
@@ -164,6 +148,7 @@ const ViewProject = () => {
                         : 'green light'
                     }
                   ></div>
+                  {/* 지원자 리스트랑 비교해서 맞춰야함 */}
                   {/* {position.acceptedNumber === position.number ? (
                     <Tag>마감</Tag>
                   ) : job === projectQuery.data?.post_state.want ? (
@@ -189,7 +174,7 @@ const ViewProject = () => {
             </ul>
           </div>
           <div>
-            {data.status !== '모집 중' && (
+            {data.status !== '모집중' && (
               <button onClick={() => projectEvent(data.status)}>
                 {BUTTON_STATE[data.status]}
               </button>
@@ -218,17 +203,21 @@ const ViewProject = () => {
           <div className="sub noto-regular-13">
             <div>
               <div>
-                {/* <span>작성일자</span> : {formatDate2(new Date(data.createAt))} */}
+                <span>작성일자</span> : {formatDate2(new Date(data.createdAt))}
               </div>
               <div>
                 <span>조회 수</span> : {data.views}
               </div>
-              <div>{/* <span>댓글 수</span> : {data.comment.length} */}</div>
+              <div>
+                <span>답글 수</span> : {answerPageCount}
+              </div>
             </div>
           </div>
           <ReactMarkdown content={data.content} />
           <div className="heart-box">
-            <div onClick={() => updateHeart.mutate()}>
+            <div
+            // onClick={() => updateHeart.mutate()}
+            >
               {/*서버작업전 보여주기 용 */}
               {false ? (
                 <span>
@@ -242,14 +231,7 @@ const ViewProject = () => {
               <span>{data.totalLikes}</span>
             </div>
           </div>
-          <CommentBox
-            commentData={commentData}
-            addComment={addComment}
-            commentVal={commentVal}
-            changeCommentVal={changeCommentVal}
-            commentPageHandler={commentPageHandler}
-            commentPage={commentPage}
-          />
+          <AnswerBox />
         </Main>
       </GridBox>
     );

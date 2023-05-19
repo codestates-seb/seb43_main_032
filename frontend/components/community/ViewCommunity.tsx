@@ -1,24 +1,18 @@
 import { useRouter } from 'next/router';
-import React, { useState } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import { FaHeart } from 'react-icons/fa';
 import dynamic from 'next/dynamic';
 import ContentSkeleton from '../skeleton/ContentSkeleton';
-import EiditorSkeleton from '../skeleton/EiditorSkeleton';
 import Message from '../Message';
-import Btn from '../button/Btn';
-import { useCommunity } from '@/hooks/react-query/useCommunity';
 import { Community } from '@/types/community';
-import CommentBox from '../CommentBox';
+import { useCommunity } from '@/hooks/react-query/community/useCommunity';
+import AnswerBox from '../AnswerBox';
+import { formatDate2 } from '@/util/date';
 
 const ReactMarkdown = dynamic(() => import('@/components/editor/ContentBox'), {
   ssr: false,
   loading: () => <ContentSkeleton />,
-});
-
-const Editor = dynamic(() => import('@/components/editor/Editor'), {
-  ssr: false,
-  loading: () => <EiditorSkeleton />,
 });
 
 // item 개별 페이지
@@ -34,22 +28,6 @@ const ViewCommunity = () => {
   });
   const data = communityQuery.data?.data;
 
-  //댓글 관련
-  const [commentVal, setCommentVal] = useState('');
-  const changeCommentVal = (val: string) => {
-    setCommentVal(val);
-  };
-
-  const addComment = () => {
-    //댓글 추가 이벤트를 작성해주세요~~~
-  };
-
-  //댓글 페이지 네이션
-  const [commentPage, setCommentPage] = useState(1);
-  const commentPageHandler = (num: number) => {
-    setCommentPage(num);
-  };
-
   if (communityQuery.isLoading) return <Message>로딩중입니다.</Message>;
   if (communityQuery.error)
     return <Message>잠시 후 다시 시도해주세요.</Message>;
@@ -60,15 +38,17 @@ const ViewCommunity = () => {
           <Top>
             <div className="left">
               <div className="title">{data.title}</div>
-              <div className="date">{data.createdAt}</div>
+              <div className="date">
+                {formatDate2(new Date(data.createdAt))}
+              </div>
             </div>
             <div className="right">
               <img src={data.memberInfo.profileImageUrl}></img>
               <div className="userBox nanum-bold userStar">
                 <FaHeart color="red" /> {data.totalLikes}
               </div>
-              <div className="userBox nanum-bold userMail">
-                {data.memberInfo.email}
+              <div className="userBox nanum-bold userName">
+                {data.memberInfo.name}
               </div>
             </div>
           </Top>
@@ -78,14 +58,7 @@ const ViewCommunity = () => {
                 content={data.content}
                 backColor="white"
               ></ReactMarkdown>
-              <CommentBox
-                commentPage={commentPage}
-                commentPageHandler={commentPageHandler}
-                addComment={addComment}
-                commentVal={commentVal}
-                changeCommentVal={changeCommentVal}
-                commentData={[]}
-              />
+              <AnswerBox />
             </div>
           </Bottom>
         </>
@@ -168,7 +141,7 @@ const Top = styled.div`
       color: white;
     }
 
-    > .userMail {
+    > .userName {
       padding-top: 0;
     }
   }
