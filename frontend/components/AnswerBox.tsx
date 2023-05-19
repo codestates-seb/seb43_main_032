@@ -7,7 +7,9 @@ import { RiThumbUpFill, RiThumbUpLine } from 'react-icons/ri';
 import { AiFillStar } from 'react-icons/ai';
 import { useRouter } from 'next/router';
 import { useGetAnswer } from '@/hooks/react-query/answer/useGetAnswer';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
+import { useRecoilValue } from 'recoil';
+import { loggedInUserState } from '@/recoil/atom';
 
 const Editor = dynamic(() => import('@/components/editor/Editor'), {
   ssr: false,
@@ -28,9 +30,6 @@ const ANSWER_OPTIONS: EasyMDE.Options = {
 };
 
 type Props = {
-  addAnswer: () => void;
-  answerVal: string;
-  changeAnswerVal: (value: string) => void;
   answerPageHandler: (page: number) => void;
   answerPage: number;
 };
@@ -41,15 +40,30 @@ type Form = {
   params: string;
 };
 
-const AnswerBox = ({
-  addAnswer,
-  answerVal,
-  changeAnswerVal,
-  answerPageHandler,
-  answerPage,
-}: Props) => {
+const AnswerBox = ({ answerPageHandler, answerPage }: Props) => {
+  //유저 데이터
+  const loggedInUser = useRecoilValue(loggedInUserState);
   const router = useRouter();
   const { id } = router.query;
+
+  //댓글 editor 관리
+  const [answerVal, setAnswerVal] = useState('');
+  const changeAnswerVal = (value: string) => {
+    setAnswerVal(value);
+  };
+
+  //임시 댓글 작성 이벤트
+  const addAnswer = () => {
+    if (answerVal === '') {
+      return alert('내용을 작성해주세요.');
+    }
+    if (!loggedInUser) {
+      return alert('로그인을 해주세요.');
+    }
+    setAnswerVal('');
+  };
+
+  //댓글 호출 폼
   const getForm: Form = router.asPath.includes('project')
     ? {
         category: 'PROJECT',

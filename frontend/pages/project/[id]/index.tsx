@@ -25,6 +25,7 @@ const ReactMarkdown = dynamic(() => import('@/components/editor/ContentBox'), {
 
 const ViewProject = () => {
   const router = useRouter();
+  const { id } = router.query;
   useEffect(() => {
     window.scrollTo({
       top: 600,
@@ -51,7 +52,7 @@ const ViewProject = () => {
   //직군 데이터 관련
   const positions = data?.positionCrewList;
 
-  //작성자 및 유저 데이터
+  //유저 데이터
   const loggedInUser = useRecoilValue(loggedInUserState);
 
   //모든 지원이 꽉 찼을 때, 일어나는 이펙트
@@ -65,35 +66,18 @@ const ViewProject = () => {
     }
   }, [projectQuery.data]);
 
-  //댓글 editor 관리
-  const [answerVal, setAnswerVal] = useState('');
-  const changeAnswerVal = (value: string) => {
-    setAnswerVal(value);
-  };
-
   //댓글 페이지 관리
   const [answerPage, setAnswerPage] = useState(1);
   const answerPageHandler = (page: number) => {
     setAnswerPage(page);
   };
 
-  //게시글에 해당하는 답글 데이터
+  //답글 총 개수를 가져오기 위함
   const { answerPageCount } = useGetAnswer({
     category: 'PROJECT',
-    postId: data?.projectId,
+    postId: Number(id),
     params: `size=5&page=${answerPage}`,
   });
-
-  //임시 댓글 작성 이벤트
-  const addAnswer = () => {
-    if (answerVal === '') {
-      return alert('내용을 작성해주세요.');
-    }
-    if (!loggedInUser) {
-      return alert('로그인을 해주세요.');
-    }
-    setAnswerVal('');
-  };
 
   if (projectQuery.isLoading) return <Message>로딩중입니다.</Message>;
   if (projectQuery.error) return <Message>잠시 후 다시 시도해주세요.</Message>;
@@ -254,9 +238,6 @@ const ViewProject = () => {
             </div>
           </div>
           <AnswerBox
-            addAnswer={addAnswer}
-            answerVal={answerVal}
-            changeAnswerVal={changeAnswerVal}
             answerPageHandler={answerPageHandler}
             answerPage={answerPage}
           />
