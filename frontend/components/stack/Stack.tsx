@@ -13,9 +13,6 @@ const Stack = ({ tech, addStack, stacks }: Props) => {
   //모달
   const [modal, setModal] = useState(false);
 
-  console.log('stacks =>', stacks);
-  console.log('tech =>', tech);
-
   return (
     <Box
       onMouseEnter={() => setModal(true)}
