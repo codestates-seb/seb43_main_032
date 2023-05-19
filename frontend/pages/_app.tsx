@@ -6,13 +6,9 @@ import Header from '../components/Header';
 import Footer from '../components/Footer';
 import styled from 'styled-components';
 import 'animate.css';
-import { useState } from 'react';
-import Contact from '@/components/Contact';
 import ModalBg from '@/components/ModalBg';
-import Image from 'next/image';
-import icon from '../public/images/icon.svg';
+import Contact from '@/components/Contact';
 
-// const queryClient = new QueryClient();
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
@@ -23,33 +19,12 @@ const queryClient = new QueryClient({
   },
 });
 
+// 콘솔이 너무 지저분해져서 가상 서버 주석 처리
 // if (process.env.NODE_ENV === 'development') {
 //   require('../__mocks__');
 // }
 
 const App = ({ Component, pageProps }: AppProps) => {
-  const [isContact, setIsContact] = useState(false);
-  const [isSlideVisible, setIsSlideVisible] = useState(false);
-  const [isHovered, setIsHovered] = useState(false);
-
-  const contactHandler = () => {
-    setIsContact(!isContact);
-    setIsSlideVisible(true);
-  };
-
-  const closeContact = () => {
-    setIsContact(false);
-    setIsSlideVisible(false);
-  };
-
-  const handleMouseEnter = () => {
-    setIsHovered(true);
-  };
-
-  const handleMouseLeave = () => {
-    setIsHovered(false);
-  };
-
   return (
     <QueryClientProvider client={queryClient}>
       <RecoilRoot>
@@ -57,23 +32,7 @@ const App = ({ Component, pageProps }: AppProps) => {
         <Box>
           <Component {...pageProps} />
         </Box>
-        <IconBox>
-          <Image
-            src={icon}
-            onClick={contactHandler}
-            alt="chat-icon"
-            onMouseEnter={handleMouseEnter}
-            onMouseLeave={handleMouseLeave}
-            className={
-              isHovered
-                ? 'animate__animated animate__bounce animate__infinite animate-duration-2'
-                : ''
-            }
-          />
-        </IconBox>
-        <AskBox isVisible={isSlideVisible}>
-          <Contact closeContact={closeContact} />
-        </AskBox>
+        <Contact />
         <ModalBg></ModalBg>
         <Footer />
       </RecoilRoot>

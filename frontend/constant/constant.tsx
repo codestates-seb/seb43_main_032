@@ -2,6 +2,7 @@ import {
   CommunityCategory,
   CommunityFilter,
   FooterCategory,
+  FooterData,
   HeaderNav,
   ProjectFilter,
   StackCategory,
@@ -192,16 +193,10 @@ export const POSITIONS = [
   '기타',
 ];
 
-//나중에 객체의 형태로 바꿔서 주소를 넣어주는 작업을 해야할 것 같음
-
-interface FooterData {
-  [key: string]: FooterCategory[];
-}
-
 export const FOOTER_DATA: FooterData = {
   information: [
     { name: '1:1 문의 카카오톡 연결', link: '' },
-    { name: '상담 사이드퀘스트 운영자 연결', link: 'onMailBot' },
+    { name: '상담 사이드퀘스트 운영자 연결', link: 'onContact' },
     { name: '오픈챗 코드 7777', link: '' },
     { name: '제휴문의 help@sideQues.com', link: '' },
     { name: 'Copyright©2023 SideQuest.All rights reserved.', link: '' },
@@ -215,7 +210,7 @@ export const FOOTER_DATA: FooterData = {
   support: [
     { name: '서비스 이용약관', link: '' },
     { name: '개인정보처리방침', link: '' },
-    { name: 'FAQ', link: 'onMailBot' },
+    { name: 'FAQ', link: 'onContact' },
   ],
 };
 
