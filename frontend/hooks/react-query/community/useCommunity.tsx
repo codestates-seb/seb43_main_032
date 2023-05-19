@@ -1,4 +1,4 @@
-import { useQuery } from 'react-query';
+import { useMutation, useQuery } from 'react-query';
 import { api } from '@/util/api';
 import { useRouter } from 'next/router';
 import { PageInfo } from '@/types/types';
@@ -30,27 +30,38 @@ export const useCommunity = <T extends {}>({ address, queryKey }: Props) => {
     }
   });
 
-  const postArticle = (data: PostData) => {
-    return api
-      .post('/articles', data)
-      .then(() => router.push('/community'))
-      .catch(() => alert('잠시 후에 다시 시도해주세요.'));
-  };
+  const postArticle = useMutation(
+    (data: PostData) => api.post('/articles', data),
+    {
+      onSuccess: () => {
+        router.push('/community').then(() => refetch());
+      },
+      onError: () => {
+        alert('잠시 후에 다시 시도해주세요.');
+      },
+    }
+  );
 
-  const editArticle = (data: PostData) => {
-    return api
-      .patch(`/articles/${id}`, data)
-      .then(() => router.push('/community'))
-      .catch(() => alert('잠시 후에 다시 시도해주세요.'));
-  };
+  const editArticle = useMutation(
+    (data: PostData) => api.patch(`/articles/${id}`, data),
+    {
+      onSuccess: () => {
+        router.push('/community').then(() => refetch());
+      },
+      onError: () => {
+        alert('잠시 후에 다시 시도해주세요.');
+      },
+    }
+  );
 
-  const deleteArticle = () => {
-    if (confirm('정말 삭제하시겠습니까?'))
-      api
-        .delete(`/articles/${id}`)
-        .then(() => router.push('/'))
-        .catch(() => alert('잠시 후에 다시 시도해주세요.'));
-  };
+  const deleteArticle = useMutation(() => api.delete(`/articles/${id}`), {
+    onSuccess: () => {
+      router.push('/community').then(() => refetch());
+    },
+    onError: () => {
+      alert('잠시 후에 다시 시도해주세요.');
+    },
+  });
 
   const moveEdit = () => {
     if (confirm('정말 수정하시겠습니까?'))

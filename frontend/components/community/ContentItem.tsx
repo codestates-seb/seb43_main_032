@@ -18,8 +18,6 @@ export default function ContentItem(article: Community) {
     params: 'page=1&size=4',
   });
 
-  console.log(article)
-
   return (
     <Container>
       <div className={`color-bar ${article.category}`}></div>

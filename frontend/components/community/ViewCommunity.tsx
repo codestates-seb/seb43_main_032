@@ -106,7 +106,9 @@ const ViewCommunity = () => {
               </div>
               {data.memberInfo.email === loggedInUser?.email && (
                 <div className="change-box">
-                  <button onClick={deleteArticle}>삭제하기</button>
+                  <button onClick={() => deleteArticle.mutate()}>
+                    삭제하기
+                  </button>
                   <button onClick={moveEdit}>수정하기</button>
                 </div>
               )}

@@ -200,7 +200,10 @@ const ViewProject = () => {
             <div className="right">
               {data.memberInfo.email === loggedInUser?.email && (
                 <>
-                  <a onClick={deleteProject} className="main-btn">
+                  <a
+                    onClick={() => deleteProject.mutate()}
+                    className="main-btn"
+                  >
                     <span>프로젝트 삭제</span>
                   </a>
                   <a onClick={moveEdit} className="main-btn">

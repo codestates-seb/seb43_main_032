@@ -38,3 +38,22 @@ export type Project = {
   views: number;
   writerPosition: string;
 };
+
+export type PostData = {
+  startDate: string;
+  endDate: string | null | undefined;
+  writerPosition: string;
+  title: string;
+  thumbnailImageUrl: string;
+  content: string;
+  techList: {
+    techList: string[];
+  };
+  fieldList: {
+    fieldList: string[];
+  };
+  positionCrewList: {
+    positionList: string[];
+    positionNumberList: number[];
+  };
+};

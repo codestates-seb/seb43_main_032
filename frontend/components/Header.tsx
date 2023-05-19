@@ -1,5 +1,4 @@
 import Image from 'next/image';
-import { FaUserAlt } from 'react-icons/fa';
 import Link from 'next/link';
 import styled from 'styled-components';
 import { useRouter } from 'next/router';

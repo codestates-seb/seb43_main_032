@@ -26,6 +26,7 @@ export default function CommunityForm() {
     if (data) {
       const techList = data.techList.map((item) => ({ field: item.tech }));
       setTags([...techList]);
+      setEditor(data.content);
     }
   }, [communityQuery.isLoading]);
 
@@ -72,14 +73,16 @@ export default function CommunityForm() {
     };
 
     if (
-      !router.route.includes('edit') &&
+      router.route.includes('edit') &&
+      confirm('정말 글을 수정하시겠습니까?')
+    ) {
+      return editArticle.mutate(data);
+    }
+    if (
+      router.route.includes('create') &&
       confirm('정말 글을 작성하시겠습니까?')
     ) {
-      postArticle(data);
-    } else {
-      if (confirm('정말 글을 수정하시겠습니까?')) {
-        editArticle(data);
-      }
+      return postArticle.mutate(data);
     }
   };
 

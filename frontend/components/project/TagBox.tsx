@@ -17,7 +17,7 @@ const TagBox = ({ type, tags, register, tagKeyDown, deleteTag }: Props) => {
   return (
     <Box deleteTag={deleteTag} className="tag-box">
       <div className="title" style={{ font: '15px' }}>
-        {type === 'community' ? '커뮤니티 태그' : '프로젝트 분야 태그'}
+        {type === 'community' ? '게시글 태그' : '프로젝트 분야 태그'}
       </div>
       <div className="noto-regular-13">
         {register && (
