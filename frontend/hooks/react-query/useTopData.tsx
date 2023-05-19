@@ -1,10 +1,10 @@
 import { Project } from '@/types/project';
 import { api } from '@/util/api';
 import { useQuery } from 'react-query';
-import { useCommunity } from './useCommunity';
+import { useCommunity } from './community/useCommunity';
 import { Community } from '@/types/community';
 
-export const useTop5Data = () => {
+export const useTopData = () => {
   //프로젝트 좋아요 높은 순 5개
   const {
     data: topLikeProjects,
@@ -17,7 +17,9 @@ export const useTop5Data = () => {
       };
     },
     Error
-  >('projects', () => api('/projects/likes-top5').then((res) => res.data));
+  >('projects-top-like-list', () =>
+    api('/projects/likes-top5').then((res) => res.data)
+  );
 
   //프로젝트 조회 수 높은 순 5개
   const {
@@ -31,23 +33,21 @@ export const useTop5Data = () => {
       };
     },
     Error
-  >('projects', () => api('/projects/views-top5').then((res) => res.data));
+  >('projects-top-view-list', () =>
+    api('/projects/views-top5').then((res) => res.data)
+  );
 
   //커뮤니티 조회 수 높은 순 5개
-  const queryKey = ['article', 'hot'];
+  const queryKey = ['article-top-hot-list'];
   const address = `/articles/view-top5`;
   const { communityQuery } = useCommunity<{ articleList: Community[] }>({
     address,
     queryKey,
   });
 
-  console.log(topLikeProjects)
-  console.log(topViewProjects)
-  console.log(communityQuery)
-
   //데이터 모음
-  const topLikeProjectData = topLikeProjects?.data?.projectList;
-  const topViewProjectData = topViewProjects?.data?.projectList;
+  const topLikeProjectData = topLikeProjects?.data?.projectList.slice(0, 4);
+  const topViewProjectData = topViewProjects?.data?.projectList.slice(0, 4);
   const topViewcommunityData = communityQuery.data?.data?.articleList;
 
   return {

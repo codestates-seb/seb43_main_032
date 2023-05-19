@@ -17,7 +17,7 @@ const CommunityCardBox = ({ title, data, skeleton }: Props) => {
       </div>
       <div className="community-box">
         {data?.map((article: Community) => (
-          <ContentItem {...article} key={article.id} />
+          <ContentItem {...article} key={article.articleId} />
         ))}
       </div>
       {skeleton}

@@ -28,12 +28,14 @@ const Header = () => {
     setLoggedInUser(null);
   };
 
-  //최초 페이지 로딩 시, 토큰이 유효하다면 유저 데이터 셋팅
+  //토큰이 유효하다면 유저 데이터 셋팅을하고 실패하면 토큰을 모두 삭제
   useEffect(() => {
     setUserState()
       .then((res) => setLoggedInUser(res))
-      .catch(() => {});
-  }, []);
+      .catch(() => {
+        //리프레시 토큰 api가 생기면 여기 넣어서 사용할듯?
+      });
+  }, [router]);
 
   //네비 이름 배열
   const navNames = useMemo(() => Object.keys(HEADER_NAV), []);
