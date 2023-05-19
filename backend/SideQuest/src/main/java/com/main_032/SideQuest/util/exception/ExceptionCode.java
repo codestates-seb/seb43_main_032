@@ -16,7 +16,8 @@ public enum ExceptionCode {
     ALREADY_APPLY_PROJECT(409, "Already apply project"),
     POSITION_NOT_FOUND(404, "Position not found"),
     APPLY_CREW_NOT_FOUND(404, "Apply crew not found"),
-    APPLY_CREW_POSITION_NOT_MATCH(404, "Apply crew position not match");
+    APPLY_CREW_POSITION_NOT_MATCH(404, "Apply crew position not match"),
+    LIKES_NOT_FOUND(404, "Likes not found");
 
     @Getter
     private int status;

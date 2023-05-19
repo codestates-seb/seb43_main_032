@@ -2,12 +2,12 @@ package com.main_032.SideQuest.community.service;
 
 import com.main_032.SideQuest.article.entity.Article;
 import com.main_032.SideQuest.article.repository.ArticleRepository;
-import com.main_032.SideQuest.community.Mapper.AnswerMapper;
-import com.main_032.SideQuest.community.dto.AnswerDto.AnswerPatchDto;
-import com.main_032.SideQuest.community.dto.AnswerDto.AnswerResponseDto;
+import com.main_032.SideQuest.community.mapper.AnswerMapper;
+import com.main_032.SideQuest.community.dto.answer.AnswerPatchDto;
+import com.main_032.SideQuest.community.dto.answer.AnswerResponseDto;
 import com.main_032.SideQuest.community.entity.Category;
 import com.main_032.SideQuest.community.repository.AnswerRepository;
-import com.main_032.SideQuest.community.dto.AnswerDto.AnswerPostDto;
+import com.main_032.SideQuest.community.dto.answer.AnswerPostDto;
 import com.main_032.SideQuest.community.entity.Answer;
 import com.main_032.SideQuest.member.entity.Member;
 import com.main_032.SideQuest.member.service.MemberService;
@@ -41,6 +41,7 @@ public class AnswerService {
         this.projectRepository = projectRepository;
         this.commentService = commentService;
     }
+
     @Transactional
     public void createAnswer(AnswerPostDto answerPostDto) {
         //검증 :,Article,project
@@ -49,6 +50,7 @@ public class AnswerService {
         answerRepository.save(answer);
         PlusAnswer(answer);
     }
+
     @Transactional
     public void updateAnswer(Long answerId, AnswerPatchDto answerPatchDto) {
         //답글 존재 여부 확인
@@ -65,6 +67,7 @@ public class AnswerService {
         answer = mapper.AnswerPatchDtoToAnswer(answer,answerPatchDto);
         answerRepository.save(answer);
     }
+
     @Transactional
     public void deleteAnswer(Long answerId) {
         Optional<Answer> findAnswer = verifyAnswer(answerId);
@@ -112,15 +115,30 @@ public class AnswerService {
         findArticle.orElseThrow(() -> new BusinessLogicException(ExceptionCode.ARTICLE_NOT_FOUND));
     }
 
-    //    private Optional<Member> verifyMember(Long memberId) {
-//        Optional<Member> findMember =memberRepository.findById(memberId);
-//        findMember.orElseThrow(() -> new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
-//        return findMember;
-//    }
     private void verifyProject(Long projectId) {
         Optional<Project> findProject = projectRepository.findById(projectId);
         findProject.orElseThrow(() -> new BusinessLogicException(ExceptionCode.PROJECT_NOT_FOUND));
     }
+
+    public Answer getAnswerById(Long answerId) {
+        Optional<Answer> findAnswer = answerRepository.findById(answerId);
+        Answer answer = findAnswer.orElseThrow(() -> new BusinessLogicException(ExceptionCode.ANSWER_NOT_FOUND));
+        return answer;
+    }
+
+    @Transactional
+    public void plusTotalLikes(Long answerId) {
+        Answer answer = getAnswerById(answerId);
+        answer.plusTotalLikes();
+        answerRepository.save(answer);
+    }
+
+    @Transactional
+    public void minusTotalLikes(Long answerId) {
+        Answer answer = getAnswerById(answerId);
+        answer.minusTotalLikes();
+        answerRepository.save(answer);
+      
     @Transactional
     private void PlusAnswer(Answer answer) {
         if(answer.getCategory().equals(Category.ARTICLE)){
@@ -136,6 +154,7 @@ public class AnswerService {
             projectRepository.save(project);
         }
     }
+      
     @Transactional
     private void minusAnswer(Answer answer) {
         if(answer.getCategory().equals(Category.ARTICLE)){

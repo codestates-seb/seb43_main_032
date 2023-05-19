@@ -1,11 +1,12 @@
-package com.main_032.SideQuest.community.dto.CommentDto;
+package com.main_032.SideQuest.community.dto.answer;
 
 import com.main_032.SideQuest.community.entity.Category;
 import lombok.Getter;
 
+
 @Getter
-public class CommentPostDto {
+public class AnswerPostDto {
     private Category category;
-    private Long uniteId; //articleId,projectId
+    private Long uniteId;   //articleId,projectId
     private String content;
 }

@@ -1,4 +1,4 @@
-package com.main_032.SideQuest.community.dto.CommentDto;
+package com.main_032.SideQuest.community.dto.comment;
 
 
 import com.main_032.SideQuest.member.dto.MemberGetResponseDto;
@@ -15,5 +15,6 @@ public class CommentResponseDto {
     private String content;
     private int totalLikes;
     private boolean isAuthor;
+    private boolean liked;
     private LocalDateTime createAt;
 }

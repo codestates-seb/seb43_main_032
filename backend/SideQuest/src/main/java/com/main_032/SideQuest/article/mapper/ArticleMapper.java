@@ -6,11 +6,12 @@ import com.main_032.SideQuest.article.dto.ArticleTechStackResponseDto;
 import com.main_032.SideQuest.article.entity.Article;
 import com.main_032.SideQuest.article.entity.ArticleTechStack;
 import com.main_032.SideQuest.article.service.ArticleTechStackService;
+import com.main_032.SideQuest.community.entity.Category;
+import com.main_032.SideQuest.community.entity.Likes;
+import com.main_032.SideQuest.community.repository.LikesRepository;
 import com.main_032.SideQuest.member.entity.Member;
-import com.main_032.SideQuest.member.repository.MemberRepository;
 import com.main_032.SideQuest.member.service.MemberService;
-import com.main_032.SideQuest.util.exception.BusinessLogicException;
-import com.main_032.SideQuest.util.exception.ExceptionCode;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -18,16 +19,11 @@ import java.util.List;
 import java.util.Optional;
 
 @Component
+@AllArgsConstructor
 public class ArticleMapper {
     private final ArticleTechStackService articleTechStackService;
-    private final MemberRepository memberRepository;
     private final MemberService memberService;
-
-    public ArticleMapper(ArticleTechStackService articleTechStackService, MemberRepository memberRepository, MemberService memberService) {
-        this.articleTechStackService = articleTechStackService;
-        this.memberRepository = memberRepository;
-        this.memberService = memberService;
-    }
+    private final LikesRepository likesRepository;
 
     public Article articlePostDtoToArticle(ArticlePostDto articlePostDto){
             Article article = new Article();
@@ -38,6 +34,7 @@ public class ArticleMapper {
             return article;
 
     }
+
     public List<ArticleTechStackResponseDto> articleTechStackListToArticleTechStackResponseDtoList(List<ArticleTechStack> articleTechStackList){
         List<ArticleTechStackResponseDto> response = new ArrayList<>();
         for(ArticleTechStack articleTechStack: articleTechStackList){
@@ -47,10 +44,21 @@ public class ArticleMapper {
 
         return response;
     }
+
     public ArticleGetResponseDto articleToArticleGetResponseDto(Article article, List<ArticleTechStackResponseDto> articleTechStackResponseDtoList){
-        Optional<Member> findMember = memberRepository.findById(article.getMemberId());
-        findMember.orElseThrow(() -> new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
-        Member member = findMember.get();
+        // 작성 여부, 좋아요 여부 확인
+        boolean isLogin = memberService.isLoginMember();
+        boolean isAuthor = false;
+        boolean liked = false;
+        if(isLogin == true) {
+            Member loginMember = memberService.getLoginMember();
+
+            if(article.getMemberId() == loginMember.getId()) isAuthor = true;
+
+            Optional<Likes> findLikes = likesRepository.findByMemberIdAndCategoryAndArticleId(loginMember.getId(), Category.ARTICLE, article.getId());
+            if(findLikes.isEmpty() == false) liked = true;
+        }
+
         ArticleGetResponseDto articleResponseDto = new ArticleGetResponseDto(
                 article.getId(),
                 memberService.getMemberInfo(article.getMemberId()).getData(),
@@ -59,6 +67,8 @@ public class ArticleMapper {
                 article.getCategory(),
                 article.getViews(),
                 article.getTotalLikes(),
+                isAuthor,
+                liked,
                 article.getTotalAnswers(),
                 article.getCreatedAt(),
                 articleTechStackResponseDtoList
@@ -66,22 +76,4 @@ public class ArticleMapper {
             return articleResponseDto;
         }
 
-//        public List<ArticleResponseDto> articleListToArticleResponseDtoList(List<Article> articleList){
-//            List<ArticleResponseDto> articleResponseDtoList = new ArrayList<>();
-//            for (int i = 0; i < articleList.size(); i++) {
-//                ArticleResponseDto articleResponseDto = articleToArticleResponseDto(articleList.get(i));
-//                articleResponseDtoList.add(articleResponseDto);
-//            }
-//            return articleResponseDtoList;
-//        }
-//        public ArticleResponseDto articleToArticleResponseDto(Article article,List<ArticleTechStackResponseDto> articleTechStackResponseDtoList){
-//            ArticleResponseDto articleResponseDto = new ArticleResponseDto(
-//                    article.getId(),
-//                    article.getTitle(),
-//                    article.getContent(),
-//                    article.getViews(),
-//                    articleTechStackResponseDtoList
-//            );
-//            return articleResponseDto;
-//        }
 }

@@ -5,6 +5,7 @@ import com.main_032.SideQuest.project.entity.ProAcceptedCrew;
 import com.main_032.SideQuest.project.repository.ProAcceptedCrewRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,10 +26,12 @@ public class ProAcceptedCrewService {
         return proAcceptedCrewResponseDtoList;
     }
 
+    @Transactional
     public void saveProAcceptedCrew(ProAcceptedCrew proAcceptedCrew) {
         proAcceptedCrewRepository.save(proAcceptedCrew);
     }
 
+    @Transactional
     public void deleteAcceptedCrew(ProAcceptedCrew proAcceptedCrew) {
         proAcceptedCrew.updateDeleted(true);
         proAcceptedCrewRepository.save(proAcceptedCrew);

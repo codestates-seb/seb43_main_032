@@ -38,8 +38,10 @@ public class MemberService {
 
     @Transactional
     public void signup(MemberPostDto memberPostDto) {
-        if(verifyExistEmail(memberPostDto.getEmail())) throw new BusinessLogicException(ExceptionCode.MEMBER_EMAIL_EXISTS);
-        if(verifyExistName(memberPostDto.getName())) throw new BusinessLogicException(ExceptionCode.MEMBER_NAME_EXISTS);
+        if (verifyExistEmail(memberPostDto.getEmail()))
+            throw new BusinessLogicException(ExceptionCode.MEMBER_EMAIL_EXISTS);
+        if (verifyExistName(memberPostDto.getName()))
+            throw new BusinessLogicException(ExceptionCode.MEMBER_NAME_EXISTS);
 
         Member member = memberMapper.memberPostDtoToMember(memberPostDto);
         String encryptedPassword = passwordEncoder.encode(member.getPassword());
@@ -90,12 +92,13 @@ public class MemberService {
         Member member = findMember.get();
         return member;
     }
-    public boolean isLoginMember(){
+
+    public boolean isLoginMember() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (authentication.getName() == null || authentication.getName().equals("anonymousUser")){
-            return true;
+        if (authentication.getName() == null || authentication.getName().equals("anonymousUser")) {
+            return false;
         }
-        return false;
+        return true;
     }
 
     public MultiResponseDto<MemberGetResponseDto> getAllMembers(int page, int size) {

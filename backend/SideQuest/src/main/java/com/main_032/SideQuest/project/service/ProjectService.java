@@ -165,7 +165,7 @@ public class ProjectService {
         return proApplyCrewResponseDtoList;
     }
 
-    private Project getProjectById(Long projectId) {
+    public Project getProjectById(Long projectId) {
         Optional<Project> findProject = projectRepository.findById(projectId);
         findProject.orElseThrow(() -> new BusinessLogicException(ExceptionCode.PROJECT_NOT_FOUND));
         Project project = findProject.get();
@@ -263,6 +263,7 @@ public class ProjectService {
         return projectLikesTop5Dto;
     }
 
+    @Transactional
     public void cancelAcceptedApply(Long projectId, ProCancelAcceptedApplyDto proCancelAcceptedApplyDto) {
         Member member = memberService.getLoginMember();
         Project project = getProjectById(projectId);
@@ -283,6 +284,20 @@ public class ProjectService {
             }
         }
 
+        projectRepository.save(project);
+    }
+
+    @Transactional
+    public void plusTotalLikes(Long projectId) {
+        Project project = getProjectById(projectId);
+        project.plusLikesTotal();
+        projectRepository.save(project);
+    }
+
+    @Transactional
+    public void minusTotalLikes(Long projectId) {
+        Project project = getProjectById(projectId);
+        project.minusLikesTotal();
         projectRepository.save(project);
     }
 }

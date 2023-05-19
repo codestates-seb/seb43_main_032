@@ -1,6 +1,6 @@
-package com.main_032.SideQuest.community.dto.AnswerDto;
+package com.main_032.SideQuest.community.dto.answer;
 
-import com.main_032.SideQuest.community.dto.CommentDto.CommentResponseDto;
+import com.main_032.SideQuest.community.dto.comment.CommentResponseDto;
 import com.main_032.SideQuest.member.dto.MemberGetResponseDto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -16,6 +16,7 @@ public class AnswerResponseDto {
     private int totalLikes;
     private String content;
     private boolean isAuthor;
+    private boolean liked;
     private LocalDateTime createdAt;
     private List<CommentResponseDto> commentList;
 }

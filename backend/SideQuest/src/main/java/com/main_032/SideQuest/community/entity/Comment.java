@@ -63,4 +63,11 @@ public class Comment extends BaseEntity {
         this.projectId = projectId;
     }
 
+    public void plusTotalLikes() {
+        this.totalLikes += 1;
+    }
+
+    public void minusTotalLikes() {
+        this.totalLikes -= 1;
+    }
 }

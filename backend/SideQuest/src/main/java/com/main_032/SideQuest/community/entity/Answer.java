@@ -70,4 +70,11 @@ public class Answer extends BaseEntity {
         }
     }
 
+    public void plusTotalLikes() {
+        this.totalLikes += 1;
+    }
+
+    public void minusTotalLikes() {
+        this.totalLikes -= 1;
+    }
 }

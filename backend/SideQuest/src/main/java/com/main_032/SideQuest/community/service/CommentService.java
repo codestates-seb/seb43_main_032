@@ -1,14 +1,16 @@
 package com.main_032.SideQuest.community.service;
 
-import com.main_032.SideQuest.community.dto.CommentDto.CommentPatchDto;
-import com.main_032.SideQuest.community.dto.CommentDto.CommentPostDto;
-import com.main_032.SideQuest.community.dto.CommentDto.CommentResponseDto;
+import com.main_032.SideQuest.community.dto.comment.CommentPatchDto;
+import com.main_032.SideQuest.community.dto.comment.CommentPostDto;
+import com.main_032.SideQuest.community.dto.comment.CommentResponseDto;
 import com.main_032.SideQuest.community.entity.Answer;
+import com.main_032.SideQuest.community.entity.Category;
 import com.main_032.SideQuest.community.entity.Comment;
+import com.main_032.SideQuest.community.entity.Likes;
 import com.main_032.SideQuest.community.repository.AnswerRepository;
 import com.main_032.SideQuest.community.repository.CommentRepository;
+import com.main_032.SideQuest.community.repository.LikesRepository;
 import com.main_032.SideQuest.member.entity.Member;
-import com.main_032.SideQuest.member.repository.MemberRepository;
 import com.main_032.SideQuest.member.service.MemberService;
 import com.main_032.SideQuest.util.dto.MultiResponseDto;
 import com.main_032.SideQuest.util.exception.BusinessLogicException;
@@ -22,7 +24,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -31,7 +32,7 @@ public class CommentService {
     private final AnswerRepository answerRepository;
     private final MemberService memberService;
     private final CommentRepository commentRepository;
-    private final MemberRepository memberRepository;
+    private final LikesRepository likesRepository;
 
     @Transactional
     public void createComment(Long answerId, CommentPostDto commentPostDto) {
@@ -56,8 +57,6 @@ public class CommentService {
         Comment comment = getCommentOrException(commentId);
         // 로그인 한사람, comment에 담겨 있는 member ID 검증
         matchMemberID(comment);
-//        checkCommentMember(comment, member);
-//        checkCommentArticle(comment, commentArticleDto.getArticleId());
 
         comment.setContent(commentPatchDto.getContent());
         commentRepository.save(comment);
@@ -74,7 +73,7 @@ public class CommentService {
     }
 
     public MultiResponseDto<CommentResponseDto> getArticleComments(Long answerId, int page, int size) {
-        Pageable pageable = PageRequest.of(page,size);
+        Pageable pageable = PageRequest.of(page, size);
         Page<Comment> commentPage = commentRepository.findAllComment(answerId, pageable);
         List<Comment> commentList = commentPage.getContent();
 
@@ -84,7 +83,7 @@ public class CommentService {
     }
 
     public MultiResponseDto<CommentResponseDto> getProjectComments(Long answerId, int page, int size) {
-        Pageable pageable = PageRequest.of(page,size);
+        Pageable pageable = PageRequest.of(page, size);
         Page<Comment> commentPage = commentRepository.findAllComment(answerId, pageable);
         List<Comment> commentList = commentPage.getContent();
 
@@ -107,30 +106,48 @@ public class CommentService {
     public List<CommentResponseDto> commentListToCommentReponseDtoList(List<Comment> commentList) {
         List<CommentResponseDto> commentResponseDtoList = new ArrayList<>();
         for (Comment comment : commentList) {
-            boolean isLoginMember = memberService.isLoginMember();
-            boolean isAuthor;
-            if(isLoginMember){//로그인 안하면
-                isAuthor = false;
-            }
-            else{
+            // 댓글 작성 여부, 좋아요 여부 확인
+            boolean isAuthor = false;
+            boolean liked = false;
+            if (memberService.isLoginMember() == true) {
                 Member member = memberService.getLoginMember();
-                if(Objects.equals(member.getId(), comment.getMemberId())){
-                    isAuthor =true;
-                }
-                else {
-                    isAuthor=false;
-                }
+                if(member.getId() == comment.getMemberId()) isAuthor = true;
+
+                Optional<Likes> findLikes = likesRepository.findByMemberIdAndCategoryAndCommentId(member.getId(), Category.COMMENT, comment.getId());
+                if(findLikes.isEmpty() == false) liked = true;
             }
+
             CommentResponseDto commentResponseDto = new CommentResponseDto(
                     memberService.getMemberInfo(comment.getMemberId()).getData(),
                     comment.getId(),
                     comment.getContent(),
                     comment.getTotalLikes(),
                     isAuthor,
+                    liked,
                     comment.getCreatedAt()
             );
             commentResponseDtoList.add(commentResponseDto);
         }
         return commentResponseDtoList;
+    }
+
+    @Transactional
+    public void plusTotalLikes(Long commentId) {
+        Comment comment = getCommentById(commentId);
+        comment.plusTotalLikes();
+        commentRepository.save(comment);
+    }
+
+    @Transactional
+    public void minusTotalLikes(Long commentId) {
+        Comment comment = getCommentById(commentId);
+        comment.minusTotalLikes();
+        commentRepository.save(comment);
+    }
+
+    private Comment getCommentById(Long commentId) {
+        Optional<Comment> findComment = commentRepository.findById(commentId);
+        Comment comment = findComment.orElseThrow(() -> new BusinessLogicException(ExceptionCode.COMMENT_NOT_FOUND));
+        return comment;
     }
 }

@@ -2,8 +2,8 @@ package com.main_032.SideQuest.article.controller;
 
 import com.main_032.SideQuest.article.dto.*;
 import com.main_032.SideQuest.article.service.ArticleService;
-import com.main_032.SideQuest.community.dto.AnswerDto.AnswerResponseDto;
-import com.main_032.SideQuest.community.dto.CommentDto.CommentResponseDto;
+import com.main_032.SideQuest.community.dto.answer.AnswerResponseDto;
+import com.main_032.SideQuest.community.dto.comment.CommentResponseDto;
 import com.main_032.SideQuest.community.service.AnswerService;
 import com.main_032.SideQuest.community.service.CommentService;
 import com.main_032.SideQuest.util.dto.MultiResponseDto;
@@ -11,12 +11,9 @@ import com.main_032.SideQuest.util.dto.SingleResponseDto;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @Api(tags = "Articles", description = "게시판 API")

@@ -21,6 +21,7 @@ public class ProApplyCrewService {
         proApplyCrewRepository.save(proApplyCrew);
     }
 
+    @Transactional
     public void cancelApply(Long projectId, Long memberId, ProjectCancelApplyPostDto projectCancelApplyPostDto) {
         Optional<ProApplyCrew> findProApplyCrew = proApplyCrewRepository.findByMemberIdAndProjectIdAndDeleted(memberId, projectId, false);
         findProApplyCrew.orElseThrow(() -> new BusinessLogicException(ExceptionCode.APPLY_CREW_NOT_FOUND));
