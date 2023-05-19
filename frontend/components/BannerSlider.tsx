@@ -33,14 +33,14 @@ export default function BannerSlider({ isScrolled }: { isScrolled: boolean }) {
       setTimeout(() => setAutoplayPaused(false), 6000); // 3초 후에 autoplay 일시 정지 해제
     },
     nextArrow: (
-      <Div>
+      <div>
         <FaCaretSquareRight fill="white" />
-      </Div>
+      </div>
     ),
     prevArrow: (
-      <DivPre>
+      <div>
         <FaCaretSquareLeft fill="white" />
-      </DivPre>
+      </div>
     ),
     appendDots: (dots: React.ReactNode) => (
       // 페이징 요소들을 감싸는 컨테이너 커스터마이징
@@ -109,10 +109,20 @@ const StyledSlider = styled(Slider)`
 
   .slick-prev::before,
   .slick-next::before {
-    position: absolute;
-    top: 0;
-    opacity: 0;
     display: none;
+  }
+
+  .slick-prev {
+    width: 30px;
+    height: 30px;
+    position: absolute;
+    z-index: 999;
+    left: 90%;
+    bottom: 30%;
+    svg {
+      width: 100%;
+      height: 100%;
+    }
   }
 
   .slick-dots {
@@ -120,7 +130,7 @@ const StyledSlider = styled(Slider)`
     right: 5%;
     bottom: 5%;
     width: auto;
-    z-index: 100;
+    z-index: 50;
 
     ul {
       display: flex;
@@ -177,20 +187,5 @@ const Div = styled.div`
   > svg {
     width: 100%;
     height: 100%;
-  }
-`;
-
-const DivPre = styled.div`
-  position: absolute;
-  left: 90%;
-  bottom: 10%;
-  z-index: 99999;
-  text-align: left;
-  line-height: 30px;
-  transform: translateY(-50%);
-  > svg {
-    width: 100%;
-    height: 100%;
-    position: absolute;
   }
 `;
