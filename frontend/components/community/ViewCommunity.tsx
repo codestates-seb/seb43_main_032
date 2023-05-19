@@ -8,7 +8,7 @@ import Message from '../Message';
 import { Community } from '@/types/community';
 import { useCommunity } from '@/hooks/react-query/community/useCommunity';
 import AnswerBox from '../AnswerBox';
-import { useGetAnswer } from '@/hooks/react-query/answer/useGetAnswer';
+import { formatDate2 } from '@/util/date';
 
 const ReactMarkdown = dynamic(() => import('@/components/editor/ContentBox'), {
   ssr: false,
@@ -61,15 +61,17 @@ const ViewCommunity = () => {
           <Top>
             <div className="left">
               <div className="title">{data.title}</div>
-              <div className="date">{data.createdAt}</div>
+              <div className="date">
+                {formatDate2(new Date(data.createdAt))}
+              </div>
             </div>
             <div className="right">
               <img src={data.memberInfo.profileImageUrl}></img>
               <div className="userBox nanum-bold userStar">
                 <FaHeart color="red" /> {data.totalLikes}
               </div>
-              <div className="userBox nanum-bold userMail">
-                {data.memberInfo.email}
+              <div className="userBox nanum-bold userName">
+                {data.memberInfo.name}
               </div>
             </div>
           </Top>
@@ -168,7 +170,7 @@ const Top = styled.div`
       color: white;
     }
 
-    > .userMail {
+    > .userName {
       padding-top: 0;
     }
   }
