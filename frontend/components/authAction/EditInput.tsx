@@ -1,10 +1,11 @@
 import React from 'react';
-import { UseFormRegisterReturn } from 'react-hook-form';
 import styled from 'styled-components';
 
 const Wrapper = styled.div``;
-const Input = styled.input`
+
+const TextArea = styled.textarea`
   position: relative;
+  resize: none;
   width: 100%;
   border: none;
   height: 40px;
@@ -40,7 +41,7 @@ interface EditInputProps {
 }
 
 const EditInput: React.FC<EditInputProps> = ({
-  type = '',
+  type,
   label,
   placeholder,
   ...rest
@@ -48,7 +49,12 @@ const EditInput: React.FC<EditInputProps> = ({
   return (
     <Wrapper>
       <Label>{label}</Label>
-      <Input {...rest.register} type={type} placeholder={placeholder} />
+      <TextArea
+        {...rest.register}
+        type={type}
+        placeholder={placeholder}
+        style={{ height: label === 'About Me' ? '150px' : '' }}
+      />
     </Wrapper>
   );
 };
