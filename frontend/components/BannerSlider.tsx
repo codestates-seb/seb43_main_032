@@ -6,17 +6,53 @@ import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import React, { useEffect, useRef, useState } from 'react';
-import BannerText from './BannerText';
 import BannerThird from './BannerThird';
-import { AiOutlineArrowLeft, AiOutlineArrowRight } from 'react-icons/ai';
-import { TbMoodLookLeft, TbMoodLookRight } from 'react-icons/tb';
 import { FaCaretSquareLeft, FaCaretSquareRight } from 'react-icons/fa';
+import { useRouter } from 'next/router';
+import ParallaxBanner from './ParallaxBanner';
+import StarBg from '@/components/StarBg';
+
+const CustomDot = ({
+  onClick,
+  active,
+}: {
+  onClick: () => void;
+  active: boolean;
+}) => (
+  <div
+    style={{
+      width: '10px',
+      height: '10px',
+      borderRadius: '50%',
+      background: active ? 'blue' : 'gray',
+      marginLeft: '5px',
+      cursor: 'pointer',
+    }}
+    onClick={onClick}
+  />
+);
 
 export default function BannerSlider({ isScrolled }: { isScrolled: boolean }) {
-  const [activeSlide, setActiveSlide] = useState(0);
+  const [activeSlide, setActiveSlide] = useState(0); // 활성된 슬라이드 번호
   const [current, setCurrent] = useState(1);
   const [autoplayPaused, setAutoplayPaused] = useState(false); // autoplay 일시 정지 여부 상태 변수
-  const sliderRef = useRef<Slider>(null);
+  const router = useRouter().pathname; // 주소값에 따른 슬라이드 여부
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const slickBox: HTMLElement | null =
+        document.querySelector('.slick-dots');
+      const arrowBox: HTMLElement | null =
+        document.querySelector('.slick-arrow');
+      if (slickBox) {
+        slickBox.style.backgroundColor = '';
+        slickBox.style.borderRadius = '';
+      }
+      if (arrowBox) {
+        arrowBox.style.bottom = '10%';
+      }
+    }
+  }, []);
 
   const settings = {
     dots: true,
@@ -32,16 +68,8 @@ export default function BannerSlider({ isScrolled }: { isScrolled: boolean }) {
       setAutoplayPaused(true); // 슬라이드 이동 후 autoplay 일시 정지 설정
       setTimeout(() => setAutoplayPaused(false), 6000); // 3초 후에 autoplay 일시 정지 해제
     },
-    nextArrow: (
-      <div>
-        <FaCaretSquareRight fill="white" />
-      </div>
-    ),
-    prevArrow: (
-      <div>
-        <FaCaretSquareLeft fill="white" />
-      </div>
-    ),
+    nextArrow: <FaCaretSquareRight fill="#c28aff" />,
+    prevArrow: <FaCaretSquareLeft fill="#c28aff" />,
     appendDots: (dots: React.ReactNode) => (
       // 페이징 요소들을 감싸는 컨테이너 커스터마이징
       <div
@@ -55,36 +83,32 @@ export default function BannerSlider({ isScrolled }: { isScrolled: boolean }) {
       </div>
     ),
     customPaging: (i: number) => (
-      // 각 페이징 요소 커스터마이징
-      <li
-        key={i}
-        style={{
-          width: '30px',
-          color: 'blue',
-          border: '1px blue solid',
-        }}
-        onClick={() => {
-          if (sliderRef.current) {
-            sliderRef.current.slickGoTo(i, true); // Use the second parameter to enable animation
-          }
-        }}
-      >
-        {i + 1}
-      </li>
+      <CustomDot active={i === activeSlide} onClick={() => setCurrent(i)} />
     ),
   };
+
+  // slick 기본 스타일 수정
 
   // 클래스 명으로 index를 따오기
 
   return (
     <Container isScrolled={isScrolled}>
-      <Background activeSlide={activeSlide} />
-      <StyledSlider {...settings}>
-        <BannerFirst />
-        <BannerSecond />
-        <BannerThird />
-      </StyledSlider>
-      <BannerText activeSlide={activeSlide} />
+      {/* <StarBg /> */}
+      <div className="bg">
+        <ParallaxBanner />
+      </div>
+      {/* {router === '/' && (
+        <StyledSlider {...settings}>
+          <BannerFirst />
+          <BannerSecond />
+          <BannerThird />
+        </StyledSlider>
+      )} */}
+      <TitleBox>
+        <span>프로젝트의 모든 것</span>
+        <span>개발부터 디자인까지</span>
+        <span className="title">SIDE QUEST</span>
+      </TitleBox>
     </Container>
   );
 }
@@ -103,25 +127,50 @@ const StyledSlider = styled(Slider)`
     transition: transform 0.5s ease-in-out;
   }
 
-  .slick-active {
-    transform: scale();
+  .slick-slide {
+    transition: transform 1s ease;
   }
 
-  .slick-prev::before,
-  .slick-next::before {
-    display: none;
+  .slick-active {
+  }
+
+  .slick-arrow {
+    z-index: 10;
+    width: 50px;
+    height: 50px;
+    background: rgba($bk, 0.2);
+    border-radius: 50%;
+    transition: background 0.5s;
+    position: absolute;
+    top: 80%;
+    &:hover {
+      fill: rgba(#c28aff, 0.9);
+
+      &::before {
+        fill: rgba(#c28aff, 0.5);
+      }
+    }
+    &::before {
+      font-family: 'Line Awesome Free';
+      font-weight: 900;
+      font-size: 49px;
+      transition: all 0.5s;
+    }
   }
 
   .slick-prev {
-    width: 30px;
-    height: 30px;
-    position: absolute;
-    z-index: 999;
     left: 90%;
-    bottom: 30%;
-    svg {
-      width: 100%;
-      height: 100%;
+
+    &::before {
+      content: '\f137';
+    }
+  }
+
+  .slick-next {
+    right: 30px;
+
+    &::before {
+      content: '\f138';
     }
   }
 
@@ -131,6 +180,7 @@ const StyledSlider = styled(Slider)`
     bottom: 5%;
     width: auto;
     z-index: 50;
+    background-color: none !important;
 
     ul {
       display: flex;
@@ -155,37 +205,37 @@ const Container = styled.div<BannerProps>`
   position: relative;
   width: 100%;
   height: 660px;
-`;
+  background: black;
 
-const Background = styled.div<{ activeSlide: number }>`
-  width: 100%;
-  height: 100%;
-  background-color: ${({ activeSlide }) => {
-    if (activeSlide === 1) {
-      return 'black';
-    } else if (activeSlide === 2) {
-      return 'red';
-    } else {
-      return 'blue';
-    }
-  }};
-  position: absolute;
-  top: 0;
-  transition: background-color 0.5s ease;
-`;
-
-const Div = styled.div`
-  width: 30px;
-  height: 30px;
-  position: absolute;
-  right: 16px;
-  bottom: 100px;
-  z-index: 99;
-  text-align: right;
-  line-height: 30px;
-
-  > svg {
+  .bg {
     width: 100%;
     height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+`;
+
+const TitleBox = styled.div`
+  position: relative;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: white;
+  text-transform: uppercase;
+  font-size: 50px;
+  font-weight: 500;
+  letter-spacing: 10px;
+  white-space: nowrap;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+
+  .title {
+    text-shadow: 0 0 30px;
+    margin-top: 20px;
+    font-size: 70px;
+    font-weight: 700;
   }
 `;
