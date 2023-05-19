@@ -10,24 +10,21 @@ import com.main_032.SideQuest.member.repository.MemberRepository;
 import com.main_032.SideQuest.member.service.MemberService;
 import com.main_032.SideQuest.util.exception.BusinessLogicException;
 import com.main_032.SideQuest.util.exception.ExceptionCode;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 
 @Component
+@AllArgsConstructor
 public class AnswerMapper {
     private final MemberRepository memberRepository;
     private final MemberService memberService;
     private final CommentService commentService;
-
-    public AnswerMapper(MemberRepository memberRepository, MemberService memberService, CommentService commentService) {
-        this.memberRepository = memberRepository;
-        this.memberService = memberService;
-        this.commentService = commentService;
-    }
 
     public Answer AnswerPostDtoToAnswer(AnswerPostDto answerPostDto, Long memberId){
         Answer answer = new Answer(answerPostDto.getCategory(),memberId,answerPostDto.getUniteId(), answerPostDto.getContent());
@@ -37,31 +34,44 @@ public class AnswerMapper {
         answer.updateContent(answerPatchDto.getContent());
         return answer;
     }
-    public AnswerResponseDto AnswerToAnswerResponseDto(Answer answer){
-        Optional<Member> findmember = memberRepository.findById(answer.getMemberId());
-        findmember.orElseThrow(() -> new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
+    public List<AnswerResponseDto> AnswerListToAnswerResponseDtoList(List<Answer> answerList){
+        List<AnswerResponseDto> answerResponseDtoList= new ArrayList<>();
 
-        Member member = findmember.get();
+        for(Answer answer: answerList){
+            Optional<Member> findMember = memberRepository.findById(answer.getMemberId());
+            findMember.orElseThrow(() -> new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
+            AnswerResponseDto answerResponseDto = AnswerToAnswerResponseDto(answer);
+            answerResponseDtoList.add(answerResponseDto);
+        }
+        return answerResponseDtoList;
+    }
+    public AnswerResponseDto AnswerToAnswerResponseDto(Answer answer){
+        boolean isLoginMember = memberService.isLoginMember();
+        boolean isAuthor;
+        if(isLoginMember){//로그인 안하면
+            isAuthor = false;
+        }
+        else{
+            Member member = memberService.getLoginMember();
+            if(Objects.equals(member.getId(), answer.getMemberId())){
+                isAuthor =true;
+            }
+            else {
+                isAuthor=false;
+            }
+        }
+
         AnswerResponseDto answerResponseDto = new AnswerResponseDto(
                 memberService.getMemberInfo(answer.getMemberId()).getData(),
                 answer.getId(),
                 answer.getTotalLikes(),
                 answer.getContent(),
+                isAuthor,
                 answer.getCreatedAt(),
                 commentService.commentListToCommentReponseDtoList(answer.getCommentList())
                 //나중에 comment 추가
         );
         return answerResponseDto;
     }
-    public List<AnswerResponseDto> AnswerListToAnswerResponseDtoList(List<Answer> answerList){
-        List<AnswerResponseDto> answerResponseDtoList= new ArrayList<>();
 
-        for(Answer answer: answerList){
-            Optional<Member> findmember = memberRepository.findById(answer.getMemberId());
-            findmember.orElseThrow(() -> new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
-            AnswerResponseDto answerResponseDto = AnswerToAnswerResponseDto(answer);
-            answerResponseDtoList.add(answerResponseDto);
-        }
-        return answerResponseDtoList;
-    }
 }

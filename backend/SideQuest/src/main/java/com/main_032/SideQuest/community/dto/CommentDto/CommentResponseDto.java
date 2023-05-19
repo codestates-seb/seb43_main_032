@@ -14,5 +14,6 @@ public class CommentResponseDto {
     private Long commentId;
     private String content;
     private int totalLikes;
-    private LocalDateTime createdAt;
+    private boolean isAuthor;
+    private LocalDateTime createAt;
 }

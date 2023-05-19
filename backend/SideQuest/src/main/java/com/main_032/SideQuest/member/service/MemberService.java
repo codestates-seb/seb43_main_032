@@ -17,6 +17,8 @@ import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -87,6 +89,13 @@ public class MemberService {
         findMember.orElseThrow(() -> new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
         Member member = findMember.get();
         return member;
+    }
+    public boolean isLoginMember(){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication.getName() == null || authentication.getName().equals("anonymousUser")){
+            return true;
+        }
+        return false;
     }
 
     public MultiResponseDto<MemberGetResponseDto> getAllMembers(int page, int size) {
