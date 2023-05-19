@@ -2,12 +2,12 @@ package com.main_032.SideQuest.community.service;
 
 import com.main_032.SideQuest.article.entity.Article;
 import com.main_032.SideQuest.article.repository.ArticleRepository;
-import com.main_032.SideQuest.community.Mapper.AnswerMapper;
-import com.main_032.SideQuest.community.dto.AnswerDto.AnswerPatchDto;
-import com.main_032.SideQuest.community.dto.AnswerDto.AnswerResponseDto;
+import com.main_032.SideQuest.community.mapper.AnswerMapper;
+import com.main_032.SideQuest.community.dto.answer.AnswerPatchDto;
+import com.main_032.SideQuest.community.dto.answer.AnswerResponseDto;
 import com.main_032.SideQuest.community.entity.Category;
 import com.main_032.SideQuest.community.repository.AnswerRepository;
-import com.main_032.SideQuest.community.dto.AnswerDto.AnswerPostDto;
+import com.main_032.SideQuest.community.dto.answer.AnswerPostDto;
 import com.main_032.SideQuest.community.entity.Answer;
 import com.main_032.SideQuest.member.entity.Member;
 import com.main_032.SideQuest.member.service.MemberService;
@@ -20,6 +20,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -41,6 +42,7 @@ public class AnswerService {
         this.commentService = commentService;
     }
 
+    @Transactional
     public void createAnswer(AnswerPostDto answerPostDto) {
         //검증 :,Article,project
 
@@ -48,6 +50,7 @@ public class AnswerService {
         answerRepository.save(answer);
     }
 
+    @Transactional
     public void updateAnswer(Long answerId, AnswerPatchDto answerPatchDto) {
         //답글 존재 여부 확인
         Optional<Answer> findAnswer = verifyAnswer(answerId);
@@ -64,6 +67,7 @@ public class AnswerService {
         answerRepository.save(answer);
     }
 
+    @Transactional
     public void deleteAnswer(Long answerId) {
         Optional<Answer> findAnswer = verifyAnswer(answerId);
         memberMatchId(findAnswer);
@@ -115,5 +119,25 @@ public class AnswerService {
     private void verifyProject(Long projectId) {
         Optional<Project> findProject = projectRepository.findById(projectId);
         findProject.orElseThrow(() -> new BusinessLogicException(ExceptionCode.PROJECT_NOT_FOUND));
+    }
+
+    public Answer getAnswerById(Long answerId) {
+        Optional<Answer> findAnswer = answerRepository.findById(answerId);
+        Answer answer = findAnswer.orElseThrow(() -> new BusinessLogicException(ExceptionCode.ANSWER_NOT_FOUND));
+        return answer;
+    }
+
+    @Transactional
+    public void plusTotalLikes(Long answerId) {
+        Answer answer = getAnswerById(answerId);
+        answer.plusTotalLikes();
+        answerRepository.save(answer);
+    }
+
+    @Transactional
+    public void minusTotalLikes(Long answerId) {
+        Answer answer = getAnswerById(answerId);
+        answer.minusTotalLikes();
+        answerRepository.save(answer);
     }
 }

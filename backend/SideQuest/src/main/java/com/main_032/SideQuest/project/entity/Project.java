@@ -126,5 +126,13 @@ public class Project extends BaseEntity {
     public void plusViews() {
         this.views += 1;
     }
+
+    public void plusLikesTotal() {
+        this.totalLikes += 1;
+    }
+
+    public void minusLikesTotal() {
+        this.totalLikes -= 1;
+    }
 }
 

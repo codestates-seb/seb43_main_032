@@ -1,8 +1,8 @@
 package com.main_032.SideQuest.community.service;
 
-import com.main_032.SideQuest.community.dto.CommentDto.CommentPatchDto;
-import com.main_032.SideQuest.community.dto.CommentDto.CommentPostDto;
-import com.main_032.SideQuest.community.dto.CommentDto.CommentResponseDto;
+import com.main_032.SideQuest.community.dto.comment.CommentPatchDto;
+import com.main_032.SideQuest.community.dto.comment.CommentPostDto;
+import com.main_032.SideQuest.community.dto.comment.CommentResponseDto;
 import com.main_032.SideQuest.community.entity.Answer;
 import com.main_032.SideQuest.community.entity.Comment;
 import com.main_032.SideQuest.community.repository.AnswerRepository;
@@ -132,5 +132,25 @@ public class CommentService {
             commentResponseDtoList.add(commentResponseDto);
         }
         return commentResponseDtoList;
+    }
+
+    @Transactional
+    public void plusTotalLikes(Long commentId) {
+        Comment comment = getCommentById(commentId);
+        comment.plusTotalLikes();
+        commentRepository.save(comment);
+    }
+
+    @Transactional
+    public void minusTotalLikes(Long commentId) {
+        Comment comment = getCommentById(commentId);
+        comment.minusTotalLikes();
+        commentRepository.save(comment);
+    }
+
+    private Comment getCommentById(Long commentId) {
+        Optional<Comment> findComment = commentRepository.findById(commentId);
+        Comment comment = findComment.orElseThrow(() -> new BusinessLogicException(ExceptionCode.COMMENT_NOT_FOUND));
+        return comment;
     }
 }

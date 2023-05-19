@@ -1,4 +1,4 @@
-package com.main_032.SideQuest.community.dto.CommentDto;
+package com.main_032.SideQuest.community.dto.comment;
 
 
 import com.main_032.SideQuest.member.dto.MemberGetResponseDto;

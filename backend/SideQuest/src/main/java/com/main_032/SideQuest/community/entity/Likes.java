@@ -20,29 +20,33 @@ public class Likes extends BaseEntity {
     private Category category;
 
     @Column
-    private Long projectId;
+    private Long projectId = -1L;
 
     @Column
-    private Long articleId;
+    private Long articleId = -1L;
 
     @Column
-    private Long answerId;
+    private Long answerId = -1L;
 
     @Column
-    private Long commentId;
+    private Long commentId = -1L;
 
-    public Likes(Long memberId, Category category, Long commentId) {
+    public Likes(Long memberId, Category category, Long uniteId) {
         this.memberId = memberId;
         this.category = category;
-        this.commentId = commentId;
-    }
 
-    public void setMemberId(Long memberId) {
-        this.memberId = memberId;
-    }
-
-    public void setCommentId(Long commentId) {
-        this.commentId = commentId;
+        if(category.equals(Category.PROJECT)) {
+            this.projectId = uniteId;
+        }
+        else if(category.equals(Category.ARTICLE)) {
+            this.articleId = uniteId;
+        }
+        else if(category.equals(Category.ANSWER)) {
+            this.answerId = uniteId;
+        }
+        else {
+            this.commentId = uniteId;
+        }
     }
 
 }

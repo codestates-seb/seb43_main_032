@@ -1,8 +1,8 @@
-package com.main_032.SideQuest.community.Mapper;
+package com.main_032.SideQuest.community.mapper;
 
-import com.main_032.SideQuest.community.dto.AnswerDto.AnswerPatchDto;
-import com.main_032.SideQuest.community.dto.AnswerDto.AnswerPostDto;
-import com.main_032.SideQuest.community.dto.AnswerDto.AnswerResponseDto;
+import com.main_032.SideQuest.community.dto.answer.AnswerPatchDto;
+import com.main_032.SideQuest.community.dto.answer.AnswerPostDto;
+import com.main_032.SideQuest.community.dto.answer.AnswerResponseDto;
 import com.main_032.SideQuest.community.entity.Answer;
 import com.main_032.SideQuest.community.service.CommentService;
 import com.main_032.SideQuest.member.entity.Member;

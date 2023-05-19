@@ -16,6 +16,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,6 +38,7 @@ public class ArticleService {
         this.articleTechStackService = articleTechStackService;
     }
 
+    @Transactional
     public void createArticle(ArticlePostDto articlePostDto){
         Member member =memberService.getLoginMember();
         Article article = mapper.articlePostDtoToArticle(articlePostDto);
@@ -44,6 +46,8 @@ public class ArticleService {
         article = articleRepository.save(article);
         articleTechStackService.updateArticleTechStack(articlePostDto.getTechList(), article.getId());
     }
+
+    @Transactional
     public void updateArticle(Long articleId,ArticlePatchDto articlePatchDto){
         //게시물 존재 여부 확인
         Optional<Article> findArticle = verifyExistArticle(articleId);
@@ -59,6 +63,7 @@ public class ArticleService {
 //        SingleResponseDto<ArticleResponseDto> singleResponse = new SingleResponseDto<>(articleResponseDto);
 //        return singleResponse;
     }
+
     public SingleResponseDto<ArticleGetResponseDto> getArticle(Long articleId){
         Optional<Article> findArticle =verifyExistArticle(articleId);
         Article article = findArticle.get();
@@ -71,6 +76,7 @@ public class ArticleService {
         SingleResponseDto<ArticleGetResponseDto> singleResponseDto = new SingleResponseDto<ArticleGetResponseDto>(response);
         return singleResponseDto;
     }
+
     public MultiResponseDto<ArticleGetResponseDto> findAllArticle(int page, int size){
         Page<Article> articlePage = articleRepository.findAllArticlePage(PageRequest.of(page,size, Sort.by("id").descending()));
         List<Article> articleList = articlePage.getContent();
@@ -85,6 +91,7 @@ public class ArticleService {
         MultiResponseDto<ArticleGetResponseDto> multiResponseDto =new MultiResponseDto(articleResponseDtoList, articlePage);
         return multiResponseDto;
     }
+
     public MultiResponseDto<ArticleGetResponseDto> searchArticle(String searchWord,int page, int size){
         Page<Article> articlePage= articleRepository.findSearchListArticle(searchWord,PageRequest.of(page,size, Sort.by("id").descending()));
         List<Article> articleList = articlePage.getContent();
@@ -99,6 +106,8 @@ public class ArticleService {
         MultiResponseDto<ArticleGetResponseDto> multiResponseDto =new MultiResponseDto(articleResponseDtoList, articlePage);
         return multiResponseDto;
     }
+
+    @Transactional
     public void deleteArticle(Long articleId){
         Optional<Article> findArticle = verifyExistArticle(articleId);
         matchMemberID(findArticle);
@@ -149,5 +158,25 @@ public class ArticleService {
         }
         ArticleLikesTop5Dto response = new ArticleLikesTop5Dto(articleGetResponseDtoList);
         return new SingleResponseDto<ArticleLikesTop5Dto>(response);
+    }
+
+    public Article getArticleById(Long articleId) {
+        Optional<Article> findArticle = articleRepository.findById(articleId);
+        findArticle.orElseThrow(() -> new BusinessLogicException(ExceptionCode.ARTICLE_NOT_FOUND));
+        return findArticle.get();
+    }
+
+    @Transactional
+    public void plusTotalLikes(Long articleId) {
+        Article article = getArticleById(articleId);
+        article.plusTotalLikes();
+        articleRepository.save(article);
+    }
+
+    @Transactional
+    public void minusTotalLikes(Long articleId) {
+        Article article = getArticleById(articleId);
+        article.minusTotalLikes();
+        articleRepository.save(article);
     }
 }

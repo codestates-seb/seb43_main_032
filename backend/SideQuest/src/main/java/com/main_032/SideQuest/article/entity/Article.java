@@ -56,4 +56,10 @@ public class Article extends BaseEntity {
     public void updateViews(int views){this.views = views;}
     public void delete(){this.deleted = true;}
     public void restore(){this.deleted = false;}
+    public void plusTotalLikes() {
+        this.totalLikes += 1;
+    }
+    public void minusTotalLikes() {
+        this.totalLikes -= 1;
+    }
 }
