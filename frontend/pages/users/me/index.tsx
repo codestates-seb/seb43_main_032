@@ -1,11 +1,12 @@
 import GridBox from '@/components/GridBox';
+import Stack from '@/components/stack/Stack';
 import InfoContainer from '@/components/user/InfoContainer';
 import UserContentsBox from '@/components/user/UserContentsBox';
 import UserInfoCard from '@/components/user/UserProfile';
-import useAuth from '@/hooks/react-query/useAuth';
-import { UserData } from '@/types/user';
+import useUser from '@/hooks/react-query/useUser';
+import { UserState } from '@/types/user';
 import { useRouter } from 'next/router';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import styled from 'styled-components';
 
 const LeftColumn = styled.div`
@@ -48,40 +49,30 @@ const AvatarContainer = styled.div`
   -webkit-box-shadow: 5px 5px 10px 0px rgba(0, 0, 0, 0.25);
   -moz-box-shadow: 5px 5px 10px 0px rgba(0, 0, 0, 0.25);
 `;
-const Works = styled.div`
-  /* display: flex; */
-  background-color: teal;
-  width: 100%;
-  padding: 20px;
-  border-radius: 20px;
-`;
-const ProjectContainer = styled.div``;
-const ProjectCard = styled.div``;
-const PostContainer = styled.div``;
-const PostCard = styled.div``;
-const DummyBox = styled.div`
+const StackContainer = styled.div`
   display: flex;
-  flex-direction: column;
-  padding: 10px;
-  border-radius: 10px;
-  display: flex;
-  width: 100%;
-  height: 250px;
-  margin-bottom: 20px;
-  background-color: gray;
 `;
-const DummyBox2 = styled.div`
-  background-color: rgba(0, 0, 0, 0.1);
-  width: 100%;
-  height: 100%;
+const EditButton = styled.button`
+  border: none;
   padding: 10px;
-  margin-top: 10px;
-  border-radius: 10px;
+  background-color: skyblue;
+  border-radius: 5px;
+  cursor: pointer;
 `;
+
 export default function me() {
   // const user = useAuth();
-  const user = USER;
+  // const user = USER;
+  const {
+    getMyInfo: { data: user },
+  } = useUser({});
   const router = useRouter();
+  user && console.log(user);
+
+  const handleClick = () => {
+    router.push('/users/me/edit');
+  };
+
   useEffect(() => {
     window.scrollTo({
       top: 670,
@@ -95,6 +86,7 @@ export default function me() {
       {user && (
         <GridBox>
           <LeftColumn>
+            <EditButton onClick={handleClick}>edit</EditButton>
             <UserInfoCard user={user} />
           </LeftColumn>
           <RightColumn>
@@ -103,7 +95,14 @@ export default function me() {
                 <InfoContainer
                   keyNode={
                     <AvatarContainer style={{ width: '70px', height: '70px' }}>
-                      <img alt={user.name} src={user.profileImageUrl} />
+                      {user.profileImageUrl ? (
+                        <img alt={user.name} src={user.profileImageUrl} />
+                      ) : (
+                        <img
+                          alt={user.name}
+                          src="https://pbs.twimg.com/media/FmynZRjWYAgEEpL.jpg"
+                        />
+                      )}
                     </AvatarContainer>
                   }
                   contentNode={
@@ -113,47 +112,32 @@ export default function me() {
                     </>
                   }
                 />
+                <InfoContainer
+                  keyNode={'기술스텍'}
+                  contentNode={
+                    <StackContainer>
+                      {[
+                        'java_script',
+                        'react',
+                        'next_js',
+                        'recoil',
+                        'react_query',
+                        'type_scriypt',
+                      ].map((stack) => (
+                        <Stack key={stack} tech={stack} />
+                      ))}
+                    </StackContainer>
+                  }
+                />
               </ProfileContainer>
+              <InfoContainer keyNode={'AboutMe'} contentNode={user.aboutMe} />
               <InfoContainer keyNode={'휴대전화'} contentNode={user.phone} />
-              <InfoContainer keyNode={'이메일'} contentNode={user.email} />
               <InfoContainer
-                keyNode={'기술스텍'}
-                contentNode={'#react #python'}
+                keyNode={'이메일'}
+                contentNode={user.email}
                 lastItem
               />
             </UserInfo>
-            {/* <div style={{ display: 'flex' }}>
-              <p
-                className="nanum-bold"
-                style={{ margin: '10px', marginRight: '0', color: 'tomato' }}
-              >
-                Projects
-              </p>
-              <p className="nanum-bold" style={{ margin: '10px' }}>
-                | Posts
-              </p>
-            </div>
-            <Works>
-              <DummyBox>
-                <p className="nanum-bold">My Projects</p>
-                <DummyBox2 />
-              </DummyBox>
-              <DummyBox>
-                <div style={{ display: 'flex' }}>
-                  <p
-                    className="nanum-bold"
-                    style={{
-                      marginRight: '10px',
-                      color: 'tomato',
-                    }}
-                  >
-                    Comment
-                  </p>
-                  <p className="nanum-bold">| Replies</p>
-                </div>
-                <DummyBox2 />
-              </DummyBox>
-            </Works> */}
             <UserContentsBox id={0} contents={['Projects', 'Posts']} />
             <UserContentsBox
               id={0}
@@ -166,7 +150,7 @@ export default function me() {
   );
 }
 
-export const USER: UserData = {
+export const USER: UserState = {
   email: 'uverrills0@bloomberg.com',
   location: 'Seoul',
   name: 'Ursulina Verrills',
@@ -175,5 +159,6 @@ export const USER: UserData = {
   position: 'fe',
   phone: '660 384 5454',
   totalStar: 10,
-  profileImageUrl: 'http://dummyimage.com/183x100.png/ff4444/ffffff',
+  techList: ['React', 'JavaScript', 'Python'],
+  profileImageUrl: 'https://pbs.twimg.com/media/FjU2lkcWYAgNG6d.jpg',
 };

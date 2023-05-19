@@ -61,29 +61,39 @@ const Contact = () => {
         />
       </IconBox>
       <AskBox isVisible={isContact}>
-      <EmailBox>
-      <div className="nanum-bold title">Contact me</div>
-      <div className="exit" onClick={closeContact}>
-        &times;
-      </div>
-      <form ref={formRef} onSubmit={sendEmail} className="form-control">
-        <input type="text" name="user_name" placeholder="Full name" required />
-        <input type="email" name="user_email" placeholder="Email" required />
-        <input type="text" name="subject" placeholder="Subject" required />
-        <textarea
-          name="message"
-          cols={30}
-          rows={10}
-          style={{ marginTop: '20px' }}
-          placeholder="message"
-        ></textarea>
-        <button type="submit" className="btn" style={{ marginTop: '20px' }}>
-          <span className="transition"></span>
-          <span className="gradient"></span>
-          <span className="label">Message</span>
-        </button>
-      </form>
-    </EmailBox>
+        <EmailBox>
+          <div className="nanum-bold title">Contact me</div>
+          <div className="exit" onClick={closeContact}>
+            &times;
+          </div>
+          <form ref={formRef} onSubmit={sendEmail} className="form-control">
+            <input
+              type="text"
+              name="user_name"
+              placeholder="Full name"
+              required
+            />
+            <input
+              type="email"
+              name="user_email"
+              placeholder="Email"
+              required
+            />
+            <input type="text" name="subject" placeholder="Subject" required />
+            <textarea
+              name="message"
+              cols={30}
+              rows={10}
+              style={{ marginTop: '20px' }}
+              placeholder="message"
+            ></textarea>
+            <button type="submit" className="btn" style={{ marginTop: '20px' }}>
+              <span className="transition"></span>
+              <span className="gradient"></span>
+              <span className="label">Message</span>
+            </button>
+          </form>
+        </EmailBox>
       </AskBox>
     </>
   );
@@ -107,8 +117,6 @@ const AskBox = styled.div<{ isVisible: boolean }>`
   position: fixed;
   transition: bottom 0.5s ease-in-out;
 `;
-
-
 
 const EmailBox = styled.div`
   position: relative;
