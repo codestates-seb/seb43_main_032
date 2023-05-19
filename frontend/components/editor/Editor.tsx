@@ -29,7 +29,7 @@ const EditorBox = ({ commentOptions, changeContent, content, type }: Props) => {
     <Box>
       <SimpleMDEEditor
         placeholder={
-          type === 'comment' ? '댓글을 등록해주세요.' : '내용을 등록해주세요.'
+          type === 'answer' ? '답글을 등록해주세요.' : '내용을 등록해주세요.'
         }
         onChange={changeContent}
         options={commentOptions ? commentOptions : DEFAULT_OPTIONS}

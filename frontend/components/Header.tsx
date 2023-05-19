@@ -33,8 +33,7 @@ const Header = () => {
     setUserState()
       .then((res) => setLoggedInUser(res))
       .catch(() => {
-        deleteCookie('accessToken');
-        deleteCookie('refreshToken');
+        //리프레시 토큰 api가 생기면 여기 넣어서 사용할듯?
       });
   }, [router]);
 

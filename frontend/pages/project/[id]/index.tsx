@@ -15,8 +15,9 @@ import Message from '@/components/Message';
 import { useRecoilValue } from 'recoil';
 import { loggedInUserState } from '@/recoil/atom';
 import { BUTTON_STATE } from '@/constant/constant';
-import CommentBox from '@/components/CommentBox';
 import { useProject } from '@/hooks/react-query/project/useProject';
+import { useGetAnswer } from '@/hooks/react-query/answer/useGetAnswer';
+import AnswerBox from '@/components/AnswerBox';
 const ReactMarkdown = dynamic(() => import('@/components/editor/ContentBox'), {
   ssr: false,
   loading: () => <ContentSkeleton />,
@@ -65,29 +66,37 @@ const ViewProject = () => {
   }, [projectQuery.data]);
 
   //댓글 editor 관리
-  const [commentVal, setCommentVal] = useState('');
-  const changeCommentVal = (value: string) => {
-    setCommentVal(value);
+  const [answerVal, setAnswerVal] = useState('');
+  const changeAnswerVal = (value: string) => {
+    setAnswerVal(value);
   };
 
   //댓글 페이지 관리
-  const [commentPage, setCommentPage] = useState(1);
-  const commentPageHandler = (page: number) => {
-    setCommentPage(page);
+  const [answerPage, setAnswerPage] = useState(1);
+  const answerPageHandler = (page: number) => {
+    setAnswerPage(page);
   };
 
+  //게시글에 해당하는 답글 데이터
+  const { answerQuery, answerRefetch } = useGetAnswer({
+    category: 'PROJECT',
+    postId: data?.projectId,
+    params: `size=5&page=${answerPage}`,
+  });
+  console.log(answerQuery);
+
   //임시 댓글 작성 이벤트
-  const addComment = () => {
-    if (commentVal === '') {
+  const addAnswer = () => {
+    if (answerVal === '') {
       return alert('내용을 작성해주세요.');
     }
     if (!loggedInUser) {
       return alert('먼저 로그인을 해주세요.');
     }
-    setCommentData([...commentData, commentVal]);
-    setCommentVal('');
+    setAnswerData([...answerData, answerVal]);
+    setAnswerVal('');
   };
-  const [commentData, setCommentData] = useState<string[]>([]);
+  const [answerData, setAnswerData] = useState<string[]>([]);
 
   if (projectQuery.isLoading) return <Message>로딩중입니다.</Message>;
   if (projectQuery.error) return <Message>잠시 후 다시 시도해주세요.</Message>;
@@ -224,7 +233,10 @@ const ViewProject = () => {
               <div>
                 <span>조회 수</span> : {data.views}
               </div>
-              <div>{/* <span>댓글 수</span> : {data.comment.length} */}</div>
+              <div>
+                <span>답글 수</span> :{' '}
+                {answerQuery.data?.pageInfo.totalElements}
+              </div>
             </div>
           </div>
           <ReactMarkdown content={data.content} />
@@ -245,13 +257,18 @@ const ViewProject = () => {
               <span>{data.totalLikes}</span>
             </div>
           </div>
-          <CommentBox
-            commentData={commentData}
-            addComment={addComment}
-            commentVal={commentVal}
-            changeCommentVal={changeCommentVal}
-            commentPageHandler={commentPageHandler}
-            commentPage={commentPage}
+          <AnswerBox
+            answerPageCount={
+              answerQuery.data?.pageInfo.totalElements
+                ? Math.ceil(answerQuery.data?.pageInfo.totalElements / 5)
+                : 0
+            }
+            answerData={answerData}
+            addAnswer={addAnswer}
+            answerVal={answerVal}
+            changeAnswerVal={changeAnswerVal}
+            answerPageHandler={answerPageHandler}
+            answerPage={answerPage}
           />
         </Main>
       </GridBox>

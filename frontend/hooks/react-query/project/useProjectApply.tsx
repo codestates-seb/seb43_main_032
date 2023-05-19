@@ -102,5 +102,10 @@ export const useProjectApply = () => {
 
   return {
     applyQuery: { isLoading, error, data },
+    applyProject,
+    applyCancel,
+    acceptCancel,
+    acceptApply,
+    rejectApply,
   };
 };

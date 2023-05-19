@@ -108,8 +108,8 @@ export const useProject = () => {
 
   return {
     projectQuery: { isLoading, error, data },
-    // updateHeart,
     updateState,
+    // updateHeart,
     projectEvent,
     deleteProject,
     moveEdit,

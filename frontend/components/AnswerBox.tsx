@@ -12,7 +12,7 @@ const Editor = dynamic(() => import('@/components/editor/Editor'), {
 });
 
 //이상하게 Editor에서 조건부로 옵션을 설정하면 editor가 고장나서 상위에서 설정한 옵션을 내려주는 방식으로 해결하였음
-const COMMENT_OPTIONS: EasyMDE.Options = {
+const ANSWER_OPTIONS: EasyMDE.Options = {
   renderingConfig: {
     codeSyntaxHighlighting: true,
     hljs,
@@ -25,39 +25,41 @@ const COMMENT_OPTIONS: EasyMDE.Options = {
 };
 
 type Props = {
-  commentData: string[];
-  addComment: () => void;
-  commentVal: string;
-  changeCommentVal: (value: string) => void;
-  commentPageHandler: (page: number) => void;
-  commentPage: number;
+  answerData: string[];
+  addAnswer: () => void;
+  answerVal: string;
+  changeAnswerVal: (value: string) => void;
+  answerPageHandler: (page: number) => void;
+  answerPage: number;
+  answerPageCount: number;
 };
 
-const CommentBox = ({
-  commentData,
-  addComment,
-  commentVal,
-  changeCommentVal,
-  commentPageHandler,
-  commentPage,
+const AnswerBox = ({
+  answerData,
+  addAnswer,
+  answerVal,
+  changeAnswerVal,
+  answerPageHandler,
+  answerPage,
+  answerPageCount,
 }: Props) => {
   return (
     <Box>
       <div className="comment-write-box">
         <div className="comment-submit-box">
-          <button onClick={addComment}>답글 작성</button>
+          <button onClick={addAnswer}>답글 작성</button>
         </div>
         <Editor
-          content={commentVal}
-          commentOptions={COMMENT_OPTIONS}
-          changeContent={changeCommentVal}
-          type={'comment'}
+          content={answerVal}
+          commentOptions={ANSWER_OPTIONS}
+          changeContent={changeAnswerVal}
+          type={'answer'}
         />
       </div>
       <div className="view-comment">
         <ul>
-          {commentData.map((comment, i) => (
-            <li className="comment" key={`${comment}+${i}`}>
+          {answerData.map((answer, i) => (
+            <li className="comment" key={`${answer}+${i}`}>
               <div className="like-box">
                 {true ? (
                   <RiThumbUpLine size={30} />
@@ -66,7 +68,7 @@ const CommentBox = ({
                 )}
               </div>
               <div className="content-box">
-                <div className="top">{comment} 내용</div>
+                <div className="top">{answer} 내용</div>
                 <div className="bottom">
                   <div className="update-box">
                     <button>댓글 작성</button>
@@ -94,17 +96,17 @@ const CommentBox = ({
           ))}
         </ul>
       </div>
-      {commentData.length > 0 && (
+      {answerData.length > 0 && (
         <Pagenation
-          onPageChange={commentPageHandler}
-          page={commentPage}
-          pageSize={Math.ceil(commentData.length / 5)} //서버 데이터로 변경해야함
+          onPageChange={answerPageHandler}
+          page={answerPage}
+          pageSize={answerPageCount}
         />
       )}
     </Box>
   );
 };
-export default CommentBox;
+export default AnswerBox;
 
 const Box = styled.div`
   display: flex;
