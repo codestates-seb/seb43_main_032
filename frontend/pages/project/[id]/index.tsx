@@ -258,18 +258,23 @@ const ViewProject = () => {
 export default ViewProject;
 
 const Main = styled.div`
+  width: 100%;
   padding: var(--padding-1);
   display: flex;
   flex-direction: column;
   gap: 32px;
 
   .title {
+    width: 100%;
     display: flex;
     justify-content: space-between;
+    border-bottom: solid 1px #ececec;
+    padding: 10px;
   }
 
   .left {
     display: flex;
+    gap: 20px;
   }
 
   .right {
@@ -295,6 +300,7 @@ const Main = styled.div`
     @media (max-width: 768px) {
       flex-direction: column;
     }
+
     > div:first-child {
       display: flex;
       gap: 8px;
@@ -309,23 +315,26 @@ const Main = styled.div`
     width: 100%;
     display: flex;
     justify-content: center;
+
     > div {
       gap: 8px;
       display: flex;
       justify-content: center;
       align-items: center;
       cursor: pointer;
-      border: 1px solid #c4c4c4;
+      border: 2px solid #ececec;
       border-radius: var(--radius-def);
       padding: 16px;
       min-width: 110px;
       font-size: 30px;
+
       > span {
         display: flex;
         justify-content: center;
         flex: 1;
         text-align: center;
       }
+
       > span:last-child {
         padding-bottom: 5px;
       }
@@ -341,10 +350,11 @@ const Side = styled.div`
   padding: var(--padding-1);
 
   .author-box {
-    border: solid 1px #c4c4c4;
+    border: solid 2px #ececec;
     padding: 40px 30px 20px;
     border-radius: 15px;
     display: flex;
+
     .author {
       display: flex;
       align-items: center;
@@ -357,7 +367,7 @@ const Side = styled.div`
         justify-content: center;
         align-items: center;
         gap: 20px;
-        border-bottom: solid 1px #c4c4c4;
+        border-bottom: solid 2px #ececec;
         padding-bottom: 20px;
 
         > img {
@@ -401,7 +411,8 @@ const Side = styled.div`
 
         > .center-border {
           width: 1px;
-          border: solid 1px #cecece;
+          height: 150%;
+          border: solid 1px #ececec;
         }
 
         > .detail-sub-box {
@@ -431,6 +442,8 @@ const Side = styled.div`
         justify-content: center;
         align-items: center;
         gap: 16px;
+        margin-top: 30px;
+
         > div {
           font-weight: 900;
         }
@@ -452,6 +465,7 @@ const Side = styled.div`
       font-size: 15px;
       margin-bottom: 10px;
       font-weight: 500;
+
       .left {
         width: 100%;
         display: flex;
@@ -472,6 +486,7 @@ const Side = styled.div`
       @media (max-width: 960px) {
         width: 30%;
       }
+
       > li {
         display: flex;
         align-items: center;
@@ -479,6 +494,7 @@ const Side = styled.div`
         padding: 8px 0px;
         border-bottom: 1px solid #e4e4e7;
         font-size: 13px;
+
         > div:first-child {
           flex: 1;
         }

@@ -158,6 +158,7 @@ const Box = styled.div`
       z-index: 2;
       right: 6px;
       button {
+        font-family: 'Pretendard';
         height: 100%;
         padding: 10px 10px;
         font-size: 14px;

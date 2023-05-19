@@ -110,6 +110,7 @@ export default function Content() {
 const Container = styled.div`
   width: 100%;
   padding: var(--padding-2);
+  padding-top: 0;
 `;
 
 const ContentTop = styled.div`
@@ -117,7 +118,7 @@ const ContentTop = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 20px;
+  padding: 0 20px;
   padding-bottom: 0px;
   gap: 12px;
   @media (max-width: 768px) {

@@ -223,7 +223,7 @@ export const COMMUNITY_CATEGORY: CommunityCategory[] = [
   {
     title: '질문하기',
     link: '/create',
-    icon: <FaQuestion className="questions" color="#8216f5" />,
+    icon: <FaQuestion className="questions" color="#d2c4ff" />,
   },
   {
     title: '전체보기',

@@ -45,6 +45,7 @@ const Box = styled.footer`
   border-top: 1px solid #cacaca;
   background: linear-gradient(75deg, #8217f3 0%, #8217f3 30%, #4412e7 100%);
   color: white !important;
+  margin-top: 50px;
 
   @media (max-width: 960px) {
     flex-direction: column;

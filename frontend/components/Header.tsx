@@ -298,7 +298,7 @@ const Nav = styled.nav<NavProps>`
   height: 60px;
   display: flex;
   padding: 0px calc((100% - 1280px) / 2);
-  z-index: 10;
+  z-index: 1000;
   background: white;
   overflow: hidden;
   box-shadow: ${(props) =>

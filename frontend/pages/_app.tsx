@@ -96,6 +96,7 @@ const IconBox = styled.div`
   right: 20px;
   position: fixed;
   cursor: pointer;
+  z-index: 9999;
 `;
 
 const AskBox = styled.div<{ isVisible: boolean }>`
