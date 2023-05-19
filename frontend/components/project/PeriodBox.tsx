@@ -23,7 +23,7 @@ const PeriodBox = ({ start, end, handleRangeChange }: Props) => {
   //달력 커스텀
   const CustomInput = forwardRef(
     ({ onClick }: Props, ref: ForwardedRef<HTMLSpanElement>) => (
-      <span onClick={onClick} ref={ref}>
+      <span onClick={onClick} ref={ref} className="calendar-icon">
         <BsFillCalendarEventFill />
       </span>
     )
@@ -76,6 +76,7 @@ const Box = styled.div`
   padding: 0 30px;
   > div:first-child {
     display: flex;
+    align-items: start;
 
     > .title {
       font-size: 15px;
@@ -86,6 +87,19 @@ const Box = styled.div`
   .calendar-box {
     margin-left: 16px;
     cursor: pointer;
+
+    .calendar-icon {
+      font-size: 15px;
+      vertical-align: top;
+      color: #9b7aff;
+      transition: all 0.3s ease;
+    }
+
+    :hover {
+      span {
+        color: #6333ff;
+      }
+    }
   }
   .react-datepicker__triangle {
     ::before,
@@ -100,5 +114,6 @@ const Box = styled.div`
     border: solid 2px #ececec;
     border-radius: 10px;
     color: #a5a5a5;
+    min-height: 39px;
   }
 `;

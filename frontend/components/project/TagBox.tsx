@@ -15,11 +15,18 @@ type Props = {
 const TagBox = ({ tags, register, tagKeyDown, deleteTag }: Props) => {
   return (
     <Box deleteTag={deleteTag} className="tag-box">
-      <div className="title">프로젝트 분야 태그</div>
+      <div className="title" style={{ font: '15px' }}>
+        프로젝트 분야 태그
+      </div>
       <div className="noto-regular-13">
         {register && (
           <div className="button-box">
-            <input {...register('tagVal')} onKeyDown={tagKeyDown} type="text" />
+            <input
+              {...register('tagVal')}
+              onKeyDown={tagKeyDown}
+              type="text"
+              placeholder="태그를 입력해주세요."
+            />
           </div>
         )}
         <ul>

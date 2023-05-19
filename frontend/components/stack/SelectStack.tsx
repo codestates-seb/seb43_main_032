@@ -34,7 +34,7 @@ const SelectStack = ({ setStacks, selectStack, stacks }: Props) => {
         <div className="select-box">
           {categories.map((category) => (
             <div key={category} className="stack-box nanum-bold">
-              <div>{STACKS_CATEGORIES[category]}</div>
+              <div className="category">{STACKS_CATEGORIES[category]}</div>
               <ul>
                 {Object.values(STACKS.find((stack) => stack[category])!)[0].map(
                   (skill) => (
@@ -55,7 +55,7 @@ const SelectStack = ({ setStacks, selectStack, stacks }: Props) => {
             <span>초기화</span>
           </Btn>
           <Btn onClick={selectStack}>
-            <span>선택완료</span>
+            <span>완료</span>
           </Btn>
         </div>
       </div>
@@ -66,58 +66,97 @@ const SelectStack = ({ setStacks, selectStack, stacks }: Props) => {
 export default SelectStack;
 
 const Box = styled.div`
-  position: absolute;
-  top: -5%;
   width: 100%;
+  height: 300px;
   display: flex;
-  z-index: 11;
   justify-content: center;
 
   > div {
-    border: 1px solid #eaebeb;
-    box-shadow: var(--box-shadow);
+    overflow-y: scroll;
+    overflow-x: hidden;
+    border: solid 2px #ececec;
     border-radius: var(--radius-def);
-    width: 60%;
-    height: auto;
+    padding: 0 20px;
+    width: 100%;
+    height: 100%;
     display: flex;
     align-items: center;
     flex-direction: column;
-    padding: var(--padding-1);
-    padding-top: 0px;
     background-color: white;
     z-index: 2;
+
+    ::-webkit-scrollbar {
+      width: 10px;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      height: 30%;
+      background: #8217f3;
+
+      border-radius: 10px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: rgba(33, 122, 244, 0.1);
+    }
   }
 
   .select-box {
-    margin-top: 24px;
+    margin-top: 16px;
     display: flex;
     flex-direction: column;
-    gap: 24px;
     width: 100%;
-    padding: var(--padding-1);
   }
 
   .stack-box {
     display: flex;
+    margin-top: 32px;
     flex-direction: column;
-    gap: 24px;
+
+    &:first-child {
+      margin-top: 16px;
+    }
+
+    .category {
+      font-size: 15px;
+      padding-left: 10px;
+      border-left: solid 3px #6333ff;
+    }
 
     ul {
+      margin-top: 16px;
       display: flex;
       flex-wrap: wrap;
       gap: 16px;
       width: 100%;
     }
-
-    .focus {
-      box-shadow: 0 2px 8px black, 0 1px 8px black;
-    }
   }
 
   .btn-box {
-    width: 100%;
     display: flex;
     justify-content: center;
-    gap: 32px;
+    gap: 8px;
+    margin: 24px 0;
+
+    .search-btn {
+      background: #9b7aff;
+      padding: 8px 20px;
+      color: white;
+      border-radius: 5px;
+      border: none;
+      transition: background 0.3s ease-out;
+      width: 100%;
+      height: auto;
+
+      span {
+        white-space: nowrap;
+        font-size: 12px;
+        font-weight: 500;
+      }
+
+      :hover {
+        background: #6333ff;
+      }
+    }
   }
 `;

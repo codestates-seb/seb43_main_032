@@ -15,27 +15,11 @@ const Box = styled.div`
   white-space: nowrap;
   position: absolute;
   padding: 8px;
-  top: -40px;
-  left: 30px;
-  font-size: 12px;
-  background: #256ce1;
+  font-size: 10px;
+  background: #9b7aff;
   color: #fff;
   border-radius: 0.4em;
   z-index: 2;
-
-  :after {
-    content: '';
-    position: absolute;
-    left: 0;
-    top: 70%;
-    width: 0;
-    height: 0;
-    border: 20px solid transparent;
-    border-right-color: #256ce1;
-    border-left: 0;
-    border-bottom: 0;
-    margin-top: -10px;
-    margin-left: -16px;
-    transform: rotate(-15deg);
-  }
+  left: -50%;
+  top: -110%;
 `;

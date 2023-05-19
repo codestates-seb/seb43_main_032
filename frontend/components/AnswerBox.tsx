@@ -241,6 +241,9 @@ const Box = styled.div`
         height: 100%;
         padding: 10px 10px;
         font-size: 14px;
+        font-weight: 600;
+        color: #979797;
+        border-radius: 10px;
         border: none;
         cursor: pointer;
         transition: background 0.5s ease, color 0.5s ease;

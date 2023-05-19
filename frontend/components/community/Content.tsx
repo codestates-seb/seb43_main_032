@@ -21,11 +21,12 @@ export default function Content() {
   const urlSearch = new URLSearchParams(router.asPath).get('search');
   const urlPage = new URLSearchParams(router.asPath).get('page');
   const urlFilter = new URLSearchParams(router.asPath).get('filter');
-  const [page, setPage] = useState(Number(urlPage) || 0);
+  const [page, setPage] = useState(Number(urlPage) || 1);
   const [searchVal, setSearchVal] = useState(urlSearch || '');
   const [filter, setFilter] = useState(urlFilter || 'sorted');
   const { category } = router.query;
   const page_limit = 10;
+
   const endPoint = category
     ? `/articles/find-all/${category}`
     : `/articles/find-all`;
@@ -110,6 +111,7 @@ export default function Content() {
 const Container = styled.div`
   width: 100%;
   padding: var(--padding-2);
+  padding-top: 0;
 `;
 
 const ContentTop = styled.div`
@@ -117,7 +119,7 @@ const ContentTop = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 20px;
+  padding: 0 20px;
   padding-bottom: 0px;
   gap: 12px;
   @media (max-width: 768px) {
