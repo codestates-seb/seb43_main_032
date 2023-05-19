@@ -14,6 +14,7 @@ import { Tech, FiledTag, WantCrew } from '@/types/project';
 import { formatDate3 } from '@/util/date';
 import { AiOutlineClose } from 'react-icons/ai';
 import { useProject } from '@/hooks/react-query/project/useProject';
+import { getCookie } from '@/util/cookie';
 
 const ProjectForm = () => {
   const router = useRouter();
@@ -182,6 +183,7 @@ const ProjectForm = () => {
         positionNumberList: jobs.map((job) => job.number),
       },
     };
+    console.log(data);
 
     //수정 이벤트
     if (
