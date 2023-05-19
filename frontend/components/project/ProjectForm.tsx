@@ -190,11 +190,11 @@ const ProjectForm = () => {
       confirm('정말 작성을 완료하시겠습니까?')
     ) {
       return submitPost(data);
-    }
-
-    //수정 이벤트
-    if (confirm('정말 수정을 완료하시겠습니까?')) {
-      return submitEdit(data);
+    } else {
+      //수정 이벤트
+      if (confirm('정말 수정을 완료하시겠습니까?')) {
+        return submitEdit(data);
+      }
     }
   };
 

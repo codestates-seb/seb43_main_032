@@ -7,16 +7,17 @@ import { FiledTag } from '@/types/project';
 
 type Props = {
   tags: FiledTag[];
+  type?: string;
   register?: UseFormRegister<Form>;
   tagKeyDown?: (e: React.KeyboardEvent<HTMLInputElement>) => void;
   deleteTag?: (idx: number) => void;
 };
 
-const TagBox = ({ tags, register, tagKeyDown, deleteTag }: Props) => {
+const TagBox = ({ type, tags, register, tagKeyDown, deleteTag }: Props) => {
   return (
     <Box deleteTag={deleteTag} className="tag-box">
       <div className="title" style={{ font: '15px' }}>
-        프로젝트 분야 태그
+        {type === 'community' ? '커뮤니티 태그' : '프로젝트 분야 태그'}
       </div>
       <div className="noto-regular-13">
         {register && (

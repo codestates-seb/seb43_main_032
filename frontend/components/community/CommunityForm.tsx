@@ -3,7 +3,6 @@ import MainPost from '../MainPost';
 import { Form } from '@/types/types';
 import { useForm } from 'react-hook-form';
 import { useRouter } from 'next/router';
-import { api } from '@/util/api';
 import { Community } from '@/types/community';
 import Message from '../Message';
 import { useCommunity } from '@/hooks/react-query/community/useCommunity';
@@ -77,10 +76,10 @@ export default function CommunityForm() {
       confirm('정말 글을 작성하시겠습니까?')
     ) {
       postArticle(data);
-    }
-
-    if (confirm('정말 글을 수정하시겠습니까?')) {
-      editArticle(data);
+    } else {
+      if (confirm('정말 글을 수정하시겠습니까?')) {
+        editArticle(data);
+      }
     }
   };
 
@@ -91,6 +90,7 @@ export default function CommunityForm() {
   return (
     <GridBox>
       <TagBox
+        type="community"
         tags={tags}
         deleteTag={deleteTag}
         tagKeyDown={tagKeyDown}

@@ -13,6 +13,7 @@ import { useRecoilValue } from 'recoil';
 import { loggedInUserState } from '@/recoil/atom';
 import { AiFillHeart, AiOutlineHeart } from 'react-icons/ai';
 import { useGetAnswer } from '@/hooks/react-query/answer/useGetAnswer';
+import TagBox from '../project/TagBox';
 
 const ReactMarkdown = dynamic(() => import('@/components/editor/ContentBox'), {
   ssr: false,
@@ -92,10 +93,17 @@ const ViewCommunity = () => {
                 <Tag>쪽지 보내기</Tag>
               )}
             </div>
+            <TagBox
+              type="community"
+              tags={data.techList.map((item) => ({ field: item.tech }))}
+            />
           </Top>
           <Bottom>
             <div className="main-title">
-              <div className="title">{data.title}</div>
+              <div className="title">
+                <div>{data.title}</div>
+                <Tag>{data.category}</Tag>
+              </div>
               {data.memberInfo.email === loggedInUser?.email && (
                 <div className="change-box">
                   <button onClick={deleteArticle}>삭제하기</button>
@@ -147,6 +155,7 @@ const Top = styled.div`
     align-items: center;
     padding: 40px 30px 20px;
     border: solid 2px #ececec;
+    margin-bottom: 24px;
 
     .tag {
       margin-top: 30px;
@@ -292,6 +301,12 @@ const Bottom = styled.div`
       font-weight: 700;
       border-bottom: solid 1px #ececec;
       padding-bottom: 10px;
+      display: flex;
+      align-items: center;
+
+      .category {
+        font-size: 14px;
+      }
     }
   }
   .sub-title {
