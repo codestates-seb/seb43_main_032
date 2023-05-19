@@ -7,7 +7,7 @@ export type Community = {
   content: string;
   createdAt: string;
   memberInfo: MemberInfo;
-  techList: Tech[];
+  techList: { tech: string }[];
   title: string;
   totalLikes: number;
   view: number;

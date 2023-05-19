@@ -184,17 +184,17 @@ const ProjectForm = () => {
     };
     console.log(data);
 
-    //수정 이벤트
+    //작성 이벤트
     if (
-      router.route.includes('edit') &&
-      confirm('정말 수정을 완료하시겠습니까?')
+      !router.route.includes('edit') &&
+      confirm('정말 작성을 완료하시겠습니까?')
     ) {
-      return submitEdit(data);
+      return submitPost(data);
     }
 
-    //작성 이벤트
-    if (confirm('정말 작성을 완료하시겠습니까?')) {
-      return submitPost(data);
+    //수정 이벤트
+    if (confirm('정말 수정을 완료하시겠습니까?')) {
+      return submitEdit(data);
     }
   };
 

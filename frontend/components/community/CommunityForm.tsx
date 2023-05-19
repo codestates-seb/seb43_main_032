@@ -1,5 +1,4 @@
-import React, { useState } from 'react';
-import styled from 'styled-components';
+import React, { useEffect, useState } from 'react';
 import MainPost from '../MainPost';
 import { Form } from '@/types/types';
 import { useForm } from 'react-hook-form';
@@ -15,13 +14,20 @@ import GridBox from '../GridBox';
 export default function CommunityForm() {
   const router = useRouter();
   const id = router.query.id;
-  const address = `/article/update/post/${id}`;
+  const address = `/articles/${id}`;
   const queryKey = ['article', 'post', id];
-  const { communityQuery } = useCommunity<Community>({
+  const { communityQuery, postArticle, editArticle } = useCommunity<Community>({
     address,
     queryKey,
   });
   const data = communityQuery.data?.data;
+
+  useEffect(() => {
+    if (data) {
+      const techList = data.techList.map((item) => ({ field: item.tech }));
+      setTags([...techList]);
+    }
+  }, [communityQuery.isLoading]);
 
   const { register, watch, reset } = useForm<Form>();
   const [editor, setEditor] = useState('');
@@ -55,18 +61,25 @@ export default function CommunityForm() {
   };
 
   //글 제출 이벤트
-  const postCommunity = () => {
+  const postCommunity = (e: { preventDefault: () => void }) => {
+    e.preventDefault();
     const data = {
       title: watch().title,
       category: watch().position,
       content: editor,
-      techList: tags,
+      techList: tags.map((tag) => tag.field),
     };
 
-    api
-      .post('/articles', data)
-      .then(() => router.push('/community'))
-      .catch(() => alert('잠시 후에 다시 시도해주세요.'));
+    if (
+      !router.route.includes('edit') &&
+      confirm('정말 글을 작성하시겠습니까?')
+    ) {
+      postArticle(data);
+    }
+
+    if (confirm('정말 글을 수정하시겠습니까?')) {
+      editArticle(data);
+    }
   };
 
   if (communityQuery.isLoading) return <Message>로딩중입니다.</Message>;

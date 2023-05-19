@@ -35,8 +35,8 @@ export default function ContentItem(article: Community) {
             <div className="content">{article.content}</div>
           </Top>
           <div className="tagBox">
-            {article.techList.map((tag) => (
-              <Tag key={tag.tech}>{tag.tech}</Tag>
+            {article.techList.map((tag, i) => (
+              <Tag key={`${i}+${tag.tech}`}>{tag.tech}</Tag>
             ))}
           </div>
         </Center>
@@ -44,7 +44,6 @@ export default function ContentItem(article: Community) {
       <Left>
         <div className="heartBox">
           <FaHeart color="red"></FaHeart>
-          <span>{article.totalLikes}</span>
           <span>{article.totalLikes}</span>
         </div>
         <div>

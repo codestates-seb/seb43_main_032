@@ -1,7 +1,6 @@
 import GridBox from '@/components/GridBox';
 import Tag from '@/components/Tag';
 import PeriodBox from '@/components/project/PeriodBox';
-import StacksBox from '@/components/project/StacksBox';
 import TagBox from '@/components/project/TagBox';
 import dynamic from 'next/dynamic';
 import styled from 'styled-components';
@@ -19,6 +18,7 @@ import { useProject } from '@/hooks/react-query/project/useProject';
 import { useGetAnswer } from '@/hooks/react-query/answer/useGetAnswer';
 import AnswerBox from '@/components/AnswerBox';
 import { Tech } from '@/types/project';
+import StacksBox from '@/components/project/StacksBox';
 const ReactMarkdown = dynamic(() => import('@/components/editor/ContentBox'), {
   ssr: false,
   loading: () => <ContentSkeleton />,
