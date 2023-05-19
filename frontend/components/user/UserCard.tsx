@@ -19,15 +19,24 @@ const Wrapper = styled.div`
 `;
 const Overlay = styled.div`
   position: absolute;
-  inset: 0;
   background-color: #f1f1f3;
   opacity: 0;
   transition: transform 0.3s ease-out, opacity 0.3s ease-out;
   border-radius: 5px;
+
+  inset: 0 -50px;
+  @media (min-width: 768px) {
+    border-radius: 20px;
+    inset: 0;
+  }
 `;
 const CardWrapper = styled.div`
   position: relative;
+  @media (max-width: 768px) {
+    display: flex;
+  }
 `;
+const SubCardWrapper = styled.div``;
 const StackWrapper = styled.ul`
   display: flex;
   gap: 4px;
@@ -100,7 +109,7 @@ const CardFooter = styled.div.attrs({
   padding: 20px;
   height: 100px;
   @media (max-width: 768px) {
-    display: none;
+    /* display: none; */
   }
 `;
 const AboutMe = styled.p`
@@ -133,43 +142,45 @@ export default function UserCard({ user }: IProps) {
         <Wrapper>
           <Overlay />
           <CardWrapper>
-            <ContentsContainer>
-              <AvatarContainer>
-                {user.profileImageUrl ? (
-                  <img alt={user.name} src={user.profileImageUrl} />
-                ) : (
-                  <img
-                    alt={user.name}
-                    src="https://pbs.twimg.com/media/FmynZRjWYAgEEpL.jpg"
-                  />
-                )}
-              </AvatarContainer>
-              <InfoContainer>
-                <p style={{ fontWeight: '600' }}>{user.name}</p>
-                <LocationAndStars>
-                  <Location>
-                    <FaLocationArrow />
-                    <p>Seoul</p>
-                  </Location>
-                  <Star>
-                    <AiFillStar size={20} style={{ color: 'gold' }} />
-                    <p>{123}</p>
-                  </Star>
-                </LocationAndStars>
-              </InfoContainer>
-            </ContentsContainer>
-            <StackWrapper>
-              {[
-                'java_script',
-                'react',
-                'next_js',
-                'recoil',
-                'react_query',
-                'type_scriypt',
-              ].map((stack) => (
-                <Stack key={stack} tech={stack} />
-              ))}
-            </StackWrapper>
+            <SubCardWrapper>
+              <ContentsContainer>
+                <AvatarContainer>
+                  {user.profileImageUrl ? (
+                    <img alt={user.name} src={user.profileImageUrl} />
+                  ) : (
+                    <img
+                      alt={user.name}
+                      src="https://pbs.twimg.com/media/FmynZRjWYAgEEpL.jpg"
+                    />
+                  )}
+                </AvatarContainer>
+                <InfoContainer>
+                  <p style={{ fontWeight: '600' }}>{user.name}</p>
+                  <LocationAndStars>
+                    <Location>
+                      <FaLocationArrow />
+                      <p>Seoul</p>
+                    </Location>
+                    <Star>
+                      <AiFillStar size={20} style={{ color: 'gold' }} />
+                      <p>{123}</p>
+                    </Star>
+                  </LocationAndStars>
+                </InfoContainer>
+              </ContentsContainer>
+              <StackWrapper>
+                {[
+                  'java_script',
+                  'react',
+                  'next_js',
+                  'recoil',
+                  'react_query',
+                  'type_scriypt',
+                ].map((stack) => (
+                  <Stack key={stack} tech={stack} />
+                ))}
+              </StackWrapper>
+            </SubCardWrapper>
             <CardFooter>
               <AboutMe>
                 다양한 지식을 두루 섭렵하기 위한 노력을 게을리하지 않았고, 이는

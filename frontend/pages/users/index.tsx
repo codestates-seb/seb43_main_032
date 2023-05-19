@@ -16,6 +16,9 @@ const SearchHeader = styled.div`
   display: flex;
   flex-direction: column;
   margin-bottom: 50px;
+  @media (max-width: 768px) {
+    margin-bottom: 0px;
+  }
 `;
 const Title = styled.h1`
   display: flex;
@@ -61,7 +64,6 @@ const FilterBox = styled.div`
   overflow: hidden;
   justify-content: flex-start;
   gap: 1px;
-  margin-bottom: 20px;
 `;
 const FilterButton = styled.button.attrs({
   className: 'nanum-bold',
@@ -73,7 +75,6 @@ const FilterButton = styled.button.attrs({
   background-color: #5b14eb;
 `;
 const CardWrapper = styled.div`
-  padding-top: 20px;
   display: grid;
   width: 100%;
   gap: 10px;
