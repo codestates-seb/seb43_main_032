@@ -66,17 +66,11 @@ const ViewProject = () => {
     }
   }, [projectQuery.data]);
 
-  //댓글 페이지 관리
-  const [answerPage, setAnswerPage] = useState(1);
-  const answerPageHandler = (page: number) => {
-    setAnswerPage(page);
-  };
-
   //답글 총 개수를 가져오기 위함
   const { answerPageCount } = useGetAnswer({
     category: 'PROJECT',
     postId: Number(id),
-    params: `size=5&page=${answerPage}`,
+    params: `size=5&page=1`,
   });
 
   if (projectQuery.isLoading) return <Message>로딩중입니다.</Message>;
@@ -237,10 +231,7 @@ const ViewProject = () => {
               <span>{data.totalLikes}</span>
             </div>
           </div>
-          <AnswerBox
-            answerPageHandler={answerPageHandler}
-            answerPage={answerPage}
-          />
+          <AnswerBox />
         </Main>
       </GridBox>
     );

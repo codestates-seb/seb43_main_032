@@ -29,18 +29,13 @@ const ANSWER_OPTIONS: EasyMDE.Options = {
   hideIcons: ['guide', 'fullscreen', 'side-by-side'], //버튼 가리기
 };
 
-type Props = {
-  answerPageHandler: (page: number) => void;
-  answerPage: number;
-};
-
 type Form = {
   category: 'PROJECT' | 'ARTICLE';
   postId: number;
   params: string;
 };
 
-const AnswerBox = ({ answerPageHandler, answerPage }: Props) => {
+const AnswerBox = () => {
   //유저 데이터
   const loggedInUser = useRecoilValue(loggedInUserState);
   const router = useRouter();
@@ -61,6 +56,12 @@ const AnswerBox = ({ answerPageHandler, answerPage }: Props) => {
       return alert('로그인을 해주세요.');
     }
     setAnswerVal('');
+  };
+
+  //댓글 페이지 네이션
+  const [answerPage, setCommentPage] = useState(1);
+  const answerPageHandler = (num: number) => {
+    setCommentPage(num);
   };
 
   //댓글 호출 폼

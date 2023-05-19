@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router';
-import React, { useState } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import { FaHeart } from 'react-icons/fa';
 import dynamic from 'next/dynamic';
@@ -27,12 +27,6 @@ const ViewCommunity = () => {
     queryKey,
   });
   const data = communityQuery.data?.data;
-
-  //댓글 페이지 네이션
-  const [answerPage, setCommentPage] = useState(1);
-  const answerPageHandler = (num: number) => {
-    setCommentPage(num);
-  };
 
   if (communityQuery.isLoading) return <Message>로딩중입니다.</Message>;
   if (communityQuery.error)
@@ -64,10 +58,7 @@ const ViewCommunity = () => {
                 content={data.content}
                 backColor="white"
               ></ReactMarkdown>
-              <AnswerBox
-                answerPage={answerPage}
-                answerPageHandler={answerPageHandler}
-              />
+              <AnswerBox />
             </div>
           </Bottom>
         </>
