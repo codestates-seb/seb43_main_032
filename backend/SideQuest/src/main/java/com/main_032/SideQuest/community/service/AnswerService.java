@@ -111,11 +111,6 @@ public class AnswerService {
         findArticle.orElseThrow(() -> new BusinessLogicException(ExceptionCode.ARTICLE_NOT_FOUND));
     }
 
-    //    private Optional<Member> verifyMember(Long memberId) {
-//        Optional<Member> findMember =memberRepository.findById(memberId);
-//        findMember.orElseThrow(() -> new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
-//        return findMember;
-//    }
     private void verifyProject(Long projectId) {
         Optional<Project> findProject = projectRepository.findById(projectId);
         findProject.orElseThrow(() -> new BusinessLogicException(ExceptionCode.PROJECT_NOT_FOUND));

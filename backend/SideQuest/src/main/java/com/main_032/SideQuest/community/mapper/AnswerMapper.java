@@ -26,18 +26,20 @@ public class AnswerMapper {
     private final MemberService memberService;
     private final CommentService commentService;
 
-    public Answer AnswerPostDtoToAnswer(AnswerPostDto answerPostDto, Long memberId){
-        Answer answer = new Answer(answerPostDto.getCategory(),memberId,answerPostDto.getUniteId(), answerPostDto.getContent());
+    public Answer AnswerPostDtoToAnswer(AnswerPostDto answerPostDto, Long memberId) {
+        Answer answer = new Answer(answerPostDto.getCategory(), memberId, answerPostDto.getUniteId(), answerPostDto.getContent());
         return answer;
     }
-    public Answer AnswerPatchDtoToAnswer(Answer answer,AnswerPatchDto answerPatchDto){
+
+    public Answer AnswerPatchDtoToAnswer(Answer answer, AnswerPatchDto answerPatchDto) {
         answer.updateContent(answerPatchDto.getContent());
         return answer;
     }
-    public List<AnswerResponseDto> AnswerListToAnswerResponseDtoList(List<Answer> answerList){
-        List<AnswerResponseDto> answerResponseDtoList= new ArrayList<>();
 
-        for(Answer answer: answerList){
+    public List<AnswerResponseDto> AnswerListToAnswerResponseDtoList(List<Answer> answerList) {
+        List<AnswerResponseDto> answerResponseDtoList = new ArrayList<>();
+
+        for (Answer answer : answerList) {
             Optional<Member> findMember = memberRepository.findById(answer.getMemberId());
             findMember.orElseThrow(() -> new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
             AnswerResponseDto answerResponseDto = AnswerToAnswerResponseDto(answer);
@@ -45,20 +47,19 @@ public class AnswerMapper {
         }
         return answerResponseDtoList;
     }
-    public AnswerResponseDto AnswerToAnswerResponseDto(Answer answer){
+
+    public AnswerResponseDto AnswerToAnswerResponseDto(Answer answer) {
         boolean isLoginMember = memberService.isLoginMember();
         boolean isAuthor;
-        if(isLoginMember){//로그인 안하면
-            isAuthor = false;
-        }
-        else{
+        if (isLoginMember == true) {
             Member member = memberService.getLoginMember();
-            if(Objects.equals(member.getId(), answer.getMemberId())){
-                isAuthor =true;
+            if (Objects.equals(member.getId(), answer.getMemberId())) {
+                isAuthor = true;
+            } else {
+                isAuthor = false;
             }
-            else {
-                isAuthor=false;
-            }
+        } else {   //로그인 안하면
+            isAuthor = false;
         }
 
         AnswerResponseDto answerResponseDto = new AnswerResponseDto(

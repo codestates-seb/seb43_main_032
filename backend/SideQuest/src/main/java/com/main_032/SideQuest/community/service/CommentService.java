@@ -74,7 +74,7 @@ public class CommentService {
     }
 
     public MultiResponseDto<CommentResponseDto> getArticleComments(Long answerId, int page, int size) {
-        Pageable pageable = PageRequest.of(page,size);
+        Pageable pageable = PageRequest.of(page, size);
         Page<Comment> commentPage = commentRepository.findAllComment(answerId, pageable);
         List<Comment> commentList = commentPage.getContent();
 
@@ -84,7 +84,7 @@ public class CommentService {
     }
 
     public MultiResponseDto<CommentResponseDto> getProjectComments(Long answerId, int page, int size) {
-        Pageable pageable = PageRequest.of(page,size);
+        Pageable pageable = PageRequest.of(page, size);
         Page<Comment> commentPage = commentRepository.findAllComment(answerId, pageable);
         List<Comment> commentList = commentPage.getContent();
 
@@ -109,18 +109,17 @@ public class CommentService {
         for (Comment comment : commentList) {
             boolean isLoginMember = memberService.isLoginMember();
             boolean isAuthor;
-            if(isLoginMember){//로그인 안하면
+            if (isLoginMember == true) {
+                Member member = memberService.getLoginMember();
+                if (Objects.equals(member.getId(), comment.getMemberId())) {
+                    isAuthor = true;
+                } else {
+                    isAuthor = false;
+                }
+            } else {   //로그인 안하면
                 isAuthor = false;
             }
-            else{
-                Member member = memberService.getLoginMember();
-                if(Objects.equals(member.getId(), comment.getMemberId())){
-                    isAuthor =true;
-                }
-                else {
-                    isAuthor=false;
-                }
-            }
+
             CommentResponseDto commentResponseDto = new CommentResponseDto(
                     memberService.getMemberInfo(comment.getMemberId()).getData(),
                     comment.getId(),

@@ -46,6 +46,7 @@ public class ProPositionCrewService {
         return proPositionCrewResponseDtoList;
     }
 
+    @Transactional
     public void saveProPositionCrew(ProPositionCrew proPositionCrew) {
         proPositionCrewRepository.save(proPositionCrew);
     }

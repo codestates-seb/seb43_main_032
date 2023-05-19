@@ -28,7 +28,6 @@ public class ArticleService {
     private final ArticleMapper mapper;
     private final MemberService memberService;
     private final ArticleTechStackService articleTechStackService;
-//    private final CommentService commentService;
 
 
     public ArticleService(ArticleRepository articleRepository, ArticleMapper mapper, MemberService memberService, ArticleTechStackService articleTechStackService) {
@@ -59,20 +58,21 @@ public class ArticleService {
         updateArticle.updateCategory(articlePatchDto.getCategory());
         articleTechStackService.updateArticleTechStack(articlePatchDto.getTechList(),updateArticle.getId());
         articleRepository.save(updateArticle);
-//        ArticleResponseDto articleResponseDto = mapper.articleToArticleResponseDto(article);
-//        SingleResponseDto<ArticleResponseDto> singleResponse = new SingleResponseDto<>(articleResponseDto);
-//        return singleResponse;
     }
 
+    @Transactional
     public SingleResponseDto<ArticleGetResponseDto> getArticle(Long articleId){
         Optional<Article> findArticle =verifyExistArticle(articleId);
         Article article = findArticle.get();
+
         article.updateArticleViews(article.getViews()+1);
         articleRepository.save(article);
+
         List<ArticleTechStack> articleTechStackList = articleTechStackService.getAllarticleTechStackList(article.getId());
         List<ArticleTechStackResponseDto> articleTechStackResponseDtoList =
                 mapper.articleTechStackListToArticleTechStackResponseDtoList(articleTechStackList);
         ArticleGetResponseDto response = mapper.articleToArticleGetResponseDto(article,articleTechStackResponseDtoList);
+
         SingleResponseDto<ArticleGetResponseDto> singleResponseDto = new SingleResponseDto<ArticleGetResponseDto>(response);
         return singleResponseDto;
     }
@@ -144,6 +144,7 @@ public class ArticleService {
         ArticleViewsTop5Dto response = new ArticleViewsTop5Dto(articleGetResponseDtoList);
         return new SingleResponseDto<ArticleViewsTop5Dto>(response);
     }
+
     public SingleResponseDto<ArticleLikesTop5Dto> getLikesTop5Articles() {
         Pageable pageable = PageRequest.of(0,5);
         List<Article> articleList = articleRepository.getTop5LikesArticles(pageable);
