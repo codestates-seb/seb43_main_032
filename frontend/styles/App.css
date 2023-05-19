@@ -79,6 +79,7 @@ a {
 }
 
 :root {
+  font-family: 'Pretendard';
   --font-nanum: 'Pretendard';
   --font-noto: 'Pretendard';
   --sub-font-dark-gray: #7d7d7d;
@@ -97,6 +98,10 @@ a {
   --box-shadow: 0 4px 2px hsla(0, 0%, 0%, 0.05), 0 1px 8px hsla(0, 0%, 0%, 0.05);
   --animate-duration: 3s;
   --animate-infinite: infinite;
+  --glow-color: rgb(217, 176, 255);
+  --glow-spread-color: rgba(191, 123, 255, 0.781);
+  --enhanced-glow-color: rgb(231, 206, 255);
+  --btn-color: rgb(100, 61, 136);
 }
 
 .animate-duration-3 {
