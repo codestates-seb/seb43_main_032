@@ -29,7 +29,7 @@ const SubHeader = styled.div`
   padding-bottom: 20px;
   justify-content: space-between;
 
-  @media (max-width: 960px) {
+  @media (max-width: 768px) {
     flex-direction: column;
     align-items: flex-end;
     gap: 20px;
@@ -41,7 +41,7 @@ const SearchBox = styled.div`
   display: flex;
   width: 50%;
   align-items: flex-start;
-  @media (max-width: 960px) {
+  @media (max-width: 768px) {
     width: 100%;
   }
 `;
@@ -78,7 +78,7 @@ const CardWrapper = styled.div`
   width: 100%;
   gap: 10px;
   margin-bottom: 50px;
-  @media screen and (min-width: 640px) {
+  @media screen and (min-width: 768px) {
     grid-template-columns: repeat(2, 1fr);
   }
 
