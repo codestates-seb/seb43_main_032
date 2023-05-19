@@ -50,11 +50,15 @@ public class ArticleMapper {
     }
 
     public ArticleGetResponseDto articleToArticleGetResponseDto(Article article, List<ArticleTechStackResponseDto> articleTechStackResponseDtoList){
-        // 좋아요 여부 확인
+        // 작성 여부, 좋아요 여부 확인
         boolean isLogin = memberService.isLoginMember();
+        boolean isAuthor = false;
         boolean liked = false;
         if(isLogin == true) {
             Member loginMember = memberService.getLoginMember();
+
+            if(article.getMemberId() == loginMember.getId()) isAuthor = true;
+
             Optional<Likes> findLikes = likesRepository.findByMemberIdAndCategoryAndArticleId(loginMember.getId(), Category.ARTICLE, article.getId());
             if(findLikes.isEmpty() == false) liked = true;
         }
@@ -67,6 +71,7 @@ public class ArticleMapper {
                 article.getCategory(),
                 article.getViews(),
                 article.getTotalLikes(),
+                isAuthor,
                 liked,
                 article.getCreatedAt(),
                 articleTechStackResponseDtoList

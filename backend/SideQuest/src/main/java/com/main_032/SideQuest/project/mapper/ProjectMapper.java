@@ -32,10 +32,14 @@ public class ProjectMapper {
     }
 
     public ProjectGetResponseDto projectToProjectGetResponseDto(Project project) {
-        // 좋아요 여부 확인
+        // 작성 여부, 좋아요 여부 확인
+        boolean isAuthor = false;
         boolean liked = false;
         if(memberService.isLoginMember() == true) {
             Member member = memberService.getLoginMember();
+
+            if(project.getMemberId() == member.getId()) isAuthor = true;
+
             Optional<Likes> findLikes = likesRepository.findByMemberIdAndCategoryAndProjectId(member.getId(), Category.PROJECT, project.getId());
             if(findLikes.isEmpty() == false) liked = true;
         }
@@ -52,6 +56,7 @@ public class ProjectMapper {
                 project.getViews(),
                 project.getStatus(),
                 project.getTotalLikes(),
+                isAuthor,
                 liked,
                 project.getCreatedAt()
         );
