@@ -30,8 +30,6 @@ const ProjectCard = ({ data, size }: Props) => {
     postId: data.projectId,
     params: 'page=1&size=4',
   });
-console.log(answerQuery.data?.pageInfo.totalElements)
-
 
   return (
     <Box>

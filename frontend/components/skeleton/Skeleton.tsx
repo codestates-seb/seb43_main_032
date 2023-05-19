@@ -7,12 +7,15 @@ export type SkeletonProos = {
 const Skeleton = (props: SkeletonProos) => <SkeletonContainer {...props} />;
 
 const SkeletonContainer = styled.div<SkeletonProos>`
-  position: relative;
-  overflow: hidden;
   height: ${({ height }) => height};
   width: ${({ width }) => width};
-  background-color: #f3f3f3;
   border-radius: 5px;
+  position: absolute;
+  z-index: -1;
+  overflow: hidden;
+  transition: 0.5s;
+  backdrop-filter: blur(1rem);
+  border-radius: 5rem;
 
   @keyframes skeleton {
     0% {
@@ -26,14 +29,54 @@ const SkeletonContainer = styled.div<SkeletonProos>`
     }
   }
 
-  &:before {
+  &:after {
+    content: '';
+    position: absolute;
+    top: -10rem;
+    left: -100rem;
+    width: 100%;
+    height: 100%;
+    animation: animStarRotate 90s linear infinite;
+  }
+
+  :after {
+    background-image: radial-gradient(#ffffff 1px, transparent 1%);
+    background-size: 50px 50px;
+  }
+  :before {
     content: '';
     position: absolute;
     top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    animation: skeleton 1.6s infinite ease-in-out;
+    left: -50%;
+    width: 170%;
+    height: 500%;
+    animation: animStar 60s linear infinite;
+  }
+
+  :before {
+    background-image: radial-gradient(#ffffff 1px, transparent 1%);
+    background-size: 50px 50px;
+    opacity: 0.5;
+  }
+
+  @keyframes animStar {
+    from {
+      transform: translateY(0);
+    }
+
+    to {
+      transform: translateY(-135rem);
+    }
+  }
+
+  @keyframes animStarRotate {
+    from {
+      transform: rotate(360deg);
+    }
+
+    to {
+      transform: rotate(0);
+    }
   }
 `;
 

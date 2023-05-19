@@ -24,11 +24,11 @@ export default ContentBox;
 const Box = styled.div<BoxProps>`
   width: 100%;
   min-height: 70vh;
-  display: flex;
   align-items: start !important;
   flex-direction: column;
   padding: var(--padding-2);
   border: 1px solid #d8d8d8;
   border-radius: var(--radius-def);
   background-color: ${(props) => props.backColor};
+  position: relative;
 `;
