@@ -37,6 +37,7 @@ public class ProjectMapper {
                 project.getViews(),
                 project.getStatus(),
                 project.getTotalLikes(),
+                project.getTotalAnswers(),
                 project.getCreatedAt()
         );
         return projectGetResponseDto;

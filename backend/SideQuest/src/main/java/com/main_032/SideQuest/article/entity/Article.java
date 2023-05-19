@@ -35,6 +35,9 @@ public class Article extends BaseEntity {
     @Column
     private int totalLikes;
 
+    @Column
+    private int totalAnswers;
+
     @Column(columnDefinition = "TINYINT")
     private boolean deleted;
 
@@ -54,6 +57,7 @@ public class Article extends BaseEntity {
     public void updateArticleViews(int views){this.views = views;}
     public void updateTotalLikes(int totalLikes){this.totalLikes = totalLikes;}
     public void updateViews(int views){this.views = views;}
+    public void updateTotalAnswers(int totalAnswers){this.totalAnswers = totalAnswers;}
     public void delete(){this.deleted = true;}
     public void restore(){this.deleted = false;}
 }

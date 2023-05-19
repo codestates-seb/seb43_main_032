@@ -20,6 +20,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -40,14 +41,15 @@ public class AnswerService {
         this.projectRepository = projectRepository;
         this.commentService = commentService;
     }
-
+    @Transactional
     public void createAnswer(AnswerPostDto answerPostDto) {
         //검증 :,Article,project
 
         Answer answer = mapper.AnswerPostDtoToAnswer(answerPostDto,memberService.getLoginMember().getId());
         answerRepository.save(answer);
+        PlusAnswer(answer);
     }
-
+    @Transactional
     public void updateAnswer(Long answerId, AnswerPatchDto answerPatchDto) {
         //답글 존재 여부 확인
         Optional<Answer> findAnswer = verifyAnswer(answerId);
@@ -63,14 +65,17 @@ public class AnswerService {
         answer = mapper.AnswerPatchDtoToAnswer(answer,answerPatchDto);
         answerRepository.save(answer);
     }
-
+    @Transactional
     public void deleteAnswer(Long answerId) {
         Optional<Answer> findAnswer = verifyAnswer(answerId);
         memberMatchId(findAnswer);
         Answer answer = findAnswer.get();
         answer.delete();
         answerRepository.save(answer);
+        minusAnswer(answer);
     }
+
+
 
     public MultiResponseDto<AnswerResponseDto> findAllArticleAnswer(Long articleId, int page, int size) {
         Page<Answer> answerPage = answerRepository.findAllArticleAnswer(articleId, PageRequest.of(page, size, Sort.by("id").descending()));
@@ -115,5 +120,35 @@ public class AnswerService {
     private void verifyProject(Long projectId) {
         Optional<Project> findProject = projectRepository.findById(projectId);
         findProject.orElseThrow(() -> new BusinessLogicException(ExceptionCode.PROJECT_NOT_FOUND));
+    }
+    @Transactional
+    private void PlusAnswer(Answer answer) {
+        if(answer.getCategory().equals(Category.ARTICLE)){
+            Optional<Article> findArticle = articleRepository.findById(answer.getArticleId());
+            Article article =findArticle.get();
+            article.updateTotalAnswers(article.getTotalAnswers()+1);
+            articleRepository.save(article);
+        }
+        else{
+            Optional<Project> findProject = projectRepository.findById(answer.getProjectId());
+            Project project =findProject.get();
+            project.updateTotalAnswers(project.getTotalAnswers()+1);
+            projectRepository.save(project);
+        }
+    }
+    @Transactional
+    private void minusAnswer(Answer answer) {
+        if(answer.getCategory().equals(Category.ARTICLE)){
+            Optional<Article> findArticle = articleRepository.findById(answer.getArticleId());
+            Article article =findArticle.get();
+            article.updateTotalAnswers(article.getTotalAnswers()-1);
+            articleRepository.save(article);
+        }
+        else{
+            Optional<Project> findProject = projectRepository.findById(answer.getProjectId());
+            Project project =findProject.get();
+            project.updateTotalAnswers(project.getTotalAnswers()-1);
+            projectRepository.save(project);
+        }
     }
 }
