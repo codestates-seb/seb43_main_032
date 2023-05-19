@@ -16,6 +16,7 @@ public class AnswerResponseDto {
     private int totalLikes;
     private String content;
     private boolean isAuthor;
+    private boolean liked;
     private LocalDateTime createdAt;
     private List<CommentResponseDto> commentList;
 }

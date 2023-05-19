@@ -4,6 +4,9 @@ import com.main_032.SideQuest.community.dto.answer.AnswerPatchDto;
 import com.main_032.SideQuest.community.dto.answer.AnswerPostDto;
 import com.main_032.SideQuest.community.dto.answer.AnswerResponseDto;
 import com.main_032.SideQuest.community.entity.Answer;
+import com.main_032.SideQuest.community.entity.Category;
+import com.main_032.SideQuest.community.entity.Likes;
+import com.main_032.SideQuest.community.repository.LikesRepository;
 import com.main_032.SideQuest.community.service.CommentService;
 import com.main_032.SideQuest.member.entity.Member;
 import com.main_032.SideQuest.member.repository.MemberRepository;
@@ -25,6 +28,7 @@ public class AnswerMapper {
     private final MemberRepository memberRepository;
     private final MemberService memberService;
     private final CommentService commentService;
+    private final LikesRepository likesRepository;
 
     public Answer AnswerPostDtoToAnswer(AnswerPostDto answerPostDto, Long memberId) {
         Answer answer = new Answer(answerPostDto.getCategory(), memberId, answerPostDto.getUniteId(), answerPostDto.getContent());
@@ -49,17 +53,15 @@ public class AnswerMapper {
     }
 
     public AnswerResponseDto AnswerToAnswerResponseDto(Answer answer) {
-        boolean isLoginMember = memberService.isLoginMember();
-        boolean isAuthor;
-        if (isLoginMember == true) {
+        // 답글 작성 여부, 좋아요 여부 확인
+        boolean isAuthor = false;
+        boolean liked = false;
+        if (memberService.isLoginMember() == true) {
             Member member = memberService.getLoginMember();
-            if (Objects.equals(member.getId(), answer.getMemberId())) {
-                isAuthor = true;
-            } else {
-                isAuthor = false;
-            }
-        } else {   //로그인 안하면
-            isAuthor = false;
+            if(member.getId() == answer.getMemberId()) isAuthor = true;
+
+            Optional<Likes> findLikes = likesRepository.findByMemberIdAndCategoryAndAnswerId(member.getId(), Category.ANSWER, answer.getId());
+            if(findLikes.isEmpty() == false) liked = true;
         }
 
         AnswerResponseDto answerResponseDto = new AnswerResponseDto(
@@ -68,9 +70,9 @@ public class AnswerMapper {
                 answer.getTotalLikes(),
                 answer.getContent(),
                 isAuthor,
+                liked,
                 answer.getCreatedAt(),
                 commentService.commentListToCommentReponseDtoList(answer.getCommentList())
-                //나중에 comment 추가
         );
         return answerResponseDto;
     }

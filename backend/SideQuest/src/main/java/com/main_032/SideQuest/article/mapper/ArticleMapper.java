@@ -10,10 +10,7 @@ import com.main_032.SideQuest.community.entity.Category;
 import com.main_032.SideQuest.community.entity.Likes;
 import com.main_032.SideQuest.community.repository.LikesRepository;
 import com.main_032.SideQuest.member.entity.Member;
-import com.main_032.SideQuest.member.repository.MemberRepository;
 import com.main_032.SideQuest.member.service.MemberService;
-import com.main_032.SideQuest.util.exception.BusinessLogicException;
-import com.main_032.SideQuest.util.exception.ExceptionCode;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -25,7 +22,6 @@ import java.util.Optional;
 @AllArgsConstructor
 public class ArticleMapper {
     private final ArticleTechStackService articleTechStackService;
-    private final MemberRepository memberRepository;
     private final MemberService memberService;
     private final LikesRepository likesRepository;
 
