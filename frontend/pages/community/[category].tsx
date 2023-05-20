@@ -14,10 +14,10 @@ const Community = () => {
     });
   }, [router]);
   return (
-    <GridBox>
+    <>
       <SideBar />
       <Content />
-    </GridBox>
+    </>
   );
 };
 
