@@ -14,13 +14,7 @@ import { useRecoilState } from 'recoil';
 import { loggedInUserState, navModalState } from '@/recoil/atom';
 import { setUserState } from '@/util/api/user';
 import Img from '../public/images/second-user.svg';
-// import { NavProps } from '@/types/tspes';
-
-//임시 타입
-type NavProps = {
-  nav: boolean;
-  isScrolled?: boolean;
-};
+import { NavProps } from '@/types/types';
 
 const Header = () => {
   const router = useRouter();
@@ -34,10 +28,14 @@ const Header = () => {
     setLoggedInUser(null);
   };
 
-  //토큰이 유효하다면 유저 데이터 셋팅을하고 실패하면 토큰을 모두 삭제
+  //토큰이 유효하다면 유저 데이터 세팅
   useEffect(() => {
     setUserState()
-      .then((res) => setLoggedInUser(res))
+      .then((res) => {
+        if (getCookie('accessToken')) {
+          setLoggedInUser(res);
+        }
+      })
       .catch(() => {
         //리프레시 토큰 api가 생기면 여기 넣어서 사용할듯?
       });

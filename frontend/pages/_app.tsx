@@ -8,7 +8,8 @@ import styled from 'styled-components';
 import 'animate.css';
 import ModalBg from '@/components/ModalBg';
 import Contact from '@/components/Contact';
-
+import axios from 'axios';
+axios.defaults.withCredentials = true;
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
@@ -47,22 +48,4 @@ const Box = styled.main`
   padding: 0px calc((100% - 1280px) / 2);
   padding-top: 80px;
   flex: 1;
-`;
-
-const IconBox = styled.div`
-  transition: all 1s ease-in-out;
-  bottom: 20px;
-  right: 20px;
-  position: fixed;
-  cursor: pointer;
-  z-index: 9999;
-`;
-
-const AskBox = styled.div<{ isVisible: boolean }>`
-  min-width: 300px;
-  max-height: 500px;
-  bottom: ${({ isVisible }) => (isVisible ? '20px' : '-100%')};
-  right: 20px;
-  position: fixed;
-  transition: bottom 0.5s ease-in-out;
 `;

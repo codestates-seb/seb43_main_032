@@ -1,19 +1,17 @@
 import styled from 'styled-components';
-import EiditorSkeleton from '../skeleton/EiditorSkeleton';
 import dynamic from 'next/dynamic';
 import hljs from 'highlight.js';
 import Pagenation from '../Pagenation';
 import { useRouter } from 'next/router';
 import { useGetAnswer } from '@/hooks/react-query/answer/useGetAnswer';
 import { useEffect, useState } from 'react';
-import { useRecoilValue } from 'recoil';
-import { loggedInUserState } from '@/recoil/atom';
 import { useAnswer } from '@/hooks/react-query/answer/useAnswer';
 import AnswerItem from './AnswerItem';
+import AnswerSkeleton from '../skeleton/AnswerSkeleton';
 
 const Editor = dynamic(() => import('@/components/editor/Editor'), {
   ssr: false,
-  loading: () => <EiditorSkeleton />,
+  loading: () => <AnswerSkeleton />,
 });
 
 //이상하게 Editor에서 조건부로 옵션을 설정하면 editor가 고장나서 상위에서 설정한 옵션을 내려주는 방식으로 해결하였음
@@ -76,11 +74,13 @@ const AnswerBox = () => {
     answerRefetch();
   }, [answerPage]);
 
+  //답글 CRUD 함수
   const { postAnswer, deleteAnswer, editAnswer } = useAnswer({
     answerRefetch,
     changeAnswerVal,
   });
 
+  //작성 이벤트
   const postEvent = () => {
     postAnswer.mutate({ content: answerVal });
   };

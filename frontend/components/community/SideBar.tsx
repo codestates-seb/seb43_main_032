@@ -14,7 +14,7 @@ export default function SideBar() {
           <li
             key={item.title}
             onClick={() => {
-              if (!getCookie('accessToken')) {
+              if (!getCookie('accessToken') && item.title === '질문하기') {
                 return alert('먼저 로그인을 해주세요.');
               }
               router.push(`/community/${item.link}`);
