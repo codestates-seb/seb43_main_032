@@ -15,7 +15,7 @@ import { PROJECT_FILTER } from '@/constant/constant';
 import ProjectCardBox from '@/components/card_box/ProjectCardBox';
 import { Filter, Form, PageProps } from '@/types/types';
 import { AiOutlineArrowUp } from 'react-icons/ai';
-import { getAllData } from '@/util/api/getAllData';
+import { getAllProject } from '@/util/api/getAllProject';
 const page_limit = 4;
 
 const ProjectHome = () => {
@@ -38,7 +38,7 @@ const ProjectHome = () => {
   };
 
   useEffect(() => {
-    getAllData().then((res) => setAllData(res));
+    getAllProject().then((res) => setAllData(res));
   }, []);
 
   //필터 변경 시, 이펙트

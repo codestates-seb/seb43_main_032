@@ -44,11 +44,9 @@ export default function Content() {
   const findContentItem = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchVal(e.target.value);
   };
-
   const selectFilter = (filter: string) => {
     setFilter(filter);
   };
-
   const handleSearch = () => {
     refetch();
   };
