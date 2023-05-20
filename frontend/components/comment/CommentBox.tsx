@@ -2,6 +2,7 @@ import {
   Comment,
   DeleteCommentMutation,
   EditCommentMutation,
+  LikeCommentMutation,
 } from '@/types/comment';
 import styled from 'styled-components';
 import CommentItem from './CommentItem';
@@ -10,13 +11,23 @@ type Props = {
   commentData: Comment[];
   editComment: EditCommentMutation;
   deleteComment: DeleteCommentMutation;
+  dislikeComment: LikeCommentMutation;
+  likeComment: LikeCommentMutation;
 };
 
-const CommentBox = ({ commentData, editComment, deleteComment }: Props) => {
+const CommentBox = ({
+  likeComment,
+  dislikeComment,
+  commentData,
+  editComment,
+  deleteComment,
+}: Props) => {
   return (
     <Box>
       {commentData.map((comment) => (
         <CommentItem
+          likeComment={likeComment}
+          dislikeComment={dislikeComment}
           editComment={editComment}
           deleteComment={deleteComment}
           key={comment.commentId}

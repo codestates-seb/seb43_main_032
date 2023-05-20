@@ -8,7 +8,7 @@ import Message from '../Message';
 import { useCommunity } from '@/hooks/react-query/community/useCommunity';
 import TagBox from '../project/TagBox';
 import { FiledTag } from '@/types/project';
-import GridBox from '../GridBox';
+import GridBox from '../common_box/GridBox';
 import { POST_COMMUNITY_CATEGORY } from '@/constant/constant';
 
 export default function CommunityForm() {
@@ -16,10 +16,11 @@ export default function CommunityForm() {
   const id = router.query.id;
   const address = `/articles/${id}`;
   const queryKey = ['article', 'post', id];
-  const { communityQuery, postArticle, editArticle } = useCommunity<Community>({
-    address,
-    queryKey,
-  });
+  const { communityQuery, postArticle, editArticle, refetch } =
+    useCommunity<Community>({
+      address,
+      queryKey,
+    });
   const data = communityQuery.data?.data;
 
   useEffect(() => {
@@ -93,14 +94,12 @@ export default function CommunityForm() {
   return (
     <GridBox>
       <TagBox
-        type="community"
         tags={tags}
         deleteTag={deleteTag}
         tagKeyDown={tagKeyDown}
         register={register}
       />
       <MainPost
-        type={2}
         register={register}
         changeContent={changeContent}
         postProject={postCommunity}
@@ -108,7 +107,7 @@ export default function CommunityForm() {
           data && {
             title: data.title,
             content: data.content,
-            position: '백엔드',
+            position: data.category,
           }
         }
       />

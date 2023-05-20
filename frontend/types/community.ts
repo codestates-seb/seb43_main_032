@@ -12,4 +12,6 @@ export type Community = {
   totalAnswers: number;
   totalLikes: number;
   view: number;
+  liked: boolean;
+  author:boolean
 };

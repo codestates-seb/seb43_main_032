@@ -123,8 +123,7 @@ const SearchInput = styled.input`
   color: #5393fa;
   &:focus,
   :active {
-    outline: none;
-    border: solid 3px #c4c4c4;
+    outline: solid 3px #c4c4c4;
   }
   &::placeholder {
     color: #cfcfcf;

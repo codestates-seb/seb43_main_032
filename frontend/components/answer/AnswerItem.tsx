@@ -7,6 +7,7 @@ import {
   Answer,
   DeleteAnswerMutation,
   EditAnswerMutation,
+  LikeAnswerMutation,
 } from '@/types/answer';
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
@@ -39,10 +40,19 @@ type Props = {
   answer: Answer;
   deleteAnswer: DeleteAnswerMutation;
   editAnswer: EditAnswerMutation;
+  likeAnswer: LikeAnswerMutation;
+  dislikeAnswer: LikeAnswerMutation;
   isAuthor: boolean;
 };
 
-const AnswerItem = ({ answer, deleteAnswer, editAnswer, isAuthor }: Props) => {
+const AnswerItem = ({
+  answer,
+  deleteAnswer,
+  editAnswer,
+  isAuthor,
+  likeAnswer,
+  dislikeAnswer,
+}: Props) => {
   //답글 수정 관련
   const [edit, setEdit] = useState(false);
   const [editVal, setEditVal] = useState('');
@@ -68,8 +78,22 @@ const AnswerItem = ({ answer, deleteAnswer, editAnswer, isAuthor }: Props) => {
     });
     offEdit();
   };
+
+  //이벤트 관련
   const deleteEvent = () => {
     deleteAnswer.mutate({ answerId: answer.answerId });
+  };
+  const likeEvent = () => {
+    likeAnswer.mutate({ category: 'ANSWER', uniteId: answer.answerId });
+  };
+  const dislikeEvent = () => {
+    dislikeAnswer.mutate({ category: 'ANSWER', uniteId: answer.answerId });
+  };
+  const likeHandler = () => {
+    if (answer.liked) {
+      return dislikeEvent();
+    }
+    likeEvent();
   };
 
   //댓글 input 관련
@@ -90,9 +114,10 @@ const AnswerItem = ({ answer, deleteAnswer, editAnswer, isAuthor }: Props) => {
   const commentData = commentQuery.data?.data;
 
   //comment 관련 함수
-  const { deleteComment, editComment } = useComment({
-    commentRefetch,
-  });
+  const { deleteComment, editComment, likeComment, dislikeComment } =
+    useComment({
+      commentRefetch,
+    });
 
   //댓글 조회
   const [viewComment, setViewComment] = useState(false);
@@ -133,11 +158,18 @@ const AnswerItem = ({ answer, deleteAnswer, editAnswer, isAuthor }: Props) => {
                   </div>
                 </div>
                 <div className="like-box">
-                  {/* 좋아요 추가되면 넣을 듯?*/}
-                  {true ? (
-                    <RiThumbUpLine size={16} fill="#8217f3 " />
+                  {answer.liked ? (
+                    <RiThumbUpFill
+                      onClick={likeHandler}
+                      size={16}
+                      fill="#d2c4ff"
+                    />
                   ) : (
-                    <RiThumbUpFill size={16} fill="#d2c4ff" />
+                    <RiThumbUpLine
+                      onClick={likeHandler}
+                      size={16}
+                      fill="#8217f3 "
+                    />
                   )}
                   <div className="like-num">100</div>
                 </div>
@@ -173,6 +205,8 @@ const AnswerItem = ({ answer, deleteAnswer, editAnswer, isAuthor }: Props) => {
       )}
       {viewComment && commentData && (
         <CommentBox
+          likeComment={likeComment}
+          dislikeComment={dislikeComment}
           deleteComment={deleteComment}
           editComment={editComment}
           commentData={commentData}

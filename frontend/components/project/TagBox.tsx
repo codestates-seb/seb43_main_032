@@ -4,20 +4,23 @@ import { UseFormRegister } from 'react-hook-form';
 import styled from 'styled-components';
 import { Form } from '@/types/types';
 import { FiledTag } from '@/types/project';
+import { useRouter } from 'next/router';
 
 type Props = {
   tags: FiledTag[];
-  type?: string;
   register?: UseFormRegister<Form>;
   tagKeyDown?: (e: React.KeyboardEvent<HTMLInputElement>) => void;
   deleteTag?: (idx: number) => void;
 };
 
-const TagBox = ({ type, tags, register, tagKeyDown, deleteTag }: Props) => {
+const TagBox = ({ tags, register, tagKeyDown, deleteTag }: Props) => {
+  const router = useRouter();
   return (
     <Box deleteTag={deleteTag} className="tag-box">
       <div className="title" style={{ font: '15px' }}>
-        {type === 'community' ? '게시글 태그' : '프로젝트 분야 태그'}
+        {router.route.includes('community')
+          ? '게시글 태그'
+          : '프로젝트 분야 태그'}
       </div>
       <div className="noto-regular-13">
         {register && (

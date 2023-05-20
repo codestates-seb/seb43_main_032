@@ -30,6 +30,35 @@ export const useCommunity = <T extends {}>({ address, queryKey }: Props) => {
     }
   });
 
+  //좋아요
+  const likeCommunity = useMutation(
+    () => api.post(`/likes`, { category: 'ARTICLE', uniteId: id }),
+    {
+      onSuccess: () => {
+        refetch();
+      },
+      onError: () => {
+        alert('잠시 후에 다시 시도해주세요.');
+      },
+    }
+  );
+
+  //싫어요
+  const dislikeCommunity = useMutation(
+    () => api.post(`/likes/undo`, { category: 'ARTICLE', uniteId: id }),
+    {
+      onSuccess: () => {
+        refetch();
+      },
+      onError: () => {
+        alert('잠시 후에 다시 시도해주세요.');
+      },
+    }
+  );
+
+  /**
+   * 게시글 작성
+   */
   const postArticle = useMutation(
     (data: PostData) => api.post('/articles', data),
     {
@@ -42,6 +71,9 @@ export const useCommunity = <T extends {}>({ address, queryKey }: Props) => {
     }
   );
 
+  /**
+   * 게시글 수정
+   */
   const editArticle = useMutation(
     (data: PostData) => api.patch(`/articles/${id}`, data),
     {
@@ -54,6 +86,9 @@ export const useCommunity = <T extends {}>({ address, queryKey }: Props) => {
     }
   );
 
+  /**
+   * 게시글 삭제
+   */
   const deleteArticle = useMutation(() => api.delete(`/articles/${id}`), {
     onSuccess: () => {
       router.push('/community').then(() => refetch());
@@ -63,6 +98,9 @@ export const useCommunity = <T extends {}>({ address, queryKey }: Props) => {
     },
   });
 
+  /**
+   * 수정 페이지로 이동
+   */
   const moveEdit = () => {
     if (confirm('정말 수정하시겠습니까?'))
       router.push(`/community/post/${id}/edit`);
@@ -79,5 +117,7 @@ export const useCommunity = <T extends {}>({ address, queryKey }: Props) => {
     deleteArticle,
     postArticle,
     editArticle,
+    likeCommunity,
+    dislikeCommunity,
   };
 };
