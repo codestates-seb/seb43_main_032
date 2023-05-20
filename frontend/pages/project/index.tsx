@@ -15,7 +15,7 @@ import { PROJECT_FILTER } from '@/constant/constant';
 import ProjectCardBox from '@/components/card_box/ProjectCardBox';
 import { Filter, Form, PageProps } from '@/types/types';
 import { AiOutlineArrowUp } from 'react-icons/ai';
-import { getAllData } from '@/util/api/ProjectFilter';
+import { getAllData } from '@/util/api/getAllData';
 const page_limit = 4;
 
 const ProjectHome = () => {
