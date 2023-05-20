@@ -3,9 +3,10 @@ import {
   Comment,
   DeleteCommentMutation,
   EditCommentMutation,
+  LikeCommentMutation,
 } from '@/types/comment';
 import { elapsedTime } from '@/util/date';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { RiThumbUpFill, RiThumbUpLine } from 'react-icons/ri';
 import { useRecoilValue } from 'recoil';
@@ -15,9 +16,17 @@ type Props = {
   comment: Comment;
   editComment: EditCommentMutation;
   deleteComment: DeleteCommentMutation;
+  likeComment: LikeCommentMutation;
+  dislikeComment: LikeCommentMutation;
 };
 
-const CommentItem = ({ comment, deleteComment, editComment }: Props) => {
+const CommentItem = ({
+  dislikeComment,
+  likeComment,
+  comment,
+  deleteComment,
+  editComment,
+}: Props) => {
   //유저 데이터
   const loggedInUser = useRecoilValue(loggedInUserState);
 
@@ -30,11 +39,11 @@ const CommentItem = ({ comment, deleteComment, editComment }: Props) => {
     setEdit(!edit);
   };
 
+  //이벤트 함수들
   const deleteEvent = () => {
     if (confirm('정말 댓글을 삭제하시겠습니까?'))
       deleteComment.mutate({ commentId: comment.commentId });
   };
-
   const editEvent = () => {
     if (confirm('정말 댓글을 수정하시겠습니까?')) {
       const data = {
@@ -45,8 +54,13 @@ const CommentItem = ({ comment, deleteComment, editComment }: Props) => {
       setEdit(false);
     }
   };
+  const likeEvent = () => {
+    likeComment.mutate({ category: 'COMMENT', uniteId: comment.commentId });
+  };
+  const dislikeEvent = () => {
+    dislikeComment.mutate({ category: 'COMMENT', uniteId: comment.commentId });
+  };
 
-  useEffect(() => {}, []);
   return (
     <Box>
       <div className="left">
@@ -68,7 +82,11 @@ const CommentItem = ({ comment, deleteComment, editComment }: Props) => {
           )}
         </div>
         <div className="like-box">
-          {true ? <RiThumbUpLine size={20} /> : <RiThumbUpFill size={20} />}
+          {comment.liked ? (
+            <RiThumbUpFill onClick={dislikeEvent} size={20} />
+          ) : (
+            <RiThumbUpLine onClick={likeEvent} size={20} />
+          )}
           {loggedInUser?.email === comment.memberInfo.email && (
             <>
               <button onClick={editHandler}>{edit ? '취소' : '수정'}</button>
@@ -122,5 +140,8 @@ const Box = styled.div`
   .like-box {
     display: flex;
     gap: 16px;
+    > svg {
+      cursor: pointer;
+    }
   }
 `;

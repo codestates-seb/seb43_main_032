@@ -111,9 +111,10 @@ const AnswerItem = ({
   const commentData = commentQuery.data?.data;
 
   //comment 관련 함수
-  const { deleteComment, editComment } = useComment({
-    commentRefetch,
-  });
+  const { deleteComment, editComment, likeComment, dislikeComment } =
+    useComment({
+      commentRefetch,
+    });
 
   //댓글 조회
   const [viewComment, setViewComment] = useState(false);
@@ -140,7 +141,6 @@ const AnswerItem = ({
         ) : (
           <>
             <div className="like-box">
-              {/* 좋아요 추가되면 넣을 듯?*/}
               {answer.liked ? (
                 <RiThumbUpFill onClick={dislikeEvent} size={30} />
               ) : (
@@ -189,6 +189,8 @@ const AnswerItem = ({
       )}
       {viewComment && commentData && (
         <CommentBox
+        likeComment={likeComment}
+        dislikeComment={dislikeComment}
           deleteComment={deleteComment}
           editComment={editComment}
           commentData={commentData}

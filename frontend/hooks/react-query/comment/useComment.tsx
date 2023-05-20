@@ -82,10 +82,10 @@ export const useComment = ({ commentRefetch }: Props) => {
    * 댓글 좋아요
    */
   const likeComment: LikeCommentMutation = useMutation(
-    () =>
+    ({ category, uniteId }: { category: 'COMMENT'; uniteId: number }) =>
       api.post(`/likes`, {
-        category: 'COMMENT',
-        unitedId: id,
+        category: category,
+        uniteId: uniteId,
       }),
     {
       onSuccess: () => {
@@ -101,10 +101,10 @@ export const useComment = ({ commentRefetch }: Props) => {
    * 댓글 싫어요
    */
   const dislikeComment: LikeCommentMutation = useMutation(
-    () =>
+    ({ category, uniteId }: { category: 'COMMENT'; uniteId: number }) =>
       api.post(`/likes/undo`, {
-        category: 'COMMENT',
-        unitedId: id,
+        category: category,
+        uniteId: uniteId,
       }),
     {
       onSuccess: () => {
