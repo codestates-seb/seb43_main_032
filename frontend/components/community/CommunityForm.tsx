@@ -94,7 +94,6 @@ export default function CommunityForm() {
   return (
     <GridBox>
       <TagBox
-        type="community"
         tags={tags}
         deleteTag={deleteTag}
         tagKeyDown={tagKeyDown}

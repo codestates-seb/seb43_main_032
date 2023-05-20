@@ -1,6 +1,6 @@
 import { useRouter } from 'next/router';
 import { api } from '@/util/api';
-import { UseMutationResult, useMutation } from 'react-query';
+import { useMutation } from 'react-query';
 import {
   DeleteCommentMutation,
   EditCommentMutation,

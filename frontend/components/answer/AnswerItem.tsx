@@ -54,8 +54,6 @@ const AnswerItem = ({
   likeAnswer,
   dislikeAnswer,
 }: Props) => {
-  const router = useRouter();
-  const { id } = router.query;
   //답글 수정 관련
   const [edit, setEdit] = useState(false);
   const [editVal, setEditVal] = useState('');
@@ -189,8 +187,8 @@ const AnswerItem = ({
       )}
       {viewComment && commentData && (
         <CommentBox
-        likeComment={likeComment}
-        dislikeComment={dislikeComment}
+          likeComment={likeComment}
+          dislikeComment={dislikeComment}
           deleteComment={deleteComment}
           editComment={editComment}
           commentData={commentData}

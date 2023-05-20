@@ -8,8 +8,7 @@ import styled from 'styled-components';
 import 'animate.css';
 import ModalBg from '@/components/ModalBg';
 import Contact from '@/components/Contact';
-import axios from 'axios';
-axios.defaults.withCredentials = true;
+
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {

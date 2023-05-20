@@ -15,7 +15,7 @@ const AuthorBox = ({ userImg, userName, isAuthor, totalStar }: Props) => {
       <div className="top-box">
         <img src={userImg} alt="author" />
         <div className="userBox nanum-bold userName">{userName}</div>
-        {isAuthor && (
+        {!isAuthor && (
           <div className="saveStar" onClick={() => {}}>
             <span className="icon-box">
               {true ? (

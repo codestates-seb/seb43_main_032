@@ -1,4 +1,3 @@
-import GridBox from '@/components/GridBox';
 import styled from 'styled-components';
 import { ChangeEvent, useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
@@ -14,6 +13,7 @@ import { formatDate3 } from '@/util/date';
 import { AiOutlineClose } from 'react-icons/ai';
 import { useProject } from '@/hooks/react-query/project/useProject';
 import StacksBox from './StacksBox';
+import GridBox from '../common_box/GridBox';
 
 const ProjectForm = () => {
   const router = useRouter();
@@ -21,7 +21,7 @@ const ProjectForm = () => {
   //데이터
   const { projectQuery, submitEdit, submitPost } = useProject();
   const data = projectQuery.data?.data;
-  console.log(data)
+  console.log(data);
   useEffect(() => {
     if (data) {
       setStart(new Date(data.startDate));

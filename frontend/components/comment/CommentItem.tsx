@@ -27,9 +27,6 @@ const CommentItem = ({
   deleteComment,
   editComment,
 }: Props) => {
-  //유저 데이터
-  const loggedInUser = useRecoilValue(loggedInUserState);
-
   //content 관리
   const { register, watch } = useForm<{ content: string }>();
 
@@ -87,7 +84,7 @@ const CommentItem = ({
           ) : (
             <RiThumbUpLine onClick={likeEvent} size={20} />
           )}
-          {loggedInUser?.email === comment.memberInfo.email && (
+          {comment.author && (
             <>
               <button onClick={editHandler}>{edit ? '취소' : '수정'}</button>
               {edit ? (
