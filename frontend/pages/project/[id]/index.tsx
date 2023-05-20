@@ -7,7 +7,7 @@ import styled from 'styled-components';
 import ContentSkeleton from '@/components/skeleton/ContentSkeleton';
 import { AiFillHeart, AiOutlineHeart } from 'react-icons/ai';
 import { formatDate2 } from '@/util/date';
-import { SetStateAction, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import Position from '@/components/Position';
 import Message from '@/components/Message';
@@ -16,7 +16,6 @@ import { loggedInUserState } from '@/recoil/atom';
 import { BUTTON_STATE } from '@/constant/constant';
 import { useProject } from '@/hooks/react-query/project/useProject';
 import AnswerBox from '@/components/answer/AnswerBox';
-import { Tech } from '@/types/project';
 import StacksBox from '@/components/project/StacksBox';
 const ReactMarkdown = dynamic(() => import('@/components/editor/ContentBox'), {
   ssr: false,
@@ -39,15 +38,25 @@ const ViewProject = () => {
 
   //프로젝트 데이터 요청
   const {
-    // updateHeart,
     projectQuery,
     updateState,
     projectEvent,
+    likeProject,
+    dislikeProject,
     deleteProject,
     moveEdit,
   } = useProject();
+
   //데이터 치환
   const data = projectQuery.data?.data;
+
+  //좋아요 이벤트
+  const likeHandler = () => {
+    if (data?.liked) {
+      return dislikeProject.mutate();
+    }
+    likeProject.mutate();
+  };
 
   //직군 데이터 관련
   const positions = data?.positionCrewList;
@@ -217,11 +226,8 @@ const ViewProject = () => {
             </div>
             <ReactMarkdown content={data.content} />
             <div className="heart-box">
-              <div
-              // onClick={() => updateHeart.mutate()}
-              >
-                {/*서버작업전 보여주기 용 */}
-                {false ? (
+              <div onClick={likeHandler}>
+                {data.liked ? (
                   <span>
                     <AiFillHeart />
                   </span>

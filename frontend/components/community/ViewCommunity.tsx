@@ -31,12 +31,26 @@ const ViewCommunity = () => {
   const project = ['1', '2', '3', '4', '5', '6', '7', '8', '9'];
   const [userHeart, setUserHeart] = useState(false);
 
-  const { communityQuery, moveEdit, deleteArticle, refetch } =
-    useCommunity<Community>({
-      address,
-      queryKey,
-    });
+  const {
+    communityQuery,
+    moveEdit,
+    deleteArticle,
+    refetch,
+    likeCommunity,
+    dislikeCommunity,
+  } = useCommunity<Community>({
+    address,
+    queryKey,
+  });
   const data = communityQuery.data?.data;
+
+  //좋아요 이벤트
+  const likeHandler = () => {
+    if (data?.liked) {
+      return dislikeCommunity.mutate();
+    }
+    likeCommunity.mutate();
+  };
 
   //게시글이 수정되었을 때를 위해
   useEffect(() => {
