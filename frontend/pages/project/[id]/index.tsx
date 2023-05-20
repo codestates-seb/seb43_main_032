@@ -15,7 +15,6 @@ import { useRecoilValue } from 'recoil';
 import { loggedInUserState } from '@/recoil/atom';
 import { BUTTON_STATE } from '@/constant/constant';
 import { useProject } from '@/hooks/react-query/project/useProject';
-import { useGetAnswer } from '@/hooks/react-query/answer/useGetAnswer';
 import AnswerBox from '@/components/answer/AnswerBox';
 import { Tech } from '@/types/project';
 import StacksBox from '@/components/project/StacksBox';
@@ -26,7 +25,7 @@ const ReactMarkdown = dynamic(() => import('@/components/editor/ContentBox'), {
 
 const ViewProject = () => {
   const router = useRouter();
-  const { id } = router.query;
+
   useEffect(() => {
     window.scrollTo({
       top: 600,
@@ -66,13 +65,6 @@ const ViewProject = () => {
       updateState.mutate('모집 완료');
     }
   }, [projectQuery.data]);
-
-  //답글 총 개수를 가져오기 위함
-  const { answerPageCount } = useGetAnswer({
-    category: 'PROJECT',
-    postId: Number(id),
-    params: `size=5&page=1`,
-  });
 
   if (projectQuery.isLoading) return <Message>로딩중입니다.</Message>;
   if (projectQuery.error) return <Message>잠시 후 다시 시도해주세요.</Message>;
@@ -222,7 +214,7 @@ const ViewProject = () => {
                 <span>조회 수</span> : {data.views}
               </div>
               <div>
-                <span>답글 수</span> : {answerPageCount}
+                <span>답글 수</span> : {data.totalAnswers}
               </div>
             </div>
           </div>
