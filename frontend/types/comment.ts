@@ -10,21 +10,23 @@ export type Comment = {
   totalLikes: number;
 };
 
+export type PostCommentMutation = UseMutationResult<
+  void,
+  Error,
+  { answerId: number; content: string },
+  void
+>;
+
 export type EditCommentMutation = UseMutationResult<
-  AxiosResponse<void, void>,
-  unknown,
-  {
-    commentId: number;
-    content: string;
-  },
-  unknown
+  void,
+  Error,
+  { commentId: number; content: string },
+  void
 >;
 
 export type DeleteCommentMutation = UseMutationResult<
-  AxiosResponse<void, void>,
-  unknown,
-  {
-    commentId: number;
-  },
-  unknown
+  void,
+  Error,
+  { commentId: number },
+  void
 >;

@@ -42,13 +42,7 @@ const PeriodBox = ({ start, end, handleRangeChange }: Props) => {
               startDate={start}
               endDate={end}
               selectsRange
-              customInput={
-                <CustomInput
-                  onClick={function (): void {
-                    throw new Error('Function not implemented.');
-                  }}
-                />
-              }
+              customInput={<CustomInput onClick={() => {}} />}
             />
           </div>
         )}

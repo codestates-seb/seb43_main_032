@@ -19,21 +19,23 @@ export type Answer = {
   totalLikes: number;
 };
 
+export type PostAnswerMutation = UseMutationResult<
+  void,
+  Error,
+  { content: string },
+  void
+>;
+
 export type DeleteAnswerMutation = UseMutationResult<
-  AxiosResponse<void, void> | undefined,
-  unknown,
-  {
-    answerId: number;
-  },
-  unknown
+  void,
+  Error,
+  { answerId: number },
+  void
 >;
 
 export type EditAnswerMutation = UseMutationResult<
-  AxiosResponse<void, void>,
-  unknown,
-  {
-    answerId: number;
-    content: string;
-  },
-  unknown
+  void,
+  Error,
+  { answerId: number; content: string },
+  void
 >;

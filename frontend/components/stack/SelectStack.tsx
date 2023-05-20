@@ -6,9 +6,9 @@ import Btn from '../button/Btn';
 import { Tech } from '@/types/project';
 
 type Props = {
-  selectStack: () => void;
+  selectStack?: () => void;
   stacks: Tech[];
-  setStacks: Dispatch<SetStateAction<Tech[]>>;
+  setStacks?: Dispatch<SetStateAction<Tech[]>>;
 };
 
 const SelectStack = ({ setStacks, selectStack, stacks }: Props) => {
@@ -16,16 +16,18 @@ const SelectStack = ({ setStacks, selectStack, stacks }: Props) => {
 
   //스택을 추가하는 함수
   const addStack = (select: string) => {
-    const idx = stacks.findIndex((stack) => select === stack.tech);
-    if (idx !== -1) {
-      return setStacks([...stacks.slice(0, idx), ...stacks.slice(idx + 1)]);
+    if (setStacks) {
+      const idx = stacks.findIndex((stack) => select === stack.tech);
+      if (idx !== -1) {
+        return setStacks([...stacks.slice(0, idx), ...stacks.slice(idx + 1)]);
+      }
+      setStacks([...stacks, { tech: select }]);
     }
-    setStacks([...stacks, { tech: select }]);
   };
 
   //선택한 스택 리셋
   const resetSelectedStacks = useCallback(() => {
-    setStacks([]);
+    if (setStacks) setStacks([]);
   }, []);
 
   return (
