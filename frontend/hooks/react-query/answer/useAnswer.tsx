@@ -1,8 +1,7 @@
 import { useRouter } from 'next/router';
 import { api } from '@/util/api';
-import { UseMutationResult, useMutation } from 'react-query';
+import { useMutation } from 'react-query';
 import { getCookie } from '@/util/cookie';
-import { AxiosResponse } from 'axios';
 import {
   DeleteAnswerMutation,
   EditAnswerMutation,
@@ -90,10 +89,10 @@ export const useAnswer = ({ answerRefetch, changeAnswerVal }: Props) => {
    * 답글 좋아요
    */
   const likeAnswer: LikeAnswerMutation = useMutation(
-    () =>
+    ({ category, uniteId }: { category: 'ANSWER'; uniteId: number }) =>
       api.post(`/likes`, {
-        category: 'ANSWER',
-        unitedId: id,
+        category: category,
+        uniteId: uniteId,
       }),
     {
       onSuccess: () => {
@@ -109,10 +108,10 @@ export const useAnswer = ({ answerRefetch, changeAnswerVal }: Props) => {
    * 답글 싫어요
    */
   const dislikeAnswer: LikeAnswerMutation = useMutation(
-    () =>
+    ({ category, uniteId }: { category: 'ANSWER'; uniteId: number }) =>
       api.post(`/likes/undo`, {
-        category: 'ANSWER',
-        unitedId: id,
+        category: category,
+        uniteId: uniteId,
       }),
     {
       onSuccess: () => {

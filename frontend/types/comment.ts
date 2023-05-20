@@ -7,6 +7,7 @@ export type Comment = {
   createdAt: string;
   memberInfo: MemberInfo;
   totalLikes: number;
+  liked: boolean;
 };
 
 export type PostCommentMutation = UseMutationResult<
@@ -35,7 +36,7 @@ export type LikeCommentMutation = UseMutationResult<
   Error,
   {
     category: 'COMMENT';
-    unitedId: number;
+    uniteId: number;
   },
   void
 >;

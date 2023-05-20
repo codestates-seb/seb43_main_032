@@ -12,6 +12,7 @@ export type Answer = {
       totalLikes: number;
     }
   ];
+  liked: boolean;
   content: string;
   createdAt: string;
   memberInfo: MemberInfo;
@@ -44,7 +45,7 @@ export type LikeAnswerMutation = UseMutationResult<
   Error,
   {
     category: 'ANSWER';
-    unitedId: number;
+    uniteId: number;
   },
   void
 >;

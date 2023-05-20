@@ -75,7 +75,7 @@ const AnswerBox = () => {
   }, [answerPage]);
 
   //답글 CRUD 함수
-  const { postAnswer, deleteAnswer, editAnswer } = useAnswer({
+  const { postAnswer, deleteAnswer, editAnswer,likeAnswer, dislikeAnswer } = useAnswer({
     answerRefetch,
     changeAnswerVal,
   });
@@ -108,6 +108,8 @@ const AnswerBox = () => {
                 answer={answer}
                 deleteAnswer={deleteAnswer}
                 editAnswer={editAnswer}
+                likeAnswer={likeAnswer}
+                dislikeAnswer={dislikeAnswer}
               />
             ))}
         </ul>

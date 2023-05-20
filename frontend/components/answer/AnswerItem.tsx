@@ -7,6 +7,7 @@ import {
   Answer,
   DeleteAnswerMutation,
   EditAnswerMutation,
+  LikeAnswerMutation,
 } from '@/types/answer';
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
@@ -16,6 +17,7 @@ import { useGetComment } from '@/hooks/react-query/comment/useGetComment';
 import CommentBox from '../comment/CommentBox';
 import { elapsedTime } from '@/util/date';
 import { useComment } from '@/hooks/react-query/comment/useComment';
+import { useRouter } from 'next/router';
 
 const Editor = dynamic(() => import('@/components/editor/Editor'), {
   ssr: false,
@@ -39,10 +41,21 @@ type Props = {
   answer: Answer;
   deleteAnswer: DeleteAnswerMutation;
   editAnswer: EditAnswerMutation;
+  likeAnswer: LikeAnswerMutation;
+  dislikeAnswer: LikeAnswerMutation;
   isAuthor: boolean;
 };
 
-const AnswerItem = ({ answer, deleteAnswer, editAnswer, isAuthor }: Props) => {
+const AnswerItem = ({
+  answer,
+  deleteAnswer,
+  editAnswer,
+  isAuthor,
+  likeAnswer,
+  dislikeAnswer,
+}: Props) => {
+  const router = useRouter();
+  const { id } = router.query;
   //답글 수정 관련
   const [edit, setEdit] = useState(false);
   const [editVal, setEditVal] = useState('');
@@ -68,8 +81,16 @@ const AnswerItem = ({ answer, deleteAnswer, editAnswer, isAuthor }: Props) => {
     });
     offEdit();
   };
+
+  //이벤트 관련
   const deleteEvent = () => {
     deleteAnswer.mutate({ answerId: answer.answerId });
+  };
+  const likeEvent = () => {
+    likeAnswer.mutate({ category: 'ANSWER', uniteId: answer.answerId });
+  };
+  const dislikeEvent = () => {
+    dislikeAnswer.mutate({ category: 'ANSWER', uniteId: answer.answerId });
   };
 
   //댓글 input 관련
@@ -120,7 +141,11 @@ const AnswerItem = ({ answer, deleteAnswer, editAnswer, isAuthor }: Props) => {
           <>
             <div className="like-box">
               {/* 좋아요 추가되면 넣을 듯?*/}
-              {true ? <RiThumbUpLine size={30} /> : <RiThumbUpFill size={30} />}
+              {answer.liked ? (
+                <RiThumbUpFill onClick={dislikeEvent} size={30} />
+              ) : (
+                <RiThumbUpLine onClick={likeEvent} size={30} />
+              )}
             </div>
             <div className="content-box">
               <div className="top">{answer.content}</div>
