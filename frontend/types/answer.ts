@@ -17,6 +17,7 @@ export type Answer = {
   createdAt: string;
   memberInfo: MemberInfo;
   totalLikes: number;
+  author:boolean
 };
 
 export type PostAnswerMutation = UseMutationResult<

@@ -15,6 +15,8 @@ import TagBox from '../project/TagBox';
 import HeartBox from '../common_box/HeartBox';
 import { formatDate2 } from '@/util/date';
 import AuthorBox from '../common_box/AuthorBox';
+import { getCookie } from '@/util/cookie';
+import MainArticleBox from '../common_box/MainArticleBox';
 
 const ReactMarkdown = dynamic(() => import('@/components/editor/ContentBox'), {
   ssr: false,
@@ -46,6 +48,9 @@ const ViewCommunity = () => {
 
   //좋아요 이벤트
   const likeHandler = () => {
+    if (!getCookie('accessToken')) {
+      return alert('로그인을 부탁드려요.');
+    }
     if (data?.liked) {
       return dislikeCommunity.mutate();
     }
@@ -68,56 +73,31 @@ const ViewCommunity = () => {
       {communityQuery.isLoading && <Message>로딩중입니다.</Message>}
       {data && (
         <>
-          <Top>
+          <Side>
             <AuthorBox
               userImg={data.memberInfo.profileImageUrl}
               userName={data.memberInfo.name}
-              isAuthor={data.memberInfo.email !== loggedInUser?.email}
+              isAuthor={data.author}
               totalStar={data.memberInfo.totalStar}
             />
             <TagBox
               tags={data.techList.map((item) => ({ field: item.tech }))}
             />
-          </Top>
-          <Bottom>
-            <div className="main-title">
-              <div className="title">
-                <div>{data.title}</div>
-                <Tag>{data.category}</Tag>
-              </div>
-              {data.memberInfo.email === loggedInUser?.email && (
-                <div className="change-box">
-                  <button onClick={deleteEvent}>삭제하기</button>
-                  <button onClick={moveEdit}>수정하기</button>
-                </div>
-              )}
-            </div>
-            <div className="sub-title">
-              <div className="date">
-                <span className="writeDate">작성일 : </span>
-                {formatDate2(new Date(data.createdAt))}
-              </div>
-
-              <div className="view">
-                <span className="viewNum">조회수 : </span>
-                {data.view}
-              </div>
-
-              <div className="comment">
-                <span className="commentNum">댓글수 : </span>
-                {data.totalAnswers}
-              </div>
-            </div>
-            <div className="content">
-              <ReactMarkdown content={data.content}></ReactMarkdown>
-            </div>
-            <HeartBox
-              likeHandler={likeHandler}
-              liked={data.liked}
-              totalLikes={data.totalLikes}
-            />
-            <AnswerBox />
-          </Bottom>
+          </Side>
+          <MainArticleBox
+            title={data.title}
+            category={data.category}
+            isAuthor={data.author}
+            deleteEvent={deleteEvent}
+            moveEdit={moveEdit}
+            createAt={data.createdAt}
+            view={data.view}
+            totalAnswers={data.totalAnswers}
+            content={data.content}
+            likeHandler={likeHandler}
+            liked={data.liked}
+            totalLikes={data.totalLikes}
+          />
         </>
       )}
     </GridBox>
@@ -126,7 +106,7 @@ const ViewCommunity = () => {
 
 export default ViewCommunity;
 
-const Top = styled.div`
+const Side = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
@@ -144,10 +124,10 @@ const Top = styled.div`
     margin-bottom: 24px;
 
     .tag {
-      margin-top: 30px;
+      margin-left: 30px;
     }
 
-    .top-box {
+    .Side-box {
       width: 100%;
       position: relative;
       display: flex;
@@ -179,7 +159,7 @@ const Top = styled.div`
 
       > .userName {
         font-size: 18px;
-        padding-top: 0;
+        padding-left: 0;
       }
       > .saveStar {
         position: absolute;
@@ -190,7 +170,7 @@ const Top = styled.div`
         display: flex;
         justify-content: center;
         align-items: center;
-        top: 0;
+        left: 0;
         right: 0;
         cursor: pointer;
 
@@ -202,56 +182,6 @@ const Top = styled.div`
           font-size: 30px;
         }
       }
-    }
-  }
-`;
-
-const Bottom = styled.div`
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  font-size: 20px;
-  padding: 20px 20px 36px;
-  gap: 32px;
-
-  > .content {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-  }
-
-  .main-title {
-    display: flex;
-    justify-content: space-between;
-
-    .change-box {
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-    }
-
-    .title {
-      font-size: 27px;
-      font-weight: 700;
-      border-bottom: solid 1px #ececec;
-      padding-bottom: 10px;
-      display: flex;
-      align-items: center;
-
-      .category {
-        font-size: 14px;
-      }
-    }
-  }
-  .sub-title {
-    color: #9f9f9f;
-    font-size: 13px;
-    display: flex;
-    gap: 32px;
-
-    .writeDate,
-    .viewNum {
-      font-weight: 600;
     }
   }
 `;

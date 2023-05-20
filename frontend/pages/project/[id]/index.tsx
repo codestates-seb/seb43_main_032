@@ -17,6 +17,8 @@ import StacksBox from '@/components/project/StacksBox';
 import HeartBox from '@/components/common_box/HeartBox';
 import GridBox from '@/components/common_box/GridBox';
 import AuthorBox from '@/components/common_box/AuthorBox';
+import { getCookie } from '@/util/cookie';
+import MainArticleBox from '@/components/common_box/MainArticleBox';
 const ReactMarkdown = dynamic(() => import('@/components/editor/ContentBox'), {
   ssr: false,
   loading: () => <ContentSkeleton />,
@@ -49,10 +51,18 @@ const ViewProject = () => {
 
   //좋아요 이벤트
   const likeHandler = () => {
+    if (!getCookie('accessToken')) {
+      return alert('로그인을 부탁드려요.');
+    }
     if (data?.liked) {
       return dislikeProject.mutate();
     }
     likeProject.mutate();
+  };
+
+  //삭제 이벤트
+  const deleteEvent = () => {
+    deleteProject.mutate();
   };
 
   //직군 데이터 관련
@@ -144,50 +154,20 @@ const ViewProject = () => {
               )}
             </div>
           </Side>
-          <Main>
-            <div className="title">
-              <div className="left">
-                <div className="nanum-bold">{data.title}</div>
-                {<Tag>{data.status}</Tag>}
-              </div>
-              <div className="right">
-                {data.memberInfo.email === loggedInUser?.email && (
-                  <>
-                    <a
-                      onClick={() => deleteProject.mutate()}
-                      className="main-btn"
-                    >
-                      <span>프로젝트 삭제</span>
-                    </a>
-                    <a onClick={moveEdit} className="main-btn">
-                      <span>프로젝트 수정</span>
-                    </a>
-                  </>
-                )}
-              </div>
-            </div>
-            <div className="sub noto-regular-13">
-              <div>
-                <div>
-                  <span>작성일자</span> :{' '}
-                  {formatDate2(new Date(data.createdAt))}
-                </div>
-                <div>
-                  <span>조회 수</span> : {data.views}
-                </div>
-                <div>
-                  <span>답글 수</span> : {data.totalAnswers}
-                </div>
-              </div>
-            </div>
-            <ReactMarkdown content={data.content} />
-            <HeartBox
-              likeHandler={likeHandler}
-              liked={data.liked}
-              totalLikes={data.totalLikes}
-            />
-            <AnswerBox />
-          </Main>
+          <MainArticleBox
+            title={data.title}
+            status={data.status}
+            isAuthor={data.author}
+            deleteEvent={deleteEvent}
+            moveEdit={moveEdit}
+            createAt={data.createdAt}
+            view={data.views}
+            totalAnswers={data.totalAnswers}
+            content={data.content}
+            likeHandler={likeHandler}
+            liked={data.liked}
+            totalLikes={data.totalLikes}
+          />
         </>
       )}
     </GridBox>
@@ -195,61 +175,6 @@ const ViewProject = () => {
 };
 
 export default ViewProject;
-
-const Main = styled.div`
-  width: 100%;
-  padding: var(--padding-1);
-  display: flex;
-  flex-direction: column;
-  gap: 32px;
-
-  .title {
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-    border-bottom: solid 1px #ececec;
-    padding: 10px;
-  }
-
-  .left {
-    display: flex;
-    gap: 20px;
-  }
-
-  .right {
-    display: flex;
-    gap: 16px;
-    flex-direction: column;
-  }
-
-  .main-btn {
-    cursor: pointer;
-  }
-
-  > div {
-    display: flex;
-    align-items: center;
-    gap: 16px;
-  }
-
-  .sub {
-    display: flex;
-    width: 100%;
-    justify-content: space-between;
-    @media (max-width: 768px) {
-      flex-direction: column;
-    }
-
-    > div:first-child {
-      display: flex;
-      gap: 8px;
-      @media (max-width: 414px) {
-        flex-direction: column;
-        align-items: center;
-      }
-    }
-  }
-`;
 
 const Side = styled.div`
   display: flex;
