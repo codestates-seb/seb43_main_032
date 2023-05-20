@@ -33,11 +33,16 @@ const Header = () => {
     deleteCookie('refreshToken');
     setLoggedInUser(null);
   };
+  console.log(loggedInUser);
 
   //토큰이 유효하다면 유저 데이터 셋팅을하고 실패하면 토큰을 모두 삭제
   useEffect(() => {
     setUserState()
-      .then((res) => setLoggedInUser(res))
+      .then((res) => {
+        if (getCookie('accessToken')) {
+          setLoggedInUser(res);
+        }
+      })
       .catch(() => {
         //리프레시 토큰 api가 생기면 여기 넣어서 사용할듯?
       });
