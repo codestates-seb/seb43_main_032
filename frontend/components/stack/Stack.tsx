@@ -37,6 +37,8 @@ const Box = styled.li`
   min-width: 24px;
   min-height: 24px;
   box-shadow: var(--box-shadow);
+  display: flex;
+  justify-content: center;
 
   .ball {
     position: absolute;
