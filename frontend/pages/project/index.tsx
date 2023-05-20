@@ -11,58 +11,18 @@ import Message from '@/components/Message';
 import { useForm } from 'react-hook-form';
 import Btn from '@/components/button/Btn';
 import { BsSearch } from 'react-icons/bs';
-import { PROJECT_FILTER } from '@/constant/constant';
 import ProjectCardBox from '@/components/card_box/ProjectCardBox';
 import { Filter, Form, PageProps } from '@/types/types';
 import { AiOutlineArrowUp } from 'react-icons/ai';
 import { getAllProject } from '@/util/api/getAllProject';
+import { ARTICLE_FILTER } from '@/constant/constant';
+import { useFilter } from '@/hooks/useFilter';
 const page_limit = 4;
 
 const ProjectHome = () => {
   const router = useRouter();
   const { register, watch } = useForm<Form>();
   const search = router.query.search;
-  const [filter, setFilter] = useState<Filter>(0);
-  const filterNames = useMemo(() => Object.keys(PROJECT_FILTER), []);
-  const filterHandler = (name: string) => {
-    setFilter(PROJECT_FILTER[name]);
-  };
-
-  //서버에서 필터링 작업이 완성되기 전, 눈속임을 위한 필터 데이터
-  const [allData, setAllData] = useState<Project[]>([]);
-  const [filterData, setFilterData] = useState<Project[]>([]);
-  const [onSearch, setOnSearch] = useState(false);
-  const onSubmit = (e: { preventDefault: () => void }) => {
-    e.preventDefault();
-    setOnSearch(!onSearch);
-  };
-
-  useEffect(() => {
-    getAllProject().then((res) => setAllData(res));
-  }, []);
-
-  //필터 변경 시, 이펙트
-  useEffect(() => {
-    if (filter === 0) {
-      setFilterData([]);
-      refetch();
-    }
-    if (filter === 1) {
-      setFilterData(allData.reverse());
-    }
-    if (filter === 2) {
-      setFilterData(allData.sort((x, y) => y.views - x.views));
-    }
-    if (filter === 3) {
-      setFilterData(allData.sort((x, y) => y.totalLikes - x.totalLikes));
-    }
-  }, [filter]);
-
-  useEffect(() => {
-    setFilterData(
-      allData.filter((data) => data.title.includes(watch().search))
-    );
-  }, [onSearch]);
 
   //주소, 서버 필터 작업 전까지 주석처리
   const address = () => {
@@ -124,6 +84,31 @@ const ProjectHome = () => {
       },
     }
   );
+
+  //서버에서 필터링 작업이 완성되기 전, 눈속임을 위한 필터 데이터
+  const [filter, setFilter] = useState<Filter>(0);
+  const filterNames = useMemo(() => Object.keys(ARTICLE_FILTER), []);
+  const filterHandler = (idx: number) => {
+    setFilter(idx);
+  };
+  const [allData, setAllData] = useState<Project[]>([]);
+  const [filterData, setFilterData] = useState<Project[]>([]);
+  const [onSearch, setOnSearch] = useState(false);
+  const onSubmit = (e: { preventDefault: () => void }) => {
+    e.preventDefault();
+    setOnSearch(!onSearch);
+  };
+
+  useEffect(() => {
+    getAllProject().then((res) => setAllData(res));
+  }, []);
+
+  useEffect(() => {
+    setFilterData(
+      allData.filter((data) => data.title.includes(watch().search))
+    );
+  }, [onSearch]);
+  useFilter({ filter, allData, setAllData, refetch });
 
   //무한 스크롤 effect
   const target = useRef<HTMLDivElement>(null);
@@ -191,11 +176,11 @@ const ProjectHome = () => {
         >
           <div className="filter-box noto-regular-13">
             <div className="filter-sub-box">
-              {filterNames.map((name) => (
+              {filterNames.map((name, idx) => (
                 <div
                   key={name}
-                  className={PROJECT_FILTER[name] === filter ? 'focus' : ''}
-                  onClick={() => filterHandler(name)}
+                  className={idx === filter ? 'focus' : ''}
+                  onClick={() => filterHandler(idx)}
                 >
                   {name}
                 </div>

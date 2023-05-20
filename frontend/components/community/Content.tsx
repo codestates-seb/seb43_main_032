@@ -1,4 +1,4 @@
-import { ChangeEvent, useState } from 'react';
+import { ChangeEvent, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { FaSearch } from 'react-icons/fa';
 import { Community } from '@/types/community';
@@ -9,16 +9,16 @@ import { useCommunity } from '@/hooks/react-query/community/useCommunity';
 import Filter from '../Filter';
 import Message from '../Message';
 import CommunityItemSkeleton from '../skeleton/CommunityItemSkeleton';
-import { COMMUNITY_FILTER } from '@/constant/constant';
+import { ARTICLE_FILTER, POST_COMMUNITY_CATEGORY } from '@/constant/constant';
+import { getAllCommunity } from '@/util/api/getAllProject';
+import { useFilter } from '@/hooks/useFilter';
 
 export default function Content() {
   const router = useRouter();
   const [page, setPage] = useState(1);
-  const [searchVal, setSearchVal] = useState('');
-  const [communityFilter, setCommunityFilter] = useState('sorted');
+  const page_limit = 10;
   const queryKey = ['articles', page];
   const endPoint = `/articles/find-all`;
-  const page_limit = 10;
   const address = `${endPoint}?size=${page_limit}&page=${page}`;
   const { communityQuery, refetch } = useCommunity<Community[]>({
     address,
@@ -27,11 +27,34 @@ export default function Content() {
   const data = communityQuery.data?.data;
   const totalPage = communityQuery.data?.pageInfo.totalPages;
 
+  //모든 데이터 세팅, 서버 필터링을 프론트 눈속임으로 해결
+  const [allData, setAllData] = useState<Community[]>([]);
+  useEffect(() => {
+    getAllCommunity().then((res) => setAllData(res));
+  }, []);
+
+  //검색
+  const [searchVal, setSearchVal] = useState('');
   const findContentItem = (e: ChangeEvent<HTMLInputElement>) => {
     setSearchVal(e.target.value);
   };
-  const selectCommunityFilter = (communityFilter: string) => {
-    setCommunityFilter(communityFilter);
+
+  //기존 필터
+  const [filter, setFilter] = useState(0);
+  const filterHandler = (idx: number) => {
+    setFilter(idx);
+  };
+  useFilter({ filter, allData, setAllData, refetch });
+  console.log(allData);
+
+  //카테고리 필터 데이터
+  const CategoryFilterData = [
+    '전체보기',
+    ...Object.keys(POST_COMMUNITY_CATEGORY),
+  ];
+  const [categoryFilter, setCategoryFilter] = useState(0);
+  const categoryFilterHandler = (idx: number) => {
+    setCategoryFilter(idx);
   };
 
   if (communityQuery.error)
@@ -48,10 +71,18 @@ export default function Content() {
         <SearchBtn>
           <FaSearch />
         </SearchBtn>
+        <SearchBtn onClick={() => router.push('/community/create')}>
+          질문하기
+        </SearchBtn>
         <Filter
-          filterData={COMMUNITY_FILTER}
-          filter={communityFilter}
-          selectFilter={selectCommunityFilter}
+          filterData={CategoryFilterData}
+          filter={categoryFilter}
+          selectFilter={categoryFilterHandler}
+        />
+        <Filter
+          filterData={ARTICLE_FILTER}
+          filter={filter}
+          selectFilter={filterHandler}
         />
       </ContentTop>
       <ContentBottom>

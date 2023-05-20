@@ -2,9 +2,9 @@ import { useState } from 'react';
 import styled from 'styled-components';
 
 type Props = {
-  filter: string;
-  selectFilter: (filter: string) => void;
-  filterData: { [key: string]: string }[];
+  filter: number;
+  selectFilter: (idx: number) => void;
+  filterData: string[];
 };
 
 const Filter = ({ filter, selectFilter, filterData }: Props) => {
@@ -12,20 +12,17 @@ const Filter = ({ filter, selectFilter, filterData }: Props) => {
   const filterHandler = () => {
     setIsFilter(!isFilter);
   };
+  const select = filterData[filter];
 
-  const filterName = filterData.find((x) => x.value === filter)?.label;
   return (
     <ContentBottomFilter onClick={filterHandler}>
       <CustomSelectButton>
-        {filterName} <span className="icon">▼</span>
+        {select} <span className="icon">▼</span>
       </CustomSelectButton>
       <CustomSelectOptions isFilter={isFilter}>
-        {filterData.map((option) => (
-          <CustomSelectOption
-            key={option.value}
-            onClick={() => selectFilter(option.value)}
-          >
-            {option.label}
+        {filterData.map((option, i) => (
+          <CustomSelectOption key={option} onClick={() => selectFilter(i)}>
+            {option}
           </CustomSelectOption>
         ))}
       </CustomSelectOptions>
