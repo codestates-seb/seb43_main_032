@@ -15,6 +15,7 @@ import { loggedInUserState, navModalState } from '@/recoil/atom';
 import { setUserState } from '@/util/api/user';
 import Img from '../public/images/second-user.svg';
 import { NavProps } from '@/types/types';
+import ButtonStyle from './ButtonStyle';
 
 const Header = () => {
   const router = useRouter();
@@ -123,17 +124,15 @@ const Header = () => {
               )
             : navNames.slice(5).map((name) => (
                 <li key={name}>
-                  <Link
-                    href={`${HEADER_NAV[name]}`}
-                    className="nanum-regular main-btn"
-                  >
-                    <span>{name.toUpperCase()}</span>
-                  </Link>
+                  <ButtonStyle
+                    link={`${HEADER_NAV[name]}`}
+                    text={name.toUpperCase()}
+                  ></ButtonStyle>
                 </li>
               ))}
         </NavMenu>
       </Nav>
-      {router.pathname !== '/404' && (
+      {router.pathname === '/' && (
         <BannerSlider isScrolled={isScrolled}></BannerSlider>
       )}
       <ModalNav nav={nav}>

@@ -118,12 +118,31 @@ const AnswerItem = ({ answer, deleteAnswer, editAnswer, isAuthor }: Props) => {
           </>
         ) : (
           <>
-            <div className="like-box">
-              {/* 좋아요 추가되면 넣을 듯?*/}
-              {true ? <RiThumbUpLine size={30} /> : <RiThumbUpFill size={30} />}
-            </div>
             <div className="content-box">
-              <div className="top">{answer.content}</div>
+              <div className="top">
+                <div className="top-left">
+                  <div className="user-img">
+                    <img src={answer.memberInfo.profileImageUrl} alt="user" />
+                  </div>
+                  <div className="user-detail">
+                    <div className="user-id">{answer.memberInfo.name}</div>
+                    <div className="user-star">
+                      <AiFillStar fill="rgb(255, 153, 0)" />
+                      {answer.memberInfo.totalStar}
+                    </div>
+                  </div>
+                </div>
+                <div className="like-box">
+                  {/* 좋아요 추가되면 넣을 듯?*/}
+                  {true ? (
+                    <RiThumbUpLine size={16} fill="#8217f3 " />
+                  ) : (
+                    <RiThumbUpFill size={16} fill="#d2c4ff" />
+                  )}
+                  <div className="like-num">100</div>
+                </div>
+              </div>
+              <div className="content">{answer.content}</div>
               <div className="bottom">
                 <div className="update-box">
                   {commentLength !== undefined && commentLength > 0 && (
@@ -143,16 +162,6 @@ const AnswerItem = ({ answer, deleteAnswer, editAnswer, isAuthor }: Props) => {
                 </div>
                 <div className="user-box">
                   <div>{elapsedTime(new Date(answer.createdAt))}</div>
-                  <div className="user-img">
-                    <img src={answer.memberInfo.profileImageUrl} alt="user" />
-                  </div>
-                  <div className="user-detail">
-                    <div className="user-id">{answer.memberInfo.name}</div>
-                    <div className="user-star">
-                      <AiFillStar />
-                      {answer.memberInfo.totalStar}
-                    </div>
-                  </div>
                 </div>
               </div>
             </div>
@@ -176,10 +185,14 @@ const AnswerItem = ({ answer, deleteAnswer, editAnswer, isAuthor }: Props) => {
 export default AnswerItem;
 
 const Box = styled.li`
-  border: 1px solid black;
+  width: 100%;
+  border: 2px solid #ececec;
+  border-radius: 10px;
   height: 140px;
   display: flex;
   position: relative;
+  padding: 10px 20px;
+
   .edit-box {
     position: absolute;
     display: flex;
@@ -188,59 +201,91 @@ const Box = styled.li`
     top: 12px;
   }
 
-  .like-box {
-    min-width: 60px;
-    padding: 8px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    > svg {
-      cursor: pointer;
-    }
-  }
   .content-box {
+    width: 100%;
     display: flex;
     flex-direction: column;
+    justify-content: space-around;
     flex: 2;
     .top {
-      padding: 12px;
-      flex: 0.7;
+      display: flex;
+      justify-content: space-between;
+      border-radius: 5px;
+      color: #535353;
+
+      .top-left {
+        width: 70%;
+        display: flex;
+        .user-img {
+          width: 40px;
+          height: 40px;
+
+          > img {
+            border-radius: 50%;
+            width: 100%;
+          }
+        }
+        .user-detail {
+          display: flex;
+          flex-direction: column;
+          width: 70%;
+          gap: 4px;
+          .user-id {
+            color: #171717;
+            font-size: 15px;
+          }
+          .user-star {
+            color: #171717;
+            font-size: 12px;
+            vertical-align: middle;
+          }
+        }
+      }
+
+      .like-box {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 8px;
+        padding: 4px 10px;
+        border: 1px solid rgb(215, 226, 235);
+        border-radius: 5px;
+        > svg {
+          cursor: pointer;
+        }
+      }
     }
+
     .bottom {
       flex: 0.3;
       display: flex;
       justify-content: space-between;
-      padding: 8px;
       .update-box {
         display: flex;
         align-items: center;
-        gap: 16px;
+        gap: 8px;
         button {
+          font-family: 'Pretendard';
           cursor: pointer;
+          padding: 2px 10px;
+          background: none;
+          border: 1px solid rgb(215, 226, 235);
+          border-radius: 5px;
+          color: #171717;
+          transition: all 0.3s ease;
+
+          :hover {
+            background: #d2c4ff;
+            color: white;
+          }
         }
       }
       .user-box {
         display: flex;
         align-items: center;
         gap: 16px;
-        .user-img {
-          height: 40px;
-          width: 40px;
-          > img {
-            border-radius: 50%;
-            width: 100%;
-            height: 100%;
-          }
-        }
-        .user-detail {
-          display: flex;
-          flex-direction: column;
-          justify-content: center;
-          .user-id {
-          }
-          .user-star {
-          }
-        }
+        font-size: 12px;
+        color: rgb(204, 206, 208);
       }
     }
   }

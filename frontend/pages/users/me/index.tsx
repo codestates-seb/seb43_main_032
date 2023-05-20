@@ -15,7 +15,6 @@ const LeftColumn = styled.div`
   flex-direction: column;
   align-items: center;
   padding: 20px;
-  background-color: rgba(0, 0, 0, 0.1);
   @media (max-width: 960px) {
     display: none;
   }
@@ -26,10 +25,28 @@ const RightColumn = styled.div`
   padding: 20px;
 `;
 const UserInfo = styled.div`
-  padding: 40px;
-  padding-top: 20px;
-  border-radius: 15px;
-  background-color: rgba(0, 0, 0, 0.2);
+  padding: 10px;
+  margin-bottom: 20px;
+
+  .title {
+    font-family: var(--font-nanum);
+    font-size: 23px;
+    font-weight: 700;
+    color: #464646;
+    margin-bottom: 20px;
+  }
+
+  .info-box {
+    background: #0d1117;
+    color: #c9d1d9;
+    font-size: 15px;
+    padding: var(--padding-2);
+    border: 1px solid #d8d8d8;
+    border-radius: var(--radius-def);
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
 `;
 
 const ProfileContainer = styled.div`
@@ -53,11 +70,16 @@ const StackContainer = styled.div`
   display: flex;
 `;
 const EditButton = styled.button`
-  border: none;
+  width: calc(100% - 2px);
+  border: solid 2px #ececec;
   padding: 10px;
-  background-color: skyblue;
   border-radius: 5px;
   cursor: pointer;
+  font-size: 15px;
+  font-family: 'Pretendard';
+
+  :hover {
+  }
 `;
 
 export default function me() {
@@ -86,11 +108,12 @@ export default function me() {
       {user && (
         <GridBox>
           <LeftColumn>
-            <EditButton onClick={handleClick}>edit</EditButton>
             <UserInfoCard user={user} />
+            <EditButton onClick={handleClick}>edit</EditButton>
           </LeftColumn>
           <RightColumn>
             <UserInfo>
+              <div className="title">개인 정보</div>
               <ProfileContainer>
                 <InfoContainer
                   keyNode={
@@ -130,18 +153,23 @@ export default function me() {
                   }
                 />
               </ProfileContainer>
-              <InfoContainer keyNode={'AboutMe'} contentNode={user.aboutMe} />
-              <InfoContainer keyNode={'휴대전화'} contentNode={user.phone} />
-              <InfoContainer
-                keyNode={'이메일'}
-                contentNode={user.email}
-                lastItem
-              />
+              <div className="info-box">
+                <InfoContainer
+                  keyNode={'자기소개'}
+                  contentNode={user.aboutMe}
+                />
+                <InfoContainer keyNode={'휴대전화'} contentNode={user.phone} />
+                <InfoContainer
+                  keyNode={'이메일'}
+                  contentNode={user.email}
+                  lastItem
+                />
+              </div>
             </UserInfo>
-            <UserContentsBox id={0} contents={['Projects', 'Posts']} />
+            <UserContentsBox id={0} contents={['프로젝트', '게시글']} />
             <UserContentsBox
               id={0}
-              contents={['Projects replies', 'Post replies']}
+              contents={['프로젝트 댓글', '게시글 댓글']}
             />
           </RightColumn>
         </GridBox>

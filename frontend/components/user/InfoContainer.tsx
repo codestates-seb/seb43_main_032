@@ -6,8 +6,6 @@ const Wrapper = styled.div`
   display: flex;
   align-items: center;
   font-size: 15px;
-  padding-top: 10px;
-  padding-bottom: 10px;
   ${({ lastItem }: { lastItem: Boolean }) =>
     lastItem
       ? 'padding-bottom: 0px'
