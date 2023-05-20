@@ -1,7 +1,6 @@
 import GridBox from '@/components/GridBox';
 import Tag from '@/components/Tag';
 import PeriodBox from '@/components/project/PeriodBox';
-import StacksBox from '@/components/project/StacksBox';
 import TagBox from '@/components/project/TagBox';
 import dynamic from 'next/dynamic';
 import styled from 'styled-components';
@@ -17,8 +16,9 @@ import { loggedInUserState } from '@/recoil/atom';
 import { BUTTON_STATE } from '@/constant/constant';
 import { useProject } from '@/hooks/react-query/project/useProject';
 import { useGetAnswer } from '@/hooks/react-query/answer/useGetAnswer';
-import AnswerBox from '@/components/AnswerBox';
+import AnswerBox from '@/components/answer/AnswerBox';
 import { Tech } from '@/types/project';
+import StacksBox from '@/components/project/StacksBox';
 const ReactMarkdown = dynamic(() => import('@/components/editor/ContentBox'), {
   ssr: false,
   loading: () => <ContentSkeleton />,
@@ -200,7 +200,10 @@ const ViewProject = () => {
             <div className="right">
               {data.memberInfo.email === loggedInUser?.email && (
                 <>
-                  <a onClick={deleteProject} className="main-btn">
+                  <a
+                    onClick={() => deleteProject.mutate()}
+                    className="main-btn"
+                  >
                     <span>프로젝트 삭제</span>
                   </a>
                   <a onClick={moveEdit} className="main-btn">

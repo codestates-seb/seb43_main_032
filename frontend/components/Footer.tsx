@@ -4,8 +4,20 @@ import Image from 'next/image';
 import styled from 'styled-components';
 import { FOOTER_DATA } from '@/constant/constant';
 import Link from 'next/link';
+import { useRecoilState } from 'recoil';
+import { isContactState } from '@/recoil/atom';
 
 const Footer = () => {
+  //메일봇 상태
+  const [, setIsContact] = useRecoilState(isContactState);
+
+  const onContact = (name: string, e: { preventDefault: () => void }) => {
+    if (name === 'onContact') {
+      e.preventDefault();
+      setIsContact(true);
+    }
+  };
+
   //카테고리 이름들
   const categories = useMemo(() => Object.keys(FOOTER_DATA), []);
 
@@ -17,15 +29,17 @@ const Footer = () => {
         </Link>
       </div>
       <nav>
-        {categories.map((category, i) => (
-          <div key={i}>
+        {categories.map((category) => (
+          <div key={category}>
             <div className="sub-btn">
               <span className="sub-btn-top">{category.toUpperCase()}</span>
             </div>
             <ul>
-              {FOOTER_DATA[category].map((item, j) => (
-                <li key={j}>
-                  <a href={item.link}>{item.name}</a>
+              {FOOTER_DATA[category].map((item) => (
+                <li key={item.name}>
+                  <a onClick={(e) => onContact(item.link, e)} href={item.link}>
+                    {item.name}
+                  </a>
                 </li>
               ))}
             </ul>

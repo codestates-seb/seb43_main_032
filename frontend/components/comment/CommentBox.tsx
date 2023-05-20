@@ -1,8 +1,8 @@
 import styled from 'styled-components';
-import EiditorSkeleton from './skeleton/EiditorSkeleton';
+import EiditorSkeleton from '../skeleton/EiditorSkeleton';
 import dynamic from 'next/dynamic';
 import hljs from 'highlight.js';
-import Pagenation from './Pagenation';
+import Pagenation from '../Pagenation';
 
 const Editor = dynamic(() => import('@/components/editor/Editor'), {
   ssr: false,

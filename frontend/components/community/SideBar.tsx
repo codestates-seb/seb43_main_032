@@ -1,4 +1,5 @@
 import { COMMUNITY_CATEGORY } from '@/constant/constant';
+import { getCookie } from '@/util/cookie';
 import { useRouter } from 'next/router';
 import React from 'react';
 import styled from 'styled-components';
@@ -13,6 +14,9 @@ export default function SideBar() {
           <li
             key={item.title}
             onClick={() => {
+              if (!getCookie('accessToken')) {
+                return alert('먼저 로그인을 해주세요.');
+              }
               router.push(`/community/${item.link}`);
             }}
             className={

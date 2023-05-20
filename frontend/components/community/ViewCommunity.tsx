@@ -1,19 +1,19 @@
 import { useRouter } from 'next/router';
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { FaHeart } from 'react-icons/fa';
 import dynamic from 'next/dynamic';
 import ContentSkeleton from '../skeleton/ContentSkeleton';
 import Message from '../Message';
 import { Community } from '@/types/community';
 import { useCommunity } from '@/hooks/react-query/community/useCommunity';
-import AnswerBox from '../AnswerBox';
+import AnswerBox from '../answer/AnswerBox';
 import GridBox from '../GridBox';
 import Tag from '../Tag';
 import { useRecoilValue } from 'recoil';
 import { loggedInUserState } from '@/recoil/atom';
 import { AiFillHeart, AiOutlineHeart } from 'react-icons/ai';
-import { formatDate2 } from '@/util/date';
+import { useGetAnswer } from '@/hooks/react-query/answer/useGetAnswer';
+import TagBox from '../project/TagBox';
 
 const ReactMarkdown = dynamic(() => import('@/components/editor/ContentBox'), {
   ssr: false,
@@ -32,11 +32,18 @@ const ViewCommunity = () => {
   const project = ['1', '2', '3', '4', '5', '6', '7', '8', '9'];
   const [userHeart, setUserHeart] = useState(false);
 
-  const { communityQuery } = useCommunity<Community>({
+  const { communityQuery, moveEdit, deleteArticle } = useCommunity<Community>({
     address,
     queryKey,
   });
   const data = communityQuery.data?.data;
+
+  //답글 총 개수를 가져오기 위함
+  const { answerPageCount } = useGetAnswer({
+    category: 'ARTICLE',
+    postId: Number(id),
+    params: `size=5&page=1`,
+  });
 
   if (communityQuery.isLoading) return <Message>로딩중입니다.</Message>;
   if (communityQuery.error)
@@ -86,10 +93,25 @@ const ViewCommunity = () => {
                 <Tag>쪽지 보내기</Tag>
               )}
             </div>
+            <TagBox
+              type="community"
+              tags={data.techList.map((item) => ({ field: item.tech }))}
+            />
           </Top>
           <Bottom>
             <div className="main-title">
-              <div className="title">{data.title}</div>
+              <div className="title">
+                <div>{data.title}</div>
+                <Tag>{data.category}</Tag>
+              </div>
+              {data.memberInfo.email === loggedInUser?.email && (
+                <div className="change-box">
+                  <button onClick={() => deleteArticle.mutate()}>
+                    삭제하기
+                  </button>
+                  <button onClick={moveEdit}>수정하기</button>
+                </div>
+              )}
             </div>
             <div className="sub-title">
               <div className="date">
@@ -104,6 +126,7 @@ const ViewCommunity = () => {
 
               <div className="comment">
                 <span className="commentNum">댓글수 : </span>
+                {answerPageCount}
               </div>
             </div>
             <div className="content">
@@ -134,6 +157,7 @@ const Top = styled.div`
     align-items: center;
     padding: 40px 30px 20px;
     border: solid 2px #ececec;
+    margin-bottom: 24px;
 
     .tag {
       margin-top: 30px;
@@ -266,13 +290,25 @@ const Bottom = styled.div`
 
   .main-title {
     display: flex;
-    flex-direction: column;
+    justify-content: space-between;
+
+    .change-box {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
 
     .title {
       font-size: 27px;
       font-weight: 700;
       border-bottom: solid 1px #ececec;
       padding-bottom: 10px;
+      display: flex;
+      align-items: center;
+
+      .category {
+        font-size: 14px;
+      }
     }
   }
   .sub-title {

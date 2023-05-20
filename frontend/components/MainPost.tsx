@@ -5,6 +5,7 @@ import { COMMUNITY_EX, POSITIONS, PROJECT_EX } from '@/constant/constant';
 import { Form } from '@/types/types';
 import { UseFormRegister } from 'react-hook-form';
 import Btn from './button/Btn';
+import { useRouter } from 'next/router';
 const Editor = dynamic(() => import('@/components/editor/Editor'), {
   ssr: false,
   loading: () => <EiditorSkeleton />,
@@ -29,13 +30,14 @@ const MainPost = ({
   postProject,
   data,
 }: Props) => {
+  const router = useRouter();
   return (
     <Main>
       {type === 1 ? PROJECT_EX : COMMUNITY_EX}
       <form onSubmit={postProject}>
         <div className="nanum-bold">
           <div className="position-box">
-            <div>나의 포지션</div>
+            <div>카테고리</div>
             <div>
               <select
                 {...register('position', { value: data && data.position })}
@@ -51,7 +53,9 @@ const MainPost = ({
           </div>
           <div className="submit-box">
             <Btn>
-              <span>작성 완료</span>
+              <span>
+                {router.route.includes('edit') ? '수정 완료' : '작성 완료'}
+              </span>
             </Btn>
           </div>
         </div>
@@ -73,7 +77,6 @@ const MainPost = ({
 export default MainPost;
 
 const Main = styled.div`
-  padding: var(--padding-2);
   margin-bottom: 50px;
   input {
     width: 100%;

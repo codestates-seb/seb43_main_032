@@ -109,7 +109,7 @@ const Box = styled.div`
       transform: rotate(-2deg);
     }
   }
-  .period {
+  > .period {
     padding: 10px;
     border: solid 2px #ececec;
     border-radius: 10px;
