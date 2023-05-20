@@ -20,7 +20,7 @@ export default function Content() {
   const queryKey = ['articles', page];
   const endPoint = `/articles/find-all`;
   const address = `${endPoint}?size=${page_limit}&page=${page}`;
-  const { communityQuery, refetch } = useCommunity<Community[]>({
+  const { communityQuery } = useCommunity<Community[]>({
     address,
     queryKey,
   });

@@ -1,27 +1,9 @@
 import {
-  CommunityCategory,
   FooterData,
   HeaderNav,
   StackCategory,
   StackCategoryName,
 } from '@/types/types';
-import {
-  AiFillAndroid,
-  AiFillApple,
-  AiFillCalendar,
-  AiOutlineSmallDash,
-} from 'react-icons/ai';
-import {
-  FaClipboardList,
-  FaDatabase,
-  FaDesktop,
-  FaHeadset,
-  FaPaintBrush,
-  FaQuestion,
-  FaUserCog,
-} from 'react-icons/fa';
-import { MdDesignServices } from 'react-icons/md';
-import { TbBusinessplan } from 'react-icons/tb';
 
 export const HEADER_NAV: HeaderNav = {
   COMMUNITY: '/community',
