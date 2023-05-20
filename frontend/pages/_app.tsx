@@ -27,17 +27,23 @@ const queryClient = new QueryClient({
 
 const App = ({ Component, pageProps }: AppProps) => {
   const router = useRouter().pathname;
+  const page404 = router !== '/404';
+  const pageLogin = router !== '/users/login';
+  const pageSignUp = router !== '/users/login';
+  console.log(page404);
+  console.log(pageLogin);
+  console.log(pageSignUp);
 
   return (
     <QueryClientProvider client={queryClient}>
       <RecoilRoot>
-        {router !== '/404' && <Header />}
+        {page404 && <Header />}
         <Box>
           <Component {...pageProps} />
         </Box>
-        <Contact />
+        {page404 && <Contact />}
         <ModalBg></ModalBg>
-        <Footer />
+        {page404 && <Footer />}
       </RecoilRoot>
     </QueryClientProvider>
   );
@@ -50,22 +56,4 @@ const Box = styled.main`
   padding: 0px calc((100% - 1280px) / 2);
   padding-top: 80px;
   flex: 1;
-`;
-
-const IconBox = styled.div`
-  transition: all 1s ease-in-out;
-  bottom: 20px;
-  right: 20px;
-  position: fixed;
-  cursor: pointer;
-  z-index: 9999;
-`;
-
-const AskBox = styled.div<{ isVisible: boolean }>`
-  min-width: 300px;
-  max-height: 500px;
-  bottom: ${({ isVisible }) => (isVisible ? '20px' : '-100%')};
-  right: 20px;
-  position: fixed;
-  transition: bottom 0.5s ease-in-out;
 `;
