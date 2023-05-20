@@ -1,27 +1,14 @@
 import { useRouter } from 'next/router';
 import React, { useEffect } from 'react';
 import styled from 'styled-components';
-import dynamic from 'next/dynamic';
-import ContentSkeleton from '../skeleton/ContentSkeleton';
 import Message from '../Message';
 import { Community } from '@/types/community';
 import { useCommunity } from '@/hooks/react-query/community/useCommunity';
-import AnswerBox from '../answer/AnswerBox';
 import GridBox from '../common_box/GridBox';
-import Tag from '../Tag';
-import { useRecoilValue } from 'recoil';
-import { loggedInUserState } from '@/recoil/atom';
 import TagBox from '../project/TagBox';
-import HeartBox from '../common_box/HeartBox';
-import { formatDate2 } from '@/util/date';
 import AuthorBox from '../common_box/AuthorBox';
 import { getCookie } from '@/util/cookie';
 import MainArticleBox from '../common_box/MainArticleBox';
-
-const ReactMarkdown = dynamic(() => import('@/components/editor/ContentBox'), {
-  ssr: false,
-  loading: () => <ContentSkeleton />,
-});
 
 // item 개별 페이지
 const ViewCommunity = () => {
@@ -29,9 +16,6 @@ const ViewCommunity = () => {
   const id = router.query.id;
   const address = `/articles/${id}`;
   const queryKey = ['articles', 'post', id];
-
-  //로그인한 유저의 데이터
-  const loggedInUser = useRecoilValue(loggedInUserState);
 
   const {
     communityQuery,

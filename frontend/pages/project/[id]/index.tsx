@@ -1,10 +1,6 @@
-import Tag from '@/components/Tag';
 import PeriodBox from '@/components/project/PeriodBox';
 import TagBox from '@/components/project/TagBox';
-import dynamic from 'next/dynamic';
 import styled from 'styled-components';
-import ContentSkeleton from '@/components/skeleton/ContentSkeleton';
-import { formatDate2 } from '@/util/date';
 import { useEffect } from 'react';
 import { useRouter } from 'next/router';
 import Message from '@/components/Message';
@@ -12,17 +8,11 @@ import { useRecoilValue } from 'recoil';
 import { loggedInUserState } from '@/recoil/atom';
 import { BUTTON_STATE } from '@/constant/constant';
 import { useProject } from '@/hooks/react-query/project/useProject';
-import AnswerBox from '@/components/answer/AnswerBox';
 import StacksBox from '@/components/project/StacksBox';
-import HeartBox from '@/components/common_box/HeartBox';
 import GridBox from '@/components/common_box/GridBox';
 import AuthorBox from '@/components/common_box/AuthorBox';
 import { getCookie } from '@/util/cookie';
 import MainArticleBox from '@/components/common_box/MainArticleBox';
-const ReactMarkdown = dynamic(() => import('@/components/editor/ContentBox'), {
-  ssr: false,
-  loading: () => <ContentSkeleton />,
-});
 
 const ViewProject = () => {
   const router = useRouter();
