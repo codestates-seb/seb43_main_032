@@ -63,8 +63,7 @@ const AnswerBox = () => {
       };
 
   //게시글에 해당하는 답글 데이터
-  const { answerQuery, answerRefetch, answerPageCount, isAuthor } =
-    useGetAnswer(getForm);
+  const { answerQuery, answerRefetch, answerPageCount } = useGetAnswer(getForm);
 
   //답글 데이터
   const answerData = answerQuery.data?.data;
@@ -75,10 +74,11 @@ const AnswerBox = () => {
   }, [answerPage]);
 
   //답글 CRUD 함수
-  const { postAnswer, deleteAnswer, editAnswer } = useAnswer({
-    answerRefetch,
-    changeAnswerVal,
-  });
+  const { postAnswer, deleteAnswer, editAnswer, likeAnswer, dislikeAnswer } =
+    useAnswer({
+      answerRefetch,
+      changeAnswerVal,
+    });
 
   //작성 이벤트
   const postEvent = () => {
@@ -104,10 +104,12 @@ const AnswerBox = () => {
             answerData.map((answer) => (
               <AnswerItem
                 key={answer.answerId}
-                isAuthor={isAuthor}
+                isAuthor={answer.author}
                 answer={answer}
                 deleteAnswer={deleteAnswer}
                 editAnswer={editAnswer}
+                likeAnswer={likeAnswer}
+                dislikeAnswer={dislikeAnswer}
               />
             ))}
         </ul>
@@ -126,6 +128,7 @@ const Box = styled.div`
   display: flex;
   flex-direction: column;
   font-size: 15px;
+  gap: 16px;
   > div {
     width: 100%;
   }

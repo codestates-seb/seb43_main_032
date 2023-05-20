@@ -20,27 +20,29 @@ const Home = () => {
 
   if (topLikeProjectError || topViewProjectError || communityQuery.error)
     return <Message>잠시 후 다시 시도해주세요.</Message>;
-  if (!topLikeProjectData || !topViewProjectData || !topViewcommunityData)
-    return;
   return (
     <Box>
-      <ProjectCardBox
-        skeleton={topLikeProjectLoading && <ProjectSkeleton />}
-        data={topLikeProjectData}
-        title={'인기 프로젝트'}
-      />
-      <ProjectCardBox
-        skeleton={topViewProjectLoading && <ProjectSkeleton />}
-        data={topViewProjectData}
-        title={'주목 중인 프로젝트'}
-      />
-      <CommunityCardBox
-        skeleton={
-          communityQuery.isLoading && <CommunityItemSkeleton count={5} />
-        }
-        data={topViewcommunityData}
-        title={'인기 커뮤니티'}
-      />
+      {topLikeProjectData && topViewProjectData && topViewcommunityData && (
+        <>
+          <ProjectCardBox
+            skeleton={topLikeProjectLoading && <ProjectSkeleton />}
+            data={topLikeProjectData}
+            title={'인기 프로젝트'}
+          />
+          <ProjectCardBox
+            skeleton={topViewProjectLoading && <ProjectSkeleton />}
+            data={topViewProjectData}
+            title={'주목 중인 프로젝트'}
+          />
+          <CommunityCardBox
+            skeleton={
+              communityQuery.isLoading && <CommunityItemSkeleton count={5} />
+            }
+            data={topViewcommunityData}
+            title={'인기 커뮤니티'}
+          />
+        </>
+      )}
     </Box>
   );
 };

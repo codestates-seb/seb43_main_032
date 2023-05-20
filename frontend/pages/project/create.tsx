@@ -5,11 +5,11 @@ import { useEffect } from 'react';
 
 const CreateProject = () => {
   const router = useRouter();
-  if (!getCookie('accessToken')) {
-    router.push('/users/login').then(() => {
-      alert('로그인을 해주세요.');
-    });
-  }
+  // if (!getCookie('accessToken')) {
+  //   router.push('/users/login').then(() => {
+  //     alert('로그인을 해주세요.');
+  //   });
+  // }
   useEffect(() => {
     window.scrollTo({
       top: 600,

@@ -20,12 +20,31 @@ export const useProject = () => {
     }
   );
 
-  //하트관련 (아직 서버 미 구현)
-  // const updateHeart = useMutation(() => api.post(`/projects/heart`), {
-  //   onSuccess: () => {
-  //     refetch();
-  //   },
-  // });
+  //좋아요
+  const likeProject = useMutation(
+    () => api.post(`/likes`, { category: 'PROJECT', uniteId: id }),
+    {
+      onSuccess: () => {
+        refetch();
+      },
+      onError: () => {
+        alert('잠시 후에 다시 시도해주세요.');
+      },
+    }
+  );
+
+  //싫어요
+  const dislikeProject = useMutation(
+    () => api.post(`/likes/undo`, { category: 'PROJECT', uniteId: id }),
+    {
+      onSuccess: () => {
+        refetch();
+      },
+      onError: () => {
+        alert('잠시 후에 다시 시도해주세요.');
+      },
+    }
+  );
 
   /**
    * 프로젝트 게시글 상태 업데이트 이벤트
@@ -110,7 +129,8 @@ export const useProject = () => {
   return {
     projectQuery: { isLoading, error, data },
     updateState,
-    // updateHeart,
+    likeProject,
+    dislikeProject,
     projectEvent,
     deleteProject,
     moveEdit,

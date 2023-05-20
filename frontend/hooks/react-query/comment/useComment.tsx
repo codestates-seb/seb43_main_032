@@ -1,9 +1,10 @@
 import { useRouter } from 'next/router';
 import { api } from '@/util/api';
-import { UseMutationResult, useMutation } from 'react-query';
+import { useMutation } from 'react-query';
 import {
   DeleteCommentMutation,
   EditCommentMutation,
+  LikeCommentMutation,
   PostCommentMutation,
 } from '@/types/comment';
 
@@ -77,5 +78,49 @@ export const useComment = ({ commentRefetch }: Props) => {
     }
   );
 
-  return { postComment, deleteComment, editComment };
+  /**
+   * 댓글 좋아요
+   */
+  const likeComment: LikeCommentMutation = useMutation(
+    ({ category, uniteId }: { category: 'COMMENT'; uniteId: number }) =>
+      api.post(`/likes`, {
+        category: category,
+        uniteId: uniteId,
+      }),
+    {
+      onSuccess: () => {
+        commentRefetch();
+      },
+      onError: () => {
+        alert('잠시 후에 다시 시도해주세요.');
+      },
+    }
+  );
+
+  /**
+   * 댓글 싫어요
+   */
+  const dislikeComment: LikeCommentMutation = useMutation(
+    ({ category, uniteId }: { category: 'COMMENT'; uniteId: number }) =>
+      api.post(`/likes/undo`, {
+        category: category,
+        uniteId: uniteId,
+      }),
+    {
+      onSuccess: () => {
+        commentRefetch();
+      },
+      onError: () => {
+        alert('잠시 후에 다시 시도해주세요.');
+      },
+    }
+  );
+
+  return {
+    postComment,
+    deleteComment,
+    editComment,
+    likeComment,
+    dislikeComment,
+  };
 };

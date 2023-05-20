@@ -38,6 +38,8 @@ export type Project = {
   totalLikes: number;
   views: number;
   writerPosition: string;
+  liked: boolean;
+  author: boolean;
 };
 
 export type PostData = {

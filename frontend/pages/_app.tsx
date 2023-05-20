@@ -8,8 +8,6 @@ import styled from 'styled-components';
 import 'animate.css';
 import Contact from '@/components/Contact';
 import ModalBg from '@/components/ModalBg';
-import axios from 'axios';
-axios.defaults.withCredentials = true;
 import { useRouter } from 'next/router';
 
 const queryClient = new QueryClient({
@@ -31,10 +29,7 @@ const App = ({ Component, pageProps }: AppProps) => {
   const router = useRouter().pathname;
   const page404 = router !== '/404';
   const pageLogin = router !== '/users/login';
-  const pageSignUp = router !== '/users/login';
-  console.log(page404);
-  console.log(pageLogin);
-  console.log(pageSignUp);
+  const pageSignUp = router !== '/users/signup';
 
   return (
     <QueryClientProvider client={queryClient}>

@@ -1,15 +1,23 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import Image from 'next/image';
-import img from '../public/images/thirdFix.svg';
-import board from '../public/images/thirdBoard.svg';
-import msg1 from '../public/images/thirdMsg (1).svg';
-import msgSec1 from '../public/images/thireMsgSec1.svg';
-import { useRouter } from 'next/router';
+import img from '../../public/images/thirdFix.svg';
+import board from '../../public/images/thirdBoard.svg';
+import msg1 from '../../public/images/thirdMsg (1).svg';
+import msg2 from '../../public/images/thirdMsg (2).svg';
+import msg3 from '../../public/images/thirdMsg (3).svg';
+import msgSec1 from '../../public/images/thireMsgSec1.svg';
+import msgSec2 from '../../public/images/thireMsgSec2.svg';
+import msgSec3 from '../../public/images/thireMsgSec3.svg';
+import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 
 export default function BannerFirst() {
-  const router = useRouter();
-
+  // useEffect(() => {
+  //   const timer = setInterval(() => {
+  //     setNum((prev: number) => (prev + 1) % 3);
+  //   }, 1000);
+  //   return () => clearInterval(timer);
+  // }, []);
   return (
     <ImgContainer>
       <div className="mainImg">
@@ -25,16 +33,6 @@ export default function BannerFirst() {
         <div className="msgSec">
           <Image src={msgSec1} alt="msgImg2"></Image>
         </div>
-      </div>
-      <div className="titleBox">
-        <div className="title">
-          프로젝트의 모든 것
-          <br />
-          개발부터 디자인까지
-        </div>
-        <button onClick={() => router.push('users/login')}>
-          <span className="text">지금 시작하기</span>
-        </button>
       </div>
     </ImgContainer>
   );
@@ -95,52 +93,6 @@ const ImgContainer = styled.div`
       > img {
         width: 100%;
       }
-    }
-  }
-
-  > .titleBox {
-    position: absolute;
-    display: flex;
-    flex-direction: column;
-    justify-content: start;
-    align-items: end;
-    width: 50%;
-    height: 50%;
-    top: 37%;
-    right: 5%;
-    color: white;
-    text-align: end;
-    transition: opacity 0.3s ease;
-    > .title {
-      font-size: 40px;
-      font-weight: 600;
-      line-height: 1.5;
-    }
-    > button {
-      font-size: 21px;
-      margin-top: 30px;
-      padding: 0.7em 1.7em;
-      border-radius: 0.5em;
-      transition: all 0.5s ease;
-      border: none;
-      cursor: pointer;
-      letter-spacing: 3px;
-      background-color: #3a2287;
-      color: hsl(0, 0%, 100%);
-      box-shadow: #483290 0px 7px 15px 0px;
-
-      > .text {
-        color: #f2f2f2;
-        font-weight: 600;
-      }
-    }
-    button:active {
-      letter-spacing: 3px;
-      background: linear-gradient(-45deg, #c28aff, #9f4afa, #6333ff);
-      color: hsl(0, 0%, 100%);
-      box-shadow: rgb(93 24 220) 0px 0px 0px 0px;
-      transform: translateY(1px);
-      transition: 50ms;
     }
   }
 
