@@ -2,11 +2,11 @@ import { BannerProps } from '@/types/types';
 import Image from 'next/image';
 import React from 'react';
 import styled from 'styled-components';
-import card from '../public/images/second-card.svg';
-import etc from '../public/images/second-etc.svg';
-import secMessage from '../public/images/second-message.svg';
-import post from '../public/images/second-post.svg';
-import user from '../public/images/second-user.svg';
+import card from '../../public/images/second-card.svg';
+import etc from '../../public/images/second-etc.svg';
+import secMessage from '../../public/images/second-message.svg';
+import post from '../../public/images/second-post.svg';
+import user from '../../public/images/second-user.svg';
 import { useRouter } from 'next/router';
 
 export default function BannerThird() {
