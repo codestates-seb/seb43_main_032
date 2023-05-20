@@ -12,14 +12,18 @@ type AnswerData = {
 };
 
 type Props = {
-  category: 'PROJECT' | 'ARTICLE';
   postId?: number;
   params: string;
 };
 
-export const useGetAnswer = ({ category, postId, params }: Props) => {
+export const useGetAnswer = ({ postId, params }: Props) => {
   const router = useRouter();
   const { id } = router.query;
+
+  //카테고리 설정
+  const category: 'PROJECT' | 'ARTICLE' = router.asPath.includes('project')
+    ? 'PROJECT'
+    : 'ARTICLE';
 
   //유저 데이터
   const loggedInUser = useRecoilValue(loggedInUserState);
@@ -61,7 +65,7 @@ export const useGetAnswer = ({ category, postId, params }: Props) => {
   const answerPageCount = data?.pageInfo.totalElements;
 
   //작성자인지 체크
-  const isAuthor = data?.data[0].memberInfo.email === loggedInUser?.email;
+  const isAuthor = data?.data[0]?.memberInfo.email === loggedInUser?.email;
 
   return {
     answerQuery: { isLoading, error, data },

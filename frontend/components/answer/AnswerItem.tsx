@@ -3,14 +3,13 @@ import EiditorSkeleton from '../skeleton/EiditorSkeleton';
 import dynamic from 'next/dynamic';
 import hljs from 'highlight.js';
 import { RiThumbUpFill, RiThumbUpLine } from 'react-icons/ri';
-import { loggedInUserState } from '@/recoil/atom';
-import { useRecoilValue } from 'recoil';
-import { Answer } from '@/types/answer';
+import {
+  Answer,
+  DeleteAnswerMutation,
+  EditAnswerMutation,
+} from '@/types/answer';
 import { useState } from 'react';
-import { UseMutationResult } from 'react-query';
-import { AxiosResponse } from 'axios';
 import styled from 'styled-components';
-import { useGetComment } from '@/hooks/react-query/comment/useGetComment';
 import { useRouter } from 'next/router';
 
 const Editor = dynamic(() => import('@/components/editor/Editor'), {
@@ -31,25 +30,6 @@ const ANSWER_OPTIONS: EasyMDE.Options = {
   hideIcons: ['guide', 'fullscreen', 'side-by-side'], //버튼 가리기
 };
 
-type DeleteAnswerMutation = UseMutationResult<
-  AxiosResponse<any, any> | undefined,
-  unknown,
-  {
-    answerId: number;
-  },
-  unknown
->;
-
-type EditAnswerMutation = UseMutationResult<
-  AxiosResponse<any, any>,
-  unknown,
-  {
-    answerId: number;
-    content: string;
-  },
-  unknown
->;
-
 type Props = {
   answer: Answer;
   deleteAnswer: DeleteAnswerMutation;
@@ -59,8 +39,6 @@ type Props = {
 
 const AnswerItem = ({ answer, deleteAnswer, editAnswer, isAuthor }: Props) => {
   const router = useRouter();
-  //유저 데이터
-  const loggedInUser = useRecoilValue(loggedInUserState);
 
   //답글 수정 관련
   const [edit, setEdit] = useState(false);
@@ -83,16 +61,6 @@ const AnswerItem = ({ answer, deleteAnswer, editAnswer, isAuthor }: Props) => {
   };
   const deleteEvent = () => {
     deleteAnswer.mutate({ answerId: answer.answerId });
-  };
-
-  //댓글 관련
-  const setCategory: 'PROJECT' | 'ARTICLE' = router.route.includes('project')
-    ? 'PROJECT'
-    : 'ARTICLE';
-  const setCommentProps = {
-    answerId: answer.answerId,
-    category: setCategory,
-    params: 'size=1000&page=1',
   };
 
   const [comment, setComment] = useState(false);

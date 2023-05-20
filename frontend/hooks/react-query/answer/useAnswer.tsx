@@ -5,20 +5,20 @@ import { getCookie } from '@/util/cookie';
 
 type Props = {
   answerRefetch: () => void;
-  category: 'PROJECT' | 'ARTICLE';
   changeAnswerVal: (val: string) => void;
 };
 
 /**
  * 답글 CRUD
  */
-export const useAnswer = ({
-  answerRefetch,
-  category,
-  changeAnswerVal,
-}: Props) => {
+export const useAnswer = ({ answerRefetch, changeAnswerVal }: Props) => {
   const router = useRouter();
   const { id } = router.query;
+
+  //카테고리 설정
+  const category: 'PROJECT' | 'ARTICLE' = router.asPath.includes('project')
+    ? 'PROJECT'
+    : 'ARTICLE';
 
   /**
    * 답글을 작성하는 이벤트

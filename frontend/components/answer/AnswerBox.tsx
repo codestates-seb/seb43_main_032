@@ -36,8 +36,6 @@ type Form = {
 };
 
 const AnswerBox = () => {
-  //유저 데이터
-  const loggedInUser = useRecoilValue(loggedInUserState);
   const router = useRouter();
   const { id } = router.query;
 
@@ -67,7 +65,8 @@ const AnswerBox = () => {
       };
 
   //게시글에 해당하는 답글 데이터
-  const { answerQuery, answerRefetch, answerPageCount,isAuthor } = useGetAnswer(getForm);
+  const { answerQuery, answerRefetch, answerPageCount, isAuthor } =
+    useGetAnswer(getForm);
 
   //답글 데이터
   const answerData = answerQuery.data?.data;
@@ -77,16 +76,8 @@ const AnswerBox = () => {
     answerRefetch();
   }, [answerPage]);
 
-  //카테고리 설정
-  const getCategory: {
-    category: 'PROJECT' | 'ARTICLE';
-  } = router.asPath.includes('project')
-    ? { category: 'PROJECT' }
-    : { category: 'ARTICLE' };
-
   const { postAnswer, deleteAnswer, editAnswer } = useAnswer({
     answerRefetch,
-    ...getCategory,
     changeAnswerVal,
   });
 
