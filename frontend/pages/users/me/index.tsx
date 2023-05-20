@@ -8,6 +8,7 @@ import { UserState } from '@/types/user';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 import styled from 'styled-components';
+import { dummyUser } from './edit';
 
 const LeftColumn = styled.div`
   position: relative;
@@ -15,7 +16,7 @@ const LeftColumn = styled.div`
   flex-direction: column;
   align-items: center;
   padding: 20px;
-  background-color: rgba(0, 0, 0, 0.1);
+  /* background-color: rgba(0, 0, 0, 0.1); */
   @media (max-width: 960px) {
     display: none;
   }
@@ -29,7 +30,9 @@ const UserInfo = styled.div`
   padding: 40px;
   padding-top: 20px;
   border-radius: 15px;
-  background-color: rgba(0, 0, 0, 0.2);
+  box-shadow: 5px 5px 10px 0px rgba(0, 0, 0, 0.25);
+  -webkit-box-shadow: 5px 5px 10px 0px rgba(0, 0, 0, 0.25);
+  -moz-box-shadow: 5px 5px 10px 0px rgba(0, 0, 0, 0.25);
 `;
 
 const ProfileContainer = styled.div`
@@ -52,20 +55,25 @@ const AvatarContainer = styled.div`
 const StackContainer = styled.div`
   display: flex;
 `;
-const EditButton = styled.button`
+const EditButton = styled.button.attrs({
+  clessName: 'nanum-bold',
+})`
+  left: 200px;
   border: none;
   padding: 10px;
+  margin: 20px;
   background-color: skyblue;
   border-radius: 5px;
   cursor: pointer;
+  font-size: 20px;
 `;
 
 export default function me() {
   // const user = useAuth();
-  // const user = USER;
-  const {
-    getMyInfo: { data: user },
-  } = useUser({});
+  const user = dummyUser;
+  // const {
+  //   getMyInfo: { data: user },
+  // } = useUser({});
   const router = useRouter();
   user && console.log(user);
 

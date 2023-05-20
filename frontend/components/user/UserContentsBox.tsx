@@ -6,7 +6,7 @@ const Wrapper = styled.div``;
 const Contents = styled.div`
   padding: 20px;
   border-radius: var(--radius-def);
-  background-color: rgba(0, 0, 0, 0.2);
+  /* background-color: rgba(0, 0, 0, 0.2); */
 `;
 const ContentTitle = styled.h2.attrs({
   className: 'nanum-bold',
@@ -18,12 +18,18 @@ const Category = styled.div.attrs({
 })`
   padding: 20px;
   padding-bottom: 10px;
+  padding-top: 50px;
+  font-size: 20px;
 `;
-const FilterBtn = styled.button`
+const FilterBtn = styled.button.attrs({
+  className: 'nanum-bold',
+})`
   border: none;
+  font-size: 20px;
   cursor: pointer;
   padding-right: 10px;
   padding-left: 10px;
+  background-color: white;
 `;
 interface IProps {
   id: number;

@@ -6,7 +6,7 @@ import Btn from '../button/Btn';
 import { Tech } from '@/types/project';
 
 type Props = {
-  selectStack: () => void;
+  selectStack?: () => void;
   stacks: Tech[];
   setStacks: Dispatch<SetStateAction<Tech[]>>;
 };
