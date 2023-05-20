@@ -16,7 +16,7 @@ import { loggedInUserState } from '@/recoil/atom';
 import { BUTTON_STATE } from '@/constant/constant';
 import { useProject } from '@/hooks/react-query/project/useProject';
 import { useGetAnswer } from '@/hooks/react-query/answer/useGetAnswer';
-import AnswerBox from '@/components/AnswerBox';
+import AnswerBox from '@/components/answer/AnswerBox';
 import { Tech } from '@/types/project';
 import StacksBox from '@/components/project/StacksBox';
 const ReactMarkdown = dynamic(() => import('@/components/editor/ContentBox'), {

@@ -1,15 +1,15 @@
 import styled from 'styled-components';
-import EiditorSkeleton from './skeleton/EiditorSkeleton';
+import EiditorSkeleton from '../skeleton/EiditorSkeleton';
 import dynamic from 'next/dynamic';
 import hljs from 'highlight.js';
-import Pagenation from './Pagenation';
+import Pagenation from '../Pagenation';
 import { useRouter } from 'next/router';
 import { useGetAnswer } from '@/hooks/react-query/answer/useGetAnswer';
 import { useEffect, useState } from 'react';
 import { useRecoilValue } from 'recoil';
 import { loggedInUserState } from '@/recoil/atom';
 import { useAnswer } from '@/hooks/react-query/answer/useAnswer';
-import AnswerItem from './answer/AnswerItem';
+import AnswerItem from './AnswerItem';
 
 const Editor = dynamic(() => import('@/components/editor/Editor'), {
   ssr: false,
@@ -67,7 +67,7 @@ const AnswerBox = () => {
       };
 
   //게시글에 해당하는 답글 데이터
-  const { answerQuery, answerRefetch, answerPageCount } = useGetAnswer(getForm);
+  const { answerQuery, answerRefetch, answerPageCount,isAuthor } = useGetAnswer(getForm);
 
   //답글 데이터
   const answerData = answerQuery.data?.data;
@@ -113,6 +113,7 @@ const AnswerBox = () => {
             answerData.map((answer) => (
               <AnswerItem
                 key={answer.answerId}
+                isAuthor={isAuthor}
                 answer={answer}
                 deleteAnswer={deleteAnswer}
                 editAnswer={editAnswer}

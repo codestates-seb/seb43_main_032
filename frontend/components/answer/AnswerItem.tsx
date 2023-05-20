@@ -54,9 +54,10 @@ type Props = {
   answer: Answer;
   deleteAnswer: DeleteAnswerMutation;
   editAnswer: EditAnswerMutation;
+  isAuthor: boolean;
 };
 
-const AnswerItem = ({ answer, deleteAnswer, editAnswer }: Props) => {
+const AnswerItem = ({ answer, deleteAnswer, editAnswer, isAuthor }: Props) => {
   const router = useRouter();
   //유저 데이터
   const loggedInUser = useRecoilValue(loggedInUserState);
@@ -91,10 +92,20 @@ const AnswerItem = ({ answer, deleteAnswer, editAnswer }: Props) => {
   const setCommentProps = {
     answerId: answer.answerId,
     category: setCategory,
-    params: 'size=10&page=1',
+    params: 'size=1000&page=1',
   };
-  const { commentQuery, commentRefetch } = useGetComment(setCommentProps);
-  console.log();
+
+  const [comment, setComment] = useState(false);
+  const [commentVal, setCommentVal] = useState('');
+  const onComment = () => {
+    setComment(true);
+  };
+  const offComment = () => {
+    setComment(false);
+  };
+  const commentValHandler = (val: string) => {
+    setCommentVal(val);
+  };
 
   return (
     <Box>
@@ -121,9 +132,9 @@ const AnswerItem = ({ answer, deleteAnswer, editAnswer }: Props) => {
             <div className="top">{answer.content}</div>
             <div className="bottom">
               <div className="update-box">
-                <button>댓글 {14}개</button>
+                <button>댓글 {answer.commentList.length}개</button>
                 <button>댓글 작성</button>
-                {loggedInUser?.email === answer.memberInfo.email && (
+                {isAuthor && (
                   <>
                     <button onClick={deleteEvent}>삭제</button>
                     <button onClick={onEdit}>수정</button>

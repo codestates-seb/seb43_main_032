@@ -3,6 +3,8 @@ import { useRouter } from 'next/router';
 import { api } from '@/util/api';
 import { Answer } from '@/types/answer';
 import { PageInfo } from '@/types/types';
+import { loggedInUserState } from '@/recoil/atom';
+import { useRecoilValue } from 'recoil';
 
 type AnswerData = {
   data: Answer[];
@@ -18,6 +20,9 @@ type Props = {
 export const useGetAnswer = ({ category, postId, params }: Props) => {
   const router = useRouter();
   const { id } = router.query;
+
+  //유저 데이터
+  const loggedInUser = useRecoilValue(loggedInUserState);
 
   const queryKey = postId
     ? [`${category}-answer-list`, postId]
@@ -52,12 +57,16 @@ export const useGetAnswer = ({ category, postId, params }: Props) => {
     }
   );
 
-  //답글 페이지 숫자
+  //답글의 총 개수
   const answerPageCount = data?.pageInfo.totalElements;
+
+  //작성자인지 체크
+  const isAuthor = data?.data[0].memberInfo.email === loggedInUser?.email;
 
   return {
     answerQuery: { isLoading, error, data },
     answerRefetch: refetch,
     answerPageCount,
+    isAuthor,
   };
 };

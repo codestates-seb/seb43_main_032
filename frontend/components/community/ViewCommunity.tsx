@@ -6,7 +6,7 @@ import ContentSkeleton from '../skeleton/ContentSkeleton';
 import Message from '../Message';
 import { Community } from '@/types/community';
 import { useCommunity } from '@/hooks/react-query/community/useCommunity';
-import AnswerBox from '../AnswerBox';
+import AnswerBox from '../answer/AnswerBox';
 import GridBox from '../GridBox';
 import Tag from '../Tag';
 import { useRecoilValue } from 'recoil';

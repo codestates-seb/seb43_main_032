@@ -7,10 +7,9 @@ export type Community = {
   content: string;
   createdAt: string;
   memberInfo: MemberInfo;
-  techList: { tech: string }[];
+  techList: Tech[];
   title: string;
+  totalAnswers: number;
   totalLikes: number;
   view: number;
 };
-
-type CategoryType = 'PROJECT' | 'COMMUNITY';

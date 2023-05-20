@@ -34,6 +34,7 @@ export type Project = {
   techList: Tech[];
   thumbnailImageUrl: string;
   title: string;
+  totalAnswers: number;
   totalLikes: number;
   views: number;
   writerPosition: string;
