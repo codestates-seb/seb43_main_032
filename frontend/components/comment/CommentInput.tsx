@@ -2,7 +2,6 @@ import { useComment } from '@/hooks/react-query/comment/useComment';
 import { useGetComment } from '@/hooks/react-query/comment/useGetComment';
 import { loggedInUserState } from '@/recoil/atom';
 import { Answer } from '@/types/answer';
-import { Form } from '@/types/types';
 import { useForm } from 'react-hook-form';
 import { useRecoilValue } from 'recoil';
 import styled from 'styled-components';

@@ -20,7 +20,7 @@ export type Answer = {
 };
 
 export type DeleteAnswerMutation = UseMutationResult<
-  AxiosResponse<any, any> | undefined,
+  AxiosResponse<void, void> | undefined,
   unknown,
   {
     answerId: number;
@@ -29,7 +29,7 @@ export type DeleteAnswerMutation = UseMutationResult<
 >;
 
 export type EditAnswerMutation = UseMutationResult<
-  AxiosResponse<any, any>,
+  AxiosResponse<void, void>,
   unknown,
   {
     answerId: number;

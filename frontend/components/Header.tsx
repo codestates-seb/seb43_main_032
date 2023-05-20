@@ -33,9 +33,8 @@ const Header = () => {
     deleteCookie('refreshToken');
     setLoggedInUser(null);
   };
-  console.log(loggedInUser);
 
-  //토큰이 유효하다면 유저 데이터 셋팅을하고 실패하면 토큰을 모두 삭제
+  //토큰이 유효하다면 유저 데이터 세팅
   useEffect(() => {
     setUserState()
       .then((res) => {

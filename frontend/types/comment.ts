@@ -11,7 +11,7 @@ export type Comment = {
 };
 
 export type EditCommentMutation = UseMutationResult<
-  AxiosResponse<any, any>,
+  AxiosResponse<void, void>,
   unknown,
   {
     commentId: number;
@@ -21,7 +21,7 @@ export type EditCommentMutation = UseMutationResult<
 >;
 
 export type DeleteCommentMutation = UseMutationResult<
-  AxiosResponse<any, any>,
+  AxiosResponse<void, void>,
   unknown,
   {
     commentId: number;
