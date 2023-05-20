@@ -100,7 +100,6 @@ export default function CommunityForm() {
         register={register}
       />
       <MainPost
-        type={2}
         register={register}
         changeContent={changeContent}
         postProject={postCommunity}
@@ -108,7 +107,7 @@ export default function CommunityForm() {
           data && {
             title: data.title,
             content: data.content,
-            position: '백엔드',
+            position: data.category,
           }
         }
       />

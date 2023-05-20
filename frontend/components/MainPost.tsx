@@ -12,7 +12,6 @@ const Editor = dynamic(() => import('@/components/editor/Editor'), {
 });
 
 type Props = {
-  type: number;
   register: UseFormRegister<Form>;
   changeContent: (value: string) => void;
   postProject: (e: { preventDefault: () => void }) => void;
@@ -23,21 +22,16 @@ type Props = {
   };
 };
 
-const MainPost = ({
-  register,
-  changeContent,
-  type,
-  postProject,
-  data,
-}: Props) => {
+const MainPost = ({ register, changeContent, postProject, data }: Props) => {
   const router = useRouter();
+  const isProject = router.route.includes('project');
   return (
     <Main>
-      {type === 1 ? PROJECT_EX : COMMUNITY_EX}
+      {isProject ? PROJECT_EX : COMMUNITY_EX}
       <form onSubmit={postProject}>
         <div className="nanum-bold">
           <div className="position-box">
-            <div>{type === 1 ? '나의 포지션' : '카테고리'}</div>
+            <div>{isProject ? '나의 포지션' : '카테고리'}</div>
             <div>
               <select
                 {...register('position', { value: data && data.position })}
