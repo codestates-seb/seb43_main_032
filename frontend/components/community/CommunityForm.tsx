@@ -16,10 +16,11 @@ export default function CommunityForm() {
   const id = router.query.id;
   const address = `/articles/${id}`;
   const queryKey = ['article', 'post', id];
-  const { communityQuery, postArticle, editArticle } = useCommunity<Community>({
-    address,
-    queryKey,
-  });
+  const { communityQuery, postArticle, editArticle, refetch } =
+    useCommunity<Community>({
+      address,
+      queryKey,
+    });
   const data = communityQuery.data?.data;
 
   useEffect(() => {

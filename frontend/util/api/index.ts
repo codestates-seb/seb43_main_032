@@ -4,7 +4,7 @@ import { getCookie } from '../cookie';
 const baseURL =
   process.env.NODE_ENV === 'production'
     ? process.env.NEXT_RESOURCE_URL
-    : 'http://43.201.147.97:8080';
+    : 'http://13.125.238.232:8080';
 
 const api = axios.create({
   baseURL,

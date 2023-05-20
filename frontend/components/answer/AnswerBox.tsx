@@ -126,6 +126,7 @@ const Box = styled.div`
   display: flex;
   flex-direction: column;
   font-size: 15px;
+  gap: 16px;
   > div {
     width: 100%;
   }

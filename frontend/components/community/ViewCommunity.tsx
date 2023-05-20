@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import dynamic from 'next/dynamic';
 import ContentSkeleton from '../skeleton/ContentSkeleton';
@@ -31,11 +31,21 @@ const ViewCommunity = () => {
   const project = ['1', '2', '3', '4', '5', '6', '7', '8', '9'];
   const [userHeart, setUserHeart] = useState(false);
 
-  const { communityQuery, moveEdit, deleteArticle } = useCommunity<Community>({
-    address,
-    queryKey,
-  });
+  const { communityQuery, moveEdit, deleteArticle, refetch } =
+    useCommunity<Community>({
+      address,
+      queryKey,
+    });
   const data = communityQuery.data?.data;
+
+  //게시글이 수정되었을 때를 위해
+  useEffect(() => {
+    refetch();
+  }, [router]);
+
+  const deleteEvent = () => {
+    if (confirm('정말 게시글을 삭제하시겠습니까?')) deleteArticle.mutate();
+  };
 
   if (communityQuery.error)
     return <Message>잠시 후 다시 시도해주세요.</Message>;
@@ -98,9 +108,7 @@ const ViewCommunity = () => {
               </div>
               {data.memberInfo.email === loggedInUser?.email && (
                 <div className="change-box">
-                  <button onClick={() => deleteArticle.mutate()}>
-                    삭제하기
-                  </button>
+                  <button onClick={deleteEvent}>삭제하기</button>
                   <button onClick={moveEdit}>수정하기</button>
                 </div>
               )}
