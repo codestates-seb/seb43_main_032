@@ -14,13 +14,7 @@ import { useRecoilState } from 'recoil';
 import { loggedInUserState, navModalState } from '@/recoil/atom';
 import { setUserState } from '@/util/api/user';
 import Img from '../public/images/second-user.svg';
-// import { NavProps } from '@/types/tspes';
-
-//임시 타입
-type NavProps = {
-  nav: boolean;
-  isScrolled?: boolean;
-};
+import { NavProps } from '@/types/types';
 
 const Header = () => {
   const router = useRouter();
