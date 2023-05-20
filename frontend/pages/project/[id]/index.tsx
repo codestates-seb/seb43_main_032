@@ -17,6 +17,7 @@ import { BUTTON_STATE } from '@/constant/constant';
 import { useProject } from '@/hooks/react-query/project/useProject';
 import AnswerBox from '@/components/answer/AnswerBox';
 import StacksBox from '@/components/project/StacksBox';
+import HeartBox from '@/components/HeartBox';
 const ReactMarkdown = dynamic(() => import('@/components/editor/ContentBox'), {
   ssr: false,
   loading: () => <ContentSkeleton />,
@@ -225,20 +226,11 @@ const ViewProject = () => {
               </div>
             </div>
             <ReactMarkdown content={data.content} />
-            <div className="heart-box">
-              <div onClick={likeHandler}>
-                {data.liked ? (
-                  <span>
-                    <AiFillHeart />
-                  </span>
-                ) : (
-                  <span>
-                    <AiOutlineHeart />
-                  </span>
-                )}
-                <span>{data.totalLikes}</span>
-              </div>
-            </div>
+            <HeartBox
+              likeHandler={likeHandler}
+              liked={data.liked}
+              totalLikes={data.totalLikes}
+            />
             <AnswerBox />
           </Main>
         </>
@@ -299,36 +291,6 @@ const Main = styled.div`
       @media (max-width: 414px) {
         flex-direction: column;
         align-items: center;
-      }
-    }
-  }
-
-  .heart-box {
-    width: 100%;
-    display: flex;
-    justify-content: center;
-
-    > div {
-      gap: 8px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      cursor: pointer;
-      border: 2px solid #ececec;
-      border-radius: var(--radius-def);
-      padding: 16px;
-      min-width: 110px;
-      font-size: 30px;
-
-      > span {
-        display: flex;
-        justify-content: center;
-        flex: 1;
-        text-align: center;
-      }
-
-      > span:last-child {
-        padding-bottom: 5px;
       }
     }
   }

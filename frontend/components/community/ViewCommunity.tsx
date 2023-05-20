@@ -13,6 +13,7 @@ import { useRecoilValue } from 'recoil';
 import { loggedInUserState } from '@/recoil/atom';
 import { AiFillHeart, AiOutlineHeart } from 'react-icons/ai';
 import TagBox from '../project/TagBox';
+import HeartBox from '../HeartBox';
 
 const ReactMarkdown = dynamic(() => import('@/components/editor/ContentBox'), {
   ssr: false,
@@ -145,8 +146,13 @@ const ViewCommunity = () => {
             </div>
             <div className="content">
               <ReactMarkdown content={data.content}></ReactMarkdown>
-              <AnswerBox />
             </div>
+            <HeartBox
+              likeHandler={likeHandler}
+              liked={data.liked}
+              totalLikes={data.totalLikes}
+            />
+            <AnswerBox />
           </Bottom>
         </>
       )}
@@ -282,24 +288,6 @@ const Bottom = styled.div`
     width: 100%;
     display: flex;
     flex-direction: column;
-    gap: 40px;
-  }
-
-  > .comment {
-    display: flex;
-    flex-direction: column;
-
-    > .each {
-      color: black;
-
-      > .box {
-        height: 100px;
-        border: solid 1px black;
-        padding: 5px;
-        margin-top: 5px;
-        border-radius: 10px;
-      }
-    }
   }
 
   .main-title {
