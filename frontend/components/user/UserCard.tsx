@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import Link from 'next/link';
 import Stack from '../stack/Stack';
 import { UserState } from '@/types/user';
+import Tag from '../Tag';
 
 const Wrapper = styled.div`
   position: relative;
@@ -13,8 +14,8 @@ const Wrapper = styled.div`
   width: 100%;
 
   @media (min-width: 768px) {
-    border: 1px solid gray;
     border-radius: 20px;
+    border: solid 2px #ececec;
   }
 `;
 const Overlay = styled.div`
@@ -36,7 +37,12 @@ const CardWrapper = styled.div`
     display: flex;
   }
 `;
-const SubCardWrapper = styled.div``;
+const SubCardWrapper = styled.div`
+  border-radius: 20px;
+  background: white;
+  overflow: hidden;
+  padding-bottom: 20px;
+`;
 const StackWrapper = styled.ul`
   display: flex;
   gap: 4px;
@@ -70,13 +76,14 @@ const AvatarContainer = styled.div`
   flex-shrink: 0;
 
   @media (min-width: 768px) {
-    width: 150px;
-    height: 150px;
+    width: 100px;
+    height: 100px;
     border-radius: 100%;
     background-color: skyblue;
   }
 `;
 const InfoContainer = styled.div`
+  width: 100%;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -86,35 +93,40 @@ const InfoContainer = styled.div`
   }
 `;
 const LocationAndStars = styled.div`
-  //wide
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  margin-bottom: 10px;
   @media (min-width: 768px) {
     display: flex;
   }
-`;
-const Location = styled.div`
-  display: flex;
-  gap: 10px;
-`;
-const Star = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 5px;
+
+  .tag {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
 `;
 
 const CardFooter = styled.div.attrs({
   className: 'noto-regular',
 })`
-  font-size: 15px;
+  border-top: solid 1px #ececec;
+  font-size: 13px;
   display: flex;
   padding: 20px;
-  height: 100px;
   @media (max-width: 768px) {
     /* display: none; */
   }
 `;
 const AboutMe = styled.p`
-  text-align: justify;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
   overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.2;
+  max-height: calc(1.2 * 3); /* line-height * 줄 수 */
 `;
 const Group = styled.div`
   display: flex;
@@ -157,14 +169,14 @@ export default function UserCard({ user }: IProps) {
                 <InfoContainer>
                   <p style={{ fontWeight: '600' }}>{user.name}</p>
                   <LocationAndStars>
-                    <Location>
+                    <Tag className="tag">
                       <FaLocationArrow />
                       <p>Seoul</p>
-                    </Location>
-                    <Star>
+                    </Tag>
+                    <Tag className="tag">
                       <AiFillStar size={20} style={{ color: 'gold' }} />
                       <p>{123}</p>
-                    </Star>
+                    </Tag>
                   </LocationAndStars>
                 </InfoContainer>
               </ContentsContainer>

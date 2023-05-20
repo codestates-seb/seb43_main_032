@@ -11,6 +11,7 @@ import square from '../../public/images/squareBg.svg';
 import { useRouter } from 'next/router';
 
 export default function BannerSecond() {
+  const router = useRouter();
   return (
     <ImgContainer>
       <div className="right">
@@ -32,6 +33,16 @@ export default function BannerSecond() {
         <div className="message">
           <Image src={message} alt="img2"></Image>
         </div>
+      </div>
+      <div className="titleBox">
+        <div className="title">
+          다양한 기술과 분야로
+          <br />
+          시작하는 나만의 이야기
+        </div>
+        <button onClick={() => router.push('users/login')}>
+          <span className="text">프로젝트 시작하기</span>
+        </button>
       </div>
     </ImgContainer>
   );
@@ -109,6 +120,52 @@ const ImgContainer = styled.div<BannerProps>`
     left: 27%;
     > img {
       width: 100%;
+    }
+  }
+
+  > .titleBox {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: end;
+    width: 50%;
+    height: 50%;
+    top: 37%;
+    right: 5%;
+    color: white;
+    text-align: end;
+    transition: opacity 0.3s ease;
+    > .title {
+      font-size: 40px;
+      font-weight: 600;
+      line-height: 1.5;
+    }
+    > button {
+      font-size: 21px;
+      margin-top: 30px;
+      padding: 0.7em 1.7em;
+      border-radius: 0.5em;
+      transition: all 0.5s ease;
+      border: none;
+      cursor: pointer;
+      letter-spacing: 3px;
+      background-color: #3a2287;
+      color: hsl(0, 0%, 100%);
+      box-shadow: #483290 0px 7px 15px 0px;
+
+      > .text {
+        color: #f2f2f2;
+        font-weight: 600;
+      }
+    }
+    button:active {
+      letter-spacing: 3px;
+      background: linear-gradient(-45deg, #c28aff, #9f4afa, #6333ff);
+      color: hsl(0, 0%, 100%);
+      box-shadow: rgb(93 24 220) 0px 0px 0px 0px;
+      transform: translateY(1px);
+      transition: 50ms;
     }
   }
 

@@ -6,8 +6,9 @@ import Header from '../components/Header';
 import Footer from '../components/Footer';
 import styled from 'styled-components';
 import 'animate.css';
-import ModalBg from '@/components/ModalBg';
 import Contact from '@/components/Contact';
+import ModalBg from '@/components/ModalBg';
+import { useRouter } from 'next/router';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -25,16 +26,21 @@ const queryClient = new QueryClient({
 // }
 
 const App = ({ Component, pageProps }: AppProps) => {
+  const router = useRouter().pathname;
+  const page404 = router !== '/404';
+  const pageLogin = router !== '/users/login';
+  const pageSignUp = router !== '/users/signup';
+
   return (
     <QueryClientProvider client={queryClient}>
       <RecoilRoot>
-        <Header />
+        {page404 && <Header />}
         <Box>
           <Component {...pageProps} />
         </Box>
-        <Contact />
+        {page404 && <Contact />}
         <ModalBg></ModalBg>
-        <Footer />
+        {page404 && <Footer />}
       </RecoilRoot>
     </QueryClientProvider>
   );

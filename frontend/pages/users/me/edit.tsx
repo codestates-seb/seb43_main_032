@@ -96,80 +96,77 @@ export default function Edit() {
     console.log(errors);
   };
 
-  const router = useRouter();
-  useEffect(() => {
-    window.scrollTo({
-      top: 670,
-      left: 0,
-      behavior: 'smooth',
-    });
-  }, [router]);
+  // const router = useRouter();
+  // useEffect(() => {
+  //   window.scrollTo({
+  //     top: 670,
+  //     left: 0,
+  //     behavior: 'smooth',
+  //   });
+  // }, [router]);
 
   return (
-    <GridBox>
-      <SideBar></SideBar>
-      <Wrapper>
-        {user && (
-          <Form
-            onSubmit={handleSubmit(onValid, onInValid)}
-            style={{
-              display: 'flex',
-              flexDirection: 'column',
-              justifyContent: 'center',
-            }}
-          >
-            <ProfileBox>
-              <ImgWrapper />
-              <div className="nameBox">
-                <EditInput
-                  label="NAME"
-                  placeholder={user.name}
-                  register={register('name')}
-                />
-                <EditInput
-                  label="Year Of Develop"
-                  register={register('yearOfDev', {
-                    pattern: {
-                      value: /^[0-9]*$/,
-                      message: 'Please enter only numbers',
-                    },
-                  })}
-                  placeholder={`${user.yearOfDev} 년차`}
-                />
-              </div>
-            </ProfileBox>
-            <EditInput
-              label="Stack"
-              placeholder="Stack 선택 컴포넌트로 대체"
-              register={register('Stack')}
-            />
-            <EditInput
-              label="About Me"
-              placeholder={user.aboutMe}
-              register={register('aboutMe')}
-            />
-            <EditInput
-              label="Position"
-              placeholder={user.position}
-              register={register('position')}
-            />
-            <EditInput
-              label="Location"
-              placeholder={user.location}
-              register={register('location')}
-            />
-            <EditInput
-              label="Phone Number"
-              placeholder={user.phone}
-              register={register('phone')}
-            />
+    <Wrapper>
+      {user && (
+        <Form
+          onSubmit={handleSubmit(onValid, onInValid)}
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'center',
+          }}
+        >
+          <ProfileBox>
+            <ImgWrapper />
+            <div className="nameBox">
+              <EditInput
+                label="이 름"
+                placeholder={user.name}
+                register={register('name')}
+              />
+              <EditInput
+                label="경 력"
+                register={register('yearOfDev', {
+                  pattern: {
+                    value: /^[0-9]*$/,
+                    message: 'Please enter only numbers',
+                  },
+                })}
+                placeholder={`${user.yearOfDev} 년차`}
+              />
+            </div>
+          </ProfileBox>
+          <EditInput
+            label="스택 목록"
+            placeholder="Stack 선택 컴포넌트로 대체"
+            register={register('Stack')}
+          />
+          <EditInput
+            label="자기소개"
+            placeholder={user.aboutMe}
+            register={register('aboutMe')}
+          />
+          <EditInput
+            label="분야"
+            placeholder={user.position}
+            register={register('position')}
+          />
+          <EditInput
+            label="위치"
+            placeholder={user.location}
+            register={register('location')}
+          />
+          <EditInput
+            label="전화번호"
+            placeholder={user.phone}
+            register={register('phone')}
+          />
 
-            <ButtonBox>
-              <Button>Submit</Button>
-            </ButtonBox>
-          </Form>
-        )}
-      </Wrapper>
-    </GridBox>
+          <ButtonBox>
+            <Button>Submit</Button>
+          </ButtonBox>
+        </Form>
+      )}
+    </Wrapper>
   );
 }

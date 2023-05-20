@@ -76,6 +76,6 @@ export type MemberInfo = {
 };
 
 export type NavProps = {
-  nav: boolean;
+  nav?: boolean;
   isScrolled?: boolean;
 };
