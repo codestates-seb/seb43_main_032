@@ -4,11 +4,10 @@ import { Project } from '@/types/project';
 type Props = {
   filter: number;
   allData: Project[] | Community[];
+  searchVal: string;
 };
 
-// 검색 필터도 이 안에 추가할듯
-
-export const articleFilter = ({ filter, allData }: Props) => {
+export const articleFilter = ({ filter, allData, searchVal }: Props) => {
   let filterData;
   if (filter === 1) {
     filterData = allData.reverse();
@@ -29,5 +28,23 @@ export const articleFilter = ({ filter, allData }: Props) => {
   if (filter === 4) {
     filterData = allData.sort((x, y) => y.totalAnswers - x.totalAnswers);
   }
+  if (searchVal !== '' && filter === 0) {
+    filterData = (allData as []).filter(
+      (data: Community | Project) =>
+        data.title.includes(searchVal) ||
+        data.content.includes(searchVal) ||
+        data.memberInfo.name.includes(searchVal)
+    );
+    return filterData;
+  }
+  if (searchVal !== '') {
+    filterData = (filterData as []).filter(
+      (data: Community | Project) =>
+        data.title.includes(searchVal) ||
+        data.content.includes(searchVal) ||
+        data.memberInfo.name.includes(searchVal)
+    );
+  }
+
   return filterData;
 };

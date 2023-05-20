@@ -49,7 +49,8 @@ export default function Content() {
       setPage(1);
     }
   }, [filter]);
-  const filterData = articleFilter({ filter, allData });
+  //필터 데이터
+  const filterData = articleFilter({ filter, allData, searchVal });
 
   //카테고리 필터 데이터
   const CategoryFilterData = [

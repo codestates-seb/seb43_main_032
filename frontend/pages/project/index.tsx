@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { useRouter } from 'next/router';
 import { useInfiniteQuery } from 'react-query';
 import { api } from '@/util/api';
-import { useRef, useEffect, useState, useMemo } from 'react';
+import { useRef, useEffect, useState } from 'react';
 import ProjectSkeleton from '@/components/skeleton/ProjectSkeleton';
 import Link from 'next/link';
 import { Project } from '@/types/project';
@@ -15,8 +15,8 @@ import ProjectCardBox from '@/components/card_box/ProjectCardBox';
 import { Filter, Form, PageProps } from '@/types/types';
 import { AiOutlineArrowUp } from 'react-icons/ai';
 import { getAllProject } from '@/util/api/getAllProject';
-import { ARTICLE_FILTER } from '@/constant/constant';
 import { articleFilter } from '@/util/filter/articleFilter';
+import { ARTICLE_FILTER } from '@/constant/constant';
 const page_limit = 4;
 
 const ProjectHome = () => {
@@ -87,29 +87,18 @@ const ProjectHome = () => {
 
   //서버에서 필터링 작업이 완성되기 전, 눈속임을 위한 필터 데이터
   const [filter, setFilter] = useState<Filter>(0);
-  const filterNames = useMemo(() => Object.keys(ARTICLE_FILTER), []);
   const filterHandler = (idx: number) => {
     setFilter(idx);
   };
   const [allData, setAllData] = useState<Project[]>([]);
-  const [searchData, setSearchData] = useState<Project[]>([]);
-  const [onSearch, setOnSearch] = useState(false);
-  const onSubmit = (e: { preventDefault: () => void }) => {
-    e.preventDefault();
-    setOnSearch(!onSearch);
-  };
-
   useEffect(() => {
     getAllProject().then((res) => setAllData(res));
   }, []);
-
-  useEffect(() => {
-    setSearchData(
-      allData.filter((data) => data.title.includes(watch().search))
-    );
-  }, [onSearch]);
-
-  const filterData = articleFilter({ filter, allData });
+  const filterData = articleFilter({
+    filter,
+    allData,
+    searchVal: watch().search,
+  });
 
   //무한 스크롤 effect
   const target = useRef<HTMLDivElement>(null);
@@ -173,15 +162,15 @@ const ProjectHome = () => {
               : '전체 프로젝트'
           }
           data={
-            searchData.length !== 0
-              ? searchData
+            filterData
+              ? (filterData as Project[])
               : data.pages?.flatMap((page) => page.data)
           }
           skeleton={isFetching && hasNextPage && <ProjectSkeleton />}
         >
           <div className="filter-box noto-regular-13">
             <div className="filter-sub-box">
-              {filterNames.map((name, idx) => (
+              {ARTICLE_FILTER.map((name, idx) => (
                 <div
                   key={name}
                   className={idx === filter ? 'focus' : ''}
@@ -192,16 +181,13 @@ const ProjectHome = () => {
               ))}
             </div>
             <div className="search-box">
-              <form onSubmit={onSubmit}>
+              <div>
                 <input
                   {...register('search')}
                   type="text"
                   placeholder="검색어를 입력해주세요."
                 />
-                <Btn>
-                  <BsSearch fill={'white'} />
-                </Btn>
-              </form>
+              </div>
               <div className="link-box">
                 <Link href={`${router.asPath}/create`} className="link-btn">
                   <span>프로젝트 작성</span>
@@ -262,12 +248,13 @@ const Box = styled.div`
     }
     .search-box {
       display: flex;
-      width: 50%;
-      > form {
+      justify-content: end;
+      gap: 20px;
+
+      > div {
         display: flex;
-        width: 100%;
         > input {
-          width: 80%;
+          width: 100%;
           padding: 8px 13px;
           border-radius: 10px;
           font-size: 14px;
