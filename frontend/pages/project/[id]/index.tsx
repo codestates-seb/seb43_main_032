@@ -15,7 +15,6 @@ import { useRecoilValue } from 'recoil';
 import { loggedInUserState } from '@/recoil/atom';
 import { BUTTON_STATE } from '@/constant/constant';
 import { useProject } from '@/hooks/react-query/project/useProject';
-import { useGetAnswer } from '@/hooks/react-query/answer/useGetAnswer';
 import AnswerBox from '@/components/answer/AnswerBox';
 import { Tech } from '@/types/project';
 import StacksBox from '@/components/project/StacksBox';
@@ -26,7 +25,7 @@ const ReactMarkdown = dynamic(() => import('@/components/editor/ContentBox'), {
 
 const ViewProject = () => {
   const router = useRouter();
-  const { id } = router.query;
+
   useEffect(() => {
     window.scrollTo({
       top: 600,
@@ -67,99 +66,88 @@ const ViewProject = () => {
     }
   }, [projectQuery.data]);
 
-  //답글 총 개수를 가져오기 위함
-  const { answerPageCount } = useGetAnswer({
-    category: 'PROJECT',
-    postId: Number(id),
-    params: `size=5&page=1`,
-  });
-
-  if (projectQuery.isLoading) return <Message>로딩중입니다.</Message>;
   if (projectQuery.error) return <Message>잠시 후 다시 시도해주세요.</Message>;
-  if (data)
-    return (
-      <GridBox>
-        <Side>
-          <div className="author-box">
-            <div className="author noto-medium">
-              <div className="top">
-                <img
-                  src="https://noticon-static.tammolo.com/dgggcrkxq/image/upload/v1567008394/noticon/ohybolu4ensol1gzqas1.png"
-                  alt="author"
-                />
-                <div className="user-title">{data.memberInfo.name}</div>
-                <div className="noto-medium">
-                  <Position text={data.writerPosition} />
+  return (
+    <GridBox>
+      {projectQuery.isLoading || !data ? (
+        <Message>로딩중입니다.</Message>
+      ) : (
+        <>
+          <Side>
+            <div className="author-box">
+              <div className="author noto-medium">
+                <div className="top">
+                  <img
+                    src="https://noticon-static.tammolo.com/dgggcrkxq/image/upload/v1567008394/noticon/ohybolu4ensol1gzqas1.png"
+                    alt="author"
+                  />
+                  <div className="user-title">{data.memberInfo.name}</div>
+                  <div className="noto-medium">
+                    <Position text={data.writerPosition} />
+                  </div>
+                  {data.memberInfo.email !== loggedInUser?.email && (
+                    <div
+                      className="saveStar"
+                      onClick={() => setUserHeart(!userHeart)}
+                    >
+                      <span className="icon-box">
+                        {userHeart ? (
+                          <AiOutlineHeart fill={'#ececec'} />
+                        ) : (
+                          <AiFillHeart fill="red" />
+                        )}
+                      </span>
+                    </div>
+                  )}
+                </div>
+                <div className="detail-box">
+                  <div className="detail-sub-box">
+                    <div className="detail-num">
+                      {/* 서버 데이터가 들어오면 작업해줘야할 부분 */}
+                      {3} <span>개</span>
+                    </div>
+                    <div className="detail-title">진행 프로젝트</div>
+                  </div>
+                  <div className="center-border"></div>
+                  <div className="detail-sub-box">
+                    <div className="detail-num">
+                      {data.memberInfo.totalStar} <span>개</span>
+                    </div>
+                    <div className="detail-title">평가 점수</div>
+                  </div>
                 </div>
                 {data.memberInfo.email !== loggedInUser?.email && (
-                  <div
-                    className="saveStar"
-                    onClick={() => setUserHeart(!userHeart)}
-                  >
-                    <span className="icon-box">
-                      {userHeart ? (
-                        <AiOutlineHeart fill={'#ececec'} />
-                      ) : (
-                        <AiFillHeart fill="red" />
-                      )}
-                    </span>
-                  </div>
+                  <Tag>쪽지 보내기</Tag>
                 )}
               </div>
-              <div className="detail-box">
-                <div className="detail-sub-box">
-                  <div className="detail-num">
-                    {/* 서버 데이터가 들어오면 작업해줘야할 부분 */}
-                    {3} <span>개</span>
-                  </div>
-                  <div className="detail-title">진행 프로젝트</div>
-                </div>
-                <div className="center-border"></div>
-                <div className="detail-sub-box">
-                  <div className="detail-num">
-                    {data.memberInfo.totalStar} <span>개</span>
-                  </div>
-                  <div className="detail-title">평가 점수</div>
-                </div>
-              </div>
-              {data.memberInfo.email !== loggedInUser?.email && (
-                <Tag>쪽지 보내기</Tag>
-              )}
             </div>
-          </div>
-          <PeriodBox
-            start={new Date(data.startDate)}
-            end={new Date(data.endDate)}
-          />
-          <TagBox tags={data.fieldList} />
-          <StacksBox
-            stacks={data.techList}
-            selectStack={function (): void {
-              throw new Error('Function not implemented.');
-            }}
-            setStacks={function (value: SetStateAction<Tech[]>): void {
-              throw new Error('Function not implemented.');
-            }}
-            stack={false}
-          />
-          <div className="want-box">
-            <div className="title">모집 중인 직군</div>
-            <ul>
-              {positions?.map((position, i) => (
-                <li className="nanum-regular" key={`${position.position}+${i}`}>
-                  <div className="job">{position.position}</div>
-                  <div className="needNum">
-                    {position.acceptedNumber}/{position.number}
-                  </div>
-                  <div
-                    className={
-                      position.acceptedNumber === position.number
-                        ? 'red light'
-                        : 'green light'
-                    }
-                  ></div>
-                  {/* 지원자 리스트랑 비교해서 맞춰야함 */}
-                  {/* {position.acceptedNumber === position.number ? (
+            <PeriodBox
+              start={new Date(data.startDate)}
+              end={new Date(data.endDate)}
+            />
+            <TagBox tags={data.fieldList} />
+            <StacksBox stacks={data.techList} stack={false} />
+            <div className="want-box">
+              <div className="title">모집 중인 직군</div>
+              <ul>
+                {positions?.map((position, i) => (
+                  <li
+                    className="nanum-regular"
+                    key={`${position.position}+${i}`}
+                  >
+                    <div className="job">{position.position}</div>
+                    <div className="needNum">
+                      {position.acceptedNumber}/{position.number}
+                    </div>
+                    <div
+                      className={
+                        position.acceptedNumber === position.number
+                          ? 'red light'
+                          : 'green light'
+                      }
+                    ></div>
+                    {/* 지원자 리스트랑 비교해서 맞춰야함 */}
+                    {/* {position.acceptedNumber === position.number ? (
                     <Tag>마감</Tag>
                   ) : job === projectQuery.data?.post_state.want ? (
                     <Tag
@@ -179,75 +167,78 @@ const ViewProject = () => {
                       지원
                     </Tag>
                   )} */}
-                </li>
-              ))}
-            </ul>
-          </div>
-          <div>
-            {data.status !== '모집중' && (
-              <button onClick={() => projectEvent(data.status)}>
-                {BUTTON_STATE[data.status]}
-              </button>
-            )}
-          </div>
-        </Side>
-        <Main>
-          <div className="title">
-            <div className="left">
-              <div className="nanum-bold">{data.title}</div>
-              {<Tag>{data.status}</Tag>}
+                  </li>
+                ))}
+              </ul>
             </div>
-            <div className="right">
-              {data.memberInfo.email === loggedInUser?.email && (
-                <>
-                  <a
-                    onClick={() => deleteProject.mutate()}
-                    className="main-btn"
-                  >
-                    <span>프로젝트 삭제</span>
-                  </a>
-                  <a onClick={moveEdit} className="main-btn">
-                    <span>프로젝트 수정</span>
-                  </a>
-                </>
-              )}
-            </div>
-          </div>
-          <div className="sub noto-regular-13">
             <div>
-              <div>
-                <span>작성일자</span> : {formatDate2(new Date(data.createdAt))}
-              </div>
-              <div>
-                <span>조회 수</span> : {data.views}
-              </div>
-              <div>
-                <span>답글 수</span> : {answerPageCount}
-              </div>
-            </div>
-          </div>
-          <ReactMarkdown content={data.content} />
-          <div className="heart-box">
-            <div
-            // onClick={() => updateHeart.mutate()}
-            >
-              {/*서버작업전 보여주기 용 */}
-              {false ? (
-                <span>
-                  <AiFillHeart />
-                </span>
-              ) : (
-                <span>
-                  <AiOutlineHeart />
-                </span>
+              {data.status !== '모집중' && (
+                <button onClick={() => projectEvent(data.status)}>
+                  {BUTTON_STATE[data.status]}
+                </button>
               )}
-              <span>{data.totalLikes}</span>
             </div>
-          </div>
-          <AnswerBox />
-        </Main>
-      </GridBox>
-    );
+          </Side>
+          <Main>
+            <div className="title">
+              <div className="left">
+                <div className="nanum-bold">{data.title}</div>
+                {<Tag>{data.status}</Tag>}
+              </div>
+              <div className="right">
+                {data.memberInfo.email === loggedInUser?.email && (
+                  <>
+                    <a
+                      onClick={() => deleteProject.mutate()}
+                      className="main-btn"
+                    >
+                      <span>프로젝트 삭제</span>
+                    </a>
+                    <a onClick={moveEdit} className="main-btn">
+                      <span>프로젝트 수정</span>
+                    </a>
+                  </>
+                )}
+              </div>
+            </div>
+            <div className="sub noto-regular-13">
+              <div>
+                <div>
+                  <span>작성일자</span> :{' '}
+                  {formatDate2(new Date(data.createdAt))}
+                </div>
+                <div>
+                  <span>조회 수</span> : {data.views}
+                </div>
+                <div>
+                  <span>답글 수</span> : {data.totalAnswers}
+                </div>
+              </div>
+            </div>
+            <ReactMarkdown content={data.content} />
+            <div className="heart-box">
+              <div
+              // onClick={() => updateHeart.mutate()}
+              >
+                {/*서버작업전 보여주기 용 */}
+                {false ? (
+                  <span>
+                    <AiFillHeart />
+                  </span>
+                ) : (
+                  <span>
+                    <AiOutlineHeart />
+                  </span>
+                )}
+                <span>{data.totalLikes}</span>
+              </div>
+            </div>
+            <AnswerBox />
+          </Main>
+        </>
+      )}
+    </GridBox>
+  );
 };
 
 export default ViewProject;

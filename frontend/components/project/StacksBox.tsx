@@ -8,8 +8,8 @@ import { useRouter } from 'next/router';
 type Props = {
   stacks: Tech[];
   onModal?: () => void;
-  selectStack: () => void;
-  setStacks: React.Dispatch<React.SetStateAction<Tech[]>>;
+  selectStack?: () => void;
+  setStacks?: React.Dispatch<React.SetStateAction<Tech[]>>;
   stack: boolean;
 };
 
@@ -47,9 +47,9 @@ const StacksBox = ({
       </ul>
       {stack && (
         <SelectStack
-          selectStack={selectStack}
+          selectStack={selectStack && selectStack}
           stacks={stacks}
-          setStacks={setStacks}
+          setStacks={setStacks && setStacks}
         />
       )}
     </Box>

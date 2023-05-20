@@ -8,6 +8,8 @@ import styled from 'styled-components';
 import 'animate.css';
 import Contact from '@/components/Contact';
 import ModalBg from '@/components/ModalBg';
+import axios from 'axios';
+axios.defaults.withCredentials = true;
 import { useRouter } from 'next/router';
 
 const queryClient = new QueryClient({

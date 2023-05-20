@@ -1,23 +1,32 @@
 import { useRouter } from 'next/router';
 import { api } from '@/util/api';
-import { useMutation } from 'react-query';
+import { UseMutationResult, useMutation } from 'react-query';
+import {
+  DeleteCommentMutation,
+  EditCommentMutation,
+  PostCommentMutation,
+} from '@/types/comment';
 
 type Props = {
   commentRefetch: () => void;
-  category: 'PROJECT' | 'ARTICLE';
 };
 
 /**
  * 답글 CRUD
  */
-export const useComment = ({ commentRefetch, category }: Props) => {
+export const useComment = ({ commentRefetch }: Props) => {
   const router = useRouter();
   const { id } = router.query;
+
+  //카테고리 설정
+  const category: 'PROJECT' | 'ARTICLE' = router.asPath.includes('project')
+    ? 'PROJECT'
+    : 'ARTICLE';
 
   /**
    * 댓글을 작성하는 이벤트
    */
-  const postComment = useMutation(
+  const postComment: PostCommentMutation = useMutation(
     ({ answerId, content }: { answerId: number; content: string }) => {
       const data = {
         content,
@@ -39,7 +48,7 @@ export const useComment = ({ commentRefetch, category }: Props) => {
   /**
    * 댓글을 삭제하는 이벤트
    */
-  const deleteComment = useMutation(
+  const deleteComment: DeleteCommentMutation = useMutation(
     ({ commentId }: { commentId: number }) =>
       api.delete(`/comments/${commentId}`),
     {
@@ -55,7 +64,7 @@ export const useComment = ({ commentRefetch, category }: Props) => {
   /**
    * 댓글을 수정하는 이벤트
    */
-  const editComment = useMutation(
+  const editComment: EditCommentMutation = useMutation(
     ({ commentId, content }: { commentId: number; content: string }) =>
       api.patch(`/comments/${commentId}`, { content }),
     {

@@ -1,7 +1,7 @@
 import { navModalState } from '@/recoil/atom';
 import { NavProps } from '@/types/types';
 import React from 'react';
-import { useRecoilState, useRecoilValue } from 'recoil';
+import { useRecoilState } from 'recoil';
 import styled from 'styled-components';
 
 export default function ModalBg() {

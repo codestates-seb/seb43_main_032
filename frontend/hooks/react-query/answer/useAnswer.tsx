@@ -1,7 +1,13 @@
 import { useRouter } from 'next/router';
 import { api } from '@/util/api';
-import { useMutation } from 'react-query';
+import { UseMutationResult, useMutation } from 'react-query';
 import { getCookie } from '@/util/cookie';
+import { AxiosResponse } from 'axios';
+import {
+  DeleteAnswerMutation,
+  EditAnswerMutation,
+  PostAnswerMutation,
+} from '@/types/answer';
 
 type Props = {
   answerRefetch: () => void;
@@ -23,7 +29,7 @@ export const useAnswer = ({ answerRefetch, changeAnswerVal }: Props) => {
   /**
    * 답글을 작성하는 이벤트
    */
-  const postAnswer = useMutation(
+  const postAnswer: PostAnswerMutation = useMutation(
     async ({ content }: { content: string }) => {
       if (!getCookie('accessToken')) {
         return alert('로그인부터 진행해주세요.');
@@ -52,7 +58,7 @@ export const useAnswer = ({ answerRefetch, changeAnswerVal }: Props) => {
   /**
    * 답글을 삭제하는 이벤트
    */
-  const deleteAnswer = useMutation(
+  const deleteAnswer: DeleteAnswerMutation = useMutation(
     async ({ answerId }: { answerId: number }) => {
       if (confirm('정말 답글을 삭제하시겠습니까?'))
         return await api.delete(`/answers/${answerId}`);
@@ -70,7 +76,7 @@ export const useAnswer = ({ answerRefetch, changeAnswerVal }: Props) => {
   /**
    * 답글을 수정하는 이벤트
    */
-  const editAnswer = useMutation(
+  const editAnswer: EditAnswerMutation = useMutation(
     ({ answerId, content }: { answerId: number; content: string }) =>
       api.patch(`/answers/${answerId}`, { content }),
     {
