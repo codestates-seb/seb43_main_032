@@ -22,9 +22,10 @@ const SearchHeader = styled.div`
 `;
 const Title = styled.h1`
   display: flex;
-  font-size: 60px;
+  font-size: 23px;
   width: 80%;
   padding-bottom: 20px;
+  font-weight: 700;
 `;
 const SubHeader = styled.div`
   display: flex;
@@ -58,21 +59,21 @@ const SearchButton = styled.button`
   background-color: transparent;
 `;
 const FilterBox = styled.div`
-  display: inline-block;
-  border-radius: 10px;
-  background-color: gray;
-  overflow: hidden;
-  justify-content: flex-start;
-  gap: 1px;
+  display: flex;
+  height: 100%;
+  gap: 8px;
 `;
-const FilterButton = styled.button.attrs({
-  className: 'nanum-bold',
-})`
-  padding: 10px 20px;
-  border: none;
-  cursor: pointer;
+const FilterButton = styled.button`
+  font-family: 'Pretendard';
+  background-color: #6333ff;
   color: white;
-  background-color: #5b14eb;
+  border-radius: 5px;
+  padding: 10px;
+  font-size: 14px;
+  cursor: pointer;
+  -webkit-transition: background 0.5s ease, color 0.5s ease;
+  transition: background 0.5s ease, color 0.5s ease;
+  border: none;
 `;
 const CardWrapper = styled.div`
   display: grid;
@@ -80,14 +81,14 @@ const CardWrapper = styled.div`
   gap: 10px;
   margin-bottom: 50px;
   @media screen and (min-width: 768px) {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(3, 1fr);
   }
 
   @media screen and (min-width: 960px) {
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(4, 1fr);
   }
   @media screen and (min-width: 1280px) {
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(6, 1fr);
   }
 `;
 const User = () => {
@@ -112,13 +113,13 @@ const User = () => {
     }
   };
 
-  useEffect(() => {
-    window.scrollTo({
-      top: 670,
-      left: 0,
-      behavior: 'smooth',
-    });
-  }, [router]);
+  // useEffect(() => {
+  //   window.scrollTo({
+  //     top: 670,
+  //     left: 0,
+  //     behavior: 'smooth',
+  //   });
+  // }, [router]);
 
   // useEffect(() => {
   //   if (allUserLoading) return;
@@ -133,8 +134,13 @@ const User = () => {
   return (
     <Wrapper>
       <SearchHeader>
-        <Title>Make Your Team</Title>
+        <Title>유저 목록</Title>
         <SubHeader>
+          <FilterBox>
+            {['프론트엔드', '백엔드', 'UX/UI'].map((btn) => (
+              <FilterButton key={btn}>{btn} </FilterButton>
+            ))}
+          </FilterBox>
           <SearchBox>
             <TextArea
               onChange={handleChange}
@@ -145,11 +151,6 @@ const User = () => {
               <BiSearch />
             </SearchButton>
           </SearchBox>
-          <FilterBox>
-            {['FE', 'BE', 'UI'].map((btn) => (
-              <FilterButton key={btn}>{btn} </FilterButton>
-            ))}
-          </FilterBox>
         </SubHeader>
       </SearchHeader>
 
