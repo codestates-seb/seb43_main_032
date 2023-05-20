@@ -114,6 +114,6 @@ const Box = styled.div`
     border: solid 2px #ececec;
     border-radius: 10px;
     color: #a5a5a5;
-    min-height: 39px;
+    height: 37px;
   }
 `;

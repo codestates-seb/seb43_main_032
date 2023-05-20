@@ -4,14 +4,9 @@ import ProjectCardBox from '@/components/card_box/ProjectCardBox';
 import CommunityCardBox from '@/components/card_box/CommunityCardBox';
 import ProjectSkeleton from '@/components/skeleton/ProjectSkeleton';
 import CommunityItemSkeleton from '@/components/skeleton/CommunityItemSkeleton';
-import { useRecoilValue } from 'recoil';
-import { loggedInUserState } from '@/recoil/atom';
 import { useTopData } from '@/hooks/react-query/useTopData';
 
 const Home = () => {
-  //현재 로그인한 유저의 데이터
-  const loggedInUser = useRecoilValue(loggedInUserState);
-
   const {
     topLikeProjectData,
     topViewProjectData,

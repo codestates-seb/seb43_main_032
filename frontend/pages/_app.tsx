@@ -48,21 +48,3 @@ const Box = styled.main`
   padding-top: 80px;
   flex: 1;
 `;
-
-const IconBox = styled.div`
-  transition: all 1s ease-in-out;
-  bottom: 20px;
-  right: 20px;
-  position: fixed;
-  cursor: pointer;
-  z-index: 9999;
-`;
-
-const AskBox = styled.div<{ isVisible: boolean }>`
-  min-width: 300px;
-  max-height: 500px;
-  bottom: ${({ isVisible }) => (isVisible ? '20px' : '-100%')};
-  right: 20px;
-  position: fixed;
-  transition: bottom 0.5s ease-in-out;
-`;

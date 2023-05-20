@@ -1,4 +1,3 @@
-import GridBox from '@/components/GridBox';
 import Content from '@/components/community/Content';
 import SideBar from '@/components/community/SideBar';
 import { useRouter } from 'next/router';
@@ -14,10 +13,10 @@ const Community = () => {
     });
   }, [router]);
   return (
-    <GridBox>
+    <>
       <SideBar />
       <Content />
-    </GridBox>
+    </>
   );
 };
 

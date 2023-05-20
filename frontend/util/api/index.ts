@@ -7,7 +7,7 @@ axios.defaults.withCredentials = true;
 const baseURL =
   process.env.NODE_ENV === 'production'
     ? process.env.NEXT_RESOURCE_URL
-    : 'http://3.39.254.164:8080';
+    : 'http://43.201.147.97:8080';
 
 const api = axios.create({
   baseURL,

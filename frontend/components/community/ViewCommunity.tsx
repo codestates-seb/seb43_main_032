@@ -12,7 +12,6 @@ import Tag from '../Tag';
 import { useRecoilValue } from 'recoil';
 import { loggedInUserState } from '@/recoil/atom';
 import { AiFillHeart, AiOutlineHeart } from 'react-icons/ai';
-import { useGetAnswer } from '@/hooks/react-query/answer/useGetAnswer';
 import TagBox from '../project/TagBox';
 
 const ReactMarkdown = dynamic(() => import('@/components/editor/ContentBox'), {
@@ -38,18 +37,11 @@ const ViewCommunity = () => {
   });
   const data = communityQuery.data?.data;
 
-  //답글 총 개수를 가져오기 위함
-  const { answerPageCount } = useGetAnswer({
-    category: 'ARTICLE',
-    postId: Number(id),
-    params: `size=5&page=1`,
-  });
-
-  if (communityQuery.isLoading) return <Message>로딩중입니다.</Message>;
   if (communityQuery.error)
     return <Message>잠시 후 다시 시도해주세요.</Message>;
   return (
     <GridBox>
+      {communityQuery.isLoading && <Message>로딩중입니다.</Message>}
       {data && (
         <>
           <Top>
@@ -126,7 +118,7 @@ const ViewCommunity = () => {
 
               <div className="comment">
                 <span className="commentNum">댓글수 : </span>
-                {answerPageCount}
+                {data.totalAnswers}
               </div>
             </div>
             <div className="content">

@@ -63,6 +63,7 @@ const AnswerItem = ({ answer, deleteAnswer, editAnswer, isAuthor }: Props) => {
     deleteAnswer.mutate({ answerId: answer.answerId });
   };
 
+  //댓글 관련
   const [comment, setComment] = useState(false);
   const [commentVal, setCommentVal] = useState('');
   const onComment = () => {
