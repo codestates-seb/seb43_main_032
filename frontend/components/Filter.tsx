@@ -1,26 +1,26 @@
-import { COMMUNITY_FILTER } from '@/constant/constant';
 import { useState } from 'react';
 import styled from 'styled-components';
 
 type Props = {
   filter: string;
   selectFilter: (filter: string) => void;
+  filterData: { [key: string]: string }[];
 };
 
-const Filter = ({ filter, selectFilter }: Props) => {
+const Filter = ({ filter, selectFilter, filterData }: Props) => {
   const [isFilter, setIsFilter] = useState(false);
   const filterHandler = () => {
     setIsFilter(!isFilter);
   };
 
-  const filterName = COMMUNITY_FILTER.find((x) => x.value === filter)?.label;
+  const filterName = filterData.find((x) => x.value === filter)?.label;
   return (
     <ContentBottomFilter onClick={filterHandler}>
       <CustomSelectButton>
         {filterName} <span className="icon">▼</span>
       </CustomSelectButton>
       <CustomSelectOptions isFilter={isFilter}>
-        {COMMUNITY_FILTER.map((option) => (
+        {filterData.map((option) => (
           <CustomSelectOption
             key={option.value}
             onClick={() => selectFilter(option.value)}

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { ChangeEvent, useState } from 'react';
 import styled from 'styled-components';
 import { FaSearch } from 'react-icons/fa';
 import { Community } from '@/types/community';
@@ -9,31 +9,17 @@ import { useCommunity } from '@/hooks/react-query/community/useCommunity';
 import Filter from '../Filter';
 import Message from '../Message';
 import CommunityItemSkeleton from '../skeleton/CommunityItemSkeleton';
+import { COMMUNITY_FILTER } from '@/constant/constant';
 
 export default function Content() {
   const router = useRouter();
-
-  useEffect(() => {
-    setSearchVal('');
-    setPage(1);
-  }, [router]);
-
-  // 주소값으로 데이터 필터링
-  const urlSearch = new URLSearchParams(router.asPath).get('search');
-  const urlPage = new URLSearchParams(router.asPath).get('page');
-  const urlFilter = new URLSearchParams(router.asPath).get('filter');
-  const [page, setPage] = useState(Number(urlPage) || 1);
-  const [searchVal, setSearchVal] = useState(urlSearch || '');
-  const [filter, setFilter] = useState(urlFilter || 'sorted');
-  const { category } = router.query;
+  const [page, setPage] = useState(1);
+  const [searchVal, setSearchVal] = useState('');
+  const [communityFilter, setCommunityFilter] = useState('sorted');
+  const queryKey = ['articles', page];
+  const endPoint = `/articles/find-all`;
   const page_limit = 10;
-
-  const endPoint = category
-    ? `/articles/find-all/${category}`
-    : `/articles/find-all`;
-  const address = `${endPoint}?size=${page_limit}&page=${page}&search=${searchVal}&filter=${filter}`;
-  const queryKey = category ? ['articles', page, category] : ['articles', page];
-
+  const address = `${endPoint}?size=${page_limit}&page=${page}`;
   const { communityQuery, refetch } = useCommunity<Community[]>({
     address,
     queryKey,
@@ -41,19 +27,12 @@ export default function Content() {
   const data = communityQuery.data?.data;
   const totalPage = communityQuery.data?.pageInfo.totalPages;
 
-  const findContentItem = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const findContentItem = (e: ChangeEvent<HTMLInputElement>) => {
     setSearchVal(e.target.value);
   };
-  const selectFilter = (filter: string) => {
-    setFilter(filter);
+  const selectCommunityFilter = (communityFilter: string) => {
+    setCommunityFilter(communityFilter);
   };
-  const handleSearch = () => {
-    refetch();
-  };
-
-  useEffect(() => {
-    refetch();
-  }, [filter]);
 
   if (communityQuery.error)
     return <Message>잠시 후 다시 시도해주세요.</Message>;
@@ -64,13 +43,16 @@ export default function Content() {
           placeholder="검색어를 입력하세요."
           value={searchVal}
           onChange={findContentItem}
-          onKeyPress={(e) => e.key === 'Enter' && handleSearch()}
+          onKeyPress={(e) => e.key === 'Enter'}
         />
-        <SearchBtn onClick={handleSearch}>
+        <SearchBtn>
           <FaSearch />
         </SearchBtn>
-        <SearchBtn onClick={() => router.push('/community')}>초기화</SearchBtn>
-        <Filter filter={filter} selectFilter={selectFilter} />
+        <Filter
+          filterData={COMMUNITY_FILTER}
+          filter={communityFilter}
+          selectFilter={selectCommunityFilter}
+        />
       </ContentTop>
       <ContentBottom>
         {communityQuery.isLoading ? (
