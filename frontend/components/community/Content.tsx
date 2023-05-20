@@ -11,7 +11,7 @@ import Message from '../Message';
 import CommunityItemSkeleton from '../skeleton/CommunityItemSkeleton';
 import { ARTICLE_FILTER, POST_COMMUNITY_CATEGORY } from '@/constant/constant';
 import { getAllCommunity } from '@/util/api/getAllProject';
-import { useFilter } from '@/hooks/useFilter';
+import { articleFilter } from '@/util/filter/articleFilter';
 
 export default function Content() {
   const router = useRouter();
@@ -44,8 +44,12 @@ export default function Content() {
   const filterHandler = (idx: number) => {
     setFilter(idx);
   };
-  useFilter({ filter, allData, setAllData, refetch });
-  console.log(allData);
+  useEffect(() => {
+    if (filter !== 0) {
+      setPage(1);
+    }
+  }, [filter]);
+  const filterData = articleFilter({ filter, allData });
 
   //카테고리 필터 데이터
   const CategoryFilterData = [
@@ -90,15 +94,19 @@ export default function Content() {
           <CommunityItemSkeleton count={10} />
         ) : (
           <ContentItemList>
-            {data?.map((article: Community) => (
-              <ContentItem {...article} key={article.articleId} />
-            ))}
+            {filterData
+              ? (filterData as Community[])?.map((article: Community) => (
+                  <ContentItem {...article} key={article.articleId} />
+                ))
+              : data?.map((article: Community) => (
+                  <ContentItem {...article} key={article.articleId} />
+                ))}
           </ContentItemList>
         )}
         <Pagenation
           page={page}
           onPageChange={setPage}
-          pageSize={totalPage ? totalPage : 1}
+          pageSize={filterData ? Math.ceil(filterData.length / 10) : totalPage!}
         />
       </ContentBottom>
     </Container>

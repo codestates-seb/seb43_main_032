@@ -16,13 +16,13 @@ import { Filter, Form, PageProps } from '@/types/types';
 import { AiOutlineArrowUp } from 'react-icons/ai';
 import { getAllProject } from '@/util/api/getAllProject';
 import { ARTICLE_FILTER } from '@/constant/constant';
-import { useFilter } from '@/hooks/useFilter';
+import { articleFilter } from '@/util/filter/articleFilter';
 const page_limit = 4;
 
 const ProjectHome = () => {
   const router = useRouter();
   const { register, watch } = useForm<Form>();
-  const search = router.query.search;
+  // const search = router.query.search;
 
   //주소, 서버 필터 작업 전까지 주석처리
   const address = () => {
@@ -92,7 +92,7 @@ const ProjectHome = () => {
     setFilter(idx);
   };
   const [allData, setAllData] = useState<Project[]>([]);
-  const [filterData, setFilterData] = useState<Project[]>([]);
+  const [searchData, setSearchData] = useState<Project[]>([]);
   const [onSearch, setOnSearch] = useState(false);
   const onSubmit = (e: { preventDefault: () => void }) => {
     e.preventDefault();
@@ -104,11 +104,12 @@ const ProjectHome = () => {
   }, []);
 
   useEffect(() => {
-    setFilterData(
+    setSearchData(
       allData.filter((data) => data.title.includes(watch().search))
     );
   }, [onSearch]);
-  useFilter({ filter, allData, setAllData, refetch });
+
+  const filterData = articleFilter({ filter, allData });
 
   //무한 스크롤 effect
   const target = useRef<HTMLDivElement>(null);
@@ -166,10 +167,14 @@ const ProjectHome = () => {
           </div>
         </div>
         <ProjectCardBox
-          title={search ? `${search}의 결과입니다.` : '전체 프로젝트'}
+          title={
+            watch().search !== ''
+              ? `${watch().search}의 결과입니다.`
+              : '전체 프로젝트'
+          }
           data={
-            filterData.length !== 0
-              ? filterData
+            searchData.length !== 0
+              ? searchData
               : data.pages?.flatMap((page) => page.data)
           }
           skeleton={isFetching && hasNextPage && <ProjectSkeleton />}
