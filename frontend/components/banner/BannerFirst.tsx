@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import Image from 'next/image';
-import img from '../public/images/thirdFix.svg';
-import board from '../public/images/thirdBoard.svg';
-import msg1 from '../public/images/thirdMsg (1).svg';
-import msg2 from '../public/images/thirdMsg (2).svg';
-import msg3 from '../public/images/thirdMsg (3).svg';
-import msgSec1 from '../public/images/thireMsgSec1.svg';
-import msgSec2 from '../public/images/thireMsgSec2.svg';
-import msgSec3 from '../public/images/thireMsgSec3.svg';
+import img from '../../public/images/thirdFix.svg';
+import board from '../../public/images/thirdBoard.svg';
+import msg1 from '../../public/images/thirdMsg (1).svg';
+import msg2 from '../../public/images/thirdMsg (2).svg';
+import msg3 from '../../public/images/thirdMsg (3).svg';
+import msgSec1 from '../../public/images/thireMsgSec1.svg';
+import msgSec2 from '../../public/images/thireMsgSec2.svg';
+import msgSec3 from '../../public/images/thireMsgSec3.svg';
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 
 export default function BannerFirst() {

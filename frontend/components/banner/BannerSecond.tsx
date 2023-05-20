@@ -2,12 +2,12 @@ import { BannerProps } from '@/types/types';
 import Image from 'next/image';
 import React, { useEffect, useState } from 'react';
 import styled, { keyframes } from 'styled-components';
-import computer from '../public/images/bannerComputer.svg';
-import dictionary from '../public/images/bannerDic.svg';
-import message from '../public/images/bannerMsg.svg';
-import right from '../public/images/circleLeft.svg';
-import left from '../public/images/circleRight.svg';
-import square from '../public/images/squareBg.svg';
+import computer from '../../public/images/bannerComputer.svg';
+import dictionary from '../../public/images/bannerDic.svg';
+import message from '../../public/images/bannerMsg.svg';
+import right from '../../public/images/circleLeft.svg';
+import left from '../../public/images/circleRight.svg';
+import square from '../../public/images/squareBg.svg';
 import { useRouter } from 'next/router';
 
 export default function BannerSecond() {

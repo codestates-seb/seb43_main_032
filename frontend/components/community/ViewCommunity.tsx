@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import dynamic from 'next/dynamic';
 import ContentSkeleton from '../skeleton/ContentSkeleton';
@@ -7,13 +7,14 @@ import Message from '../Message';
 import { Community } from '@/types/community';
 import { useCommunity } from '@/hooks/react-query/community/useCommunity';
 import AnswerBox from '../answer/AnswerBox';
-import GridBox from '../GridBox';
+import GridBox from '../common_box/GridBox';
 import Tag from '../Tag';
 import { useRecoilValue } from 'recoil';
 import { loggedInUserState } from '@/recoil/atom';
-import { AiFillHeart, AiOutlineHeart } from 'react-icons/ai';
 import TagBox from '../project/TagBox';
-import HeartBox from '../HeartBox';
+import HeartBox from '../common_box/HeartBox';
+import { formatDate2 } from '@/util/date';
+import AuthorBox from '../common_box/AuthorBox';
 
 const ReactMarkdown = dynamic(() => import('@/components/editor/ContentBox'), {
   ssr: false,
@@ -27,10 +28,8 @@ const ViewCommunity = () => {
   const address = `/articles/${id}`;
   const queryKey = ['articles', 'post', id];
 
-  // 임시 데이터
+  //로그인한 유저의 데이터
   const loggedInUser = useRecoilValue(loggedInUserState);
-  const project = ['1', '2', '3', '4', '5', '6', '7', '8', '9'];
-  const [userHeart, setUserHeart] = useState(false);
 
   const {
     communityQuery,
@@ -70,48 +69,13 @@ const ViewCommunity = () => {
       {data && (
         <>
           <Top>
-            <div className="right">
-              <div className="top-box">
-                <img src={data.memberInfo.profileImageUrl}></img>
-                <div className="userBox nanum-bold userName">
-                  {data.memberInfo.name}
-                </div>
-                {data.memberInfo.email !== loggedInUser?.email && (
-                  <div
-                    className="saveStar"
-                    onClick={() => setUserHeart(!userHeart)}
-                  >
-                    <span className="icon-box">
-                      {userHeart ? (
-                        <AiOutlineHeart fill={'#ececec'} />
-                      ) : (
-                        <AiFillHeart fill="red" />
-                      )}
-                    </span>
-                  </div>
-                )}
-              </div>
-              <div className="detail-box">
-                <div className="detail-sub-box">
-                  <div className="detail-num">
-                    {project.length} <span>개</span>
-                  </div>
-                  <div className="detail-title">진행 프로젝트</div>
-                </div>
-                <div className="center-border"></div>
-                <div className="detail-sub-box">
-                  <div className="detail-num">
-                    {data.totalLikes} <span>개</span>
-                  </div>
-                  <div className="detail-title">평가 점수</div>
-                </div>
-              </div>
-              {data.memberInfo.email !== loggedInUser?.email && (
-                <Tag>쪽지 보내기</Tag>
-              )}
-            </div>
+            <AuthorBox
+              userImg={data.memberInfo.profileImageUrl}
+              userName={data.memberInfo.name}
+              isAuthor={data.memberInfo.email !== loggedInUser?.email}
+              totalStar={data.memberInfo.totalStar}
+            />
             <TagBox
-              type="community"
               tags={data.techList.map((item) => ({ field: item.tech }))}
             />
           </Top>
@@ -131,7 +95,7 @@ const ViewCommunity = () => {
             <div className="sub-title">
               <div className="date">
                 <span className="writeDate">작성일 : </span>
-                {data.createdAt.slice(0, 10)}
+                {formatDate2(new Date(data.createdAt))}
               </div>
 
               <div className="view">
@@ -236,40 +200,6 @@ const Top = styled.div`
           justify-content: center;
           align-items: center;
           font-size: 30px;
-        }
-      }
-    }
-
-    > .detail-box {
-      display: flex;
-      width: 80%;
-      justify-content: space-between;
-      margin-bottom: 24px;
-
-      > .center-border {
-        width: 1px;
-        height: 150%;
-        border: solid 1px #ececec;
-      }
-
-      > .detail-sub-box {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-
-        > .detail-num {
-          padding: 10px;
-          font-size: 24px;
-
-          > span {
-            font-size: 15px;
-            color: #828282;
-          }
-        }
-
-        > .detail-title {
-          font-size: 12px;
         }
       }
     }

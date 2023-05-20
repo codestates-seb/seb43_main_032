@@ -8,7 +8,7 @@ import Message from '../Message';
 import { useCommunity } from '@/hooks/react-query/community/useCommunity';
 import TagBox from '../project/TagBox';
 import { FiledTag } from '@/types/project';
-import GridBox from '../GridBox';
+import GridBox from '../common_box/GridBox';
 import { POST_COMMUNITY_CATEGORY } from '@/constant/constant';
 
 export default function CommunityForm() {
