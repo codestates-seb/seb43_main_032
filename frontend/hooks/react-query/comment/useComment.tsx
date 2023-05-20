@@ -4,6 +4,7 @@ import { UseMutationResult, useMutation } from 'react-query';
 import {
   DeleteCommentMutation,
   EditCommentMutation,
+  LikeCommentMutation,
   PostCommentMutation,
 } from '@/types/comment';
 
@@ -77,5 +78,49 @@ export const useComment = ({ commentRefetch }: Props) => {
     }
   );
 
-  return { postComment, deleteComment, editComment };
+  /**
+   * 댓글 좋아요
+   */
+  const likeComment: LikeCommentMutation = useMutation(
+    () =>
+      api.post(`/likes`, {
+        category: 'COMMENT',
+        unitedId: id,
+      }),
+    {
+      onSuccess: () => {
+        commentRefetch();
+      },
+      onError: () => {
+        alert('잠시 후에 다시 시도해주세요.');
+      },
+    }
+  );
+
+  /**
+   * 댓글 싫어요
+   */
+  const dislikeComment: LikeCommentMutation = useMutation(
+    () =>
+      api.post(`/likes/undo`, {
+        category: 'COMMENT',
+        unitedId: id,
+      }),
+    {
+      onSuccess: () => {
+        commentRefetch();
+      },
+      onError: () => {
+        alert('잠시 후에 다시 시도해주세요.');
+      },
+    }
+  );
+
+  return {
+    postComment,
+    deleteComment,
+    editComment,
+    likeComment,
+    dislikeComment,
+  };
 };

@@ -6,6 +6,7 @@ import { AxiosResponse } from 'axios';
 import {
   DeleteAnswerMutation,
   EditAnswerMutation,
+  LikeAnswerMutation,
   PostAnswerMutation,
 } from '@/types/answer';
 
@@ -76,13 +77,27 @@ export const useAnswer = ({ answerRefetch, changeAnswerVal }: Props) => {
   /**
    * 답글을 수정하는 이벤트
    */
-  const editAnswer: EditAnswerMutation = useMutation(
-    ({ answerId, content }: { answerId: number; content: string }) =>
-      api.patch(`/answers/${answerId}`, { content }),
+  const editAnswer: EditAnswerMutation = useMutation(() => api.post('/likes'), {
+    onSuccess: () => {
+      answerRefetch();
+    },
+    onError: () => {
+      alert('잠시 후에 다시 시도해주세요.');
+    },
+  });
+
+  /**
+   * 답글 좋아요
+   */
+  const likeAnswer: LikeAnswerMutation = useMutation(
+    () =>
+      api.post(`/likes`, {
+        category: 'ANSWER',
+        unitedId: id,
+      }),
     {
       onSuccess: () => {
         answerRefetch();
-        changeAnswerVal('');
       },
       onError: () => {
         alert('잠시 후에 다시 시도해주세요.');
@@ -90,5 +105,24 @@ export const useAnswer = ({ answerRefetch, changeAnswerVal }: Props) => {
     }
   );
 
-  return { postAnswer, deleteAnswer, editAnswer };
+  /**
+   * 답글 싫어요
+   */
+  const dislikeAnswer: LikeAnswerMutation = useMutation(
+    () =>
+      api.post(`/likes/undo`, {
+        category: 'ANSWER',
+        unitedId: id,
+      }),
+    {
+      onSuccess: () => {
+        answerRefetch();
+      },
+      onError: () => {
+        alert('잠시 후에 다시 시도해주세요.');
+      },
+    }
+  );
+
+  return { postAnswer, deleteAnswer, editAnswer, likeAnswer, dislikeAnswer };
 };

@@ -1,6 +1,5 @@
 import { UseMutationResult } from 'react-query';
 import { MemberInfo } from './types';
-import { AxiosResponse } from 'axios';
 
 export type Answer = {
   answerId: number;
@@ -37,5 +36,15 @@ export type EditAnswerMutation = UseMutationResult<
   void,
   Error,
   { answerId: number; content: string },
+  void
+>;
+
+export type LikeAnswerMutation = UseMutationResult<
+  void,
+  Error,
+  {
+    category: 'ANSWER';
+    unitedId: number;
+  },
   void
 >;
