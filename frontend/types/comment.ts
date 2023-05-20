@@ -1,4 +1,6 @@
+import { UseMutationResult } from 'react-query';
 import { MemberInfo } from './types';
+import { AxiosResponse } from 'axios';
 
 export type Comment = {
   commentId: number;
@@ -7,3 +9,22 @@ export type Comment = {
   memberInfo: MemberInfo;
   totalLikes: number;
 };
+
+export type EditCommentMutation = UseMutationResult<
+  AxiosResponse<any, any>,
+  unknown,
+  {
+    commentId: number;
+    content: string;
+  },
+  unknown
+>;
+
+export type DeleteCommentMutation = UseMutationResult<
+  AxiosResponse<any, any>,
+  unknown,
+  {
+    commentId: number;
+  },
+  unknown
+>;

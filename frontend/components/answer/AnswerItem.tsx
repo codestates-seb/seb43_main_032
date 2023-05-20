@@ -14,6 +14,8 @@ import CommentInput from '../comment/CommentInput';
 import { getCookie } from '@/util/cookie';
 import { useGetComment } from '@/hooks/react-query/comment/useGetComment';
 import CommentBox from '../comment/CommentBox';
+import { elapsedTime } from '@/util/date';
+import { useComment } from '@/hooks/react-query/comment/useComment';
 
 const Editor = dynamic(() => import('@/components/editor/Editor'), {
   ssr: false,
@@ -85,6 +87,12 @@ const AnswerItem = ({ answer, deleteAnswer, editAnswer, isAuthor }: Props) => {
     params: 'size=999&page=1',
   });
   const commentLength = commentQuery.data?.pageInfo.totalElements;
+  const commentData = commentQuery.data?.data;
+
+  //comment 관련 함수
+  const { deleteComment, editComment } = useComment({
+    commentRefetch,
+  });
 
   //댓글 조회
   const [viewComment, setViewComment] = useState(false);
@@ -118,9 +126,11 @@ const AnswerItem = ({ answer, deleteAnswer, editAnswer, isAuthor }: Props) => {
               <div className="top">{answer.content}</div>
               <div className="bottom">
                 <div className="update-box">
-                  <button onClick={viewCommentHandler}>
-                    댓글 {commentLength}개
-                  </button>
+                  {commentLength !== undefined && commentLength > 0 && (
+                    <button onClick={viewCommentHandler}>
+                      댓글 {commentLength}개
+                    </button>
+                  )}
                   <button onClick={commentHandler}>
                     {comment ? '댓글 취소' : '댓글 작성'}
                   </button>
@@ -132,6 +142,7 @@ const AnswerItem = ({ answer, deleteAnswer, editAnswer, isAuthor }: Props) => {
                   )}
                 </div>
                 <div className="user-box">
+                  <div>{elapsedTime(new Date(answer.createdAt))}</div>
                   <div className="user-img">
                     <img src={answer.memberInfo.profileImageUrl} alt="user" />
                   </div>
@@ -151,7 +162,13 @@ const AnswerItem = ({ answer, deleteAnswer, editAnswer, isAuthor }: Props) => {
       {comment && (
         <CommentInput answer={answer} commentHandler={commentHandler} />
       )}
-      {viewComment && <CommentBox />}
+      {viewComment && commentData && (
+        <CommentBox
+          deleteComment={deleteComment}
+          editComment={editComment}
+          commentData={commentData}
+        />
+      )}
     </>
   );
 };
@@ -204,6 +221,7 @@ const Box = styled.li`
       }
       .user-box {
         display: flex;
+        align-items: center;
         gap: 16px;
         .user-img {
           height: 40px;
