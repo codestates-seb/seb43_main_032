@@ -10,9 +10,10 @@ import {
 } from '@/types/answer';
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { useRouter } from 'next/router';
 import CommentInput from '../comment/CommentInput';
 import { getCookie } from '@/util/cookie';
+import { useGetComment } from '@/hooks/react-query/comment/useGetComment';
+import CommentBox from '../comment/CommentBox';
 
 const Editor = dynamic(() => import('@/components/editor/Editor'), {
   ssr: false,
@@ -69,13 +70,26 @@ const AnswerItem = ({ answer, deleteAnswer, editAnswer, isAuthor }: Props) => {
     deleteAnswer.mutate({ answerId: answer.answerId });
   };
 
-  //댓글 관련
+  //댓글 input 관련
   const [comment, setComment] = useState(false);
   const commentHandler = () => {
     if (!getCookie('accessToken') && !comment) {
       return alert('로그인을 부탁드려요.');
     }
     setComment(!comment);
+  };
+
+  //댓글 데이터
+  const { commentQuery, commentRefetch } = useGetComment({
+    answerId: answer.answerId,
+    params: 'size=999&page=1',
+  });
+  const commentLength = commentQuery.data?.pageInfo.totalElements;
+
+  //댓글 조회
+  const [viewComment, setViewComment] = useState(false);
+  const viewCommentHandler = () => {
+    setViewComment(!viewComment);
   };
 
   return (
@@ -104,7 +118,9 @@ const AnswerItem = ({ answer, deleteAnswer, editAnswer, isAuthor }: Props) => {
               <div className="top">{answer.content}</div>
               <div className="bottom">
                 <div className="update-box">
-                  <button>댓글 {answer.commentList.length}개</button>
+                  <button onClick={viewCommentHandler}>
+                    댓글 {commentLength}개
+                  </button>
                   <button onClick={commentHandler}>
                     {comment ? '댓글 취소' : '댓글 작성'}
                   </button>
@@ -132,7 +148,10 @@ const AnswerItem = ({ answer, deleteAnswer, editAnswer, isAuthor }: Props) => {
           </>
         )}
       </Box>
-      {comment && <CommentInput commentHandler={commentHandler}/>}
+      {comment && (
+        <CommentInput answer={answer} commentHandler={commentHandler} />
+      )}
+      {viewComment && <CommentBox />}
     </>
   );
 };

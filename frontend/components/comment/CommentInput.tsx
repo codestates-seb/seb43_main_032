@@ -1,16 +1,47 @@
+import { useComment } from '@/hooks/react-query/comment/useComment';
+import { useGetComment } from '@/hooks/react-query/comment/useGetComment';
 import { loggedInUserState } from '@/recoil/atom';
+import { Answer } from '@/types/answer';
 import { Form } from '@/types/types';
 import { useForm } from 'react-hook-form';
-import { RiThumbUpFill, RiThumbUpLine } from 'react-icons/ri';
 import { useRecoilValue } from 'recoil';
 import styled from 'styled-components';
 
-const CommentInput = ({ commentHandler }: { commentHandler: () => void }) => {
+type Props = {
+  commentHandler: () => void;
+  answer: Answer;
+};
+
+const CommentInput = ({ commentHandler, answer }: Props) => {
   //유저 데이터
   const loggedInUser = useRecoilValue(loggedInUserState);
 
-  // content 관리
-  const { register, watch } = useForm<Form>();
+  //content 관리
+  const { register, watch, reset } = useForm<{ content: string }>();
+
+  //commentRefetch를 갖고오기 위함
+  const { commentRefetch } = useGetComment({
+    answerId: answer.answerId,
+    params: 'size=999&page=1',
+  });
+
+  //comment 관련 함수
+  const { postComment } = useComment({
+    commentRefetch,
+  });
+
+  const postEvent = () => {
+    if (watch().content === '') {
+      return alert('내용을 입력해주세요.');
+    }
+    const data = {
+      ...watch(),
+      answerId: answer.answerId,
+    };
+    postComment.mutate(data);
+    reset();
+    commentHandler();
+  };
 
   return (
     <Box>
@@ -27,13 +58,12 @@ const CommentInput = ({ commentHandler }: { commentHandler: () => void }) => {
         </div>
       </div>
       <div className="bottom">
-        <div className="like-box">
-          {/* 좋아요 추가되면 넣을 듯?*/}
-          {true ? <RiThumbUpLine size={30} /> : <RiThumbUpFill size={30} />}
+        <div className="icon-box">
+          {/* 아이콘 추가를 넣을걸 대비해서 만들어놓음 */}
         </div>
         <div className="btn-box">
           <button onClick={commentHandler}>취소</button>
-          <button>완료</button>
+          <button onClick={postEvent}>완료</button>
         </div>
       </div>
     </Box>
@@ -76,10 +106,7 @@ const Box = styled.div`
     justify-content: space-between;
     padding-top: 8px;
 
-    .like-box {
-      > svg {
-        cursor: pointer;
-      }
+    .icon-box {
     }
     .btn-box {
       display: flex;
