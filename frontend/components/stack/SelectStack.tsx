@@ -31,6 +31,16 @@ const SelectStack = ({ setStacks, selectStack, stacks }: Props) => {
   return (
     <Box>
       <div>
+        <div className="btn-box">
+          <div>
+            <Btn onClick={resetSelectedStacks}>
+              <span>초기화</span>
+            </Btn>
+            <Btn onClick={selectStack}>
+              <span>완료</span>
+            </Btn>
+          </div>
+        </div>
         <div className="select-box">
           {categories.map((category) => (
             <div key={category} className="stack-box nanum-bold">
@@ -50,14 +60,6 @@ const SelectStack = ({ setStacks, selectStack, stacks }: Props) => {
             </div>
           ))}
         </div>
-        <div className="btn-box">
-          <Btn onClick={resetSelectedStacks}>
-            <span>초기화</span>
-          </Btn>
-          <Btn onClick={selectStack}>
-            <span>완료</span>
-          </Btn>
-        </div>
       </div>
     </Box>
   );
@@ -74,9 +76,10 @@ const Box = styled.div`
   > div {
     overflow-y: scroll;
     overflow-x: hidden;
+    position: relative;
     border: solid 2px #ececec;
     border-radius: var(--radius-def);
-    padding: 0 20px;
+
     width: 100%;
     height: 100%;
     display: flex;
@@ -102,10 +105,11 @@ const Box = styled.div`
   }
 
   .select-box {
-    margin-top: 16px;
     display: flex;
     flex-direction: column;
     width: 100%;
+    margin-bottom: 24px;
+    padding: 0 20px;
   }
 
   .stack-box {
@@ -133,10 +137,21 @@ const Box = styled.div`
   }
 
   .btn-box {
+    width: 100%;
+    position: sticky;
     display: flex;
+    top: 0px;
     justify-content: center;
     gap: 8px;
-    margin: 24px 0;
+    padding: 24px 0px;
+    background-color: white;
+    z-index: 10;
+    border-bottom: 1px solid #c3b3f5;
+
+    > div {
+      display: flex;
+      gap: 16px;
+    }
 
     .search-btn {
       background: #9b7aff;

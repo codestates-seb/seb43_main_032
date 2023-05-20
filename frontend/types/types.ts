@@ -19,7 +19,11 @@ export interface StackCategory {
   [key: string]: string[];
 }
 
-export interface FooterCategory extends StackCategory {}
+export type FooterCategory = { name: string; link: string };
+
+export type FooterData= {
+  [key: string]: FooterCategory[];
+}
 
 export type CommunityCategory = {
   title: string;

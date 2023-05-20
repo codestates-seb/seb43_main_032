@@ -9,8 +9,7 @@ export type Community = {
   memberInfo: MemberInfo;
   techList: Tech[];
   title: string;
+  totalAnswers: number;
   totalLikes: number;
   view: number;
 };
-
-type CategoryType = 'PROJECT' | 'COMMUNITY';

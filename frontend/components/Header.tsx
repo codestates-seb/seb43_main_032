@@ -1,5 +1,4 @@
 import Image from 'next/image';
-import { FaUserAlt } from 'react-icons/fa';
 import Link from 'next/link';
 import styled from 'styled-components';
 import { useRouter } from 'next/router';
@@ -99,10 +98,13 @@ const Header = () => {
           ))}
           {getCookie('accessToken')
             ? navNames.slice(3, 5).map((name) =>
-                name === 'mypage' ? (
+                name === 'MY' ? (
                   <li key={name}>
-                    <Link href={HEADER_NAV[name]}>
-                      <FaUserAlt size={20} />
+                    <Link
+                      href={HEADER_NAV[name]}
+                      className="noto-regular-12 main-btn"
+                    >
+                      <span>{name.toUpperCase()}</span>
                     </Link>
                   </li>
                 ) : (
@@ -119,7 +121,7 @@ const Header = () => {
             : navNames.slice(5).map((name) => (
                 <li key={name}>
                   <ButtonStyle
-                    link={`/users${HEADER_NAV[name]}`}
+                    link={`${HEADER_NAV[name]}`}
                     text={name.toUpperCase()}
                   ></ButtonStyle>
                 </li>

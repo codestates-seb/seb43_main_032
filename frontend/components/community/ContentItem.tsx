@@ -4,21 +4,12 @@ import Tag from '../Tag';
 import { FaComment, FaEye, FaHeart, FaStar } from 'react-icons/fa';
 import { Community } from '@/types/community';
 import { useRouter } from 'next/router';
-import { useGetAnswer } from '@/hooks/react-query/answer/useGetAnswer';
 
 export default function ContentItem(article: Community) {
   const router = useRouter();
   const moveArticle = () => {
     router.push(`community/post/${article.articleId}`);
   };
-
-  const { answerQuery } = useGetAnswer({
-    category: 'ARTICLE',
-    postId: article.articleId,
-    params: 'page=1&size=4',
-  });
-
-  console.log(answerQuery.data?.pageInfo.totalElements);
 
   return (
     <Container>
@@ -37,8 +28,8 @@ export default function ContentItem(article: Community) {
             <div className="content">{article.content}</div>
           </Top>
           <div className="tagBox">
-            {article.techList.map((tag) => (
-              <Tag key={tag.tech}>{tag.tech}</Tag>
+            {article.techList.map((tag, i) => (
+              <Tag key={`${i}+${tag.tech}`}>{tag.tech}</Tag>
             ))}
           </div>
         </Center>
@@ -47,7 +38,6 @@ export default function ContentItem(article: Community) {
         <div className="heartBox">
           <FaHeart color="red"></FaHeart>
           <span>{article.totalLikes}</span>
-          <span>{article.totalLikes}</span>
         </div>
         <div>
           <FaEye color="#909090"></FaEye>
@@ -55,7 +45,7 @@ export default function ContentItem(article: Community) {
         </div>
         <div>
           <FaComment color="#909090"></FaComment>
-          <span>{answerQuery.data?.pageInfo.totalElements}</span>
+          <span>{article.totalAnswers}</span>
         </div>
       </Left>
     </Container>

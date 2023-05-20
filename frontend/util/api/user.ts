@@ -1,23 +1,23 @@
+import { UserState } from '@/types/user';
 import { api } from '.';
-import { IUser } from '@/types/user';
 
-export async function getAuth(): Promise<IUser> {
+export async function getAuth(): Promise<UserState> {
   return api('/users/1') //
     .then((res) => res.data);
 }
 
-export async function getUsers(): Promise<IUser[]> {
+export async function getUsers(): Promise<UserState[]> {
   return api('/users') //
     .then((res) => res.data);
 }
 
-export async function getUserById(id: number): Promise<IUser> {
-  return api(`/member/info/${id}`) //
+export async function getUserById(id: number): Promise<UserState> {
+  return api(`/members/info/${id}`) //
     .then((res) => res.data);
 }
 
 export const setUserState = async () => {
-  const data = await api('/member/info').then((res) => res.data.data);
+  const data = await api('/members/info').then((res) => res.data.data);
   if (data) {
     return data;
   }
@@ -25,7 +25,7 @@ export const setUserState = async () => {
 };
 
 export const getUserData = async (id: number) => {
-  const data = await api(`/member/info/${id}`).then((res) => res.data.data);
+  const data = await api(`/members/info/${id}`).then((res) => res.data.data);
   if (data) {
     return data;
   }

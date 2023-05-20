@@ -1,52 +1,89 @@
 import React, { useEffect, useState } from 'react';
-import styled from 'styled-components';
 import MainPost from '../MainPost';
 import { Form } from '@/types/types';
 import { useForm } from 'react-hook-form';
 import { useRouter } from 'next/router';
-import { api } from '@/util/api';
 import { Community } from '@/types/community';
 import Message from '../Message';
-import { UserState } from '@/types/user';
-import { getUserData } from '@/util/api/user';
 import { useCommunity } from '@/hooks/react-query/community/useCommunity';
+import TagBox from '../project/TagBox';
+import { FiledTag } from '@/types/project';
+import GridBox from '../GridBox';
+import { POST_COMMUNITY_CATEGORY } from '@/constant/constant';
 
 export default function CommunityForm() {
   const router = useRouter();
   const id = router.query.id;
-  const address = `/article/update/post/${id}`;
+  const address = `/articles/${id}`;
   const queryKey = ['article', 'post', id];
-  const { communityQuery } = useCommunity<Community>({
+  const { communityQuery, postArticle, editArticle } = useCommunity<Community>({
     address,
     queryKey,
   });
   const data = communityQuery.data?.data;
-  // console.log(data);
 
-  const { register, watch } = useForm<Form>();
+  useEffect(() => {
+    if (data) {
+      const techList = data.techList.map((item) => ({ field: item.tech }));
+      setTags([...techList]);
+      setEditor(data.content);
+    }
+  }, [communityQuery.isLoading]);
+
+  const { register, watch, reset } = useForm<Form>();
   const [editor, setEditor] = useState('');
   const changeContent = (value: string) => {
     setEditor(value);
   };
 
-  //작성자 데이터
-  const [writerState, setWriterState] = useState<UserState>();
-  useEffect(() => {
-    if (data) getUserData(data.articleId).then((res) => setWriterState(res));
-  }, [communityQuery.isLoading]);
+  //해시태그 값 상태
+  const [tags, setTags] = useState<FiledTag[]>([]);
 
-  const postCommunity = () => {
+  //해시태그 키 다운
+  const tagKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    const trim = watch().tagVal.trim();
+    if ((e.key === 'Enter' || e.key === ' ') && trim !== '') {
+      addTag(trim);
+      reset({
+        ...watch(),
+        tagVal: '',
+      });
+    }
+  };
+
+  // 해시태그 업데이트
+  const addTag = (tag: string) => {
+    setTags([...tags, { field: tag }]);
+  };
+
+  // 해시태그 삭제
+  const deleteTag = (idx: number) => {
+    setTags([...tags.slice(0, idx), ...tags.slice(idx + 1)]);
+  };
+
+  //글 제출 이벤트
+  const postCommunity = (e: { preventDefault: () => void }) => {
+    e.preventDefault();
+    const category = POST_COMMUNITY_CATEGORY[watch().position];
     const data = {
       title: watch().title,
-      category: watch().position,
       content: editor,
-      techList: ['recoil'], // 태그 추가 전 테스트용
+      techList: tags.map((tag) => tag.field),
+      category,
     };
 
-    api
-      .post('/articles', data)
-      .then(() => router.push('/community'))
-      .catch(() => alert('잠시 후에 다시 시도해주세요.'));
+    if (
+      router.route.includes('edit') &&
+      confirm('정말 글을 수정하시겠습니까?')
+    ) {
+      return editArticle.mutate(data);
+    }
+    if (
+      router.route.includes('create') &&
+      confirm('정말 글을 작성하시겠습니까?')
+    ) {
+      return postArticle.mutate(data);
+    }
   };
 
   if (communityQuery.isLoading) return <Message>로딩중입니다.</Message>;
@@ -54,12 +91,19 @@ export default function CommunityForm() {
     return <Message>잠시 후 다시 시도해주세요.</Message>;
 
   return (
-    <Container>
+    <GridBox>
+      <TagBox
+        type="community"
+        tags={tags}
+        deleteTag={deleteTag}
+        tagKeyDown={tagKeyDown}
+        register={register}
+      />
       <MainPost
         type={2}
         register={register}
         changeContent={changeContent}
-        postProject={() => postCommunity()}
+        postProject={postCommunity}
         data={
           data && {
             title: data.title,
@@ -68,15 +112,6 @@ export default function CommunityForm() {
           }
         }
       />
-    </Container>
+    </GridBox>
   );
 }
-
-const Container = styled.div`
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 20px;
-  padding: var(--padding-2);
-`;

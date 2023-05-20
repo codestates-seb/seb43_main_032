@@ -2,11 +2,13 @@ import {
   CommunityCategory,
   CommunityFilter,
   FooterCategory,
+  FooterData,
   HeaderNav,
   ProjectFilter,
   StackCategory,
   StackCategoryName,
 } from '@/types/types';
+import link from 'next/link';
 import {
   AiFillAndroid,
   AiFillApple,
@@ -191,18 +193,25 @@ export const POSITIONS = [
   '기타',
 ];
 
-//나중에 객체의 형태로 바꿔서 주소를 넣어주는 작업을 해야할 것 같음
-export const FOOTER_DATA: FooterCategory = {
+export const FOOTER_DATA: FooterData = {
   information: [
-    '1:1 문의 카카오톡 연결',
-    '상담 사이드퀘스트 운영자 연결',
-    '오픈챗 코드 7777',
-    '제휴문의 help@sideQues.com',
-    `Copyright©2023 SideQuest.All rights reserved.`,
+    { name: '1:1 문의 카카오톡 연결', link: '' },
+    { name: '상담 사이드퀘스트 운영자 연결', link: 'onContact' },
+    { name: '오픈챗 코드 7777', link: '' },
+    { name: '제휴문의 help@sideQues.com', link: '' },
+    { name: 'Copyright©2023 SideQuest.All rights reserved.', link: '' },
   ],
-  about: ['SideQuest 소개'],
-  service: ['프로젝트 등록', '프로젝트 찾기', '파트너 등록'],
-  support: ['서비스 이용약관', '개인정보처리방침', 'FAQ'],
+  about: [{ name: 'SideQuest 소개', link: '/' }],
+  service: [
+    { name: '프로젝트 등록', link: '/project/create' },
+    { name: '프로젝트 찾기', link: '/project' },
+    { name: '프로젝트 지원', link: '' },
+  ],
+  support: [
+    { name: '서비스 이용약관', link: '' },
+    { name: '개인정보처리방침', link: '' },
+    { name: 'FAQ', link: 'onContact' },
+  ],
 };
 
 export const COMMUNITY_FILTER: CommunityFilter[] = [
@@ -292,4 +301,18 @@ export const BUTTON_STATE: { [key: string]: string } = {
   '모집 완료': '프로젝트 시작',
   '진행 중': '프로젝트 종료',
   종료: '팀원 리뷰',
+};
+
+export const POST_COMMUNITY_CATEGORY: { [key: string]: string } = {
+  프론트엔드: 'FRONTEND',
+  백엔드: 'BACKEND',
+  'UI/UX': 'UIUX',
+  기획: 'PLANNING',
+  디자이너: 'DESIGNER',
+  PM: 'PM',
+  사업기획: 'BUSINESS',
+  마케팅: 'MARKETING',
+  안드로이드: 'ANDROID',
+  IOS: 'IOS',
+  기타: 'OTHER',
 };
