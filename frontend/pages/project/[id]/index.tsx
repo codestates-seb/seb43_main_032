@@ -15,6 +15,7 @@ import Tag from '@/components/Tag';
 import { useRecoilValue } from 'recoil';
 import { loggedInUserState } from '@/recoil/atom';
 import ApplyBox from '@/components/common_box/ApplyBox';
+import SubBtn from '@/components/button/SubBtn';
 
 const ViewProject = () => {
   const loggedInUser = useRecoilValue(loggedInUserState);
@@ -78,21 +79,14 @@ const ViewProject = () => {
     ) {
       updateState.mutate('모집 완료');
     }
-  }, [projectQuery.data]);
-
-  useEffect(() => {
-    projectRefetch();
-    
-  }, []);
-
-  //로그인 된 유저랑 체크중
-  console.log(data);
+  }, [projectQuery.isLoading]);
 
   //확정된 버튼의 hover 관리
   const [acceptedHover, setAcceptedHover] = useState(false);
   const hoverHandler = () => {
     setAcceptedHover(!acceptedHover);
   };
+  console.log(data);
 
   if (projectQuery.error) return <Message>잠시 후 다시 시도해주세요.</Message>;
   if (projectQuery.isLoading || !data || !applyQuery.data)
@@ -167,9 +161,9 @@ const ViewProject = () => {
         )}
         <div>
           {data.status !== '모집중' && (
-            <button onClick={() => projectEvent(data.status)}>
+            <SubBtn onClick={() => projectEvent(data.status)}>
               {BUTTON_STATE[data.status]}
-            </button>
+            </SubBtn>
           )}
         </div>
       </Side>
