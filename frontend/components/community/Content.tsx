@@ -67,14 +67,12 @@ export default function Content() {
     category: POST_COMMUNITY_CATEGORY[CategoryFilterData[categoryFilter]],
   });
 
-  console.log(commuityData)
   //필터 데이터
   const filterData = articleFilter({
     filter,
     allData: commuityData,
     searchVal,
   });
-  console.log(filterData);
 
   if (communityQuery.error)
     return <Message>잠시 후 다시 시도해주세요.</Message>;
