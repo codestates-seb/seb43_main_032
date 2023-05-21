@@ -14,6 +14,7 @@ import { useProjectApply } from '@/hooks/react-query/project/useProjectApply';
 import Tag from '@/components/Tag';
 import { useRecoilValue } from 'recoil';
 import { loggedInUserState } from '@/recoil/atom';
+import ApplyBox from '@/components/common_box/ApplyBox';
 
 const ViewProject = () => {
   const loggedInUser = useRecoilValue(loggedInUserState);
@@ -57,8 +58,8 @@ const ViewProject = () => {
     applyEvent,
     cancelEvent,
     acceptCancel,
-    acceptApply,
-    rejectApply,
+    acceptEvent,
+    rejectEvent,
     checkApply,
   } = useProjectApply({ projectRefetch });
 
@@ -76,7 +77,7 @@ const ViewProject = () => {
   if (projectQuery.error) return <Message>잠시 후 다시 시도해주세요.</Message>;
   return (
     <GridBox>
-      {projectQuery.isLoading || !data ? (
+      {projectQuery.isLoading || !data || !applyQuery.data ? (
         <Message>로딩중입니다.</Message>
       ) : (
         <>
@@ -93,6 +94,11 @@ const ViewProject = () => {
             />
             <TagBox tags={data.fieldList} />
             <StacksBox stacks={data.techList} stack={false} />
+            <ApplyBox
+              crewList={applyQuery.data?.data}
+              acceptEvent={acceptEvent}
+              rejectEvent={rejectEvent}
+            />
             <div className="want-box">
               <div className="title">모집 중인 직군</div>
               <ul>

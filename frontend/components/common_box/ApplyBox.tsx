@@ -1,8 +1,19 @@
 import { useState } from 'react';
 import SubBtn from '../button/SubBtn';
 import styled from 'styled-components';
+import { MemberInfo } from '@/types/types';
 
-const ApplyBox = () => {
+type Props = {
+  crewList: {
+    position: string;
+    projectId: number;
+    memberInfo: MemberInfo;
+  }[];
+  acceptEvent: (memberId: number) => void;
+  rejectEvent: (memberId: number) => void;
+};
+
+const ApplyBox = ({ crewList, acceptEvent, rejectEvent }: Props) => {
   const [applyBox, setApplyBox] = useState(false);
   const applyBoxHandler = () => {
     setApplyBox(!applyBox);
@@ -15,21 +26,30 @@ const ApplyBox = () => {
       {applyBox && (
         <div className="apply-list">
           <ul className="select-box">
-            <li className="crew">
-              <div className="crew-profile">
-                <div className="img-box">
-                  <img
-                    src="https://noticon-static.tammolo.com/dgggcrkxq/image/upload/v1567008394/noticon/ohybolu4ensol1gzqas1.png"
-                    alt="crew-img"
-                  />
+            {crewList.map((crew) => (
+              <li className="crew">
+                <div className="crew-profile">
+                  <div className="img-box">
+                    <img src={crew.memberInfo.profileImageUrl} alt="crew-img" />
+                  </div>
+                  <div>아이디</div>
                 </div>
-                <div>아이디</div>
-              </div>
-              <div className="btn-box">
-                <SubBtn className="accept">수락</SubBtn>
-                <SubBtn className="reject">거절</SubBtn>
-              </div>
-            </li>
+                <div className="btn-box">
+                  <SubBtn
+                    onClick={() => acceptEvent(crew.memberInfo.memberId)}
+                    className="accept"
+                  >
+                    수락
+                  </SubBtn>
+                  <SubBtn
+                    onClick={() => rejectEvent(crew.memberInfo.memberId)}
+                    className="reject"
+                  >
+                    거절
+                  </SubBtn>
+                </div>
+              </li>
+            ))}
           </ul>
         </div>
       )}

@@ -96,11 +96,28 @@ export const useProjectApply = ({ projectRefetch }: Props) => {
     }
   );
 
+  const acceptApply = useMutation(
+    (memberId: number) => api.post(`/projects/${id}/accpet/${memberId}`),
+    {
+      onSuccess: () => {
+        refetch();
+        projectRefetch();
+      },
+      onError: () => {
+        alert('잠시 후에 다시 시도해주세요.');
+      },
+    }
+  );
+
   /**
    * 지원자를 수락하는 이벤트
    */
-  const acceptApply = useMutation(
-    () => api.post(`/projects/${id}/accpet/${'지원자 id를 넣어줘야함'}`),
+  const acceptEvent = (memberId: number) => {
+    acceptApply.mutate(memberId);
+  };
+
+  const rejectApply = useMutation(
+    (memberId: number) => api.post(`/projects/${id}/reject/${memberId}`),
     {
       onSuccess: () => {
         refetch();
@@ -115,26 +132,17 @@ export const useProjectApply = ({ projectRefetch }: Props) => {
   /**
    * 지원자를 거절하는 이벤트
    */
-  const rejectApply = useMutation(
-    () => api.post(`/projects/${id}/reject/${'지원자 id를 넣어줘야함'}`),
-    {
-      onSuccess: () => {
-        refetch();
-        projectRefetch();
-      },
-      onError: () => {
-        alert('잠시 후에 다시 시도해주세요.');
-      },
-    }
-  );
+  const rejectEvent = (memberId: number) => {
+    rejectApply.mutate(memberId);
+  };
 
   return {
     applyQuery: { isLoading, error, data },
     applyEvent,
     cancelEvent,
     acceptCancel,
-    acceptApply,
-    rejectApply,
+    acceptEvent,
+    rejectEvent,
     checkApply,
   };
 };
