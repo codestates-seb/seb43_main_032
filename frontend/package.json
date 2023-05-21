@@ -41,6 +41,7 @@
     "recoil": "^0.7.7",
     "slick-carousel": "^1.8.1",
     "styled-components": "^5.3.10",
+    "sweetalert2": "^11.7.5",
     "typescript": "5.0.4"
   },
   "devDependencies": {
