@@ -153,16 +153,20 @@ const Box = styled.div`
       border-radius: 5px;
       cursor: pointer;
 
-      > input {
-        width: 100%;
-        padding: 4px;
-        border: none;
-        border-bottom: 1px solid black;
-      }
-
       .like-num {
         font-size: 12px;
       }
+    }
+  }
+
+  .middle {
+    input {
+      width: 100%;
+      padding: 4px;
+      padding-bottom: 10px;
+      border: none;
+      outline: none;
+      border-bottom: 1px solid #d1cfcf;
     }
   }
 
