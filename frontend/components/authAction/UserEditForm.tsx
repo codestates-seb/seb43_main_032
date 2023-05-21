@@ -86,7 +86,6 @@ export default function UserEditForm({ user }: { user: any }) {
     const updatedData = updateData(user, data);
     console.log('change to ', updatedData);
 
-    return;
     api
       .patch('/members', updatedData) //
       .then((res) => console.log(res));

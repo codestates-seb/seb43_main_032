@@ -86,10 +86,10 @@ const EditButton = styled.button`
 
 export default function me() {
   // const user = useAuth();
-  const user = dummyUser;
-  // const {
-  //   getMyInfo: { data: user },
-  // } = useUser({});
+  // const user = dummyUser;
+  const {
+    getMyInfo: { data: user },
+  } = useUser({});
   const router = useRouter();
   user && console.log(user);
 
@@ -168,11 +168,8 @@ export default function me() {
                 />
               </div>
             </UserInfo>
-            <UserContentsBox id={0} contents={['프로젝트', '게시글']} />
-            <UserContentsBox
-              id={0}
-              contents={['프로젝트 댓글', '게시글 댓글']}
-            />
+            <UserContentsBox contentTitle={['프로젝트', '게시글']} />
+            <UserContentsBox contentTitle={['프로젝트 댓글', '게시글 댓글']} />
           </RightColumn>
         </GridBox>
       )}
