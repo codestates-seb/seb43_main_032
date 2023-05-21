@@ -5,6 +5,7 @@ import { MemberInfo } from '@/types/types';
 import { useRecoilValue } from 'recoil';
 import { loggedInUserState } from '@/recoil/atom';
 import { Crew } from '@/types/project';
+import { getCookie } from '@/util/cookie';
 
 type ApplyList = {
   data: { position: string; projectId: number; memberInfo: MemberInfo }[];
@@ -55,6 +56,9 @@ export const useProjectApply = ({ projectRefetch, acceptedPostion }: Props) => {
    * 프로젝트 지원 이벤트
    */
   const applyEvent = (position: string) => {
+    if (!getCookie('accessToken')) {
+      return alert('로그인을 부탁드려요.');
+    }
     if (acceptedPostion) {
       return alert('이미 다른 포지션에 확정되셨습니다.');
     }
