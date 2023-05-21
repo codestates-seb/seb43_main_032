@@ -145,7 +145,7 @@ public class CommentService {
         commentRepository.save(comment);
     }
 
-    private Comment getCommentById(Long commentId) {
+    public Comment getCommentById(Long commentId) {
         Optional<Comment> findComment = commentRepository.findById(commentId);
         Comment comment = findComment.orElseThrow(() -> new BusinessLogicException(ExceptionCode.COMMENT_NOT_FOUND));
         return comment;

@@ -6,10 +6,12 @@ import com.main_032.SideQuest.community.dto.answer.AnswerPostDto;
 import com.main_032.SideQuest.community.dto.comment.CommentPatchDto;
 import com.main_032.SideQuest.community.dto.comment.CommentPostDto;
 import com.main_032.SideQuest.community.dto.likes.LikesPostDto;
+import com.main_032.SideQuest.community.dto.likes.LikesResponseDto;
 import com.main_032.SideQuest.community.dto.likes.LikesUndoPostDto;
 import com.main_032.SideQuest.community.service.AnswerService;
 import com.main_032.SideQuest.community.service.CommentService;
 import com.main_032.SideQuest.community.service.LikesService;
+import com.main_032.SideQuest.util.dto.SingleResponseDto;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.http.HttpStatus;
@@ -78,15 +80,19 @@ public class CommunityController {
 
     @ApiOperation(value = "좋아요")
     @PostMapping("/likes")
-    public ResponseEntity<Void> likes(@RequestBody LikesPostDto likesPostDto) {
-        likesService.likes(likesPostDto);
-        return new ResponseEntity(HttpStatus.OK);
+    public ResponseEntity<SingleResponseDto<LikesResponseDto>> likes(@RequestBody LikesPostDto likesPostDto) {
+        LikesResponseDto likesResponseDto = likesService.likes(likesPostDto);
+        SingleResponseDto<LikesResponseDto> singleResponseDto = new SingleResponseDto<>(likesResponseDto);
+
+        return new ResponseEntity(singleResponseDto, HttpStatus.OK);
     }
 
     @ApiOperation(value = "좋아요 취소")
     @PostMapping("/likes/undo")
-    public ResponseEntity<Void> likesUndo(@RequestBody LikesUndoPostDto likesUndoPostDto) {
-        likesService.likesUndo(likesUndoPostDto);
-        return new ResponseEntity(HttpStatus.OK);
+    public ResponseEntity<SingleResponseDto<LikesResponseDto>> likesUndo(@RequestBody LikesUndoPostDto likesUndoPostDto) {
+        LikesResponseDto likesResponseDto = likesService.likesUndo(likesUndoPostDto);
+        SingleResponseDto<LikesResponseDto> singleResponseDto = new SingleResponseDto<>(likesResponseDto);
+
+        return new ResponseEntity(singleResponseDto, HttpStatus.OK);
     }
 }
