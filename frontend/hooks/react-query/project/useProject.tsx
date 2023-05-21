@@ -8,7 +8,10 @@ type ProjectData = {
   exceptionMsg: null;
 };
 
-export const useProject = () => {
+export const useProject = (
+  heartHandler: (isLiked: boolean) => void | undefined,
+  heartCountHandler: (totalCount: number) => void | undefined
+) => {
   const router = useRouter();
   const { id } = router.query;
   const { isLoading, error, data, refetch } = useQuery<ProjectData, Error>(
@@ -23,10 +26,17 @@ export const useProject = () => {
   //좋아요
   const likeProject = useMutation(
     (cardId: number | void) =>
-      api.post(`/likes`, {
-        category: 'PROJECT',
-        uniteId: cardId ? cardId : id,
-      }),
+      api
+        .post(`/likes`, {
+          category: 'PROJECT',
+          uniteId: cardId ? cardId : id,
+        })
+        .then((res) => {
+          if (heartHandler && heartCountHandler) {
+            heartHandler(res.data.data.liked);
+            heartCountHandler(res.data.data.totalLikes);
+          }
+        }),
     {
       onSuccess: () => {
         if (id) refetch();
@@ -40,10 +50,17 @@ export const useProject = () => {
   //싫어요
   const dislikeProject = useMutation(
     (cardId: number | void) =>
-      api.post(`/likes/undo`, {
-        category: 'PROJECT',
-        uniteId: cardId ? cardId : id,
-      }),
+      api
+        .post(`/likes/undo`, {
+          category: 'PROJECT',
+          uniteId: cardId ? cardId : id,
+        })
+        .then((res) => {
+          if (heartHandler && heartCountHandler) {
+            heartHandler(res.data.data.liked);
+            heartCountHandler(res.data.data.totalLikes);
+          }
+        }),
     {
       onSuccess: () => {
         if (id) refetch();
