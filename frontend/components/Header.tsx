@@ -15,7 +15,7 @@ import { loggedInUserState, navModalState } from '@/recoil/atom';
 import { setUserState } from '@/util/api/user';
 import Img from '../public/images/second-user.svg';
 import { NavProps } from '@/types/types';
-import ButtonStyle from './ButtonStyle';
+import ButtonStyle from './button/ButtonStyle';
 
 const Header = () => {
   const router = useRouter();
@@ -104,21 +104,17 @@ const Header = () => {
             ? navNames.slice(3, 5).map((name) =>
                 name === 'MY' ? (
                   <li key={name}>
-                    <Link
-                      href={HEADER_NAV[name]}
-                      className="noto-regular-12 main-btn"
-                    >
-                      <span>{name.toUpperCase()}</span>
-                    </Link>
+                    <ButtonStyle
+                      link={`${HEADER_NAV[name]}`}
+                      text={name.toUpperCase()}
+                    ></ButtonStyle>
                   </li>
                 ) : (
                   <li key={name} onClick={logout}>
-                    <Link
-                      href={HEADER_NAV[name]}
-                      className="noto-regular-12 main-btn"
-                    >
-                      <span>{name.toUpperCase()}</span>
-                    </Link>
+                    <ButtonStyle
+                      link={`${HEADER_NAV[name]}`}
+                      text={name.toUpperCase()}
+                    ></ButtonStyle>
                   </li>
                 )
               )
