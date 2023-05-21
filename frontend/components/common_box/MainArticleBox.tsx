@@ -86,7 +86,7 @@ const MainArticleBox = ({
         liked={liked}
         totalLikes={totalLikes}
       />
-      <AnswerBox articleRefetch={articleRefetch}/>
+      <AnswerBox articleRefetch={articleRefetch} />
     </Box>
   );
 };
@@ -113,7 +113,6 @@ const Box = styled.div`
 
     .change-box {
       display: flex;
-      flex-direction: column;
       gap: 8px;
     }
 

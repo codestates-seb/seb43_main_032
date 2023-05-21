@@ -34,6 +34,7 @@ export default function SignUpForm() {
             required: '닉네임을 입력해주세요',
           })}
           name="User Name"
+          placeholder="Enter your name"
         />
         <AuthInput //
           register={register('email', {
@@ -41,6 +42,7 @@ export default function SignUpForm() {
           })}
           name="Email Address"
           type="email"
+          placeholder="Enter your email Address"
         />
         <AuthInput
           register={register('password', {
@@ -52,6 +54,7 @@ export default function SignUpForm() {
           })}
           name="Password"
           type="password"
+          placeholder="Enter your password"
         />
         {errors.password && <ErrMsg>{`${errors?.password?.message}`} </ErrMsg>}
         <AuthInput
@@ -61,6 +64,7 @@ export default function SignUpForm() {
               value === watch('password') || '비밀번호가 일치하지 않습니다.',
           })}
           type="password"
+          placeholder="Re-enter your password"
         />
         {errors.verifyPw && <ErrMsg>{`${errors?.verifyPw?.message}`} </ErrMsg>}
         <Submit type="submit" value={'Sign Up'} />
@@ -74,39 +78,41 @@ const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  border: 1px solid red;
-  border-radius: 10px;
-  backdrop-filter: blur(5px);
-  background: rgba(255, 255, 255, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.5);
-  border-right: 1px solid rgba(255, 255, 255, 0.2);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
 `;
 const Form = styled.form`
   width: 100%;
+
+  :nth-child(4) {
+    margin-top: -10px;
+  }
 `;
 
 const Submit = styled.input`
   width: 100%;
   border: none;
   margin-bottom: 20px;
-  padding: 20px;
-  margin-top: 50px;
-  border-radius: 35px;
-  /* background-color: #f0ecfc; */
+  border-radius: 10px;
   line-height: 42px;
+  box-shadow: 2px 2px 5px #767676;
   padding: 0;
   border: none;
   cursor: pointer;
   display: inline-block;
-  box-shadow: 2px 2px 5px #babecc, -5px -5px 10px #ffffff73;
   overflow: hidden;
+  font-size: 15px;
+  color: #616161;
+  text-shadow: #e0e0e0 1px 1px 0;
+  font-weight: 700;
+  font-family: 'Pretendard';
+  transition: all 1s;
 
   &:hover {
     box-shadow: inset 2px 2px 5px #babecc, inset -5px -5px 10px #ffffff73;
+    color: #8217f3;
   }
 `;
 const ErrMsg = styled.p`
-  position: absolute;
-  color: red;
+  color: #ffffff;
+  font-size: 12px;
+  margin-bottom: 4px;
 `;

@@ -1,7 +1,8 @@
 import styled from 'styled-components';
 import AuthInput from './AuthInput';
 import { useForm, FieldErrors } from 'react-hook-form';
-import LogoImage from '../../public/images/logo.svg';
+import AuthCheckBox from './AuthCheckBox';
+import LogoImage from '../../public/images/logoWhite.svg';
 import Image from 'next/image';
 import usePostApi from '../../hooks/useLogin';
 
@@ -32,8 +33,8 @@ export default function LoginForm() {
           register={register('email', {
             required: 'Email을 입력해주세요',
           })}
-          name="Email Address"
-          // placeholder="Email Address"
+          name="Email"
+          placeholder="Enter your email address"
           type="email"
         />
         <AuthInput
@@ -41,6 +42,7 @@ export default function LoginForm() {
             required: '비밀번호를 입력해 주세요',
           })}
           name="Password"
+          placeholder="Enter your password"
           type="password"
         />
         <OptionWrapper>
@@ -58,12 +60,6 @@ const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  border-radius: 10px;
-  backdrop-filter: blur(30px);
-  background: rgba(255, 255, 255, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.5);
-  border-right: 1px solid rgba(255, 255, 255, 0.2);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
 `;
 
 const LogoBox = styled.div`
@@ -89,16 +85,23 @@ const Submit = styled.input`
   width: 100%;
   border: none;
   margin-bottom: 20px;
-  border-radius: 35px;
+  border-radius: 10px;
   line-height: 42px;
-  box-shadow: 2px 2px 5px #babecc, -5px -5px 10px #ffffff73;
+  box-shadow: 2px 2px 5px #767676;
   padding: 0;
   border: none;
   cursor: pointer;
   display: inline-block;
   overflow: hidden;
+  font-size: 15px;
+  color: #616161;
+  text-shadow: #e0e0e0 1px 1px 0;
+  font-weight: 700;
+  font-family: 'Pretendard';
+  transition: all 1s;
 
   &:hover {
     box-shadow: inset 2px 2px 5px #babecc, inset -5px -5px 10px #ffffff73;
+    color: #8217f3;
   }
 `;
