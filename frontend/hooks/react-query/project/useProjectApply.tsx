@@ -15,9 +15,14 @@ type ApplyList = {
 type Props = {
   projectRefetch: () => void;
   acceptedPostion: Crew | undefined;
+  completeApply: () => void;
 };
 
-export const useProjectApply = ({ projectRefetch, acceptedPostion }: Props) => {
+export const useProjectApply = ({
+  completeApply,
+  projectRefetch,
+  acceptedPostion,
+}: Props) => {
   const loggedInUser = useRecoilValue(loggedInUserState);
   const router = useRouter();
   const { id } = router.query;
@@ -120,6 +125,7 @@ export const useProjectApply = ({ projectRefetch, acceptedPostion }: Props) => {
       onSuccess: () => {
         refetch();
         projectRefetch();
+        completeApply();
       },
       onError: () => {
         alert('잠시 후에 다시 시도해주세요.');

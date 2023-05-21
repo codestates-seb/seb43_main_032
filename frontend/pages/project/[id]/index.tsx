@@ -50,6 +50,16 @@ const ViewProject = () => {
     deleteProject.mutate();
   };
 
+  //인원이 모두 마감되었다면 일어날 이벤트
+  const checkComplteApply =
+    data?.positionCrewList.filter((crew) => crew.number !== crew.acceptedNumber)
+      .length === 0;
+  const completeApply = () => {
+    if (checkComplteApply) {
+      updateState.mutate('모집 완료');
+    }
+  };
+
   //직군 데이터 관련
   const positions = data?.positionCrewList;
 
@@ -68,25 +78,13 @@ const ViewProject = () => {
     acceptEvent,
     rejectEvent,
     acceptedCancleEvent,
-  } = useProjectApply({ projectRefetch, acceptedPostion });
-
-  //모든 지원이 꽉 찼을 때, 일어나는 이펙트
-  useEffect(() => {
-    if (
-      data?.positionCrewList.filter(
-        (crew) => crew.number !== crew.acceptedNumber
-      ).length === 0
-    ) {
-      updateState.mutate('모집 완료');
-    }
-  }, [projectQuery.isLoading]);
+  } = useProjectApply({ projectRefetch, acceptedPostion, completeApply });
 
   //확정된 버튼의 hover 관리
   const [acceptedHover, setAcceptedHover] = useState(false);
   const hoverHandler = () => {
     setAcceptedHover(!acceptedHover);
   };
-  console.log(data);
 
   if (projectQuery.error) return <Message>잠시 후 다시 시도해주세요.</Message>;
   if (projectQuery.isLoading || !data || !applyQuery.data)
@@ -160,7 +158,7 @@ const ViewProject = () => {
           />
         )}
         <div>
-          {data.status !== '모집중' && (
+          {data.author && data.status !== '모집중' && (
             <SubBtn onClick={() => projectEvent(data.status)}>
               {BUTTON_STATE[data.status]}
             </SubBtn>
