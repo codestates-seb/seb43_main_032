@@ -1,4 +1,3 @@
-import GridBox from '@/components/GridBox';
 import styled from 'styled-components';
 import ContentCard from '@/components/user/ContentCard';
 import { useRouter } from 'next/router';
@@ -12,6 +11,8 @@ import UserContentsBox from '@/components/user/UserContentsBox';
 import Tag from '@/components/Tag';
 import Stack from '@/components/stack/Stack';
 import { dummyUser } from '../me/edit';
+import GridBox from '@/components/common_box/GridBox';
+import { useProject } from '@/hooks/react-query/project/useProject';
 
 //유저 페이지 입니다. 경로 '/user/[id]'  예시 >>  /user/1
 const UserInfoContainer = styled.div`
@@ -119,8 +120,11 @@ const UserPage = () => {
   // const {
   // getUserById: { data: user, isLoading },
   // getProjectByUserId: { data: projects },
-  // getPostsByUserId:{data:posts}
+  // getPostsByUserId: { data: posts },
   // } = useUser({ id: id ? +id : undefined });
+  const {
+    projectQuery: { data: projects },
+  } = useProject();
   const user = dummyUser;
 
   // useEffect(() => {
@@ -132,6 +136,7 @@ const UserPage = () => {
   // }, [router]);
 
   // if (isLoading) return 'Loading...';
+  projects && console.log(projects.data);
 
   return user ? (
     <GridBox>
@@ -156,7 +161,12 @@ const UserPage = () => {
           <ContentTitle>자기 소개란</ContentTitle>
           <ContentBox>asdasd</ContentBox>
         </UserDescription>
-        {id && <UserContentsBox id={+id} contents={['프로젝트', '게시글']} />}
+        {projects && (
+          <UserContentsBox
+            contentTitle={['프로젝트', '게시글']}
+            contents={projects.data}
+          />
+        )}
       </ContentsContainer>
     </GridBox>
   ) : (

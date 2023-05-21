@@ -1,4 +1,3 @@
-import GridBox from '@/components/GridBox';
 import Stack from '@/components/stack/Stack';
 import InfoContainer from '@/components/user/InfoContainer';
 import UserContentsBox from '@/components/user/UserContentsBox';
@@ -9,6 +8,7 @@ import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 import styled from 'styled-components';
 import { dummyUser } from './edit';
+import GridBox from '@/components/common_box/GridBox';
 
 const LeftColumn = styled.div`
   position: relative;

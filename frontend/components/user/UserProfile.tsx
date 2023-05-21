@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import Tag from '../Tag';
 import { UserState } from '@/types/user';
 import Stack from '../stack/Stack';
-import Position from '../Position';
+// import Position from '../Position';
 
 const Wrapper = styled.div`
   display: flex;

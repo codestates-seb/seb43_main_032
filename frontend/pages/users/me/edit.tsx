@@ -4,7 +4,7 @@ import { FieldErrors, useForm } from 'react-hook-form';
 import styled from 'styled-components';
 import EditInput from '@/components/authAction/EditInput';
 import { api } from '@/util/api';
-import GridBox from '@/components/GridBox';
+import GridBox from '@/components/common_box/GridBox';
 import { Tech } from '@/types/project';
 import SelectStack from '@/components/stack/SelectStack';
 import { mergeData, updateData } from '@/util/user';

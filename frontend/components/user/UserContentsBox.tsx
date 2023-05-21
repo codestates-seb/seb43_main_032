@@ -1,6 +1,8 @@
 import React, { MouseEvent, useState } from 'react';
 import styled from 'styled-components';
 import ContentCard from './ContentCard';
+import ProjectCard from '../project/ProjectCard';
+import { Project } from '@/types/project';
 const Wrapper = styled.div`
   padding: 10px;
   margin-bottom: 20px;
@@ -39,11 +41,12 @@ const FilterBtn = styled.button.attrs({
   background: none;
 `;
 interface IProps {
-  id: number;
-  contents: string[];
+  contentTitle: string[];
+  contents?: any;
 }
-export default function UserContentsBox({ id, contents }: IProps) {
-  const [filter, setFilter] = useState(contents[0]);
+export default function UserContentsBox({ contentTitle, contents }: IProps) {
+  const [filter, setFilter] = useState(contentTitle[0]);
+  console.log('contents', contents);
 
   // const {
   //   getUserById: { data: user, isLoading },
@@ -58,22 +61,23 @@ export default function UserContentsBox({ id, contents }: IProps) {
   return (
     <Wrapper>
       <Category>
-        <FilterBtn name={contents[0]} onClick={handleClick}>
-          {contents[0]}
+        <FilterBtn name={contentTitle[0]} onClick={handleClick}>
+          {contentTitle[0]}
         </FilterBtn>
-        <FilterBtn name={contents[1]} onClick={handleClick}>
-          {contents[1]}
+        <FilterBtn name={contentTitle[1]} onClick={handleClick}>
+          {contentTitle[1]}
         </FilterBtn>
       </Category>
       <Contents>
-        {filter === contents[0] ? (
+        {filter === contentTitle[0] ? (
           <>
             {/* {projects.map((project) => (
 					<ProjectCard key={project.id} size="md" data={project} />
 				))} */}
-            {[1, 2, 3].map((el) => (
-              <ContentCard key={el} />
-            ))}
+            {/* {contents &&
+              contents.map((el: Project) => (
+                <ProjectCard key={el.title} data={el} size={'600px'} />
+              ))} */}
           </>
         ) : (
           <>
