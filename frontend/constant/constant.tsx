@@ -1,31 +1,9 @@
 import {
-  CommunityCategory,
-  CommunityFilter,
-  FooterCategory,
   FooterData,
   HeaderNav,
-  ProjectFilter,
   StackCategory,
   StackCategoryName,
 } from '@/types/types';
-import link from 'next/link';
-import {
-  AiFillAndroid,
-  AiFillApple,
-  AiFillCalendar,
-  AiOutlineSmallDash,
-} from 'react-icons/ai';
-import {
-  FaClipboardList,
-  FaDatabase,
-  FaDesktop,
-  FaHeadset,
-  FaPaintBrush,
-  FaQuestion,
-  FaUserCog,
-} from 'react-icons/fa';
-import { MdDesignServices } from 'react-icons/md';
-import { TbBusinessplan } from 'react-icons/tb';
 
 export const HEADER_NAV: HeaderNav = {
   COMMUNITY: '/community',
@@ -214,86 +192,12 @@ export const FOOTER_DATA: FooterData = {
   ],
 };
 
-export const COMMUNITY_FILTER: CommunityFilter[] = [
-  { value: 'sorted', label: '최신 순' },
-  { value: 'star', label: '스크랩 순' },
-  { value: 'view', label: '조회수 순' },
-  { value: 'comment', label: '댓글 순' },
-];
-
-export const PROJECT_FILTER: ProjectFilter = {
-  '최신 순': 0,
-  '오래된 순': 1,
-  '조회 순': 2,
-  '찜 순': 3,
-};
-
-export const COMMUNITY_CATEGORY: CommunityCategory[] = [
-  {
-    title: '질문하기',
-    link: '/create',
-    icon: <FaQuestion className="questions" color="#d2c4ff" />,
-  },
-  {
-    title: '전체보기',
-    link: '',
-    icon: <FaClipboardList />,
-  },
-  {
-    title: '프론트엔드',
-    link: '/frontend',
-    icon: <FaDesktop />,
-  },
-  {
-    title: '백엔드',
-    link: '/backend',
-    icon: <FaDatabase />,
-  },
-  {
-    title: 'UX/UI',
-    link: '/uxui',
-    icon: <FaPaintBrush />,
-  },
-  {
-    title: '기획',
-    link: '/plan',
-    icon: <AiFillCalendar />,
-  },
-  {
-    title: '디자이너',
-    link: '/design',
-    icon: <MdDesignServices />,
-  },
-  {
-    title: 'PM',
-    link: '/pm',
-    icon: <FaUserCog />,
-  },
-  {
-    title: '사업기획',
-    link: '/businessplan',
-    icon: <TbBusinessplan />,
-  },
-  {
-    title: '마케팅',
-    link: '/marketing',
-    icon: <FaHeadset />,
-  },
-  {
-    title: '안드로이드',
-    link: '/android',
-    icon: <AiFillAndroid />,
-  },
-  {
-    title: 'IOS',
-    link: '/ios',
-    icon: <AiFillApple />,
-  },
-  {
-    title: '기타',
-    link: '/etc',
-    icon: <AiOutlineSmallDash />,
-  },
+export const ARTICLE_FILTER: string[] = [
+  '최신 순',
+  '오래된 순',
+  '조회 순',
+  '찜 순',
+  '댓글 순',
 ];
 
 export const BUTTON_STATE: { [key: string]: string } = {

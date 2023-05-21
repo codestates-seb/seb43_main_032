@@ -21,6 +21,7 @@ export type WantCrew = {
 };
 
 export type Project = {
+  filter: any;
   acceptedCrewList: Crew[];
   content: string;
   createdAt: string;
