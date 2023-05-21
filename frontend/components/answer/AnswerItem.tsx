@@ -222,7 +222,7 @@ const Box = styled.li`
   width: 100%;
   border: 2px solid #ececec;
   border-radius: 10px;
-  height: 140px;
+  min-height: 140px;
   display: flex;
   position: relative;
   padding: 10px 20px;
@@ -253,6 +253,7 @@ const Box = styled.li`
         .user-img {
           width: 40px;
           height: 40px;
+          background-color: black;
 
           > img {
             border-radius: 50%;
@@ -262,6 +263,7 @@ const Box = styled.li`
         .user-detail {
           display: flex;
           flex-direction: column;
+          margin-left: 16px;
           width: 70%;
           gap: 4px;
           .user-id {

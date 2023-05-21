@@ -71,10 +71,13 @@ const CommentInput = ({ commentHandler, answer }: Props) => {
 export default CommentInput;
 
 const Box = styled.div`
+  border: 2px solid #ececec;
+  border-radius: 10px;
   display: flex;
   padding: 12px 20px;
   flex-direction: column;
   gap: 8px;
+  background: #f5f5f5;
 
   > .top {
     display: flex;
@@ -92,10 +95,20 @@ const Box = styled.div`
       padding-left: 16px;
       > input {
         border: none;
-        border-bottom: 1px solid black;
+        border-bottom: 1px solid #f5f5f5;
         padding: 4px;
         width: 100%;
         height: 40px;
+
+        ::placeholder {
+          font-family: 'Pretendard';
+        }
+
+        :focus {
+          border-radius: 10px;
+          outline: none;
+          border: solid 1px #8217f3;
+        }
       }
     }
   }
@@ -109,7 +122,18 @@ const Box = styled.div`
     }
     .btn-box {
       display: flex;
-      gap: 16px;
+      gap: 8px;
+      button {
+        font-family: 'Pretendard';
+        cursor: pointer;
+        padding: 2px 10px;
+        background: white;
+        border: 1px solid rgb(215, 226, 235);
+        border-radius: 5px;
+        color: #171717;
+        -webkit-transition: all 0.3s ease;
+        transition: all 0.3s ease;
+      }
     }
   }
 `;
