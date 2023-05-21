@@ -3,18 +3,14 @@ import { api } from '@/util/api';
 import { useQuery } from 'react-query';
 import { useCommunity } from './community/useCommunity';
 import { Community } from '@/types/community';
-import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 
 export const useTopData = () => {
-  const router = useRouter();
   useEffect(() => {
-    if (router.route === '/') {
-      topLikeProjectRefecth();
-      topViewProjectRefecth();
-      topCommunityRefetch();
-    }
-  }, [router]);
+    topLikeProjectRefecth();
+    topViewProjectRefecth();
+    topCommunityRefetch();
+  }, []);
   //프로젝트 좋아요 높은 순 5개
   const {
     data: topLikeProjects,

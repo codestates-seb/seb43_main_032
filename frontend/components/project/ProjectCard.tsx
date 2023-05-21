@@ -6,8 +6,9 @@ import Tag from '../Tag';
 import styled from 'styled-components';
 import { useRouter } from 'next/router';
 import { Project } from '@/types/project';
-import { useState } from 'react';
 import { FaComment } from 'react-icons/fa';
+import { useProject } from '@/hooks/react-query/project/useProject';
+import { useState } from 'react';
 
 type Props = {
   size: string;
@@ -16,7 +17,19 @@ type Props = {
 
 const ProjectCard = ({ data, size }: Props) => {
   const router = useRouter();
-  const [heartState, setHeartState] = useState<boolean>(false);
+
+  const { likeProject, dislikeProject } = useProject();
+
+  const [heart, setHeart] = useState(data.liked);
+
+  const likeHandler = () => {
+    if (heart) {
+      setHeart(false);
+      return dislikeProject.mutate(data.projectId);
+    }
+    setHeart(true);
+    likeProject.mutate(data.projectId);
+  };
 
   //프로젝트 조회 이동
   const viewProject = (id: number) => {
@@ -29,20 +42,18 @@ const ProjectCard = ({ data, size }: Props) => {
         onClick={() => viewProject(data.projectId)}
         width={size === 'lg' ? '416px' : '298px'}
       >
-        {router.pathname === '/' && (
-          <div className="info-heart">
-            <span>
-              <AiFillHeart
-                size={30}
-                fill={!heartState ? 'rgba(106, 106, 106, 0.5)' : 'red'}
-                onClick={(e) => {
-                  e.stopPropagation();
-                  setHeartState(!heartState);
-                }}
-              />
-            </span>
-          </div>
-        )}
+        <div className="info-heart">
+          <span>
+            <AiFillHeart
+              size={30}
+              fill={heart ? 'red' : 'rgba(106, 106, 106, 0.5)'}
+              onClick={(e) => {
+                e.stopPropagation();
+                likeHandler();
+              }}
+            />
+          </span>
+        </div>
         <div className="img-box">
           <div>
             <img

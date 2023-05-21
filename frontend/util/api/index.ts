@@ -6,7 +6,7 @@ axios.defaults.withCredentials = true;
 const baseURL =
   process.env.NODE_ENV === 'production'
     ? process.env.NEXT_RESOURCE_URL
-    : 'http://54.180.201.91:8080';
+    : 'https://c3cd-183-101-242-153.ngrok-free.app/';
 
 const api = axios.create({
   baseURL,

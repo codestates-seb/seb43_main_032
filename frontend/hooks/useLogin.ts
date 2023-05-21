@@ -4,7 +4,6 @@ import { setCookie } from '@/util/cookie';
 import { LoginData } from '@/types/user';
 
 export default function usePostApi(endpoint: string) {
-  //조회에 성공하면 이동하기 위해
   const router = useRouter();
 
   function Login(data: LoginData) {
