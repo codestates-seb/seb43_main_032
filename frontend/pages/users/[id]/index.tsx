@@ -1,4 +1,3 @@
-import GridBox from '@/components/GridBox';
 import styled from 'styled-components';
 import ContentCard from '@/components/user/ContentCard';
 import { useRouter } from 'next/router';
@@ -11,6 +10,7 @@ import Skeleton from '@/components/skeleton/Skeleton';
 import UserContentsBox from '@/components/user/UserContentsBox';
 import Tag from '@/components/Tag';
 import Stack from '@/components/stack/Stack';
+import GridBox from '@/components/common_box/GridBox';
 
 //유저 페이지 입니다. 경로 '/user/[id]'  예시 >>  /user/1
 const UserInfoContainer = styled.div`
