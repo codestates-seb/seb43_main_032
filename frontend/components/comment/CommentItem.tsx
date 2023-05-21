@@ -1,4 +1,3 @@
-import { loggedInUserState } from '@/recoil/atom';
 import {
   Comment,
   DeleteCommentMutation,
@@ -9,7 +8,6 @@ import { elapsedTime } from '@/util/date';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { RiThumbUpFill, RiThumbUpLine } from 'react-icons/ri';
-import { useRecoilValue } from 'recoil';
 import styled from 'styled-components';
 
 type Props = {

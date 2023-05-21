@@ -3,8 +3,6 @@ import TagBox from '@/components/project/TagBox';
 import styled from 'styled-components';
 import { useEffect } from 'react';
 import Message from '@/components/Message';
-import { useRecoilValue } from 'recoil';
-import { loggedInUserState } from '@/recoil/atom';
 import { BUTTON_STATE } from '@/constant/constant';
 import { useProject } from '@/hooks/react-query/project/useProject';
 import StacksBox from '@/components/project/StacksBox';
@@ -13,8 +11,12 @@ import AuthorBox from '@/components/common_box/AuthorBox';
 import { getCookie } from '@/util/cookie';
 import MainArticleBox from '@/components/common_box/MainArticleBox';
 import { useProjectApply } from '@/hooks/react-query/project/useProjectApply';
+import Tag from '@/components/Tag';
+import { useRecoilValue } from 'recoil';
+import { loggedInUserState } from '@/recoil/atom';
 
 const ViewProject = () => {
+  const loggedInUser = useRecoilValue(loggedInUserState);
   //프로젝트 데이터 요청
   const {
     projectQuery,
@@ -49,19 +51,27 @@ const ViewProject = () => {
   //직군 데이터 관련
   const positions = data?.positionCrewList;
 
-  //유저 데이터
-  const loggedInUser = useRecoilValue(loggedInUserState);
+  // 지원 데이터 요청
+  const {
+    applyQuery,
+    applyProject,
+    applyCancel,
+    acceptCancel,
+    acceptApply,
+    rejectApply,
+  } = useProjectApply({ projectRefetch });
 
-  //지원 데이터 요청
-  // const {
-  //   applyQuery,
-  //   applyProject,
-  //   applyCancel,
-  //   acceptCancel,
-  //   acceptApply,
-  //   rejectApply,
-  // } = useProjectApply({ projectRefetch });
-  // console.log(applyQuery);
+  const checkApply = applyQuery.data?.data.find(
+    (data) => data.memberInfo.email === loggedInUser?.email
+  );
+  console.log(checkApply);
+
+  const applyEvent = (position: string) => {
+    if (confirm('정말 지원하시겠습니까?')) applyProject.mutate({ position });
+  };
+  const cancelEvent = (position: string) => {
+    if (confirm('정말 취소하시겠습니까?')) applyCancel.mutate({ position });
+  };
 
   //모든 지원이 꽉 찼을 때, 일어나는 이펙트
   useEffect(() => {
@@ -85,7 +95,7 @@ const ViewProject = () => {
             <AuthorBox
               userImg={data.memberInfo.profileImageUrl}
               userName={data.memberInfo.name}
-              isAuthor={data.memberInfo.email !== loggedInUser?.email}
+              isAuthor={data.author}
               totalStar={data.memberInfo.totalStar}
             />
             <PeriodBox
@@ -114,26 +124,17 @@ const ViewProject = () => {
                       }
                     ></div>
                     {/* 지원자 리스트랑 비교해서 맞춰야함 */}
-                    {/* {position.acceptedNumber === position.number ? (
-                    <Tag>마감</Tag>
-                  ) : job === projectQuery.data?.post_state.want ? (
-                    <Tag
-                      onClick={() =>
-                        updateJob.mutate({ job, update: 'cancle' })
-                      }
-                    >
-                      취소
-                    </Tag>
-                  ) : (
-                    <Tag
-                      onClick={() =>
-                        projectQuery.data?.post_state.want === '' &&
-                        updateJob.mutate({ job, update: 'want' })
-                      }
-                    >
-                      지원
-                    </Tag>
-                  )} */}
+                    {false ? (
+                      <Tag>마감</Tag>
+                    ) : checkApply?.position === position.position ? (
+                      <Tag onClick={() => cancelEvent(position.position)}>
+                        취소
+                      </Tag>
+                    ) : (
+                      <Tag onClick={() => applyEvent(position.position)}>
+                        지원
+                      </Tag>
+                    )}
                   </li>
                 ))}
               </ul>

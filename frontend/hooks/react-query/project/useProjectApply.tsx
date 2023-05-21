@@ -4,7 +4,7 @@ import { api } from '@/util/api';
 import { MemberInfo } from '@/types/types';
 
 type ApplyList = {
-  data: MemberInfo[];
+  data: { position: string; projectId: number; memberInfo: MemberInfo }[];
   exceptionMsg: null;
 };
 
@@ -34,6 +34,7 @@ export const useProjectApply = ({ projectRefetch }: Props) => {
       api.post(`/projects/${id}/apply`, { position }),
     {
       onSuccess: () => {
+        refetch(); //잠시 체크용
         projectRefetch();
       },
       onError: () => {
@@ -50,6 +51,7 @@ export const useProjectApply = ({ projectRefetch }: Props) => {
       api.post(`/projects/${id}/cancel-apply`, { position }),
     {
       onSuccess: () => {
+        refetch(); //잠시 체크용
         projectRefetch();
       },
       onError: () => {
@@ -66,6 +68,7 @@ export const useProjectApply = ({ projectRefetch }: Props) => {
       api.post(`/projects/${id}/cancel-accepted-apply`, { position }),
     {
       onSuccess: () => {
+        refetch(); //잠시 체크용
         projectRefetch();
       },
       onError: () => {
