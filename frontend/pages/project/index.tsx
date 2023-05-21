@@ -9,8 +9,6 @@ import Link from 'next/link';
 import { Project } from '@/types/project';
 import Message from '@/components/Message';
 import { useForm } from 'react-hook-form';
-import Btn from '@/components/button/Btn';
-import { BsSearch } from 'react-icons/bs';
 import ProjectCardBox from '@/components/card_box/ProjectCardBox';
 import { Filter, Form, PageProps } from '@/types/types';
 import { AiOutlineArrowUp } from 'react-icons/ai';
@@ -22,40 +20,16 @@ const page_limit = 4;
 const ProjectHome = () => {
   const router = useRouter();
   const { register, watch } = useForm<Form>();
-  // const search = router.query.search;
 
   //주소, 서버 필터 작업 전까지 주석처리
   const address = () => {
-    // if (search && filter) {
-    //   return `/projects/findAll&size=${page_limit}&filter=${filter}`;
-    // }
-    // if (search || filter) {
-    //   return `/projects/findAll&size=${page_limit}`;
-    // }
     return `/projects/findAll?size=${page_limit}`;
   };
 
   //쿼리 키, 서버 필터 작업 전까지 주석처리
   const queryKey = () => {
-    // if (search && filter) {
-    //   return ['projects', search, filter];
-    // }
-    // if (search || filter) {
-    //   return ['projects', search || filter];
-    // }
     return 'projects';
   };
-
-  //라우터 이동 시,
-  useEffect(() => {
-    if (watch().search !== '') {
-      window.scrollTo({
-        top: 600,
-        left: 0,
-        behavior: 'smooth',
-      });
-    }
-  }, [router]);
 
   //무한스크롤 데이터
   const {
@@ -91,9 +65,11 @@ const ProjectHome = () => {
     setFilter(idx);
   };
   const [allData, setAllData] = useState<Project[]>([]);
+
   useEffect(() => {
     getAllProject().then((res) => setAllData(res));
   }, []);
+
   const filterData = articleFilter({
     filter,
     allData,

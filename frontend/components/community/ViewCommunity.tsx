@@ -9,6 +9,7 @@ import TagBox from '../project/TagBox';
 import AuthorBox from '../common_box/AuthorBox';
 import { getCookie } from '@/util/cookie';
 import MainArticleBox from '../common_box/MainArticleBox';
+import ApplyBox from '../common_box/ApplyBox';
 
 // item 개별 페이지
 const ViewCommunity = () => {
@@ -49,7 +50,6 @@ const ViewCommunity = () => {
   const deleteEvent = () => {
     if (confirm('정말 게시글을 삭제하시겠습니까?')) deleteArticle.mutate();
   };
-
   if (communityQuery.error)
     return <Message>잠시 후 다시 시도해주세요.</Message>;
   return (
@@ -81,6 +81,7 @@ const ViewCommunity = () => {
             likeHandler={likeHandler}
             liked={data.liked}
             totalLikes={data.totalLikes}
+            articleRefetch={refetch}
           />
         </>
       )}
