@@ -101,7 +101,6 @@ const User = () => {
     searchUserByKeyword: { data: searchedUsers, isLoading: searchUserLoading },
   } = useUser({ page, pageSize: size, keyword });
 
-  const router = useRouter();
   const handleChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
     setInputValue(e.target.value);
   };
@@ -111,14 +110,6 @@ const User = () => {
       setKeyword(inputValue);
     }
   };
-
-  // useEffect(() => {
-  //   window.scrollTo({
-  //     top: 670,
-  //     left: 0,
-  //     behavior: 'smooth',
-  //   });
-  // }, [router]);
 
   // useEffect(() => {
   //   if (allUserLoading) return;
