@@ -8,7 +8,11 @@ type ApplyList = {
   exceptionMsg: null;
 };
 
-export const useProjectApply = () => {
+type Props = {
+  projectRefetch: () => void;
+};
+
+export const useProjectApply = ({ projectRefetch }: Props) => {
   const router = useRouter();
   const { id } = router.query;
   const { isLoading, error, data, refetch } = useQuery<ApplyList, Error>(
@@ -30,7 +34,7 @@ export const useProjectApply = () => {
       api.post(`/projects/${id}/apply`, { position }),
     {
       onSuccess: () => {
-        refetch();
+        projectRefetch();
       },
       onError: () => {
         alert('잠시 후에 다시 시도해주세요.');
@@ -46,7 +50,7 @@ export const useProjectApply = () => {
       api.post(`/projects/${id}/cancel-apply`, { position }),
     {
       onSuccess: () => {
-        refetch();
+        projectRefetch();
       },
       onError: () => {
         alert('잠시 후에 다시 시도해주세요.');
@@ -62,7 +66,7 @@ export const useProjectApply = () => {
       api.post(`/projects/${id}/cancel-accepted-apply`, { position }),
     {
       onSuccess: () => {
-        refetch();
+        projectRefetch();
       },
       onError: () => {
         alert('잠시 후에 다시 시도해주세요.');
@@ -78,6 +82,7 @@ export const useProjectApply = () => {
     {
       onSuccess: () => {
         refetch();
+        projectRefetch();
       },
       onError: () => {
         alert('잠시 후에 다시 시도해주세요.');
@@ -93,6 +98,7 @@ export const useProjectApply = () => {
     {
       onSuccess: () => {
         refetch();
+        projectRefetch();
       },
       onError: () => {
         alert('잠시 후에 다시 시도해주세요.');
