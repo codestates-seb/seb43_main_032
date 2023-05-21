@@ -51,27 +51,16 @@ const ViewProject = () => {
   //직군 데이터 관련
   const positions = data?.positionCrewList;
 
-  // 지원 데이터 요청
+  //지원 데이터 요청
   const {
     applyQuery,
-    applyProject,
-    applyCancel,
+    applyEvent,
+    cancelEvent,
     acceptCancel,
     acceptApply,
     rejectApply,
+    checkApply,
   } = useProjectApply({ projectRefetch });
-
-  const checkApply = applyQuery.data?.data.find(
-    (data) => data.memberInfo.email === loggedInUser?.email
-  );
-  console.log(checkApply);
-
-  const applyEvent = (position: string) => {
-    if (confirm('정말 지원하시겠습니까?')) applyProject.mutate({ position });
-  };
-  const cancelEvent = (position: string) => {
-    if (confirm('정말 취소하시겠습니까?')) applyCancel.mutate({ position });
-  };
 
   //모든 지원이 꽉 찼을 때, 일어나는 이펙트
   useEffect(() => {

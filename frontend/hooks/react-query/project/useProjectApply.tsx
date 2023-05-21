@@ -2,6 +2,8 @@ import { useQuery, useMutation } from 'react-query';
 import { useRouter } from 'next/router';
 import { api } from '@/util/api';
 import { MemberInfo } from '@/types/types';
+import { useRecoilValue } from 'recoil';
+import { loggedInUserState } from '@/recoil/atom';
 
 type ApplyList = {
   data: { position: string; projectId: number; memberInfo: MemberInfo }[];
@@ -13,6 +15,7 @@ type Props = {
 };
 
 export const useProjectApply = ({ projectRefetch }: Props) => {
+  const loggedInUser = useRecoilValue(loggedInUserState);
   const router = useRouter();
   const { id } = router.query;
   const { isLoading, error, data, refetch } = useQuery<ApplyList, Error>(
@@ -24,6 +27,10 @@ export const useProjectApply = ({ projectRefetch }: Props) => {
         );
       }
     }
+  );
+
+  const checkApply = data?.data.find(
+    (data) => data.memberInfo.email === loggedInUser?.email
   );
 
   /**
@@ -42,6 +49,12 @@ export const useProjectApply = ({ projectRefetch }: Props) => {
       },
     }
   );
+  const applyEvent = (position: string) => {
+    if (checkApply) {
+      return alert('지원한 포지션을 취소해주세요.');
+    }
+    if (confirm('정말 지원하시겠습니까?')) applyProject.mutate({ position });
+  };
 
   /**
    * 프로젝트 지원 취소 이벤트 (최초 지원)
@@ -59,6 +72,9 @@ export const useProjectApply = ({ projectRefetch }: Props) => {
       },
     }
   );
+  const cancelEvent = (position: string) => {
+    if (confirm('정말 취소하시겠습니까?')) applyCancel.mutate({ position });
+  };
 
   /**
    * 수락된 지원자가 지원을 취소하는 이벤트
@@ -111,10 +127,11 @@ export const useProjectApply = ({ projectRefetch }: Props) => {
 
   return {
     applyQuery: { isLoading, error, data },
-    applyProject,
-    applyCancel,
+    applyEvent,
+    cancelEvent,
     acceptCancel,
     acceptApply,
     rejectApply,
+    checkApply
   };
 };
