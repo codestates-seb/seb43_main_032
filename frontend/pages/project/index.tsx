@@ -32,32 +32,25 @@ const ProjectHome = () => {
   };
 
   //무한스크롤 데이터
-  const {
-    isLoading,
-    error,
-    data,
-    refetch,
-    fetchNextPage,
-    hasNextPage,
-    isFetching,
-  } = useInfiniteQuery(
-    queryKey(),
-    ({ pageParam = 1 }) =>
-      api(`${address()}&page=${pageParam}`)
-        .then((res) => res.data)
-        .catch(() => {}),
-    {
-      getNextPageParam: (
-        lastPage: PageProps<Project>,
-        allPages: PageProps<Project>[]
-      ) => {
-        if (allPages[allPages.length - 1] === undefined) {
-          return null;
-        }
-        return allPages.length + 1;
-      },
-    }
-  );
+  const { isLoading, error, data, fetchNextPage, hasNextPage, isFetching } =
+    useInfiniteQuery(
+      queryKey(),
+      ({ pageParam = 1 }) =>
+        api(`${address()}&page=${pageParam}`)
+          .then((res) => res.data)
+          .catch(() => {}),
+      {
+        getNextPageParam: (
+          lastPage: PageProps<Project>,
+          allPages: PageProps<Project>[]
+        ) => {
+          if (lastPage.data.length < page_limit) {
+            return null;
+          }
+          return allPages.length + 1;
+        },
+      }
+    );
 
   //서버에서 필터링 작업이 완성되기 전, 눈속임을 위한 필터 데이터
   const [filter, setFilter] = useState<Filter>(0);
@@ -74,16 +67,13 @@ const ProjectHome = () => {
     filter,
     allData,
     searchVal: watch().search,
+    type: 1,
   });
 
   //무한 스크롤 effect
   const target = useRef<HTMLDivElement>(null);
   useEffect(() => {
-    if (
-      target.current &&
-      data?.pageParams &&
-      data?.pageParams[data.pageParams.length - 1]
-    ) {
+    if (target.current && !hasNextPage) {
       return;
     }
     const observer = new IntersectionObserver(
@@ -142,7 +132,7 @@ const ProjectHome = () => {
               ? (filterData as Project[])
               : data.pages?.flatMap((page) => page.data)
           }
-          skeleton={isFetching && hasNextPage && <ProjectSkeleton />}
+          skeleton={isFetching && <ProjectSkeleton />}
         >
           <div className="filter-box noto-regular-13">
             <div className="filter-sub-box">

@@ -5,9 +5,15 @@ type Props = {
   filter: number;
   allData: Project[] | Community[];
   searchVal: string;
+  type: number;
 };
 
-export const articleFilter = ({ filter, allData, searchVal }: Props) => {
+//type 1은 프로젝트
+
+export const articleFilter = ({ type, filter, allData, searchVal }: Props) => {
+  if (type === 1 && filter === 0) {
+    return;
+  }
   if (allData.length !== 0 && filter === 0 && searchVal === '') {
     return allData;
   }
