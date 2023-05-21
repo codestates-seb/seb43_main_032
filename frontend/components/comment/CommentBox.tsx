@@ -43,10 +43,10 @@ export default CommentBox;
 const Box = styled.div`
   display: flex;
   flex-direction: column;
+  width: 100%;
 
   .comment {
     display: flex;
-    margin: 16px 0px;
     gap: 8px;
 
     .left {
