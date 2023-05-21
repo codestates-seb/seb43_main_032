@@ -8,17 +8,17 @@ import { useRouter } from 'next/router';
 export default function ContentItem(article: Community) {
   const router = useRouter();
   const moveArticle = () => {
-    router.push(`community/post/${article.id}`);
+    router.push(`community/post/${article.articleId}`);
   };
+
   return (
     <Container>
-      <div className={`color-bar ${article.position}`}></div>
+      <div className={`color-bar ${article.category}`}></div>
       <Right>
-        {/* memberID에서 이메일 받아와야함 or nickName */}
-        <img src={article.avatar}></img>
-        <div className="email-box">{article.email.split('@')[0]}</div>
+        <img src={article.memberInfo.profileImageUrl}></img>
+        <div className="name-box">{article.memberInfo.name}</div>
         <div className="star-box">
-          <FaStar color="#FF9900"></FaStar> {article.userStar}
+          <FaStar color="#FF9900"></FaStar> {article.totalLikes}
         </div>
       </Right>
       <a onClick={moveArticle}>
@@ -28,8 +28,8 @@ export default function ContentItem(article: Community) {
             <div className="content">{article.content}</div>
           </Top>
           <div className="tagBox">
-            {article.tags.map((tag) => (
-              <Tag key={tag}>{tag}</Tag>
+            {article.techList.map((tag, i) => (
+              <Tag key={`${i}+${tag.tech}`}>{tag.tech}</Tag>
             ))}
           </div>
         </Center>
@@ -37,7 +37,7 @@ export default function ContentItem(article: Community) {
       <Left>
         <div className="heartBox">
           <FaHeart color="red"></FaHeart>
-          <span>{article.heart}</span>
+          <span>{article.totalLikes}</span>
         </div>
         <div>
           <FaEye color="#909090"></FaEye>
@@ -45,7 +45,7 @@ export default function ContentItem(article: Community) {
         </div>
         <div>
           <FaComment color="#909090"></FaComment>
-          <span>{article.comment.length}</span>
+          <span>{article.totalAnswers}</span>
         </div>
       </Left>
     </Container>
@@ -67,7 +67,7 @@ const Container = styled.div`
   overflow: hidden;
   cursor: pointer;
 
-  > .email-box {
+  > .name-box {
     font-size: 12px;
     font-weight: bold;
     color: #6e6e6e;

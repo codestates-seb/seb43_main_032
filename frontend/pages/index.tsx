@@ -1,63 +1,41 @@
 import styled from 'styled-components';
-import { useQuery } from 'react-query';
-import { api } from '@/util/api';
 import Message from '@/components/Message';
-import { Project } from '@/types/project';
-import { Community } from '@/types/community';
-import { useCommunity } from '@/hooks/react-query/useCommunity';
 import ProjectCardBox from '@/components/card_box/ProjectCardBox';
 import CommunityCardBox from '@/components/card_box/CommunityCardBox';
 import ProjectSkeleton from '@/components/skeleton/ProjectSkeleton';
 import CommunityItemSkeleton from '@/components/skeleton/CommunityItemSkeleton';
-import { PageInfo } from '@/types/types';
-
+import { useTopData } from '@/hooks/react-query/useTopData';
 
 const Home = () => {
-  // useQuery를 사용하여 데이터 fetch
-  const { data, isLoading, error } = useQuery<
-    {
-      data: Project[];
-      pageInfo: PageInfo;
-    },
-    Error
-  >('projects', () =>
-    api('/project/findAll?size=4&page=1').then((res) => res.data)
-  );
+  const {
+    topLikeProjectData,
+    topViewProjectData,
+    topViewcommunityData,
+    communityQuery,
+    topLikeProjectLoading,
+    topViewProjectLoading,
+    checkError,
+  } = useTopData();
 
-  //커뮤니티 조회수 높은거 5개만 가져오면 될듯??
-  const community_page_limit = 5;
-  const queryKey = ['article', 'hot'];
-  const address = `/article/findAll?size=${community_page_limit}&page=0`;
-  const { communityQuery } = useCommunity<Community[]>({
-    address,
-    queryKey,
-  });
-  
-  const projectData = data?.data;
-  const communityData = communityQuery.data?.data;
-
-
-  if (isLoading) return <Message>로딩중입니다.</Message>;
-  if (error) return <Message>잠시 후 다시 시도해주세요.</Message>;
-  if (!projectData || !communityData) return;
+  if (checkError) return <Message>잠시 후 다시 시도해주세요.</Message>;
   return (
     <Box>
       <ProjectCardBox
-        skeleton={isLoading && <ProjectSkeleton />}
-        data={projectData}
+        skeleton={topLikeProjectLoading && <ProjectSkeleton />}
+        data={topLikeProjectData ? topLikeProjectData : []}
         title={'인기 프로젝트'}
       />
-      {/* <CommunityCardBox
+      <ProjectCardBox
+        skeleton={topViewProjectLoading && <ProjectSkeleton />}
+        data={topViewProjectData ? topViewProjectData : []}
+        title={'주목 중인 프로젝트'}
+      />
+      <CommunityCardBox
         skeleton={
           communityQuery.isLoading && <CommunityItemSkeleton count={5} />
         }
-        data={communityData}
+        data={topViewcommunityData ? topViewcommunityData : []}
         title={'인기 커뮤니티'}
-      /> */}
-      <ProjectCardBox
-        skeleton={isLoading && <ProjectSkeleton />}
-        data={projectData}
-        title={'종료 프로젝트'}
       />
     </Box>
   );

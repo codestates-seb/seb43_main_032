@@ -26,6 +26,7 @@
     "github-markdown-css": "^5.2.0",
     "highlight.js": "^11.8.0",
     "next": "13.3.4",
+    "parallax-js": "^3.1.0",
     "react": "18.2.0",
     "react-cookie": "^4.1.1",
     "react-datepicker": "^4.11.0",
@@ -40,16 +41,17 @@
     "recoil": "^0.7.7",
     "slick-carousel": "^1.8.1",
     "styled-components": "^5.3.10",
+    "sweetalert2": "^11.7.5",
     "typescript": "5.0.4"
   },
   "devDependencies": {
     "@testing-library/react": "^14.0.0",
     "@testing-library/user-event": "^14.4.3",
+    "@types/parallax-js": "^3.1.0",
     "@types/react-datepicker": "^4.11.2",
     "@types/react-tag-input": "^6.6.1",
     "@types/simplemde": "^1.11.8",
     "@types/styled-components": "^5.1.26",
-    "msw": "^1.2.1",
     "prettier": "^2.8.8",
     "ts-node": "^10.9.1"
   },

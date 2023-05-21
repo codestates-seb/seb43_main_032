@@ -6,9 +6,9 @@ import Btn from '../button/Btn';
 import { Tech } from '@/types/project';
 
 type Props = {
-  selectStack: () => void;
+  selectStack?: () => void;
   stacks: Tech[];
-  setStacks: Dispatch<SetStateAction<Tech[]>>;
+  setStacks?: Dispatch<SetStateAction<Tech[]>>;
 };
 
 const SelectStack = ({ setStacks, selectStack, stacks }: Props) => {
@@ -16,25 +16,37 @@ const SelectStack = ({ setStacks, selectStack, stacks }: Props) => {
 
   //스택을 추가하는 함수
   const addStack = (select: string) => {
-    const idx = stacks.findIndex((stack) => select === stack.tech);
-    if (idx !== -1) {
-      return setStacks([...stacks.slice(0, idx), ...stacks.slice(idx + 1)]);
+    if (setStacks) {
+      const idx = stacks.findIndex((stack) => select === stack.tech);
+      if (idx !== -1) {
+        return setStacks([...stacks.slice(0, idx), ...stacks.slice(idx + 1)]);
+      }
+      setStacks([...stacks, { tech: select }]);
     }
-    setStacks([...stacks, { tech: select }]);
   };
 
   //선택한 스택 리셋
   const resetSelectedStacks = useCallback(() => {
-    setStacks([]);
+    if (setStacks) setStacks([]);
   }, []);
 
   return (
     <Box>
       <div>
+        <div className="btn-box">
+          <div>
+            <Btn onClick={resetSelectedStacks}>
+              <span>초기화</span>
+            </Btn>
+            <Btn onClick={selectStack}>
+              <span>완료</span>
+            </Btn>
+          </div>
+        </div>
         <div className="select-box">
           {categories.map((category) => (
             <div key={category} className="stack-box nanum-bold">
-              <div>{STACKS_CATEGORIES[category]}</div>
+              <div className="category">{STACKS_CATEGORIES[category]}</div>
               <ul>
                 {Object.values(STACKS.find((stack) => stack[category])!)[0].map(
                   (skill) => (
@@ -50,14 +62,6 @@ const SelectStack = ({ setStacks, selectStack, stacks }: Props) => {
             </div>
           ))}
         </div>
-        <div className="btn-box">
-          <Btn onClick={resetSelectedStacks}>
-            <span>초기화</span>
-          </Btn>
-          <Btn onClick={selectStack}>
-            <span>선택완료</span>
-          </Btn>
-        </div>
       </div>
     </Box>
   );
@@ -66,58 +70,110 @@ const SelectStack = ({ setStacks, selectStack, stacks }: Props) => {
 export default SelectStack;
 
 const Box = styled.div`
-  position: absolute;
-  top: -5%;
   width: 100%;
+  height: 300px;
   display: flex;
-  z-index: 11;
   justify-content: center;
 
   > div {
-    border: 1px solid #eaebeb;
-    box-shadow: var(--box-shadow);
+    overflow-y: scroll;
+    overflow-x: hidden;
+    position: relative;
+    border: solid 2px #ececec;
     border-radius: var(--radius-def);
-    width: 60%;
-    height: auto;
+
+    width: 100%;
+    height: 100%;
     display: flex;
     align-items: center;
     flex-direction: column;
-    padding: var(--padding-1);
-    padding-top: 0px;
     background-color: white;
     z-index: 2;
+
+    ::-webkit-scrollbar {
+      width: 10px;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      height: 30%;
+      background: #8217f3;
+
+      border-radius: 10px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: rgba(33, 122, 244, 0.1);
+    }
   }
 
   .select-box {
-    margin-top: 24px;
     display: flex;
     flex-direction: column;
-    gap: 24px;
     width: 100%;
-    padding: var(--padding-1);
+    margin-bottom: 24px;
+    padding: 0 20px;
   }
 
   .stack-box {
     display: flex;
+    margin-top: 32px;
     flex-direction: column;
-    gap: 24px;
+
+    &:first-child {
+      margin-top: 16px;
+    }
+
+    .category {
+      font-size: 15px;
+      padding-left: 10px;
+      border-left: solid 3px #6333ff;
+    }
 
     ul {
+      margin-top: 16px;
       display: flex;
       flex-wrap: wrap;
       gap: 16px;
       width: 100%;
     }
-
-    .focus {
-      box-shadow: 0 2px 8px black, 0 1px 8px black;
-    }
   }
 
   .btn-box {
     width: 100%;
+    position: sticky;
     display: flex;
+    top: 0px;
     justify-content: center;
-    gap: 32px;
+    gap: 8px;
+    padding: 24px 0px;
+    background-color: white;
+    z-index: 10;
+    border-bottom: 1px solid #c3b3f5;
+
+    > div {
+      display: flex;
+      gap: 16px;
+    }
+
+    .search-btn {
+      background: #9b7aff;
+      padding: 8px 20px;
+      color: white;
+      border-radius: 5px;
+      border: none;
+      transition: background 0.3s ease-out;
+      width: 100%;
+      height: auto;
+
+      span {
+        white-space: nowrap;
+        font-size: 12px;
+        font-weight: 500;
+      }
+
+      :hover {
+        background: #6333ff;
+      }
+    }
   }
 `;

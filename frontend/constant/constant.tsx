@@ -1,38 +1,18 @@
 import {
-  CommunityCategory,
-  CommunityFilter,
-  FooterCategory,
+  FooterData,
   HeaderNav,
-  ProjectFilter,
   StackCategory,
   StackCategoryName,
 } from '@/types/types';
-import {
-  AiFillAndroid,
-  AiFillApple,
-  AiFillCalendar,
-  AiOutlineSmallDash,
-} from 'react-icons/ai';
-import {
-  FaClipboardList,
-  FaDatabase,
-  FaDesktop,
-  FaHeadset,
-  FaPaintBrush,
-  FaQuestion,
-  FaUserCog,
-} from 'react-icons/fa';
-import { MdDesignServices } from 'react-icons/md';
-import { TbBusinessplan } from 'react-icons/tb';
 
 export const HEADER_NAV: HeaderNav = {
-  community: '/community',
-  project: '/project',
-  users: '/users',
-  mypage: '/users/me',
-  logout: '/',
-  login: '/login',
-  signUp: '/signup',
+  COMMUNITY: '/community',
+  PROJECT: '/project',
+  USERS: '/users',
+  MY: '/users/me',
+  LOGOUT: '/',
+  LOGIN: '/users/login',
+  SIGNUP: '/users/signup',
 };
 
 export const STACKS_CATEGORIES: StackCategoryName = {
@@ -191,98 +171,52 @@ export const POSITIONS = [
   '기타',
 ];
 
-//나중에 객체의 형태로 바꿔서 주소를 넣어주는 작업을 해야할 것 같음
-export const FOOTER_DATA: FooterCategory = {
+export const FOOTER_DATA: FooterData = {
   information: [
-    '1:1 문의 카카오톡 연결',
-    '상담 사이드퀘스트 운영자 연결',
-    '오픈챗 코드 7777',
-    '제휴문의 help@sideQues.com',
-    `Copyright©2023 SideQuest.All rights reserved.`,
+    { name: '1:1 문의 카카오톡 연결', link: '' },
+    { name: '상담 사이드퀘스트 운영자 연결', link: 'onContact' },
+    { name: '오픈챗 코드 7777', link: '' },
+    { name: '제휴문의 help@sideQues.com', link: '' },
+    { name: 'Copyright©2023 SideQuest.All rights reserved.', link: '' },
   ],
-  about: ['SideQuest 소개'],
-  service: ['프로젝트 등록', '프로젝트 찾기', '파트너 등록'],
-  support: ['서비스 이용약관', '개인정보처리방침', 'FAQ'],
+  about: [{ name: 'SideQuest 소개', link: '/' }],
+  service: [
+    { name: '프로젝트 등록', link: '/project/create' },
+    { name: '프로젝트 찾기', link: '/project' },
+    { name: '프로젝트 지원', link: '' },
+  ],
+  support: [
+    { name: '서비스 이용약관', link: '' },
+    { name: '개인정보처리방침', link: '' },
+    { name: 'FAQ', link: 'onContact' },
+  ],
 };
 
-export const COMMUNITY_FILTER: CommunityFilter[] = [
-  { value: 'sorted', label: '최신 순' },
-  { value: 'star', label: '스크랩 순' },
-  { value: 'view', label: '조회수 순' },
-  { value: 'comment', label: '댓글 순' },
+export const ARTICLE_FILTER: string[] = [
+  '최신 순',
+  '오래된 순',
+  '조회 순',
+  '찜 순',
+  '댓글 순',
 ];
 
-export const PROJECT_FILTER: ProjectFilter = {
-  '최신 순': '',
-  '오래된 순': 'old',
-  '조회 순': 'view',
-  '찜 순': 'heart',
+export const BUTTON_STATE: { [key: string]: string } = {
+  '모집 중': '',
+  '모집 완료': '프로젝트 시작',
+  '진행 중': '프로젝트 종료',
+  종료: '팀원 리뷰',
 };
 
-export const COMMUNITY_CATEGORY: CommunityCategory[] = [
-  {
-    title: '질문하기',
-    link: '/create',
-    icon: <FaQuestion className="questions" color="#8216f5" />,
-  },
-  {
-    title: '전체보기',
-    link: '',
-    icon: <FaClipboardList />,
-  },
-  {
-    title: '프론트엔드',
-    link: '/frontend',
-    icon: <FaDesktop />,
-  },
-  {
-    title: '백엔드',
-    link: '/backend',
-    icon: <FaDatabase />,
-  },
-  {
-    title: 'UX/UI',
-    link: '/uxui',
-    icon: <FaPaintBrush />,
-  },
-  {
-    title: '기획',
-    link: '/plan',
-    icon: <AiFillCalendar />,
-  },
-  {
-    title: '디자이너',
-    link: '/design',
-    icon: <MdDesignServices />,
-  },
-  {
-    title: 'PM',
-    link: '/pm',
-    icon: <FaUserCog />,
-  },
-  {
-    title: '사업기획',
-    link: '/businessplan',
-    icon: <TbBusinessplan />,
-  },
-  {
-    title: '마케팅',
-    link: '/marketing',
-    icon: <FaHeadset />,
-  },
-  {
-    title: '안드로이드',
-    link: '/android',
-    icon: <AiFillAndroid />,
-  },
-  {
-    title: 'IOS',
-    link: '/ios',
-    icon: <AiFillApple />,
-  },
-  {
-    title: '기타',
-    link: '/etc',
-    icon: <AiOutlineSmallDash />,
-  },
-];
+export const POST_COMMUNITY_CATEGORY: { [key: string]: string } = {
+  프론트엔드: 'FRONTEND',
+  백엔드: 'BACKEND',
+  'UI/UX': 'UIUX',
+  기획: 'PLANNING',
+  디자이너: 'DESIGNER',
+  PM: 'PM',
+  사업기획: 'BUSINESS',
+  마케팅: 'MARKETING',
+  안드로이드: 'ANDROID',
+  IOS: 'IOS',
+  기타: 'OTHER',
+};

@@ -1,10 +1,14 @@
-import GridBox from '@/components/GridBox';
+import Stack from '@/components/stack/Stack';
 import InfoContainer from '@/components/user/InfoContainer';
+import UserContentsBox from '@/components/user/UserContentsBox';
 import UserInfoCard from '@/components/user/UserProfile';
-import useAuth from '@/hooks/react-query/useAuth';
+import useUser from '@/hooks/react-query/useUser';
+import { UserState } from '@/types/user';
 import { useRouter } from 'next/router';
-import { useEffect, useState } from 'react';
 import styled from 'styled-components';
+import GridBox from '@/components/common_box/GridBox';
+import { getCookie } from '@/util/cookie';
+import { useEffect } from 'react';
 
 const LeftColumn = styled.div`
   position: relative;
@@ -12,8 +16,7 @@ const LeftColumn = styled.div`
   flex-direction: column;
   align-items: center;
   padding: 20px;
-  padding-top: 100px;
-  background-color: rgba(0, 0, 0, 0.1);
+
   @media (max-width: 960px) {
     display: none;
   }
@@ -24,10 +27,28 @@ const RightColumn = styled.div`
   padding: 20px;
 `;
 const UserInfo = styled.div`
-  padding: 40px;
-  padding-top: 20px;
-  border-radius: 15px;
-  background-color: rgba(0, 0, 0, 0.2);
+  padding: 10px;
+  margin-bottom: 20px;
+
+  .title {
+    font-family: var(--font-nanum);
+    font-size: 23px;
+    font-weight: 700;
+    color: #464646;
+    margin-bottom: 20px;
+  }
+
+  .info-box {
+    background: #0d1117;
+    color: #c9d1d9;
+    font-size: 15px;
+    padding: var(--padding-2);
+    border: 1px solid #d8d8d8;
+    border-radius: var(--radius-def);
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
 `;
 
 const ProfileContainer = styled.div`
@@ -47,46 +68,39 @@ const AvatarContainer = styled.div`
   -webkit-box-shadow: 5px 5px 10px 0px rgba(0, 0, 0, 0.25);
   -moz-box-shadow: 5px 5px 10px 0px rgba(0, 0, 0, 0.25);
 `;
-const Works = styled.div`
-  /* display: flex; */
-  background-color: teal;
-  width: 100%;
-  padding: 20px;
-  border-radius: 20px;
-`;
-const ProjectContainer = styled.div``;
-const ProjectCard = styled.div``;
-const PostContainer = styled.div``;
-const PostCard = styled.div``;
-const DummyBox = styled.div`
+const StackContainer = styled.div`
   display: flex;
-  flex-direction: column;
-  padding: 10px;
-  border-radius: 10px;
-  display: flex;
-  width: 100%;
-  height: 250px;
-  margin-bottom: 20px;
-  background-color: gray;
 `;
-const DummyBox2 = styled.div`
-  background-color: rgba(0, 0, 0, 0.1);
-  width: 100%;
-  height: 100%;
+const EditButton = styled.button`
+  width: calc(100% - 2px);
+  border: solid 2px #ececec;
   padding: 10px;
-  margin-top: 10px;
-  border-radius: 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 15px;
+  font-family: 'Pretendard';
+
+  :hover {
+  }
 `;
+
 export default function me() {
-  const user = useAuth();
+  // const user = useAuth();
+  // const user = dummyUser;
+  const {
+    getMyInfo: { data: user },
+  } = useUser({});
   const router = useRouter();
   useEffect(() => {
-    window.scrollTo({
-      top: 670,
-      left: 0,
-      behavior: 'smooth',
-    });
-  }, [router]);
+    if (!getCookie('accessToken')) {
+      router.push('/404').then(() => alert('로그인을 부탁드려요.'));
+    }
+  }, []);
+  user && console.log(user);
+
+  const handleClick = () => {
+    router.push('/users/me/edit');
+  };
 
   return (
     <>
@@ -94,70 +108,82 @@ export default function me() {
         <GridBox>
           <LeftColumn>
             <UserInfoCard user={user} />
+            <EditButton onClick={handleClick}>edit</EditButton>
           </LeftColumn>
           <RightColumn>
             <UserInfo>
+              <div className="title">개인 정보</div>
               <ProfileContainer>
                 <InfoContainer
                   keyNode={
                     <AvatarContainer style={{ width: '70px', height: '70px' }}>
-                      <img alt={user.NICK_NAME} src={user.PROFILE_IMAGE} />
+                      {user.profileImageUrl ? (
+                        <img alt={user.name} src={user.profileImageUrl} />
+                      ) : (
+                        <img
+                          alt={user.name}
+                          src="https://pbs.twimg.com/media/FmynZRjWYAgEEpL.jpg"
+                        />
+                      )}
                     </AvatarContainer>
                   }
                   contentNode={
                     <>
-                      <p className="nanum-bold">{user.NICK_NAME}</p>
+                      <p className="nanum-bold">{user.name}</p>
                       <p className="noto-regular">프론트엔드</p>
                     </>
                   }
                 />
+                <InfoContainer
+                  keyNode={'기술스텍'}
+                  contentNode={
+                    <StackContainer>
+                      {[
+                        'java_script',
+                        'react',
+                        'next_js',
+                        'recoil',
+                        'react_query',
+                        'type_scriypt',
+                      ].map((stack) => (
+                        <Stack key={stack} tech={stack} />
+                      ))}
+                    </StackContainer>
+                  }
+                />
               </ProfileContainer>
-              <InfoContainer
-                keyNode={'휴대전화'}
-                contentNode={user.PHONE_NUMBER}
-              />
-              <InfoContainer keyNode={'이메일'} contentNode={user.EMAIL} />
-              <InfoContainer
-                keyNode={'기술스텍'}
-                contentNode={'#react #python'}
-                lastItem
-              />
+              <div className="info-box">
+                <InfoContainer
+                  keyNode={'자기소개'}
+                  contentNode={user.aboutMe}
+                />
+                <InfoContainer keyNode={'휴대전화'} contentNode={user.phone} />
+                <InfoContainer
+                  keyNode={'이메일'}
+                  contentNode={user.email}
+                  lastItem
+                />
+              </div>
             </UserInfo>
-            <div style={{ display: 'flex' }}>
-              <p
-                className="nanum-bold"
-                style={{ margin: '10px', marginRight: '0', color: 'tomato' }}
-              >
-                Projects
-              </p>
-              <p className="nanum-bold" style={{ margin: '10px' }}>
-                | Posts
-              </p>
-            </div>
-            <Works>
-              <DummyBox>
-                <p className="nanum-bold">My Projects</p>
-                <DummyBox2 />
-              </DummyBox>
-              <DummyBox>
-                <div style={{ display: 'flex' }}>
-                  <p
-                    className="nanum-bold"
-                    style={{
-                      marginRight: '10px',
-                      color: 'tomato',
-                    }}
-                  >
-                    Comment
-                  </p>
-                  <p className="nanum-bold">| Replies</p>
-                </div>
-                <DummyBox2 />
-              </DummyBox>
-            </Works>
+            <UserContentsBox contentTitle={['프로젝트', '게시글']} />
+            <UserContentsBox contentTitle={['프로젝트 댓글', '게시글 댓글']} />
           </RightColumn>
         </GridBox>
       )}
     </>
   );
 }
+
+export const USER: UserState = {
+  email: 'uverrills0@bloomberg.com',
+  location: 'Seoul',
+  name: 'Ursulina Verrills',
+  aboutMe: 'Poisoning by benzodiazepines, intentional self-harm, init',
+  yearOfDev: 1,
+  position: 'fe',
+  phone: '660 384 5454',
+  totalStar: 10,
+  techList: ['React', 'JavaScript', 'Python'],
+  profileImageUrl: 'https://pbs.twimg.com/media/FjU2lkcWYAgNG6d.jpg',
+  memberId: 0,
+};

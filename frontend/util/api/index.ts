@@ -1,12 +1,12 @@
 import axios from 'axios';
 import { getCookie } from '../cookie';
 
-// const baseURL =
-//   process.env.NODE_ENV === 'production'
-//     ? process.env.NEXT_RESOURCE_URL
-//     : 'http://13.209.14.135:8080';
+axios.defaults.withCredentials = true;
 
-const baseURL = 'http://13.209.14.135:8080';
+const baseURL =
+  process.env.NODE_ENV === 'production'
+    ? process.env.NEXT_RESOURCE_URL
+    : 'https://d8a2-183-101-242-153.ngrok-free.app/';
 
 const api = axios.create({
   baseURL,
@@ -14,6 +14,7 @@ const api = axios.create({
   headers: {
     'Content-Type': 'application/json',
     Authorization: getCookie('accessToken'),
+    // Refresh: getCookie('refreshToken'),
   },
 });
 

@@ -1,42 +1,90 @@
-import React, { useState } from 'react';
-import styled from 'styled-components';
+import React, { useEffect, useState } from 'react';
 import MainPost from '../MainPost';
 import { Form } from '@/types/types';
 import { useForm } from 'react-hook-form';
 import { useRouter } from 'next/router';
-import { api } from '@/util/api';
-import { useCommunity } from '@/hooks/react-query/useCommunity';
 import { Community } from '@/types/community';
 import Message from '../Message';
-import { COMMUNITY } from '@/dummy/community';
+import { useCommunity } from '@/hooks/react-query/community/useCommunity';
+import TagBox from '../project/TagBox';
+import { FiledTag } from '@/types/project';
+import GridBox from '../common_box/GridBox';
+import { POST_COMMUNITY_CATEGORY } from '@/constant/constant';
 
 export default function CommunityForm() {
   const router = useRouter();
   const id = router.query.id;
-  const address = `/community/post/${id}`;
-  const queryKey = ['community', 'post', id];
-  const { communityQuery } = useCommunity<Community>({
-    address,
-    queryKey,
-  });
-  const data = COMMUNITY[0];
+  const address = `/articles/${id}`;
+  const queryKey = ['article', 'post', id];
+  const { communityQuery, postArticle, editArticle, refetch } =
+    useCommunity<Community>({
+      address,
+      queryKey,
+    });
+  const data = communityQuery.data?.data;
 
-  const { register, watch } = useForm<Form>();
+  useEffect(() => {
+    if (data) {
+      const techList = data.techList.map((item) => ({ field: item.tech }));
+      setTags([...techList]);
+      setEditor(data.content);
+    }
+  }, [communityQuery.isLoading]);
+
+  const { register, watch, reset } = useForm<Form>();
   const [editor, setEditor] = useState('');
   const changeContent = (value: string) => {
     setEditor(value);
   };
 
-  const postCommunity = () => {
+  //해시태그 값 상태
+  const [tags, setTags] = useState<FiledTag[]>([]);
+
+  //해시태그 키 다운
+  const tagKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    const trim = watch().tagVal.trim();
+    if ((e.key === 'Enter' || e.key === ' ') && trim !== '') {
+      addTag(trim);
+      reset({
+        ...watch(),
+        tagVal: '',
+      });
+    }
+  };
+
+  // 해시태그 업데이트
+  const addTag = (tag: string) => {
+    setTags([...tags, { field: tag }]);
+  };
+
+  // 해시태그 삭제
+  const deleteTag = (idx: number) => {
+    setTags([...tags.slice(0, idx), ...tags.slice(idx + 1)]);
+  };
+
+  //글 제출 이벤트
+  const postCommunity = (e: { preventDefault: () => void }) => {
+    e.preventDefault();
+    const category = POST_COMMUNITY_CATEGORY[watch().position];
     const data = {
       title: watch().title,
-      position: watch().position,
-      editor,
+      content: editor,
+      techList: tags.map((tag) => tag.field),
+      category,
     };
-    api
-      .post('/community/create', data)
-      .then(() => router.push('/community'))
-      .catch(() => alert('잠시 후에 다시 시도해주세요.'));
+
+    if (
+      router.route.includes('edit') &&
+      confirm('정말 글을 수정하시겠습니까?')
+    ) {
+      return editArticle.mutate(data);
+    }
+    if (
+      router.route.includes('create') &&
+      confirm('정말 글을 작성하시겠습니까?')
+    ) {
+      return postArticle.mutate(data);
+    }
   };
 
   if (communityQuery.isLoading) return <Message>로딩중입니다.</Message>;
@@ -44,29 +92,25 @@ export default function CommunityForm() {
     return <Message>잠시 후 다시 시도해주세요.</Message>;
 
   return (
-    <Container>
+    <GridBox>
+      <TagBox
+        tags={tags}
+        deleteTag={deleteTag}
+        tagKeyDown={tagKeyDown}
+        register={register}
+      />
       <MainPost
-        type={2}
         register={register}
         changeContent={changeContent}
-        postProject={() => postCommunity()}
+        postProject={postCommunity}
         data={
           data && {
             title: data.title,
             content: data.content,
-            position: data.position,
+            position: data.category,
           }
         }
       />
-    </Container>
+    </GridBox>
   );
 }
-
-const Container = styled.div`
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 20px;
-  padding: var(--padding-2);
-`;

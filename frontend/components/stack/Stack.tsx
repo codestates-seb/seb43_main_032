@@ -19,12 +19,11 @@ const Stack = ({ tech, addStack, stacks }: Props) => {
       onMouseLeave={() => setModal(false)}
       onClick={() => addStack && addStack(tech)}
       key={tech}
-      className={
-        stacks && stacks.filter((stack) => stack.tech === tech).length > 0
-          ? `focus bg-${tech}`
-          : `bg-${tech}`
-      }
+      className={`bg-${tech}`}
     >
+      {stacks && stacks.some((el) => el.tech === tech) && (
+        <div className="ball"></div>
+      )}
       {modal && <Bubble tech={tech} />}
     </Box>
   );
@@ -38,4 +37,16 @@ const Box = styled.li`
   min-width: 24px;
   min-height: 24px;
   box-shadow: var(--box-shadow);
+  display: flex;
+  justify-content: center;
+
+  .ball {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    left: -5px;
+    top: -5px;
+    border-radius: 50%;
+    background-color: #ff5454;
+  }
 `;

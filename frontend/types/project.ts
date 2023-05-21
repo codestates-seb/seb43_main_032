@@ -1,6 +1,11 @@
-interface Crew {
-  [key: string]: string;
-}
+import { MemberInfo } from './types';
+
+export type Crew = {
+  memberId: number;
+  position: string;
+  projectId: number;
+};
+
 export type FiledTag = {
   field: string;
 };
@@ -10,25 +15,49 @@ export type Tech = {
 };
 
 export type WantCrew = {
-  position: string;
-  number: number;
   acceptedNumber: number;
+  number: number;
+  position: string;
 };
 
 export type Project = {
+  filter: any;
   acceptedCrewList: Crew[];
   content: string;
+  createdAt: string;
   endDate: string;
   fieldList: FiledTag[];
-  memberId: number;
+  memberInfo: MemberInfo;
   positionCrewList: WantCrew[];
   projectId: number;
   startDate: string;
   status: string;
-  techStackList: Tech[];
+  techList: Tech[];
   thumbnailImageUrl: string;
   title: string;
+  totalAnswers: number;
   totalLikes: number;
   views: number;
   writerPosition: string;
+  liked: boolean;
+  author: boolean;
+};
+
+export type PostData = {
+  startDate: string;
+  endDate: string | null | undefined;
+  writerPosition: string;
+  title: string;
+  thumbnailImageUrl: string;
+  content: string;
+  techList: {
+    techList: string[];
+  };
+  fieldList: {
+    fieldList: string[];
+  };
+  positionCrewList: {
+    positionList: string[];
+    positionNumberList: number[];
+  };
 };

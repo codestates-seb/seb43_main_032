@@ -1,234 +1,173 @@
 import { useRouter } from 'next/router';
-import React from 'react';
+import React, { useEffect } from 'react';
 import styled from 'styled-components';
-import { FaHeart } from 'react-icons/fa';
-import dynamic from 'next/dynamic';
-import ContentSkeleton from '../skeleton/ContentSkeleton';
-import EiditorSkeleton from '../skeleton/EiditorSkeleton';
 import Message from '../Message';
-import Btn from '../button/Btn';
-import { useCommunity } from '@/hooks/react-query/useCommunity';
 import { Community } from '@/types/community';
-import { COMMUNITY } from '@/dummy/community';
-const ReactMarkdown = dynamic(() => import('@/components/editor/ContentBox'), {
-  ssr: false,
-  loading: () => <ContentSkeleton />,
-});
-
-const Editor = dynamic(() => import('@/components/editor/Editor'), {
-  ssr: false,
-  loading: () => <EiditorSkeleton />,
-});
+import { useCommunity } from '@/hooks/react-query/community/useCommunity';
+import GridBox from '../common_box/GridBox';
+import TagBox from '../project/TagBox';
+import AuthorBox from '../common_box/AuthorBox';
+import { getCookie } from '@/util/cookie';
+import MainArticleBox from '../common_box/MainArticleBox';
+import ApplyBox from '../common_box/ApplyBox';
+import { warningAlert } from '../alert/MyAlert';
 
 // item 개별 페이지
 const ViewCommunity = () => {
   const router = useRouter();
   const id = router.query.id;
-  const address = `/community/post/${id}`;
-  const queryKey = ['post', id];
+  const address = `/articles/${id}`;
+  const queryKey = ['articles', 'post', id];
 
-  const { communityQuery } = useCommunity<Community>({
+  const {
+    communityQuery,
+    moveEdit,
+    deleteArticle,
+    refetch,
+    likeCommunity,
+    dislikeCommunity,
+  } = useCommunity<Community>({
     address,
     queryKey,
   });
-  const data = COMMUNITY[0];
+  const data = communityQuery.data?.data;
 
-  if (communityQuery.isLoading) return <Message>로딩중입니다.</Message>;
+  //좋아요 이벤트
+  const likeHandler = () => {
+    if (!getCookie('accessToken')) {
+      return warningAlert('로그인을 부탁드려요.');
+    }
+    if (data?.liked) {
+      return dislikeCommunity.mutate();
+    }
+    likeCommunity.mutate();
+  };
+
+  //게시글이 수정되었을 때를 위해
+  useEffect(() => {
+    refetch();
+  }, [router]);
+
+  const deleteEvent = () => {
+    if (confirm('정말 게시글을 삭제하시겠습니까?')) deleteArticle.mutate();
+  };
   if (communityQuery.error)
     return <Message>잠시 후 다시 시도해주세요.</Message>;
+  if (communityQuery.isLoading) return <Message>로딩중입니다.</Message>;
   return (
-    <Container>
-      <Top>
-        <div className="left">
-          <div className="title">{data.title}</div>
-          <div className="date">{data.createdAt}</div>
-        </div>
-        <div className="right">
-          <img src={data.avatar}></img>
-          <div className="userBox nanum-bold userStar">
-            <FaHeart color="red" /> {data.userStar}
-          </div>
-          <div className="userBox nanum-bold userMail">
-            {data.email.split('@')[0]}
-          </div>
-        </div>
-      </Top>
-      <Bottom>
-        <div className="content">
-          <ReactMarkdown
+    <GridBox>
+      {data && (
+        <>
+          <Side>
+            <AuthorBox
+              userId={data.memberInfo.memberId}
+              userImg={data.memberInfo.profileImageUrl}
+              userName={data.memberInfo.name}
+              isAuthor={data.author}
+              totalStar={data.memberInfo.totalStar}
+            />
+            <TagBox
+              tags={data.techList.map((item) => ({ field: item.tech }))}
+            />
+          </Side>
+          <MainArticleBox
+            title={data.title}
+            category={data.category}
+            isAuthor={data.author}
+            deleteEvent={deleteEvent}
+            moveEdit={moveEdit}
+            createAt={data.createdAt}
+            view={data.view}
+            totalAnswers={data.totalAnswers}
             content={data.content}
-            backColor="white"
-          ></ReactMarkdown>
-        </div>
-        <div className="comment">
-          <Editor />
-          <Btn>
-            <span>제출하기</span>
-          </Btn>
-          <div className="each">
-            {/* 임시로 el.id가 없기 때문에 i 활용 중 */}
-            {data.comment.map((el, i) => (
-              <div key={i} className="box">
-                <div>{i}</div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </Bottom>
-    </Container>
+            likeHandler={likeHandler}
+            liked={data.liked}
+            totalLikes={data.totalLikes}
+            articleRefetch={refetch}
+          />
+        </>
+      )}
+    </GridBox>
   );
 };
 
 export default ViewCommunity;
 
-const Container = styled.div`
+const Side = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  padding: 20px;
-  color: #fff;
-
-  &:first-child {
-    padding-left: 0;
-    padding-right: 0;
-  }
-`;
-
-const Top = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
   width: 100%;
   padding: 20px;
-  border-radius: 15px;
-  background: linear-gradient(-45deg, #ffc6fd, #e812c1, #7402e0);
-  background-size: 400% 400%;
-  animation: AnimationName 15s ease infinite;
-  width: 100%;
-  top: 35%;
-  text-align: center;
   margin-bottom: 20px;
 
-  > .left {
-    height: 150px;
-    display: flex;
-    flex-direction: column;
-    justify-content: end;
-    align-items: start;
-    font-size: 50px;
-    color: white;
-
-    > .title {
-      margin-bottom: 20px;
-    }
-
-    > .date {
-      font-size: 15px;
-    }
-  }
   > .right {
-    height: 150px;
     display: flex;
     flex-direction: column;
-    justify-content: end;
-    align-items: end;
+    justify-content: center;
+    border-radius: 15px;
+    align-items: center;
+    padding: 40px 30px 20px;
+    border: solid 2px #ececec;
+    margin-bottom: 24px;
 
-    > img {
-      width: 100px;
-      height: 100px;
-      border: solid 2px gray;
-      border-radius: 50%;
-      background-color: white;
+    .tag {
+      margin-left: 30px;
     }
 
-    > .userBox {
+    .Side-box {
+      width: 100%;
+      position: relative;
       display: flex;
+      justify-content: center;
       align-items: center;
-      gap: 16px;
-      padding: 10px;
-      padding-bottom: 4px;
-      font-size: 15px;
-      font-weight: bold;
-      color: white;
-    }
+      flex-direction: column;
+      border-bottom: solid 2px #ececec;
+      padding-bottom: 20px;
 
-    > .userMail {
-      padding-top: 0;
-    }
-  }
+      > img {
+        width: 200px;
+        height: 200px;
+        border-radius: 50%;
+        background-color: white;
+        box-shadow: 0px 0px 11px 11px rgba(234, 234, 234, 0.77);
+        margin-bottom: 20px;
+      }
 
-  @-webkit-keyframes AnimationName {
-    0% {
-      background-position: 0% 50%;
-    }
-    50% {
-      background-position: 100% 50%;
-    }
-    100% {
-      background-position: 0% 50%;
-    }
-  }
-  @-moz-keyframes AnimationName {
-    0% {
-      background-position: 0% 50%;
-    }
-    50% {
-      background-position: 100% 50%;
-    }
-    100% {
-      background-position: 0% 50%;
-    }
-  }
-  @-o-keyframes AnimationName {
-    0% {
-      background-position: 0% 50%;
-    }
-    50% {
-      background-position: 100% 50%;
-    }
-    100% {
-      background-position: 0% 50%;
-    }
-  }
-  @keyframes AnimationName {
-    0% {
-      background-position: 0% 50%;
-    }
-    50% {
-      background-position: 100% 50%;
-    }
-    100% {
-      background-position: 0% 50%;
-    }
-  }
-`;
+      > .userBox {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 16px;
+        padding: 10px;
+        padding-bottom: 4px;
+        font-weight: bold;
+        color: #9f9f9f;
+      }
 
-const Bottom = styled.div`
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-  font-size: 20px;
+      > .userName {
+        font-size: 18px;
+        padding-left: 0;
+      }
+      > .saveStar {
+        position: absolute;
+        width: 50px;
+        height: 50px;
+        background-color: #cecece;
+        border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        left: 0;
+        right: 0;
+        cursor: pointer;
 
-  > .content {
-    width: 68%;
-    position: relative;
-  }
-
-  > .comment {
-    display: flex;
-    flex-direction: column;
-    width: 30%;
-
-    > .each {
-      color: black;
-
-      > .box {
-        height: 100px;
-        border: solid 1px black;
-        padding: 5px;
-        margin-top: 5px;
-        border-radius: 10px;
+        > .icon-box {
+          width: 50%;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          font-size: 30px;
+        }
       }
     }
   }

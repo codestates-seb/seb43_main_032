@@ -1,24 +1,17 @@
+import { Tech } from './project';
+import { MemberInfo } from './types';
+
 export type Community = {
-  id: number;
-  name: string;
-  profileImageUrl: string;
-  totalStar: number;
-  title: string;
-  content: string;
+  articleId: number;
   category: string;
-  views: number;
-  totalLikes: number;
-  techStackList: FiledTag[];
-};
-
-export type Comment = {
-  id: number;
-  email: string;
-  userStar: number;
-  avatar: string;
   content: string;
-};
-
-export type FiledTag = {
-  field: string;
+  createdAt: string;
+  memberInfo: MemberInfo;
+  techList: Tech[];
+  title: string;
+  totalAnswers: number;
+  totalLikes: number;
+  view: number;
+  liked: boolean;
+  author:boolean
 };

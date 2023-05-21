@@ -1,57 +1,166 @@
-import GridBox from '@/components/GridBox';
+import Pagenation from '@/components/Pagenation';
+import { TextArea } from '@/components/authAction/EditInput';
 import UserCard from '@/components/user/UserCard';
-import UserSideBar from '@/components/user/UserSideBar';
-import { USERS } from '@/dummy/users';
 import useUser from '@/hooks/react-query/useUser';
+import { UserState } from '@/types/user';
 import { useRouter } from 'next/router';
-import { useEffect } from 'react';
+import { ChangeEvent, useState } from 'react';
 import styled from 'styled-components';
-//유저 페이지 입니다. 경로 '/user/'
+import { BiSearch } from 'react-icons/bi';
 
-const RightColumn = styled.div`
+const Wrapper = styled.div`
   padding: 20px;
 `;
+const SearchHeader = styled.div`
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 50px;
+  @media (max-width: 768px) {
+    margin-bottom: 0px;
+  }
+`;
+const Title = styled.h1`
+  display: flex;
+  font-size: 23px;
+  width: 80%;
+  padding-bottom: 20px;
+  font-weight: 700;
+`;
+const SubHeader = styled.div`
+  display: flex;
+  width: 100%;
+  padding-bottom: 20px;
+  justify-content: space-between;
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 20px;
+  }
+`;
+
+const SearchBox = styled.div`
+  position: relative;
+  display: flex;
+  width: 50%;
+  align-items: flex-start;
+  @media (max-width: 768px) {
+    width: 100%;
+  }
+`;
+const SearchButton = styled.button`
+  top: 5px;
+  right: 10px;
+  position: absolute;
+  border: none;
+  font-size: 30px;
+  color: skyblue;
+  background-color: transparent;
+`;
+const FilterBox = styled.div`
+  display: flex;
+  height: 100%;
+  gap: 8px;
+`;
+const FilterButton = styled.button`
+  font-family: 'Pretendard';
+  background-color: #6333ff;
+  color: white;
+  border-radius: 5px;
+  padding: 10px;
+  font-size: 14px;
+  cursor: pointer;
+  -webkit-transition: background 0.5s ease, color 0.5s ease;
+  transition: background 0.5s ease, color 0.5s ease;
+  border: none;
+`;
 const CardWrapper = styled.div`
-  padding-top: 20px;
   display: grid;
   width: 100%;
   gap: 10px;
-  @media screen and (min-width: 640px) {
-    grid-template-columns: repeat(2, 1fr);
+  margin-bottom: 50px;
+  @media screen and (min-width: 768px) {
+    grid-template-columns: repeat(3, 1fr);
   }
 
   @media screen and (min-width: 960px) {
-    grid-template-columns: repeat(3, 1fr);
-  }
-  /* @media screen and (min-width: 1280px) {
     grid-template-columns: repeat(4, 1fr);
-  } */
+  }
+  @media screen and (min-width: 1280px) {
+    grid-template-columns: repeat(6, 1fr);
+  }
 `;
 const User = () => {
+  const [inputValue, setInputValue] = useState<string>('');
+  const [keyword, setKeyword] = useState<string | undefined>(undefined);
+  const [page, setPage] = useState<number>(1);
+  const [size, setSize] = useState<number>(12);
+
+  const {
+    userQuery: { data: users, isLoading: allUserLoading },
+    searchUserByKeyword: { data: searchedUsers, isLoading: searchUserLoading },
+  } = useUser({ page, pageSize: size, keyword });
+
   const router = useRouter();
-  useEffect(() => {
-    window.scrollTo({
-      top: 670,
-      left: 0,
-      behavior: 'smooth',
-    });
-  }, [router]);
-  // const {
-  //   userQuery: { data: users },
-  // } = useUser();
+  const handleChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
+    setInputValue(e.target.value);
+  };
+  const handleClick = () => {
+    if (inputValue.trim().length < 1) {
+    } else {
+      setKeyword(inputValue);
+    }
+  };
+
+  // useEffect(() => {
+  //   window.scrollTo({
+  //     top: 670,
+  //     left: 0,
+  //     behavior: 'smooth',
+  //   });
+  // }, [router]);
+
+  // useEffect(() => {
+  //   if (allUserLoading) return;
+  //   setUsers(allUsers);
+  // }, [allUsers]);
+  // useEffect(() => {
+  //   if (searchUserLoading) return;
+  //   setUsers(searchedUsers);
+  // }, [searchedUsers]);
+
+  users && console.log(users);
   return (
-    <GridBox>
-      <UserSideBar />
-      <RightColumn>
-        <p className="nanum-bold">Star | 가입일 | 활동</p>
-        <CardWrapper>
-          {Array.isArray(users) &&
-            users
-              .filter((el) => el.MEMBER_ID < 30 && el.MEMBER_ID > 0)
-              .map((user) => <UserCard key={user.MEMBER_ID} user={user} />)}
-        </CardWrapper>
-      </RightColumn>
-    </GridBox>
+    <Wrapper>
+      <SearchHeader>
+        <Title>유저 목록</Title>
+        <SubHeader>
+          <FilterBox>
+            {['프론트엔드', '백엔드', 'UX/UI'].map((btn) => (
+              <FilterButton key={btn}>{btn} </FilterButton>
+            ))}
+          </FilterBox>
+          <SearchBox>
+            <TextArea
+              onChange={handleChange}
+              value={inputValue}
+              placeholder="Search user..."
+            />
+            <SearchButton onClick={handleClick}>
+              <BiSearch />
+            </SearchButton>
+          </SearchBox>
+        </SubHeader>
+      </SearchHeader>
+
+      <CardWrapper>
+        {users &&
+          users.map((user: UserState) => (
+            <UserCard key={user.name} user={user} />
+          ))}
+      </CardWrapper>
+      <Pagenation pageSize={size} page={page} onPageChange={setPage} />
+    </Wrapper>
   );
 };
 

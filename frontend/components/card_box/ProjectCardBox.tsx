@@ -11,7 +11,12 @@ type Props = {
   children?: ReactNode;
 };
 
-const ProjectCardBox = ({ title, data, skeleton, children }: Props) => {
+const ProjectCardBox = ({
+  title,
+  data,
+  skeleton,
+  children,
+}: Props) => {
   const router = useRouter();
 
   return (
@@ -30,7 +35,11 @@ const ProjectCardBox = ({ title, data, skeleton, children }: Props) => {
       </div>
       <div className="projects-box">
         {data?.map((project: Project) => (
-          <ProjectCard key={project.projectId} size={'sm'} data={project} />
+          <ProjectCard
+            key={project.projectId}
+            size={'sm'}
+            data={project}
+          />
         ))}
       </div>
       {skeleton}

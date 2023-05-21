@@ -1,29 +1,46 @@
 import Image from 'next/image';
-import { FaUserAlt } from 'react-icons/fa';
-import { FiMenu } from 'react-icons/fi';
 import Link from 'next/link';
 import styled from 'styled-components';
 import { useRouter } from 'next/router';
 import { useEffect, useMemo, useState } from 'react';
 import logo from '../public/images/logo.svg';
 import logoWhite from '../public/images/logoSymbolWhite.svg';
-import BannerSlider from './BannerSlider';
+import BannerSlider from './banner/BannerSlider';
 import Btn from './button/Btn';
 import { useOffResize } from '@/hooks/useOffResize';
 import { HEADER_NAV } from '@/constant/constant';
 import { deleteCookie, getCookie } from '@/util/cookie';
-import { useSetRecoilState } from 'recoil';
-import { userState } from '@/recoil/atom';
+import { useRecoilState } from 'recoil';
+import { loggedInUserState, navModalState } from '@/recoil/atom';
+import { setUserState } from '@/util/api/user';
+import Img from '../public/images/second-user.svg';
+import { NavProps } from '@/types/types';
+import ButtonStyle from './button/ButtonStyle';
 
 const Header = () => {
   const router = useRouter();
 
-  //로그아웃 로직
-  const setUser = useSetRecoilState(userState);
+  //로그인한 유저의 데이터 상태
+  const [loggedInUser, setLoggedInUser] = useRecoilState(loggedInUserState);
+  //로그아웃
   const logout = () => {
     deleteCookie('accessToken');
-    setUser(null);
+    deleteCookie('refreshToken');
+    router.push('/').then(() => router.reload()); //로그인 유저가 바뀔 때 발생하는 버그를 막기위해 reload설정
   };
+
+  //토큰이 유효하다면 유저 데이터 세팅
+  useEffect(() => {
+    setUserState()
+      .then((res) => {
+        if (getCookie('accessToken')) {
+          setLoggedInUser(res);
+        }
+      })
+      .catch(() => {
+        //리프레시 토큰 api가 생기면 여기 넣어서 사용할듯?
+      });
+  }, []);
 
   //네비 이름 배열
   const navNames = useMemo(() => Object.keys(HEADER_NAV), []);
@@ -49,7 +66,7 @@ const Header = () => {
   }, []);
 
   //모달 네비
-  const [nav, setNav] = useState(false);
+  const [nav, setNav] = useRecoilState(navModalState);
   const moveNav = (name: string) => {
     router.push(HEADER_NAV[name]);
     setNav(false);
@@ -85,109 +102,131 @@ const Header = () => {
           ))}
           {getCookie('accessToken')
             ? navNames.slice(3, 5).map((name) =>
-                name === 'mypage' ? (
+                name === 'MY' ? (
                   <li key={name}>
-                    <Link href={HEADER_NAV[name]}>
-                      <FaUserAlt size={20} />
-                    </Link>
+                    <ButtonStyle
+                      link={`${HEADER_NAV[name]}`}
+                      text={name.toUpperCase()}
+                    ></ButtonStyle>
                   </li>
                 ) : (
                   <li key={name} onClick={logout}>
-                    <Link
-                      href={HEADER_NAV[name]}
-                      className="noto-regular-12 main-btn"
-                    >
-                      <span>{name.toUpperCase()}</span>
-                    </Link>
+                    <ButtonStyle
+                      link={`${HEADER_NAV[name]}`}
+                      text={name.toUpperCase()}
+                    ></ButtonStyle>
                   </li>
                 )
               )
             : navNames.slice(5).map((name) => (
                 <li key={name}>
-                  <Link
-                    href={`/users${HEADER_NAV[name]}`}
-                    className="nanum-regular main-btn"
-                  >
-                    <span>{name.toUpperCase()}</span>
-                  </Link>
+                  <ButtonStyle
+                    link={`${HEADER_NAV[name]}`}
+                    text={name.toUpperCase()}
+                  ></ButtonStyle>
                 </li>
               ))}
         </NavMenu>
-        <ModalNav nav={nav}>
-          <ul>
-            {getCookie('accessToken')
-              ? navNames.slice(0, 4).map((name) => (
-                  <li
-                    className="nanum-bold"
-                    key={name}
-                    onClick={() => moveNav(name)}
-                  >
-                    {name}
-                  </li>
-                ))
-              : navNames.slice(0, 3).map((name) => (
-                  <li
-                    className="nanum-bold"
-                    key={name}
-                    onClick={() => moveNav(name)}
-                  >
-                    {name}
-                  </li>
-                ))}
-          </ul>
-          <div className="nav-users">
-            {getCookie('accessToken')
-              ? navNames.slice(4, 5).map((name) => (
-                  <div className="logout" key={name} onClick={logout}>
-                    <Btn>
-                      <span>{name}</span>
-                    </Btn>
-                  </div>
-                ))
-              : navNames.slice(5).map((name) => (
-                  <div key={name} onClick={() => moveNav(name)}>
-                    <Btn>
-                      <span>{name}</span>
-                    </Btn>
-                  </div>
-                ))}
-          </div>
-        </ModalNav>
       </Nav>
-      {router.pathname !== '/404' && (
+      {router.pathname === '/' && (
         <BannerSlider isScrolled={isScrolled}></BannerSlider>
       )}
+      <ModalNav nav={nav}>
+        {getCookie('accessToken') && (
+          <div className="user">
+            <Image src={Img} alt="profleImg" />
+            <div className="userName">
+              최기랑<span>, 환영합니다.</span>
+            </div>
+          </div>
+        )}
+        <ul>
+          {getCookie('accessToken')
+            ? navNames.slice(0, 4).map((name) => (
+                <li
+                  className="nanum-bold"
+                  key={name}
+                  onClick={() => moveNav(name)}
+                >
+                  {name}
+                </li>
+              ))
+            : navNames.slice(0, 3).map((name) => (
+                <li
+                  className="nanum-bold"
+                  key={name}
+                  onClick={() => moveNav(name)}
+                >
+                  {name}
+                </li>
+              ))}
+        </ul>
+        <div className="nav-users">
+          {getCookie('accessToken')
+            ? navNames.slice(4, 5).map((name) => (
+                <div className="logout" key={name} onClick={logout}>
+                  <Btn>
+                    <span>{name}</span>
+                  </Btn>
+                </div>
+              ))
+            : navNames.slice(5).map((name) => (
+                <div key={name} onClick={() => moveNav(name)}>
+                  <Btn>
+                    <span>{name}</span>
+                  </Btn>
+                </div>
+              ))}
+        </div>
+      </ModalNav>
     </>
   );
 };
 
 export default Header;
 
-type NavProps = {
-  isScrolled?: boolean;
-  nav: boolean;
-};
-
 const ModalNav = styled.nav<NavProps>`
-  z-index: 1000;
+  z-index: 9999;
   background-color: white;
   width: 50%;
+  height: 100%;
   position: fixed;
   top: 60px;
   right: ${(props) => (props.nav ? '0' : '-50%')};
   transition: 1.2s;
   display: none;
+
+  .user {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    > img {
+      width: 70%;
+      height: 70%;
+      border-radius: 50%;
+      border: solid 2px black;
+    }
+
+    > .userName {
+      margin-top: 20px;
+      font-size: 15px;
+    }
+  }
+
   @media (max-width: 960px) {
     display: block;
   }
   ul {
     display: flex;
     flex-direction: column;
-    text-align: center;
     li {
       padding: 24px;
       cursor: pointer;
       border-bottom: 1px solid #d1d1d1;
+      font-size: 15px;
     }
   }
   .nav-users {
@@ -261,7 +300,7 @@ const Nav = styled.nav<NavProps>`
   height: 60px;
   display: flex;
   padding: 0px calc((100% - 1280px) / 2);
-  z-index: 10;
+  z-index: 1000;
   background: white;
   overflow: hidden;
   box-shadow: ${(props) =>
@@ -412,21 +451,6 @@ const NavLink = styled(Link)`
     height: 30px;
   }
 `;
-
-const Bars = styled(FiMenu)`
-  display: none;
-  color: #000;
-  @media screen and (max-width: 960px) {
-    display: block;
-    position: absolute;
-    top: 0;
-    right: 0;
-    transform: translate(-100%, 75%);
-    font-size: 1.8rem;
-    cursor: pointer;
-  }
-`;
-
 const NavMenu = styled.ul`
   display: flex;
   align-items: center;

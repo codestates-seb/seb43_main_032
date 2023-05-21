@@ -3,84 +3,54 @@ import styled from 'styled-components';
 import { useRouter } from 'next/router';
 import { useInfiniteQuery } from 'react-query';
 import { api } from '@/util/api';
-import { useRef, useEffect, useState, useMemo } from 'react';
+import { useRef, useEffect, useState } from 'react';
 import ProjectSkeleton from '@/components/skeleton/ProjectSkeleton';
 import Link from 'next/link';
 import { Project } from '@/types/project';
 import Message from '@/components/Message';
 import { useForm } from 'react-hook-form';
-import Btn from '@/components/button/Btn';
-import { BsSearch } from 'react-icons/bs';
-import { PROJECT_FILTER } from '@/constant/constant';
 import ProjectCardBox from '@/components/card_box/ProjectCardBox';
-import { Form } from '@/types/types';
+import { Filter, Form, PageProps } from '@/types/types';
 import { AiOutlineArrowUp } from 'react-icons/ai';
+import { getAllProject } from '@/util/api/getAllProject';
+import { articleFilter } from '@/util/filter/articleFilter';
+import { ARTICLE_FILTER } from '@/constant/constant';
 const page_limit = 4;
-type PageProps = { data: Project[]; total: number };
 
 const ProjectHome = () => {
   const router = useRouter();
   const { register, watch } = useForm<Form>();
-  const search = router.query.search;
-  const [filter, setFilter] = useState('');
-  const filterNames = useMemo(() => Object.keys(PROJECT_FILTER), []);
-  const filterHandler = (name: string) => {
-    setFilter(PROJECT_FILTER[name]);
-  };
 
-  //필터 변경 시, 이펙트
-  useEffect(() => {
-    refetch();
-  }, [filter]);
-
-  //주소
+  //주소, 서버 필터 작업 전까지 주석처리
   const address = () => {
-    if (search && filter) {
-      return `/project/findAll&size=${page_limit}&filter=${filter}`;
-    }
-    if (search || filter) {
-      return `/project/findAll&size=${page_limit}`;
-    }
-    return `/project/findAll?size=${page_limit}`;
+    return `/projects/findAll?size=${page_limit}`;
   };
 
-  //쿼리 키
+  //쿼리 키, 서버 필터 작업 전까지 주석처리
   const queryKey = () => {
-    if (search && filter) {
-      return ['projects', search, filter];
-    }
-    if (search || filter) {
-      return ['projects', search || filter];
-    }
     return 'projects';
   };
-
-  //라우터 이동 시,
-  useEffect(() => {
-    if (watch().search !== '') {
-      window.scrollTo({
-        top: 600,
-        left: 0,
-        behavior: 'smooth',
-      });
-    }
-  }, [router]);
 
   //무한스크롤 데이터
   const {
     isLoading,
     error,
     data,
-    refetch,
     fetchNextPage,
     hasNextPage,
     isFetching,
+    refetch,
   } = useInfiniteQuery(
     queryKey(),
     ({ pageParam = 1 }) =>
-      api(`${address()}&page=${pageParam}`).then((res) => res.data),
+      api(`${address()}&page=${pageParam}`)
+        .then((res) => res.data)
+        .catch(() => {}),
     {
-      getNextPageParam: (lastPage: PageProps, allPages: PageProps[]) => {
+      getNextPageParam: (
+        lastPage: PageProps<Project>,
+        allPages: PageProps<Project>[]
+      ) => {
         if (lastPage.data.length < page_limit) {
           return null;
         }
@@ -89,14 +59,32 @@ const ProjectHome = () => {
     }
   );
 
+  useEffect(() => {
+    refetch();
+  }, []);
+
+  //서버에서 필터링 작업이 완성되기 전, 눈속임을 위한 필터 데이터
+  const [filter, setFilter] = useState<Filter>(0);
+  const filterHandler = (idx: number) => {
+    setFilter(idx);
+  };
+  const [allData, setAllData] = useState<Project[]>([]);
+
+  useEffect(() => {
+    getAllProject().then((res) => setAllData(res));
+  }, []);
+
+  const filterData = articleFilter({
+    filter,
+    allData,
+    searchVal: watch().search,
+    type: 1,
+  });
+
   //무한 스크롤 effect
   const target = useRef<HTMLDivElement>(null);
   useEffect(() => {
-    if (
-      target.current &&
-      data?.pageParams &&
-      data?.pageParams[data.pageParams.length - 1] === null
-    ) {
+    if (target.current && !hasNextPage) {
       return;
     }
     const observer = new IntersectionObserver(
@@ -145,33 +133,38 @@ const ProjectHome = () => {
           </div>
         </div>
         <ProjectCardBox
-          title={search ? `${search}의 결과입니다.` : '전체 프로젝트'}
-          data={data.pages?.flatMap((page) => page.data)}
-          skeleton={isFetching && hasNextPage && <ProjectSkeleton />}
+          title={
+            watch().search !== ''
+              ? `${watch().search}의 결과입니다.`
+              : '전체 프로젝트'
+          }
+          data={
+            filterData
+              ? (filterData as Project[])
+              : data.pages?.flatMap((page) => page.data)
+          }
+          skeleton={isFetching && <ProjectSkeleton />}
         >
           <div className="filter-box noto-regular-13">
             <div className="filter-sub-box">
-              {filterNames.map((name) => (
+              {ARTICLE_FILTER.map((name, idx) => (
                 <div
                   key={name}
-                  className={PROJECT_FILTER[name] === filter ? 'focus' : ''}
-                  onClick={() => filterHandler(name)}
+                  className={idx === filter ? 'focus' : ''}
+                  onClick={() => filterHandler(idx)}
                 >
                   {name}
                 </div>
               ))}
             </div>
             <div className="search-box">
-              <form>
+              <div>
                 <input
                   {...register('search')}
                   type="text"
                   placeholder="검색어를 입력해주세요."
                 />
-                <Btn>
-                  <BsSearch fill={'white'} />
-                </Btn>
-              </form>
+              </div>
               <div className="link-box">
                 <Link href={`${router.asPath}/create`} className="link-btn">
                   <span>프로젝트 작성</span>
@@ -232,12 +225,13 @@ const Box = styled.div`
     }
     .search-box {
       display: flex;
-      width: 50%;
-      > form {
+      justify-content: end;
+      gap: 20px;
+
+      > div {
         display: flex;
-        width: 100%;
         > input {
-          width: 80%;
+          width: 100%;
           padding: 8px 13px;
           border-radius: 10px;
           font-size: 14px;

@@ -1,33 +1,31 @@
-import GridBox from '@/components/GridBox';
 import styled from 'styled-components';
 import { ChangeEvent, useEffect, useState } from 'react';
-import SelectStack from '@/components/stack/SelectStack';
-import { api } from '@/util/api';
 import { useRouter } from 'next/router';
 import MainPost from '@/components/MainPost';
 import { useForm } from 'react-hook-form';
 import TagBox from '@/components/project/TagBox';
 import PeriodBox from '@/components/project/PeriodBox';
-import StacksBox from '@/components/project/StacksBox';
-import { GrFormClose } from 'react-icons/gr';
-import { useProject } from '@/hooks/react-query/useProject';
 import { POSITIONS } from '@/constant/constant';
 import Btn from '../button/Btn';
 import { Form } from '@/types/types';
 import { Tech, FiledTag, WantCrew } from '@/types/project';
 import { formatDate3 } from '@/util/date';
+import { AiOutlineClose } from 'react-icons/ai';
+import { useProject } from '@/hooks/react-query/project/useProject';
+import StacksBox from './StacksBox';
+import GridBox from '../common_box/GridBox';
 
 const ProjectForm = () => {
   const router = useRouter();
 
   //데이터
-  const { projectQuery } = useProject();
+  const { projectQuery, submitEdit, submitPost } = useProject();
   const data = projectQuery.data?.data;
   useEffect(() => {
     if (data) {
       setStart(new Date(data.startDate));
       setEnd(new Date(data.endDate));
-      setStacks(data.techStackList);
+      setStacks(data.techList);
       setTags(data.fieldList);
       setContent(data.content);
       setJob(data.positionCrewList);
@@ -53,7 +51,8 @@ const ProjectForm = () => {
   //스택 모달 관련
   const [stack, setStack] = useState(false);
   const onModal = () => {
-    setStack(true);
+    if (stack) setStack(false);
+    if (!stack) setStack(true);
   };
   const offModal = () => {
     setStack(false);
@@ -116,6 +115,9 @@ const ProjectForm = () => {
   //직군 상태
   const [jobs, setJob] = useState<WantCrew[]>([]);
   const addJob = () => {
+    if (watch().jobVal === '') {
+      return alert('직군을 선택해주세요.');
+    }
     if (jobs.filter((job) => job.position === watch().jobVal).length > 0) {
       return alert('동일한 직군은 추가할 수 없습니다.');
     }
@@ -156,48 +158,48 @@ const ProjectForm = () => {
     if (content === '') {
       return alert('내용을 입력해주세요.');
     }
+
+    //랜덤 이미지 생성
+    const randomNumber = Math.floor(Math.random() * 5) + 1;
+    const srcSvg = `/images/thum (${randomNumber}).svg`;
+
+    //공통 데이터
     const data = {
       startDate: formatDate3(start),
       endDate: end && formatDate3(end),
-      techStackList: {
-        techStackList: stacks.map((stack) => stack.tech),
-      },
-      fieldList: {
-        filedList: tags.map((tag) => tag.field), //백엔드분들이 키를 잘못적어주셔서 나중에 다시 고쳐야할듯??
-      },
-      positionCrewList: {
-        positionCrewList: jobs.map((job) => job.position),
-        positionNumberList: jobs.map((job) => job.number),
-      },
       writerPosition: watch().position,
       title: watch().title,
-      thumbnailImageUrl: '이미지',
+      thumbnailImageUrl: srcSvg,
       content,
+      techList: {
+        techList: stacks.map((stack) => stack.tech),
+      },
+      fieldList: {
+        fieldList: tags.map((tag) => tag.field),
+      },
+      positionCrewList: {
+        positionList: jobs.map((job) => job.position),
+        positionNumberList: jobs.map((job) => job.number),
+      },
     };
 
-    //수정 이벤트
+    //작성 이벤트
     if (
       router.route.includes('edit') &&
-      confirm('정말 수정을 완료하시겠습니까?')
-    )
-      return api
-        .put(`/project/update/${router.query.id}`, data)
-        .then(() => router.push('/'));
-
-    //작성 이벤트
-    if (confirm('정말 작성을 완료하시겠습니까?'))
-      return api.post('/project/post', data).then(() => router.push('/'));
+      confirm('정말 글을 수정하시겠습니까?')
+    ) {
+      return submitEdit.mutate(data);
+    }
+    if (
+      router.route.includes('create') &&
+      confirm('정말 글을 작성하시겠습니까?')
+    ) {
+      return submitPost.mutate(data);
+    }
   };
 
   return (
     <GridBox>
-      {stack && (
-        <SelectStack
-          selectStack={offModal}
-          stacks={stacks}
-          setStacks={setStacks}
-        />
-      )}
       <Side>
         <PeriodBox
           start={start}
@@ -210,9 +212,15 @@ const ProjectForm = () => {
           tagKeyDown={tagKeyDown}
           deleteTag={deleteTag}
         />
-        <StacksBox stacks={stacks} onModal={onModal} />
+        <StacksBox
+          stacks={stacks}
+          onModal={onModal}
+          selectStack={offModal}
+          setStacks={setStacks}
+          stack={stack}
+        />
         <div className="want-box">
-          <div>모집을 원하는 직군</div>
+          <div className="title">모집을 원하는 직군</div>
           <div className="job-box">
             <select
               {...register('jobVal', { value: data && data.writerPosition })}
@@ -231,16 +239,16 @@ const ProjectForm = () => {
               ))}
             </select>
             <Btn onClick={addJob}>
-              <span>등록</span>
+              <span>+</span>
             </Btn>
           </div>
-          <ul>
+          <ul className="member-box">
             {jobs.map((job, i) => (
-              <li className="nanum-regular" key={`${job}+${i}`}>
+              <li className="nanum-regular member" key={`${job}+${i}`}>
                 <div>{job.position}</div>
                 <div>{job.number}명</div>
                 <div className="delete">
-                  <GrFormClose onClick={() => deleteJob(i)} />
+                  <AiOutlineClose onClick={() => deleteJob(i)} fill="red" />
                 </div>
               </li>
             ))}
@@ -248,7 +256,6 @@ const ProjectForm = () => {
         </div>
       </Side>
       <MainPost
-        type={1}
         register={register}
         changeContent={changeContent}
         postProject={postProject}
@@ -283,18 +290,16 @@ const Side = styled.div`
 
   .button-box {
     width: 100%;
-    min-height: 40px;
+    min-height: 13px;
     display: flex;
-    justify-content: center;
   }
 
   > div {
     margin-bottom: 32px;
     > div:first-child {
       font-family: var(--font-nanum);
-      font-size: 23px;
-      font-weight: 700;
-      margin-bottom: 24px;
+      font-size: 15px;
+      font-weight: 500;
     }
   }
 
@@ -304,22 +309,33 @@ const Side = styled.div`
   }
 
   .want-box {
+    width: 100%;
+    padding: 0 30px;
     display: flex;
     flex-direction: column;
-    align-items: center;
+    margin-bottom: 10px;
+    justify-content: center;
 
-    > ul {
-      margin-top: 12px;
+    .title {
+      margin-bottom: 10px;
+    }
+
+    > .member-box {
+      display: flex;
+      margin-top: 8px;
       flex-direction: column;
-      width: 70%;
+      width: 80%;
       > li {
+        font-size: 13px;
         display: flex;
+        justify-content: center;
         align-items: center;
         gap: 8px;
-        padding: 16px 0px;
+        padding: 8px 0px;
         border-bottom: 1px solid #e4e4e7;
         > div:first-child {
           flex: 1;
+          padding-left: 10px;
         }
       }
     }
@@ -332,22 +348,63 @@ const Side = styled.div`
 
     .job-box {
       display: flex;
-      justify-content: center;
+      justify-content: space-between;
+      align-items: center;
       gap: 8px;
+      width: 100%;
       > select {
-        border: 1px solid #e1e7e5;
-        box-shadow: var(--box-shadow);
-        border-radius: var(--radius-def);
+        border: solid 2px #ececec;
+        border-radius: 10px;
         padding: 8px;
+        font-size: 13px;
+        color: #7d7d7d;
+
+        :focus {
+          outline: none;
+        }
+
+        > option {
+          color: #171717;
+
+          :hover,
+          :focus {
+            background-color: #171717;
+          }
+        }
+      }
+
+      > button {
+        width: 24px;
+        height: 24px;
+        background: #9b7aff;
+        border: none;
+        border-radius: 3px;
+        color: white;
+        cursor: pointer;
+        transition: background 0.3s ease;
+
+        :hover {
+          background: #6333ff;
+        }
       }
     }
   }
 
   input {
-    padding: 6px;
-    border: 1px solid #e1e7e5;
-    box-shadow: var(--box-shadow);
-    border-radius: var(--radius-def);
-    padding-left: 8px;
+    width: 100%;
+    padding: 10px;
+    border: solid 2px #ececec;
+    border-radius: 10px;
+    color: #7d7d7d;
+
+    :focus {
+      background-color: white;
+      outline: solid 2px #9b7aff;
+    }
+
+    ::placeholder {
+      font-size: 13px;
+      color: #a5a5a5;
+    }
   }
 `;

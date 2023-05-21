@@ -1,71 +1,48 @@
 import styled from 'styled-components';
 import AuthInput from './AuthInput';
 import { useForm, FieldErrors } from 'react-hook-form';
-import usePostApi from './usePostApi';
-import { useEffect } from 'react';
+import usePostApi from '../../hooks/useLogin';
 
-const Wrapper = styled.div`
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-`;
-const Form = styled.form`
-  width: 100%;
-`;
-
-const Submit = styled.input`
-  width: 100%;
-  border: none;
-  margin-bottom: 20px;
-  padding: 20px;
-  margin-top: 60px;
-  border-radius: 10px;
-`;
-const ErrMsg = styled.p`
-  position: absolute;
-  color: teal;
-`;
 interface ISignUpForm {
-  nickName: string;
+  name: string;
   email: string;
   password: string;
   verifyPw: string;
 }
 export default function SignUpForm() {
-  const [signUp, { data, isLoading }] = usePostApi('signup');
+  const [, signUp] = usePostApi('members/signup');
   const {
     register,
     watch,
     handleSubmit,
     formState: { errors },
   } = useForm<ISignUpForm>();
-  console.log(watch('password'));
+
   const onValid = (data: ISignUpForm) => {
-    console.log(data);
     signUp(data);
   };
+
   const onInValid = (errors: FieldErrors) => {
     console.log(errors);
   };
-  useEffect(() => {
-    data && console.log(data);
-  }, [data]);
+
   return (
     <Wrapper>
       <Form onSubmit={handleSubmit(onValid, onInValid)}>
         <AuthInput //
-          register={register('nickName', {
+          register={register('name', {
             required: '닉네임을 입력해주세요',
           })}
-          name="닉네임"
+          name="User Name"
+          placeholder="Enter your name"
         />
         <AuthInput //
           register={register('email', {
             required: 'Email을 입력해주세요',
           })}
-          name="이메일"
+          name="Email Address"
           type="email"
+          placeholder="Enter your email Address"
         />
         <AuthInput
           register={register('password', {
@@ -75,8 +52,9 @@ export default function SignUpForm() {
               value: 8,
             },
           })}
-          name="비밀번호"
+          name="Password"
           type="password"
+          placeholder="Enter your password"
         />
         {errors.password && <ErrMsg>{`${errors?.password?.message}`} </ErrMsg>}
         <AuthInput
@@ -86,6 +64,7 @@ export default function SignUpForm() {
               value === watch('password') || '비밀번호가 일치하지 않습니다.',
           })}
           type="password"
+          placeholder="Re-enter your password"
         />
         {errors.verifyPw && <ErrMsg>{`${errors?.verifyPw?.message}`} </ErrMsg>}
         <Submit type="submit" value={'Sign Up'} />
@@ -93,3 +72,47 @@ export default function SignUpForm() {
     </Wrapper>
   );
 }
+
+const Wrapper = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
+const Form = styled.form`
+  width: 100%;
+
+  :nth-child(4) {
+    margin-top: -10px;
+  }
+`;
+
+const Submit = styled.input`
+  width: 100%;
+  border: none;
+  margin-bottom: 20px;
+  border-radius: 10px;
+  line-height: 42px;
+  box-shadow: 2px 2px 5px #767676;
+  padding: 0;
+  border: none;
+  cursor: pointer;
+  display: inline-block;
+  overflow: hidden;
+  font-size: 15px;
+  color: #616161;
+  text-shadow: #e0e0e0 1px 1px 0;
+  font-weight: 700;
+  font-family: 'Pretendard';
+  transition: all 1s;
+
+  &:hover {
+    box-shadow: inset 2px 2px 5px #babecc, inset -5px -5px 10px #ffffff73;
+    color: #8217f3;
+  }
+`;
+const ErrMsg = styled.p`
+  color: #ffffff;
+  font-size: 12px;
+  margin-bottom: 4px;
+`;

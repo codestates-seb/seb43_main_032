@@ -1,16 +1,15 @@
 import ProjectForm from '@/components/project/ProjectForm';
+import { getCookie } from '@/util/cookie';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 
 const CreateProject = () => {
   const router = useRouter();
   useEffect(() => {
-    window.scrollTo({
-      top: 600,
-      left: 0,
-      behavior: 'smooth',
-    });
-  }, [router]);
+    if (!getCookie('accessToken')) {
+      router.push('/404').then(() => alert('로그인을 부탁드려요.'));
+    }
+  }, []);
   return <ProjectForm />;
 };
 

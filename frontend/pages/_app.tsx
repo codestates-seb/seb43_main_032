@@ -6,36 +6,43 @@ import Header from '../components/Header';
 import Footer from '../components/Footer';
 import styled from 'styled-components';
 import 'animate.css';
-import { useState } from 'react';
-import { FcSms } from 'react-icons/fc';
 import Contact from '@/components/Contact';
+import ModalBg from '@/components/ModalBg';
+import { useRouter } from 'next/router';
+import LoginBg from '@/components/user/LoginBg';
+import EtcHeader from '@/components/EtcHeader';
 
-const queryClient = new QueryClient();
-
-if (process.env.NODE_ENV === 'development') {
-  require('../__mocks__');
-}
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      refetchOnWindowFocus: false,
+      retry: 0,
+      staleTime: 1000 * 60 * 5,
+    },
+  },
+});
 
 const App = ({ Component, pageProps }: AppProps) => {
-  const [isContact, setIsContact] = useState(false);
-  const contactHandler = () => {
-    setIsContact(!isContact);
+  const router = useRouter().pathname;
+  const check = (pathname: string) => {
+    return (
+      pathname === '/404' ||
+      pathname === '/users/login' ||
+      pathname === '/users/signup'
+    );
   };
+
   return (
     <QueryClientProvider client={queryClient}>
       <RecoilRoot>
-        <Header />
+        {!check(router) ? <Header /> : <EtcHeader />}
         <Box>
           <Component {...pageProps} />
         </Box>
-        <ModalBox>
-          {isContact ? (
-            <Contact contactHandler={contactHandler} />
-          ) : (
-            <FcSms onClick={contactHandler} />
-          )}
-        </ModalBox>
-        <Footer />
+        {!check(router) && <Contact />}
+        <ModalBg></ModalBg>
+        {!check(router) && <Footer />}
+        {check(router) && <LoginBg />}
       </RecoilRoot>
     </QueryClientProvider>
   );
@@ -48,15 +55,4 @@ const Box = styled.main`
   padding: 0px calc((100% - 1280px) / 2);
   padding-top: 80px;
   flex: 1;
-`;
-
-const ModalBox = styled.div`
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
-  > svg {
-    height: 70px;
-    width: 70px;
-    cursor: pointer;
-  }
 `;

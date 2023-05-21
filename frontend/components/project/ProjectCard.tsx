@@ -6,7 +6,11 @@ import Tag from '../Tag';
 import styled from 'styled-components';
 import { useRouter } from 'next/router';
 import { Project } from '@/types/project';
+import { FaComment } from 'react-icons/fa';
+import { useProject } from '@/hooks/react-query/project/useProject';
 import { useState } from 'react';
+import { getCookie } from '@/util/cookie';
+
 type Props = {
   size: string;
   data: Project;
@@ -14,111 +18,79 @@ type Props = {
 
 const ProjectCard = ({ data, size }: Props) => {
   const router = useRouter();
-  const [heartState, setHeartState] = useState<boolean>(false);
+  const [heart, setHeart] = useState(data.liked);
+  const heartHandler = (isLiked: boolean) => {
+    setHeart(isLiked);
+  };
+  const [heartCount, setHeartCount] = useState(data.totalLikes);
+  const heartCountHandler = (totalCount: number) => {
+    setHeartCount(totalCount);
+  };
+  const { likeProject, dislikeProject } = useProject(
+    heartHandler,
+    heartCountHandler
+  );
+  const likeHandler = () => {
+    if (!getCookie('accessToken')) {
+      return alert('로그인을 부탁드려요.');
+    }
+    if (heart) {
+      setHeart(false);
+      return dislikeProject.mutate(data.projectId);
+    }
+    setHeart(true);
+    likeProject.mutate(data.projectId);
+  };
 
-  const randomNumber = Math.floor(Math.random() * 5) + 1;
-  const srcSvg = `/images/thum (${randomNumber}).svg`;
-  //프로젝트 글 조회
+  //프로젝트 조회 이동
   const viewProject = (id: number) => {
     router.push(`project/${id}`);
   };
+
   return (
     <Box>
-      {router.pathname === '/' && (
-        <div className="info-heart">
-          <span>
-            <AiFillHeart
-              size={30}
-              fill={!heartState ? 'rgba(106, 106, 106, 0.5)' : 'red'}
-              onClick={() => {
-                setHeartState(!heartState), console.log(heartState);
-              }}
-            />
-          </span>
-        </div>
-      )}
       <Card
         onClick={() => viewProject(data.projectId)}
         width={size === 'lg' ? '416px' : '298px'}
       >
+        <div className="info-heart">
+          <span>
+            <AiFillHeart
+              size={30}
+              fill={heart ? 'red' : 'rgba(106, 106, 106, 0.5)'}
+              onClick={(e) => {
+                e.stopPropagation();
+                likeHandler();
+              }}
+            />
+          </span>
+        </div>
         <div className="img-box">
           <div>
-            <img src={srcSvg} alt="thumbnail" className="thumbnail-image" />
+            <img
+              src={data.thumbnailImageUrl}
+              alt="thumbnail"
+              className="thumbnail-image"
+            />
           </div>
         </div>
         <strong className="nanum-bold title-box">{data.title}</strong>
         <div className="tag-box">
           <ul>
-            {size === 'lg' ? (
-              data.fieldList.length > 6 ? (
-                <>
-                  {data.fieldList.slice(0, 6).map((tag, i) => (
-                    <li key={`${tag.field}+${i}`}>
-                      <Tag>
-                        <div>{tag.field}</div>
-                      </Tag>
-                    </li>
-                  ))}
-                  .....
-                </>
-              ) : (
-                data.fieldList.map((tag, i) => (
-                  <li key={`${tag.field}+${i}`}>
-                    <Tag>
-                      <div>{tag.field}</div>
-                    </Tag>
-                  </li>
-                ))
-              )
-            ) : data.fieldList.length > 4 ? (
-              <>
-                {data.fieldList.slice(0, 4).map((tag, i) => (
-                  <li key={`${tag.field}+${i}`}>
-                    <Tag>
-                      <div>{tag.field}</div>
-                    </Tag>
-                  </li>
-                ))}
-                .....
-              </>
-            ) : (
-              data.fieldList.map((tag, i) => (
-                <li key={`${tag.field}+${i}`}>
-                  <Tag>
-                    <div>{tag.field}</div>
-                  </Tag>
-                </li>
-              ))
-            )}
+            {data.fieldList.map((tag, i) => (
+              <li key={`${tag.field}+${i}`}>
+                <Tag>
+                  <div>{tag.field}</div>
+                </Tag>
+              </li>
+            ))}
           </ul>
         </div>
         <div className="select-box">
           <ul>
-            {size === 'lg' ? (
-              data.techStackList.length > 11 ? (
-                <>
-                  {data.techStackList.slice(0, 11).map((tech) => (
-                    <Stack key={tech.tech} tech={tech.tech} />
-                  ))}
-                  .....
-                </>
-              ) : (
-                data.techStackList.map((tech) => (
-                  <Stack key={tech.tech} tech={tech.tech} />
-                ))
-              )
-            ) : data.techStackList.length > 7 ? (
-              <>
-                {data.techStackList.slice(0, 7).map((tech) => (
-                  <Stack key={tech.tech} tech={tech.tech} />
-                ))}
-                .....
-              </>
-            ) : (
-              data.techStackList.map((tech) => (
-                <Stack key={tech.tech} tech={tech.tech} />
-              ))
-            )}
+            {data.techList.map((tech) => (
+              <Stack key={tech.tech} tech={tech.tech} />
+            ))}
           </ul>
         </div>
         <div className="detail-box">
@@ -127,7 +99,7 @@ const ProjectCard = ({ data, size }: Props) => {
               <span>
                 <AiFillHeart fill="red" />
               </span>
-              <span>{data.totalLikes}</span>
+              <span>{heartCount}</span>
             </div>
             <div className="infor-box">
               <span>
@@ -137,9 +109,9 @@ const ProjectCard = ({ data, size }: Props) => {
             </div>
             <div className="infor-box">
               <span>
-                <AiFillHeart />
+                <FaComment color="#909090" />
               </span>
-              <span>{data.totalLikes}</span>
+              <span>{data.totalAnswers}</span>
             </div>
           </div>
         </div>
@@ -151,7 +123,6 @@ const ProjectCard = ({ data, size }: Props) => {
 export default ProjectCard;
 
 const Box = styled.div`
-  position: relative;
   width: 100%;
   display: flex;
   justify-content: center;
@@ -161,7 +132,9 @@ const Box = styled.div`
 
   &:hover {
     transform: translateY(-20px);
+    background-color: white;
   }
+
   @media (max-width: 960px) {
     margin: 2px 0px;
   }
@@ -189,22 +162,17 @@ const Box = styled.div`
       width: 100%;
       height: 100%;
       box-sizing: border-box;
-
-      > thumbnail-image {
-        font-size: 0;
-        width: 120%;
-        height: 120%;
-        vertical-align: middle;
-      }
     }
   }
 
   .info-heart {
     position: absolute;
-    z-index: 100;
     top: 130px;
     right: 15px;
     cursor: pointer;
+    @media (max-width: 960px) {
+      top: 112px;
+    }
   }
 
   .title-box {
@@ -216,19 +184,32 @@ const Box = styled.div`
     font-size: 16px;
     color: #3c3c3c;
     font-weight: 400;
+    min-height: 31px;
   }
 
   .tag-box {
     padding: 5px 13px;
+    min-height: 32px;
+    ul {
+      width: 296px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
   }
 
   .select-box {
     position: relative;
     padding: 5px 13px 10px;
     margin-bottom: 8px;
-
-    li {
-      box-shadow: var(--box-shadow);
+    min-height: 39px;
+    ul {
+      width: 296px;
+      white-space: nowrap;
+      overflow: hidden;
+      li {
+        box-shadow: var(--box-shadow);
+      }
     }
   }
 

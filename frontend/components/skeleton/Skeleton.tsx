@@ -12,7 +12,7 @@ const SkeletonContainer = styled.div<SkeletonProos>`
   height: ${({ height }) => height};
   width: ${({ width }) => width};
   background-color: #f3f3f3;
-  border-radius: 5px;
+  border-radius: 15px;
 
   @keyframes skeleton {
     0% {

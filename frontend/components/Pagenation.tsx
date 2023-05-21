@@ -17,13 +17,13 @@ const Pagenation = ({ pageSize, page, onPageChange }: PagenationProps) => {
     <PagenationContainer page={page} pageSize={pageSize}>
       <ReactPaginate
         breakLabel="..."
-        nextLabel="Next"
+        nextLabel="다음"
         onPageChange={handlePageClick}
         pageRangeDisplayed={5}
         forcePage={page - 1}
         marginPagesDisplayed={1}
         pageCount={pageSize}
-        previousLabel="Prev"
+        previousLabel="이전"
         renderOnZeroPageCount={null}
       />
     </PagenationContainer>
@@ -50,6 +50,8 @@ const PagenationContainer = styled.div<PagenationContainerProps>`
   }
   > ul {
     display: flex;
+    gap: 4px;
+
     .previous {
       display: ${(props) => props.page === 1 && 'none'};
     }

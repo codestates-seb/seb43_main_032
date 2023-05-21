@@ -1,23 +1,19 @@
-import GridBox from '@/components/GridBox';
 import CommunityForm from '@/components/community/CommunityForm';
-import SideBar from '@/components/community/SideBar';
+import { getCookie } from '@/util/cookie';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 
 const EditCommunity = () => {
   const router = useRouter();
   useEffect(() => {
-    window.scrollTo({
-      top: 600,
-      left: 0,
-      behavior: 'smooth',
-    });
-  }, [router]);
+    if (!getCookie('accessToken')) {
+      router.push('/404').then(() => alert('로그인을 부탁드려요.'));
+    }
+  }, []);
   return (
-    <GridBox>
-      <SideBar />
+    <>
       <CommunityForm />
-    </GridBox>
+    </>
   );
 };
 

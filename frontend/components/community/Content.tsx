@@ -1,65 +1,79 @@
-import React, { useEffect, useState } from 'react';
+import { ChangeEvent, useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { FaSearch } from 'react-icons/fa';
 import { Community } from '@/types/community';
 import ContentItem from './ContentItem';
 import { useRouter } from 'next/router';
-import Message from '../Message';
-import { COMMUNITY_FILTER } from '@/constant/constant';
 import Pagenation from '../Pagenation';
-import { useCommunity } from '@/hooks/react-query/useCommunity';
-import { COMMUNITY } from '@/dummy/community';
+import { useCommunity } from '@/hooks/react-query/community/useCommunity';
+import Filter from '../Filter';
+import Message from '../Message';
+import CommunityItemSkeleton from '../skeleton/CommunityItemSkeleton';
+import { ARTICLE_FILTER, POST_COMMUNITY_CATEGORY } from '@/constant/constant';
+import { getAllCommunity } from '@/util/api/getAllProject';
+import { articleFilter } from '@/util/filter/articleFilter';
+import { communityFilter } from '@/util/filter/communityFilter';
 
 export default function Content() {
   const router = useRouter();
-
-  useEffect(() => {
-    setSearchVal('');
-    setPage(1);
-  }, [router]);
-
-  // 주소값으로 데이터 필터링
-  const urlSearch = new URLSearchParams(router.asPath).get('search');
-  const urlPage = new URLSearchParams(router.asPath).get('page');
-  const urlFilter = new URLSearchParams(router.asPath).get('filter');
-  const [page, setPage] = useState(Number(urlPage) || 0);
-  const [searchVal, setSearchVal] = useState(urlSearch || '');
-  const [filter, setFilter] = useState(urlFilter || 'sorted');
-  const { category } = router.query;
+  const [page, setPage] = useState(1);
   const page_limit = 10;
-  const endPoint = category ? `/article/findAll/${category}` : `/article/findAll`;
-  const address = `${endPoint}?size=${page_limit}&page=${page}&search=${searchVal}&filter=${filter}`;
-  const queryKey = category
-    ? ['article', page, category]
-    : ['article', page];
-
-  const { communityQuery, refetch } = useCommunity<Community[]>({
+  const queryKey = ['articles', page];
+  const endPoint = `/articles/find-all`;
+  const address = `${endPoint}?size=${page_limit}&page=${page}`;
+  const { communityQuery } = useCommunity<Community[]>({
     address,
     queryKey,
   });
-  const data = communityQuery.data;
+  const data = communityQuery.data?.data;
+  const totalPage = communityQuery.data?.pageInfo.totalPages;
 
-  const findContentItem = (e: React.ChangeEvent<HTMLInputElement>) => {
+  //모든 데이터 세팅, 서버 필터링을 프론트 눈속임으로 해결
+  const [allData, setAllData] = useState<Community[]>([]);
+  useEffect(() => {
+    getAllCommunity().then((res) => setAllData(res));
+  }, []);
+
+  //검색
+  const [searchVal, setSearchVal] = useState('');
+  const findContentItem = (e: ChangeEvent<HTMLInputElement>) => {
     setSearchVal(e.target.value);
   };
 
-  const selectFilter = (filter: string) => {
-    setFilter(filter);
+  //기존 필터
+  const [filter, setFilter] = useState(0);
+  const filterHandler = (idx: number) => {
+    setFilter(idx);
   };
-
-  const handleSearch = () => {
-    refetch();
-  };
-
   useEffect(() => {
-    refetch();
+    if (filter !== 0) {
+      setPage(1);
+    }
   }, [filter]);
 
-  const [isOpen, setIsOpen] = useState(false);
+  //카테고리 필터 데이터
+  const CategoryFilterData = [
+    '전체보기',
+    ...Object.keys(POST_COMMUNITY_CATEGORY),
+  ];
+  const [categoryFilter, setCategoryFilter] = useState(0);
+  const categoryFilterHandler = (idx: number) => {
+    setCategoryFilter(idx);
+  };
 
-  const filterName = COMMUNITY_FILTER.find((x) => x.value === filter)?.label;
+  //미리 커뮤니티 필터 세팅
+  const commuityData = communityFilter({
+    allData,
+    category: POST_COMMUNITY_CATEGORY[CategoryFilterData[categoryFilter]],
+  });
 
-  if (communityQuery.isLoading) return <Message>로딩중입니다.</Message>;
+  //필터 데이터
+  const filterData = articleFilter({
+    filter,
+    allData: commuityData,
+    searchVal,
+    type: 2,
+  });
+
   if (communityQuery.error)
     return <Message>잠시 후 다시 시도해주세요.</Message>;
   return (
@@ -69,38 +83,40 @@ export default function Content() {
           placeholder="검색어를 입력하세요."
           value={searchVal}
           onChange={findContentItem}
-          onKeyPress={(e) => e.key === 'Enter' && handleSearch()}
+          onKeyPress={(e) => e.key === 'Enter'}
         />
-        <SearchBtn onClick={handleSearch}>
-          <FaSearch />
+        <SearchBtn onClick={() => router.push('/community/create')}>
+          질문하기
         </SearchBtn>
-        <SearchBtn onClick={() => router.push('/community')}>초기화</SearchBtn>
-        <ContentBottomFilter onClick={() => setIsOpen(!isOpen)}>
-          <CustomSelectButton>
-            {filterName} <span className="icon">▼</span>
-          </CustomSelectButton>
-          <CustomSelectOptions isOpen={isOpen}>
-            {COMMUNITY_FILTER.map((option) => (
-              <CustomSelectOption
-                key={option.value}
-                onClick={() => selectFilter(option.value)}
-              >
-                {option.label}
-              </CustomSelectOption>
-            ))}
-          </CustomSelectOptions>
-        </ContentBottomFilter>
+        <Filter
+          filterData={CategoryFilterData}
+          filter={categoryFilter}
+          selectFilter={categoryFilterHandler}
+        />
+        <Filter
+          filterData={ARTICLE_FILTER}
+          filter={filter}
+          selectFilter={filterHandler}
+        />
       </ContentTop>
       <ContentBottom>
-        <ContentItemList>
-          {data?.map((article: Community) => (
-            <ContentItem {...article} key={article.id} />
-          ))}
-        </ContentItemList>
+        {communityQuery.isLoading ? (
+          <CommunityItemSkeleton count={10} />
+        ) : (
+          <ContentItemList>
+            {!filterData?.length && categoryFilter === 0 && filter === 0
+              ? data?.map((article: Community) => (
+                  <ContentItem {...article} key={article.articleId} />
+                ))
+              : (filterData as Community[])?.map((article: Community) => (
+                  <ContentItem {...article} key={article.articleId} />
+                ))}
+          </ContentItemList>
+        )}
         <Pagenation
           page={page}
           onPageChange={setPage}
-          pageSize={data && data ? 30 : 0}
+          pageSize={filterData ? Math.ceil(filterData.length / 10) : totalPage!}
         />
       </ContentBottom>
     </Container>
@@ -110,6 +126,7 @@ export default function Content() {
 const Container = styled.div`
   width: 100%;
   padding: var(--padding-2);
+  padding-top: 0;
 `;
 
 const ContentTop = styled.div`
@@ -117,7 +134,7 @@ const ContentTop = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 20px;
+  padding: 0 20px;
   padding-bottom: 0px;
   gap: 12px;
   @media (max-width: 768px) {
@@ -135,8 +152,7 @@ const SearchInput = styled.input`
   color: #5393fa;
   &:focus,
   :active {
-    outline: none;
-    border: solid 3px #c4c4c4;
+    outline: solid 3px #c4c4c4;
   }
   &::placeholder {
     color: #cfcfcf;
@@ -180,68 +196,4 @@ const ContentItemList = styled.div`
   flex-direction: column;
   justify-content: start;
   align-items: center;
-`;
-
-const ContentBottomFilter = styled.div`
-  min-width: 104px;
-  display: flex;
-  position: relative;
-  display: inline-block;
-  top: 0;
-  font-size: 14px;
-  z-index: 2;
-  border-radius: 4px;
-  background: #96bfff;
-  padding: 10px 10px;
-  outline: none;
-  border: none;
-  cursor: pointer;
-`;
-
-const CustomSelectButton = styled.button`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  outline: none;
-  background: none;
-  color: white;
-  cursor: pointer;
-  font-size: 14px;
-  border: none;
-  .icon {
-    margin-left: 5px;
-  }
-`;
-
-type Props = {
-  isOpen: boolean;
-};
-
-const CustomSelectOptions = styled.ul<Props>`
-  position: absolute;
-  top: calc(100% + 10px);
-  left: 0;
-  width: 100px;
-  border-radius: 4px;
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  background-color: white;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-  opacity: ${(props) => (props.isOpen ? '1' : '0')};
-  visibility: ${(props) => (props.isOpen ? 'visible' : 'hidden')};
-  transform: ${(props) =>
-    props.isOpen ? 'translateY(0)' : 'translateY(-10px)'};
-  transition: all 0.3s ease-in-out;
-`;
-
-const CustomSelectOption = styled.li`
-  width: 100%;
-  height: 20px;
-  padding: 0 8px;
-  cursor: pointer;
-
-  &:hover {
-    background-color: #f5f5f5;
-  }
 `;

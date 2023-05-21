@@ -23,7 +23,7 @@ const PeriodBox = ({ start, end, handleRangeChange }: Props) => {
   //달력 커스텀
   const CustomInput = forwardRef(
     ({ onClick }: Props, ref: ForwardedRef<HTMLSpanElement>) => (
-      <span onClick={onClick} ref={ref}>
+      <span onClick={onClick} ref={ref} className="calendar-icon">
         <BsFillCalendarEventFill />
       </span>
     )
@@ -36,19 +36,14 @@ const PeriodBox = ({ start, end, handleRangeChange }: Props) => {
         {handleRangeChange && (
           <div className="calendar-box">
             <DatePicker
+              minDate={new Date()}
               selected={start}
               onChange={handleRangeChange}
               locale={ko}
               startDate={start}
               endDate={end}
               selectsRange
-              customInput={
-                <CustomInput
-                  onClick={function (): void {
-                    throw new Error('Function not implemented.');
-                  }}
-                />
-              }
+              customInput={<CustomInput onClick={() => {}} />} //onClick을 이곳에서 주지 않는 방식으로 해결하고 싶은데 어렵네요.
             />
           </div>
         )}
@@ -76,6 +71,7 @@ const Box = styled.div`
   padding: 0 30px;
   > div:first-child {
     display: flex;
+    align-items: start;
 
     > .title {
       font-size: 15px;
@@ -86,6 +82,19 @@ const Box = styled.div`
   .calendar-box {
     margin-left: 16px;
     cursor: pointer;
+
+    .calendar-icon {
+      font-size: 15px;
+      vertical-align: top;
+      color: #9b7aff;
+      transition: all 0.3s ease;
+    }
+
+    :hover {
+      span {
+        color: #6333ff;
+      }
+    }
   }
   .react-datepicker__triangle {
     ::before,
@@ -95,10 +104,11 @@ const Box = styled.div`
       transform: rotate(-2deg);
     }
   }
-  .period {
+  > .period {
     padding: 10px;
     border: solid 2px #ececec;
     border-radius: 10px;
     color: #a5a5a5;
+    height: 37px;
   }
 `;
