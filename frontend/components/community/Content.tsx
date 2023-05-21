@@ -67,12 +67,14 @@ export default function Content() {
     category: POST_COMMUNITY_CATEGORY[CategoryFilterData[categoryFilter]],
   });
 
+  console.log(commuityData)
   //필터 데이터
   const filterData = articleFilter({
     filter,
     allData: commuityData,
     searchVal,
   });
+  console.log(filterData);
 
   if (communityQuery.error)
     return <Message>잠시 후 다시 시도해주세요.</Message>;
@@ -107,11 +109,11 @@ export default function Content() {
           <CommunityItemSkeleton count={10} />
         ) : (
           <ContentItemList>
-            {filterData
-              ? (filterData as Community[])?.map((article: Community) => (
+            {!filterData?.length && categoryFilter === 0 && filter === 0
+              ? data?.map((article: Community) => (
                   <ContentItem {...article} key={article.articleId} />
                 ))
-              : data?.map((article: Community) => (
+              : (filterData as Community[])?.map((article: Community) => (
                   <ContentItem {...article} key={article.articleId} />
                 ))}
           </ContentItemList>

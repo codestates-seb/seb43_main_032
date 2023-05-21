@@ -11,6 +11,9 @@ export const articleFilter = ({ filter, allData, searchVal }: Props) => {
   if (allData.length !== 0 && filter === 0 && searchVal === '') {
     return allData;
   }
+  if (allData.length === 0) {
+    return [];
+  }
   let filterData;
   if (filter === 1) {
     filterData = allData.reverse();
