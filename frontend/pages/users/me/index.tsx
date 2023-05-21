@@ -1,4 +1,3 @@
-import GridBox from '@/components/GridBox';
 import Stack from '@/components/stack/Stack';
 import InfoContainer from '@/components/user/InfoContainer';
 import UserContentsBox from '@/components/user/UserContentsBox';
@@ -8,6 +7,8 @@ import { UserState } from '@/types/user';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 import styled from 'styled-components';
+import { dummyUser } from './edit';
+import GridBox from '@/components/common_box/GridBox';
 
 const LeftColumn = styled.div`
   position: relative;
@@ -15,6 +16,7 @@ const LeftColumn = styled.div`
   flex-direction: column;
   align-items: center;
   padding: 20px;
+
   @media (max-width: 960px) {
     display: none;
   }
@@ -84,7 +86,7 @@ const EditButton = styled.button`
 
 export default function me() {
   // const user = useAuth();
-  // const user = USER;
+  // const user = dummyUser;
   const {
     getMyInfo: { data: user },
   } = useUser({});
@@ -94,14 +96,6 @@ export default function me() {
   const handleClick = () => {
     router.push('/users/me/edit');
   };
-
-  useEffect(() => {
-    window.scrollTo({
-      top: 670,
-      left: 0,
-      behavior: 'smooth',
-    });
-  }, [router]);
 
   return (
     <>
@@ -166,11 +160,8 @@ export default function me() {
                 />
               </div>
             </UserInfo>
-            <UserContentsBox id={0} contents={['프로젝트', '게시글']} />
-            <UserContentsBox
-              id={0}
-              contents={['프로젝트 댓글', '게시글 댓글']}
-            />
+            <UserContentsBox contentTitle={['프로젝트', '게시글']} />
+            <UserContentsBox contentTitle={['프로젝트 댓글', '게시글 댓글']} />
           </RightColumn>
         </GridBox>
       )}
