@@ -60,6 +60,7 @@ const ViewCommunity = () => {
         <>
           <Side>
             <AuthorBox
+              userId={data.memberInfo.memberId}
               userImg={data.memberInfo.profileImageUrl}
               userName={data.memberInfo.name}
               isAuthor={data.author}

@@ -32,25 +32,36 @@ const ProjectHome = () => {
   };
 
   //무한스크롤 데이터
-  const { isLoading, error, data, fetchNextPage, hasNextPage, isFetching } =
-    useInfiniteQuery(
-      queryKey(),
-      ({ pageParam = 1 }) =>
-        api(`${address()}&page=${pageParam}`)
-          .then((res) => res.data)
-          .catch(() => {}),
-      {
-        getNextPageParam: (
-          lastPage: PageProps<Project>,
-          allPages: PageProps<Project>[]
-        ) => {
-          if (lastPage.data.length < page_limit) {
-            return null;
-          }
-          return allPages.length + 1;
-        },
-      }
-    );
+  const {
+    isLoading,
+    error,
+    data,
+    fetchNextPage,
+    hasNextPage,
+    isFetching,
+    refetch,
+  } = useInfiniteQuery(
+    queryKey(),
+    ({ pageParam = 1 }) =>
+      api(`${address()}&page=${pageParam}`)
+        .then((res) => res.data)
+        .catch(() => {}),
+    {
+      getNextPageParam: (
+        lastPage: PageProps<Project>,
+        allPages: PageProps<Project>[]
+      ) => {
+        if (lastPage.data.length < page_limit) {
+          return null;
+        }
+        return allPages.length + 1;
+      },
+    }
+  );
+
+  useEffect(() => {
+    refetch();
+  }, []);
 
   //서버에서 필터링 작업이 완성되기 전, 눈속임을 위한 필터 데이터
   const [filter, setFilter] = useState<Filter>(0);
