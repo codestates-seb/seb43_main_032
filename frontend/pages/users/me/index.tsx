@@ -7,6 +7,7 @@ import { UserState } from '@/types/user';
 import { useRouter } from 'next/router';
 import styled from 'styled-components';
 import GridBox from '@/components/common_box/GridBox';
+import { getCookie } from '@/util/cookie';
 
 const LeftColumn = styled.div`
   position: relative;
@@ -89,6 +90,10 @@ export default function me() {
     getMyInfo: { data: user },
   } = useUser({});
   const router = useRouter();
+  if (!getCookie('accessToken')) {
+    alert('로그인을 부탁드려요.');
+    router.push('/404');
+  }
   user && console.log(user);
 
   const handleClick = () => {

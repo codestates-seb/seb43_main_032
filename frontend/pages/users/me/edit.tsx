@@ -10,6 +10,7 @@ import SelectStack from '@/components/stack/SelectStack';
 import { mergeData, updateData } from '@/util/user';
 import UserEditForm from '@/components/authAction/UserEditForm';
 import useUser from '@/hooks/react-query/useUser';
+import { getCookie } from '@/util/cookie';
 
 const SideBar = styled.div`
   background-color: rgba(0, 0, 0, 0.1);
@@ -40,6 +41,11 @@ export const dummyUser = {
   yearOfDev: 0,
 };
 export default function Edit() {
+  const router = useRouter();
+  if (!getCookie('accessToken')) {
+    alert('로그인을 부탁드려요.');
+    router.push('/404');
+  }
   const {
     getMyInfo: { data: user },
   } = useUser({});

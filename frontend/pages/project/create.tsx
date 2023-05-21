@@ -4,9 +4,10 @@ import { useRouter } from 'next/router';
 
 const CreateProject = () => {
   const router = useRouter();
-  // if (!getCookie('accessToken')) {
-  //   router.push('/404')
-  // }
+  if (!getCookie('accessToken')) {
+    alert('로그인을 부탁드려요.');
+    router.push('/404');
+  }
   return <ProjectForm />;
 };
 

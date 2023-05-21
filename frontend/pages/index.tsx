@@ -20,25 +20,23 @@ const Home = () => {
   if (checkError) return <Message>잠시 후 다시 시도해주세요.</Message>;
   return (
     <Box>
-      <>
-        <ProjectCardBox
-          skeleton={topLikeProjectLoading && <ProjectSkeleton />}
-          data={topLikeProjectData ? topLikeProjectData : []}
-          title={'인기 프로젝트'}
-        />
-        <ProjectCardBox
-          skeleton={topViewProjectLoading && <ProjectSkeleton />}
-          data={topViewProjectData ? topViewProjectData : []}
-          title={'주목 중인 프로젝트'}
-        />
-        <CommunityCardBox
-          skeleton={
-            communityQuery.isLoading && <CommunityItemSkeleton count={5} />
-          }
-          data={topViewcommunityData ? topViewcommunityData : []}
-          title={'인기 커뮤니티'}
-        />
-      </>
+      <ProjectCardBox
+        skeleton={topLikeProjectLoading && <ProjectSkeleton />}
+        data={topLikeProjectData ? topLikeProjectData : []}
+        title={'인기 프로젝트'}
+      />
+      <ProjectCardBox
+        skeleton={topViewProjectLoading && <ProjectSkeleton />}
+        data={topViewProjectData ? topViewProjectData : []}
+        title={'주목 중인 프로젝트'}
+      />
+      <CommunityCardBox
+        skeleton={
+          communityQuery.isLoading && <CommunityItemSkeleton count={5} />
+        }
+        data={topViewcommunityData ? topViewcommunityData : []}
+        title={'인기 커뮤니티'}
+      />
     </Box>
   );
 };

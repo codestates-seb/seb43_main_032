@@ -32,6 +32,7 @@ export const useProject = (
           uniteId: cardId ? cardId : id,
         })
         .then((res) => {
+          //외부의 ProjectCard만을 위한 Handler들
           if (heartHandler && heartCountHandler) {
             heartHandler(res.data.data.liked);
             heartCountHandler(res.data.data.totalLikes);
@@ -56,6 +57,7 @@ export const useProject = (
           uniteId: cardId ? cardId : id,
         })
         .then((res) => {
+          //외부의 ProjectCard만을 위한 Handler들
           if (heartHandler && heartCountHandler) {
             heartHandler(res.data.data.liked);
             heartCountHandler(res.data.data.totalLikes);
