@@ -14,7 +14,7 @@ export const useProject = () => {
   const { isLoading, error, data, refetch } = useQuery<ProjectData, Error>(
     ['project', id],
     async () => {
-      if (!router.route.includes('create')) {
+      if (!router.route.includes('create') && id) {
         return await api(`/projects/${id}`).then((res) => res.data);
       }
     }

@@ -1,7 +1,7 @@
 import PeriodBox from '@/components/project/PeriodBox';
 import TagBox from '@/components/project/TagBox';
 import styled from 'styled-components';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import Message from '@/components/Message';
 import { BUTTON_STATE } from '@/constant/constant';
 import { useProject } from '@/hooks/react-query/project/useProject';
