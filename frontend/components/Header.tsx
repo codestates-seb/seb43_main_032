@@ -24,9 +24,9 @@ const Header = () => {
   const [loggedInUser, setLoggedInUser] = useRecoilState(loggedInUserState);
   //로그아웃
   const logout = () => {
-    setLoggedInUser(null);
     deleteCookie('accessToken');
     deleteCookie('refreshToken');
+    router.push('/').then(() => router.reload());
   };
 
   //토큰이 유효하다면 유저 데이터 세팅
@@ -40,7 +40,10 @@ const Header = () => {
       .catch(() => {
         //리프레시 토큰 api가 생기면 여기 넣어서 사용할듯?
       });
-  }, [router]);
+  }, []);
+
+  //로그인 된 유저랑 게시글 체크중
+  console.log(loggedInUser);
 
   //네비 이름 배열
   const navNames = useMemo(() => Object.keys(HEADER_NAV), []);

@@ -158,7 +158,6 @@ export const useProjectApply = ({ projectRefetch, acceptedPostion }: Props) => {
     acceptedCancleEvent,
     acceptEvent,
     rejectEvent,
-    applyRefetch: refetch,
     checkApply,
   };
 };

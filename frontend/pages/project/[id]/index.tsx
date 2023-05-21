@@ -15,10 +15,8 @@ import Tag from '@/components/Tag';
 import { useRecoilValue } from 'recoil';
 import { loggedInUserState } from '@/recoil/atom';
 import ApplyBox from '@/components/common_box/ApplyBox';
-import { useRouter } from 'next/router';
 
 const ViewProject = () => {
-  const router = useRouter();
   const loggedInUser = useRecoilValue(loggedInUserState);
   //프로젝트 데이터 요청
   const {
@@ -69,13 +67,7 @@ const ViewProject = () => {
     acceptEvent,
     rejectEvent,
     acceptedCancleEvent,
-    applyRefetch,
   } = useProjectApply({ projectRefetch, acceptedPostion });
-
-  useEffect(() => {
-    projectRefetch();
-    applyRefetch();
-  }, [router]);
 
   //모든 지원이 꽉 찼을 때, 일어나는 이펙트
   useEffect(() => {
@@ -88,47 +80,53 @@ const ViewProject = () => {
     }
   }, [projectQuery.data]);
 
+  //로그인 된 유저랑 체크중
+  console.log(data);
+
+  //확정된 버튼의 hover 관리
   const [acceptedHover, setAcceptedHover] = useState(false);
   const hoverHandler = () => {
     setAcceptedHover(!acceptedHover);
   };
 
   if (projectQuery.error) return <Message>잠시 후 다시 시도해주세요.</Message>;
+  if (projectQuery.isLoading || !data || !applyQuery.data)
+    return <Message>로딩중입니다.</Message>;
   return (
     <GridBox>
-      {projectQuery.isLoading || !data || !applyQuery.data ? (
-        <Message>로딩중입니다.</Message>
-      ) : (
-        <>
-          <Side>
-            <AuthorBox
-              userImg={data.memberInfo.profileImageUrl}
-              userName={data.memberInfo.name}
-              isAuthor={data.author}
-              totalStar={data.memberInfo.totalStar}
-            />
-            <PeriodBox
-              start={new Date(data.startDate)}
-              end={new Date(data.endDate)}
-            />
-            <TagBox tags={data.fieldList} />
-            <StacksBox stacks={data.techList} stack={false} />
-            <div className="want-box">
-              <div className="title">모집 중인 직군</div>
-              <ul>
-                {positions?.map((position) => (
-                  <li className="nanum-regular" key={position.position}>
-                    <div className="job">{position.position}</div>
-                    <div className="needNum">
-                      {position.acceptedNumber}/{position.number}
-                    </div>
-                    <div
-                      className={
-                        position.acceptedNumber === position.number
-                          ? 'red light'
-                          : 'green light'
-                      }
-                    ></div>
+      <Side>
+        <AuthorBox
+          userImg={data.memberInfo.profileImageUrl}
+          userName={data.memberInfo.name}
+          isAuthor={data.author}
+          totalStar={data.memberInfo.totalStar}
+        />
+        <PeriodBox
+          start={new Date(data.startDate)}
+          end={new Date(data.endDate)}
+        />
+        <TagBox tags={data.fieldList} />
+        <StacksBox stacks={data.techList} stack={false} />
+        <div className="want-box">
+          <div className="title">모집 중인 직군</div>
+          <ul>
+            {positions?.map((position) => (
+              <li className="nanum-regular" key={position.position}>
+                <div className="job">{position.position}</div>
+                <div className="needNum">
+                  {position.acceptedNumber}/{position.number}
+                </div>
+                <div
+                  className={
+                    position.acceptedNumber === position.number
+                      ? 'red light'
+                      : 'green light'
+                  }
+                ></div>
+                {data.author ? (
+                  <></>
+                ) : (
+                  <>
                     {acceptedPostion &&
                     acceptedPostion.position === position.position ? (
                       <Tag
@@ -149,42 +147,42 @@ const ViewProject = () => {
                         지원
                       </Tag>
                     )}
-                  </li>
-                ))}
-              </ul>
-            </div>
-            {data.author && (
-              <ApplyBox
-                crewList={applyQuery.data?.data}
-                acceptEvent={acceptEvent}
-                rejectEvent={rejectEvent}
-              />
-            )}
-            <div>
-              {data.status !== '모집중' && (
-                <button onClick={() => projectEvent(data.status)}>
-                  {BUTTON_STATE[data.status]}
-                </button>
-              )}
-            </div>
-          </Side>
-          <MainArticleBox
-            title={data.title}
-            status={data.status}
-            isAuthor={data.author}
-            deleteEvent={deleteEvent}
-            moveEdit={moveEdit}
-            createAt={data.createdAt}
-            view={data.views}
-            totalAnswers={data.totalAnswers}
-            content={data.content}
-            likeHandler={likeHandler}
-            liked={data.liked}
-            totalLikes={data.totalLikes}
-            articleRefetch={projectRefetch}
+                  </>
+                )}
+              </li>
+            ))}
+          </ul>
+        </div>
+        {data.author && (
+          <ApplyBox
+            crewList={applyQuery.data?.data}
+            acceptEvent={acceptEvent}
+            rejectEvent={rejectEvent}
           />
-        </>
-      )}
+        )}
+        <div>
+          {data.status !== '모집중' && (
+            <button onClick={() => projectEvent(data.status)}>
+              {BUTTON_STATE[data.status]}
+            </button>
+          )}
+        </div>
+      </Side>
+      <MainArticleBox
+        title={data.title}
+        status={data.status}
+        isAuthor={data.author}
+        deleteEvent={deleteEvent}
+        moveEdit={moveEdit}
+        createAt={data.createdAt}
+        view={data.views}
+        totalAnswers={data.totalAnswers}
+        content={data.content}
+        likeHandler={likeHandler}
+        liked={data.liked}
+        totalLikes={data.totalLikes}
+        articleRefetch={projectRefetch}
+      />
     </GridBox>
   );
 };
