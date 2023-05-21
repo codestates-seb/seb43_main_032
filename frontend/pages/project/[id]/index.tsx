@@ -61,7 +61,13 @@ const ViewProject = () => {
     acceptEvent,
     rejectEvent,
     acceptedCancleEvent,
+    applyRefetch,
   } = useProjectApply({ projectRefetch });
+
+  useEffect(() => {
+    projectRefetch();
+    applyRefetch();
+  }, []);
 
   //모든 지원이 꽉 찼을 때, 일어나는 이펙트
   useEffect(() => {
@@ -97,11 +103,8 @@ const ViewProject = () => {
             <div className="want-box">
               <div className="title">모집 중인 직군</div>
               <ul>
-                {positions?.map((position, i) => (
-                  <li
-                    className="nanum-regular"
-                    key={`${position.position}+${i}`}
-                  >
+                {positions?.map((position) => (
+                  <li className="nanum-regular" key={position.position}>
                     <div className="job">{position.position}</div>
                     <div className="needNum">
                       {position.acceptedNumber}/{position.number}
@@ -113,7 +116,7 @@ const ViewProject = () => {
                           : 'green light'
                       }
                     ></div>
-                    {false ? (
+                    {position.acceptedNumber === position.number ? (
                       <Tag>마감</Tag>
                     ) : checkApply?.position === position.position ? (
                       <Tag onClick={() => cancelEvent(position.position)}>
@@ -128,11 +131,13 @@ const ViewProject = () => {
                 ))}
               </ul>
             </div>
-            <ApplyBox
-              crewList={applyQuery.data?.data}
-              acceptEvent={acceptEvent}
-              rejectEvent={rejectEvent}
-            />
+            {data.author && (
+              <ApplyBox
+                crewList={applyQuery.data?.data}
+                acceptEvent={acceptEvent}
+                rejectEvent={rejectEvent}
+              />
+            )}
             <div>
               {data.status !== '모집중' && (
                 <button onClick={() => projectEvent(data.status)}>

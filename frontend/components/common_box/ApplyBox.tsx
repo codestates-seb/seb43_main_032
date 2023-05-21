@@ -65,6 +65,7 @@ const Box = styled.div`
   padding: var(--padding-2);
   justify-content: center;
   align-items: center;
+  width: 100%;
 
   .accept {
     background-color: #49e256;

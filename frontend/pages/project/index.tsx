@@ -9,8 +9,6 @@ import Link from 'next/link';
 import { Project } from '@/types/project';
 import Message from '@/components/Message';
 import { useForm } from 'react-hook-form';
-import Btn from '@/components/button/Btn';
-import { BsSearch } from 'react-icons/bs';
 import ProjectCardBox from '@/components/card_box/ProjectCardBox';
 import { Filter, Form, PageProps } from '@/types/types';
 import { AiOutlineArrowUp } from 'react-icons/ai';
