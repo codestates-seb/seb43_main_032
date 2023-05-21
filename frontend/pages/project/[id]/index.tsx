@@ -80,6 +80,11 @@ const ViewProject = () => {
     }
   }, [projectQuery.data]);
 
+  useEffect(() => {
+    projectRefetch();
+    
+  }, []);
+
   //로그인 된 유저랑 체크중
   console.log(data);
 

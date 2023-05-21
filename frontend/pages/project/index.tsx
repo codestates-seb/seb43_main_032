@@ -89,9 +89,11 @@ const ProjectHome = () => {
     setFilter(idx);
   };
   const [allData, setAllData] = useState<Project[]>([]);
+  
   useEffect(() => {
     getAllProject().then((res) => setAllData(res));
   }, []);
+
   const filterData = articleFilter({
     filter,
     allData,

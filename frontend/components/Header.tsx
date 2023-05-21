@@ -26,7 +26,7 @@ const Header = () => {
   const logout = () => {
     deleteCookie('accessToken');
     deleteCookie('refreshToken');
-    router.push('/').then(() => router.reload());
+    router.push('/').then(() => router.reload()); //로그인 유저가 바뀔 때 발생하는 버그를 막기위해 reload설정
   };
 
   //토큰이 유효하다면 유저 데이터 세팅
@@ -41,9 +41,6 @@ const Header = () => {
         //리프레시 토큰 api가 생기면 여기 넣어서 사용할듯?
       });
   }, []);
-
-  //로그인 된 유저랑 게시글 체크중
-  console.log(loggedInUser);
 
   //네비 이름 배열
   const navNames = useMemo(() => Object.keys(HEADER_NAV), []);

@@ -4,7 +4,6 @@ import { RiKakaoTalkFill } from 'react-icons/ri';
 import styled from 'styled-components';
 import LoginForm from './LoginForm';
 import SignUpForm from './SignUpForm';
-import { useState } from 'react';
 import { useRouter } from 'next/router';
 
 export default function AuthContainer({ isLogin }: { isLogin: Boolean }) {

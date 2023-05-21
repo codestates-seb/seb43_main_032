@@ -162,10 +162,12 @@ const Box = styled.div`
     font-size: 16px;
     color: #3c3c3c;
     font-weight: 400;
+    min-height: 31px;
   }
 
   .tag-box {
     padding: 5px 13px;
+    min-height: 32px;
     ul {
       width: 296px;
       white-space: nowrap;
@@ -178,6 +180,7 @@ const Box = styled.div`
     position: relative;
     padding: 5px 13px 10px;
     margin-bottom: 8px;
+    min-height: 39px;
     ul {
       width: 296px;
       white-space: nowrap;
