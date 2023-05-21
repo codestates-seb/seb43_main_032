@@ -5,6 +5,12 @@ import HeartBox from './HeartBox';
 import AnswerBox from '../answer/AnswerBox';
 import dynamic from 'next/dynamic';
 import ContentSkeleton from '../skeleton/ContentSkeleton';
+import {
+  BsPenFill,
+  BsPencilFill,
+  BsTrash3,
+  BsFillTrashFill,
+} from 'react-icons/bs';
 
 const ReactMarkdown = dynamic(() => import('@/components/editor/ContentBox'), {
   ssr: false,
@@ -51,8 +57,8 @@ const MainArticleBox = ({
         </div>
         {isAuthor && (
           <div className="change-box">
-            <button onClick={deleteEvent}>삭제하기</button>
-            <button onClick={moveEdit}>수정하기</button>
+            <BsPencilFill onClick={moveEdit} />
+            <BsFillTrashFill onClick={deleteEvent} />
           </div>
         )}
       </div>
@@ -105,7 +111,6 @@ const Box = styled.div`
 
     .change-box {
       display: flex;
-      flex-direction: column;
       gap: 8px;
     }
 
