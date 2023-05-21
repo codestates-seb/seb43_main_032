@@ -12,6 +12,7 @@ import CommunityItemSkeleton from '../skeleton/CommunityItemSkeleton';
 import { ARTICLE_FILTER, POST_COMMUNITY_CATEGORY } from '@/constant/constant';
 import { getAllCommunity } from '@/util/api/getAllProject';
 import { articleFilter } from '@/util/filter/articleFilter';
+import { communityFilter } from '@/util/filter/communityFilter';
 
 export default function Content() {
   const router = useRouter();
@@ -49,8 +50,6 @@ export default function Content() {
       setPage(1);
     }
   }, [filter]);
-  //필터 데이터
-  const filterData = articleFilter({ filter, allData, searchVal });
 
   //카테고리 필터 데이터
   const CategoryFilterData = [
@@ -61,6 +60,19 @@ export default function Content() {
   const categoryFilterHandler = (idx: number) => {
     setCategoryFilter(idx);
   };
+
+  //미리 커뮤니티 필터 세팅
+  const commuityData = communityFilter({
+    allData,
+    category: POST_COMMUNITY_CATEGORY[CategoryFilterData[categoryFilter]],
+  });
+
+  //필터 데이터
+  const filterData = articleFilter({
+    filter,
+    allData: commuityData,
+    searchVal,
+  });
 
   if (communityQuery.error)
     return <Message>잠시 후 다시 시도해주세요.</Message>;
