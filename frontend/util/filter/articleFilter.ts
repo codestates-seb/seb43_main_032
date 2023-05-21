@@ -8,8 +8,7 @@ type Props = {
   type: number;
 };
 
-//type 1은 프로젝트
-
+//type 1은 프로젝트 2는 커뮤니티
 export const articleFilter = ({ type, filter, allData, searchVal }: Props) => {
   if (type === 1 && filter === 0) {
     return;
@@ -24,12 +23,12 @@ export const articleFilter = ({ type, filter, allData, searchVal }: Props) => {
   if (filter === 1) {
     filterData = allData.reverse();
   }
-  if (filter === 2) {
+  if (filter === 2 && type === 1) {
     filterData = allData.sort(
       (x, y) => (y as Project).views - (x as Project).views
     );
-    if ((allData[0] as Project).views as Number) {
-    }
+  }
+  if (filter === 2 && type === 2) {
     filterData = allData.sort(
       (x, y) => (y as Community).view - (x as Community).view
     );
