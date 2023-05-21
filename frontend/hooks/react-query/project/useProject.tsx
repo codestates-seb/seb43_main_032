@@ -9,8 +9,8 @@ type ProjectData = {
 };
 
 export const useProject = (
-  heartHandler: (isLiked: boolean) => void | undefined,
-  heartCountHandler: (totalCount: number) => void | undefined
+  heartHandler?: (isLiked: boolean) => void,
+  heartCountHandler?: (totalCount: number) => void
 ) => {
   const router = useRouter();
   const { id } = router.query;

@@ -36,6 +36,7 @@ const PeriodBox = ({ start, end, handleRangeChange }: Props) => {
         {handleRangeChange && (
           <div className="calendar-box">
             <DatePicker
+              minDate={new Date()}
               selected={start}
               onChange={handleRangeChange}
               locale={ko}

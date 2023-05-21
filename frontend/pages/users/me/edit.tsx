@@ -42,10 +42,11 @@ export const dummyUser = {
 };
 export default function Edit() {
   const router = useRouter();
-  if (!getCookie('accessToken')) {
-    alert('로그인을 부탁드려요.');
-    router.push('/404');
-  }
+  useEffect(() => {
+    if (!getCookie('accessToken')) {
+      router.push('/404').then(() => alert('로그인을 부탁드려요.'));
+    }
+  }, []);
   const {
     getMyInfo: { data: user },
   } = useUser({});

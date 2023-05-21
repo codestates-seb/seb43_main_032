@@ -8,6 +8,7 @@ import { useRouter } from 'next/router';
 import styled from 'styled-components';
 import GridBox from '@/components/common_box/GridBox';
 import { getCookie } from '@/util/cookie';
+import { useEffect } from 'react';
 
 const LeftColumn = styled.div`
   position: relative;
@@ -90,10 +91,11 @@ export default function me() {
     getMyInfo: { data: user },
   } = useUser({});
   const router = useRouter();
-  if (!getCookie('accessToken')) {
-    alert('로그인을 부탁드려요.');
-    router.push('/404');
-  }
+  useEffect(() => {
+    if (!getCookie('accessToken')) {
+      router.push('/404').then(() => alert('로그인을 부탁드려요.'));
+    }
+  }, []);
   user && console.log(user);
 
   const handleClick = () => {
