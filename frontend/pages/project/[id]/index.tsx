@@ -16,16 +16,6 @@ import MainArticleBox from '@/components/common_box/MainArticleBox';
 import { useProjectApply } from '@/hooks/react-query/project/useProjectApply';
 
 const ViewProject = () => {
-  const router = useRouter();
-
-  useEffect(() => {
-    window.scrollTo({
-      top: 600,
-      left: 0,
-      behavior: 'smooth',
-    });
-  }, [router]);
-
   //프로젝트 데이터 요청
   const {
     projectQuery,
