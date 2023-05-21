@@ -1,6 +1,6 @@
 import usePostApi from '@/hooks/usePostApi';
 import { useRouter } from 'next/router';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { FieldErrors, useForm } from 'react-hook-form';
 import styled from 'styled-components';
 

@@ -5,9 +5,7 @@ import UserInfoCard from '@/components/user/UserProfile';
 import useUser from '@/hooks/react-query/useUser';
 import { UserState } from '@/types/user';
 import { useRouter } from 'next/router';
-import { useEffect } from 'react';
 import styled from 'styled-components';
-import { dummyUser } from './edit';
 import GridBox from '@/components/common_box/GridBox';
 
 const LeftColumn = styled.div`
@@ -180,4 +178,5 @@ export const USER: UserState = {
   totalStar: 10,
   techList: ['React', 'JavaScript', 'Python'],
   profileImageUrl: 'https://pbs.twimg.com/media/FjU2lkcWYAgNG6d.jpg',
+  memberId: 0,
 };

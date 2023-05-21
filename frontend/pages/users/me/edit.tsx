@@ -40,19 +40,9 @@ export const dummyUser = {
   yearOfDev: 0,
 };
 export default function Edit() {
-  // const user = dummyUser;
   const {
     getMyInfo: { data: user },
   } = useUser({});
-
-  // const router = useRouter();
-  // useEffect(() => {
-  //   window.scrollTo({
-  //     top: 670,
-  //     left: 0,
-  //     behavior: 'smooth',
-  //   });
-  // }, [router]);
 
   return (
     <GridBox>

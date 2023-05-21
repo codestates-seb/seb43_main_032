@@ -4,10 +4,9 @@ import UserCard from '@/components/user/UserCard';
 import useUser from '@/hooks/react-query/useUser';
 import { UserState } from '@/types/user';
 import { useRouter } from 'next/router';
-import { ChangeEvent, useEffect, useState } from 'react';
+import { ChangeEvent, useState } from 'react';
 import styled from 'styled-components';
 import { BiSearch } from 'react-icons/bi';
-//유저 페이지 입니다. 경로 '/user/'
 
 const Wrapper = styled.div`
   padding: 20px;
