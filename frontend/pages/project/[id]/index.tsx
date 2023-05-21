@@ -13,6 +13,7 @@ import GridBox from '@/components/common_box/GridBox';
 import AuthorBox from '@/components/common_box/AuthorBox';
 import { getCookie } from '@/util/cookie';
 import MainArticleBox from '@/components/common_box/MainArticleBox';
+import { useProjectApply } from '@/hooks/react-query/project/useProjectApply';
 
 const ViewProject = () => {
   const router = useRouter();
@@ -34,9 +35,10 @@ const ViewProject = () => {
     dislikeProject,
     deleteProject,
     moveEdit,
+    projectRefetch,
   } = useProject();
 
-  //데이터 치환
+  //프로젝트 데이터 치환
   const data = projectQuery.data?.data;
 
   //좋아요 이벤트
@@ -60,6 +62,16 @@ const ViewProject = () => {
 
   //유저 데이터
   const loggedInUser = useRecoilValue(loggedInUserState);
+
+  //지원 데이터 요청
+  const {
+    applyQuery,
+    applyProject,
+    applyCancel,
+    acceptCancel,
+    acceptApply,
+    rejectApply,
+  } = useProjectApply({ projectRefetch });
 
   //모든 지원이 꽉 찼을 때, 일어나는 이펙트
   useEffect(() => {
