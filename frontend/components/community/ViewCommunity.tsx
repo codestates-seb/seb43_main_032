@@ -52,9 +52,9 @@ const ViewCommunity = () => {
   };
   if (communityQuery.error)
     return <Message>잠시 후 다시 시도해주세요.</Message>;
+  if (communityQuery.isLoading) return <Message>로딩중입니다.</Message>;
   return (
     <GridBox>
-      {communityQuery.isLoading && <Message>로딩중입니다.</Message>}
       {data && (
         <>
           <Side>
