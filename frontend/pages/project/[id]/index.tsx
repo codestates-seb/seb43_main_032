@@ -2,7 +2,6 @@ import PeriodBox from '@/components/project/PeriodBox';
 import TagBox from '@/components/project/TagBox';
 import styled from 'styled-components';
 import { useEffect } from 'react';
-import { useRouter } from 'next/router';
 import Message from '@/components/Message';
 import { useRecoilValue } from 'recoil';
 import { loggedInUserState } from '@/recoil/atom';
@@ -54,14 +53,15 @@ const ViewProject = () => {
   const loggedInUser = useRecoilValue(loggedInUserState);
 
   //지원 데이터 요청
-  const {
-    applyQuery,
-    applyProject,
-    applyCancel,
-    acceptCancel,
-    acceptApply,
-    rejectApply,
-  } = useProjectApply({ projectRefetch });
+  // const {
+  //   applyQuery,
+  //   applyProject,
+  //   applyCancel,
+  //   acceptCancel,
+  //   acceptApply,
+  //   rejectApply,
+  // } = useProjectApply({ projectRefetch });
+  // console.log(applyQuery);
 
   //모든 지원이 꽉 찼을 때, 일어나는 이펙트
   useEffect(() => {

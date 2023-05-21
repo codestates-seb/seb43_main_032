@@ -136,6 +136,6 @@ export const useProject = () => {
     moveEdit,
     submitEdit,
     submitPost,
-    projectRefetch:refetch
+    projectRefetch: refetch,
   };
 };

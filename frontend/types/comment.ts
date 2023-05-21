@@ -8,7 +8,7 @@ export type Comment = {
   memberInfo: MemberInfo;
   totalLikes: number;
   liked: boolean;
-  author:boolean
+  author: boolean;
 };
 
 export type PostCommentMutation = UseMutationResult<

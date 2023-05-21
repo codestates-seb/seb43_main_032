@@ -163,7 +163,7 @@ const AnswerItem = ({
                   ) : (
                     <RiThumbUpLine size={16} fill="#8217f3 " />
                   )}
-                  <div className="like-num">100</div>
+                  <div className="like-num">{answer.totalLikes}</div>
                 </div>
               </div>
               <div className="content">{answer.content}</div>

@@ -79,7 +79,7 @@ const CommentItem = ({
           ) : (
             <RiThumbUpLine size={12} />
           )}
-          <div className="like-num">100</div>
+          <div className="like-num">{comment.totalLikes}</div>
         </div>
       </div>
       <div className="middle">
