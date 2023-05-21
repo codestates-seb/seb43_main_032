@@ -34,6 +34,7 @@ export const useProjectApply = ({ projectRefetch }: Props) => {
     (data) => data.memberInfo.email === loggedInUser?.email
   );
 
+  //지원
   const applyProject = useMutation(
     ({ position }: { position: string }) =>
       api.post(`/projects/${id}/apply`, { position }),
@@ -58,6 +59,7 @@ export const useProjectApply = ({ projectRefetch }: Props) => {
     if (confirm('정말 지원하시겠습니까?')) applyProject.mutate({ position });
   };
 
+  //취소
   const applyCancel = useMutation(
     ({ position }: { position: string }) =>
       api.post(`/projects/${id}/cancel-apply`, { position }),
@@ -79,9 +81,7 @@ export const useProjectApply = ({ projectRefetch }: Props) => {
     if (confirm('정말 취소하시겠습니까?')) applyCancel.mutate({ position });
   };
 
-  /**
-   * 수락된 지원자가 지원을 취소하는 이벤트
-   */
+  //수락된 상태에서 취소
   const acceptCancel = useMutation(
     ({ position }: { position: string }) =>
       api.post(`/projects/${id}/cancel-accepted-apply`, { position }),
@@ -96,6 +96,14 @@ export const useProjectApply = ({ projectRefetch }: Props) => {
     }
   );
 
+  /**
+   * 수락된 지원자가 지원을 취소하는 이벤트
+   */
+  const acceptedCancleEvent = (target: string) => {
+    acceptCancel.mutate({ position: target });
+  };
+
+  //수락
   const acceptApply = useMutation(
     (memberId: number) => api.post(`/projects/${id}/accpet/${memberId}`),
     {
@@ -116,6 +124,7 @@ export const useProjectApply = ({ projectRefetch }: Props) => {
     acceptApply.mutate(memberId);
   };
 
+  //거절
   const rejectApply = useMutation(
     (memberId: number) => api.post(`/projects/${id}/reject/${memberId}`),
     {
@@ -140,7 +149,7 @@ export const useProjectApply = ({ projectRefetch }: Props) => {
     applyQuery: { isLoading, error, data },
     applyEvent,
     cancelEvent,
-    acceptCancel,
+    acceptedCancleEvent,
     acceptEvent,
     rejectEvent,
     checkApply,

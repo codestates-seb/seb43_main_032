@@ -55,12 +55,12 @@ const ViewProject = () => {
   //지원 데이터 요청
   const {
     applyQuery,
+    checkApply,
     applyEvent,
     cancelEvent,
-    acceptCancel,
     acceptEvent,
     rejectEvent,
-    checkApply,
+    acceptedCancleEvent,
   } = useProjectApply({ projectRefetch });
 
   //모든 지원이 꽉 찼을 때, 일어나는 이펙트
@@ -94,11 +94,6 @@ const ViewProject = () => {
             />
             <TagBox tags={data.fieldList} />
             <StacksBox stacks={data.techList} stack={false} />
-            <ApplyBox
-              crewList={applyQuery.data?.data}
-              acceptEvent={acceptEvent}
-              rejectEvent={rejectEvent}
-            />
             <div className="want-box">
               <div className="title">모집 중인 직군</div>
               <ul>
@@ -133,6 +128,11 @@ const ViewProject = () => {
                 ))}
               </ul>
             </div>
+            <ApplyBox
+              crewList={applyQuery.data?.data}
+              acceptEvent={acceptEvent}
+              rejectEvent={rejectEvent}
+            />
             <div>
               {data.status !== '모집중' && (
                 <button onClick={() => projectEvent(data.status)}>

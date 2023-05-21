@@ -32,7 +32,7 @@ const ApplyBox = ({ crewList, acceptEvent, rejectEvent }: Props) => {
                   <div className="img-box">
                     <img src={crew.memberInfo.profileImageUrl} alt="crew-img" />
                   </div>
-                  <div>아이디</div>
+                  <div>{crew.memberInfo.name}</div>
                 </div>
                 <div className="btn-box">
                   <SubBtn
