@@ -57,6 +57,12 @@ const CommentItem = ({
   const dislikeEvent = () => {
     dislikeComment.mutate({ category: 'COMMENT', uniteId: comment.commentId });
   };
+  const likeHandler = () => {
+    if (comment.liked) {
+      return dislikeEvent();
+    }
+    likeEvent();
+  };
 
   return (
     <Box>
@@ -67,11 +73,11 @@ const CommentItem = ({
             <span>{comment.memberInfo.name}</span>
           </div>
         </div>
-        <div className="right">
+        <div onClick={likeHandler} className="right">
           {comment.liked ? (
-            <RiThumbUpFill onClick={dislikeEvent} size={12} />
+            <RiThumbUpFill size={12} />
           ) : (
-            <RiThumbUpLine onClick={likeEvent} size={12} />
+            <RiThumbUpLine size={12} />
           )}
           <div className="like-num">100</div>
         </div>
@@ -167,7 +173,7 @@ const Box = styled.div`
     .button-box {
       display: flex;
       gap: 8px;
-      
+
       button {
         font-family: 'Pretendard';
         cursor: pointer;

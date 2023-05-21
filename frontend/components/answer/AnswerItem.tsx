@@ -157,19 +157,11 @@ const AnswerItem = ({
                     </div>
                   </div>
                 </div>
-                <div className="like-box">
+                <div className="like-box" onClick={likeHandler}>
                   {answer.liked ? (
-                    <RiThumbUpFill
-                      onClick={likeHandler}
-                      size={16}
-                      fill="#d2c4ff"
-                    />
+                    <RiThumbUpFill size={16} fill="#d2c4ff" />
                   ) : (
-                    <RiThumbUpLine
-                      onClick={likeHandler}
-                      size={16}
-                      fill="#8217f3 "
-                    />
+                    <RiThumbUpLine size={16} fill="#8217f3 " />
                   )}
                   <div className="like-num">100</div>
                 </div>
@@ -286,9 +278,7 @@ const Box = styled.li`
         padding: 4px 10px;
         border: 1px solid rgb(215, 226, 235);
         border-radius: 5px;
-        > svg {
-          cursor: pointer;
-        }
+        cursor: pointer;
       }
     }
 
