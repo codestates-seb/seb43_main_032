@@ -74,4 +74,11 @@ public class MemberController {
         memberService.deleteMember();
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
+    @ApiOperation(value = "별점 추가")
+    @PostMapping("/members/stars")
+    public ResponseEntity<Void> plusStar(@RequestBody StarPostDto starPostDto) {
+        memberService.plusStar(starPostDto);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 }

@@ -2,10 +2,7 @@ package com.main_032.SideQuest.member.service;
 
 import com.main_032.SideQuest.auth.utils.CustomAuthorityUtils;
 import com.main_032.SideQuest.auth.utils.GetAuthUserUtils;
-import com.main_032.SideQuest.member.dto.MemberGetResponseDto;
-import com.main_032.SideQuest.member.dto.MemberPatchDto;
-import com.main_032.SideQuest.member.dto.MemberPostDto;
-import com.main_032.SideQuest.member.dto.MemberTechStackResponseDto;
+import com.main_032.SideQuest.member.dto.*;
 import com.main_032.SideQuest.member.entity.Member;
 import com.main_032.SideQuest.member.mapper.MemberMapper;
 import com.main_032.SideQuest.member.repository.MemberRepository;
@@ -147,5 +144,13 @@ public class MemberService {
         Member member = getMember(memberId);
         MemberGetResponseDto memberGetResponseDto = memberMapper.memberToGetMemberResponseDto(member);
         return memberGetResponseDto;
+    }
+
+    @Transactional
+    public void plusStar(StarPostDto starPostDto) {
+        Member member = getMember(starPostDto.getMemberId());
+        member.plusStars(starPostDto.getStar());
+        memberRepository.save(member);
+        return;
     }
 }

@@ -100,4 +100,8 @@ public class Member extends BaseEntity {
     public boolean getDeleted() {
         return deleted;
     }
+
+    public void plusStars(int star) {
+        this.totalStar += star;
+    }
 }
