@@ -4,9 +4,7 @@ import { useForm, FieldErrors } from 'react-hook-form';
 import AuthCheckBox from './AuthCheckBox';
 import LogoImage from '../../public/images/logoWhite.svg';
 import Image from 'next/image';
-import edit from '@/pages/users/me/edit';
 import usePostApi from '../../hooks/useLogin';
-import { useEffect } from 'react';
 
 interface ILoginForm {
   email: string;
@@ -16,7 +14,7 @@ interface ILoginForm {
 }
 export default function LoginForm() {
   const [login] = usePostApi('members/login');
-  const { register, watch, handleSubmit } = useForm<ILoginForm>();
+  const { register, handleSubmit } = useForm<ILoginForm>();
 
   const onValid = (data: ILoginForm) => {
     login(data);

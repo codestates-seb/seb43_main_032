@@ -15,7 +15,7 @@ import { loggedInUserState, navModalState } from '@/recoil/atom';
 import { setUserState } from '@/util/api/user';
 import Img from '../public/images/second-user.svg';
 import { NavProps } from '@/types/types';
-import ButtonStyle from './ButtonStyle';
+import ButtonStyle from './button/ButtonStyle';
 
 const Header = () => {
   const router = useRouter();
@@ -26,7 +26,7 @@ const Header = () => {
   const logout = () => {
     deleteCookie('accessToken');
     deleteCookie('refreshToken');
-    setLoggedInUser(null);
+    router.push('/').then(() => router.reload()); //로그인 유저가 바뀔 때 발생하는 버그를 막기위해 reload설정
   };
 
   //토큰이 유효하다면 유저 데이터 세팅
@@ -40,7 +40,7 @@ const Header = () => {
       .catch(() => {
         //리프레시 토큰 api가 생기면 여기 넣어서 사용할듯?
       });
-  }, [router]);
+  }, []);
 
   //네비 이름 배열
   const navNames = useMemo(() => Object.keys(HEADER_NAV), []);
@@ -104,21 +104,17 @@ const Header = () => {
             ? navNames.slice(3, 5).map((name) =>
                 name === 'MY' ? (
                   <li key={name}>
-                    <Link
-                      href={HEADER_NAV[name]}
-                      className="noto-regular-12 main-btn"
-                    >
-                      <span>{name.toUpperCase()}</span>
-                    </Link>
+                    <ButtonStyle
+                      link={`${HEADER_NAV[name]}`}
+                      text={name.toUpperCase()}
+                    ></ButtonStyle>
                   </li>
                 ) : (
                   <li key={name} onClick={logout}>
-                    <Link
-                      href={HEADER_NAV[name]}
-                      className="noto-regular-12 main-btn"
-                    >
-                      <span>{name.toUpperCase()}</span>
-                    </Link>
+                    <ButtonStyle
+                      link={`${HEADER_NAV[name]}`}
+                      text={name.toUpperCase()}
+                    ></ButtonStyle>
                   </li>
                 )
               )

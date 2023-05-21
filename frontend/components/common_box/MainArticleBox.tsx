@@ -5,12 +5,8 @@ import HeartBox from './HeartBox';
 import AnswerBox from '../answer/AnswerBox';
 import dynamic from 'next/dynamic';
 import ContentSkeleton from '../skeleton/ContentSkeleton';
-import {
-  BsPenFill,
-  BsPencilFill,
-  BsTrash3,
-  BsFillTrashFill,
-} from 'react-icons/bs';
+import SubBtn from '../button/SubBtn';
+import { BsFillTrashFill, BsPencilFill } from 'react-icons/bs';
 
 const ReactMarkdown = dynamic(() => import('@/components/editor/ContentBox'), {
   ssr: false,
@@ -31,6 +27,7 @@ type Props = {
   likeHandler: () => void;
   liked: boolean;
   totalLikes: number;
+  articleRefetch: () => void;
 };
 
 const MainArticleBox = ({
@@ -47,6 +44,7 @@ const MainArticleBox = ({
   likeHandler,
   liked,
   totalLikes,
+  articleRefetch,
 }: Props) => {
   return (
     <Box>
@@ -57,8 +55,12 @@ const MainArticleBox = ({
         </div>
         {isAuthor && (
           <div className="change-box">
-            <BsPencilFill onClick={moveEdit} />
-            <BsFillTrashFill onClick={deleteEvent} />
+            <SubBtn onClick={deleteEvent}>
+              <BsFillTrashFill />
+            </SubBtn>
+            <SubBtn onClick={moveEdit}>
+              <BsPencilFill />
+            </SubBtn>
           </div>
         )}
       </div>
@@ -84,7 +86,7 @@ const MainArticleBox = ({
         liked={liked}
         totalLikes={totalLikes}
       />
-      <AnswerBox />
+      <AnswerBox articleRefetch={articleRefetch} />
     </Box>
   );
 };

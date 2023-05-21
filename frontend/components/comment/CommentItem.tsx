@@ -1,4 +1,3 @@
-import { loggedInUserState } from '@/recoil/atom';
 import {
   Comment,
   DeleteCommentMutation,
@@ -9,7 +8,6 @@ import { elapsedTime } from '@/util/date';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { RiThumbUpFill, RiThumbUpLine } from 'react-icons/ri';
-import { useRecoilValue } from 'recoil';
 import styled from 'styled-components';
 
 type Props = {
@@ -57,6 +55,12 @@ const CommentItem = ({
   const dislikeEvent = () => {
     dislikeComment.mutate({ category: 'COMMENT', uniteId: comment.commentId });
   };
+  const likeHandler = () => {
+    if (comment.liked) {
+      return dislikeEvent();
+    }
+    likeEvent();
+  };
 
   return (
     <Box>
@@ -67,13 +71,13 @@ const CommentItem = ({
             <span>{comment.memberInfo.name}</span>
           </div>
         </div>
-        <div className="right">
+        <div onClick={likeHandler} className="right">
           {comment.liked ? (
-            <RiThumbUpFill onClick={dislikeEvent} size={12} />
+            <RiThumbUpFill size={12} />
           ) : (
-            <RiThumbUpLine onClick={likeEvent} size={12} />
+            <RiThumbUpLine size={12} />
           )}
-          <div className="like-num">100</div>
+          <div className="like-num">{comment.totalLikes}</div>
         </div>
       </div>
       <div className="middle">
@@ -147,16 +151,20 @@ const Box = styled.div`
       border-radius: 5px;
       cursor: pointer;
 
-      > input {
-        width: 100%;
-        padding: 4px;
-        border: none;
-        border-bottom: 1px solid black;
-      }
-
       .like-num {
         font-size: 12px;
       }
+    }
+  }
+
+  .middle {
+    input {
+      width: 100%;
+      padding: 4px;
+      padding-bottom: 10px;
+      border: none;
+      outline: none;
+      border-bottom: 1px solid #d1cfcf;
     }
   }
 
@@ -167,7 +175,7 @@ const Box = styled.div`
     .button-box {
       display: flex;
       gap: 8px;
-      
+
       button {
         font-family: 'Pretendard';
         cursor: pointer;
