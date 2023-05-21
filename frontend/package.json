@@ -26,6 +26,7 @@
     "github-markdown-css": "^5.2.0",
     "highlight.js": "^11.8.0",
     "next": "13.3.4",
+    "parallax-js": "^3.1.0",
     "react": "18.2.0",
     "react-cookie": "^4.1.1",
     "react-datepicker": "^4.11.0",
@@ -45,6 +46,7 @@
   "devDependencies": {
     "@testing-library/react": "^14.0.0",
     "@testing-library/user-event": "^14.4.3",
+    "@types/parallax-js": "^3.1.0",
     "@types/react-datepicker": "^4.11.2",
     "@types/react-tag-input": "^6.6.1",
     "@types/simplemde": "^1.11.8",

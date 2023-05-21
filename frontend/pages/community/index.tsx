@@ -1,4 +1,3 @@
-import GridBox from '@/components/GridBox';
 import Content from '@/components/community/Content';
 import SideBar from '@/components/community/SideBar';
 import styled from 'styled-components';
@@ -13,12 +12,6 @@ const Community = () => {
 };
 
 export default Community;
-
-const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-  grid-area: auto;
-`;
 
 const Box = styled.div`
   position: relative;

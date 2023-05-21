@@ -1,30 +1,11 @@
 import { useQuery, useMutation } from 'react-query';
 import { useRouter } from 'next/router';
-import { Project } from '@/types/project';
+import { PostData, Project } from '@/types/project';
 import { api } from '@/util/api';
 
 type ProjectData = {
   data: Project;
   exceptionMsg: null;
-};
-
-type PostData = {
-  startDate: string;
-  endDate: string | null | undefined;
-  writerPosition: string;
-  title: string;
-  thumbnailImageUrl: string;
-  content: string;
-  techList: {
-    techList: string[];
-  };
-  fieldList: {
-    fieldList: string[];
-  };
-  positionCrewList: {
-    positionList: string[];
-    positionNumberList: number[];
-  };
 };
 
 export const useProject = () => {
@@ -39,12 +20,31 @@ export const useProject = () => {
     }
   );
 
-  //하트관련 (아직 서버 미 구현)
-  // const updateHeart = useMutation(() => api.post(`/projects/heart`), {
-  //   onSuccess: () => {
-  //     refetch();
-  //   },
-  // });
+  //좋아요
+  const likeProject = useMutation(
+    () => api.post(`/likes`, { category: 'PROJECT', uniteId: id }),
+    {
+      onSuccess: () => {
+        refetch();
+      },
+      onError: () => {
+        alert('잠시 후에 다시 시도해주세요.');
+      },
+    }
+  );
+
+  //싫어요
+  const dislikeProject = useMutation(
+    () => api.post(`/likes/undo`, { category: 'PROJECT', uniteId: id }),
+    {
+      onSuccess: () => {
+        refetch();
+      },
+      onError: () => {
+        alert('잠시 후에 다시 시도해주세요.');
+      },
+    }
+  );
 
   /**
    * 프로젝트 게시글 상태 업데이트 이벤트
@@ -74,42 +74,63 @@ export const useProject = () => {
   /**
    * 프로젝트 삭제 이벤트
    */
-  const deleteProject = () => {
-    if (confirm('정말 삭제하시겠습니까?'))
-      api.delete(`/projects/${id}`).then(() => router.push('/'));
-  };
+  const deleteProject = useMutation(
+    async () => {
+      if (confirm('정말 삭제하시겠습니까?'))
+        return await api.delete(`/projects/${id}`).then(() => router.push('/'));
+    },
+    {
+      onSuccess: () => {
+        router.push('/').then(() => refetch());
+      },
+      onError: () => {
+        alert('잠시 후에 다시 시도해주세요.');
+      },
+    }
+  );
 
   /**
    * edit 페이지 이동 이벤트
    */
   const moveEdit = () => {
-    if (confirm('정말 수정하시겠습니까?')) router.push(`/project/edit`);
+    if (confirm('정말 수정하시겠습니까?')) router.push(`/project/${id}/edit`);
   };
 
   /**
    * 글 수정 이벤트
    */
-  const submitEdit = (data: PostData) => {
-    api
-      .patch(`/projects/${id}`, data)
-      .then(() => router.push('/'))
-      .catch(() => alert('잠시 후에 다시 시도해주세요.'));
-  };
+  const submitEdit = useMutation(
+    (data: PostData) => api.patch(`/projects/${id}`, data),
+    {
+      onSuccess: () => {
+        router.push('/').then(() => refetch());
+      },
+      onError: () => {
+        alert('잠시 후에 다시 시도해주세요.');
+      },
+    }
+  );
 
   /**
    * 글 작성 이벤트
    */
-  const submitPost = (data: PostData) => {
-    api
-      .post('/projects', data)
-      .then(() => router.push('/'))
-      .catch(() => alert('잠시 후에 다시 시도해주세요.'));
-  };
+  const submitPost = useMutation(
+    (data: PostData) => api.post('/projects', data),
+    {
+      onSuccess: () => {
+        router.push('/').then(() => refetch());
+      },
+      onError: () => {
+        alert('잠시 후에 다시 시도해주세요.');
+      },
+    }
+  );
 
   return {
     projectQuery: { isLoading, error, data },
     updateState,
-    // updateHeart,
+    likeProject,
+    dislikeProject,
     projectEvent,
     deleteProject,
     moveEdit,

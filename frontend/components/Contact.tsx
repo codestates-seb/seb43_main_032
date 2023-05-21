@@ -1,10 +1,32 @@
-import React, { FormEvent } from 'react';
+import Image from 'next/image';
 import emailjs from '@emailjs/browser';
-import styled from 'styled-components';
-import { useRef } from 'react';
 import Message from './Message';
+import { FormEvent, useRef, useState } from 'react';
+import icon from '../public/images/icon.svg';
+import styled from 'styled-components';
+import { useRecoilState } from 'recoil';
+import { isContactState } from '@/recoil/atom';
 
-const Contact = ({ closeContact }: { closeContact: () => void }) => {
+const Contact = () => {
+  const [isContact, setIsContact] = useRecoilState(isContactState);
+  const [isHovered, setIsHovered] = useState(false);
+
+  const contactHandler = () => {
+    setIsContact(!isContact);
+  };
+
+  const closeContact = () => {
+    setIsContact(false);
+  };
+
+  const handleMouseEnter = () => {
+    setIsHovered(true);
+  };
+
+  const handleMouseLeave = () => {
+    setIsHovered(false);
+  };
+
   const formRef = useRef<HTMLFormElement>(null);
 
   const sendEmail = (e: FormEvent) => {
@@ -22,37 +44,81 @@ const Contact = ({ closeContact }: { closeContact: () => void }) => {
       })
       .catch(() => <Message>잠시 후에 다시 시도해주세요.</Message>);
   };
-
   return (
-    <Container>
-      <div className="nanum-bold title">Contact me</div>
-      <div className="exit" onClick={closeContact}>
-        &times;
-      </div>
-      <form ref={formRef} onSubmit={sendEmail} className="form-control">
-        <input type="text" name="user_name" placeholder="Full name" required />
-        <input type="email" name="user_email" placeholder="Email" required />
-        <input type="text" name="subject" placeholder="Subject" required />
-        <textarea
-          name="message"
-          cols={30}
-          rows={10}
-          style={{ marginTop: '20px' }}
-          placeholder="message"
-        ></textarea>
-        <button type="submit" className="btn" style={{ marginTop: '20px' }}>
-          <span className="transition"></span>
-          <span className="gradient"></span>
-          <span className="label">Message</span>
-        </button>
-      </form>
-    </Container>
+    <>
+      <IconBox>
+        <Image
+          src={icon}
+          onClick={contactHandler}
+          alt="chat-icon"
+          onMouseEnter={handleMouseEnter}
+          onMouseLeave={handleMouseLeave}
+          className={
+            isHovered
+              ? 'animate__animated animate__bounce animate__infinite animate-duration-2'
+              : ''
+          }
+        />
+      </IconBox>
+      <AskBox isVisible={isContact}>
+        <EmailBox>
+          <div className="nanum-bold title">Contact me</div>
+          <div className="exit" onClick={closeContact}>
+            &times;
+          </div>
+          <form ref={formRef} onSubmit={sendEmail} className="form-control">
+            <input
+              type="text"
+              name="user_name"
+              placeholder="Full name"
+              required
+            />
+            <input
+              type="email"
+              name="user_email"
+              placeholder="Email"
+              required
+            />
+            <input type="text" name="subject" placeholder="Subject" required />
+            <textarea
+              name="message"
+              cols={30}
+              rows={10}
+              style={{ marginTop: '20px' }}
+              placeholder="message"
+            ></textarea>
+            <button type="submit" className="btn" style={{ marginTop: '20px' }}>
+              <span className="transition"></span>
+              <span className="gradient"></span>
+              <span className="label">Message</span>
+            </button>
+          </form>
+        </EmailBox>
+      </AskBox>
+    </>
   );
 };
-
 export default Contact;
 
-const Container = styled.div`
+const IconBox = styled.div`
+  transition: all 1s ease-in-out;
+  bottom: 20px;
+  right: 20px;
+  position: fixed;
+  cursor: pointer;
+  z-index: 9999;
+`;
+
+const AskBox = styled.div<{ isVisible: boolean }>`
+  min-width: 300px;
+  max-height: 500px;
+  bottom: ${({ isVisible }) => (isVisible ? '20px' : '-100%')};
+  right: 20px;
+  position: fixed;
+  transition: bottom 0.5s ease-in-out;
+`;
+
+const EmailBox = styled.div`
   position: relative;
   display: flex;
   justify-content: center;

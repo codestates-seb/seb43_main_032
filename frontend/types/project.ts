@@ -34,7 +34,29 @@ export type Project = {
   techList: Tech[];
   thumbnailImageUrl: string;
   title: string;
+  totalAnswers: number;
   totalLikes: number;
   views: number;
   writerPosition: string;
+  liked: boolean;
+  author: boolean;
+};
+
+export type PostData = {
+  startDate: string;
+  endDate: string | null | undefined;
+  writerPosition: string;
+  title: string;
+  thumbnailImageUrl: string;
+  content: string;
+  techList: {
+    techList: string[];
+  };
+  fieldList: {
+    fieldList: string[];
+  };
+  positionCrewList: {
+    positionList: string[];
+    positionNumberList: number[];
+  };
 };

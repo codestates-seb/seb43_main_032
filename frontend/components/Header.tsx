@@ -1,12 +1,11 @@
 import Image from 'next/image';
-import { FaUserAlt } from 'react-icons/fa';
 import Link from 'next/link';
 import styled from 'styled-components';
 import { useRouter } from 'next/router';
 import { useEffect, useMemo, useState } from 'react';
 import logo from '../public/images/logo.svg';
 import logoWhite from '../public/images/logoSymbolWhite.svg';
-import BannerSlider from './BannerSlider';
+import BannerSlider from './banner/BannerSlider';
 import Btn from './button/Btn';
 import { useOffResize } from '@/hooks/useOffResize';
 import { HEADER_NAV } from '@/constant/constant';
@@ -15,7 +14,8 @@ import { useRecoilState } from 'recoil';
 import { loggedInUserState, navModalState } from '@/recoil/atom';
 import { setUserState } from '@/util/api/user';
 import Img from '../public/images/second-user.svg';
-// import { NavProps } from '@/types/tspes';
+import { NavProps } from '@/types/types';
+import ButtonStyle from './ButtonStyle';
 
 const Header = () => {
   const router = useRouter();
@@ -29,10 +29,14 @@ const Header = () => {
     setLoggedInUser(null);
   };
 
-  //토큰이 유효하다면 유저 데이터 셋팅을하고 실패하면 토큰을 모두 삭제
+  //토큰이 유효하다면 유저 데이터 세팅
   useEffect(() => {
     setUserState()
-      .then((res) => setLoggedInUser(res))
+      .then((res) => {
+        if (getCookie('accessToken')) {
+          setLoggedInUser(res);
+        }
+      })
       .catch(() => {
         //리프레시 토큰 api가 생기면 여기 넣어서 사용할듯?
       });
@@ -71,7 +75,6 @@ const Header = () => {
     setNav(!nav);
   };
   useOffResize(960, 'up', setNav);
-  console.log(nav);
 
   return (
     <>
@@ -99,10 +102,13 @@ const Header = () => {
           ))}
           {getCookie('accessToken')
             ? navNames.slice(3, 5).map((name) =>
-                name === 'mypage' ? (
+                name === 'MY' ? (
                   <li key={name}>
-                    <Link href={HEADER_NAV[name]}>
-                      <FaUserAlt size={20} />
+                    <Link
+                      href={HEADER_NAV[name]}
+                      className="noto-regular-12 main-btn"
+                    >
+                      <span>{name.toUpperCase()}</span>
                     </Link>
                   </li>
                 ) : (
@@ -118,17 +124,15 @@ const Header = () => {
               )
             : navNames.slice(5).map((name) => (
                 <li key={name}>
-                  <Link
-                    href={`${HEADER_NAV[name]}`}
-                    className="nanum-regular main-btn"
-                  >
-                    <span>{name.toUpperCase()}</span>
-                  </Link>
+                  <ButtonStyle
+                    link={`${HEADER_NAV[name]}`}
+                    text={name.toUpperCase()}
+                  ></ButtonStyle>
                 </li>
               ))}
         </NavMenu>
       </Nav>
-      {router.pathname !== '/404' && (
+      {router.pathname === '/' && (
         <BannerSlider isScrolled={isScrolled}></BannerSlider>
       )}
       <ModalNav nav={nav}>

@@ -1,4 +1,4 @@
-import { useQuery } from 'react-query';
+import { useMutation, useQuery } from 'react-query';
 import { api } from '@/util/api';
 import { useRouter } from 'next/router';
 import { PageInfo } from '@/types/types';
@@ -8,8 +8,16 @@ type Props = {
   queryKey: (string | number | string[] | undefined)[];
 };
 
+type PostData = {
+  title: string;
+  category: string;
+  content: string;
+  techList: string[];
+};
+
 export const useCommunity = <T extends {}>({ address, queryKey }: Props) => {
   const router = useRouter();
+  const { id } = router.query;
   const { isLoading, error, data, refetch } = useQuery<
     {
       data: T;
@@ -22,6 +30,82 @@ export const useCommunity = <T extends {}>({ address, queryKey }: Props) => {
     }
   });
 
+  //좋아요
+  const likeCommunity = useMutation(
+    () => api.post(`/likes`, { category: 'ARTICLE', uniteId: id }),
+    {
+      onSuccess: () => {
+        refetch();
+      },
+      onError: () => {
+        alert('잠시 후에 다시 시도해주세요.');
+      },
+    }
+  );
+
+  //싫어요
+  const dislikeCommunity = useMutation(
+    () => api.post(`/likes/undo`, { category: 'ARTICLE', uniteId: id }),
+    {
+      onSuccess: () => {
+        refetch();
+      },
+      onError: () => {
+        alert('잠시 후에 다시 시도해주세요.');
+      },
+    }
+  );
+
+  /**
+   * 게시글 작성
+   */
+  const postArticle = useMutation(
+    (data: PostData) => api.post('/articles', data),
+    {
+      onSuccess: () => {
+        router.push('/community').then(() => refetch());
+      },
+      onError: () => {
+        alert('잠시 후에 다시 시도해주세요.');
+      },
+    }
+  );
+
+  /**
+   * 게시글 수정
+   */
+  const editArticle = useMutation(
+    (data: PostData) => api.patch(`/articles/${id}`, data),
+    {
+      onSuccess: () => {
+        router.push('/community').then(() => refetch());
+      },
+      onError: () => {
+        alert('잠시 후에 다시 시도해주세요.');
+      },
+    }
+  );
+
+  /**
+   * 게시글 삭제
+   */
+  const deleteArticle = useMutation(() => api.delete(`/articles/${id}`), {
+    onSuccess: () => {
+      router.push('/community').then(() => refetch());
+    },
+    onError: () => {
+      alert('잠시 후에 다시 시도해주세요.');
+    },
+  });
+
+  /**
+   * 수정 페이지로 이동
+   */
+  const moveEdit = () => {
+    if (confirm('정말 수정하시겠습니까?'))
+      router.push(`/community/post/${id}/edit`);
+  };
+
   return {
     communityQuery: {
       isLoading,
@@ -29,5 +113,11 @@ export const useCommunity = <T extends {}>({ address, queryKey }: Props) => {
       data,
     },
     refetch,
+    moveEdit,
+    deleteArticle,
+    postArticle,
+    editArticle,
+    likeCommunity,
+    dislikeCommunity,
   };
 };

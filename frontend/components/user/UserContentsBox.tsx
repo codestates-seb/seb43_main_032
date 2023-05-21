@@ -1,14 +1,20 @@
 import React, { MouseEvent, useState } from 'react';
 import styled from 'styled-components';
 import ContentCard from './ContentCard';
-const Wrapper = styled.div``;
+const Wrapper = styled.div`
+  padding: 10px;
+  margin-bottom: 20px;
+`;
 
 const Contents = styled.div`
-  padding: 20px;
+  background: #0d1117;
+  color: #c9d1d9;
+  font-size: 15px;
+  padding: var(--padding-2);
+  border: 1px solid #d8d8d8;
   border-radius: var(--radius-def);
-  /* background-color: rgba(0, 0, 0, 0.2); */
 `;
-const ContentTitle = styled.h2.attrs({
+const ContentTitle = styled.div.attrs({
   className: 'nanum-bold',
 })`
   padding-bottom: 20px;
@@ -16,10 +22,9 @@ const ContentTitle = styled.h2.attrs({
 const Category = styled.div.attrs({
   className: 'noto-medium',
 })`
-  padding: 20px;
-  padding-bottom: 10px;
-  padding-top: 50px;
-  font-size: 20px;
+  display: flex;
+  gap: 16px;
+  margin-bottom: 20px;
 `;
 const FilterBtn = styled.button.attrs({
   className: 'nanum-bold',
@@ -27,9 +32,11 @@ const FilterBtn = styled.button.attrs({
   border: none;
   font-size: 20px;
   cursor: pointer;
-  padding-right: 10px;
-  padding-left: 10px;
-  background-color: white;
+  font-family: var(--font-nanum);
+  font-size: 23px;
+  font-weight: 700;
+  color: #464646;
+  background: none;
 `;
 interface IProps {
   id: number;
@@ -54,7 +61,6 @@ export default function UserContentsBox({ id, contents }: IProps) {
         <FilterBtn name={contents[0]} onClick={handleClick}>
           {contents[0]}
         </FilterBtn>
-        |
         <FilterBtn name={contents[1]} onClick={handleClick}>
           {contents[1]}
         </FilterBtn>
@@ -62,7 +68,6 @@ export default function UserContentsBox({ id, contents }: IProps) {
       <Contents>
         {filter === contents[0] ? (
           <>
-            <ContentTitle>{contents[0]}</ContentTitle>
             {/* {projects.map((project) => (
 					<ProjectCard key={project.id} size="md" data={project} />
 				))} */}
@@ -72,7 +77,6 @@ export default function UserContentsBox({ id, contents }: IProps) {
           </>
         ) : (
           <>
-            <ContentTitle>{contents[1]}</ContentTitle>
             {/* {posts.map((post) => (
 					<CommunityCardBox key={post.id} title={post.title} data={post}>
 				<Skeleton/>

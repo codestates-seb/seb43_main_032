@@ -117,10 +117,7 @@ const ProjectHome = () => {
         lastPage: PageProps<Project>,
         allPages: PageProps<Project>[]
       ) => {
-        if (
-          page_limit * lastPage.pageInfo.page >
-          lastPage.pageInfo.totalElements
-        ) {
+        if (allPages[allPages.length - 1] === undefined) {
           return null;
         }
         return allPages.length + 1;

@@ -9,3 +9,7 @@ export const navModalState = atom({
   key: 'navModalState',
   default: false,
 });
+export const isContactState = atom({
+  key: 'isContactState',
+  default: false,
+});

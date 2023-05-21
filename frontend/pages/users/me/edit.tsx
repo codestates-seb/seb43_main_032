@@ -44,14 +44,14 @@ export default function Edit() {
   //   getMyInfo: { data: user },
   // } = useUser({});
 
-  const router = useRouter();
-  useEffect(() => {
-    window.scrollTo({
-      top: 670,
-      left: 0,
-      behavior: 'smooth',
-    });
-  }, [router]);
+  // const router = useRouter();
+  // useEffect(() => {
+  //   window.scrollTo({
+  //     top: 670,
+  //     left: 0,
+  //     behavior: 'smooth',
+  //   });
+  // }, [router]);
 
   return (
     <GridBox>

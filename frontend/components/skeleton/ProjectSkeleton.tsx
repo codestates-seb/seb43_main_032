@@ -5,16 +5,16 @@ const ProjectSkeleton = () => {
   return (
     <Container>
       <div>
-        <Skeleton width={'298px'} height={'317px'} />
+        <Skeleton width={'298px'} height={'316px'} />
       </div>
       <div>
-        <Skeleton width={'298px'} height={'317px'} />
+        <Skeleton width={'298px'} height={'316px'} />
       </div>
       <div>
-        <Skeleton width={'298px'} height={'317px'} />
+        <Skeleton width={'298px'} height={'316px'} />
       </div>
       <div>
-        <Skeleton width={'298px'} height={'317px'} />
+        <Skeleton width={'298px'} height={'316px'} />
       </div>
     </Container>
   );

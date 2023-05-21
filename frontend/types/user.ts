@@ -1,5 +1,3 @@
-import { Tech } from './project';
-
 //로그인한 유저의 데이터 상태
 export type UserState = {
   aboutMe: string;
@@ -12,7 +10,6 @@ export type UserState = {
   techList: string[];
   totalStar: number;
   yearOfDev: number;
-  memberId?: number;
 };
 
 //로그인 또는 회원가입 할때 데이터 타입

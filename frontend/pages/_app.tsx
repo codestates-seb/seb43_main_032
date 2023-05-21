@@ -1,18 +1,15 @@
 import type { AppProps } from 'next/app';
-import { RecoilRoot, useRecoilValue } from 'recoil';
+import { RecoilRoot } from 'recoil';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import '../styles/App.css';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import styled from 'styled-components';
 import 'animate.css';
-import { useState } from 'react';
 import Contact from '@/components/Contact';
 import ModalBg from '@/components/ModalBg';
-import Image from 'next/image';
-import icon from '../public/images/icon.svg';
+import { useRouter } from 'next/router';
 
-// const queryClient = new QueryClient();
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
@@ -23,59 +20,27 @@ const queryClient = new QueryClient({
   },
 });
 
+// 콘솔이 너무 지저분해져서 가상 서버 주석 처리
 // if (process.env.NODE_ENV === 'development') {
 //   require('../__mocks__');
 // }
 
 const App = ({ Component, pageProps }: AppProps) => {
-  const [isContact, setIsContact] = useState(false);
-  const [isSlideVisible, setIsSlideVisible] = useState(false);
-  const [isHovered, setIsHovered] = useState(false);
-
-  const contactHandler = () => {
-    setIsContact(!isContact);
-    setIsSlideVisible(true);
-  };
-
-  const closeContact = () => {
-    setIsContact(false);
-    setIsSlideVisible(false);
-  };
-
-  const handleMouseEnter = () => {
-    setIsHovered(true);
-  };
-
-  const handleMouseLeave = () => {
-    setIsHovered(false);
-  };
+  const router = useRouter().pathname;
+  const page404 = router !== '/404';
+  const pageLogin = router !== '/users/login';
+  const pageSignUp = router !== '/users/signup';
 
   return (
     <QueryClientProvider client={queryClient}>
       <RecoilRoot>
-        <Header />
+        {page404 && <Header />}
         <Box>
           <Component {...pageProps} />
         </Box>
-        <IconBox>
-          <Image
-            src={icon}
-            onClick={contactHandler}
-            alt="chat-icon"
-            onMouseEnter={handleMouseEnter}
-            onMouseLeave={handleMouseLeave}
-            className={
-              isHovered
-                ? 'animate__animated animate__bounce animate__infinite animate-duration-2'
-                : ''
-            }
-          />
-        </IconBox>
-        <AskBox isVisible={isSlideVisible}>
-          <Contact closeContact={closeContact} />
-        </AskBox>
+        {page404 && <Contact />}
         <ModalBg></ModalBg>
-        <Footer />
+        {page404 && <Footer />}
       </RecoilRoot>
     </QueryClientProvider>
   );
@@ -88,22 +53,4 @@ const Box = styled.main`
   padding: 0px calc((100% - 1280px) / 2);
   padding-top: 80px;
   flex: 1;
-`;
-
-const IconBox = styled.div`
-  transition: all 1s ease-in-out;
-  bottom: 20px;
-  right: 20px;
-  position: fixed;
-  cursor: pointer;
-  z-index: 9999;
-`;
-
-const AskBox = styled.div<{ isVisible: boolean }>`
-  min-width: 300px;
-  max-height: 500px;
-  bottom: ${({ isVisible }) => (isVisible ? '20px' : '-100%')};
-  right: 20px;
-  position: fixed;
-  transition: bottom 0.5s ease-in-out;
 `;

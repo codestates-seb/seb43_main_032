@@ -1,15 +1,10 @@
-import GridBox from '@/components/GridBox';
 import styled from 'styled-components';
 import { ChangeEvent, useEffect, useState } from 'react';
-import SelectStack from '@/components/stack/SelectStack';
-import { api } from '@/util/api';
 import { useRouter } from 'next/router';
 import MainPost from '@/components/MainPost';
 import { useForm } from 'react-hook-form';
 import TagBox from '@/components/project/TagBox';
 import PeriodBox from '@/components/project/PeriodBox';
-import StacksBox from '@/components/project/StacksBox';
-import { GrFormClose } from 'react-icons/gr';
 import { POSITIONS } from '@/constant/constant';
 import Btn from '../button/Btn';
 import { Form } from '@/types/types';
@@ -17,6 +12,8 @@ import { Tech, FiledTag, WantCrew } from '@/types/project';
 import { formatDate3 } from '@/util/date';
 import { AiOutlineClose } from 'react-icons/ai';
 import { useProject } from '@/hooks/react-query/project/useProject';
+import StacksBox from './StacksBox';
+import GridBox from '../common_box/GridBox';
 
 const ProjectForm = () => {
   const router = useRouter();
@@ -186,17 +183,18 @@ const ProjectForm = () => {
       },
     };
 
-    //수정 이벤트
+    //작성 이벤트
     if (
       router.route.includes('edit') &&
-      confirm('정말 수정을 완료하시겠습니까?')
+      confirm('정말 글을 수정하시겠습니까?')
     ) {
-      return submitEdit(data);
+      return submitEdit.mutate(data);
     }
-
-    //작성 이벤트
-    if (confirm('정말 작성을 완료하시겠습니까?')) {
-      return submitPost(data);
+    if (
+      router.route.includes('create') &&
+      confirm('정말 글을 작성하시겠습니까?')
+    ) {
+      return submitPost.mutate(data);
     }
   };
 
@@ -258,7 +256,6 @@ const ProjectForm = () => {
         </div>
       </Side>
       <MainPost
-        type={1}
         register={register}
         changeContent={changeContent}
         postProject={postProject}

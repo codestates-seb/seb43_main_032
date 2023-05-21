@@ -20,6 +20,5 @@ const Box = styled.div`
   color: #fff;
   border-radius: 0.4em;
   z-index: 2;
-  left: -50%;
-  top: -110%;
+  top: -112%;
 `;

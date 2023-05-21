@@ -4,10 +4,11 @@ import { FaSearch } from 'react-icons/fa';
 import { Community } from '@/types/community';
 import ContentItem from './ContentItem';
 import { useRouter } from 'next/router';
-import Message from '../Message';
-import { COMMUNITY_FILTER } from '@/constant/constant';
 import Pagenation from '../Pagenation';
 import { useCommunity } from '@/hooks/react-query/community/useCommunity';
+import Filter from '../Filter';
+import Message from '../Message';
+import CommunityItemSkeleton from '../skeleton/CommunityItemSkeleton';
 
 export default function Content() {
   const router = useRouter();
@@ -56,11 +57,6 @@ export default function Content() {
     refetch();
   }, [filter]);
 
-  const [isOpen, setIsOpen] = useState(false);
-
-  const filterName = COMMUNITY_FILTER.find((x) => x.value === filter)?.label;
-
-  if (communityQuery.isLoading) return <Message>로딩중입니다.</Message>;
   if (communityQuery.error)
     return <Message>잠시 후 다시 시도해주세요.</Message>;
   return (
@@ -76,28 +72,18 @@ export default function Content() {
           <FaSearch />
         </SearchBtn>
         <SearchBtn onClick={() => router.push('/community')}>초기화</SearchBtn>
-        <ContentBottomFilter onClick={() => setIsOpen(!isOpen)}>
-          <CustomSelectButton>
-            {filterName} <span className="icon">▼</span>
-          </CustomSelectButton>
-          <CustomSelectOptions isOpen={isOpen}>
-            {COMMUNITY_FILTER.map((option) => (
-              <CustomSelectOption
-                key={option.value}
-                onClick={() => selectFilter(option.value)}
-              >
-                {option.label}
-              </CustomSelectOption>
-            ))}
-          </CustomSelectOptions>
-        </ContentBottomFilter>
+        <Filter filter={filter} selectFilter={selectFilter} />
       </ContentTop>
       <ContentBottom>
-        <ContentItemList>
-          {data?.map((article: Community) => (
-            <ContentItem {...article} key={article.articleId} />
-          ))}
-        </ContentItemList>
+        {communityQuery.isLoading ? (
+          <CommunityItemSkeleton count={10} />
+        ) : (
+          <ContentItemList>
+            {data?.map((article: Community) => (
+              <ContentItem {...article} key={article.articleId} />
+            ))}
+          </ContentItemList>
+        )}
         <Pagenation
           page={page}
           onPageChange={setPage}
@@ -137,8 +123,7 @@ const SearchInput = styled.input`
   color: #5393fa;
   &:focus,
   :active {
-    outline: none;
-    border: solid 3px #c4c4c4;
+    outline: solid 3px #c4c4c4;
   }
   &::placeholder {
     color: #cfcfcf;
@@ -182,68 +167,4 @@ const ContentItemList = styled.div`
   flex-direction: column;
   justify-content: start;
   align-items: center;
-`;
-
-const ContentBottomFilter = styled.div`
-  min-width: 104px;
-  display: flex;
-  position: relative;
-  display: inline-block;
-  top: 0;
-  font-size: 14px;
-  z-index: 2;
-  border-radius: 4px;
-  background: #96bfff;
-  padding: 10px 10px;
-  outline: none;
-  border: none;
-  cursor: pointer;
-`;
-
-const CustomSelectButton = styled.button`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  outline: none;
-  background: none;
-  color: white;
-  cursor: pointer;
-  font-size: 14px;
-  border: none;
-  .icon {
-    margin-left: 5px;
-  }
-`;
-
-type Props = {
-  isOpen: boolean;
-};
-
-const CustomSelectOptions = styled.ul<Props>`
-  position: absolute;
-  top: calc(100% + 10px);
-  left: 0;
-  width: 100px;
-  border-radius: 4px;
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  background-color: white;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-  opacity: ${(props) => (props.isOpen ? '1' : '0')};
-  visibility: ${(props) => (props.isOpen ? 'visible' : 'hidden')};
-  transform: ${(props) =>
-    props.isOpen ? 'translateY(0)' : 'translateY(-10px)'};
-  transition: all 0.3s ease-in-out;
-`;
-
-const CustomSelectOption = styled.li`
-  width: 100%;
-  height: 20px;
-  padding: 0 8px;
-  cursor: pointer;
-
-  &:hover {
-    background-color: #f5f5f5;
-  }
 `;

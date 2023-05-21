@@ -21,6 +21,10 @@ export interface StackCategory {
 
 export type FooterCategory = { name: string; link: string };
 
+export type FooterData = {
+  [key: string]: FooterCategory[];
+};
+
 export type CommunityCategory = {
   title: string;
   link: string;
@@ -69,4 +73,9 @@ export type MemberInfo = {
   techList: Tech[];
   totalStar: number;
   yearOfDev: number;
+};
+
+export type NavProps = {
+  nav?: boolean;
+  isScrolled?: boolean;
 };
