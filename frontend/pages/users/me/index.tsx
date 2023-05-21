@@ -97,14 +97,6 @@ export default function me() {
     router.push('/users/me/edit');
   };
 
-  useEffect(() => {
-    window.scrollTo({
-      top: 670,
-      left: 0,
-      behavior: 'smooth',
-    });
-  }, [router]);
-
   return (
     <>
       {user && (

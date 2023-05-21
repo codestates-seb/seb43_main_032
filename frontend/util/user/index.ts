@@ -4,6 +4,9 @@ interface AnyObj {
   [key: string]: any;
 }
 export function updateData(origin: AnyObj, newData: AnyObj) {
+  if (origin.techList.length > 0) {
+    origin.techList = origin.techList.map((el: AnyObj) => el.tech);
+  }
   const filteredData = Object.fromEntries(
     Object.entries(newData).filter(([key, value]) => {
       return !(value === '' || (Array.isArray(value) && value.length === 0));
@@ -22,8 +25,11 @@ export async function mergeData(data: AnyObj, image: File[], stacks: AnyObj[]) {
   if (image && image.length > 0) {
     const profileImageUrl = (await uploadFile(data.image[0]))[0];
     data.profileImageUrl = profileImageUrl;
+  } else {
+    data.profileImageUrl = '.';
   }
   delete data.image;
+
   if (stacks.length > 0) {
     data.techList = stacks.map((el: AnyObj) => el.tech);
   }
