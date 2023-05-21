@@ -24,9 +24,9 @@ const Header = () => {
   const [loggedInUser, setLoggedInUser] = useRecoilState(loggedInUserState);
   //로그아웃
   const logout = () => {
+    setLoggedInUser(null);
     deleteCookie('accessToken');
     deleteCookie('refreshToken');
-    setLoggedInUser(null);
   };
 
   //토큰이 유효하다면 유저 데이터 세팅

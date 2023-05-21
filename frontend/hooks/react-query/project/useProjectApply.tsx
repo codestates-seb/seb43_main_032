@@ -4,6 +4,7 @@ import { api } from '@/util/api';
 import { MemberInfo } from '@/types/types';
 import { useRecoilValue } from 'recoil';
 import { loggedInUserState } from '@/recoil/atom';
+import { Crew } from '@/types/project';
 
 type ApplyList = {
   data: { position: string; projectId: number; memberInfo: MemberInfo }[];
@@ -12,9 +13,10 @@ type ApplyList = {
 
 type Props = {
   projectRefetch: () => void;
+  acceptedPostion: Crew | undefined;
 };
 
-export const useProjectApply = ({ projectRefetch }: Props) => {
+export const useProjectApply = ({ projectRefetch, acceptedPostion }: Props) => {
   const loggedInUser = useRecoilValue(loggedInUserState);
   const router = useRouter();
   const { id } = router.query;
@@ -53,6 +55,9 @@ export const useProjectApply = ({ projectRefetch }: Props) => {
    * 프로젝트 지원 이벤트
    */
   const applyEvent = (position: string) => {
+    if (acceptedPostion) {
+      return alert('이미 다른 포지션에 확정되셨습니다.');
+    }
     if (checkApply) {
       return alert('지원한 포지션을 취소해주세요.');
     }
@@ -100,12 +105,13 @@ export const useProjectApply = ({ projectRefetch }: Props) => {
    * 수락된 지원자가 지원을 취소하는 이벤트
    */
   const acceptedCancleEvent = (target: string) => {
-    acceptCancel.mutate({ position: target });
+    if (confirm('정말 확정을 취소하시겠습니까?'))
+      acceptCancel.mutate({ position: target });
   };
 
   //수락
   const acceptApply = useMutation(
-    (memberId: number) => api.post(`/projects/${id}/accpet/${memberId}`),
+    (memberId: number) => api.post(`/projects/${id}/accept/${memberId}`),
     {
       onSuccess: () => {
         refetch();

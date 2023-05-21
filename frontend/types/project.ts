@@ -1,6 +1,6 @@
 import { MemberInfo } from './types';
 
-type Crew = {
+export type Crew = {
   memberId: number;
   position: string;
   projectId: number;

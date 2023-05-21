@@ -2,6 +2,7 @@ import { useQuery, useMutation } from 'react-query';
 import { useRouter } from 'next/router';
 import { PostData, Project } from '@/types/project';
 import { api } from '@/util/api';
+import { useEffect } from 'react';
 
 type ProjectData = {
   data: Project;
@@ -11,6 +12,10 @@ type ProjectData = {
 export const useProject = () => {
   const router = useRouter();
   const { id } = router.query;
+  useEffect(() => {
+    refetch();
+  }, [router]);
+
   const { isLoading, error, data, refetch } = useQuery<ProjectData, Error>(
     ['project', id],
     async () => {

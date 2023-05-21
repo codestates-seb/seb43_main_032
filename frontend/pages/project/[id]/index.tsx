@@ -1,7 +1,7 @@
 import PeriodBox from '@/components/project/PeriodBox';
 import TagBox from '@/components/project/TagBox';
 import styled from 'styled-components';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import Message from '@/components/Message';
 import { BUTTON_STATE } from '@/constant/constant';
 import { useProject } from '@/hooks/react-query/project/useProject';
@@ -15,8 +15,10 @@ import Tag from '@/components/Tag';
 import { useRecoilValue } from 'recoil';
 import { loggedInUserState } from '@/recoil/atom';
 import ApplyBox from '@/components/common_box/ApplyBox';
+import { useRouter } from 'next/router';
 
 const ViewProject = () => {
+  const router = useRouter();
   const loggedInUser = useRecoilValue(loggedInUserState);
   //프로젝트 데이터 요청
   const {
@@ -52,6 +54,12 @@ const ViewProject = () => {
   //직군 데이터 관련
   const positions = data?.positionCrewList;
 
+  //지원자 속해있는지 체크
+  const acceptedCrewList = data?.acceptedCrewList;
+  const acceptedPostion = acceptedCrewList?.find(
+    (crew) => crew.memberId === loggedInUser?.memberId
+  );
+
   //지원 데이터 요청
   const {
     applyQuery,
@@ -62,12 +70,12 @@ const ViewProject = () => {
     rejectEvent,
     acceptedCancleEvent,
     applyRefetch,
-  } = useProjectApply({ projectRefetch });
+  } = useProjectApply({ projectRefetch, acceptedPostion });
 
   useEffect(() => {
     projectRefetch();
     applyRefetch();
-  }, []);
+  }, [router]);
 
   //모든 지원이 꽉 찼을 때, 일어나는 이펙트
   useEffect(() => {
@@ -79,6 +87,11 @@ const ViewProject = () => {
       updateState.mutate('모집 완료');
     }
   }, [projectQuery.data]);
+
+  const [acceptedHover, setAcceptedHover] = useState(false);
+  const hoverHandler = () => {
+    setAcceptedHover(!acceptedHover);
+  };
 
   if (projectQuery.error) return <Message>잠시 후 다시 시도해주세요.</Message>;
   return (
@@ -116,7 +129,16 @@ const ViewProject = () => {
                           : 'green light'
                       }
                     ></div>
-                    {position.acceptedNumber === position.number ? (
+                    {acceptedPostion &&
+                    acceptedPostion.position === position.position ? (
+                      <Tag
+                        onClick={() => acceptedCancleEvent(position.position)}
+                        onMouseEnter={hoverHandler}
+                        onMouseLeave={hoverHandler}
+                      >
+                        {acceptedHover ? '취소' : '확정'}
+                      </Tag>
+                    ) : position.acceptedNumber === position.number ? (
                       <Tag>마감</Tag>
                     ) : checkApply?.position === position.position ? (
                       <Tag onClick={() => cancelEvent(position.position)}>
