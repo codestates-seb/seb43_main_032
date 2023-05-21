@@ -33,7 +33,11 @@ type Form = {
   params: string;
 };
 
-const AnswerBox = () => {
+type Props = {
+  articleRefetch: () => void;
+};
+
+const AnswerBox = ({ articleRefetch }: Props) => {
   const router = useRouter();
   const { id } = router.query;
 
@@ -78,6 +82,7 @@ const AnswerBox = () => {
     useAnswer({
       answerRefetch,
       changeAnswerVal,
+      articleRefetch,
     });
 
   //작성 이벤트

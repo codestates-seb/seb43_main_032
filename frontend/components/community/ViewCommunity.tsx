@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import Message from '../Message';
 import { Community } from '@/types/community';
@@ -9,6 +9,8 @@ import TagBox from '../project/TagBox';
 import AuthorBox from '../common_box/AuthorBox';
 import { getCookie } from '@/util/cookie';
 import MainArticleBox from '../common_box/MainArticleBox';
+import Btn from '../button/Btn';
+import SubBtn from '../button/SubBtn';
 
 // item 개별 페이지
 const ViewCommunity = () => {
@@ -50,6 +52,12 @@ const ViewCommunity = () => {
     if (confirm('정말 게시글을 삭제하시겠습니까?')) deleteArticle.mutate();
   };
 
+  //지원자 체크
+  const [applyBox, setApplyBox] = useState(false);
+  const applyBoxHandler = () => {
+    setApplyBox(!applyBox);
+  };
+
   if (communityQuery.error)
     return <Message>잠시 후 다시 시도해주세요.</Message>;
   return (
@@ -67,6 +75,12 @@ const ViewCommunity = () => {
             <TagBox
               tags={data.techList.map((item) => ({ field: item.tech }))}
             />
+            <div className="apply-check-box">
+              <div>
+                <SubBtn onClick={applyBoxHandler}>지원자 확인</SubBtn>
+              </div>
+              <div></div>
+            </div>
           </Side>
           <MainArticleBox
             title={data.title}
@@ -81,6 +95,7 @@ const ViewCommunity = () => {
             likeHandler={likeHandler}
             liked={data.liked}
             totalLikes={data.totalLikes}
+            articleRefetch={refetch}
           />
         </>
       )}
@@ -91,6 +106,13 @@ const ViewCommunity = () => {
 export default ViewCommunity;
 
 const Side = styled.div`
+  .apply-check-box {
+    display: flex;
+    padding: var(--padding-2);
+    justify-content: center;
+    align-items: center;
+  }
+
   display: flex;
   flex-direction: column;
   width: 100%;

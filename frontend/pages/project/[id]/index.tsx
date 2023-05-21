@@ -112,7 +112,6 @@ const ViewProject = () => {
                           : 'green light'
                       }
                     ></div>
-                    {/* 지원자 리스트랑 비교해서 맞춰야함 */}
                     {false ? (
                       <Tag>마감</Tag>
                     ) : checkApply?.position === position.position ? (
@@ -149,6 +148,7 @@ const ViewProject = () => {
             likeHandler={likeHandler}
             liked={data.liked}
             totalLikes={data.totalLikes}
+            articleRefetch={projectRefetch}
           />
         </>
       )}

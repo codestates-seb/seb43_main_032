@@ -29,19 +29,17 @@ export const useProjectApply = ({ projectRefetch }: Props) => {
     }
   );
 
+  //지원자 리스트 안에 있는지 체크
   const checkApply = data?.data.find(
     (data) => data.memberInfo.email === loggedInUser?.email
   );
 
-  /**
-   * 프로젝트 지원 이벤트
-   */
   const applyProject = useMutation(
     ({ position }: { position: string }) =>
       api.post(`/projects/${id}/apply`, { position }),
     {
       onSuccess: () => {
-        refetch(); //잠시 체크용
+        refetch();
         projectRefetch();
       },
       onError: () => {
@@ -49,6 +47,10 @@ export const useProjectApply = ({ projectRefetch }: Props) => {
       },
     }
   );
+
+  /**
+   * 프로젝트 지원 이벤트
+   */
   const applyEvent = (position: string) => {
     if (checkApply) {
       return alert('지원한 포지션을 취소해주세요.');
@@ -56,15 +58,12 @@ export const useProjectApply = ({ projectRefetch }: Props) => {
     if (confirm('정말 지원하시겠습니까?')) applyProject.mutate({ position });
   };
 
-  /**
-   * 프로젝트 지원 취소 이벤트 (최초 지원)
-   */
   const applyCancel = useMutation(
     ({ position }: { position: string }) =>
       api.post(`/projects/${id}/cancel-apply`, { position }),
     {
       onSuccess: () => {
-        refetch(); //잠시 체크용
+        refetch();
         projectRefetch();
       },
       onError: () => {
@@ -72,6 +71,10 @@ export const useProjectApply = ({ projectRefetch }: Props) => {
       },
     }
   );
+
+  /**
+   * 프로젝트 지원 취소 이벤트 (최초 지원)
+   */
   const cancelEvent = (position: string) => {
     if (confirm('정말 취소하시겠습니까?')) applyCancel.mutate({ position });
   };
@@ -84,7 +87,7 @@ export const useProjectApply = ({ projectRefetch }: Props) => {
       api.post(`/projects/${id}/cancel-accepted-apply`, { position }),
     {
       onSuccess: () => {
-        refetch(); //잠시 체크용
+        refetch();
         projectRefetch();
       },
       onError: () => {
@@ -132,6 +135,6 @@ export const useProjectApply = ({ projectRefetch }: Props) => {
     acceptCancel,
     acceptApply,
     rejectApply,
-    checkApply
+    checkApply,
   };
 };
