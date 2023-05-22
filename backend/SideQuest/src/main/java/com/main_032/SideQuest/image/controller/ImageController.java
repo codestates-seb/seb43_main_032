@@ -9,7 +9,6 @@ import java.io.IOException;
 
 @RestController
 @RequestMapping("/images")
-@CrossOrigin(origins = "*", allowedHeaders = "*")
 public class ImageController {
     private final ImageUploader imageUploader;
 
