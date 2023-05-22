@@ -6,7 +6,7 @@ import { useRecoilValue } from 'recoil';
 import { loggedInUserState } from '@/recoil/atom';
 import { Crew } from '@/types/project';
 import { getCookie } from '@/util/cookie';
-import { errorAlert } from '@/components/alert/Alert';
+import { confirmAlert, errorAlert } from '@/components/alert/Alert';
 
 type ApplyList = {
   data: { position: string; projectId: number; memberInfo: MemberInfo }[];
@@ -18,10 +18,7 @@ type Props = {
   acceptedPostion: Crew | undefined;
 };
 
-export const useProjectApply = ({
-  projectRefetch,
-  acceptedPostion,
-}: Props) => {
+export const useProjectApply = ({ projectRefetch, acceptedPostion }: Props) => {
   const loggedInUser = useRecoilValue(loggedInUserState);
   const router = useRouter();
   const { id } = router.query;
@@ -91,7 +88,9 @@ export const useProjectApply = ({
    * 프로젝트 지원 취소 이벤트 (최초 지원)
    */
   const cancelEvent = (position: string) => {
-    if (confirm('정말 취소하시겠습니까?')) applyCancel.mutate({ position });
+    confirmAlert('정말 취소하시겠습니까?', '프로젝트 취소가').then(() =>
+      applyCancel.mutate({ position })
+    );
   };
 
   //수락된 상태에서 취소
@@ -113,8 +112,9 @@ export const useProjectApply = ({
    * 수락된 지원자가 지원을 취소하는 이벤트
    */
   const acceptedCancleEvent = (target: string) => {
-    if (confirm('정말 확정을 취소하시겠습니까?'))
-      acceptCancel.mutate({ position: target });
+    confirmAlert('정말 확정을 취소하시겠습니까?', '확정 취소가').then(() =>
+      acceptCancel.mutate({ position: target })
+    );
   };
 
   //수락

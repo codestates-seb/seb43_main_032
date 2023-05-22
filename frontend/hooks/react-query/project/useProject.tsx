@@ -2,9 +2,7 @@ import { useQuery, useMutation } from 'react-query';
 import { useRouter } from 'next/router';
 import { PostData, Project } from '@/types/project';
 import { api } from '@/util/api';
-import { errorAlert } from '@/components/alert/Alert';
-import { useInfinityProject } from './useInfinityProject';
-import { useTopData } from '../useTopData';
+import { confirmAlert, errorAlert } from '@/components/alert/Alert';
 
 type ProjectData = {
   data: Project;
@@ -25,10 +23,6 @@ export const useProject = (
       }
     }
   );
-
-  //글 작성, 수정, 삭제 이후 무한스크롤 데이터 refecth만 가져오기위해
-  const { infinityRefetch } = useInfinityProject();
-  const { topLikeProjectRefecth, topViewProjectRefecth } = useTopData();
 
   //좋아요
   const likeProject = useMutation(
@@ -97,11 +91,15 @@ export const useProject = (
 
   //프로젝트 진행상황 관리 이벤트
   const projectEvent = (state: string) => {
-    if (state === '모집 완료' && confirm('정말 프로젝트를 시작하시겠습니까?')) {
-      return updateState.mutate('진행 중');
+    if (state === '모집 완료') {
+      confirmAlert('정말 프로젝트를 시작하시겠습니까?', '프로젝트 시작을').then(
+        () => updateState.mutate('진행 중')
+      );
     }
-    if (state === '진행 중' && confirm('정말 프로젝트를 종료하시겠습니까?')) {
-      return updateState.mutate('종료');
+    if (state === '진행 중') {
+      confirmAlert('정말 프로젝트를 종료하시겠습니까?', '프로젝트 종료를').then(
+        () => updateState.mutate('종료')
+      );
     }
   };
 
@@ -109,17 +107,14 @@ export const useProject = (
    * 프로젝트 삭제 이벤트
    */
   const deleteProject = useMutation(
-    async () => {
-      if (confirm('정말 삭제하시겠습니까?'))
-        return await api.delete(`/projects/${id}`).then(() => router.push('/'));
-    },
+    () =>
+      confirmAlert('정말 삭제하시겠습니까?', '프로젝트 삭제가').then(() =>
+        api.delete(`/projects/${id}`).then(() => router.push('/'))
+      ),
     {
       onSuccess: () => {
         router.push('/').then(() => {
-          refetch();
-          infinityRefetch();
-          topLikeProjectRefecth();
-          topViewProjectRefecth();
+          router.reload();
         });
       },
       onError: () => {
@@ -132,7 +127,7 @@ export const useProject = (
    * edit 페이지 이동 이벤트
    */
   const moveEdit = () => {
-    if (confirm('정말 수정하시겠습니까?')) router.push(`/project/${id}/edit`);
+    router.push(`/project/${id}/edit`);
   };
 
   /**
@@ -142,11 +137,8 @@ export const useProject = (
     (data: PostData) => api.patch(`/projects/${id}`, data),
     {
       onSuccess: () => {
-        router.push('/').then(() => {
-          refetch();
-          infinityRefetch();
-          topLikeProjectRefecth();
-          topViewProjectRefecth();
+        router.push('/project').then(() => {
+          router.reload();
         });
       },
       onError: () => {
@@ -162,11 +154,8 @@ export const useProject = (
     (data: PostData) => api.post('/projects', data),
     {
       onSuccess: () => {
-        router.push('/').then(() => {
-          refetch();
-          infinityRefetch();
-          topLikeProjectRefecth();
-          topViewProjectRefecth();
+        router.push('/project').then(() => {
+          router.reload();
         });
       },
       onError: () => {

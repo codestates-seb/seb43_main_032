@@ -8,7 +8,7 @@ import {
   LikeAnswerMutation,
   PostAnswerMutation,
 } from '@/types/answer';
-import { errorAlert } from '@/components/alert/Alert';
+import { confirmAlert, errorAlert } from '@/components/alert/Alert';
 
 type Props = {
   answerRefetch: () => void;
@@ -38,10 +38,10 @@ export const useAnswer = ({
   const postAnswer: PostAnswerMutation = useMutation(
     async ({ content }: { content: string }) => {
       if (!getCookie('accessToken')) {
-        return errorAlert('로그인이 필요합니다.', '댓글 작성');
+        return errorAlert('로그인이 필요합니다.', '답글 작성');
       }
       if (content === '') {
-        return errorAlert('내용을 작성해주세요.', '댓글 작성');
+        return errorAlert('내용을 작성해주세요.', '답글 작성');
       }
       const data = {
         content,
@@ -57,7 +57,7 @@ export const useAnswer = ({
         changeAnswerVal('');
       },
       onError: () => {
-        errorAlert('잠시 후에 다시 시도해주세요.', '댓글 작성');
+        errorAlert('잠시 후에 다시 시도해주세요.', '답글 작성');
       },
     }
   );
@@ -67,8 +67,9 @@ export const useAnswer = ({
    */
   const deleteAnswer: DeleteAnswerMutation = useMutation(
     async ({ answerId }: { answerId: number }) => {
-      if (confirm('정말 답글을 삭제하시겠습니까?'))
-        return await api.delete(`/answers/${answerId}`);
+      confirmAlert('정말 답글을 삭제하시겠습니까?', '답글 삭제가').then(() =>
+        api.delete(`/answers/${answerId}`)
+      );
     },
     {
       onSuccess: () => {
@@ -78,7 +79,7 @@ export const useAnswer = ({
         answerRefetch();
       },
       onError: () => {
-        errorAlert('잠시 후에 다시 시도해주세요.', '댓글 삭제');
+        errorAlert('잠시 후에 다시 시도해주세요.', '답글 삭제');
       },
     }
   );
@@ -91,7 +92,7 @@ export const useAnswer = ({
       answerRefetch();
     },
     onError: () => {
-      errorAlert('잠시 후에 다시 시도해주세요.', '댓글 수정');
+      errorAlert('잠시 후에 다시 시도해주세요.', '답글 수정');
     },
   });
 
@@ -109,7 +110,7 @@ export const useAnswer = ({
         answerRefetch();
       },
       onError: () => {
-        errorAlert('잠시 후에 다시 시도해주세요.', '댓글 좋아요');
+        errorAlert('잠시 후에 다시 시도해주세요.', '답글 좋아요');
       },
     }
   );
@@ -128,7 +129,7 @@ export const useAnswer = ({
         answerRefetch();
       },
       onError: () => {
-        errorAlert('잠시 후에 다시 시도해주세요.', '좋아요 해제');
+        errorAlert('잠시 후에 다시 시도해주세요.', '좋아요 취소');
       },
     }
   );

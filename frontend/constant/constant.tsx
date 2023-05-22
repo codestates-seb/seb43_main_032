@@ -223,3 +223,11 @@ export const POST_COMMUNITY_CATEGORY: { [key: string]: string } = {
   IOS: 'IOS',
   기타: 'OTHER',
 };
+
+export const TAG_COLOR = [
+  { type: 'nomal', name: '취소', color: '#f03232', backgroundColor: '#dfd5d5' },
+  { type: 'nomal', name: '마감', color: '#f03232', backgroundColor: '#dfd5d5' },
+  { type: 'nomal', name: '확정', color: '#ffffff', backgroundColor: '#49e256' },
+  { type: 'hover', name: '마감', color: 'white', backgroundColor: '#5b24ff' },
+  { type: 'hover', name: '취소', color: 'white', backgroundColor: '#ec5353' },
+];

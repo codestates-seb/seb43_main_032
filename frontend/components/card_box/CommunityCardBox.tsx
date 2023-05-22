@@ -2,18 +2,36 @@ import styled from 'styled-components';
 import { ReactNode } from 'react';
 import { Community } from '@/types/community';
 import ContentItem from '../community/ContentItem';
+import SubBtn from '../button/SubBtn';
 
 type Props = {
-  data: Community[];
-  title: string;
+  data: Community[] | undefined;
   skeleton?: ReactNode;
+  filterHandler: (idx: number) => void;
+  selected: number;
 };
 
-const CommunityCardBox = ({ title, data, skeleton }: Props) => {
+const CommunityCardBox = ({
+  selected,
+  filterHandler,
+  data,
+  skeleton,
+}: Props) => {
+  const filterNames = ['조회 순', '하트 순'];
   return (
     <Box>
-      <div className="nanum-bold">
-        <div>{title}</div>
+      <div className="nanum-bold">커뮤니티</div>
+      <div className="filter-box">
+        {filterNames.map((name, idx) => (
+          <div>
+            <SubBtn
+              className={idx === selected ? 'focus' : ''}
+              onClick={() => filterHandler(idx)}
+            >
+              {name}
+            </SubBtn>
+          </div>
+        ))}
       </div>
       <div className="community-box">
         {data?.map((article: Community) => (
@@ -33,7 +51,15 @@ const Box = styled.div`
   .nanum-bold {
     display: flex;
     gap: 16px;
-    margin-bottom: 48px;
+  }
+  .focus {
+    background: #6333ff;
+  }
+  .filter-box {
+    display: flex;
+    margin: 20px 0px;
+    gap: 16px;
+    font-size: 16px;
   }
   .community-box {
     display: grid;
