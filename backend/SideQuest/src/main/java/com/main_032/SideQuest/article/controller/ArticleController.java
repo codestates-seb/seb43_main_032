@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @Api(tags = "Articles", description = "게시판 API")
 @AllArgsConstructor
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 public class ArticleController {
 
     private final ArticleService articleService;

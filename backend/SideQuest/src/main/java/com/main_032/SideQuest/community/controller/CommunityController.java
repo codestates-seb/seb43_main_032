@@ -19,6 +19,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 @Api(tags = {"Community"}, description = "커뮤니티 API")
 @RestController
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 public class CommunityController {
 
     private final CommentService commentService;

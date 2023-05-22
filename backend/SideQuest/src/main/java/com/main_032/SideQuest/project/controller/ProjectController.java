@@ -20,6 +20,7 @@ import java.util.List;
 @RestController
 @Api(tags = {"Projects"}, description = "프로젝트 API")
 @AllArgsConstructor
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 public class ProjectController {
 
     private final ProjectService projectService;
