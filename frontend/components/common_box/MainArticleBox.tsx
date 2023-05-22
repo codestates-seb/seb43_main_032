@@ -100,6 +100,11 @@ const Box = styled.div`
   font-size: 20px;
   padding: 20px 20px 36px;
   gap: 32px;
+  @media (max-width: 768px) {
+    font-size: 16px;
+    padding: 16px;
+    gap: 24px;
+  }
 
   > .content {
     width: 100%;
@@ -126,6 +131,7 @@ const Box = styled.div`
 
       .category {
         font-size: 14px;
+        border: 1px solid red;
       }
     }
   }

@@ -1,16 +1,7 @@
-import { useRouter } from 'next/router';
-import { useEffect, useState } from 'react';
-import { FieldErrors, useForm } from 'react-hook-form';
 import styled from 'styled-components';
-import EditInput from '@/components/authAction/EditInput';
-import { api } from '@/util/api';
 import GridBox from '@/components/common_box/GridBox';
-import { Tech } from '@/types/project';
-import SelectStack from '@/components/stack/SelectStack';
-import { mergeData, updateData } from '@/util/user';
 import UserEditForm from '@/components/authAction/UserEditForm';
 import useUser from '@/hooks/react-query/useUser';
-import { getCookie } from '@/util/cookie';
 
 const SideBar = styled.div`
   background-color: rgba(0, 0, 0, 0.1);

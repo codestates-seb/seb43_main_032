@@ -8,74 +8,6 @@ import EditInput from './EditInput';
 import SelectStack from '../stack/SelectStack';
 import { useRouter } from 'next/router';
 
-const ImgWrapper = styled.div`
-  flex-shrink: 0;
-  margin: 20px;
-  display: flex;
-  position: relative;
-  flex-direction: column;
-  width: 200px;
-  height: 200px;
-  border-radius: 20px;
-  overflow: hidden;
-  margin-right: 80px;
-  margin-top: 30px;
-  background-color: #cbcbcb;
-
-  div {
-    position: absolute;
-    bottom: 10px;
-    width: 100%;
-    height: 20px;
-  }
-  input {
-    display: none;
-  }
-  label {
-    display: flex;
-    justify-content: center;
-    font-size: 20px;
-    padding: 5px;
-    width: 100%;
-    border: none;
-    background-color: skyblue;
-  }
-  img {
-    object-fit: cover;
-    width: 100%;
-    height: 100%;
-  }
-`;
-
-const Form = styled.form`
-  display: flex;
-  flex-direction: column;
-`;
-
-const ProfileBox = styled.div`
-  display: flex;
-  width: 100%;
-  align-items: center;
-  .nameBox {
-    width: 100%;
-  }
-`;
-const ButtonBox = styled.div`
-  display: flex;
-  width: 100%;
-  justify-content: flex-end;
-`;
-const Button = styled.button.attrs({ className: 'nanum-bold' })`
-  padding: 20px;
-  /* padding-bottom: 0px; */
-  border: none;
-  border-radius: 10px;
-  background-color: skyblue;
-`;
-const Label = styled.p.attrs({ className: 'nanum-bold' })`
-  padding-top: 20px;
-  padding-bottom: 10px;
-`;
 export default function UserEditForm({ user }: { user: any }) {
   const { register, handleSubmit, watch } = useForm();
   const [imgPreview, setImgPreview] = useState<string>('');
@@ -173,3 +105,72 @@ export default function UserEditForm({ user }: { user: any }) {
     </Form>
   );
 }
+
+const ImgWrapper = styled.div`
+  flex-shrink: 0;
+  margin: 20px;
+  display: flex;
+  position: relative;
+  flex-direction: column;
+  width: 200px;
+  height: 200px;
+  border-radius: 20px;
+  overflow: hidden;
+  margin-right: 80px;
+  margin-top: 30px;
+  background-color: #cbcbcb;
+
+  div {
+    position: absolute;
+    bottom: 10px;
+    width: 100%;
+    height: 20px;
+  }
+  input {
+    display: none;
+  }
+  label {
+    display: flex;
+    justify-content: center;
+    font-size: 20px;
+    padding: 5px;
+    width: 100%;
+    border: none;
+    background-color: skyblue;
+  }
+  img {
+    object-fit: cover;
+    width: 100%;
+    height: 100%;
+  }
+`;
+
+const Form = styled.form`
+  display: flex;
+  flex-direction: column;
+`;
+
+const ProfileBox = styled.div`
+  display: flex;
+  width: 100%;
+  align-items: center;
+  .nameBox {
+    width: 100%;
+  }
+`;
+const ButtonBox = styled.div`
+  display: flex;
+  width: 100%;
+  justify-content: flex-end;
+`;
+const Button = styled.button.attrs({ className: 'nanum-bold' })`
+  padding: 20px;
+  /* padding-bottom: 0px; */
+  border: none;
+  border-radius: 10px;
+  background-color: skyblue;
+`;
+const Label = styled.p.attrs({ className: 'nanum-bold' })`
+  padding-top: 20px;
+  padding-bottom: 10px;
+`;
