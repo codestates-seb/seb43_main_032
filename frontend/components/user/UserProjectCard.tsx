@@ -1,28 +1,27 @@
 import styled from 'styled-components';
-import Tag from '../Tag';
-import { AiFillStar } from 'react-icons/ai';
+import { AiTwotoneLike } from 'react-icons/ai';
+import Stack from '../stack/Stack';
+import { useRouter } from 'next/router';
 
-const stacks = [
-  'React',
-  'Java',
-  'Python',
-  'C+',
-  'TypeScript',
-  'Styled-Components',
-];
-export default function ContentCard() {
+export default function UserProjectCard({ project }: { project: any }) {
+  const router = useRouter();
+  const handleClick = () => {
+    router.push(`/projects/${project.id}`);
+  };
   return (
-    <Wrapper>
+    <Wrapper onClick={handleClick}>
       <ContentContainer>
         <CardInfo>
           <h3 style={{ fontSize: '20px', fontWeight: 'bold' }}>
-            TODO List 만들기
+            {project.title}
           </h3>
-          <span> 프로젝트 기간 : 2023.03.01 ~ 2023.03.02</span>
+          <span>
+            {`프로젝트 기간 : ${project.startDate}~ ${project.endDate}`}
+          </span>
         </CardInfo>
         <TagContainer>
-          {stacks.map((stack) => (
-            <Tag key={stack}>{stack}</Tag>
+          {project.techList.map((stack: string) => (
+            <Stack tech={stack} />
           ))}
         </TagContainer>
         <span>
@@ -35,9 +34,8 @@ export default function ContentCard() {
         </span>
       </ContentContainer>
       <StarRaiting>
-        <AiFillStar size={30} />
-        <p style={{ marginTop: '5px' }}>평점</p>
-        <p>4/5</p>
+        <AiTwotoneLike size={30} style={{ color: '#6C82CA' }} />
+        <p style={{ marginTop: '5px' }}>{project.totalLikes}</p>
       </StarRaiting>
     </Wrapper>
   );
@@ -50,7 +48,10 @@ const Wrapper = styled.div`
   justify-content: space-between;
   align-items: center;
   border-radius: var(--radius-def);
-  background-color: rgba(0, 0, 0, 0.3);
+  cursor: pointer;
+  box-shadow: 5px 5px 10px 0px rgba(0, 0, 0, 0.25);
+  -webkit-box-shadow: 5px 5px 10px 0px rgba(0, 0, 0, 0.25);
+  -moz-box-shadow: 5px 5px 10px 0px rgba(0, 0, 0, 0.25);
 `;
 const ContentContainer = styled.div`
   display: flex;

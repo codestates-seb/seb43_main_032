@@ -5,9 +5,22 @@ type Props = {
   filter: number;
   allData: Project[] | Community[];
   searchVal: string;
+  type: number;
 };
 
-export const articleFilter = ({ filter, allData, searchVal }: Props) => {
+//type 1은 프로젝트 2는 커뮤니티
+export const articleFilter = ({ type, filter, allData, searchVal }: Props) => {
+  if (type === 1 && filter === 0 && searchVal !== '') {
+    return (allData as []).filter(
+      (data: Community | Project) =>
+        data.title.includes(searchVal) ||
+        data.content.includes(searchVal) ||
+        data.memberInfo.name.includes(searchVal)
+    );
+  }
+  if (type === 1 && filter === 0) {
+    return;
+  }
   if (allData.length !== 0 && filter === 0 && searchVal === '') {
     return allData;
   }
@@ -18,12 +31,12 @@ export const articleFilter = ({ filter, allData, searchVal }: Props) => {
   if (filter === 1) {
     filterData = allData.reverse();
   }
-  if (filter === 2) {
+  if (filter === 2 && type === 1) {
     filterData = allData.sort(
       (x, y) => (y as Project).views - (x as Project).views
     );
-    if ((allData[0] as Project).views as Number) {
-    }
+  }
+  if (filter === 2 && type === 2) {
     filterData = allData.sort(
       (x, y) => (y as Community).view - (x as Community).view
     );

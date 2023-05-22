@@ -5,18 +5,11 @@ import { useEffect } from 'react';
 
 const CreateCommunity = () => {
   const router = useRouter();
-  // if (!getCookie('accessToken')) {
-  //   router.push('/users/login').then(() => {
-  //     alert('로그인을 해주세요.');
-  //   });
-  // }
   useEffect(() => {
-    window.scrollTo({
-      top: 600,
-      left: 0,
-      behavior: 'smooth',
-    });
-  }, [router]);
+    if (!getCookie('accessToken')) {
+      router.push('/404').then(() => alert('로그인을 부탁드려요.'));
+    }
+  }, []);
   return (
     <>
       <CommunityForm />

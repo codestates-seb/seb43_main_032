@@ -8,13 +8,16 @@ type ProjectData = {
   exceptionMsg: null;
 };
 
-export const useProject = () => {
+export const useProject = (
+  heartHandler?: (isLiked: boolean) => void,
+  heartCountHandler?: (totalCount: number) => void
+) => {
   const router = useRouter();
   const { id } = router.query;
   const { isLoading, error, data, refetch } = useQuery<ProjectData, Error>(
     ['project', id],
     async () => {
-      if (!router.route.includes('create')) {
+      if (!router.route.includes('create') && id) {
         return await api(`/projects/${id}`).then((res) => res.data);
       }
     }
@@ -22,10 +25,22 @@ export const useProject = () => {
 
   //좋아요
   const likeProject = useMutation(
-    () => api.post(`/likes`, { category: 'PROJECT', uniteId: id }),
+    (cardId: number | void) =>
+      api
+        .post(`/likes`, {
+          category: 'PROJECT',
+          uniteId: cardId ? cardId : id,
+        })
+        .then((res) => {
+          //외부의 ProjectCard만을 위한 Handler들
+          if (heartHandler && heartCountHandler) {
+            heartHandler(res.data.data.liked);
+            heartCountHandler(res.data.data.totalLikes);
+          }
+        }),
     {
       onSuccess: () => {
-        refetch();
+        if (id) refetch();
       },
       onError: () => {
         alert('잠시 후에 다시 시도해주세요.');
@@ -35,10 +50,22 @@ export const useProject = () => {
 
   //싫어요
   const dislikeProject = useMutation(
-    () => api.post(`/likes/undo`, { category: 'PROJECT', uniteId: id }),
+    (cardId: number | void) =>
+      api
+        .post(`/likes/undo`, {
+          category: 'PROJECT',
+          uniteId: cardId ? cardId : id,
+        })
+        .then((res) => {
+          //외부의 ProjectCard만을 위한 Handler들
+          if (heartHandler && heartCountHandler) {
+            heartHandler(res.data.data.liked);
+            heartCountHandler(res.data.data.totalLikes);
+          }
+        }),
     {
       onSuccess: () => {
-        refetch();
+        if (id) refetch();
       },
       onError: () => {
         alert('잠시 후에 다시 시도해주세요.');
@@ -64,10 +91,10 @@ export const useProject = () => {
   //프로젝트 진행상황 관리 이벤트
   const projectEvent = (state: string) => {
     if (state === '모집 완료' && confirm('정말 프로젝트를 시작하시겠습니까?')) {
-      updateState.mutate('진행 중');
+      return updateState.mutate('진행 중');
     }
     if (state === '진행 중' && confirm('정말 프로젝트를 종료하시겠습니까?')) {
-      updateState.mutate('종료');
+      return updateState.mutate('종료');
     }
   };
 
@@ -136,5 +163,6 @@ export const useProject = () => {
     moveEdit,
     submitEdit,
     submitPost,
+    projectRefetch: refetch,
   };
 };

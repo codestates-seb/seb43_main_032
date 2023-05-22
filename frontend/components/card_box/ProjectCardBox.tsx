@@ -35,7 +35,11 @@ const ProjectCardBox = ({
       </div>
       <div className="projects-box">
         {data?.map((project: Project) => (
-          <ProjectCard key={project.projectId} size={'sm'} data={project} />
+          <ProjectCard
+            key={project.projectId}
+            size={'sm'}
+            data={project}
+          />
         ))}
       </div>
       {skeleton}

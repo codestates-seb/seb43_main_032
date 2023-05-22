@@ -9,8 +9,6 @@ import Link from 'next/link';
 import { Project } from '@/types/project';
 import Message from '@/components/Message';
 import { useForm } from 'react-hook-form';
-import Btn from '@/components/button/Btn';
-import { BsSearch } from 'react-icons/bs';
 import ProjectCardBox from '@/components/card_box/ProjectCardBox';
 import { Filter, Form, PageProps } from '@/types/types';
 import { AiOutlineArrowUp } from 'react-icons/ai';
@@ -22,50 +20,26 @@ const page_limit = 4;
 const ProjectHome = () => {
   const router = useRouter();
   const { register, watch } = useForm<Form>();
-  // const search = router.query.search;
 
   //주소, 서버 필터 작업 전까지 주석처리
   const address = () => {
-    // if (search && filter) {
-    //   return `/projects/findAll&size=${page_limit}&filter=${filter}`;
-    // }
-    // if (search || filter) {
-    //   return `/projects/findAll&size=${page_limit}`;
-    // }
     return `/projects/findAll?size=${page_limit}`;
   };
 
   //쿼리 키, 서버 필터 작업 전까지 주석처리
   const queryKey = () => {
-    // if (search && filter) {
-    //   return ['projects', search, filter];
-    // }
-    // if (search || filter) {
-    //   return ['projects', search || filter];
-    // }
     return 'projects';
   };
-
-  //라우터 이동 시,
-  useEffect(() => {
-    if (watch().search !== '') {
-      window.scrollTo({
-        top: 600,
-        left: 0,
-        behavior: 'smooth',
-      });
-    }
-  }, [router]);
 
   //무한스크롤 데이터
   const {
     isLoading,
     error,
     data,
-    refetch,
     fetchNextPage,
     hasNextPage,
     isFetching,
+    refetch,
   } = useInfiniteQuery(
     queryKey(),
     ({ pageParam = 1 }) =>
@@ -77,7 +51,7 @@ const ProjectHome = () => {
         lastPage: PageProps<Project>,
         allPages: PageProps<Project>[]
       ) => {
-        if (allPages[allPages.length - 1] === undefined) {
+        if (lastPage.data.length < page_limit) {
           return null;
         }
         return allPages.length + 1;
@@ -85,29 +59,33 @@ const ProjectHome = () => {
     }
   );
 
+  useEffect(() => {
+    refetch();
+  }, []);
+
   //서버에서 필터링 작업이 완성되기 전, 눈속임을 위한 필터 데이터
   const [filter, setFilter] = useState<Filter>(0);
   const filterHandler = (idx: number) => {
     setFilter(idx);
   };
   const [allData, setAllData] = useState<Project[]>([]);
+
   useEffect(() => {
     getAllProject().then((res) => setAllData(res));
   }, []);
+
   const filterData = articleFilter({
     filter,
     allData,
     searchVal: watch().search,
+    type: 1,
   });
 
+  console.log(filterData);
   //무한 스크롤 effect
   const target = useRef<HTMLDivElement>(null);
   useEffect(() => {
-    if (
-      target.current &&
-      data?.pageParams &&
-      data?.pageParams[data.pageParams.length - 1]
-    ) {
+    if (target.current && !hasNextPage) {
       return;
     }
     const observer = new IntersectionObserver(
@@ -166,7 +144,7 @@ const ProjectHome = () => {
               ? (filterData as Project[])
               : data.pages?.flatMap((page) => page.data)
           }
-          skeleton={isFetching && hasNextPage && <ProjectSkeleton />}
+          skeleton={isFetching && <ProjectSkeleton />}
         >
           <div className="filter-box noto-regular-13">
             <div className="filter-sub-box">

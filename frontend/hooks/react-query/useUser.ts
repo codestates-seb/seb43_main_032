@@ -15,7 +15,7 @@ export default function useUser({ id, keyword, page, pageSize }: IProps) {
   // const setIsLoggedIn = useSetRecoilState(userStatus);
   // const queryClient = useQueryClient();
 
-  const userQuery = useQuery(['users'], () => getUsers(page, pageSize));
+  const userQuery = useQuery(['users', page], () => getUsers(page, pageSize));
 
   // const getUserStatus = useQuery(['loggedIn'], getStatus);
   const getMyInfo = useQuery(['users', 'me'], getMe);

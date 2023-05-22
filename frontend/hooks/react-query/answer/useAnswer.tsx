@@ -12,12 +12,17 @@ import {
 type Props = {
   answerRefetch: () => void;
   changeAnswerVal: (val: string) => void;
+  articleRefetch: () => void;
 };
 
 /**
  * 답글 CRUD
  */
-export const useAnswer = ({ answerRefetch, changeAnswerVal }: Props) => {
+export const useAnswer = ({
+  answerRefetch,
+  changeAnswerVal,
+  articleRefetch,
+}: Props) => {
   const router = useRouter();
   const { id } = router.query;
 
@@ -46,6 +51,7 @@ export const useAnswer = ({ answerRefetch, changeAnswerVal }: Props) => {
     },
     {
       onSuccess: () => {
+        articleRefetch();
         answerRefetch();
         changeAnswerVal('');
       },
@@ -65,6 +71,9 @@ export const useAnswer = ({ answerRefetch, changeAnswerVal }: Props) => {
     },
     {
       onSuccess: () => {
+        if (category === 'ARTICLE') {
+          articleRefetch();
+        }
         answerRefetch();
       },
       onError: () => {

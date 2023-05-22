@@ -1,11 +1,14 @@
 import React, { ReactNode } from 'react';
+import styled from 'styled-components';
 
 type Props = React.HTMLAttributes<HTMLButtonElement> & {
   children: ReactNode;
 };
 
 const Btn = (props: Props) => {
-  return <button className="search-btn" {...props} />;
+  return <Box className="search-btn" {...props} />;
 };
 
 export default Btn;
+
+const Box = styled.button``;

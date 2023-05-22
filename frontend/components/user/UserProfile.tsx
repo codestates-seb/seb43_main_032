@@ -1,8 +1,6 @@
 import styled from 'styled-components';
 import Tag from '../Tag';
 import { UserState } from '@/types/user';
-import Stack from '../stack/Stack';
-// import Position from '../Position';
 
 export default function UserProfile({ user }: { user: UserState }) {
   return (
@@ -19,7 +17,7 @@ export default function UserProfile({ user }: { user: UserState }) {
       </AvatarContainer>
       <Tag className="years-tag">{`${user?.yearOfDev} 년차`}</Tag>
       <Name>{user?.name}</Name>
-      <Position text="프론트엔드"></Position>
+      <Position>프론트엔드</Position>
     </Wrapper>
   );
 }
@@ -81,3 +79,4 @@ const Position = styled.div.attrs({
 const Name = styled.p.attrs({
   className: 'nanum-bold',
 })``;
+

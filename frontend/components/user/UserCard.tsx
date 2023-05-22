@@ -3,7 +3,7 @@ import { FaLocationArrow } from 'react-icons/fa';
 import styled from 'styled-components';
 import Link from 'next/link';
 import Stack from '../stack/Stack';
-import { UserState } from '@/types/user';
+import { User, UserState } from '@/types/user';
 import Tag from '../Tag';
 
 interface IProps {

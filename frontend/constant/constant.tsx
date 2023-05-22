@@ -12,7 +12,7 @@ export const HEADER_NAV: HeaderNav = {
   MY: '/users/me',
   LOGOUT: '/',
   LOGIN: '/users/login',
-  SINGUP: '/users/signup',
+  SIGNUP: '/users/signup',
 };
 
 export const STACKS_CATEGORIES: StackCategoryName = {

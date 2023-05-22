@@ -9,6 +9,8 @@ import 'animate.css';
 import Contact from '@/components/Contact';
 import ModalBg from '@/components/ModalBg';
 import { useRouter } from 'next/router';
+import LoginBg from '@/components/user/LoginBg';
+import EtcHeader from '@/components/EtcHeader';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -20,27 +22,27 @@ const queryClient = new QueryClient({
   },
 });
 
-// 콘솔이 너무 지저분해져서 가상 서버 주석 처리
-// if (process.env.NODE_ENV === 'development') {
-//   require('../__mocks__');
-// }
-
 const App = ({ Component, pageProps }: AppProps) => {
   const router = useRouter().pathname;
-  const page404 = router !== '/404';
-  const pageLogin = router !== '/users/login';
-  const pageSignUp = router !== '/users/signup';
+  const check = (pathname: string) => {
+    return (
+      pathname === '/404' ||
+      pathname === '/users/login' ||
+      pathname === '/users/signup'
+    );
+  };
 
   return (
     <QueryClientProvider client={queryClient}>
       <RecoilRoot>
-        {page404 && <Header />}
+        {!check(router) ? <Header /> : <EtcHeader />}
         <Box>
           <Component {...pageProps} />
         </Box>
-        {page404 && <Contact />}
+        {!check(router) && <Contact />}
         <ModalBg></ModalBg>
-        {page404 && <Footer />}
+        {!check(router) && <Footer />}
+        {check(router) && <LoginBg />}
       </RecoilRoot>
     </QueryClientProvider>
   );

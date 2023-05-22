@@ -1,15 +1,21 @@
-import { useRouter } from 'next/router';
-import { useEffect, useState } from 'react';
-import { FieldErrors, useForm } from 'react-hook-form';
 import styled from 'styled-components';
-import EditInput from '@/components/authAction/EditInput';
-import { api } from '@/util/api';
 import GridBox from '@/components/common_box/GridBox';
-import { Tech } from '@/types/project';
-import SelectStack from '@/components/stack/SelectStack';
-import { mergeData, updateData } from '@/util/user';
 import UserEditForm from '@/components/authAction/UserEditForm';
-import useUser from '@/hooks/react-query/useUser';
+
+export default function Edit() {
+  const user = dummyUser;
+
+  return (
+    <GridBox>
+      <SideBar></SideBar>
+      <Wrapper>
+        {user && ( //
+          <UserEditForm user={user} />
+        )}
+      </Wrapper>
+    </GridBox>
+  );
+}
 
 const SideBar = styled.div`
   background-color: rgba(0, 0, 0, 0.1);
@@ -35,33 +41,14 @@ export const dummyUser = {
   phone: 'string',
   position: 'string',
   profileImageUrl: 'string',
-  techList: ['string'],
+  techList: [
+    'java_script',
+    'react',
+    'next_js',
+    'recoil',
+    'react_query',
+    'type_scriypt',
+  ],
   totalStar: 0,
   yearOfDev: 0,
 };
-export default function Edit() {
-  // const user = dummyUser;
-  const {
-    getMyInfo: { data: user },
-  } = useUser({});
-
-  // const router = useRouter();
-  // useEffect(() => {
-  //   window.scrollTo({
-  //     top: 670,
-  //     left: 0,
-  //     behavior: 'smooth',
-  //   });
-  // }, [router]);
-
-  return (
-    <GridBox>
-      <SideBar></SideBar>
-      <Wrapper>
-        {user && ( //
-          <UserEditForm user={user} />
-        )}
-      </Wrapper>
-    </GridBox>
-  );
-}

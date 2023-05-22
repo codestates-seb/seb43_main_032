@@ -1,4 +1,3 @@
-import { loggedInUserState } from '@/recoil/atom';
 import {
   Comment,
   DeleteCommentMutation,
@@ -9,8 +8,9 @@ import { elapsedTime } from '@/util/date';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { RiThumbUpFill, RiThumbUpLine } from 'react-icons/ri';
-import { useRecoilValue } from 'recoil';
 import styled from 'styled-components';
+import Tag from '../Tag';
+import { useRouter } from 'next/router';
 
 type Props = {
   comment: Comment;
@@ -27,6 +27,7 @@ const CommentItem = ({
   deleteComment,
   editComment,
 }: Props) => {
+  const router = useRouter();
   //content 관리
   const { register, watch } = useForm<{ content: string }>();
 
@@ -57,6 +58,17 @@ const CommentItem = ({
   const dislikeEvent = () => {
     dislikeComment.mutate({ category: 'COMMENT', uniteId: comment.commentId });
   };
+  const likeHandler = () => {
+    if (comment.liked) {
+      return dislikeEvent();
+    }
+    likeEvent();
+  };
+
+  //작성자 페이지로 이동
+  const moveAuthorPage = (memberId: number) => {
+    router.push(`/users/${memberId}`);
+  };
 
   return (
     <Box>
@@ -64,16 +76,22 @@ const CommentItem = ({
         <div className="left">
           <img src={comment.memberInfo.profileImageUrl} alt="user" />
           <div className="id-box">
-            <span>{comment.memberInfo.name}</span>
+            <span
+              onClick={() => moveAuthorPage(comment.memberInfo.memberId)}
+              className="author-id"
+            >
+              {comment.memberInfo.name}
+            </span>
+            {comment.author && <Tag>작성자</Tag>}
           </div>
         </div>
-        <div className="right">
+        <div onClick={likeHandler} className="right">
           {comment.liked ? (
-            <RiThumbUpFill onClick={dislikeEvent} size={12} />
+            <RiThumbUpFill size={12} />
           ) : (
-            <RiThumbUpLine onClick={likeEvent} size={12} />
+            <RiThumbUpLine size={12} />
           )}
-          <div className="like-num">100</div>
+          <div className="like-num">{comment.totalLikes}</div>
         </div>
       </div>
       <div className="middle">
@@ -118,6 +136,10 @@ const Box = styled.div`
   border-radius: 10px;
   padding: 10px 20px;
 
+  .author-id {
+    cursor: pointer;
+  }
+
   .top {
     width: 100%;
     display: flex;
@@ -135,6 +157,9 @@ const Box = styled.div`
 
       .id-box {
         margin-left: 16px;
+        display: flex;
+        align-items: center;
+        gap: 4px;
       }
     }
 
@@ -147,16 +172,20 @@ const Box = styled.div`
       border-radius: 5px;
       cursor: pointer;
 
-      > input {
-        width: 100%;
-        padding: 4px;
-        border: none;
-        border-bottom: 1px solid black;
-      }
-
       .like-num {
         font-size: 12px;
       }
+    }
+  }
+
+  .middle {
+    input {
+      width: 100%;
+      padding: 4px;
+      padding-bottom: 10px;
+      border: none;
+      outline: none;
+      border-bottom: 1px solid #d1cfcf;
     }
   }
 
@@ -167,7 +196,7 @@ const Box = styled.div`
     .button-box {
       display: flex;
       gap: 8px;
-      
+
       button {
         font-family: 'Pretendard';
         cursor: pointer;

@@ -1,6 +1,5 @@
 import { ChangeEvent, useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { FaSearch } from 'react-icons/fa';
 import { Community } from '@/types/community';
 import ContentItem from './ContentItem';
 import { useRouter } from 'next/router';
@@ -72,6 +71,7 @@ export default function Content() {
     filter,
     allData: commuityData,
     searchVal,
+    type: 2,
   });
 
   if (communityQuery.error)
@@ -85,9 +85,6 @@ export default function Content() {
           onChange={findContentItem}
           onKeyPress={(e) => e.key === 'Enter'}
         />
-        <SearchBtn>
-          <FaSearch />
-        </SearchBtn>
         <SearchBtn onClick={() => router.push('/community/create')}>
           질문하기
         </SearchBtn>
