@@ -3,6 +3,24 @@ import GridBox from '@/components/common_box/GridBox';
 import UserEditForm from '@/components/authAction/UserEditForm';
 import useUser from '@/hooks/react-query/useUser';
 
+export default function Edit() {
+  // const user = dummyUser;
+  const {
+    getMyInfo: { data: user },
+  } = useUser({});
+
+  return (
+    <GridBox>
+      <SideBar></SideBar>
+      <Wrapper>
+        {user && ( //
+          <UserEditForm user={user} />
+        )}
+      </Wrapper>
+    </GridBox>
+  );
+}
+
 const SideBar = styled.div`
   background-color: rgba(0, 0, 0, 0.1);
   border-radius: 20px;
@@ -38,20 +56,3 @@ export const dummyUser = {
   totalStar: 0,
   yearOfDev: 0,
 };
-export default function Edit() {
-  // const user = dummyUser;
-  const {
-    getMyInfo: { data: user },
-  } = useUser({});
-
-  return (
-    <GridBox>
-      <SideBar></SideBar>
-      <Wrapper>
-        {user && ( //
-          <UserEditForm user={user} />
-        )}
-      </Wrapper>
-    </GridBox>
-  );
-}

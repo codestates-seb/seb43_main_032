@@ -29,6 +29,7 @@ export default CommunityCardBox;
 
 const Box = styled.div`
   margin-bottom: 28px;
+
   .nanum-bold {
     display: flex;
     gap: 16px;
