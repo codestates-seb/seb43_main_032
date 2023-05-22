@@ -57,7 +57,9 @@ export default function Content() {
     allData,
     searchVal,
     category: POST_COMMUNITY_CATEGORY[CategoryFilterData[categoryFilter]],
-  }).slice((page - 1) * page_limit, page * page_limit);
+  });
+
+  const viewData = filterData.slice((page - 1) * page_limit, page * page_limit);
 
   if (communityError) return <Message>잠시 후 다시 시도해주세요.</Message>;
   return (
@@ -88,7 +90,7 @@ export default function Content() {
           <CommunityItemSkeleton count={10} />
         ) : (
           <ContentItemList>
-            {filterData.map((article: Community) => (
+            {viewData.map((article: Community) => (
               <ContentItem {...article} key={article.articleId} />
             ))}
           </ContentItemList>
@@ -96,7 +98,7 @@ export default function Content() {
         <Pagenation
           page={page}
           onPageChange={setPage}
-          pageSize={totalLength ? Math.ceil(totalLength / 10) : 0}
+          pageSize={Math.ceil(filterData.length / 10)}
         />
       </ContentBottom>
     </Container>
