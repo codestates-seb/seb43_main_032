@@ -1,3 +1,4 @@
+import { TAG_COLOR } from '@/constant/constant';
 import { ReactNode } from 'react';
 import styled from 'styled-components';
 type Props = React.HTMLAttributes<HTMLDivElement> & {
@@ -11,26 +12,26 @@ const Tag = (props: Props) => {
 export default Tag;
 
 const TagBox = styled.div<Props>`
-  background-color: ${(props) =>
-    props.children === '취소' || props.children === '마감'
-      ? '#dfd5d5'
-      : '#e4e4e4'};
-  background-color: ${(props) => props.children === '확정' && '#49e256'};
+  background-color: ${({ children }) =>
+    TAG_COLOR.find((tag) => tag.name === children)?.backgroundColor ||
+    '#e4e4e4'};
   padding: 5px 10px;
   border-radius: 10px;
   min-width: 48px;
   text-align: center;
-  color: ${(props) =>
-    props.children === '취소' || props.children === '마감'
-      ? '#f03232'
-      : '#767676'};
-  color: ${(props) => props.children === '확정' && '#ffffff'};
+  color: ${({ children }) =>
+    TAG_COLOR.find((tag) => tag.name === children)?.color || '#767676'};
   font-size: 12px;
   font-weight: 400 !important;
+
   :hover {
-    background-color: ${(props) =>
-      props.children === '마감' ? '' : '#5b24ff'};
-    background-color: ${(props) => props.children === '취소' && ' #ec5353;'};
-    color: white;
+    background-color: ${({ children }) =>
+      children !== '마감' &&
+      (TAG_COLOR.find((tag) => tag.name === children && tag.type === 'hover')
+        ?.backgroundColor ||
+        '#5b24ff')};
+    color: ${({ children }) =>
+      TAG_COLOR.find((tag) => tag.name === children && tag.type === 'hover')
+        ?.color || 'white'};
   }
 `;
