@@ -1,6 +1,9 @@
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
+#    oauth2 google
+    profiles:
+      include: oauth
 
     # Local
 #    url: jdbc:mysql://localhost:3306/sidequestdb?serverTimezone=UTC&characterEncoding=UTF-8
@@ -43,6 +46,8 @@ cloud:
       auto-: 'false'
     region:
       static: ap-northeast-2
+
+
 
 #server:
 #  port: 8090

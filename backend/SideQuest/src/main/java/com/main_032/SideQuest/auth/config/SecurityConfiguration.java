@@ -1,5 +1,6 @@
 package com.main_032.SideQuest.auth.config;
 
+import com.main_032.SideQuest.auth.config.dto.CustomOAuth2MemberService;
 import com.main_032.SideQuest.auth.filter.JwtAuthenticationFilter;
 import com.main_032.SideQuest.auth.filter.JwtVerificationFilter;
 import com.main_032.SideQuest.auth.handler.MemberAuthenticationSuccessHandler;
@@ -12,70 +13,55 @@ import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import com.main_032.SideQuest.ouath2.domain.Role;
+
 
 @Configuration
 @EnableWebSecurity
-public class SecurityConfiguration {
+public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     private final JwtTokenizer jwtTokenizer;
     private final CustomAuthorityUtils authorityUtils;
     private final MemberRepository memberRepository;
 
-    public SecurityConfiguration(JwtTokenizer jwtTokenizer, CustomAuthorityUtils authorityUtils, MemberRepository memberRepository) {
+    private final CustomOAuth2MemberService customOAuth2MemberService;
+
+    public SecurityConfiguration(JwtTokenizer jwtTokenizer, CustomAuthorityUtils authorityUtils, MemberRepository memberRepository, CustomOAuth2MemberService customOAuth2MemberService) {
         this.jwtTokenizer = jwtTokenizer;
         this.authorityUtils = authorityUtils;
         this.memberRepository = memberRepository;
+        this.customOAuth2MemberService = customOAuth2MemberService;
     }
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
-                .headers().frameOptions().disable()
+                .cors()
                 .and()
                 .csrf().disable()
-                .cors().and()
+                .httpBasic().disable()
+                .formLogin().disable()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
-                .formLogin().disable()
-                .httpBasic().disable()
-                .exceptionHandling()
-//                .authenticationEntryPoint(new MemberAuthenticationEntryPoint())  // 추가
-//                .accessDeniedHandler(new MemberAccessDeniedHandler())            // 추가
+                .headers().frameOptions().disable()
                 .and()
-                .apply(new CustomFilterConfigure())
+                .authorizeRequests()
+                .antMatchers("/", "/css/**", "/images/**", "/js/**", "/h2-console/**").permitAll()
+                .antMatchers("/api/v1/**").hasRole(Role.MEMBER.name())
+                .anyRequest().authenticated()
                 .and()
-                .authorizeHttpRequests(authorize -> authorize
-                                .antMatchers(HttpMethod.POST, "/*/login").permitAll()
-                                .antMatchers(HttpMethod.POST, "/*/signup").permitAll()
+                .logout()
+                .logoutSuccessUrl("/")
+                .and()
+                .oauth2Login()
+                .userInfoEndpoint()
+                .userService(customOAuth2MemberService);
 
-//                        .antMatchers(HttpMethod.PATCH, "/*/member").hasRole("USER")
-//                        .antMatchers(HttpMethod.PATCH, "/*/member/**").hasRole("ADMIN")
-//                        .antMatchers(HttpMethod.GET, "/*/member").hasRole("USER")
-//                        .antMatchers(HttpMethod.GET, "/*/member/**").hasRole("ADMIN")
-//                        .antMatchers(HttpMethod.DELETE, "/*/member").hasRole("USER")
-//                        .antMatchers(HttpMethod.DELETE, "/*/member/**").hasRole("ADMIN")
-//
-//                        .antMatchers(HttpMethod.POST, "/*/ask").hasRole("USER")
-//                        .antMatchers(HttpMethod.PATCH, "/*/ask/**").hasRole("USER")
-//                        .antMatchers(HttpMethod.GET, "/*/ask").permitAll()
-//                        .antMatchers(HttpMethod.GET, "/*/ask/**").permitAll()
-//                        .antMatchers(HttpMethod.DELETE, "/*/ask/**").hasAnyRole("USER", "ADMIN")
-//
-//                        .antMatchers(HttpMethod.POST, "/*/answer").hasRole("USER")
-//                        .antMatchers(HttpMethod.PATCH, "/*/answer/**").hasRole("USER")
-//                        .antMatchers(HttpMethod.GET, "/*/answer/**").permitAll()
-//                        .antMatchers(HttpMethod.DELETE, "/*/answer/**").hasAnyRole("USER", "ADMIN")
-//
-//                        .antMatchers(HttpMethod.POST, "/*/comment").hasRole("USER")
-//                        .antMatchers(HttpMethod.PATCH, "/*/comment/**").hasRole("USER")
-//                        .antMatchers(HttpMethod.GET, "/*/comment/**").permitAll()
-//                        .antMatchers(HttpMethod.DELETE, "/*/comment/**").hasAnyRole("USER", "ADMIN")
-                        .anyRequest().permitAll()
-                );
         return http.build();
     }
 
@@ -101,4 +87,6 @@ public class SecurityConfiguration {
                     .addFilterAfter(jwtVerificationFilter, JwtAuthenticationFilter.class);
         }
     }
+
+
 }
