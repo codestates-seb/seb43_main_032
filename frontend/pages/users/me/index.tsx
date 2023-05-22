@@ -3,11 +3,8 @@ import InfoContainer from '@/components/user/InfoContainer';
 import UserContentsBox from '@/components/user/UserContentsBox';
 import UserInfoCard from '@/components/user/UserProfile';
 import useUser from '@/hooks/react-query/useUser';
-import { UserState } from '@/types/user';
 import { useRouter } from 'next/router';
-import { useEffect } from 'react';
 import styled from 'styled-components';
-import { dummyUser } from './edit';
 import GridBox from '@/components/common_box/GridBox';
 
 const LeftColumn = styled.div`
@@ -168,16 +165,3 @@ export default function me() {
     </>
   );
 }
-
-export const USER: UserState = {
-  email: 'uverrills0@bloomberg.com',
-  location: 'Seoul',
-  name: 'Ursulina Verrills',
-  aboutMe: 'Poisoning by benzodiazepines, intentional self-harm, init',
-  yearOfDev: 1,
-  position: 'fe',
-  phone: '660 384 5454',
-  totalStar: 10,
-  techList: ['React', 'JavaScript', 'Python'],
-  profileImageUrl: 'https://pbs.twimg.com/media/FjU2lkcWYAgNG6d.jpg',
-};
