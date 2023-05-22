@@ -12,8 +12,8 @@ import { Filter, Form } from '@/types/types';
 import { AiOutlineArrowUp } from 'react-icons/ai';
 import { articleFilter } from '@/util/filter/articleFilter';
 import { ARTICLE_FILTER } from '@/constant/constant';
-import { getAllProject } from '@/util/api/getAllData';
 import { useInfinityProject } from '@/hooks/react-query/project/useInfinityProject';
+import { useAllData } from '@/hooks/react-query/useAllData';
 
 const ProjectHome = () => {
   const router = useRouter();
@@ -29,8 +29,10 @@ const ProjectHome = () => {
   };
   const [allData, setAllData] = useState<Project[]>([]);
 
+  //전체 데이터 세팅
+  const { projectData } = useAllData();
   useEffect(() => {
-    getAllProject().then((res) => setAllData(res));
+    if (projectData) setAllData(projectData);
   }, []);
 
   const filterData = articleFilter({

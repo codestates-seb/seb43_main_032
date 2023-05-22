@@ -11,7 +11,7 @@ import CommunityItemSkeleton from '../skeleton/CommunityItemSkeleton';
 import { ARTICLE_FILTER, POST_COMMUNITY_CATEGORY } from '@/constant/constant';
 import { articleFilter } from '@/util/filter/articleFilter';
 import { communityFilter } from '@/util/filter/communityFilter';
-import { getAllCommunity } from '@/util/api/getAllData';
+import { useAllData } from '@/hooks/react-query/useAllData';
 
 export default function Content() {
   const router = useRouter();
@@ -28,9 +28,10 @@ export default function Content() {
   const totalPage = communityQuery.data?.pageInfo.totalPages;
 
   //모든 데이터 세팅, 서버 필터링을 프론트 눈속임으로 해결
+  const { communityData } = useAllData();
   const [allData, setAllData] = useState<Community[]>([]);
   useEffect(() => {
-    getAllCommunity().then((res) => setAllData(res));
+    if (communityData) setAllData(communityData);
   }, []);
 
   //검색
