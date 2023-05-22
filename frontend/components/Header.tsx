@@ -16,6 +16,7 @@ import { setUserState } from '@/util/api/user';
 import Img from '../public/images/second-user.svg';
 import { NavProps } from '@/types/types';
 import ButtonStyle from './button/ButtonStyle';
+import SubBtn from './button/SubBtn';
 
 const Header = () => {
   const router = useRouter();
@@ -164,17 +165,13 @@ const Header = () => {
         <div className="nav-users">
           {getCookie('accessToken')
             ? navNames.slice(4, 5).map((name) => (
-                <div className="logout" key={name} onClick={logout}>
-                  <Btn>
-                    <span>{name}</span>
-                  </Btn>
+                <div className="logout" key={name}>
+                  <ButtonStyle onClick={logout} text={name} />
                 </div>
               ))
             : navNames.slice(5).map((name) => (
-                <div key={name} onClick={() => moveNav(name)}>
-                  <Btn>
-                    <span>{name}</span>
-                  </Btn>
+                <div key={name}>
+                  <ButtonStyle onClick={() => moveNav(name)} text={name} />
                 </div>
               ))}
         </div>
@@ -195,6 +192,43 @@ const ModalNav = styled.nav<NavProps>`
   right: ${(props) => (props.nav ? '0' : '-50%')};
   transition: 1.2s;
   display: none;
+
+  .sub-btn {
+    position: relative;
+    &::before {
+      display: block;
+      content: '';
+      border: solid 3px transparent;
+    }
+
+    &:after {
+      position: absolute;
+      width: 100%;
+      bottom: 0px;
+      display: block;
+      content: '';
+      background: ${(props) => (props.isScrolled ? 'white' : '#c28aff')};
+      transform: translateY(100%);
+      transition: transform 250ms ease-in-out;
+    }
+
+    &:hover::after {
+      height: 10%;
+      transform: translateY(0%);
+    }
+
+    .sub-btn-top {
+      font-size: 15px !important;
+      font-weight: 500 !important;
+      color: ${(props) => (props.isScrolled ? 'white' : '#242424')};
+      transition: color 250ms ease-in-out;
+
+      &:hover {
+        color: ${(props) => (props.isScrolled ? 'white' : '#4412e7')};
+        font-weight: 500 !important;
+      }
+    }
+  }
 
   .user {
     width: 100%;
@@ -235,6 +269,8 @@ const ModalNav = styled.nav<NavProps>`
     > div {
       width: 50%;
       text-align: center;
+      display: flex;
+      justify-content: center;
       > button {
         cursor: pointer;
       }
