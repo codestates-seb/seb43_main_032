@@ -38,10 +38,10 @@ export const useAnswer = ({
   const postAnswer: PostAnswerMutation = useMutation(
     async ({ content }: { content: string }) => {
       if (!getCookie('accessToken')) {
-        return errorAlert('로그인이 필요합니다.', '댓글 작성');
+        return errorAlert('로그인이 필요합니다.', '답글 작성');
       }
       if (content === '') {
-        return errorAlert('내용을 작성해주세요.', '댓글 작성');
+        return errorAlert('내용을 작성해주세요.', '답글 작성');
       }
       const data = {
         content,
@@ -57,7 +57,7 @@ export const useAnswer = ({
         changeAnswerVal('');
       },
       onError: () => {
-        errorAlert('잠시 후에 다시 시도해주세요.', '댓글 작성');
+        errorAlert('잠시 후에 다시 시도해주세요.', '답글 작성');
       },
     }
   );
@@ -79,7 +79,7 @@ export const useAnswer = ({
         answerRefetch();
       },
       onError: () => {
-        errorAlert('잠시 후에 다시 시도해주세요.', '댓글 삭제');
+        errorAlert('잠시 후에 다시 시도해주세요.', '답글 삭제');
       },
     }
   );
@@ -92,7 +92,7 @@ export const useAnswer = ({
       answerRefetch();
     },
     onError: () => {
-      errorAlert('잠시 후에 다시 시도해주세요.', '댓글 수정');
+      errorAlert('잠시 후에 다시 시도해주세요.', '답글 수정');
     },
   });
 
@@ -110,7 +110,7 @@ export const useAnswer = ({
         answerRefetch();
       },
       onError: () => {
-        errorAlert('잠시 후에 다시 시도해주세요.', '댓글 좋아요');
+        errorAlert('잠시 후에 다시 시도해주세요.', '답글 좋아요');
       },
     }
   );

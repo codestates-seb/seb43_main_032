@@ -136,12 +136,18 @@ const Box = styled.div`
     display: flex;
     align-items: center;
     gap: 12px;
+    @media (max-width: 960px) {
+      font-size: 14px;
+    }
   }
 
   .btn-box {
     display: flex;
     gap: 48px;
     justify-content: center;
+    @media (max-width: 960px) {
+      justify-content: space-around;
+    }
     > button {
       padding: 4px;
     }

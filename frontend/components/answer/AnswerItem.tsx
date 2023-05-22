@@ -94,22 +94,25 @@ const AnswerItem = ({
     dislikeAnswer.mutate({ category: 'ANSWER', uniteId: answer.answerId });
   };
   const likeHandler = () => {
+    if (!getCookie('accessToken')) {
+      return errorAlert('로그인을 부탁드려요', '답글 좋아요');
+    }
     if (answer.liked) {
       return dislikeEvent();
     }
     likeEvent();
   };
 
-  //댓글 input 관련
+  //답글 input 관련
   const [comment, setComment] = useState(false);
   const commentHandler = () => {
     if (!getCookie('accessToken') && !comment) {
-      return errorAlert('로그인이 필요합니다.', '댓글 작성');
+      return errorAlert('로그인이 필요합니다.', '답글 작성');
     }
     setComment(!comment);
   };
 
-  //댓글 데이터
+  //답글 데이터
   const { commentQuery, commentRefetch } = useGetComment({
     answerId: answer.answerId,
     params: 'size=999&page=1',
@@ -123,7 +126,7 @@ const AnswerItem = ({
       commentRefetch,
     });
 
-  //댓글 조회
+  //답글 조회
   const [viewComment, setViewComment] = useState(false);
   const viewCommentHandler = () => {
     setViewComment(!viewComment);
@@ -189,11 +192,11 @@ const AnswerItem = ({
                 <div className="update-box">
                   {commentLength !== undefined && commentLength > 0 && (
                     <button onClick={viewCommentHandler}>
-                      댓글 {commentLength}개
+                      답글 {commentLength}개
                     </button>
                   )}
                   <button onClick={commentHandler}>
-                    {comment ? '댓글 취소' : '댓글 작성'}
+                    {comment ? '답글 취소' : '답글 작성'}
                   </button>
                   {isAuthor && (
                     <>

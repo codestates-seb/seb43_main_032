@@ -27,7 +27,6 @@ const TagBox = styled.div<Props>`
   color: ${(props) => props.children === '확정' && '#ffffff'};
   font-size: 12px;
   font-weight: 400 !important;
-  margin-left: 10px;
   :hover {
     background-color: ${(props) =>
       props.children === '마감' ? '' : '#5b24ff'};
