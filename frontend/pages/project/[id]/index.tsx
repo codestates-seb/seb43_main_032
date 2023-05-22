@@ -51,16 +51,6 @@ const ViewProject = () => {
     deleteProject.mutate();
   };
 
-  //인원이 모두 마감되었다면 일어날 이벤트
-  const checkComplteApply =
-    data?.positionCrewList.filter((crew) => crew.number !== crew.acceptedNumber)
-      .length === 0;
-  const completeApply = () => {
-    if (checkComplteApply) {
-      updateState.mutate('모집 완료');
-    }
-  };
-
   //직군 데이터 관련
   const positions = data?.positionCrewList;
 
@@ -79,7 +69,18 @@ const ViewProject = () => {
     acceptEvent,
     rejectEvent,
     acceptedCancleEvent,
-  } = useProjectApply({ projectRefetch, acceptedPostion, completeApply });
+  } = useProjectApply({ projectRefetch, acceptedPostion });
+
+  //인원이 모두 마감되었다면 일어날 이벤트
+  useEffect(() => {
+    const checkComplteApply =
+      data?.positionCrewList.filter(
+        (crew) => crew.number !== crew.acceptedNumber
+      ).length === 0;
+    if (checkComplteApply && data.status === '모집중') {
+      updateState.mutate('모집 완료');
+    }
+  }, [projectQuery.isLoading, applyQuery.isLoading]);
 
   //확정된 버튼의 hover 관리
   const [acceptedHover, setAcceptedHover] = useState(false);
@@ -94,6 +95,7 @@ const ViewProject = () => {
     <GridBox>
       <Side>
         <AuthorBox
+        userId={data.memberInfo.memberId}
           userImg={data.memberInfo.profileImageUrl}
           userName={data.memberInfo.name}
           isAuthor={data.author}

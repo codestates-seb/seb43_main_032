@@ -3,7 +3,6 @@ import {
   AiFillGithub,
   AiFillGoogleCircle,
 } from 'react-icons/ai';
-import { FcGoogle } from 'react-icons/fc';
 import { RiKakaoTalkFill } from 'react-icons/ri';
 import styled from 'styled-components';
 import LoginForm from './LoginForm';
@@ -101,7 +100,6 @@ const P = styled.p.attrs({
 
   :hover {
     color: white;
-    font-weight: 700;
   }
 `;
 

@@ -10,6 +10,8 @@ import { useForm } from 'react-hook-form';
 import { RiThumbUpFill, RiThumbUpLine } from 'react-icons/ri';
 import styled from 'styled-components';
 import { confirmAlert } from '../alert/Alert';
+import Tag from '../Tag';
+import { useRouter } from 'next/router';
 
 type Props = {
   comment: Comment;
@@ -26,6 +28,7 @@ const CommentItem = ({
   deleteComment,
   editComment,
 }: Props) => {
+  const router = useRouter();
   //content 관리
   const { register, watch } = useForm<{ content: string }>();
 
@@ -65,13 +68,24 @@ const CommentItem = ({
     likeEvent();
   };
 
+  //작성자 페이지로 이동
+  const moveAuthorPage = (memberId: number) => {
+    router.push(`/users/${memberId}`);
+  };
+
   return (
     <Box>
       <div className="top">
         <div className="left">
           <img src={comment.memberInfo.profileImageUrl} alt="user" />
           <div className="id-box">
-            <span>{comment.memberInfo.name}</span>
+            <span
+              onClick={() => moveAuthorPage(comment.memberInfo.memberId)}
+              className="author-id"
+            >
+              {comment.memberInfo.name}
+            </span>
+            {comment.author && <Tag>작성자</Tag>}
           </div>
         </div>
         <div onClick={likeHandler} className="right">
@@ -125,6 +139,10 @@ const Box = styled.div`
   border-radius: 10px;
   padding: 10px 20px;
 
+  .author-id {
+    cursor: pointer;
+  }
+
   .top {
     width: 100%;
     display: flex;
@@ -142,6 +160,9 @@ const Box = styled.div`
 
       .id-box {
         margin-left: 16px;
+        display: flex;
+        align-items: center;
+        gap: 4px;
       }
     }
 

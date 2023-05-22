@@ -1,20 +1,63 @@
 import styled from 'styled-components';
-import ContentCard from '@/components/user/ContentCard';
 import { useRouter } from 'next/router';
 import UserProfile from '@/components/user/UserProfile';
-import { MouseEvent, useEffect, useState } from 'react';
-import useUser from '@/hooks/react-query/useUser';
-import { USER } from '../me';
-import ProjectCard from '@/components/project/ProjectCard';
-import Skeleton from '@/components/skeleton/Skeleton';
-import UserContentsBox from '@/components/user/UserContentsBox';
 import Tag from '@/components/Tag';
 import Stack from '@/components/stack/Stack';
-import { dummyUser } from '../me/edit';
 import GridBox from '@/components/common_box/GridBox';
 import { useProject } from '@/hooks/react-query/project/useProject';
+import useUser from '@/hooks/react-query/useUser';
+import UserContentsBox from '@/components/user/UserContentsBox';
 
-//유저 페이지 입니다. 경로 '/user/[id]'  예시 >>  /user/1
+const UserPage = () => {
+  const router = useRouter();
+  const id = router.query.id;
+
+  const {
+    getUserById: { data: user, isLoading },
+    // getProjectByUserId: { data: projects },
+    // getPostsByUserId: { data: posts },
+  } = useUser({ id: id ? +id : undefined });
+  const {
+    projectQuery: { data: projects },
+  } = useProject();
+  // const user = dummyUser;
+
+  // if (isLoading) return 'Loading...';
+  projects && console.log(projects.data);
+
+  return user ? (
+    <GridBox>
+      <UserInfoContainer>
+        <div className="user-box">
+          <UserProfile user={user} />
+          <Tag>메일 보내기</Tag>
+          <Tag>채팅하기</Tag>
+        </div>
+        <StackWrapper>
+          <div className="title">사용 스택</div>
+          <div className="stack-list">
+            {stacks.map((stack) => (
+              // <Tag key={`${stack}`}>{stack}</Tag>
+              <Stack key={stack} tech={stack} />
+            ))}
+          </div>
+        </StackWrapper>
+      </UserInfoContainer>
+      <ContentsContainer>
+        <UserDescription>
+          <ContentTitle>자기 소개란</ContentTitle>
+          <ContentBox>asdasd</ContentBox>
+        </UserDescription>
+        <UserContentsBox contentTitle={['프로젝트', '게시글']} />
+      </ContentsContainer>
+    </GridBox>
+  ) : (
+    'User not Found'
+  );
+};
+
+export default UserPage;
+
 const UserInfoContainer = styled.div`
   width: 100%;
   display: flex;
@@ -112,66 +155,3 @@ const stacks = [
   'react_query',
   'type_scriypt',
 ];
-
-const UserPage = () => {
-  const router = useRouter();
-  const id = router.query.id;
-
-  // const {
-  // getUserById: { data: user, isLoading },
-  // getProjectByUserId: { data: projects },
-  // getPostsByUserId: { data: posts },
-  // } = useUser({ id: id ? +id : undefined });
-  const {
-    projectQuery: { data: projects },
-  } = useProject();
-  const user = dummyUser;
-
-  // useEffect(() => {
-  //   window.scrollTo({
-  //     top: 670,
-  //     left: 0,
-  //     behavior: 'smooth',
-  //   });
-  // }, [router]);
-
-  // if (isLoading) return 'Loading...';
-  projects && console.log(projects.data);
-
-  return user ? (
-    <GridBox>
-      <UserInfoContainer>
-        <div className="user-box">
-          <UserProfile user={user} />
-          <Tag>메일 보내기</Tag>
-          <Tag>채팅하기</Tag>
-        </div>
-        <StackWrapper>
-          <div className="title">사용 스택</div>
-          <div className="stack-list">
-            {stacks.map((stack) => (
-              // <Tag key={`${stack}`}>{stack}</Tag>
-              <Stack key={stack} tech={stack} />
-            ))}
-          </div>
-        </StackWrapper>
-      </UserInfoContainer>
-      <ContentsContainer>
-        <UserDescription>
-          <ContentTitle>자기 소개란</ContentTitle>
-          <ContentBox>asdasd</ContentBox>
-        </UserDescription>
-        {/* {projects && (
-          <UserContentsBox
-            contentTitle={['프로젝트', '게시글']}
-            contents={projects.data}
-          />
-        )} */}
-      </ContentsContainer>
-    </GridBox>
-  ) : (
-    'User not Found'
-  );
-};
-
-export default UserPage;

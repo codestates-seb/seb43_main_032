@@ -1,6 +1,24 @@
-import { ReactNode, useState } from 'react';
+import { ReactNode } from 'react';
 import styled from 'styled-components';
-import AuthInput from '../authAction/AuthInput';
+
+
+interface IProps {
+  keyNode: ReactNode;
+  contentNode: ReactNode;
+  lastItem?: Boolean;
+}
+export default function InfoContainer({
+  keyNode,
+  contentNode,
+  lastItem = false,
+}: IProps) {
+  return (
+    <Wrapper lastItem={lastItem}>
+      <KeyContainer className="nnum-bold">{keyNode}</KeyContainer>
+      <ContentContainer className="nnum-bold">{contentNode}</ContentContainer>
+    </Wrapper>
+  );
+}
 
 const Wrapper = styled.div`
   display: flex;
@@ -20,20 +38,3 @@ const ContentContainer = styled.div`
   flex-direction: column;
   justify-content: flex-start;
 `;
-interface IProps {
-  keyNode: ReactNode;
-  contentNode: ReactNode;
-  lastItem?: Boolean;
-}
-export default function InfoContainer({
-  keyNode,
-  contentNode,
-  lastItem = false,
-}: IProps) {
-  return (
-    <Wrapper lastItem={lastItem}>
-      <KeyContainer className="nnum-bold">{keyNode}</KeyContainer>
-      <ContentContainer className="nnum-bold">{contentNode}</ContentContainer>
-    </Wrapper>
-  );
-}

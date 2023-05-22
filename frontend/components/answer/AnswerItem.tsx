@@ -17,6 +17,8 @@ import { useGetComment } from '@/hooks/react-query/comment/useGetComment';
 import CommentBox from '../comment/CommentBox';
 import { elapsedTime } from '@/util/date';
 import { useComment } from '@/hooks/react-query/comment/useComment';
+import Tag from '../Tag';
+import { useRouter } from 'next/router';
 import { errorAlert } from '../alert/Alert';
 
 const Editor = dynamic(() => import('@/components/editor/Editor'), {
@@ -54,6 +56,7 @@ const AnswerItem = ({
   likeAnswer,
   dislikeAnswer,
 }: Props) => {
+  const router = useRouter();
   //답글 수정 관련
   const [edit, setEdit] = useState(false);
   const [editVal, setEditVal] = useState('');
@@ -126,6 +129,10 @@ const AnswerItem = ({
     setViewComment(!viewComment);
   };
 
+  //작성자 페이지로 이동
+  const moveAuthorPage = (memberId: number) => {
+    router.push(`/users/${memberId}`);
+  };
   return (
     <>
       <Box>
@@ -151,7 +158,17 @@ const AnswerItem = ({
                     <img src={answer.memberInfo.profileImageUrl} alt="user" />
                   </div>
                   <div className="user-detail">
-                    <div className="user-id">{answer.memberInfo.name}</div>
+                    <div className="user-id">
+                      <span
+                        onClick={() =>
+                          moveAuthorPage(answer.memberInfo.memberId)
+                        }
+                        className="author-id"
+                      >
+                        {answer.memberInfo.name}
+                      </span>
+                      {answer.author && <Tag>작성자</Tag>}
+                    </div>
                     <div className="user-star">
                       <AiFillStar fill="rgb(255, 153, 0)" />
                       {answer.memberInfo.totalStar}
@@ -220,6 +237,10 @@ const Box = styled.li`
   position: relative;
   padding: 10px 20px;
 
+  .author-id {
+    cursor: pointer;
+  }
+
   .edit-box {
     position: absolute;
     display: flex;
@@ -260,6 +281,9 @@ const Box = styled.li`
           width: 70%;
           gap: 4px;
           .user-id {
+            display: flex;
+            align-items: center;
+            gap: 4px;
             color: #171717;
             font-size: 15px;
           }

@@ -23,11 +23,6 @@ const queryClient = new QueryClient({
   },
 });
 
-// 콘솔이 너무 지저분해져서 가상 서버 주석 처리
-// if (process.env.NODE_ENV === 'development') {
-//   require('../__mocks__');
-// }
-
 const App = ({ Component, pageProps }: AppProps) => {
   const router = useRouter().pathname;
   const check = (pathname: string) => {

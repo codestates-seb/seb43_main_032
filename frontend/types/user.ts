@@ -4,14 +4,25 @@ export type UserState = {
   aboutMe: string;
   email: string;
   name: string;
+  phone: string;
+  position: string;
+  profileImageUrl: string;
+  totalStar: number;
+  yearOfDev: number;
+};
+export interface User {
+  aboutMe: string;
+  email: string;
   location: string;
+  memberId: number;
+  name: string;
   phone: string;
   position: string;
   profileImageUrl: string;
   techList: string[];
   totalStar: number;
   yearOfDev: number;
-};
+}
 
 //로그인 또는 회원가입 할때 데이터 타입
 export type LoginData = {

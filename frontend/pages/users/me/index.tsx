@@ -3,12 +3,11 @@ import InfoContainer from '@/components/user/InfoContainer';
 import UserContentsBox from '@/components/user/UserContentsBox';
 import UserInfoCard from '@/components/user/UserProfile';
 import useUser from '@/hooks/react-query/useUser';
-import { UserState } from '@/types/user';
 import { useRouter } from 'next/router';
-import { useEffect } from 'react';
 import styled from 'styled-components';
-import { dummyUser } from './edit';
 import GridBox from '@/components/common_box/GridBox';
+import { getCookie } from '@/util/cookie';
+import { useEffect } from 'react';
 
 const LeftColumn = styled.div`
   position: relative;
@@ -91,7 +90,11 @@ export default function me() {
     getMyInfo: { data: user },
   } = useUser({});
   const router = useRouter();
-  user && console.log(user);
+  useEffect(() => {
+    if (!getCookie('accessToken')) {
+      router.push('/404').then(() => alert('로그인을 부탁드려요.'));
+    }
+  }, []);
 
   const handleClick = () => {
     router.push('/users/me/edit');
@@ -129,23 +132,17 @@ export default function me() {
                     </>
                   }
                 />
-                <InfoContainer
+                {/* <InfoContainer
                   keyNode={'기술스텍'}
                   contentNode={
                     <StackContainer>
-                      {[
-                        'java_script',
-                        'react',
-                        'next_js',
-                        'recoil',
-                        'react_query',
-                        'type_scriypt',
-                      ].map((stack) => (
+                      {user.techList.map((stack) => (
                         <Stack key={stack} tech={stack} />
+                        // <p>{stack}</p>
                       ))}
                     </StackContainer>
                   }
-                />
+                /> */}
               </ProfileContainer>
               <div className="info-box">
                 <InfoContainer
@@ -168,16 +165,3 @@ export default function me() {
     </>
   );
 }
-
-export const USER: UserState = {
-  email: 'uverrills0@bloomberg.com',
-  location: 'Seoul',
-  name: 'Ursulina Verrills',
-  aboutMe: 'Poisoning by benzodiazepines, intentional self-harm, init',
-  yearOfDev: 1,
-  position: 'fe',
-  phone: '660 384 5454',
-  totalStar: 10,
-  techList: ['React', 'JavaScript', 'Python'],
-  profileImageUrl: 'https://pbs.twimg.com/media/FjU2lkcWYAgNG6d.jpg',
-};

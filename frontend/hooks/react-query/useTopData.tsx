@@ -6,6 +6,7 @@ import { Community } from '@/types/community';
 import { useEffect } from 'react';
 
 export const useTopData = () => {
+  //로드될 때마다 새로운 데이터가 불러와지도록 모두 리페치
   useEffect(() => {
     topLikeProjectRefecth();
     topViewProjectRefecth();

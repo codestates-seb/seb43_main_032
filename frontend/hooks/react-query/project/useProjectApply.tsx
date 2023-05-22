@@ -16,11 +16,9 @@ type ApplyList = {
 type Props = {
   projectRefetch: () => void;
   acceptedPostion: Crew | undefined;
-  completeApply: () => void;
 };
 
 export const useProjectApply = ({
-  completeApply,
   projectRefetch,
   acceptedPostion,
 }: Props) => {
@@ -126,7 +124,6 @@ export const useProjectApply = ({
       onSuccess: () => {
         refetch();
         projectRefetch();
-        completeApply();
       },
       onError: () => {
         alert('잠시 후에 다시 시도해주세요.');
