@@ -10,6 +10,14 @@ type Props = {
 
 //type 1은 프로젝트 2는 커뮤니티
 export const articleFilter = ({ type, filter, allData, searchVal }: Props) => {
+  if (type === 1 && filter === 0 && searchVal !== '') {
+    return (allData as []).filter(
+      (data: Community | Project) =>
+        data.title.includes(searchVal) ||
+        data.content.includes(searchVal) ||
+        data.memberInfo.name.includes(searchVal)
+    );
+  }
   if (type === 1 && filter === 0) {
     return;
   }

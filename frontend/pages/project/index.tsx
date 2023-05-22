@@ -81,6 +81,7 @@ const ProjectHome = () => {
     type: 1,
   });
 
+  console.log(filterData);
   //무한 스크롤 effect
   const target = useRef<HTMLDivElement>(null);
   useEffect(() => {
