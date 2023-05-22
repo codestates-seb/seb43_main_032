@@ -191,7 +191,7 @@ const Box = styled.div`
     padding: 5px 13px;
     min-height: 32px;
     ul {
-      width: 296px;
+      height: 22px;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
@@ -204,9 +204,10 @@ const Box = styled.div`
     margin-bottom: 8px;
     min-height: 39px;
     ul {
-      width: 296px;
+      height: 24px;
       white-space: nowrap;
       overflow: hidden;
+      text-overflow: ellipsis;
       li {
         box-shadow: var(--box-shadow);
       }
