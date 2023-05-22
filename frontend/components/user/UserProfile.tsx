@@ -4,6 +4,26 @@ import { UserState } from '@/types/user';
 import Stack from '../stack/Stack';
 // import Position from '../Position';
 
+export default function UserProfile({ user }: { user: UserState }) {
+  return (
+    <Wrapper>
+      <AvatarContainer>
+        {user.profileImageUrl ? (
+          <img alt={user.name} src={user.profileImageUrl} />
+        ) : (
+          <img
+            alt={user.name}
+            src="https://pbs.twimg.com/media/FmynZRjWYAgEEpL.jpg"
+          />
+        )}
+      </AvatarContainer>
+      <Tag className="years-tag">{`${user?.yearOfDev} 년차`}</Tag>
+      <Name>{user?.name}</Name>
+      <Position text="프론트엔드"></Position>
+    </Wrapper>
+  );
+}
+
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
@@ -61,23 +81,3 @@ const Position = styled.div.attrs({
 const Name = styled.p.attrs({
   className: 'nanum-bold',
 })``;
-
-export default function UserProfile({ user }: { user: UserState }) {
-  return (
-    <Wrapper>
-      <AvatarContainer>
-        {user.profileImageUrl ? (
-          <img alt={user.name} src={user.profileImageUrl} />
-        ) : (
-          <img
-            alt={user.name}
-            src="https://pbs.twimg.com/media/FmynZRjWYAgEEpL.jpg"
-          />
-        )}
-      </AvatarContainer>
-      <Tag className="years-tag">{`${user?.yearOfDev} 년차`}</Tag>
-      <Name>{user?.name}</Name>
-      <Position text="프론트엔드"></Position>
-    </Wrapper>
-  );
-}

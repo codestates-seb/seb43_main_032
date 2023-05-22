@@ -3,43 +3,7 @@ import styled from 'styled-components';
 import ContentCard from './ContentCard';
 import ProjectCard from '../project/ProjectCard';
 import { Project } from '@/types/project';
-const Wrapper = styled.div`
-  padding: 10px;
-  margin-bottom: 20px;
-`;
 
-const Contents = styled.div`
-  background: #0d1117;
-  color: #c9d1d9;
-  font-size: 15px;
-  padding: var(--padding-2);
-  border: 1px solid #d8d8d8;
-  border-radius: var(--radius-def);
-`;
-const ContentTitle = styled.div.attrs({
-  className: 'nanum-bold',
-})`
-  padding-bottom: 20px;
-`;
-const Category = styled.div.attrs({
-  className: 'noto-medium',
-})`
-  display: flex;
-  gap: 16px;
-  margin-bottom: 20px;
-`;
-const FilterBtn = styled.button.attrs({
-  className: 'nanum-bold',
-})`
-  border: none;
-  font-size: 20px;
-  cursor: pointer;
-  font-family: var(--font-nanum);
-  font-size: 23px;
-  font-weight: 700;
-  color: #464646;
-  background: none;
-`;
 interface IProps {
   contentTitle: string[];
   contents?: any;
@@ -95,3 +59,41 @@ export default function UserContentsBox({ contentTitle, contents }: IProps) {
     </Wrapper>
   );
 }
+
+const Wrapper = styled.div`
+  padding: 10px;
+  margin-bottom: 20px;
+`;
+
+const Contents = styled.div`
+  background: #0d1117;
+  color: #c9d1d9;
+  font-size: 15px;
+  padding: var(--padding-2);
+  border: 1px solid #d8d8d8;
+  border-radius: var(--radius-def);
+`;
+const ContentTitle = styled.div.attrs({
+  className: 'nanum-bold',
+})`
+  padding-bottom: 20px;
+`;
+const Category = styled.div.attrs({
+  className: 'noto-medium',
+})`
+  display: flex;
+  gap: 16px;
+  margin-bottom: 20px;
+`;
+const FilterBtn = styled.button.attrs({
+  className: 'nanum-bold',
+})`
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  font-family: var(--font-nanum);
+  font-size: 23px;
+  font-weight: 700;
+  color: #464646;
+  background: none;
+`;

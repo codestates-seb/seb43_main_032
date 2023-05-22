@@ -9,88 +9,6 @@ import styled from 'styled-components';
 import { BiSearch } from 'react-icons/bi';
 //유저 페이지 입니다. 경로 '/user/'
 
-const Wrapper = styled.div`
-  padding: 20px;
-`;
-const SearchHeader = styled.div`
-  display: flex;
-  flex-direction: column;
-  margin-bottom: 50px;
-  @media (max-width: 768px) {
-    margin-bottom: 0px;
-  }
-`;
-const Title = styled.h1`
-  display: flex;
-  font-size: 23px;
-  width: 80%;
-  padding-bottom: 20px;
-  font-weight: 700;
-`;
-const SubHeader = styled.div`
-  display: flex;
-  width: 100%;
-  padding-bottom: 20px;
-  justify-content: space-between;
-
-  @media (max-width: 768px) {
-    flex-direction: column;
-    align-items: flex-end;
-    gap: 20px;
-  }
-`;
-
-const SearchBox = styled.div`
-  position: relative;
-  display: flex;
-  width: 50%;
-  align-items: flex-start;
-  @media (max-width: 768px) {
-    width: 100%;
-  }
-`;
-const SearchButton = styled.button`
-  top: 5px;
-  right: 10px;
-  position: absolute;
-  border: none;
-  font-size: 30px;
-  color: skyblue;
-  background-color: transparent;
-`;
-const FilterBox = styled.div`
-  display: flex;
-  height: 100%;
-  gap: 8px;
-`;
-const FilterButton = styled.button`
-  font-family: 'Pretendard';
-  background-color: #6333ff;
-  color: white;
-  border-radius: 5px;
-  padding: 10px;
-  font-size: 14px;
-  cursor: pointer;
-  -webkit-transition: background 0.5s ease, color 0.5s ease;
-  transition: background 0.5s ease, color 0.5s ease;
-  border: none;
-`;
-const CardWrapper = styled.div`
-  display: grid;
-  width: 100%;
-  gap: 10px;
-  margin-bottom: 50px;
-  @media screen and (min-width: 768px) {
-    grid-template-columns: repeat(3, 1fr);
-  }
-
-  @media screen and (min-width: 960px) {
-    grid-template-columns: repeat(4, 1fr);
-  }
-  @media screen and (min-width: 1280px) {
-    grid-template-columns: repeat(6, 1fr);
-  }
-`;
 const User = () => {
   const [inputValue, setInputValue] = useState<string>('');
   const [keyword, setKeyword] = useState<string | undefined>(undefined);
@@ -166,3 +84,87 @@ const User = () => {
 };
 
 export default User;
+
+const Wrapper = styled.div`
+  padding: 20px;
+`;
+const SearchHeader = styled.div`
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 10px;
+  @media (max-width: 768px) {
+    margin-bottom: 0px;
+  }
+`;
+const Title = styled.h1`
+  display: flex;
+  font-size: 23px;
+  width: 80%;
+  padding-bottom: 20px;
+  font-weight: 700;
+`;
+const SubHeader = styled.div`
+  display: flex;
+  width: 100%;
+  padding-bottom: 20px;
+  justify-content: space-between;
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 20px;
+  }
+`;
+
+const SearchBox = styled.div`
+  position: relative;
+  display: flex;
+  width: 50%;
+  align-items: flex-start;
+
+  @media (max-width: 768px) {
+    width: 100%;
+  }
+`;
+const SearchButton = styled.button`
+  top: 5px;
+  right: 10px;
+  position: absolute;
+  border: none;
+  font-size: 30px;
+  color: skyblue;
+  background-color: transparent;
+`;
+const FilterBox = styled.div`
+  display: flex;
+  height: 100%;
+  gap: 8px;
+`;
+const FilterButton = styled.button`
+  font-family: 'Pretendard';
+  background-color: #6333ff;
+  color: white;
+  border-radius: 5px;
+  padding: 10px;
+  font-size: 14px;
+  cursor: pointer;
+  -webkit-transition: background 0.5s ease, color 0.5s ease;
+  transition: background 0.5s ease, color 0.5s ease;
+  border: none;
+`;
+const CardWrapper = styled.div`
+  display: grid;
+  width: 100%;
+  gap: 10px;
+  margin-bottom: 50px;
+  @media screen and (min-width: 768px) {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  @media screen and (min-width: 960px) {
+    grid-template-columns: repeat(4, 1fr);
+  }
+  @media screen and (min-width: 1280px) {
+    grid-template-columns: repeat(6, 1fr);
+  }
+`;

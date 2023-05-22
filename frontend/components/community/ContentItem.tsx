@@ -109,6 +109,10 @@ const Left = styled.div`
   flex-direction: column;
   justify-content: start;
   align-items: end;
+  @media (min-width: 768px) {
+    flex-direction: column;
+    align-items: center;
+  }
 
   svg {
     margin-right: 8px;

@@ -2,37 +2,6 @@ import styled from 'styled-components';
 import Tag from '../Tag';
 import { AiFillStar } from 'react-icons/ai';
 
-const Wrapper = styled.div`
-  display: flex;
-  padding: 20px;
-  margin-bottom: 20px;
-  justify-content: space-between;
-  align-items: center;
-  border-radius: var(--radius-def);
-  background-color: rgba(0, 0, 0, 0.3);
-`;
-const ContentContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-`;
-const CardInfo = styled.div`
-  display: flex;
-  align-items: flex-end;
-  justify-content: space-between;
-`;
-const TagContainer = styled.div`
-  padding: 10px;
-  padding-left: 0;
-  display: flex;
-  gap: 8px;
-  flex-wrap: wrap;
-`;
-const StarRaiting = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding-left: 20px;
-`;
 const stacks = [
   'React',
   'Java',
@@ -73,3 +42,35 @@ export default function ContentCard() {
     </Wrapper>
   );
 }
+
+const Wrapper = styled.div`
+  display: flex;
+  padding: 20px;
+  margin-bottom: 20px;
+  justify-content: space-between;
+  align-items: center;
+  border-radius: var(--radius-def);
+  background-color: rgba(0, 0, 0, 0.3);
+`;
+const ContentContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+const CardInfo = styled.div`
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+`;
+const TagContainer = styled.div`
+  padding: 10px;
+  padding-left: 0;
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+`;
+const StarRaiting = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-left: 20px;
+`;

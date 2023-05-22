@@ -140,10 +140,6 @@ const ContentTop = styled.div`
   padding: 0 20px;
   padding-bottom: 0px;
   gap: 12px;
-  @media (max-width: 768px) {
-    flex-direction: column;
-    gap: 16px;
-  }
 `;
 
 const SearchInput = styled.input`
@@ -153,6 +149,7 @@ const SearchInput = styled.input`
   padding: 10px 22px;
   min-width: 240px;
   color: #5393fa;
+
   &:focus,
   :active {
     outline: solid 3px #c4c4c4;

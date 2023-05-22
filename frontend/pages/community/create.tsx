@@ -1,5 +1,4 @@
 import CommunityForm from '@/components/community/CommunityForm';
-import SideBar from '@/components/community/SideBar';
 import { getCookie } from '@/util/cookie';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
@@ -20,7 +19,6 @@ const CreateCommunity = () => {
   }, [router]);
   return (
     <>
-      <SideBar />
       <CommunityForm />
     </>
   );

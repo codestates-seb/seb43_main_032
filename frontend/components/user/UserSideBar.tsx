@@ -7,6 +7,19 @@ import { USERS_FLTER } from '@/constant/constant';
 import { BsSearch } from 'react-icons/bs';
 import Btn from '../button/Btn';
 
+export default function UserSideBar() {
+  return (
+    <Wrapper>
+      <p className="nanum-bold">Users</p>
+      <div className="search-box">
+        <Input />
+      </div>
+      <p>직군별 검색</p>
+      <p>스택별 검색</p>
+    </Wrapper>
+  );
+}
+
 const Wrapper = styled.div`
   padding: 20px;
   /* @media screen and (max-width: 960px) {
@@ -42,16 +55,3 @@ const Input = styled.input`
       var(--tw-shadow, 0 0 #0000);
   }
 `;
-
-export default function UserSideBar() {
-  return (
-    <Wrapper>
-      <p className="nanum-bold">Users</p>
-      <div className="search-box">
-        <Input />
-      </div>
-      <p>직군별 검색</p>
-      <p>스택별 검색</p>
-    </Wrapper>
-  );
-}
