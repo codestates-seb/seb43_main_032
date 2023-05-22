@@ -2,12 +2,12 @@ import Pagenation from '@/components/Pagenation';
 import { TextArea } from '@/components/authAction/EditInput';
 import UserCard from '@/components/user/UserCard';
 import useUser from '@/hooks/react-query/useUser';
-import { User, UserState } from '@/types/user';
 import { useRouter } from 'next/router';
 import { ChangeEvent, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { BiSearch } from 'react-icons/bi';
 import { useQueryClient } from 'react-query';
+import { User } from '@/types/user';
 //유저 페이지 입니다. 경로 '/user/'
 
 const Wrapper = styled.div`
@@ -95,7 +95,7 @@ const CardWrapper = styled.div`
 const Users = () => {
   const [inputValue, setInputValue] = useState<string>('');
   const [keyword, setKeyword] = useState<string | undefined>(undefined);
-  const [page, setPage] = useState<number>(2);
+  const [page, setPage] = useState<number>(1);
   const [size, setSize] = useState<number>(8);
   const queryClient = useQueryClient();
 
@@ -158,9 +158,7 @@ const Users = () => {
 
       <CardWrapper>
         {users &&
-          users.map((user: UserState) => (
-            <UserCard key={user.name} user={user} />
-          ))}
+          users.map((user: any) => <UserCard key={user.name} user={user} />)}
       </CardWrapper>
       <Pagenation pageSize={size} page={page} onPageChange={setPage} />
     </Wrapper>

@@ -25,8 +25,6 @@ export async function mergeData(data: AnyObj, image: File[], stacks: AnyObj[]) {
   if (image && image.length > 0) {
     const profileImageUrl = (await uploadFile(data.image[0]))[0];
     data.profileImageUrl = profileImageUrl;
-  } else {
-    data.profileImageUrl = '.';
   }
   delete data.image;
 

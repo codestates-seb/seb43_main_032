@@ -47,10 +47,10 @@ export const dummyUser = {
   yearOfDev: 0,
 };
 export default function Edit() {
-  const user = dummyUser;
-  // const {
-  //   getMyInfo: { data: user },
-  // } = useUser({});
+  // const user = dummyUser;
+  const {
+    getMyInfo: { data: user },
+  } = useUser({});
 
   // const router = useRouter();
   // useEffect(() => {

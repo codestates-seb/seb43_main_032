@@ -9,7 +9,7 @@ import Filter from '../Filter';
 import Message from '../Message';
 import CommunityItemSkeleton from '../skeleton/CommunityItemSkeleton';
 import { ARTICLE_FILTER, POST_COMMUNITY_CATEGORY } from '@/constant/constant';
-import { getAllCommunity } from '@/util/api/getAllProject';
+import { getAllCommunity } from '@/util/api/getAllData';
 import { articleFilter } from '@/util/filter/articleFilter';
 import { communityFilter } from '@/util/filter/communityFilter';
 

@@ -45,6 +45,7 @@ const SubCardWrapper = styled.div`
 `;
 const StackWrapper = styled.ul`
   display: flex;
+  flex-wrap: wrap;
   gap: 4px;
   margin-top: 6px;
 
@@ -145,9 +146,10 @@ const Group = styled.div`
   }
 `;
 interface IProps {
-  user: UserState;
+  user: User;
 }
 export default function UserCard({ user }: IProps) {
+  console.log(user.techList);
   return (
     <Group>
       <Link href={`users/${user.memberId}`}>
@@ -181,16 +183,10 @@ export default function UserCard({ user }: IProps) {
                 </InfoContainer>
               </ContentsContainer>
               <StackWrapper>
-                {[
-                  'java_script',
-                  'react',
-                  'next_js',
-                  'recoil',
-                  'react_query',
-                  'type_scriypt',
-                ].map((stack) => (
-                  <Stack key={stack} tech={stack} />
-                ))}
+                {user.techList.length > 0 &&
+                  user.techList.map((stack) => (
+                    <Stack key={stack.tech} tech={stack.tech} />
+                  ))}
               </StackWrapper>
             </SubCardWrapper>
             <CardFooter>

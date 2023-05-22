@@ -12,7 +12,7 @@ import { useForm } from 'react-hook-form';
 import ProjectCardBox from '@/components/card_box/ProjectCardBox';
 import { Filter, Form, PageProps } from '@/types/types';
 import { AiOutlineArrowUp } from 'react-icons/ai';
-import { getAllProject } from '@/util/api/getAllProject';
+import { getAllProject } from '@/util/api/getAllData';
 import { articleFilter } from '@/util/filter/articleFilter';
 import { ARTICLE_FILTER } from '@/constant/constant';
 const page_limit = 4;
