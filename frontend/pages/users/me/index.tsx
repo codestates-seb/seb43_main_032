@@ -6,6 +6,7 @@ import useUser from '@/hooks/react-query/useUser';
 import { useRouter } from 'next/router';
 import styled from 'styled-components';
 import GridBox from '@/components/common_box/GridBox';
+import { dummyUser } from './edit';
 
 const LeftColumn = styled.div`
   position: relative;
@@ -83,12 +84,12 @@ const EditButton = styled.button`
 
 export default function me() {
   // const user = useAuth();
-  // const user = dummyUser;
-  const {
-    getMyInfo: { data: user },
-  } = useUser({});
+  const user = dummyUser;
+  // const {
+  // getMyInfo: { data: user },
+  // } = useUser({});
   const router = useRouter();
-  user && console.log(user);
+  user && console.log(user.techList);
 
   const handleClick = () => {
     router.push('/users/me/edit');
@@ -130,15 +131,9 @@ export default function me() {
                   keyNode={'기술스텍'}
                   contentNode={
                     <StackContainer>
-                      {[
-                        'java_script',
-                        'react',
-                        'next_js',
-                        'recoil',
-                        'react_query',
-                        'type_scriypt',
-                      ].map((stack) => (
+                      {user.techList.map((stack) => (
                         <Stack key={stack} tech={stack} />
+                        // <p>{stack}</p>
                       ))}
                     </StackContainer>
                   }

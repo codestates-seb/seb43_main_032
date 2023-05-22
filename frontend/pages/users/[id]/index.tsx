@@ -1,13 +1,7 @@
 import styled from 'styled-components';
-import ContentCard from '@/components/user/ContentCard';
 import { useRouter } from 'next/router';
 import UserProfile from '@/components/user/UserProfile';
-import { MouseEvent, useEffect, useState } from 'react';
-import useUser from '@/hooks/react-query/useUser';
-import { USER } from '../me';
-import ProjectCard from '@/components/project/ProjectCard';
-import Skeleton from '@/components/skeleton/Skeleton';
-import UserContentsBox from '@/components/user/UserContentsBox';
+// import { USER } from '../me';
 import Tag from '@/components/Tag';
 import Stack from '@/components/stack/Stack';
 import { dummyUser } from '../me/edit';

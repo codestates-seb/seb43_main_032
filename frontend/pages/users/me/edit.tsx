@@ -35,15 +35,22 @@ export const dummyUser = {
   phone: 'string',
   position: 'string',
   profileImageUrl: 'string',
-  techList: ['string'],
+  techList: [
+    'java_script',
+    'react',
+    'next_js',
+    'recoil',
+    'react_query',
+    'type_scriypt',
+  ],
   totalStar: 0,
   yearOfDev: 0,
 };
 export default function Edit() {
-  // const user = dummyUser;
-  const {
-    getMyInfo: { data: user },
-  } = useUser({});
+  const user = dummyUser;
+  // const {
+  //   getMyInfo: { data: user },
+  // } = useUser({});
 
   // const router = useRouter();
   // useEffect(() => {
