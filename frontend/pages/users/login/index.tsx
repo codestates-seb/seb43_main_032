@@ -1,12 +1,7 @@
 import styled from 'styled-components';
 import AuthContainer from '@/components/authAction/AuthContainer';
-import { useRouter } from 'next/router';
-import { useEffect } from 'react';
-import LoginBg from '@/components/user/LoginBg';
 import Image from 'next/image';
 import loginImg from '../../../public/images/loginImg.svg';
-
-//로그인 페이지 입니다. 경로 '/user/login/'
 
 const Login = () => {
   return (

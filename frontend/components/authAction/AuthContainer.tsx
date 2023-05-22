@@ -101,7 +101,6 @@ const P = styled.p.attrs({
 
   :hover {
     color: white;
-    font-weight: 700;
   }
 `;
 

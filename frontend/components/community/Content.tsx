@@ -71,6 +71,7 @@ export default function Content() {
     filter,
     allData: commuityData,
     searchVal,
+    type: 2,
   });
 
   if (communityQuery.error)
