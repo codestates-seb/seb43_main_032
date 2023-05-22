@@ -61,6 +61,7 @@ export const useComment = ({ commentRefetch }: Props) => {
       api.delete(`/comments/${commentId}`),
     {
       onSuccess: () => {
+        postStar(memberId, -1);
         commentRefetch();
       },
       onError: () => {

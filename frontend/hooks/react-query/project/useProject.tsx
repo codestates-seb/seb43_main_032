@@ -118,6 +118,7 @@ export const useProject = (
       ),
     {
       onSuccess: () => {
+        postStar(memberId, -3);
         router.push('/').then(() => {
           router.reload();
         });

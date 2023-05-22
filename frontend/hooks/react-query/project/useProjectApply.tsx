@@ -79,6 +79,7 @@ export const useProjectApply = ({ projectRefetch, acceptedPostion }: Props) => {
       api.post(`/projects/${id}/cancel-apply`, { position }),
     {
       onSuccess: () => {
+        postStar(loggedInUser?.memberId, -1);
         refetch();
         projectRefetch();
       },
@@ -103,6 +104,7 @@ export const useProjectApply = ({ projectRefetch, acceptedPostion }: Props) => {
       api.post(`/projects/${id}/cancel-accepted-apply`, { position }),
     {
       onSuccess: () => {
+        postStar(loggedInUser?.memberId, -1);
         refetch();
         projectRefetch();
       },

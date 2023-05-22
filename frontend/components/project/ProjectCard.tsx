@@ -11,6 +11,7 @@ import { useProject } from '@/hooks/react-query/project/useProject';
 import { useState } from 'react';
 import { getCookie } from '@/util/cookie';
 import { errorAlert } from '../alert/Alert';
+import { postStar } from '@/util/api/postStar';
 
 type Props = {
   size: string;
@@ -37,9 +38,11 @@ const ProjectCard = ({ data, size }: Props) => {
     }
     if (heart) {
       setHeart(false);
+      postStar(data.memberInfo.memberId, -1);
       return dislikeProject.mutate(data.projectId);
     }
     setHeart(true);
+    postStar(data.memberInfo.memberId, 1);
     likeProject.mutate(data.projectId);
   };
 

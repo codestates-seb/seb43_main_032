@@ -84,6 +84,7 @@ export const useAnswer = ({
         if (category === 'ARTICLE') {
           articleRefetch();
         }
+        postStar(memberId, -1);
         answerRefetch();
       },
       onError: () => {

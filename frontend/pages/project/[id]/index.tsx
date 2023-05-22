@@ -17,6 +17,7 @@ import { loggedInUserState } from '@/recoil/atom';
 import ApplyBox from '@/components/common_box/ApplyBox';
 import SubBtn from '@/components/button/SubBtn';
 import { errorAlert } from '@/components/alert/Alert';
+import { postStar } from '@/util/api/postStar';
 
 const ViewProject = () => {
   const loggedInUser = useRecoilValue(loggedInUserState);
@@ -41,8 +42,10 @@ const ViewProject = () => {
       return errorAlert('로그인이 필요합니다.', '게시글 좋아요');
     }
     if (data?.liked) {
+      postStar(data.memberInfo.memberId, -1);
       return dislikeProject.mutate();
     }
+    data && postStar(data.memberInfo.memberId, 1);
     likeProject.mutate();
   };
 

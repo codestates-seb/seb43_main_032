@@ -98,6 +98,7 @@ export const useCommunity = <T extends {}>({ address, queryKey }: Props) => {
    */
   const deleteArticle = useMutation(() => api.delete(`/articles/${id}`), {
     onSuccess: () => {
+      postStar(memberId, -3);
       router.push('/community').then(() => router.reload());
     },
     onError: () => {

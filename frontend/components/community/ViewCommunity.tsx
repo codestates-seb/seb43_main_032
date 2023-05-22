@@ -11,6 +11,7 @@ import { getCookie } from '@/util/cookie';
 import MainArticleBox from '../common_box/MainArticleBox';
 import ApplyBox from '../common_box/ApplyBox';
 import { confirmAlert, errorAlert } from '../alert/Alert';
+import { postStar } from '@/util/api/postStar';
 
 // item 개별 페이지
 const ViewCommunity = () => {
@@ -38,8 +39,10 @@ const ViewCommunity = () => {
       return errorAlert('로그인이 필요합니다.', '좋아요');
     }
     if (data?.liked) {
+      postStar(data.memberInfo.memberId, -1);
       return dislikeCommunity.mutate();
     }
+    data && postStar(data.memberInfo.memberId, 1);
     likeCommunity.mutate();
   };
 

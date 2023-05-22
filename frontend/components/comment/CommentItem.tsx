@@ -12,6 +12,7 @@ import styled from 'styled-components';
 import { confirmAlert } from '../alert/Alert';
 import Tag from '../Tag';
 import { useRouter } from 'next/router';
+import { postStar } from '@/util/api/postStar';
 
 type Props = {
   comment: Comment;
@@ -63,8 +64,10 @@ const CommentItem = ({
   };
   const likeHandler = () => {
     if (comment.liked) {
+      postStar(comment.memberInfo.memberId, -1);
       return dislikeEvent();
     }
+    postStar(comment.memberInfo.memberId, 1);
     likeEvent();
   };
 
