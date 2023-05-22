@@ -8,6 +8,7 @@ import { useEffect, useState } from 'react';
 import { useAnswer } from '@/hooks/react-query/answer/useAnswer';
 import AnswerItem from './AnswerItem';
 import AnswerSkeleton from '../skeleton/AnswerSkeleton';
+import AnswerItemSkeleton from '../skeleton/AnswerItemSkeleton';
 
 const Editor = dynamic(() => import('@/components/editor/Editor'), {
   ssr: false,
@@ -105,6 +106,7 @@ const AnswerBox = ({ articleRefetch }: Props) => {
       </div>
       <div className="view-comment">
         <ul>
+          {answerQuery.isLoading && <AnswerItemSkeleton count={5} />}
           {answerData &&
             answerData.map((answer) => (
               <AnswerItem

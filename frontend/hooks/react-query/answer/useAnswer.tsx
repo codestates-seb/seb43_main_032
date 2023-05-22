@@ -12,6 +12,7 @@ import { confirmAlert, errorAlert } from '@/components/alert/Alert';
 import { useRecoilValue } from 'recoil';
 import { loggedInUserState } from '@/recoil/atom';
 import { postStar } from '@/util/api/postStar';
+import { loggedInUserId } from '@/recoil/selector';
 
 type Props = {
   answerRefetch: () => void;
@@ -27,8 +28,8 @@ export const useAnswer = ({
   changeAnswerVal,
   articleRefetch,
 }: Props) => {
-  //로그인한 유저의 데이터 상태
-  const loggedInUser = useRecoilValue(loggedInUserState);
+  //로그인한 유저의아이디
+  const memberId = useRecoilValue(loggedInUserId);
 
   const router = useRouter();
   const { id } = router.query;
@@ -58,11 +59,10 @@ export const useAnswer = ({
     },
     {
       onSuccess: () => {
-        postStar(loggedInUser?.memberId, 1).then(() => {
-          articleRefetch();
-          answerRefetch();
-          changeAnswerVal('');
-        });
+        postStar(memberId, 1);
+        articleRefetch();
+        answerRefetch();
+        changeAnswerVal('');
       },
       onError: () => {
         errorAlert('잠시 후에 다시 시도해주세요.', '답글 작성');

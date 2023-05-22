@@ -3,6 +3,9 @@ import { useRouter } from 'next/router';
 import { PostData, Project } from '@/types/project';
 import { api } from '@/util/api';
 import { confirmAlert, errorAlert } from '@/components/alert/Alert';
+import { loggedInUserId } from '@/recoil/selector';
+import { useRecoilValue } from 'recoil';
+import { postStar } from '@/util/api/postStar';
 
 type ProjectData = {
   data: Project;
@@ -13,6 +16,8 @@ export const useProject = (
   heartHandler?: (isLiked: boolean) => void,
   heartCountHandler?: (totalCount: number) => void
 ) => {
+  //로그인한 유저의아이디
+  const memberId = useRecoilValue(loggedInUserId);
   const router = useRouter();
   const { id } = router.query;
   const { isLoading, error, data, refetch } = useQuery<ProjectData, Error>(
@@ -154,6 +159,7 @@ export const useProject = (
     (data: PostData) => api.post('/projects', data),
     {
       onSuccess: () => {
+        postStar(memberId, 3);
         router.push('/project').then(() => {
           router.reload();
         });
