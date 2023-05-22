@@ -22,7 +22,6 @@ export default function Content() {
   useEffect(() => {
     if (communityData) setAllData(communityData);
   }, [communityLoading]);
-  const totalLength = communityData?.length;
 
   //검색
   const [searchVal, setSearchVal] = useState('');
@@ -58,7 +57,7 @@ export default function Content() {
     searchVal,
     category: POST_COMMUNITY_CATEGORY[CategoryFilterData[categoryFilter]],
   });
-
+  const pageSize = Math.ceil(filterData.length / 10);
   const viewData = filterData.slice((page - 1) * page_limit, page * page_limit);
 
   if (communityError) return <Message>잠시 후 다시 시도해주세요.</Message>;
@@ -95,11 +94,7 @@ export default function Content() {
             ))}
           </ContentItemList>
         )}
-        <Pagenation
-          page={page}
-          onPageChange={setPage}
-          pageSize={Math.ceil(filterData.length / 10)}
-        />
+        <Pagenation page={page} onPageChange={setPage} pageSize={pageSize} />
       </ContentBottom>
     </Container>
   );
@@ -167,7 +162,7 @@ const ContentBottom = styled.div`
 
 const ContentItemList = styled.div`
   width: 100%;
-  min-height: 74vh;
+  min-height: 80vh;
   border-radius: var(--radius-def);
   padding: var(--padding-2);
   padding-top: 0px;

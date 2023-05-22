@@ -10,8 +10,10 @@ const Home = () => {
   const {
     topLikeProjectData,
     topViewProjectData,
-    topViewcommunityData,
-    communityQuery,
+    topViewCommunityData,
+    topLikeCommunityData,
+    topViewcommunityQuery,
+    topLikecommunityQuery,
     topLikeProjectLoading,
     topViewProjectLoading,
     checkError,
@@ -32,9 +34,9 @@ const Home = () => {
       />
       <CommunityCardBox
         skeleton={
-          communityQuery.isLoading && <CommunityItemSkeleton count={5} />
+          topViewcommunityQuery.isLoading && <CommunityItemSkeleton count={5} />
         }
-        data={topViewcommunityData ? topViewcommunityData : []}
+        data={topViewCommunityData ? topViewCommunityData : []}
         title={'인기 커뮤니티'}
       />
     </Box>
