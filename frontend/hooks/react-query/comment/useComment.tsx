@@ -8,6 +8,9 @@ import {
   PostCommentMutation,
 } from '@/types/comment';
 import { errorAlert } from '@/components/alert/Alert';
+import { loggedInUserId } from '@/recoil/selector';
+import { useRecoilValue } from 'recoil';
+import { postStar } from '@/util/api/postStar';
 
 type Props = {
   commentRefetch: () => void;
@@ -17,6 +20,8 @@ type Props = {
  * 답글 CRUD
  */
 export const useComment = ({ commentRefetch }: Props) => {
+  //로그인한 유저의아이디
+  const memberId = useRecoilValue(loggedInUserId);
   const router = useRouter();
   const { id } = router.query;
 
@@ -39,6 +44,7 @@ export const useComment = ({ commentRefetch }: Props) => {
     },
     {
       onSuccess: () => {
+        postStar(memberId, 1);
         commentRefetch();
       },
       onError: () => {
@@ -55,6 +61,7 @@ export const useComment = ({ commentRefetch }: Props) => {
       api.delete(`/comments/${commentId}`),
     {
       onSuccess: () => {
+        postStar(memberId, -1);
         commentRefetch();
       },
       onError: () => {

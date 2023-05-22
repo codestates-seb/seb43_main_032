@@ -20,6 +20,7 @@ import { useComment } from '@/hooks/react-query/comment/useComment';
 import Tag from '../Tag';
 import { useRouter } from 'next/router';
 import { errorAlert } from '../alert/Alert';
+import { postStar } from '@/util/api/postStar';
 
 const Editor = dynamic(() => import('@/components/editor/Editor'), {
   ssr: false,
@@ -65,7 +66,6 @@ const AnswerItem = ({
   useEffect(() => {
     setEditVal(answer.content);
   }, []);
-
   const onEdit = () => {
     setEdit(true);
   };
@@ -98,8 +98,10 @@ const AnswerItem = ({
       return errorAlert('로그인을 부탁드려요', '답글 좋아요');
     }
     if (answer.liked) {
+      postStar(answer.memberInfo.memberId, -1);
       return dislikeEvent();
     }
+    postStar(answer.memberInfo.memberId, 1);
     likeEvent();
   };
 

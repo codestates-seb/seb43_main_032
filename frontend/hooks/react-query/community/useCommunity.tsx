@@ -3,6 +3,9 @@ import { api } from '@/util/api';
 import { useRouter } from 'next/router';
 import { PageInfo } from '@/types/types';
 import { errorAlert } from '@/components/alert/Alert';
+import { loggedInUserId } from '@/recoil/selector';
+import { useRecoilValue } from 'recoil';
+import { postStar } from '@/util/api/postStar';
 
 type Props = {
   address: string;
@@ -17,6 +20,8 @@ type PostData = {
 };
 
 export const useCommunity = <T extends {}>({ address, queryKey }: Props) => {
+  //로그인한 유저의아이디
+  const memberId = useRecoilValue(loggedInUserId);
   const router = useRouter();
   const { id } = router.query;
   const { isLoading, error, data, refetch } = useQuery<
@@ -64,6 +69,7 @@ export const useCommunity = <T extends {}>({ address, queryKey }: Props) => {
     (data: PostData) => api.post('/articles', data),
     {
       onSuccess: () => {
+        postStar(memberId, 3);
         router.push('/community').then(() => router.reload());
       },
       onError: () => {
@@ -92,6 +98,7 @@ export const useCommunity = <T extends {}>({ address, queryKey }: Props) => {
    */
   const deleteArticle = useMutation(() => api.delete(`/articles/${id}`), {
     onSuccess: () => {
+      postStar(memberId, -3);
       router.push('/community').then(() => router.reload());
     },
     onError: () => {

@@ -7,6 +7,7 @@ import { loggedInUserState } from '@/recoil/atom';
 import { Crew } from '@/types/project';
 import { getCookie } from '@/util/cookie';
 import { confirmAlert, errorAlert } from '@/components/alert/Alert';
+import { postStar } from '@/util/api/postStar';
 
 type ApplyList = {
   data: { position: string; projectId: number; memberInfo: MemberInfo }[];
@@ -44,6 +45,7 @@ export const useProjectApply = ({ projectRefetch, acceptedPostion }: Props) => {
       api.post(`/projects/${id}/apply`, { position }),
     {
       onSuccess: () => {
+        postStar(loggedInUser?.memberId, 1);
         refetch();
         projectRefetch();
       },
@@ -66,7 +68,9 @@ export const useProjectApply = ({ projectRefetch, acceptedPostion }: Props) => {
     if (checkApply) {
       return errorAlert('지원한 포지션을 취소해주세요.', '프로젝트 지원');
     }
-    if (confirm('정말 지원하시겠습니까?')) applyProject.mutate({ position });
+    confirmAlert('정말 지원하시겠습니까?', '프로젝트 지원이').then(() => {
+      applyProject.mutate({ position });
+    });
   };
 
   //취소
@@ -75,6 +79,7 @@ export const useProjectApply = ({ projectRefetch, acceptedPostion }: Props) => {
       api.post(`/projects/${id}/cancel-apply`, { position }),
     {
       onSuccess: () => {
+        postStar(loggedInUser?.memberId, -1);
         refetch();
         projectRefetch();
       },
@@ -99,6 +104,7 @@ export const useProjectApply = ({ projectRefetch, acceptedPostion }: Props) => {
       api.post(`/projects/${id}/cancel-accepted-apply`, { position }),
     {
       onSuccess: () => {
+        postStar(loggedInUser?.memberId, -1);
         refetch();
         projectRefetch();
       },
@@ -122,6 +128,7 @@ export const useProjectApply = ({ projectRefetch, acceptedPostion }: Props) => {
     (memberId: number) => api.post(`/projects/${id}/accept/${memberId}`),
     {
       onSuccess: () => {
+        postStar(loggedInUser?.memberId, 1);
         refetch();
         projectRefetch();
       },
