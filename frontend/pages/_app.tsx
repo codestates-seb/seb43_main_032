@@ -11,6 +11,7 @@ import ModalBg from '@/components/ModalBg';
 import { useRouter } from 'next/router';
 import LoginBg from '@/components/user/LoginBg';
 import EtcHeader from '@/components/EtcHeader';
+import { confirmAlert } from './../components/alert/Alert';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -55,4 +56,18 @@ const Box = styled.main`
   padding: 0px calc((100% - 1280px) / 2);
   padding-top: 80px;
   flex: 1;
+
+  .test {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    .ex {
+      width: 100px;
+      height: 100px;
+      background-color: #ffc6c6;
+    }
+  }
 `;

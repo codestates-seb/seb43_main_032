@@ -17,9 +17,9 @@ import { useGetComment } from '@/hooks/react-query/comment/useGetComment';
 import CommentBox from '../comment/CommentBox';
 import { elapsedTime } from '@/util/date';
 import { useComment } from '@/hooks/react-query/comment/useComment';
-import { warningAlert } from '../alert/MyAlert';
 import Tag from '../Tag';
 import { useRouter } from 'next/router';
+import { errorAlert } from '../alert/Alert';
 
 const Editor = dynamic(() => import('@/components/editor/Editor'), {
   ssr: false,
@@ -104,7 +104,7 @@ const AnswerItem = ({
   const [comment, setComment] = useState(false);
   const commentHandler = () => {
     if (!getCookie('accessToken') && !comment) {
-      return warningAlert('로그인을 부탁드려요.');
+      return errorAlert('로그인이 필요합니다.', '댓글 작성');
     }
     setComment(!comment);
   };

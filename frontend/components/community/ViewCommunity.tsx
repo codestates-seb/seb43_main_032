@@ -10,7 +10,7 @@ import AuthorBox from '../common_box/AuthorBox';
 import { getCookie } from '@/util/cookie';
 import MainArticleBox from '../common_box/MainArticleBox';
 import ApplyBox from '../common_box/ApplyBox';
-import { warningAlert } from '../alert/MyAlert';
+import { errorAlert } from '../alert/Alert';
 
 // item 개별 페이지
 const ViewCommunity = () => {
@@ -35,7 +35,7 @@ const ViewCommunity = () => {
   //좋아요 이벤트
   const likeHandler = () => {
     if (!getCookie('accessToken')) {
-      return warningAlert('로그인을 부탁드려요.');
+      return errorAlert('로그인이 필요합니다.', '좋아요');
     }
     if (data?.liked) {
       return dislikeCommunity.mutate();

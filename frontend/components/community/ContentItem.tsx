@@ -13,7 +13,6 @@ export default function ContentItem(article: Community) {
 
   return (
     <Container>
-      <div className={`color-bar ${article.category}`}></div>
       <Right>
         <img src={article.memberInfo.profileImageUrl}></img>
         <div className="name-box">{article.memberInfo.name}</div>

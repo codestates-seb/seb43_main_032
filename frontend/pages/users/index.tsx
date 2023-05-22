@@ -2,70 +2,71 @@ import Pagenation from '@/components/Pagenation';
 import { TextArea } from '@/components/authAction/EditInput';
 import UserCard from '@/components/user/UserCard';
 import useUser from '@/hooks/react-query/useUser';
-import { User, UserState } from '@/types/user';
 import { useRouter } from 'next/router';
 import { ChangeEvent, useState } from 'react';
 import styled from 'styled-components';
 import { BiSearch } from 'react-icons/bi';
 import { useQueryClient } from 'react-query';
+import { User } from '@/types/user';
+//유저 페이지 입니다. 경로 '/user/'
 
-const Users = () => {
-  const [inputValue, setInputValue] = useState<string>('');
-  const [keyword, setKeyword] = useState<string | undefined>(undefined);
-  const [page, setPage] = useState<number>(2);
-  const [size, setSize] = useState<number>(8);
-  const queryClient = useQueryClient();
+// const Users = () => {
+//   const [inputValue, setInputValue] = useState<string>('');
+//   const [keyword, setKeyword] = useState<string | undefined>(undefined);
+//   const [page, setPage] = useState<number>(2);
+//   const [size, setSize] = useState<number>(8);
+//   const queryClient = useQueryClient();
 
-  const {
-    userQuery: { data: users, isLoading: allUserLoading },
-    searchUserByKeyword: { data: searchedUsers, isLoading: searchUserLoading },
-  } = useUser({ page, pageSize: size, keyword });
+//   const {
+//     userQuery: { data: users, isLoading: allUserLoading },
+//     searchUserByKeyword: { data: searchedUsers, isLoading: searchUserLoading },
+//   } = useUser({ page, pageSize: size, keyword });
 
-  const handleChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
-    setInputValue(e.target.value);
-  };
-  const handleClick = () => {
-    if (inputValue.trim().length < 1) {
-    } else {
-      setKeyword(inputValue);
-    }
-  };
+//   const handleChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
+//     setInputValue(e.target.value);
+//   };
+//   const handleClick = () => {
+//     if (inputValue.trim().length < 1) {
+//     } else {
+//       setKeyword(inputValue);
+//     }
+//   };
 
-  return (
-    <Wrapper>
-      <SearchHeader>
-        <Title>유저 목록</Title>
-        <SubHeader>
-          <FilterBox>
-            {['프론트엔드', '백엔드', 'UX/UI'].map((btn) => (
-              <FilterButton key={btn}>{btn} </FilterButton>
-            ))}
-          </FilterBox>
-          <SearchBox>
-            <TextArea
-              onChange={handleChange}
-              value={inputValue}
-              placeholder="Search user..."
-            />
-            <SearchButton onClick={handleClick}>
-              <BiSearch />
-            </SearchButton>
-          </SearchBox>
-        </SubHeader>
-      </SearchHeader>
+//   return (
+//     <Wrapper>
+//       <SearchHeader>
+//         <Title>유저 목록</Title>
+//         <SubHeader>
+//           <FilterBox>
+//             {['프론트엔드', '백엔드', 'UX/UI'].map((btn) => (
+//               <FilterButton key={btn}>{btn} </FilterButton>
+//             ))}
+//           </FilterBox>
+//           <SearchBox>
+//             <TextArea
+//               onChange={handleChange}
+//               value={inputValue}
+//               placeholder="Search user..."
+//             />
+//             <SearchButton onClick={handleClick}>
+//               <BiSearch />
+//             </SearchButton>
+//           </SearchBox>
+//         </SubHeader>
+//       </SearchHeader>
 
-      <CardWrapper>
-        {users &&
-          users.map((user: UserState) => (
-            <UserCard key={user.name} user={user} />
-          ))}
-      </CardWrapper>
-      <Pagenation pageSize={size} page={page} onPageChange={setPage} />
-    </Wrapper>
-  );
-};
+//       <CardWrapper>
+//         {users &&
+//           users.map((user: UserState) => (
+//             <UserCard key={user.name} user={user} />
+//           ))}
+//       </CardWrapper>
+//       <Pagenation pageSize={size} page={page} onPageChange={setPage} />
+//     </Wrapper>
+//   );
+// };
 
-export default Users;
+// export default Users;
 
 const Wrapper = styled.div`
   padding: 20px;
@@ -150,3 +151,68 @@ const CardWrapper = styled.div`
     grid-template-columns: repeat(6, 1fr);
   }
 `;
+const Users = () => {
+  const [inputValue, setInputValue] = useState<string>('');
+  const [keyword, setKeyword] = useState<string | undefined>(undefined);
+  const [page, setPage] = useState<number>(1);
+  const [size, setSize] = useState<number>(8);
+  const queryClient = useQueryClient();
+
+  const {
+    userQuery: { data: users, isLoading: allUserLoading },
+    searchUserByKeyword: { data: searchedUsers, isLoading: searchUserLoading },
+  } = useUser({ page, pageSize: size, keyword });
+
+  const handleChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
+    setInputValue(e.target.value);
+  };
+  const handleClick = () => {
+    if (inputValue.trim().length < 1) {
+    } else {
+      setKeyword(inputValue);
+    }
+  };
+
+  // useEffect(() => {
+  //   if (allUserLoading) return;
+  //   setUsers(allUsers);
+  // }, [allUsers]);
+  // useEffect(() => {
+  //   if (searchUserLoading) return;
+  //   setUsers(searchedUsers);
+  // }, [searchedUsers]);
+
+  users && console.log(users);
+  return (
+    <Wrapper>
+      <SearchHeader>
+        <Title>유저 목록</Title>
+        <SubHeader>
+          <FilterBox>
+            {['프론트엔드', '백엔드', 'UX/UI'].map((btn) => (
+              <FilterButton key={btn}>{btn} </FilterButton>
+            ))}
+          </FilterBox>
+          <SearchBox>
+            <TextArea
+              onChange={handleChange}
+              value={inputValue}
+              placeholder="Search user..."
+            />
+            <SearchButton onClick={handleClick}>
+              <BiSearch />
+            </SearchButton>
+          </SearchBox>
+        </SubHeader>
+      </SearchHeader>
+
+      <CardWrapper>
+        {users &&
+          users.map((user: any) => <UserCard key={user.name} user={user} />)}
+      </CardWrapper>
+      <Pagenation pageSize={size} page={page} onPageChange={setPage} />
+    </Wrapper>
+  );
+};
+
+export default Users;
