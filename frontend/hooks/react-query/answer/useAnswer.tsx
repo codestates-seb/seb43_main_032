@@ -9,6 +9,9 @@ import {
   PostAnswerMutation,
 } from '@/types/answer';
 import { confirmAlert, errorAlert } from '@/components/alert/Alert';
+import { useRecoilValue } from 'recoil';
+import { loggedInUserState } from '@/recoil/atom';
+import { postStar } from '@/util/api/postStar';
 
 type Props = {
   answerRefetch: () => void;
@@ -24,6 +27,9 @@ export const useAnswer = ({
   changeAnswerVal,
   articleRefetch,
 }: Props) => {
+  //로그인한 유저의 데이터 상태
+  const loggedInUser = useRecoilValue(loggedInUserState);
+
   const router = useRouter();
   const { id } = router.query;
 
@@ -55,6 +61,7 @@ export const useAnswer = ({
         articleRefetch();
         answerRefetch();
         changeAnswerVal('');
+        postStar(loggedInUser?.memberId, 3);
       },
       onError: () => {
         errorAlert('잠시 후에 다시 시도해주세요.', '답글 작성');
