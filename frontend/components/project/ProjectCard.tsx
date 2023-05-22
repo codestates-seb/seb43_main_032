@@ -189,14 +189,12 @@ const Box = styled.div`
 
   .tag-box {
     padding: 5px 13px;
+    min-height: 32px;
     ul {
       height: 22px;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
-      li {
-        display: inline;
-      }
     }
   }
 
