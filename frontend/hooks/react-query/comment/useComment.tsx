@@ -7,6 +7,7 @@ import {
   LikeCommentMutation,
   PostCommentMutation,
 } from '@/types/comment';
+import { errorAlert } from '@/components/alert/Alert';
 
 type Props = {
   commentRefetch: () => void;
@@ -41,7 +42,7 @@ export const useComment = ({ commentRefetch }: Props) => {
         commentRefetch();
       },
       onError: () => {
-        alert('잠시 후에 다시 시도해주세요.');
+        errorAlert('잠시 후에 다시 시도해주세요.', '댓글 작성');
       },
     }
   );
@@ -57,7 +58,7 @@ export const useComment = ({ commentRefetch }: Props) => {
         commentRefetch();
       },
       onError: () => {
-        alert('잠시 후에 다시 시도해주세요.');
+        errorAlert('잠시 후에 다시 시도해주세요.', '댓글 삭제');
       },
     }
   );
@@ -73,7 +74,7 @@ export const useComment = ({ commentRefetch }: Props) => {
         commentRefetch();
       },
       onError: () => {
-        alert('잠시 후에 다시 시도해주세요.');
+        errorAlert('잠시 후에 다시 시도해주세요.', '댓글 수정');
       },
     }
   );
@@ -92,7 +93,7 @@ export const useComment = ({ commentRefetch }: Props) => {
         commentRefetch();
       },
       onError: () => {
-        alert('잠시 후에 다시 시도해주세요.');
+        errorAlert('잠시 후에 다시 시도해주세요.', '댓글 좋아요');
       },
     }
   );
@@ -111,7 +112,7 @@ export const useComment = ({ commentRefetch }: Props) => {
         commentRefetch();
       },
       onError: () => {
-        alert('잠시 후에 다시 시도해주세요.');
+        errorAlert('잠시 후에 다시 시도해주세요.', '댓글 싫어요');
       },
     }
   );

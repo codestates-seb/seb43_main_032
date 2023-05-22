@@ -9,6 +9,7 @@ import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { RiThumbUpFill, RiThumbUpLine } from 'react-icons/ri';
 import styled from 'styled-components';
+import { confirmAlert } from '../alert/Alert';
 
 type Props = {
   comment: Comment;
@@ -36,9 +37,11 @@ const CommentItem = ({
 
   //이벤트 함수들
   const deleteEvent = () => {
-    if (confirm('정말 댓글을 삭제하시겠습니까?'))
-      deleteComment.mutate({ commentId: comment.commentId });
+    confirmAlert('정말 삭제하시겠습니까?', '댓글 삭제').then(() =>
+      deleteComment.mutate({ commentId: comment.commentId })
+    );
   };
+
   const editEvent = () => {
     if (confirm('정말 댓글을 수정하시겠습니까?')) {
       const data = {

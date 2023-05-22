@@ -2,6 +2,7 @@ import { useQuery, useMutation } from 'react-query';
 import { useRouter } from 'next/router';
 import { PostData, Project } from '@/types/project';
 import { api } from '@/util/api';
+import { errorAlert } from '@/components/alert/Alert';
 
 type ProjectData = {
   data: Project;
@@ -32,7 +33,7 @@ export const useProject = () => {
         if (id) refetch();
       },
       onError: () => {
-        alert('잠시 후에 다시 시도해주세요.');
+        errorAlert('잠시 후에 다시 시도해주세요.', '좋아요');
       },
     }
   );
@@ -49,7 +50,7 @@ export const useProject = () => {
         if (id) refetch();
       },
       onError: () => {
-        alert('잠시 후에 다시 시도해주세요.');
+        errorAlert('잠시 후에 다시 시도해주세요.', '싫어요');
       },
     }
   );
@@ -64,7 +65,7 @@ export const useProject = () => {
         refetch();
       },
       onError: () => {
-        alert('잠시 후에 다시 시도해주세요.');
+        errorAlert('잠시 후에 다시 시도해주세요.', '프로젝트 업데이트');
       },
     }
   );
@@ -92,7 +93,7 @@ export const useProject = () => {
         router.push('/').then(() => refetch());
       },
       onError: () => {
-        alert('잠시 후에 다시 시도해주세요.');
+        errorAlert('잠시 후에 다시 시도해주세요.', '프로젝트 삭제');
       },
     }
   );
@@ -114,7 +115,7 @@ export const useProject = () => {
         router.push('/').then(() => refetch());
       },
       onError: () => {
-        alert('잠시 후에 다시 시도해주세요.');
+        errorAlert('잠시 후에 다시 시도해주세요.', '게시글 수정');
       },
     }
   );
@@ -129,7 +130,7 @@ export const useProject = () => {
         router.push('/').then(() => refetch());
       },
       onError: () => {
-        alert('잠시 후에 다시 시도해주세요.');
+        errorAlert('잠시 후에 다시 시도해주세요.', '게시글 작성');
       },
     }
   );

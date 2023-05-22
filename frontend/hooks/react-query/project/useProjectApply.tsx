@@ -6,6 +6,7 @@ import { useRecoilValue } from 'recoil';
 import { loggedInUserState } from '@/recoil/atom';
 import { Crew } from '@/types/project';
 import { getCookie } from '@/util/cookie';
+import { errorAlert } from '@/components/alert/Alert';
 
 type ApplyList = {
   data: { position: string; projectId: number; memberInfo: MemberInfo }[];
@@ -52,7 +53,7 @@ export const useProjectApply = ({
         projectRefetch();
       },
       onError: () => {
-        alert('잠시 후에 다시 시도해주세요.');
+        errorAlert('잠시 후에 다시 시도해주세요.', '지원자 제출');
       },
     }
   );
@@ -62,13 +63,13 @@ export const useProjectApply = ({
    */
   const applyEvent = (position: string) => {
     if (!getCookie('accessToken')) {
-      return alert('로그인을 부탁드려요.');
+      return errorAlert('로그인이 필요합니다.', '프로젝트 지원');
     }
     if (acceptedPostion) {
-      return alert('이미 다른 포지션에 확정되셨습니다.');
+      return errorAlert('이미 다른 포지션에 확정되셨습니다.', '프로젝트 지원');
     }
     if (checkApply) {
-      return alert('지원한 포지션을 취소해주세요.');
+      return errorAlert('지원한 포지션을 취소해주세요.', '프로젝트 지원');
     }
     if (confirm('정말 지원하시겠습니까?')) applyProject.mutate({ position });
   };
