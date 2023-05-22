@@ -102,7 +102,6 @@ export default function Content() {
 
 const Container = styled.div`
   width: 100%;
-  padding: var(--padding-2);
   padding-top: 0;
 `;
 
@@ -114,6 +113,9 @@ const ContentTop = styled.div`
   padding: 0 20px;
   padding-bottom: 0px;
   gap: 12px;
+  @media (max-width: 768px) {
+    flex-direction: column;
+  }
 `;
 
 const SearchInput = styled.input`
@@ -164,7 +166,7 @@ const ContentItemList = styled.div`
   width: 100%;
   min-height: 80vh;
   border-radius: var(--radius-def);
-  padding: var(--padding-2);
+
   padding-top: 0px;
   display: flex;
   flex-direction: column;

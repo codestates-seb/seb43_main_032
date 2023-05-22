@@ -18,28 +18,24 @@ export default function ContentItem(article: Community) {
   };
 
   return (
-    <Container>
-      <Right>
+    <Container onClick={moveArticle}>
+      <Left>
         <img src={article.memberInfo.profileImageUrl}></img>
         <div className="name-box">{article.memberInfo.name}</div>
         <div className="star-box">
           <FaStar color="#FF9900"></FaStar> {article.totalLikes}
         </div>
-      </Right>
-      <a onClick={moveArticle}>
-        <Center>
-          <Top>
-            <div className="title nanum-semi-bold">{article.title}</div>
-            <div className="content">{article.content}</div>
-          </Top>
-          <div className="tagBox">
-            {article.techList.map((tag, i) => (
-              <Tag key={`${i}+${tag.tech}`}>{tag.tech}</Tag>
-            ))}
-          </div>
-        </Center>
-      </a>
-      <Left>
+      </Left>
+      <Center>
+        <div className="title nanum-semi-bold">{article.title}</div>
+        <div className="content">{article.content}</div>
+        <div className="tagBox">
+          {article.techList.map((tag, i) => (
+            <Tag key={`${i}+${tag.tech}`}>{tag.tech}</Tag>
+          ))}
+        </div>
+      </Center>
+      <Right>
         <div className="heartBox">
           {view === true ? (
             <button onClick={() => onClick()}>
@@ -65,7 +61,7 @@ export default function ContentItem(article: Community) {
             <FaComment color="#909090" />
           </button>
         </div>
-      </Left>
+      </Right>
     </Container>
   );
 }
@@ -73,6 +69,7 @@ export default function ContentItem(article: Community) {
 const Container = styled.div`
   width: 100%;
   height: 120px;
+  gap: 8px;
   display: flex;
   justify-content: space-between;
   background-color: white;
@@ -88,14 +85,6 @@ const Container = styled.div`
   :hover {
     outline: 3px solid #ca66fc;
     transition: background 0.5s ease, color 0.5s ease;
-  }
-
-  > a {
-    width: 65%;
-  }
-
-  .tagBox {
-    margin-top: 15px;
   }
 
   > &:hover {
@@ -122,16 +111,75 @@ const Container = styled.div`
   }
 `;
 
-const Left = styled.div`
-  width: 10%;
+const Center = styled.div`
   display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 10px 0px;
+  width: 75%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+
+  > .tagBox {
+    width: 100%;
+    font-size: 12px;
+    display: flex;
+    gap: 8px;
+    display: flex;
+    height: 22px;
+    flex-wrap: wrap;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  > .title {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    color: #414141;
+    font-weight: 600;
+  }
+
+  > .content {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-size: 14px;
+    color: #545454;
+  }
+`;
+
+const Left = styled.div`
+  display: flex;
+  width: 10%;
+  min-width: 100px;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+
+  .name-box {
+    font-size: 12px;
+  }
+
+  > div {
+    vertical-align: baseline;
+  }
+
+  > img {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+  }
+`;
+
+const Right = styled.div`
+  display: flex;
+  width: 15%;
   flex-direction: column;
   justify-content: start;
   align-items: end;
-  @media (min-width: 768px) {
-    flex-direction: column;
-    align-items: center;
-  }
 
   button {
     min-width: 50px;
@@ -154,71 +202,5 @@ const Left = styled.div`
       font-weight: bold;
       color: #5b5b5b;
     }
-  }
-`;
-
-const Center = styled.div`
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  padding: 5px;
-  padding-left: 20px;
-
-  > .tagBox {
-    font-size: 12px;
-    display: flex !important;
-    flex-direction: row !important;
-    gap: 8px;
-    color: white;
-
-    > div {
-      background: #909090;
-    }
-  }
-`;
-
-const Top = styled.div`
-  display: flex;
-  flex-direction: column;
-  font-size: 12px;
-
-  > .title {
-    color: #414141;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    margin-bottom: 16px;
-    margin-right: 20px;
-    font-weight: 600;
-  }
-
-  > .content {
-    font-size: 14px;
-    color: #545454;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    display: -webkit-box;
-    -webkit-box-orient: vertical;
-    -webkit-line-clamp: 2;
-  }
-`;
-
-const Right = styled.div`
-  width: 10%;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  align-items: center;
-
-  > div {
-    vertical-align: baseline;
-  }
-
-  > img {
-    border-radius: 50%;
-    border: solid 1px gray;
-    width: 50px;
-    height: 50px;
-    object-fit: cover;
   }
 `;
