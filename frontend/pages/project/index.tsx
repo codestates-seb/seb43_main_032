@@ -1,8 +1,6 @@
 import ProjectCarousel from '@/components/project/ProjectCarousel';
 import styled from 'styled-components';
 import { useRouter } from 'next/router';
-import { useInfiniteQuery } from 'react-query';
-import { api } from '@/util/api';
 import { useRef, useEffect, useState } from 'react';
 import ProjectSkeleton from '@/components/skeleton/ProjectSkeleton';
 import Link from 'next/link';
@@ -10,58 +8,19 @@ import { Project } from '@/types/project';
 import Message from '@/components/Message';
 import { useForm } from 'react-hook-form';
 import ProjectCardBox from '@/components/card_box/ProjectCardBox';
-import { Filter, Form, PageProps } from '@/types/types';
+import { Filter, Form } from '@/types/types';
 import { AiOutlineArrowUp } from 'react-icons/ai';
-import { getAllProject } from '@/util/api/getAllData';
 import { articleFilter } from '@/util/filter/articleFilter';
 import { ARTICLE_FILTER } from '@/constant/constant';
-const page_limit = 4;
+import { getAllProject } from '@/util/api/getAllData';
+import { useInfinityProject } from '@/hooks/react-query/project/useInfinityProject';
 
 const ProjectHome = () => {
   const router = useRouter();
   const { register, watch } = useForm<Form>();
 
-  //주소, 서버 필터 작업 전까지 주석처리
-  const address = () => {
-    return `/projects/findAll?size=${page_limit}`;
-  };
-
-  //쿼리 키, 서버 필터 작업 전까지 주석처리
-  const queryKey = () => {
-    return 'projects';
-  };
-
-  //무한스크롤 데이터
-  const {
-    isLoading,
-    error,
-    data,
-    fetchNextPage,
-    hasNextPage,
-    isFetching,
-    refetch,
-  } = useInfiniteQuery(
-    queryKey(),
-    ({ pageParam = 1 }) =>
-      api(`${address()}&page=${pageParam}`)
-        .then((res) => res.data)
-        .catch(() => {}),
-    {
-      getNextPageParam: (
-        lastPage: PageProps<Project>,
-        allPages: PageProps<Project>[]
-      ) => {
-        if (lastPage.data.length < page_limit) {
-          return null;
-        }
-        return allPages.length + 1;
-      },
-    }
-  );
-
-  useEffect(() => {
-    refetch();
-  }, []);
+  const { isLoading, error, data, fetchNextPage, hasNextPage, isFetching } =
+    useInfinityProject();
 
   //서버에서 필터링 작업이 완성되기 전, 눈속임을 위한 필터 데이터
   const [filter, setFilter] = useState<Filter>(0);
@@ -81,7 +40,6 @@ const ProjectHome = () => {
     type: 1,
   });
 
-  console.log(filterData);
   //무한 스크롤 effect
   const target = useRef<HTMLDivElement>(null);
   useEffect(() => {

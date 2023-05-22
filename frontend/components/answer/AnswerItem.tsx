@@ -267,10 +267,9 @@ const Box = styled.li`
         .user-img {
           width: 40px;
           height: 40px;
-          background-color: black;
-
           > img {
             border-radius: 50%;
+            height: 100%;
             width: 100%;
           }
         }

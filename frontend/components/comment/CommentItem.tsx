@@ -153,6 +153,7 @@ const Box = styled.div`
       display: flex;
 
       > img {
+        border-radius: 50%;
         background: wheat;
         width: 32px;
         height: 32px;
