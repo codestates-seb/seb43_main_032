@@ -1,8 +1,42 @@
 import styled from 'styled-components';
 import { AiTwotoneLike } from 'react-icons/ai';
-import Stack from '../stack/Stack';
 import { useRouter } from 'next/router';
 import { formatDate } from '@/util/date';
+
+export default function UserPostCard({ post }: { post: any }) {
+  const router = useRouter();
+  const handleClick = () => {
+    router.push(`/posts/${post.articleId}`);
+  };
+  return (
+    <Wrapper onClick={handleClick} filter={setColorByCategory(post.category)}>
+      <ContentContainer>
+        <CardInfo>
+          <h1 style={{ fontSize: '20px', fontWeight: 'bold' }}>{post.title}</h1>
+          <span>{`${formatDate(new Date())}`}</span>
+        </CardInfo>
+        <Description>{post.content}</Description>
+      </ContentContainer>
+      <StarRaiting>
+        <AiTwotoneLike size={30} style={{ color: '#6C82CA' }} />
+        <p style={{ marginTop: '5px' }}>{post.totalLikes}</p>
+      </StarRaiting>
+    </Wrapper>
+  );
+}
+
+function setColorByCategory(category: string) {
+  switch (category) {
+    case 'frontend':
+      return '#2af599';
+    case 'backend':
+      return '#f98bfe';
+    case 'uiux':
+      return '#4512eb';
+    default:
+      return '#2af599';
+  }
+}
 
 const Wrapper = styled.div<{ filter: string }>`
   display: flex;
@@ -44,38 +78,3 @@ const StarRaiting = styled.div`
   align-items: center;
   padding-left: 20px;
 `;
-
-export default function UserPostCard({ post }: { post: any }) {
-  const router = useRouter();
-  const handleClick = () => {
-    router.push(`/posts/${post.articleId}`);
-  };
-  return (
-    <Wrapper onClick={handleClick} filter={setColorByCategory(post.category)}>
-      <ContentContainer>
-        <CardInfo>
-          <h1 style={{ fontSize: '20px', fontWeight: 'bold' }}>{post.title}</h1>
-          <span>{`${formatDate(new Date())}`}</span>
-        </CardInfo>
-        <Description>{post.content}</Description>
-      </ContentContainer>
-      <StarRaiting>
-        <AiTwotoneLike size={30} style={{ color: '#6C82CA' }} />
-        <p style={{ marginTop: '5px' }}>{post.totalLikes}</p>
-      </StarRaiting>
-    </Wrapper>
-  );
-}
-
-function setColorByCategory(category: string) {
-  switch (category) {
-    case 'frontend':
-      return '#2af599';
-    case 'backend':
-      return '#f98bfe';
-    case 'uiux':
-      return '#4512eb';
-    default:
-      return '#2af599';
-  }
-}

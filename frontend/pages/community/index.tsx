@@ -17,6 +17,7 @@ const Box = styled.div`
   display: flex;
   flex-direction: column;
   padding: 0 20px 10px;
+
   @media (max-width: 960px) {
     display: flex;
     flex-direction: column;

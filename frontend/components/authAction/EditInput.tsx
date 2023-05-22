@@ -1,6 +1,31 @@
 import React from 'react';
 import styled from 'styled-components';
 
+interface EditInputProps {
+  [key: string]: any;
+}
+
+const EditInput: React.FC<EditInputProps> = ({
+  type,
+  label,
+  placeholder,
+  ...rest
+}) => {
+  return (
+    <Wrapper>
+      <Label>{label}</Label>
+      <TextArea
+        {...rest.register}
+        type={type}
+        placeholder={placeholder}
+        style={{ height: label === 'About Me' ? '150px' : '' }}
+      />
+    </Wrapper>
+  );
+};
+
+export default EditInput;
+
 const Wrapper = styled.div``;
 
 export const TextArea = styled.textarea`
@@ -35,28 +60,3 @@ const Label = styled.p.attrs({ className: 'nanum-bold' })`
   padding-top: 20px;
   padding-bottom: 10px;
 `;
-
-interface EditInputProps {
-  [key: string]: any;
-}
-
-const EditInput: React.FC<EditInputProps> = ({
-  type,
-  label,
-  placeholder,
-  ...rest
-}) => {
-  return (
-    <Wrapper>
-      <Label>{label}</Label>
-      <TextArea
-        {...rest.register}
-        type={type}
-        placeholder={placeholder}
-        style={{ height: label === 'About Me' ? '150px' : '' }}
-      />
-    </Wrapper>
-  );
-};
-
-export default EditInput;

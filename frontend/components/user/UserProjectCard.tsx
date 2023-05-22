@@ -3,41 +3,6 @@ import { AiTwotoneLike } from 'react-icons/ai';
 import Stack from '../stack/Stack';
 import { useRouter } from 'next/router';
 
-const Wrapper = styled.div`
-  display: flex;
-  padding: 20px;
-  margin-bottom: 20px;
-  justify-content: space-between;
-  align-items: center;
-  border-radius: var(--radius-def);
-  cursor: pointer;
-  box-shadow: 5px 5px 10px 0px rgba(0, 0, 0, 0.25);
-  -webkit-box-shadow: 5px 5px 10px 0px rgba(0, 0, 0, 0.25);
-  -moz-box-shadow: 5px 5px 10px 0px rgba(0, 0, 0, 0.25);
-`;
-const ContentContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-`;
-const CardInfo = styled.div`
-  display: flex;
-  align-items: flex-end;
-  justify-content: space-between;
-`;
-const TagContainer = styled.div`
-  padding: 10px;
-  padding-left: 0;
-  display: flex;
-  gap: 8px;
-  flex-wrap: wrap;
-`;
-const StarRaiting = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding-left: 20px;
-`;
-
 export default function UserProjectCard({ project }: { project: any }) {
   const router = useRouter();
   const handleClick = () => {
@@ -75,3 +40,38 @@ export default function UserProjectCard({ project }: { project: any }) {
     </Wrapper>
   );
 }
+
+const Wrapper = styled.div`
+  display: flex;
+  padding: 20px;
+  margin-bottom: 20px;
+  justify-content: space-between;
+  align-items: center;
+  border-radius: var(--radius-def);
+  cursor: pointer;
+  box-shadow: 5px 5px 10px 0px rgba(0, 0, 0, 0.25);
+  -webkit-box-shadow: 5px 5px 10px 0px rgba(0, 0, 0, 0.25);
+  -moz-box-shadow: 5px 5px 10px 0px rgba(0, 0, 0, 0.25);
+`;
+const ContentContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+const CardInfo = styled.div`
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+`;
+const TagContainer = styled.div`
+  padding: 10px;
+  padding-left: 0;
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+`;
+const StarRaiting = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-left: 20px;
+`;
