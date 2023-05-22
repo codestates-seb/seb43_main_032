@@ -29,10 +29,10 @@ const ProjectHome = () => {
   const [allData, setAllData] = useState<Project[]>([]);
 
   //전체 데이터 세팅
-  const { projectData } = useAllData();
+  const { projectData, projectLoading } = useAllData();
   useEffect(() => {
     if (projectData) setAllData(projectData);
-  }, []);
+  }, [projectLoading]);
 
   const filterData = projectFilter({
     filter,
