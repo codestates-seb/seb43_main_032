@@ -4,7 +4,6 @@ import { Community } from '@/types/community';
 import { getAllCommunity, getAllProject } from '@/util/api/getAllData';
 
 export const useAllData = () => {
-  //프로젝트 좋아요 높은 순 5개
   const {
     data: projectData,
     isLoading: projectLoading,
@@ -12,7 +11,6 @@ export const useAllData = () => {
     refetch: projectRefetch,
   } = useQuery<Project[], Error>('projects-all-data', () => getAllProject());
 
-  //프로젝트 좋아요 높은 순 5개
   const {
     data: communityData,
     isLoading: communityLoading,

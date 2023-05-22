@@ -8,15 +8,26 @@ import {
   PostCommentMutation,
 } from '@/types/comment';
 import { errorAlert } from '@/components/alert/Alert';
+import { loggedInUserId } from '@/recoil/selector';
+import { useRecoilValue } from 'recoil';
+import { postStar } from '@/util/api/postStar';
 
 type Props = {
   commentRefetch: () => void;
+  articleRefetch?: () => void;
+  answerRefetch?: () => void;
 };
 
 /**
  * 답글 CRUD
  */
-export const useComment = ({ commentRefetch }: Props) => {
+export const useComment = ({
+  commentRefetch,
+  articleRefetch,
+  answerRefetch,
+}: Props) => {
+  //로그인한 유저의아이디
+  const memberId = useRecoilValue(loggedInUserId);
   const router = useRouter();
   const { id } = router.query;
 
@@ -39,6 +50,7 @@ export const useComment = ({ commentRefetch }: Props) => {
     },
     {
       onSuccess: () => {
+        postStar(memberId, 1);
         commentRefetch();
       },
       onError: () => {
@@ -55,6 +67,7 @@ export const useComment = ({ commentRefetch }: Props) => {
       api.delete(`/comments/${commentId}`),
     {
       onSuccess: () => {
+        postStar(memberId, -1);
         commentRefetch();
       },
       onError: () => {
@@ -91,6 +104,10 @@ export const useComment = ({ commentRefetch }: Props) => {
     {
       onSuccess: () => {
         commentRefetch();
+        if (articleRefetch && answerRefetch) {
+          articleRefetch();
+          answerRefetch();
+        }
       },
       onError: () => {
         errorAlert('잠시 후에 다시 시도해주세요.', '댓글 좋아요');
@@ -110,6 +127,10 @@ export const useComment = ({ commentRefetch }: Props) => {
     {
       onSuccess: () => {
         commentRefetch();
+        if (articleRefetch && answerRefetch) {
+          articleRefetch();
+          answerRefetch();
+        }
       },
       onError: () => {
         errorAlert('잠시 후에 다시 시도해주세요.', '댓글 싫어요');

@@ -14,7 +14,7 @@ import { AiOutlineClose } from 'react-icons/ai';
 import { useProject } from '@/hooks/react-query/project/useProject';
 import StacksBox from './StacksBox';
 import GridBox from '../common_box/GridBox';
-import { errorAlert } from '../alert/Alert';
+import { confirmAlert, errorAlert } from '../alert/Alert';
 
 const ProjectForm = () => {
   const router = useRouter();
@@ -187,18 +187,15 @@ const ProjectForm = () => {
       },
     };
 
-    //작성 이벤트
-    if (
-      router.route.includes('edit') &&
-      confirm('정말 글을 수정하시겠습니까?')
-    ) {
-      return submitEdit.mutate(data);
+    if (router.route.includes('edit')) {
+      confirmAlert('정말 글을 수정하시겠습니까?', '프로젝트 수정이').then(() =>
+        submitEdit.mutate(data)
+      );
     }
-    if (
-      router.route.includes('create') &&
-      confirm('정말 글을 작성하시겠습니까?')
-    ) {
-      return submitPost.mutate(data);
+    if (router.route.includes('create')) {
+      confirmAlert('정말 글을 작성하시겠습니까?', '프로젝트 작성이').then(() =>
+        submitPost.mutate(data)
+      );
     }
   };
 

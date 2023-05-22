@@ -12,6 +12,7 @@ import styled from 'styled-components';
 import { confirmAlert } from '../alert/Alert';
 import Tag from '../Tag';
 import { useRouter } from 'next/router';
+import { postStar } from '@/util/api/postStar';
 
 type Props = {
   comment: Comment;
@@ -40,20 +41,20 @@ const CommentItem = ({
 
   //이벤트 함수들
   const deleteEvent = () => {
-    confirmAlert('정말 삭제하시겠습니까?', '댓글 삭제').then(() =>
+    confirmAlert('정말 삭제하시겠습니까?', '댓글 삭제가').then(() =>
       deleteComment.mutate({ commentId: comment.commentId })
     );
   };
 
   const editEvent = () => {
-    if (confirm('정말 댓글을 수정하시겠습니까?')) {
+    confirmAlert('정말 댓글을 수정하시겠습니까?', '댓글 수정이').then(() => {
       const data = {
         commentId: comment.commentId,
         content: watch().content,
       };
       editComment.mutate(data);
       setEdit(false);
-    }
+    });
   };
   const likeEvent = () => {
     likeComment.mutate({ category: 'COMMENT', uniteId: comment.commentId });
@@ -63,8 +64,10 @@ const CommentItem = ({
   };
   const likeHandler = () => {
     if (comment.liked) {
+      postStar(comment.memberInfo.memberId, -1);
       return dislikeEvent();
     }
+    postStar(comment.memberInfo.memberId, 1);
     likeEvent();
   };
 

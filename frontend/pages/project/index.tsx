@@ -10,17 +10,19 @@ import { useForm } from 'react-hook-form';
 import ProjectCardBox from '@/components/card_box/ProjectCardBox';
 import { Filter, Form } from '@/types/types';
 import { AiOutlineArrowUp } from 'react-icons/ai';
-import { articleFilter } from '@/util/filter/articleFilter';
 import { ARTICLE_FILTER } from '@/constant/constant';
-import { getAllProject } from '@/util/api/getAllData';
 import { useInfinityProject } from '@/hooks/react-query/project/useInfinityProject';
+import { useAllData } from '@/hooks/react-query/useAllData';
+import { projectFilter } from '@/util/filter/projectFilter';
+import { useTopData } from '@/hooks/react-query/useTopData';
 
 const ProjectHome = () => {
   const router = useRouter();
   const { register, watch } = useForm<Form>();
-
   const { isLoading, error, data, fetchNextPage, hasNextPage, isFetching } =
     useInfinityProject();
+
+  const { topLikeProjectData } = useTopData();
 
   //서버에서 필터링 작업이 완성되기 전, 눈속임을 위한 필터 데이터
   const [filter, setFilter] = useState<Filter>(0);
@@ -29,15 +31,16 @@ const ProjectHome = () => {
   };
   const [allData, setAllData] = useState<Project[]>([]);
 
+  //전체 데이터 세팅
+  const { projectData, projectLoading } = useAllData();
   useEffect(() => {
-    getAllProject().then((res) => setAllData(res));
-  }, []);
+    if (projectData) setAllData(projectData);
+  }, [projectLoading]);
 
-  const filterData = articleFilter({
+  const filterData = projectFilter({
     filter,
     allData,
     searchVal: watch().search,
-    type: 1,
   });
 
   //무한 스크롤 effect
@@ -86,7 +89,7 @@ const ProjectHome = () => {
             <div className="nanum-bold title">인기 프로젝트</div>
             <div className="carousel-box">
               <ProjectCarousel
-                projects={data.pages ? data.pages[0].data : []}
+                projects={topLikeProjectData ? topLikeProjectData : []}
               />
             </div>
           </div>

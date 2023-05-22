@@ -9,8 +9,8 @@ import TagBox from '../project/TagBox';
 import AuthorBox from '../common_box/AuthorBox';
 import { getCookie } from '@/util/cookie';
 import MainArticleBox from '../common_box/MainArticleBox';
-import ApplyBox from '../common_box/ApplyBox';
-import { errorAlert } from '../alert/Alert';
+import { confirmAlert, errorAlert } from '../alert/Alert';
+import { postStar } from '@/util/api/postStar';
 
 // item 개별 페이지
 const ViewCommunity = () => {
@@ -38,8 +38,10 @@ const ViewCommunity = () => {
       return errorAlert('로그인이 필요합니다.', '좋아요');
     }
     if (data?.liked) {
+      postStar(data.memberInfo.memberId, -1);
       return dislikeCommunity.mutate();
     }
+    data && postStar(data.memberInfo.memberId, 1);
     likeCommunity.mutate();
   };
 
@@ -49,7 +51,9 @@ const ViewCommunity = () => {
   }, [router]);
 
   const deleteEvent = () => {
-    if (confirm('정말 게시글을 삭제하시겠습니까?')) deleteArticle.mutate();
+    confirmAlert('정말 게시글을 삭제하시겠습니까?', '게시글 삭제가').then(() =>
+      deleteArticle.mutate()
+    );
   };
   if (communityQuery.error)
     return <Message>잠시 후 다시 시도해주세요.</Message>;
