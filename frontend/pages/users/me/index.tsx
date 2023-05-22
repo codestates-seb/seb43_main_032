@@ -84,10 +84,10 @@ const EditButton = styled.button`
 
 export default function me() {
   // const user = useAuth();
-  const user = dummyUser;
-  // const {
-  // getMyInfo: { data: user },
-  // } = useUser({});
+  // const user = dummyUser;
+  const {
+    getMyInfo: { data: user },
+  } = useUser({});
   const router = useRouter();
   user && console.log(user.techList);
 
@@ -127,7 +127,7 @@ export default function me() {
                     </>
                   }
                 />
-                <InfoContainer
+                {/* <InfoContainer
                   keyNode={'기술스텍'}
                   contentNode={
                     <StackContainer>
@@ -137,7 +137,7 @@ export default function me() {
                       ))}
                     </StackContainer>
                   }
-                />
+                /> */}
               </ProfileContainer>
               <div className="info-box">
                 <InfoContainer
