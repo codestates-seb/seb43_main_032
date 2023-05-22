@@ -10,17 +10,17 @@ import TagBox from '../project/TagBox';
 import { FiledTag } from '@/types/project';
 import GridBox from '../common_box/GridBox';
 import { POST_COMMUNITY_CATEGORY } from '@/constant/constant';
+import { confirmAlert } from '../alert/Alert';
 
 export default function CommunityForm() {
   const router = useRouter();
   const id = router.query.id;
   const address = `/articles/${id}`;
   const queryKey = ['article', 'post', id];
-  const { communityQuery, postArticle, editArticle, refetch } =
-    useCommunity<Community>({
-      address,
-      queryKey,
-    });
+  const { communityQuery, postArticle, editArticle } = useCommunity<Community>({
+    address,
+    queryKey,
+  });
   const data = communityQuery.data?.data;
 
   useEffect(() => {
@@ -73,17 +73,15 @@ export default function CommunityForm() {
       category,
     };
 
-    if (
-      router.route.includes('edit') &&
-      confirm('정말 글을 수정하시겠습니까?')
-    ) {
-      return editArticle.mutate(data);
+    if (router.route.includes('edit')) {
+      confirmAlert('정말 글을 수정하시겠습니까?', '글 수정이').then(() =>
+        editArticle.mutate(data)
+      );
     }
-    if (
-      router.route.includes('create') &&
-      confirm('정말 글을 작성하시겠습니까?')
-    ) {
-      return postArticle.mutate(data);
+    if (router.route.includes('create')) {
+      confirmAlert('정말 글을 작성하시겠습니까?', '글 작성이').then(() =>
+        postArticle.mutate(data)
+      );
     }
   };
 

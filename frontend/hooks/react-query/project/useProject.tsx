@@ -2,6 +2,10 @@ import { useQuery, useMutation } from 'react-query';
 import { useRouter } from 'next/router';
 import { PostData, Project } from '@/types/project';
 import { api } from '@/util/api';
+import { confirmAlert, errorAlert } from '@/components/alert/Alert';
+import { loggedInUserId } from '@/recoil/selector';
+import { useRecoilValue } from 'recoil';
+import { postStar } from '@/util/api/postStar';
 
 type ProjectData = {
   data: Project;
@@ -12,6 +16,8 @@ export const useProject = (
   heartHandler?: (isLiked: boolean) => void,
   heartCountHandler?: (totalCount: number) => void
 ) => {
+  //로그인한 유저의아이디
+  const memberId = useRecoilValue(loggedInUserId);
   const router = useRouter();
   const { id } = router.query;
   const { isLoading, error, data, refetch } = useQuery<ProjectData, Error>(
@@ -43,7 +49,7 @@ export const useProject = (
         if (id) refetch();
       },
       onError: () => {
-        alert('잠시 후에 다시 시도해주세요.');
+        errorAlert('잠시 후에 다시 시도해주세요.', '좋아요');
       },
     }
   );
@@ -68,7 +74,7 @@ export const useProject = (
         if (id) refetch();
       },
       onError: () => {
-        alert('잠시 후에 다시 시도해주세요.');
+        errorAlert('잠시 후에 다시 시도해주세요.', '싫어요');
       },
     }
   );
@@ -83,18 +89,22 @@ export const useProject = (
         refetch();
       },
       onError: () => {
-        alert('잠시 후에 다시 시도해주세요.');
+        errorAlert('잠시 후에 다시 시도해주세요.', '프로젝트 업데이트');
       },
     }
   );
 
   //프로젝트 진행상황 관리 이벤트
   const projectEvent = (state: string) => {
-    if (state === '모집 완료' && confirm('정말 프로젝트를 시작하시겠습니까?')) {
-      return updateState.mutate('진행 중');
+    if (state === '모집 완료') {
+      confirmAlert('정말 프로젝트를 시작하시겠습니까?', '프로젝트 시작을').then(
+        () => updateState.mutate('진행 중')
+      );
     }
-    if (state === '진행 중' && confirm('정말 프로젝트를 종료하시겠습니까?')) {
-      return updateState.mutate('종료');
+    if (state === '진행 중') {
+      confirmAlert('정말 프로젝트를 종료하시겠습니까?', '프로젝트 종료를').then(
+        () => updateState.mutate('종료')
+      );
     }
   };
 
@@ -102,16 +112,19 @@ export const useProject = (
    * 프로젝트 삭제 이벤트
    */
   const deleteProject = useMutation(
-    async () => {
-      if (confirm('정말 삭제하시겠습니까?'))
-        return await api.delete(`/projects/${id}`).then(() => router.push('/'));
-    },
+    () =>
+      confirmAlert('정말 삭제하시겠습니까?', '프로젝트 삭제가').then(() =>
+        api.delete(`/projects/${id}`).then(() => router.push('/'))
+      ),
     {
       onSuccess: () => {
-        router.push('/').then(() => refetch());
+        postStar(memberId, -3);
+        router.push('/').then(() => {
+          router.reload();
+        });
       },
       onError: () => {
-        alert('잠시 후에 다시 시도해주세요.');
+        errorAlert('잠시 후에 다시 시도해주세요.', '프로젝트 삭제');
       },
     }
   );
@@ -120,7 +133,7 @@ export const useProject = (
    * edit 페이지 이동 이벤트
    */
   const moveEdit = () => {
-    if (confirm('정말 수정하시겠습니까?')) router.push(`/project/${id}/edit`);
+    router.push(`/project/${id}/edit`);
   };
 
   /**
@@ -130,10 +143,12 @@ export const useProject = (
     (data: PostData) => api.patch(`/projects/${id}`, data),
     {
       onSuccess: () => {
-        router.push('/').then(() => refetch());
+        router.push('/project').then(() => {
+          router.reload();
+        });
       },
       onError: () => {
-        alert('잠시 후에 다시 시도해주세요.');
+        errorAlert('잠시 후에 다시 시도해주세요.', '게시글 수정');
       },
     }
   );
@@ -145,10 +160,13 @@ export const useProject = (
     (data: PostData) => api.post('/projects', data),
     {
       onSuccess: () => {
-        router.push('/').then(() => refetch());
+        postStar(memberId, 3);
+        router.push('/project').then(() => {
+          router.reload();
+        });
       },
       onError: () => {
-        alert('잠시 후에 다시 시도해주세요.');
+        errorAlert('잠시 후에 다시 시도해주세요.', '게시글 작성');
       },
     }
   );

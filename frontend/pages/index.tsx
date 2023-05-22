@@ -5,17 +5,25 @@ import CommunityCardBox from '@/components/card_box/CommunityCardBox';
 import ProjectSkeleton from '@/components/skeleton/ProjectSkeleton';
 import CommunityItemSkeleton from '@/components/skeleton/CommunityItemSkeleton';
 import { useTopData } from '@/hooks/react-query/useTopData';
+import { useState } from 'react';
 
 const Home = () => {
   const {
     topLikeProjectData,
     topViewProjectData,
-    topViewcommunityData,
-    communityQuery,
+    topViewCommunityData,
+    topLikeCommunityData,
+    topViewcommunityQuery,
     topLikeProjectLoading,
     topViewProjectLoading,
     checkError,
   } = useTopData();
+
+  const [communityFilter, setCommunityFilter] = useState(0);
+  const filterHandler = (idx: number) => {
+    setCommunityFilter(idx);
+  };
+  const community = [topViewCommunityData, topLikeCommunityData];
 
   if (checkError) return <Message>잠시 후 다시 시도해주세요.</Message>;
   return (
@@ -30,12 +38,14 @@ const Home = () => {
         data={topViewProjectData ? topViewProjectData : []}
         title={'주목 중인 프로젝트'}
       />
+
       <CommunityCardBox
         skeleton={
-          communityQuery.isLoading && <CommunityItemSkeleton count={5} />
+          topViewcommunityQuery.isLoading && <CommunityItemSkeleton count={5} />
         }
-        data={topViewcommunityData ? topViewcommunityData : []}
-        title={'인기 커뮤니티'}
+        filterHandler={filterHandler}
+        selected={communityFilter}
+        data={community[communityFilter]}
       />
     </Box>
   );

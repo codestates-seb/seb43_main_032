@@ -2,6 +2,10 @@ import { useMutation, useQuery } from 'react-query';
 import { api } from '@/util/api';
 import { useRouter } from 'next/router';
 import { PageInfo } from '@/types/types';
+import { errorAlert } from '@/components/alert/Alert';
+import { loggedInUserId } from '@/recoil/selector';
+import { useRecoilValue } from 'recoil';
+import { postStar } from '@/util/api/postStar';
 
 type Props = {
   address: string;
@@ -16,6 +20,8 @@ type PostData = {
 };
 
 export const useCommunity = <T extends {}>({ address, queryKey }: Props) => {
+  //로그인한 유저의아이디
+  const memberId = useRecoilValue(loggedInUserId);
   const router = useRouter();
   const { id } = router.query;
   const { isLoading, error, data, refetch } = useQuery<
@@ -38,7 +44,7 @@ export const useCommunity = <T extends {}>({ address, queryKey }: Props) => {
         refetch();
       },
       onError: () => {
-        alert('잠시 후에 다시 시도해주세요.');
+        errorAlert('잠시 후에 다시 시도해주세요.', '좋아요');
       },
     }
   );
@@ -51,7 +57,7 @@ export const useCommunity = <T extends {}>({ address, queryKey }: Props) => {
         refetch();
       },
       onError: () => {
-        alert('잠시 후에 다시 시도해주세요.');
+        errorAlert('잠시 후에 다시 시도해주세요.', '싫어요');
       },
     }
   );
@@ -63,10 +69,11 @@ export const useCommunity = <T extends {}>({ address, queryKey }: Props) => {
     (data: PostData) => api.post('/articles', data),
     {
       onSuccess: () => {
-        router.push('/community').then(() => refetch());
+        postStar(memberId, 3);
+        router.push('/community').then(() => router.reload());
       },
       onError: () => {
-        alert('잠시 후에 다시 시도해주세요.');
+        errorAlert('잠시 후에 다시 시도해주세요.', '게시글 작성');
       },
     }
   );
@@ -78,10 +85,10 @@ export const useCommunity = <T extends {}>({ address, queryKey }: Props) => {
     (data: PostData) => api.patch(`/articles/${id}`, data),
     {
       onSuccess: () => {
-        router.push('/community').then(() => refetch());
+        router.push('/community').then(() => router.reload());
       },
       onError: () => {
-        alert('잠시 후에 다시 시도해주세요.');
+        errorAlert('잠시 후에 다시 시도해주세요.', '게시글 수정');
       },
     }
   );
@@ -91,10 +98,11 @@ export const useCommunity = <T extends {}>({ address, queryKey }: Props) => {
    */
   const deleteArticle = useMutation(() => api.delete(`/articles/${id}`), {
     onSuccess: () => {
-      router.push('/community').then(() => refetch());
+      postStar(memberId, -3);
+      router.push('/community').then(() => router.reload());
     },
     onError: () => {
-      alert('잠시 후에 다시 시도해주세요.');
+      errorAlert('잠시 후에 다시 시도해주세요.', '게시글 삭제');
     },
   });
 
@@ -102,8 +110,7 @@ export const useCommunity = <T extends {}>({ address, queryKey }: Props) => {
    * 수정 페이지로 이동
    */
   const moveEdit = () => {
-    if (confirm('정말 수정하시겠습니까?'))
-      router.push(`/community/post/${id}/edit`);
+    router.push(`/community/post/${id}/edit`);
   };
 
   return {

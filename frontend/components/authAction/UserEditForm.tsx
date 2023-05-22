@@ -6,12 +6,14 @@ import { FieldErrors, useForm } from 'react-hook-form';
 import styled from 'styled-components';
 import EditInput from './EditInput';
 import SelectStack from '../stack/SelectStack';
+import { useRouter } from 'next/router';
 
 export default function UserEditForm({ user }: { user: any }) {
   const { register, handleSubmit, watch } = useForm();
   const [imgPreview, setImgPreview] = useState<string>('');
   const [stacks, setStacks] = useState<Tech[]>([]);
   const image = watch('image');
+  const router = useRouter();
 
   const onValid = async (data: any) => {
     await mergeData(data, image, stacks);
@@ -20,7 +22,14 @@ export default function UserEditForm({ user }: { user: any }) {
 
     api
       .patch('/members', updatedData) //
-      .then((res) => console.log(res));
+      .then((res) => {
+        console.log(res.status);
+        if (res.status === 200) {
+          router.push('/users/me');
+          //쿼리 키 무효화 필요
+          //로딩 시 버튼 변화 필요
+        }
+      });
   };
   const onInValid = (errors: FieldErrors) => {
     console.log(errors);
@@ -36,7 +45,7 @@ export default function UserEditForm({ user }: { user: any }) {
     <Form onSubmit={handleSubmit(onValid, onInValid)}>
       <ProfileBox>
         <ImgWrapper>
-          <img src={imgPreview} />
+          <img src={imgPreview ? imgPreview : user.profileImageUrl} />
           <div>
             <label htmlFor="image">change file</label>
             <input

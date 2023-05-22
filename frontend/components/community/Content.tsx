@@ -4,34 +4,24 @@ import { Community } from '@/types/community';
 import ContentItem from './ContentItem';
 import { useRouter } from 'next/router';
 import Pagenation from '../Pagenation';
-import { useCommunity } from '@/hooks/react-query/community/useCommunity';
 import Filter from '../Filter';
 import Message from '../Message';
 import CommunityItemSkeleton from '../skeleton/CommunityItemSkeleton';
 import { ARTICLE_FILTER, POST_COMMUNITY_CATEGORY } from '@/constant/constant';
-import { getAllCommunity } from '@/util/api/getAllProject';
-import { articleFilter } from '@/util/filter/articleFilter';
 import { communityFilter } from '@/util/filter/communityFilter';
+import { useAllData } from '@/hooks/react-query/useAllData';
 
 export default function Content() {
   const router = useRouter();
   const [page, setPage] = useState(1);
   const page_limit = 10;
-  const queryKey = ['articles', page];
-  const endPoint = `/articles/find-all`;
-  const address = `${endPoint}?size=${page_limit}&page=${page}`;
-  const { communityQuery } = useCommunity<Community[]>({
-    address,
-    queryKey,
-  });
-  const data = communityQuery.data?.data;
-  const totalPage = communityQuery.data?.pageInfo.totalPages;
 
   //모든 데이터 세팅, 서버 필터링을 프론트 눈속임으로 해결
+  const { communityData, communityLoading, communityError } = useAllData();
   const [allData, setAllData] = useState<Community[]>([]);
   useEffect(() => {
-    getAllCommunity().then((res) => setAllData(res));
-  }, []);
+    if (communityData) setAllData(communityData);
+  }, [communityLoading]);
 
   //검색
   const [searchVal, setSearchVal] = useState('');
@@ -60,22 +50,17 @@ export default function Content() {
     setCategoryFilter(idx);
   };
 
-  //미리 커뮤니티 필터 세팅
-  const commuityData = communityFilter({
+  //필터 데이터
+  const filterData = communityFilter({
+    filter,
     allData,
+    searchVal,
     category: POST_COMMUNITY_CATEGORY[CategoryFilterData[categoryFilter]],
   });
+  const pageSize = Math.ceil(filterData.length / 10);
+  const viewData = filterData.slice((page - 1) * page_limit, page * page_limit);
 
-  //필터 데이터
-  const filterData = articleFilter({
-    filter,
-    allData: commuityData,
-    searchVal,
-    type: 2,
-  });
-
-  if (communityQuery.error)
-    return <Message>잠시 후 다시 시도해주세요.</Message>;
+  if (communityError) return <Message>잠시 후 다시 시도해주세요.</Message>;
   return (
     <Container>
       <ContentTop>
@@ -100,24 +85,16 @@ export default function Content() {
         />
       </ContentTop>
       <ContentBottom>
-        {communityQuery.isLoading ? (
+        {communityLoading ? (
           <CommunityItemSkeleton count={10} />
         ) : (
           <ContentItemList>
-            {!filterData?.length && categoryFilter === 0 && filter === 0
-              ? data?.map((article: Community) => (
-                  <ContentItem {...article} key={article.articleId} />
-                ))
-              : (filterData as Community[])?.map((article: Community) => (
-                  <ContentItem {...article} key={article.articleId} />
-                ))}
+            {viewData.map((article: Community) => (
+              <ContentItem {...article} key={article.articleId} />
+            ))}
           </ContentItemList>
         )}
-        <Pagenation
-          page={page}
-          onPageChange={setPage}
-          pageSize={filterData ? Math.ceil(filterData.length / 10) : totalPage!}
-        />
+        <Pagenation page={page} onPageChange={setPage} pageSize={pageSize} />
       </ContentBottom>
     </Container>
   );
@@ -125,7 +102,6 @@ export default function Content() {
 
 const Container = styled.div`
   width: 100%;
-  padding: var(--padding-2);
   padding-top: 0;
 `;
 
@@ -137,6 +113,9 @@ const ContentTop = styled.div`
   padding: 0 20px;
   padding-bottom: 0px;
   gap: 12px;
+  @media (max-width: 768px) {
+    flex-direction: column;
+  }
 `;
 
 const SearchInput = styled.input`
@@ -185,9 +164,9 @@ const ContentBottom = styled.div`
 
 const ContentItemList = styled.div`
   width: 100%;
-  min-height: 74vh;
+  min-height: 80vh;
   border-radius: var(--radius-def);
-  padding: var(--padding-2);
+
   padding-top: 0px;
   display: flex;
   flex-direction: column;

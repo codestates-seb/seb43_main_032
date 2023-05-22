@@ -8,6 +8,11 @@ import {
   LikeAnswerMutation,
   PostAnswerMutation,
 } from '@/types/answer';
+import { confirmAlert, errorAlert } from '@/components/alert/Alert';
+import { useRecoilValue } from 'recoil';
+import { loggedInUserState } from '@/recoil/atom';
+import { postStar } from '@/util/api/postStar';
+import { loggedInUserId } from '@/recoil/selector';
 
 type Props = {
   answerRefetch: () => void;
@@ -23,6 +28,9 @@ export const useAnswer = ({
   changeAnswerVal,
   articleRefetch,
 }: Props) => {
+  //로그인한 유저의아이디
+  const memberId = useRecoilValue(loggedInUserId);
+
   const router = useRouter();
   const { id } = router.query;
 
@@ -37,10 +45,10 @@ export const useAnswer = ({
   const postAnswer: PostAnswerMutation = useMutation(
     async ({ content }: { content: string }) => {
       if (!getCookie('accessToken')) {
-        return alert('로그인부터 진행해주세요.');
+        return errorAlert('로그인이 필요합니다.', '답글 작성');
       }
       if (content === '') {
-        return alert('내용을 작성해주세요.');
+        return errorAlert('내용을 작성해주세요.', '답글 작성');
       }
       const data = {
         content,
@@ -51,12 +59,13 @@ export const useAnswer = ({
     },
     {
       onSuccess: () => {
+        postStar(memberId, 1);
         articleRefetch();
         answerRefetch();
         changeAnswerVal('');
       },
       onError: () => {
-        alert('잠시 후에 다시 시도해주세요.');
+        errorAlert('잠시 후에 다시 시도해주세요.', '답글 작성');
       },
     }
   );
@@ -66,18 +75,20 @@ export const useAnswer = ({
    */
   const deleteAnswer: DeleteAnswerMutation = useMutation(
     async ({ answerId }: { answerId: number }) => {
-      if (confirm('정말 답글을 삭제하시겠습니까?'))
-        return await api.delete(`/answers/${answerId}`);
+      confirmAlert('정말 답글을 삭제하시겠습니까?', '답글 삭제가').then(() =>
+        api.delete(`/answers/${answerId}`)
+      );
     },
     {
       onSuccess: () => {
         if (category === 'ARTICLE') {
           articleRefetch();
         }
+        postStar(memberId, -1);
         answerRefetch();
       },
       onError: () => {
-        alert('잠시 후에 다시 시도해주세요.');
+        errorAlert('잠시 후에 다시 시도해주세요.', '답글 삭제');
       },
     }
   );
@@ -90,7 +101,7 @@ export const useAnswer = ({
       answerRefetch();
     },
     onError: () => {
-      alert('잠시 후에 다시 시도해주세요.');
+      errorAlert('잠시 후에 다시 시도해주세요.', '답글 수정');
     },
   });
 
@@ -106,9 +117,10 @@ export const useAnswer = ({
     {
       onSuccess: () => {
         answerRefetch();
+        articleRefetch();
       },
       onError: () => {
-        alert('잠시 후에 다시 시도해주세요.');
+        errorAlert('잠시 후에 다시 시도해주세요.', '답글 좋아요');
       },
     }
   );
@@ -125,9 +137,10 @@ export const useAnswer = ({
     {
       onSuccess: () => {
         answerRefetch();
+        articleRefetch();
       },
       onError: () => {
-        alert('잠시 후에 다시 시도해주세요.');
+        errorAlert('잠시 후에 다시 시도해주세요.', '좋아요 취소');
       },
     }
   );

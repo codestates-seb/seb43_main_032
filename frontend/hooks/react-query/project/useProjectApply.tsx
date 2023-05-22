@@ -6,6 +6,8 @@ import { useRecoilValue } from 'recoil';
 import { loggedInUserState } from '@/recoil/atom';
 import { Crew } from '@/types/project';
 import { getCookie } from '@/util/cookie';
+import { confirmAlert, errorAlert } from '@/components/alert/Alert';
+import { postStar } from '@/util/api/postStar';
 
 type ApplyList = {
   data: { position: string; projectId: number; memberInfo: MemberInfo }[];
@@ -17,10 +19,7 @@ type Props = {
   acceptedPostion: Crew | undefined;
 };
 
-export const useProjectApply = ({
-  projectRefetch,
-  acceptedPostion,
-}: Props) => {
+export const useProjectApply = ({ projectRefetch, acceptedPostion }: Props) => {
   const loggedInUser = useRecoilValue(loggedInUserState);
   const router = useRouter();
   const { id } = router.query;
@@ -46,11 +45,12 @@ export const useProjectApply = ({
       api.post(`/projects/${id}/apply`, { position }),
     {
       onSuccess: () => {
+        postStar(loggedInUser?.memberId, 1);
         refetch();
         projectRefetch();
       },
       onError: () => {
-        alert('잠시 후에 다시 시도해주세요.');
+        errorAlert('잠시 후에 다시 시도해주세요.', '지원자 제출');
       },
     }
   );
@@ -60,15 +60,17 @@ export const useProjectApply = ({
    */
   const applyEvent = (position: string) => {
     if (!getCookie('accessToken')) {
-      return alert('로그인을 부탁드려요.');
+      return errorAlert('로그인이 필요합니다.', '프로젝트 지원');
     }
     if (acceptedPostion) {
-      return alert('이미 다른 포지션에 확정되셨습니다.');
+      return errorAlert('이미 다른 포지션에 확정되셨습니다.', '프로젝트 지원');
     }
     if (checkApply) {
-      return alert('지원한 포지션을 취소해주세요.');
+      return errorAlert('지원한 포지션을 취소해주세요.', '프로젝트 지원');
     }
-    if (confirm('정말 지원하시겠습니까?')) applyProject.mutate({ position });
+    confirmAlert('정말 지원하시겠습니까?', '프로젝트 지원이').then(() => {
+      applyProject.mutate({ position });
+    });
   };
 
   //취소
@@ -77,6 +79,7 @@ export const useProjectApply = ({
       api.post(`/projects/${id}/cancel-apply`, { position }),
     {
       onSuccess: () => {
+        postStar(loggedInUser?.memberId, -1);
         refetch();
         projectRefetch();
       },
@@ -90,7 +93,9 @@ export const useProjectApply = ({
    * 프로젝트 지원 취소 이벤트 (최초 지원)
    */
   const cancelEvent = (position: string) => {
-    if (confirm('정말 취소하시겠습니까?')) applyCancel.mutate({ position });
+    confirmAlert('정말 취소하시겠습니까?', '프로젝트 취소가').then(() =>
+      applyCancel.mutate({ position })
+    );
   };
 
   //수락된 상태에서 취소
@@ -99,6 +104,7 @@ export const useProjectApply = ({
       api.post(`/projects/${id}/cancel-accepted-apply`, { position }),
     {
       onSuccess: () => {
+        postStar(loggedInUser?.memberId, -1);
         refetch();
         projectRefetch();
       },
@@ -112,8 +118,9 @@ export const useProjectApply = ({
    * 수락된 지원자가 지원을 취소하는 이벤트
    */
   const acceptedCancleEvent = (target: string) => {
-    if (confirm('정말 확정을 취소하시겠습니까?'))
-      acceptCancel.mutate({ position: target });
+    confirmAlert('정말 확정을 취소하시겠습니까?', '확정 취소가').then(() =>
+      acceptCancel.mutate({ position: target })
+    );
   };
 
   //수락
@@ -121,6 +128,7 @@ export const useProjectApply = ({
     (memberId: number) => api.post(`/projects/${id}/accept/${memberId}`),
     {
       onSuccess: () => {
+        postStar(loggedInUser?.memberId, 1);
         refetch();
         projectRefetch();
       },
