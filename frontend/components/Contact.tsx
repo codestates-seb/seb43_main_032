@@ -6,10 +6,13 @@ import icon from '../public/images/icon.svg';
 import styled from 'styled-components';
 import { useRecoilState } from 'recoil';
 import { isContactState } from '@/recoil/atom';
+import { useForm } from 'react-hook-form';
+import { Form } from '@/types/types';
 
 const Contact = () => {
   const [isContact, setIsContact] = useRecoilState(isContactState);
   const [isHovered, setIsHovered] = useState(false);
+  const { register, reset } = useForm<Form>();
 
   const contactHandler = () => {
     setIsContact(!isContact);
@@ -41,6 +44,7 @@ const Contact = () => {
       )
       .then(() => {
         closeContact();
+        reset();
       })
       .catch(() => <Message>잠시 후에 다시 시도해주세요.</Message>);
   };
@@ -68,20 +72,14 @@ const Contact = () => {
           </div>
           <form ref={formRef} onSubmit={sendEmail} className="form-control">
             <input
-              type="text"
-              name="user_name"
+              {...register('user_name')}
               placeholder="Full name"
               required
             />
-            <input
-              type="email"
-              name="user_email"
-              placeholder="Email"
-              required
-            />
-            <input type="text" name="subject" placeholder="Subject" required />
+            <input {...register('user_email')} placeholder="Email" required />
+            <input {...register('subject')} placeholder="Subject" required />
             <textarea
-              name="message"
+              {...register('message')}
               cols={30}
               rows={10}
               style={{ marginTop: '20px' }}
