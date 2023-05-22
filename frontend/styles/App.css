@@ -21,20 +21,17 @@ html.scroll-hidden {
 }
 
 html::-webkit-scrollbar {
-  width: 12px;
   height: 12px;
 }
 
 html::-webkit-scrollbar-thumb {
   outline: none;
   border-radius: 10px;
-  border: 3px solid transparent;
   box-shadow: inset 6px 6px 0;
 }
 
 html::-webkit-scrollbar-track {
   box-shadow: none;
-  background-color: transparent;
 }
 
 body {
@@ -45,8 +42,7 @@ body {
 body::-webkit-scrollbar {
   width: 15px;
   padding: 3px;
-  background-color: transparent;
-  border-radius: 30px;
+  background: rgba(255, 255, 255, 0.5);
 }
 
 body::-webkit-scrollbar-thumb {
@@ -54,17 +50,12 @@ body::-webkit-scrollbar-thumb {
   border-radius: 10px;
 }
 
-body::-webkit-scrollbar-thumb:hover {
-  border: 4px solid transparent;
-}
-
 body::-webkit-scrollbar-track {
   box-shadow: none;
-  background-color: transparent;
 }
 
 body::-webkit-scrollbar-corner {
-  background: transparent;
+  background: none;
 }
 
 #__next {
@@ -102,6 +93,10 @@ a {
   --glow-spread-color: rgba(191, 123, 255, 0.781);
   --enhanced-glow-color: rgb(231, 206, 255);
   --btn-color: rgb(100, 61, 136);
+}
+
+.swal2-shown {
+  padding-right: 0 !important;
 }
 
 .animate-duration-3 {
@@ -176,4 +171,9 @@ a {
   padding: 20px;
   transform: translateY(-0.2em);
   transition: transform 0.1s ease;
+}
+
+/* Alert 커스텀 */
+.custom-alert-bg-rgba-5 {
+  background: rgba(255, 255, 255, 0.5);
 }
