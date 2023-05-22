@@ -21,7 +21,7 @@ export default function Content() {
   const [allData, setAllData] = useState<Community[]>([]);
   useEffect(() => {
     if (communityData) setAllData(communityData);
-  }, []);
+  }, [communityLoading]);
   const totalLength = communityData?.length;
 
   //검색

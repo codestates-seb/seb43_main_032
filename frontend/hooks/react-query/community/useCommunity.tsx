@@ -64,7 +64,7 @@ export const useCommunity = <T extends {}>({ address, queryKey }: Props) => {
     (data: PostData) => api.post('/articles', data),
     {
       onSuccess: () => {
-        router.push('/community').then(() => refetch());
+        router.push('/community').then(() => router.reload());
       },
       onError: () => {
         errorAlert('잠시 후에 다시 시도해주세요.', '게시글 작성');
@@ -79,7 +79,7 @@ export const useCommunity = <T extends {}>({ address, queryKey }: Props) => {
     (data: PostData) => api.patch(`/articles/${id}`, data),
     {
       onSuccess: () => {
-        router.push('/community').then(() => refetch());
+        router.push('/community').then(() => router.reload());
       },
       onError: () => {
         errorAlert('잠시 후에 다시 시도해주세요.', '게시글 수정');
@@ -92,7 +92,7 @@ export const useCommunity = <T extends {}>({ address, queryKey }: Props) => {
    */
   const deleteArticle = useMutation(() => api.delete(`/articles/${id}`), {
     onSuccess: () => {
-      router.push('/community').then(() => refetch());
+      router.push('/community').then(() => router.reload());
     },
     onError: () => {
       errorAlert('잠시 후에 다시 시도해주세요.', '게시글 삭제');

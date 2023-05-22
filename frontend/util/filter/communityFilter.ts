@@ -19,7 +19,6 @@ export const communityFilter = ({
   } else {
     filterData = allData.filter((data) => data.category === category);
   }
-  console.log(filterData);
   if (filter === 1) {
     filterData = filterData.reverse();
   }
