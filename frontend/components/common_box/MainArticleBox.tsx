@@ -49,10 +49,7 @@ const MainArticleBox = ({
   return (
     <Box>
       <div className="main-title">
-        <div className="title">
-          <div>{title}</div>
-          <Tag>{status ? status : category}</Tag>
-        </div>
+        <div className="title">{title}</div>
         {isAuthor && (
           <div className="change-box">
             <SubBtn onClick={deleteEvent}>
@@ -76,6 +73,9 @@ const MainArticleBox = ({
         <div className="comment">
           <span className="commentNum">댓글수 : </span>
           {totalAnswers}
+        </div>
+        <div className="category">
+          <Tag>{status ? status : category}</Tag>
         </div>
       </div>
       <div className="content">
@@ -115,20 +115,22 @@ const Box = styled.div`
   .main-title {
     display: flex;
     justify-content: space-between;
-
+    word-break: break-all;
+    align-items: center;
     .change-box {
+      height: 38px;
       display: flex;
       gap: 8px;
     }
 
     .title {
+      width: 100%;
+      gap: 4px;
       font-size: 27px;
       font-weight: 700;
-      border-bottom: solid 1px #ececec;
       padding-bottom: 10px;
       display: flex;
       align-items: center;
-
       .category {
         font-size: 14px;
         border: 1px solid red;
@@ -140,6 +142,11 @@ const Box = styled.div`
     font-size: 13px;
     display: flex;
     gap: 32px;
+    align-items: center;
+
+    @media (max-width: 540px) {
+      flex-direction: column;
+    }
 
     .writeDate,
     .viewNum {

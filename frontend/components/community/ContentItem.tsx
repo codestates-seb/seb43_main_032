@@ -111,6 +111,29 @@ const Container = styled.div`
   }
 `;
 
+const Left = styled.div`
+  display: flex;
+  width: 10%;
+  min-width: 100px;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+
+  .name-box {
+    font-size: 12px;
+  }
+
+  > div {
+    vertical-align: baseline;
+  }
+
+  > img {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+  }
+`;
+
 const Center = styled.div`
   display: flex;
   flex-direction: column;
@@ -146,31 +169,8 @@ const Center = styled.div`
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    font-size: 14px;
+    font-size: 11px;
     color: #545454;
-  }
-`;
-
-const Left = styled.div`
-  display: flex;
-  width: 10%;
-  min-width: 100px;
-  flex-direction: column;
-  justify-content: space-between;
-  align-items: center;
-
-  .name-box {
-    font-size: 12px;
-  }
-
-  > div {
-    vertical-align: baseline;
-  }
-
-  > img {
-    width: 50px;
-    height: 50px;
-    object-fit: cover;
   }
 `;
 
