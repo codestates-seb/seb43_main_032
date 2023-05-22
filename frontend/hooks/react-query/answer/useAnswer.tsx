@@ -58,10 +58,11 @@ export const useAnswer = ({
     },
     {
       onSuccess: () => {
-        articleRefetch();
-        answerRefetch();
-        changeAnswerVal('');
-        postStar(loggedInUser?.memberId, 3);
+        postStar(loggedInUser?.memberId, 1).then(() => {
+          articleRefetch();
+          answerRefetch();
+          changeAnswerVal('');
+        });
       },
       onError: () => {
         errorAlert('잠시 후에 다시 시도해주세요.', '답글 작성');
