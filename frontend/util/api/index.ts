@@ -9,7 +9,7 @@ axios.defaults.withCredentials = true;
 //     : 'https://d8a2-183-101-242-153.ngrok-free.app/';
 
 const api = axios.create({
-  baseURL: 'https://d8a2-183-101-242-153.ngrok-free.app/',
+  baseURL:'https://d8a2-183-101-242-153.ngrok-free.app/',
   timeout: 3000,
   headers: {
     'Content-Type': 'application/json',
