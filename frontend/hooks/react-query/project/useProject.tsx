@@ -2,7 +2,7 @@ import { useQuery, useMutation } from 'react-query';
 import { useRouter } from 'next/router';
 import { PostData, Project } from '@/types/project';
 import { api } from '@/util/api';
-import { errorAlert } from '@/components/alert/Alert';
+import { confirmAlert, errorAlert } from '@/components/alert/Alert';
 import { useInfinityProject } from './useInfinityProject';
 import { useTopData } from '../useTopData';
 
@@ -97,11 +97,15 @@ export const useProject = (
 
   //프로젝트 진행상황 관리 이벤트
   const projectEvent = (state: string) => {
-    if (state === '모집 완료' && confirm('정말 프로젝트를 시작하시겠습니까?')) {
-      return updateState.mutate('진행 중');
+    if (state === '모집 완료') {
+      confirmAlert('정말 프로젝트를 시작하시겠습니까?', '프로젝트 시작을').then(
+        () => updateState.mutate('진행 중')
+      );
     }
-    if (state === '진행 중' && confirm('정말 프로젝트를 종료하시겠습니까?')) {
-      return updateState.mutate('종료');
+    if (state === '진행 중') {
+      confirmAlert('정말 프로젝트를 종료하시겠습니까?', '프로젝트 종료를').then(
+        () => updateState.mutate('종료')
+      );
     }
   };
 
@@ -109,10 +113,10 @@ export const useProject = (
    * 프로젝트 삭제 이벤트
    */
   const deleteProject = useMutation(
-    async () => {
-      if (confirm('정말 삭제하시겠습니까?'))
-        return await api.delete(`/projects/${id}`).then(() => router.push('/'));
-    },
+    () =>
+      confirmAlert('정말 삭제하시겠습니까?', '프로젝트 삭제가').then(() =>
+        api.delete(`/projects/${id}`).then(() => router.push('/'))
+      ),
     {
       onSuccess: () => {
         router.push('/').then(() => {
@@ -132,7 +136,7 @@ export const useProject = (
    * edit 페이지 이동 이벤트
    */
   const moveEdit = () => {
-    if (confirm('정말 수정하시겠습니까?')) router.push(`/project/${id}/edit`);
+    router.push(`/project/${id}/edit`);
   };
 
   /**

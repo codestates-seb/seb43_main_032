@@ -103,7 +103,6 @@ export const useCommunity = <T extends {}>({ address, queryKey }: Props) => {
    * 수정 페이지로 이동
    */
   const moveEdit = () => {
-    if (confirm('정말 수정하시겠습니까?'))
       router.push(`/community/post/${id}/edit`);
   };
 

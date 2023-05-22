@@ -67,7 +67,7 @@ const AnswerItem = ({
   }, []);
 
   const onEdit = () => {
-    if (confirm('정말 수정하시겠습니까?')) setEdit(true);
+    setEdit(true);
   };
   const offEdit = () => {
     setEdit(false);

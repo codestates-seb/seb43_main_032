@@ -22,7 +22,7 @@ export const errorAlert = (text: string, title: string) => {
 export const confirmAlert = (text: string, title: string) => {
   return new Promise<void>((resolve, reject) => {
     Swal.fire({
-      title: `정말 ${text} 하시겠습니까?`,
+      title: text,
       icon: 'warning',
       showCancelButton: true,
       confirmButtonColor: 'rgb(165,220,134)',
@@ -32,8 +32,8 @@ export const confirmAlert = (text: string, title: string) => {
     }).then((result) => {
       if (result.isConfirmed) {
         Swal.fire({
-          title: title,
-          text: `${text}이 완료되었습니다.`,
+          title: title.slice(0, -1),
+          text: `${title} 완료되었습니다.`,
           icon: 'success',
           confirmButtonText: '확인',
           confirmButtonColor: 'rgb(165,220,134)',
@@ -42,8 +42,8 @@ export const confirmAlert = (text: string, title: string) => {
         });
       } else {
         Swal.fire({
-          title: title,
-          text: `${text}이 취소되었습니다.`,
+          title: title.slice(0, -1),
+          text: `${title} 취소되었습니다.`,
           icon: 'error',
           confirmButtonText: '확인',
           confirmButtonColor: '#F27474',

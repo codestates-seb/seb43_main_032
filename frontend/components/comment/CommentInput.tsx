@@ -5,7 +5,7 @@ import { Answer } from '@/types/answer';
 import { useForm } from 'react-hook-form';
 import { useRecoilValue } from 'recoil';
 import styled from 'styled-components';
-import { confirmAlert, errorAlert } from '../alert/Alert';
+import { errorAlert } from '../alert/Alert';
 
 type Props = {
   commentHandler: () => void;

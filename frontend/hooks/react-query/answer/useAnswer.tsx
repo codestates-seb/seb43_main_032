@@ -8,7 +8,7 @@ import {
   LikeAnswerMutation,
   PostAnswerMutation,
 } from '@/types/answer';
-import { errorAlert } from '@/components/alert/Alert';
+import { confirmAlert, errorAlert } from '@/components/alert/Alert';
 
 type Props = {
   answerRefetch: () => void;
@@ -67,8 +67,9 @@ export const useAnswer = ({
    */
   const deleteAnswer: DeleteAnswerMutation = useMutation(
     async ({ answerId }: { answerId: number }) => {
-      if (confirm('정말 답글을 삭제하시겠습니까?'))
-        return await api.delete(`/answers/${answerId}`);
+      confirmAlert('정말 답글을 삭제하시겠습니까?', '답글 삭제가').then(() =>
+        api.delete(`/answers/${answerId}`)
+      );
     },
     {
       onSuccess: () => {
@@ -128,7 +129,7 @@ export const useAnswer = ({
         answerRefetch();
       },
       onError: () => {
-        errorAlert('잠시 후에 다시 시도해주세요.', '좋아요 해제');
+        errorAlert('잠시 후에 다시 시도해주세요.', '좋아요 취소');
       },
     }
   );

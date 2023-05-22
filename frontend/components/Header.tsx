@@ -6,7 +6,6 @@ import { useEffect, useMemo, useState } from 'react';
 import logo from '../public/images/logo.svg';
 import logoWhite from '../public/images/logoSymbolWhite.svg';
 import BannerSlider from './banner/BannerSlider';
-import Btn from './button/Btn';
 import { useOffResize } from '@/hooks/useOffResize';
 import { HEADER_NAV } from '@/constant/constant';
 import { deleteCookie, getCookie } from '@/util/cookie';
@@ -16,7 +15,6 @@ import { setUserState } from '@/util/api/user';
 import Img from '../public/images/second-user.svg';
 import { NavProps } from '@/types/types';
 import ButtonStyle from './button/ButtonStyle';
-import SubBtn from './button/SubBtn';
 
 const Header = () => {
   const router = useRouter();
