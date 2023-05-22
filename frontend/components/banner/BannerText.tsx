@@ -66,10 +66,10 @@ const Text = styled.text<TextProps>`
     0% {
       stroke-dasharray: 0 50%;
       stroke-dashoffset: 20%;
-      fill: ${({ text }) => {
+      /* fill: ${({ text }) => {
         if (text === 'SIDE QUEST') return 'rgba(255, 0, 195, 0.8)';
         return '';
-      }}
+      }} */
     }
     100% {
       stroke-dasharray: 50% 0;
