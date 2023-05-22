@@ -30,6 +30,7 @@ const Home = () => {
         data={topViewProjectData ? topViewProjectData : []}
         title={'주목 중인 프로젝트'}
       />
+
       <CommunityCardBox
         skeleton={
           communityQuery.isLoading && <CommunityItemSkeleton count={5} />

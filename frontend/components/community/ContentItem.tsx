@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import Tag from '../Tag';
 import { FaComment, FaEye, FaHeart, FaStar } from 'react-icons/fa';
+import { FiHeart } from 'react-icons/fi';
 import { Community } from '@/types/community';
 import { useRouter } from 'next/router';
 
@@ -9,6 +10,11 @@ export default function ContentItem(article: Community) {
   const router = useRouter();
   const moveArticle = () => {
     router.push(`community/post/${article.articleId}`);
+  };
+
+  const [view, setView] = useState(false);
+  const onClick = () => {
+    setView((prev) => !prev);
   };
 
   return (
@@ -36,16 +42,28 @@ export default function ContentItem(article: Community) {
       </a>
       <Left>
         <div className="heartBox">
-          <FaHeart color="red"></FaHeart>
-          <span>{article.totalLikes}</span>
+          {view === true ? (
+            <button onClick={() => onClick()}>
+              <FiHeart color="#909090"></FiHeart>
+              <span>{article.totalLikes}</span>
+            </button>
+          ) : (
+            <button>
+              <FaHeart /> <span>{article.totalLikes}</span>
+            </button>
+          )}
         </div>
         <div>
-          <FaEye color="#909090"></FaEye>
-          <span>{article.view}</span>
+          <button>
+            <FaEye color="#909090"></FaEye>
+            <span>{article.view}</span>
+          </button>
         </div>
         <div>
-          <FaComment color="#909090"></FaComment>
-          <span>{article.totalAnswers}</span>
+          <button>
+            <FaComment color="#909090"></FaComment>
+            <span>{article.totalAnswers}</span>
+          </button>
         </div>
       </Left>
     </Container>
@@ -53,7 +71,7 @@ export default function ContentItem(article: Community) {
 }
 
 const Container = styled.div`
-  width: 100%;
+  width: 986px;
   height: 120px;
   display: flex;
   justify-content: space-between;
@@ -61,45 +79,51 @@ const Container = styled.div`
   font-size: 15px;
   margin-bottom: 20px;
   padding: 10px 15px;
-  border-radius: 5px;
+  border-radius: 10px;
   box-shadow: 6px 6px 15px #efefef, -6px -6px 15px #f5f5f5;
   position: relative;
   overflow: hidden;
   cursor: pointer;
 
-  > .name-box {
-    font-size: 12px;
-    font-weight: bold;
-    color: #6e6e6e;
+  @media (max-width: 768px) {
+    flex-direction: column;
+    overflow: visible;
   }
 
-  > .color-bar {
-    position: absolute;
-    left: 0;
-    top: 0;
-    height: 100%;
-    width: 5px;
-    background-color: #2af599;
-  }
-
-  > .frontend {
-    background-color: #2af599;
-  }
-
-  > .backend {
-    background-color: #f98bfe;
-  }
-
-  > .uxui {
-    background-color: #4512eb;
+  :hover {
+    border: 3px solid #ca66fc;
+    transition: background 0.5s ease, color 0.5s ease;
   }
 
   > a {
     width: 65%;
   }
 
+  .tagBox {
+    margin-top: 15px;
+  }
+
   > &:hover {
     transform: scale(1.2);
+    border: 3px solid purple;
+  }
+  button {
+    display: flex;
+    align-items: center;
+    height: 100%;
+    padding: 3px 3px;
+    font-weight: 600;
+    border: none;
+    cursor: pointer;
+    background: #fff;
+    border: 1px solid #efefef;
+
+    :hover {
+      background: transparent;
+      color: #9b7aff;
+      border-radius: 5px;
+      transition: background 0.5s ease, color 0.5s ease;
+    }
   }
 `;
 
@@ -145,6 +169,7 @@ const Center = styled.div`
     flex-direction: row !important;
     gap: 8px;
     color: white;
+
     > div {
       background: #909090;
     }

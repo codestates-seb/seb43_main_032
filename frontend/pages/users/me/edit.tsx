@@ -1,9 +1,13 @@
 import styled from 'styled-components';
 import GridBox from '@/components/common_box/GridBox';
 import UserEditForm from '@/components/authAction/UserEditForm';
+import useUser from '@/hooks/react-query/useUser';
 
 export default function Edit() {
-  const user = dummyUser;
+  // const user = dummyUser;
+  const {
+    getMyInfo: { data: user },
+  } = useUser({});
 
   return (
     <GridBox>
