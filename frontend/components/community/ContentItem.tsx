@@ -43,25 +43,26 @@ export default function ContentItem(article: Community) {
         <div className="heartBox">
           {view === true ? (
             <button onClick={() => onClick()}>
-              <FiHeart color="#909090"></FiHeart>
               <span>{article.totalLikes}</span>
+              <FiHeart color="#909090" />
             </button>
           ) : (
             <button>
-              <FaHeart /> <span>{article.totalLikes}</span>
+              <span>{article.totalLikes}</span>
+              <FaHeart />
             </button>
           )}
         </div>
         <div>
           <button>
-            <FaEye color="#909090"></FaEye>
             <span>{article.view}</span>
+            <FaEye color="#909090" />
           </button>
         </div>
         <div>
           <button>
-            <FaComment color="#909090"></FaComment>
             <span>{article.totalAnswers}</span>
+            <FaComment color="#909090" />
           </button>
         </div>
       </Left>
@@ -70,7 +71,7 @@ export default function ContentItem(article: Community) {
 }
 
 const Container = styled.div`
-  width: 986px;
+  width: 100%;
   height: 120px;
   display: flex;
   justify-content: space-between;
@@ -84,13 +85,8 @@ const Container = styled.div`
   overflow: hidden;
   cursor: pointer;
 
-  @media (max-width: 768px) {
-    flex-direction: column;
-    overflow: visible;
-  }
-
   :hover {
-    border: 3px solid #ca66fc;
+    outline: 3px solid #ca66fc;
     transition: background 0.5s ease, color 0.5s ease;
   }
 
@@ -137,8 +133,15 @@ const Left = styled.div`
     align-items: center;
   }
 
-  svg {
-    margin-right: 8px;
+  button {
+    min-width: 50px;
+    display: flex;
+    gap: 4px;
+    justify-content: space-between;
+    text-align: end;
+    span {
+      flex: 1;
+    }
   }
 
   > div {
