@@ -1,19 +1,9 @@
 import styled from 'styled-components';
 import AuthContainer from '@/components/authAction/AuthContainer';
-import { useRouter } from 'next/router';
-import { useEffect } from 'react';
 import Image from 'next/image';
 import loginImg from '../../../public/images/loginImg.svg';
 
 const SignUp = () => {
-  const router = useRouter();
-  useEffect(() => {
-    window.scrollTo({
-      top: 670,
-      left: 0,
-      behavior: 'smooth',
-    });
-  }, [router]);
   return (
     <Wrapper>
       <WrapperInset>

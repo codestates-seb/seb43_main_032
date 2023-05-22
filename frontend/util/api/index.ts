@@ -3,14 +3,15 @@ import { getCookie } from '../cookie';
 
 axios.defaults.withCredentials = true;
 
-// const baseURL =
-//   process.env.NODE_ENV === 'production'
-//     ? process.env.NEXT_RESOURCE_URL
-//     : 'https://d8a2-183-101-242-153.ngrok-free.app/';
+const baseURL =
+  process.env.NODE_ENV === 'production'
+    ? process.env.NEXT_RESOURCE_URL
+    : 'http://3.38.165.177:8080';
 
 const api = axios.create({
-  baseURL:'https://d8a2-183-101-242-153.ngrok-free.app/',
+  baseURL:'http://3.38.165.177:8080',
   timeout: 3000,
+  withCredentials: true,
   headers: {
     'Content-Type': 'application/json',
     Authorization: getCookie('accessToken'),

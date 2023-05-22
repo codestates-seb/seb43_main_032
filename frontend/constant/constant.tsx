@@ -173,7 +173,10 @@ export const POSITIONS = [
 
 export const FOOTER_DATA: FooterData = {
   information: [
-    { name: '1:1 문의 카카오톡 연결', link: '' },
+    {
+      name: '1:1 문의 카카오톡 연결',
+      link: 'https://open.kakao.com/o/sl78Kxlf',
+    },
     { name: '상담 사이드퀘스트 운영자 연결', link: 'onContact' },
     { name: '오픈챗 코드 7777', link: '' },
     { name: '제휴문의 help@sideQues.com', link: '' },
