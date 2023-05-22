@@ -11,6 +11,7 @@ const baseURL =
 const api = axios.create({
   baseURL,
   timeout: 3000,
+  withCredentials: true,
   headers: {
     'Content-Type': 'application/json',
     Authorization: getCookie('accessToken'),

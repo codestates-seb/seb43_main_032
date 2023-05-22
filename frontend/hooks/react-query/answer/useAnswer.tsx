@@ -8,6 +8,7 @@ import {
   LikeAnswerMutation,
   PostAnswerMutation,
 } from '@/types/answer';
+import { errorAlert } from '@/components/alert/Alert';
 
 type Props = {
   answerRefetch: () => void;
@@ -37,10 +38,10 @@ export const useAnswer = ({
   const postAnswer: PostAnswerMutation = useMutation(
     async ({ content }: { content: string }) => {
       if (!getCookie('accessToken')) {
-        return alert('로그인부터 진행해주세요.');
+        return errorAlert('로그인이 필요합니다.', '댓글 작성');
       }
       if (content === '') {
-        return alert('내용을 작성해주세요.');
+        return errorAlert('내용을 작성해주세요.', '댓글 작성');
       }
       const data = {
         content,
@@ -56,7 +57,7 @@ export const useAnswer = ({
         changeAnswerVal('');
       },
       onError: () => {
-        alert('잠시 후에 다시 시도해주세요.');
+        errorAlert('잠시 후에 다시 시도해주세요.', '댓글 작성');
       },
     }
   );
@@ -77,7 +78,7 @@ export const useAnswer = ({
         answerRefetch();
       },
       onError: () => {
-        alert('잠시 후에 다시 시도해주세요.');
+        errorAlert('잠시 후에 다시 시도해주세요.', '댓글 삭제');
       },
     }
   );
@@ -90,7 +91,7 @@ export const useAnswer = ({
       answerRefetch();
     },
     onError: () => {
-      alert('잠시 후에 다시 시도해주세요.');
+      errorAlert('잠시 후에 다시 시도해주세요.', '댓글 수정');
     },
   });
 
@@ -108,7 +109,7 @@ export const useAnswer = ({
         answerRefetch();
       },
       onError: () => {
-        alert('잠시 후에 다시 시도해주세요.');
+        errorAlert('잠시 후에 다시 시도해주세요.', '댓글 좋아요');
       },
     }
   );
@@ -127,7 +128,7 @@ export const useAnswer = ({
         answerRefetch();
       },
       onError: () => {
-        alert('잠시 후에 다시 시도해주세요.');
+        errorAlert('잠시 후에 다시 시도해주세요.', '좋아요 해제');
       },
     }
   );

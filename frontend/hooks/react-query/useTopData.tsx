@@ -3,15 +3,12 @@ import { api } from '@/util/api';
 import { useQuery } from 'react-query';
 import { useCommunity } from './community/useCommunity';
 import { Community } from '@/types/community';
-import { useEffect } from 'react';
+import { useRouter } from 'next/router';
 
 export const useTopData = () => {
-  //로드될 때마다 새로운 데이터가 불러와지도록 모두 리페치
-  useEffect(() => {
-    topLikeProjectRefecth();
-    topViewProjectRefecth();
-    topCommunityRefetch();
-  }, []);
+  const router = useRouter();
+  const { id } = router.query;
+
   //프로젝트 좋아요 높은 순 5개
   const {
     data: topLikeProjects,
@@ -25,9 +22,9 @@ export const useTopData = () => {
       };
     },
     Error
-  >('projects-top-like-list', () =>
-    api('/projects/likes-top5').then((res) => res.data)
-  );
+  >('projects-top-like-list', async () => {
+    if (!id) return await api('/projects/likes-top5').then((res) => res.data);
+  });
 
   //프로젝트 조회 수 높은 순 5개
   const {
@@ -42,14 +39,14 @@ export const useTopData = () => {
       };
     },
     Error
-  >('projects-top-view-list', () =>
-    api('/projects/views-top5').then((res) => res.data)
-  );
+  >('projects-top-view-list', async () => {
+    if (!id) return await api('/projects/views-top5').then((res) => res.data);
+  });
 
   //커뮤니티 조회 수 높은 순 5개
   const queryKey = ['article-top-hot-list'];
   const address = `/articles/view-top5`;
-  const { communityQuery, refetch: topCommunityRefetch } = useCommunity<{
+  const { communityQuery } = useCommunity<{
     articleList: Community[];
   }>({
     address,
@@ -72,6 +69,8 @@ export const useTopData = () => {
     communityQuery,
     topLikeProjectLoading,
     topViewProjectLoading,
+    topLikeProjectRefecth,
+    topViewProjectRefecth,
     checkError,
   };
 };

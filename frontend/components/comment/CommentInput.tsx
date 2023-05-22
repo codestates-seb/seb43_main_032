@@ -5,6 +5,7 @@ import { Answer } from '@/types/answer';
 import { useForm } from 'react-hook-form';
 import { useRecoilValue } from 'recoil';
 import styled from 'styled-components';
+import { confirmAlert, errorAlert } from '../alert/Alert';
 
 type Props = {
   commentHandler: () => void;
@@ -31,7 +32,7 @@ const CommentInput = ({ commentHandler, answer }: Props) => {
 
   const postEvent = () => {
     if (watch().content === '') {
-      return alert('내용을 입력해주세요.');
+      return errorAlert('내용을 입력해주세요.', '댓글 작성');
     }
     const data = {
       ...watch(),
