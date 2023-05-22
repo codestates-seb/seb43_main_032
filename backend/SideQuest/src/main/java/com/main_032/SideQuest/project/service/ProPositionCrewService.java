@@ -27,10 +27,15 @@ public class ProPositionCrewService {
         }
     }
 
+    @Transactional
     public List<ProPositionCrew> updateProPositionCrew(Project project, ProPositionCrewPostDto proPositionCrewPostDto) {
+        for (int i = 0; i < project.getProPositionCrewList().size(); i++) {
+            proPositionCrewRepository.deleteById(project.getProPositionCrewList().get(i).getId());
+        }
         List<ProPositionCrew> proPositionCrewList = new ArrayList<>();
         for (int i = 0; i < proPositionCrewPostDto.getPositionList().size(); i++) {
             ProPositionCrew proPositionCrew = new ProPositionCrew(project, proPositionCrewPostDto.getPositionList().get(i), proPositionCrewPostDto.getPositionNumberList().get(i));
+            proPositionCrewRepository.save(proPositionCrew);
             proPositionCrewList.add(proPositionCrew);
         }
         return proPositionCrewList;

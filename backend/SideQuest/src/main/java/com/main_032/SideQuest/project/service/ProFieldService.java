@@ -28,10 +28,15 @@ public class ProFieldService {
         }
     }
 
+    @Transactional
     public List<ProField> updateProField(Project project, ProFieldPostDto proFieldPostDto) {
+        for (int i = 0; i < project.getProFieldList().size(); i++) {
+            proFieldRepository.deleteById(project.getProFieldList().get(i).getId());
+        }
         List<ProField> proFieldList = new ArrayList<>();
         for (int i = 0; i < proFieldPostDto.getFieldList().size(); i++) {
             ProField proField = new ProField(project, proFieldPostDto.getFieldList().get(i));
+            proFieldRepository.save(proField);
             proFieldList.add(proField);
         }
         return proFieldList;

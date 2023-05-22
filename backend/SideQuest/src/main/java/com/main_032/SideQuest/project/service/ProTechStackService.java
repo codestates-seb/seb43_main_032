@@ -28,10 +28,16 @@ public class ProTechStackService {
         }
     }
 
+    @Transactional
     public List<ProTechStack> updateProTechStack(Project project, ProTechStackPostDto proTechStackPostDto) {
+        for (int i = 0; i < project.getProTechStackList().size(); i++) {
+            proTechStackRepository.deleteById(project.getProTechStackList().get(i).getId());
+        }
+
         List<ProTechStack> proTechStackList = new ArrayList<>();
         for (int i = 0; i < proTechStackPostDto.getTechList().size(); i++) {
             ProTechStack proTechStack = new ProTechStack(project, proTechStackPostDto.getTechList().get(i));
+            proTechStackRepository.save(proTechStack);
             proTechStackList.add(proTechStack);
         }
         return proTechStackList;
