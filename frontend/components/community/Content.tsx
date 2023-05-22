@@ -74,6 +74,7 @@ export default function Content() {
     searchVal,
     type: 2,
   });
+  console.log(filterData)
 
   if (communityQuery.error)
     return <Message>잠시 후 다시 시도해주세요.</Message>;
