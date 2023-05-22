@@ -11,7 +11,6 @@ import ModalBg from '@/components/ModalBg';
 import { useRouter } from 'next/router';
 import LoginBg from '@/components/user/LoginBg';
 import EtcHeader from '@/components/EtcHeader';
-import { confirmAlert } from './../components/alert/Alert';
 
 const queryClient = new QueryClient({
   defaultOptions: {

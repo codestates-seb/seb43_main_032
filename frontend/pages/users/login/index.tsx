@@ -55,6 +55,10 @@ const Contents = styled.div`
     width: 100%;
     opacity: 0.9;
   }
+
+  a {
+    cursor: pointer;
+  }
 `;
 const TextBox = styled.div`
   display: flex;
