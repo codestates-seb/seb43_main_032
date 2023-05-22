@@ -2,11 +2,12 @@ import Pagenation from '@/components/Pagenation';
 import { TextArea } from '@/components/authAction/EditInput';
 import UserCard from '@/components/user/UserCard';
 import useUser from '@/hooks/react-query/useUser';
-import { UserState } from '@/types/user';
+import { User, UserState } from '@/types/user';
 import { useRouter } from 'next/router';
 import { ChangeEvent, useState } from 'react';
 import styled from 'styled-components';
 import { BiSearch } from 'react-icons/bi';
+import { useQueryClient } from 'react-query';
 
 const Wrapper = styled.div`
   padding: 20px;
@@ -90,11 +91,12 @@ const CardWrapper = styled.div`
     grid-template-columns: repeat(6, 1fr);
   }
 `;
-const User = () => {
+const Users = () => {
   const [inputValue, setInputValue] = useState<string>('');
   const [keyword, setKeyword] = useState<string | undefined>(undefined);
-  const [page, setPage] = useState<number>(1);
-  const [size, setSize] = useState<number>(12);
+  const [page, setPage] = useState<number>(2);
+  const [size, setSize] = useState<number>(8);
+  const queryClient = useQueryClient();
 
   const {
     userQuery: { data: users, isLoading: allUserLoading },
@@ -155,4 +157,4 @@ const User = () => {
   );
 };
 
-export default User;
+export default Users;

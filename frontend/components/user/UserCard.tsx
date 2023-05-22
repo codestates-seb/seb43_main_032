@@ -3,7 +3,7 @@ import { FaLocationArrow } from 'react-icons/fa';
 import styled from 'styled-components';
 import Link from 'next/link';
 import Stack from '../stack/Stack';
-import { UserState } from '@/types/user';
+import { User, UserState } from '@/types/user';
 import Tag from '../Tag';
 
 const Wrapper = styled.div`
@@ -194,25 +194,7 @@ export default function UserCard({ user }: IProps) {
               </StackWrapper>
             </SubCardWrapper>
             <CardFooter>
-              <AboutMe>
-                다양한 지식을 두루 섭렵하기 위한 노력을 게을리하지 않았고, 이는
-                새로운 사람과 공통 화제를 찾는 데 큰 도움이 되었습니다. 다양한
-                방면에 잡지식이 많아 어떠한 주제에도 공감할 수 있기 때문입니다.
-                이러한 능력에 밝고 쾌활한 성격이 더해진 덕분에 저는 많은 사람과
-                좋은 관계를 유지할 수 있었습니다. 성실한 성격입니다. 제게 맡겨진
-                일은 책임감을 가지고 성공적인 결과를 낼 수 있도록 최선을 다하는
-                성격입니다. 이것은 저의 가장 큰 장점이기도 하지만 때로는 제게
-                단점으로 작용하기도 합니다. 한번 마음먹은 일은 완벽하게 해내야
-                한다는 생각에 건강을 해치는 경우가 생기기 때문입니다. 팀 과제를
-                실시하면서 감기몸살에 걸린 일이 있었는데 대수롭지 않게 넘기고
-                관리에 소홀하여 큰 병으로 번져 근 한 달간을 병원 신세를 져야
-                했습니다. 그때 저는 생각했습니다. 건강보다 중요한 것은 없다는
-                것을 새삼 깨닫게 된 경험이었습니다. 그 이후 저는 건강을
-                중요시하는 마음으로 생활하고 있습니다. 성실하게 일하되 절대
-                무리하지 않기 위해서는 효율적인 업무 능력이 필요하다고
-                생각합니다. 성실하고 빠른 업무 처리 능력을 인정받을 수 있도록
-                최선을 다하여 능력을 계발하겠습니다.
-              </AboutMe>
+              <AboutMe></AboutMe>
             </CardFooter>
           </CardWrapper>
         </Wrapper>

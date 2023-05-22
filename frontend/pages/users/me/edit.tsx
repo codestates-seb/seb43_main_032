@@ -36,20 +36,22 @@ export const dummyUser = {
   phone: 'string',
   position: 'string',
   profileImageUrl: 'string',
-  techList: ['string'],
+  techList: [
+    'java_script',
+    'react',
+    'next_js',
+    'recoil',
+    'react_query',
+    'type_scriypt',
+  ],
   totalStar: 0,
   yearOfDev: 0,
 };
 export default function Edit() {
-  const router = useRouter();
-  useEffect(() => {
-    if (!getCookie('accessToken')) {
-      router.push('/404').then(() => alert('로그인을 부탁드려요.'));
-    }
-  }, []);
-  const {
-    getMyInfo: { data: user },
-  } = useUser({});
+  const user = dummyUser;
+  // const {
+  //   getMyInfo: { data: user },
+  // } = useUser({});
 
   return (
     <GridBox>
