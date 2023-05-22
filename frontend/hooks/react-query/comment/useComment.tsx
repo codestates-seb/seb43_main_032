@@ -14,8 +14,8 @@ import { postStar } from '@/util/api/postStar';
 
 type Props = {
   commentRefetch: () => void;
-  articleRefetch: () => void;
-  answerRefetch: () => void;
+  articleRefetch?: () => void;
+  answerRefetch?: () => void;
 };
 
 /**
@@ -104,8 +104,10 @@ export const useComment = ({
     {
       onSuccess: () => {
         commentRefetch();
-        articleRefetch();
-        answerRefetch();
+        if (articleRefetch && answerRefetch) {
+          articleRefetch();
+          answerRefetch();
+        }
       },
       onError: () => {
         errorAlert('잠시 후에 다시 시도해주세요.', '댓글 좋아요');
@@ -125,8 +127,10 @@ export const useComment = ({
     {
       onSuccess: () => {
         commentRefetch();
-        articleRefetch();
-        answerRefetch();
+        if (articleRefetch && answerRefetch) {
+          articleRefetch();
+          answerRefetch();
+        }
       },
       onError: () => {
         errorAlert('잠시 후에 다시 시도해주세요.', '댓글 싫어요');
