@@ -45,7 +45,20 @@ public class MemberService {
         member.updatePassword(encryptedPassword);
         List<String> roles = authorityUtils.createRoles(member.getEmail());
         member.updateRoles(roles);
-        memberRepository.save(member);
+        member = memberRepository.save(member);
+        Long num = member.getId() % 10;
+        if(num == 0) member.updateProfileImageUrl("https://github.com/codestates-seb/seb43_main_032/assets/118104644/d654f2fe-5f35-467c-96cb-6f5cf3dbd048");
+        else if(num == 1) member.updateProfileImageUrl("https://github.com/codestates-seb/seb43_main_032/assets/118104644/9eb8d8c3-1026-4b8f-a4a7-346e9baded60");
+        else if(num == 2) member.updateProfileImageUrl("https://github.com/codestates-seb/seb43_main_032/assets/118104644/4dcde4c8-5c43-4cd4-9bc7-80c55655277b");
+        else if(num == 3) member.updateProfileImageUrl("https://github.com/codestates-seb/seb43_main_032/assets/118104644/adfbebdf-b753-468f-a608-17eb97d5f718");
+        else if(num == 4) member.updateProfileImageUrl("https://github.com/codestates-seb/seb43_main_032/assets/118104644/a4d428d9-0469-44de-a40d-215f786ab3b8");
+        else if(num == 5) member.updateProfileImageUrl("https://github.com/codestates-seb/seb43_main_032/assets/118104644/d92942b9-a621-4a57-918b-8ee9622778d2");
+        else if(num == 6) member.updateProfileImageUrl("https://github.com/codestates-seb/seb43_main_032/assets/118104644/657e7258-189a-4832-9b96-25a0c4b9dc5d");
+        else if(num == 7) member.updateProfileImageUrl("https://github.com/codestates-seb/seb43_main_032/assets/118104644/4375f19d-0d8b-4fc4-b8cf-2158dc554870");
+        else if(num == 8) member.updateProfileImageUrl("https://github.com/codestates-seb/seb43_main_032/assets/118104644/eda3ece7-a13b-4b5d-a784-371b9aa86c55");
+        else member.updateProfileImageUrl("https://github.com/codestates-seb/seb43_main_032/assets/118104644/ad6bcb4c-bb23-4b35-ad4b-0503d6c74c91");
+
+//        memberRepository.save(member);
         return;
     }
 
