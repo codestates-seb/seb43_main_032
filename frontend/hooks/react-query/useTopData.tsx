@@ -67,7 +67,7 @@ export const useTopData = () => {
   const topLikeProjectData = topLikeProjects?.data?.projectList.slice(0, 4);
   const topViewProjectData = topViewProjects?.data?.projectList.slice(0, 4);
   const topViewCommunityData = topViewcommunityQuery.data?.data?.articleList;
-  const topLikeCommunityData = topLikecommunityQuery.data?.data.articleList;
+  const topLikeCommunityData = topLikecommunityQuery.data?.data?.articleList;
 
   //에러체크
   const checkError =
