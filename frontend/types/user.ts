@@ -1,5 +1,6 @@
 //로그인한 유저의 데이터 상태
 export type UserState = {
+  memberId: number;
   aboutMe: string;
   email: string;
   name: string;

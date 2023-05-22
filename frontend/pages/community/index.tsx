@@ -1,11 +1,9 @@
 import Content from '@/components/community/Content';
-import SideBar from '@/components/community/SideBar';
 import styled from 'styled-components';
 
 const Community = () => {
   return (
     <Box>
-      <SideBar />
       <Content />
     </Box>
   );

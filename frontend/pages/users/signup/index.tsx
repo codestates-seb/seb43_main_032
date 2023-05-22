@@ -3,6 +3,8 @@ import styled from 'styled-components';
 import AuthContainer from '@/components/authAction/AuthContainer';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
+import Image from 'next/image';
+import loginImg from '../../../public/images/loginImg.svg';
 
 //로그인 페이지 입니다. 경로 '/user/login/'
 
@@ -20,14 +22,13 @@ const SignUp = () => {
       <WrapperInset>
         <Contents>
           <TextBox>
-            <span className="nanum-bold">
-              A-Z 개발 시작부터,
+            <span className="text">
+              반갑습니다. 개발자의 성장을 돕는
               <br />
-              <br />
-              쉽고 빠른 나만의 팀원까지
+              사이드퀘스트입니다.
             </span>
           </TextBox>
-          <ImgBox>img here</ImgBox>
+          <Image src={loginImg} alt="loginImg" />
         </Contents>
         <AuthContainer isLogin={false} />
       </WrapperInset>
@@ -39,38 +40,46 @@ export default SignUp;
 
 const Wrapper = styled.div`
   position: relative;
-  padding: 20px;
   border-radius: 10px;
+  width: 100%;
+  height: calc(100% - 80px);
+  display: flex;
+  align-items: center;
 `;
 const WrapperInset = styled.div`
-  /* position: absolute; */
-  /* top: 20px;
-  right: 0px;
-  bottom: 100px;
-  left: 0px; */
   display: flex;
-  padding: 20px;
   width: 100%;
+  align-items: center;
   height: 100%;
   border-radius: 15px;
   justify-content: space-around;
-  align-items: center;
-  background-color: #f2eeee;
+  margin-top: 3%;
 `;
 const Contents = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: space-around;
   width: 40%;
-  height: 80%;
+  height: 100%;
+
+  img {
+    width: 100%;
+    opacity: 0.9;
+  }
 `;
 const TextBox = styled.div`
   display: flex;
-  width: 80%;
-  height: 30%;
+  width: 100%;
   justify-content: flex-start;
   align-items: center;
+  padding-left: 10px;
+
+  span {
+    font-size: 25px;
+    color: white;
+    font-weight: 700;
+    line-height: 1.3;
+  }
 `;
 const ImgBox = styled.div`
   display: flex;

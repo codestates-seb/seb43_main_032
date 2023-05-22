@@ -1,20 +1,11 @@
 import CommunityForm from '@/components/community/CommunityForm';
-import SideBar from '@/components/community/SideBar';
-import { useRouter } from 'next/router';
-import { useEffect } from 'react';
 
 const EditCommunity = () => {
-  const router = useRouter();
-  useEffect(() => {
-    window.scrollTo({
-      top: 600,
-      left: 0,
-      behavior: 'smooth',
-    });
-  }, [router]);
+  // if (!getCookie('accessToken')) {
+  //   router.push('/404')
+  // }
   return (
     <>
-      <SideBar />
       <CommunityForm />
     </>
   );

@@ -1,6 +1,6 @@
 import { MemberInfo } from './types';
 
-type Crew = {
+export type Crew = {
   memberId: number;
   position: string;
   projectId: number;
@@ -21,6 +21,7 @@ export type WantCrew = {
 };
 
 export type Project = {
+  filter: any;
   acceptedCrewList: Crew[];
   content: string;
   createdAt: string;

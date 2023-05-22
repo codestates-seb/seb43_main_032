@@ -22,10 +22,14 @@ export const useProject = () => {
 
   //좋아요
   const likeProject = useMutation(
-    () => api.post(`/likes`, { category: 'PROJECT', uniteId: id }),
+    (cardId: number | void) =>
+      api.post(`/likes`, {
+        category: 'PROJECT',
+        uniteId: cardId ? cardId : id,
+      }),
     {
       onSuccess: () => {
-        refetch();
+        if (id) refetch();
       },
       onError: () => {
         alert('잠시 후에 다시 시도해주세요.');
@@ -35,10 +39,14 @@ export const useProject = () => {
 
   //싫어요
   const dislikeProject = useMutation(
-    () => api.post(`/likes/undo`, { category: 'PROJECT', uniteId: id }),
+    (cardId: number | void) =>
+      api.post(`/likes/undo`, {
+        category: 'PROJECT',
+        uniteId: cardId ? cardId : id,
+      }),
     {
       onSuccess: () => {
-        refetch();
+        if (id) refetch();
       },
       onError: () => {
         alert('잠시 후에 다시 시도해주세요.');
@@ -64,10 +72,10 @@ export const useProject = () => {
   //프로젝트 진행상황 관리 이벤트
   const projectEvent = (state: string) => {
     if (state === '모집 완료' && confirm('정말 프로젝트를 시작하시겠습니까?')) {
-      updateState.mutate('진행 중');
+      return updateState.mutate('진행 중');
     }
     if (state === '진행 중' && confirm('정말 프로젝트를 종료하시겠습니까?')) {
-      updateState.mutate('종료');
+      return updateState.mutate('종료');
     }
   };
 
@@ -136,5 +144,6 @@ export const useProject = () => {
     moveEdit,
     submitEdit,
     submitPost,
+    projectRefetch: refetch,
   };
 };

@@ -9,10 +9,6 @@ export interface Form extends StackCategoryName {}
 
 export interface CommunityFilter extends StackCategoryName {}
 
-export interface ProjectFilter {
-  [key: string]: number;
-}
-
 export type ArrObj = { [key: string]: string[] };
 
 export interface StackCategory {
@@ -49,6 +45,7 @@ export enum Filter {
   오래된순 = 1,
   조회순 = 2,
   찜순 = 3,
+  댓글순 = 4,
 }
 
 export type PageProps<T> = {

@@ -14,12 +14,10 @@ const Home = () => {
     communityQuery,
     topLikeProjectLoading,
     topViewProjectLoading,
-    topLikeProjectError,
-    topViewProjectError,
+    checkError,
   } = useTopData();
 
-  if (topLikeProjectError || topViewProjectError || communityQuery.error)
-    return <Message>잠시 후 다시 시도해주세요.</Message>;
+  if (checkError) return <Message>잠시 후 다시 시도해주세요.</Message>;
   return (
     <Box>
       {topLikeProjectData && topViewProjectData && topViewcommunityData && (

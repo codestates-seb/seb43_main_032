@@ -67,7 +67,6 @@ const Box = styled.div<BoxProps>`
   flex-direction: column;
   width: 100%;
   padding: 0 30px;
-  margin-bottom: 44px;
 
   > ul {
     margin-bottom: 12px;

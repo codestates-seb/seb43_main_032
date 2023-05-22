@@ -1,4 +1,3 @@
-import { loggedInUserState } from '@/recoil/atom';
 import {
   Comment,
   DeleteCommentMutation,
@@ -9,7 +8,6 @@ import { elapsedTime } from '@/util/date';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { RiThumbUpFill, RiThumbUpLine } from 'react-icons/ri';
-import { useRecoilValue } from 'recoil';
 import styled from 'styled-components';
 
 type Props = {
@@ -57,44 +55,55 @@ const CommentItem = ({
   const dislikeEvent = () => {
     dislikeComment.mutate({ category: 'COMMENT', uniteId: comment.commentId });
   };
+  const likeHandler = () => {
+    if (comment.liked) {
+      return dislikeEvent();
+    }
+    likeEvent();
+  };
 
   return (
     <Box>
-      <div className="left">
-        <img src={comment.memberInfo.profileImageUrl} alt="user" />
-      </div>
-      <div className="right">
-        <div className="id-box">
-          <span>{comment.memberInfo.name}</span>
-          <span>{elapsedTime(new Date(comment.createdAt))}</span>
+      <div className="top">
+        <div className="left">
+          <img src={comment.memberInfo.profileImageUrl} alt="user" />
+          <div className="id-box">
+            <span>{comment.memberInfo.name}</span>
+          </div>
         </div>
-        <div className="content-box">
-          {edit ? (
-            <input
-              {...register('content', { value: comment.content })}
-              type="text"
-            />
-          ) : (
-            <>{comment.content}</>
-          )}
-        </div>
-        <div className="like-box">
+        <div onClick={likeHandler} className="right">
           {comment.liked ? (
-            <RiThumbUpFill onClick={dislikeEvent} size={20} />
+            <RiThumbUpFill size={12} />
           ) : (
-            <RiThumbUpLine onClick={likeEvent} size={20} />
+            <RiThumbUpLine size={12} />
           )}
-          {comment.author && (
-            <>
+          <div className="like-num">{comment.totalLikes}</div>
+        </div>
+      </div>
+      <div className="middle">
+        {edit ? (
+          <input
+            {...register('content', { value: comment.content })}
+            type="text"
+          />
+        ) : (
+          <>{comment.content}</>
+        )}
+      </div>
+      <div className="bottom">
+        {comment.author && (
+          <>
+            <div className="button-box">
               <button onClick={editHandler}>{edit ? '취소' : '수정'}</button>
               {edit ? (
                 <button onClick={editEvent}>완료</button>
               ) : (
                 <button onClick={deleteEvent}>삭제</button>
               )}
-            </>
-          )}
-        </div>
+            </div>
+          </>
+        )}
+        <span className="date">{elapsedTime(new Date(comment.createdAt))}</span>
       </div>
     </Box>
   );
@@ -104,41 +113,85 @@ export default CommentItem;
 
 const Box = styled.div`
   display: flex;
-  margin: 16px 0px;
+  flex-direction: column;
+  justify-content: space-between;
+  margin: 0px 0px 16px 30px;
+  border: 2px solid #ececec;
+  min-height: 100px;
   gap: 8px;
+  border-radius: 10px;
+  padding: 10px 20px;
 
-  .right {
+  .top {
     width: 100%;
-    .content-box {
-      height: 24px;
-      > input {
-        width: 100%;
-        padding: 4px;
-        border: none;
-        border-bottom: 1px solid black;
+    display: flex;
+    justify-content: space-between;
+
+    .left {
+      width: 70%;
+      display: flex;
+
+      > img {
+        background: wheat;
+        width: 32px;
+        height: 32px;
+      }
+
+      .id-box {
+        margin-left: 16px;
+      }
+    }
+
+    .right {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 4px 5px;
+      border: 1px solid rgb(215, 226, 235);
+      border-radius: 5px;
+      cursor: pointer;
+
+      .like-num {
+        font-size: 12px;
       }
     }
   }
 
-  .left {
-    width: 24px;
-    height: 24px;
-    > img {
+  .middle {
+    input {
       width: 100%;
-      height: 100%;
+      padding: 4px;
+      padding-bottom: 10px;
+      border: none;
+      outline: none;
+      border-bottom: 1px solid #d1cfcf;
     }
   }
 
-  .id-box {
+  .bottom {
     display: flex;
-    gap: 8px;
-  }
+    justify-content: space-between;
 
-  .like-box {
-    display: flex;
-    gap: 16px;
-    > svg {
-      cursor: pointer;
+    .button-box {
+      display: flex;
+      gap: 8px;
+
+      button {
+        font-family: 'Pretendard';
+        cursor: pointer;
+        padding: 2px 10px;
+        background: none;
+        border: 1px solid rgb(215, 226, 235);
+        border-radius: 5px;
+        color: #171717;
+        -webkit-transition: all 0.3s ease;
+        transition: all 0.3s ease;
+      }
+    }
+
+    .date {
+      font-size: 12px;
+      color: rgb(204, 206, 208);
     }
   }
 `;

@@ -17,6 +17,7 @@ import { useGetComment } from '@/hooks/react-query/comment/useGetComment';
 import CommentBox from '../comment/CommentBox';
 import { elapsedTime } from '@/util/date';
 import { useComment } from '@/hooks/react-query/comment/useComment';
+import { warningAlert } from '../alert/MyAlert';
 
 const Editor = dynamic(() => import('@/components/editor/Editor'), {
   ssr: false,
@@ -100,7 +101,7 @@ const AnswerItem = ({
   const [comment, setComment] = useState(false);
   const commentHandler = () => {
     if (!getCookie('accessToken') && !comment) {
-      return alert('로그인을 부탁드려요.');
+      return warningAlert('로그인을 부탁드려요.');
     }
     setComment(!comment);
   };
@@ -157,21 +158,13 @@ const AnswerItem = ({
                     </div>
                   </div>
                 </div>
-                <div className="like-box">
+                <div className="like-box" onClick={likeHandler}>
                   {answer.liked ? (
-                    <RiThumbUpFill
-                      onClick={likeHandler}
-                      size={16}
-                      fill="#d2c4ff"
-                    />
+                    <RiThumbUpFill size={16} fill="#d2c4ff" />
                   ) : (
-                    <RiThumbUpLine
-                      onClick={likeHandler}
-                      size={16}
-                      fill="#8217f3 "
-                    />
+                    <RiThumbUpLine size={16} fill="#8217f3 " />
                   )}
-                  <div className="like-num">100</div>
+                  <div className="like-num">{answer.totalLikes}</div>
                 </div>
               </div>
               <div className="content">{answer.content}</div>
@@ -222,7 +215,7 @@ const Box = styled.li`
   width: 100%;
   border: 2px solid #ececec;
   border-radius: 10px;
-  height: 140px;
+  min-height: 140px;
   display: flex;
   position: relative;
   padding: 10px 20px;
@@ -253,6 +246,7 @@ const Box = styled.li`
         .user-img {
           width: 40px;
           height: 40px;
+          background-color: black;
 
           > img {
             border-radius: 50%;
@@ -262,6 +256,7 @@ const Box = styled.li`
         .user-detail {
           display: flex;
           flex-direction: column;
+          margin-left: 16px;
           width: 70%;
           gap: 4px;
           .user-id {
@@ -284,9 +279,7 @@ const Box = styled.li`
         padding: 4px 10px;
         border: 1px solid rgb(215, 226, 235);
         border-radius: 5px;
-        > svg {
-          cursor: pointer;
-        }
+        cursor: pointer;
       }
     }
 
