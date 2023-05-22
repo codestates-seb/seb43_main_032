@@ -46,6 +46,7 @@ const MainArticleBox = ({
   totalLikes,
   articleRefetch,
 }: Props) => {
+
   return (
     <Box>
       <div className="main-title">
@@ -86,7 +87,7 @@ const MainArticleBox = ({
         liked={liked}
         totalLikes={totalLikes}
       />
-      <AnswerBox articleRefetch={articleRefetch} />
+      <AnswerBox liked={liked} articleRefetch={articleRefetch} />
     </Box>
   );
 };

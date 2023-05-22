@@ -36,9 +36,10 @@ type Form = {
 
 type Props = {
   articleRefetch: () => void;
+  liked: boolean;
 };
 
-const AnswerBox = ({ articleRefetch }: Props) => {
+const AnswerBox = ({ liked, articleRefetch }: Props) => {
   const router = useRouter();
   const { id } = router.query;
 
@@ -73,10 +74,10 @@ const AnswerBox = ({ articleRefetch }: Props) => {
   //답글 데이터
   const answerData = answerQuery.data?.data;
 
-  //답글 페이지가 바뀌면 refetch를 실행하기 위한 effect
+  //게시글 하트 또는 답글 페이지가 바뀌면 refetch를 실행하기 위한 effect
   useEffect(() => {
     answerRefetch();
-  }, [answerPage]);
+  }, [answerPage, liked]);
 
   //답글 CRUD 함수
   const { postAnswer, deleteAnswer, editAnswer, likeAnswer, dislikeAnswer } =
@@ -110,6 +111,8 @@ const AnswerBox = ({ articleRefetch }: Props) => {
           {answerData &&
             answerData.map((answer) => (
               <AnswerItem
+                answerRefetch={answerRefetch}
+                articleRefetch={articleRefetch}
                 key={answer.answerId}
                 isAuthor={answer.author}
                 answer={answer}

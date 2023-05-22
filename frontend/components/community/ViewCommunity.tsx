@@ -9,7 +9,6 @@ import TagBox from '../project/TagBox';
 import AuthorBox from '../common_box/AuthorBox';
 import { getCookie } from '@/util/cookie';
 import MainArticleBox from '../common_box/MainArticleBox';
-import ApplyBox from '../common_box/ApplyBox';
 import { confirmAlert, errorAlert } from '../alert/Alert';
 import { postStar } from '@/util/api/postStar';
 

@@ -117,6 +117,7 @@ export const useAnswer = ({
     {
       onSuccess: () => {
         answerRefetch();
+        articleRefetch();
       },
       onError: () => {
         errorAlert('잠시 후에 다시 시도해주세요.', '답글 좋아요');
@@ -136,6 +137,7 @@ export const useAnswer = ({
     {
       onSuccess: () => {
         answerRefetch();
+        articleRefetch();
       },
       onError: () => {
         errorAlert('잠시 후에 다시 시도해주세요.', '좋아요 취소');
