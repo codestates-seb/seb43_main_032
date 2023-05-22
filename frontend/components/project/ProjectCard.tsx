@@ -9,6 +9,7 @@ import { Project } from '@/types/project';
 import { FaComment } from 'react-icons/fa';
 import { useProject } from '@/hooks/react-query/project/useProject';
 import { useState } from 'react';
+import { getCookie } from '@/util/cookie';
 
 type Props = {
   size: string;
@@ -17,12 +18,22 @@ type Props = {
 
 const ProjectCard = ({ data, size }: Props) => {
   const router = useRouter();
-
-  const { likeProject, dislikeProject } = useProject();
-
   const [heart, setHeart] = useState(data.liked);
-
+  const heartHandler = (isLiked: boolean) => {
+    setHeart(isLiked);
+  };
+  const [heartCount, setHeartCount] = useState(data.totalLikes);
+  const heartCountHandler = (totalCount: number) => {
+    setHeartCount(totalCount);
+  };
+  const { likeProject, dislikeProject } = useProject(
+    heartHandler,
+    heartCountHandler
+  );
   const likeHandler = () => {
+    if (!getCookie('accessToken')) {
+      return alert('로그인을 부탁드려요.');
+    }
     if (heart) {
       setHeart(false);
       return dislikeProject.mutate(data.projectId);
@@ -88,7 +99,7 @@ const ProjectCard = ({ data, size }: Props) => {
               <span>
                 <AiFillHeart fill="red" />
               </span>
-              <span>{data.totalLikes}</span>
+              <span>{heartCount}</span>
             </div>
             <div className="infor-box">
               <span>
@@ -180,7 +191,7 @@ const Box = styled.div`
     padding: 5px 13px;
     min-height: 32px;
     ul {
-      width: 296px;
+      height: 22px;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
@@ -193,9 +204,10 @@ const Box = styled.div`
     margin-bottom: 8px;
     min-height: 39px;
     ul {
-      width: 296px;
+      height: 24px;
       white-space: nowrap;
       overflow: hidden;
+      text-overflow: ellipsis;
       li {
         box-shadow: var(--box-shadow);
       }

@@ -5,10 +5,10 @@ import UserInfoCard from '@/components/user/UserProfile';
 import useUser from '@/hooks/react-query/useUser';
 import { UserState } from '@/types/user';
 import { useRouter } from 'next/router';
-import { useEffect } from 'react';
 import styled from 'styled-components';
-import { dummyUser } from './edit';
 import GridBox from '@/components/common_box/GridBox';
+import { getCookie } from '@/util/cookie';
+import { useEffect } from 'react';
 
 const LeftColumn = styled.div`
   position: relative;
@@ -91,6 +91,11 @@ export default function me() {
     getMyInfo: { data: user },
   } = useUser({});
   const router = useRouter();
+  useEffect(() => {
+    if (!getCookie('accessToken')) {
+      router.push('/404').then(() => alert('로그인을 부탁드려요.'));
+    }
+  }, []);
   user && console.log(user);
 
   const handleClick = () => {
@@ -180,4 +185,5 @@ export const USER: UserState = {
   totalStar: 10,
   techList: ['React', 'JavaScript', 'Python'],
   profileImageUrl: 'https://pbs.twimg.com/media/FjU2lkcWYAgNG6d.jpg',
+  memberId: 0,
 };

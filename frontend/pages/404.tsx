@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import styled, { createGlobalStyle, keyframes } from 'styled-components';
+import styled from 'styled-components';
 import bg from '../public/images/404bg.svg';
 import man from '../public/images/404man.svg';
 import art1 from '../public/images/404art.svg';

@@ -77,7 +77,7 @@ export default function UserProfile({ user }: { user: UserState }) {
       </AvatarContainer>
       <Tag className="years-tag">{`${user?.yearOfDev} 년차`}</Tag>
       <Name>{user?.name}</Name>
-      <Position text="프론트엔드"></Position>
+      <Position>프론트엔드</Position>
     </Wrapper>
   );
 }

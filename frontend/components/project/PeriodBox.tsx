@@ -36,13 +36,14 @@ const PeriodBox = ({ start, end, handleRangeChange }: Props) => {
         {handleRangeChange && (
           <div className="calendar-box">
             <DatePicker
+              minDate={new Date()}
               selected={start}
               onChange={handleRangeChange}
               locale={ko}
               startDate={start}
               endDate={end}
               selectsRange
-              customInput={<CustomInput onClick={() => {}} />}
+              customInput={<CustomInput onClick={() => {}} />} //onClick을 이곳에서 주지 않는 방식으로 해결하고 싶은데 어렵네요.
             />
           </div>
         )}

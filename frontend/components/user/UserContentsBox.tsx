@@ -1,8 +1,7 @@
 import React, { MouseEvent, useState } from 'react';
 import styled from 'styled-components';
 import ContentCard from './ContentCard';
-import ProjectCard from '../project/ProjectCard';
-import { Project } from '@/types/project';
+
 const Wrapper = styled.div`
   padding: 10px;
   margin-bottom: 20px;

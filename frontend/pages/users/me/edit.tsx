@@ -10,6 +10,7 @@ import SelectStack from '@/components/stack/SelectStack';
 import { mergeData, updateData } from '@/util/user';
 import UserEditForm from '@/components/authAction/UserEditForm';
 import useUser from '@/hooks/react-query/useUser';
+import { getCookie } from '@/util/cookie';
 
 const SideBar = styled.div`
   background-color: rgba(0, 0, 0, 0.1);
@@ -40,19 +41,15 @@ export const dummyUser = {
   yearOfDev: 0,
 };
 export default function Edit() {
-  // const user = dummyUser;
+  const router = useRouter();
+  useEffect(() => {
+    if (!getCookie('accessToken')) {
+      router.push('/404').then(() => alert('로그인을 부탁드려요.'));
+    }
+  }, []);
   const {
     getMyInfo: { data: user },
   } = useUser({});
-
-  // const router = useRouter();
-  // useEffect(() => {
-  //   window.scrollTo({
-  //     top: 670,
-  //     left: 0,
-  //     behavior: 'smooth',
-  //   });
-  // }, [router]);
 
   return (
     <GridBox>

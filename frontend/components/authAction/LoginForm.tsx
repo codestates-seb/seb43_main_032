@@ -1,7 +1,6 @@
 import styled from 'styled-components';
 import AuthInput from './AuthInput';
 import { useForm, FieldErrors } from 'react-hook-form';
-import AuthCheckBox from './AuthCheckBox';
 import LogoImage from '../../public/images/logoWhite.svg';
 import Image from 'next/image';
 import usePostApi from '../../hooks/useLogin';
