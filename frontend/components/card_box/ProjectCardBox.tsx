@@ -11,12 +11,7 @@ type Props = {
   children?: ReactNode;
 };
 
-const ProjectCardBox = ({
-  title,
-  data,
-  skeleton,
-  children,
-}: Props) => {
+const ProjectCardBox = ({ title, data, skeleton, children }: Props) => {
   const router = useRouter();
 
   return (
@@ -35,11 +30,7 @@ const ProjectCardBox = ({
       </div>
       <div className="projects-box">
         {data?.map((project: Project) => (
-          <ProjectCard
-            key={project.projectId}
-            size={'sm'}
-            data={project}
-          />
+          <ProjectCard key={project.projectId} size={'sm'} data={project} />
         ))}
       </div>
       {skeleton}
@@ -76,8 +67,7 @@ const Box = styled.div`
   .projects-box {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    margin: 16px 0px;
-    margin-bottom: 24px;
+    margin-top: 16px;
     gap: 16px;
     @media (max-width: 1300px) {
       grid-template-columns: repeat(2, 1fr);
