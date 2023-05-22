@@ -2,6 +2,8 @@ import { useQuery, useMutation } from 'react-query';
 import { useRouter } from 'next/router';
 import { PostData, Project } from '@/types/project';
 import { api } from '@/util/api';
+import { useInfinityProject } from './useInfinityProject';
+import { useTopData } from '../useTopData';
 
 type ProjectData = {
   data: Project;
@@ -22,6 +24,10 @@ export const useProject = (
       }
     }
   );
+
+  //글 작성, 수정, 삭제 이후 무한스크롤 데이터 refecth만 가져오기위해
+  const { infinityRefetch } = useInfinityProject();
+  const { topLikeProjectRefecth, topViewProjectRefecth } = useTopData();
 
   //좋아요
   const likeProject = useMutation(
@@ -108,7 +114,12 @@ export const useProject = (
     },
     {
       onSuccess: () => {
-        router.push('/').then(() => refetch());
+        router.push('/').then(() => {
+          refetch();
+          infinityRefetch();
+          topLikeProjectRefecth();
+          topViewProjectRefecth();
+        });
       },
       onError: () => {
         alert('잠시 후에 다시 시도해주세요.');
@@ -130,7 +141,12 @@ export const useProject = (
     (data: PostData) => api.patch(`/projects/${id}`, data),
     {
       onSuccess: () => {
-        router.push('/').then(() => refetch());
+        router.push('/').then(() => {
+          refetch();
+          infinityRefetch();
+          topLikeProjectRefecth();
+          topViewProjectRefecth();
+        });
       },
       onError: () => {
         alert('잠시 후에 다시 시도해주세요.');
@@ -145,7 +161,12 @@ export const useProject = (
     (data: PostData) => api.post('/projects', data),
     {
       onSuccess: () => {
-        router.push('/').then(() => refetch());
+        router.push('/').then(() => {
+          refetch();
+          infinityRefetch();
+          topLikeProjectRefecth();
+          topViewProjectRefecth();
+        });
       },
       onError: () => {
         alert('잠시 후에 다시 시도해주세요.');
