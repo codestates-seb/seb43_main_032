@@ -1,12 +1,9 @@
-//회원가입 페이지 입니다. 경로 '/user/signup/'
 import styled from 'styled-components';
 import AuthContainer from '@/components/authAction/AuthContainer';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 import Image from 'next/image';
 import loginImg from '../../../public/images/loginImg.svg';
-
-//로그인 페이지 입니다. 경로 '/user/login/'
 
 const SignUp = () => {
   const router = useRouter();

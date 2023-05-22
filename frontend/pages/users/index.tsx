@@ -4,11 +4,10 @@ import UserCard from '@/components/user/UserCard';
 import useUser from '@/hooks/react-query/useUser';
 import { User, UserState } from '@/types/user';
 import { useRouter } from 'next/router';
-import { ChangeEvent, useEffect, useState } from 'react';
+import { ChangeEvent, useState } from 'react';
 import styled from 'styled-components';
 import { BiSearch } from 'react-icons/bi';
 import { useQueryClient } from 'react-query';
-//유저 페이지 입니다. 경로 '/user/'
 
 const Wrapper = styled.div`
   padding: 20px;
@@ -104,7 +103,6 @@ const Users = () => {
     searchUserByKeyword: { data: searchedUsers, isLoading: searchUserLoading },
   } = useUser({ page, pageSize: size, keyword });
 
-  const router = useRouter();
   const handleChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
     setInputValue(e.target.value);
   };
@@ -114,14 +112,6 @@ const Users = () => {
       setKeyword(inputValue);
     }
   };
-
-  // useEffect(() => {
-  //   window.scrollTo({
-  //     top: 670,
-  //     left: 0,
-  //     behavior: 'smooth',
-  //   });
-  // }, [router]);
 
   // useEffect(() => {
   //   if (allUserLoading) return;

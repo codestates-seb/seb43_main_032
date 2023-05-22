@@ -6,7 +6,8 @@ import useUser from '@/hooks/react-query/useUser';
 import { useRouter } from 'next/router';
 import styled from 'styled-components';
 import GridBox from '@/components/common_box/GridBox';
-import { dummyUser } from './edit';
+import { getCookie } from '@/util/cookie';
+import { useEffect } from 'react';
 
 const LeftColumn = styled.div`
   position: relative;
@@ -89,7 +90,11 @@ export default function me() {
     getMyInfo: { data: user },
   } = useUser({});
   const router = useRouter();
-  user && console.log(user.techList);
+  useEffect(() => {
+    if (!getCookie('accessToken')) {
+      router.push('/404').then(() => alert('로그인을 부탁드려요.'));
+    }
+  }, []);
 
   const handleClick = () => {
     router.push('/users/me/edit');
