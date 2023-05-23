@@ -34,6 +34,9 @@ const Users = () => {
   //filter 상태
   const [filter, setFilter] = useState(-1);
   const filterHandler = (idx: number) => {
+    if (filter === idx) {
+      return setFilter(-1); //다시 한 번 필터가 눌렸을 땐, 전체 카드가 조회되기위해
+    }
     setFilter(idx);
   };
 
