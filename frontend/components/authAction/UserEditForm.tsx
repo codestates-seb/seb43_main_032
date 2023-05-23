@@ -23,6 +23,7 @@ export default function UserEditForm({ user }: { user: User }) {
   const [imgPreview, setImgPreview] = useState<string>('');
   const [stacks, setStacks] = useState<Tech[]>(user.techList);
   const [filter, setFilter] = useState(index);
+  const [submitLoading, setSubmitLoading] = useState(false);
   const filterHandler = (idx: number) => {
     if (filter === idx) {
       return setFilter(-1); //다시 한 번 필터가 눌렸을 땐, 전체 카드가 조회되기위해
@@ -33,13 +34,20 @@ export default function UserEditForm({ user }: { user: User }) {
   const router = useRouter();
 
   const onValid = async (data: any) => {
+    setSubmitLoading(true);
     data.position = POST_COMMUNITY_CATEGORY[POSITIONS[filter]];
     await mergeData(data, image, stacks);
     const updatedData = updateData(user, data);
 
     updateUser.mutate(updatedData, {
       onSuccess: () => {
+        alert('정보가 수정 되었습니다.');
         router.push('/users/me');
+      },
+      onError: (error) => {
+        console.error(error);
+        alert('정보 수정에 실패했습니다.');
+        setSubmitLoading(false);
       },
     });
   };
@@ -122,7 +130,9 @@ export default function UserEditForm({ user }: { user: User }) {
         register={register('phone')}
       />
       <ButtonBox>
-        <Button>Submit</Button>
+        <Button disabled={submitLoading}>
+          {submitLoading ? 'Loading..' : 'Submit'}
+        </Button>
       </ButtonBox>
     </Form>
   );
