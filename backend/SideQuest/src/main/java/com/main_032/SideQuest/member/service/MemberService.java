@@ -46,6 +46,8 @@ public class MemberService {
         List<String> roles = authorityUtils.createRoles(member.getEmail());
         member.updateRoles(roles);
         member = memberRepository.save(member);
+
+        // 회원 가입 시 기본 이미지
         Long num = member.getId() % 10;
         if(num == 0) member.updateProfileImageUrl("https://github.com/codestates-seb/seb43_main_032/assets/118104644/d654f2fe-5f35-467c-96cb-6f5cf3dbd048");
         else if(num == 1) member.updateProfileImageUrl("https://github.com/codestates-seb/seb43_main_032/assets/118104644/9eb8d8c3-1026-4b8f-a4a7-346e9baded60");
@@ -58,7 +60,6 @@ public class MemberService {
         else if(num == 8) member.updateProfileImageUrl("https://github.com/codestates-seb/seb43_main_032/assets/118104644/eda3ece7-a13b-4b5d-a784-371b9aa86c55");
         else member.updateProfileImageUrl("https://github.com/codestates-seb/seb43_main_032/assets/118104644/ad6bcb4c-bb23-4b35-ad4b-0503d6c74c91");
 
-//        memberRepository.save(member);
         return;
     }
 
@@ -165,5 +166,25 @@ public class MemberService {
         member.plusStars(starPostDto.getStar());
         memberRepository.save(member);
         return;
+    }
+
+    public Member findByEmail(String email) {
+        Optional<Member> findMember = memberRepository.findByEmail(email);
+        Member member = findMember.orElseThrow(() -> new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
+        return member;
+    }
+
+    public Member makeOAuth2Member(String name, String email, String image) {
+        Member member = new Member();
+        member.updateName(name);
+        member.updateEmail(email);
+        member.updateProfileImageUrl(image);
+        return member;
+    }
+
+    @Transactional
+    public Member saveMember(Member member) {
+        member = memberRepository.save(member);
+        return member;
     }
 }
