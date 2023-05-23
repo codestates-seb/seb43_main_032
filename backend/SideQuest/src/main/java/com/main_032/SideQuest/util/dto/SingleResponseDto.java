@@ -17,4 +17,8 @@ public class SingleResponseDto<T> {
         this.data = data;
         this.exceptionMsg = exceptionMsg;
     }
+
+    public SingleResponseDto(ExceptionMsg exceptionMsg) {
+        this.exceptionMsg = exceptionMsg;
+    }
 }
