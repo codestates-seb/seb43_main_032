@@ -3,13 +3,13 @@ import { getCookie } from '../cookie';
 
 axios.defaults.withCredentials = true;
 
-const baseURL =
-  process.env.NODE_ENV === 'production'
-    ? process.env.NEXT_RESOURCE_URL
-    : 'https://www.side-quest-1.com';
+// const baseURL =
+//   process.env.NODE_ENV === 'production'
+//     ? process.env.NEXT_RESOURCE_URL
+//     : 'https://www.side-quest-1.com';
 
 const api = axios.create({
-  baseURL,
+  baseURL: 'https://www.side-quest-1.com',
   timeout: 3000,
   withCredentials: true,
   headers: {

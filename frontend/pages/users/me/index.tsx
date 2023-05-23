@@ -7,7 +7,6 @@ import styled from 'styled-components';
 import GridBox from '@/components/common_box/GridBox';
 import { getCookie } from '@/util/cookie';
 import { useEffect } from 'react';
-
 export default function me() {
   const {
     getMyInfo: { data: user },
@@ -55,17 +54,6 @@ export default function me() {
                     </>
                   }
                 />
-                {/* <InfoContainer
-                  keyNode={'기술스텍'}
-                  contentNode={
-                    <StackContainer>
-                      {user.techList.map((stack) => (
-                        <Stack key={stack} tech={stack} />
-                        // <p>{stack}</p>
-                      ))}
-                    </StackContainer>
-                  }
-                /> */}
               </ProfileContainer>
               <div className="info-box">
                 <InfoContainer
@@ -80,8 +68,7 @@ export default function me() {
                 />
               </div>
             </UserInfo>
-            <UserContentsBox contentTitle={['프로젝트', '게시글']} />
-            <UserContentsBox contentTitle={['프로젝트 댓글', '게시글 댓글']} />
+            <UserContentsBox contentTitle={['프로젝트', '게시글', '답글']} />
           </RightColumn>
         </GridBox>
       )}
