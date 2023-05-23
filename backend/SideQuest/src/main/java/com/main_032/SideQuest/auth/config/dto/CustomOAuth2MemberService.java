@@ -30,16 +30,24 @@ public class CustomOAuth2MemberService implements OAuth2UserService<OAuth2UserRe
         OAuth2UserService delegate = new DefaultOAuth2UserService();
         OAuth2User oAuth2User = delegate.loadUser(userRequest); // OAuth 서비스(kakao, google, naver)에서 가져온 유저 정보를 담고있음
 
+        //서비스 구분을 위한 코드(google, kakao, naver)
         String registrationId = userRequest.getClientRegistration().getRegistrationId(); // OAuth 서비스 이름(ex. kakao, naver, google)
-        String userNameAttributeName = userRequest.getClientRegistration().getProviderDetails().getUserInfoEndpoint().getUserNameAttributeName();
-         // OAuth 로그인 시 키(pk)가 되는 값
-        OAuthAttributes attributes = OAuthAttributes.of(registrationId, userNameAttributeName, oAuth2User.getAttributes());
+        // OAuth 로그인 시 키(pk)가 되는 값
+        String userNameAttributeName = userRequest.getClientRegistration()
+                .getProviderDetails()
+                .getUserInfoEndpoint()
+                .getUserNameAttributeName();
+        //OAuth2UserService를 통해 가져온 OAuth2User의 attribute를 담을 클래스
+        OAuthAttributes attributes = OAuthAttributes.of(registrationId, userNameAttributeName,
+                oAuth2User.getAttributes());
 
+        //신규회원인지 기존회원인지 확인
         Member member = saveOrUpdate(attributes);
 
+        //세션에 사용자 정보 저장 dto클래스
         httpSession.setAttribute("member", new SessionMember(member));
 
-        return new DefaultOAuth2User(Collections.singleton(new SimpleGrantedAuthority(member.getRoleKey())),
+        return new DefaultOAuth2User(Collections.singleton(new SimpleGrantedAuthority(member.getRoleKey().name())),
                 attributes.getAttributes(),
                 attributes.getNameAttributeKey());
     }
