@@ -161,7 +161,7 @@ type FilterButtonProps = {
   filter: number;
 };
 
-const FilterButton = styled.button<FilterButtonProps>`
+export const FilterButton = styled.button<FilterButtonProps>`
   font-family: 'Pretendard';
   background-color: ${(props) =>
     props.idx === props.filter

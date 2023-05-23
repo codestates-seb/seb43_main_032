@@ -7,11 +7,19 @@ import styled from 'styled-components';
 import EditInput from './EditInput';
 import SelectStack from '../stack/SelectStack';
 import { useRouter } from 'next/router';
+import { POSITIONS } from '@/constant/constant';
 
 export default function UserEditForm({ user }: { user: any }) {
   const { register, handleSubmit, watch } = useForm();
   const [imgPreview, setImgPreview] = useState<string>('');
   const [stacks, setStacks] = useState<Tech[]>([]);
+  const [filters, setFilters] = useState<number[]>([]);
+  const filterHandler = (idx: number) => {
+    filters.includes(idx)
+      ? setFilters((prev) => prev.filter((el) => el !== idx))
+      : setFilters((prev) => [...prev, idx]);
+  };
+
   const image = watch('image');
   const router = useRouter();
 
@@ -84,11 +92,21 @@ export default function UserEditForm({ user }: { user: any }) {
         placeholder={user.aboutMe}
         register={register('aboutMe')}
       />
-      <EditInput
-        label="Position"
-        placeholder={user.position}
-        register={register('position')}
-      />
+
+      <Label>Position</Label>
+      <PositionBox>
+        {POSITIONS.map((position, idx) => (
+          <FilterButton
+            type="button"
+            idx={idx}
+            filters={filters}
+            onClick={() => filterHandler(idx)}
+            key={position}
+          >
+            {position}
+          </FilterButton>
+        ))}
+      </PositionBox>
       <EditInput
         label="Location"
         placeholder={user.location}
@@ -157,6 +175,10 @@ const ProfileBox = styled.div`
     width: 100%;
   }
 `;
+const PositionBox = styled.div`
+  display: flex;
+  gap: 5px;
+`;
 const ButtonBox = styled.div`
   display: flex;
   width: 100%;
@@ -172,4 +194,25 @@ const Button = styled.button.attrs({ className: 'nanum-bold' })`
 const Label = styled.p.attrs({ className: 'nanum-bold' })`
   padding-top: 20px;
   padding-bottom: 10px;
+`;
+
+type FilterButtonProps = {
+  idx: number;
+  filters: number[];
+};
+
+const FilterButton = styled.button<FilterButtonProps>`
+  font-family: 'Pretendard';
+  background-color: ${(props) =>
+    props.filters.includes(props.idx)
+      ? '#6333ff'
+      : '#9880e9;'}; //필터가 눌린다면 색깔 부여
+  color: white;
+  border-radius: 5px;
+  padding: 10px;
+  font-size: 14px;
+  cursor: pointer;
+  -webkit-transition: background 0.5s ease, color 0.5s ease;
+  transition: background 0.5s ease, color 0.5s ease;
+  border: none;
 `;
