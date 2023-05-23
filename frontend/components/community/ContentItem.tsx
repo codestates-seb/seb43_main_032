@@ -44,20 +44,24 @@ export default function ContentItem(article: Community) {
             </button>
           ) : (
             <button>
-              <span>{article.totalLikes}</span>
+              <span>
+                {article.totalLikes > 1000 ? '999+' : article.totalLikes}
+              </span>
               <FaHeart />
             </button>
           )}
         </div>
         <div>
           <button>
-            <span>{article.view}</span>
+            <span>{article.view > 1000 ? '999+' : article.view}</span>
             <FaEye color="#909090" />
           </button>
         </div>
         <div>
           <button>
-            <span>{article.totalAnswers}</span>
+            <span>
+              {article.totalAnswers > 1000 ? '999+' : article.totalAnswers}
+            </span>
             <FaComment color="#909090" />
           </button>
         </div>
@@ -74,7 +78,6 @@ const Container = styled.div`
   justify-content: space-between;
   background-color: white;
   font-size: 15px;
-  margin-bottom: 20px;
   padding: 10px 15px;
   border-radius: 10px;
   box-shadow: 6px 6px 15px #efefef, -6px -6px 15px #f5f5f5;
@@ -139,7 +142,7 @@ const Center = styled.div`
   flex-direction: column;
   justify-content: space-between;
   padding: 10px 0px;
-  width: 75%;
+  width: 80%;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -176,13 +179,13 @@ const Center = styled.div`
 
 const Right = styled.div`
   display: flex;
-  width: 15%;
+  width: 10%;
   flex-direction: column;
   justify-content: start;
   align-items: end;
 
   button {
-    min-width: 50px;
+    min-width: 60px;
     display: flex;
     gap: 4px;
     justify-content: space-between;
