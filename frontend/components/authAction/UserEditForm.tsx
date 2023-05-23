@@ -119,7 +119,6 @@ const ImgWrapper = styled.div`
   margin-right: 80px;
   margin-top: 30px;
   background-color: #cbcbcb;
-
   div {
     position: absolute;
     bottom: 10px;
