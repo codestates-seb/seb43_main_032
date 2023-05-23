@@ -22,6 +22,18 @@ spring:
     documentation:
       swagger-ui:
         host: localhost:8080
+  # OAuth2
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            clientId: ${SIDEQUEST_GOOGLE_CLIENT_ID}
+            clientSecret: ${SIDEQUEST_GOOGLE_CLIENT_SECRET}
+            scope:
+              - email
+              - profile
+
 #JWT
 mail:
   address:
