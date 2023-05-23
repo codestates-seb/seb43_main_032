@@ -67,8 +67,10 @@ const Box = styled.footer`
 
   .sub-btn {
     max-width: 140px;
-    text-align: center;
     font-size: 12px;
+  }
+  .sub-btn-top {
+    padding: 0;
   }
 
   > div {
