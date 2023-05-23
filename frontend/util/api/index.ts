@@ -6,10 +6,10 @@ axios.defaults.withCredentials = true;
 const baseURL =
   process.env.NODE_ENV === 'production'
     ? process.env.NEXT_RESOURCE_URL
-    : 'http://www.side-quest-1.com:8080';
+    : 'https://www.side-quest-1.com';
 
 const api = axios.create({
-  baseURL: 'http://www.side-quest-1.com:8080',
+  baseURL,
   timeout: 3000,
   withCredentials: true,
   headers: {
