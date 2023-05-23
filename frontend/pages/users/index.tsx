@@ -130,7 +130,7 @@ const FilterButton = styled.button`
 `;
 const CardWrapper = styled.div`
   display: grid;
-  min-height: 63vh;
+  min-height: 65.5vh;
   width: 100%;
   gap: 10px;
   margin-bottom: 50px;

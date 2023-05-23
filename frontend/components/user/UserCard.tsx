@@ -100,8 +100,11 @@ const StackWrapper = styled.ul`
   display: flex;
   flex-wrap: wrap;
   gap: 4px;
-  min-height: 24px;
+  height: 24px;
   margin-top: 6px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 
   @media (min-width: 768px) {
     justify-content: center;

@@ -1,13 +1,12 @@
-import styled, { keyframes } from 'styled-components';
+import styled from 'styled-components';
 import { BannerProps } from '@/types/types';
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { FaCaretSquareLeft, FaCaretSquareRight } from 'react-icons/fa';
 import { useRouter } from 'next/router';
 import HomeBanner from './HomeBanner';
-import CommuBanner from './CommuBanner';
 import BannerText from './BannerText';
 
 const CustomDot = ({
