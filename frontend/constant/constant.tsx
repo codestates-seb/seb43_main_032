@@ -182,11 +182,11 @@ export const FOOTER_DATA: FooterData = {
     { name: '제휴문의 help@sideQues.com', link: '' },
     { name: 'Copyright©2023 SideQuest.All rights reserved.', link: '' },
   ],
-  about: [{ name: 'SideQuest 소개', link: '/' }],
+  about: [{ name: 'SideQuest 소개', link: '/project' }],
   service: [
     { name: '프로젝트 등록', link: '/project/create' },
     { name: '프로젝트 찾기', link: '/project' },
-    { name: '프로젝트 지원', link: '' },
+    { name: '프로젝트 지원', link: '/project' },
   ],
   support: [
     { name: '서비스 이용약관', link: '' },
