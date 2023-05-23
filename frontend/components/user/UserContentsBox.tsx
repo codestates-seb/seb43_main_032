@@ -40,7 +40,6 @@ export default function UserContentsBox({ contentTitle, contents }: IProps) {
     }
   }, [lastUrl, me]);
 
-  id && console.log('id', id);
   if (id === 0) return <h1>Loading...</h1>;
   return (
     <Wrapper>

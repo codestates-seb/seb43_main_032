@@ -12,6 +12,8 @@ interface IProps {
   keyword?: string | undefined;
   page?: number;
   pageSize?: number;
+  userPage?: number;
+  userPageSize?: number;
   projectData?: Project[];
   communityData?: Community[];
 }
@@ -21,14 +23,17 @@ export default function useUser({
   keyword,
   page,
   pageSize,
+  userPage,
+  userPageSize,
   projectData,
   communityData,
 }: IProps) {
   // const setIsLoggedIn = useSetRecoilState(userStatus);
   // const queryClient = useQueryClient();
-  console.log('projectData hook', projectData);
 
-  const userQuery = useQuery(['users', page], () => getUsers(page, pageSize));
+  const userQuery = useQuery(['users', userPage], () =>
+    getUsers(userPage, userPageSize)
+  );
 
   const getMyInfo = useQuery(['users', 'me'], getMe);
 
@@ -76,6 +81,7 @@ async function getUsers(
       size: pageSize,
     },
   });
+  console.log(response.data.data);
   return response.data.data;
 }
 async function getMe() {
@@ -101,7 +107,6 @@ const getUserProjects = async (
     return;
   }
   const startIdx = (page - 1) * pageSize;
-  console.log('projectData', projectData);
   return (
     projectData &&
     projectData
