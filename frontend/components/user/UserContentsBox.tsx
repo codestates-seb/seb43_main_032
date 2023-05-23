@@ -45,7 +45,12 @@ export default function UserContentsBox({ contentTitle, contents }: IProps) {
     <Wrapper>
       <Category>
         {contentTitle.map((title) => (
-          <FilterBtn name={title} filter={filter} onClick={handleClick}>
+          <FilterBtn
+            key={title}
+            name={title}
+            filter={filter}
+            onClick={handleClick}
+          >
             {title}
           </FilterBtn>
         ))}

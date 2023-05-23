@@ -10,8 +10,10 @@ import { useRouter } from 'next/router';
 import { POSITIONS, POST_COMMUNITY_CATEGORY } from '@/constant/constant';
 import { FilterButton } from '@/pages/users';
 import { User } from '@/types/user';
+import useUser from '@/hooks/react-query/useUser';
 
 export default function UserEditForm({ user }: { user: User }) {
+  const { updateUser } = useUser({});
   const initialPosition = Object.keys(POST_COMMUNITY_CATEGORY).find(
     (key) => POST_COMMUNITY_CATEGORY[key] === user.position
   );
@@ -32,22 +34,14 @@ export default function UserEditForm({ user }: { user: User }) {
 
   const onValid = async (data: any) => {
     data.position = POST_COMMUNITY_CATEGORY[POSITIONS[filter]];
-    console.log(POSITIONS[filter]);
-    console.log(POST_COMMUNITY_CATEGORY[POSITIONS[filter]]);
     await mergeData(data, image, stacks);
     const updatedData = updateData(user, data);
-    console.log('change to ', updatedData);
 
-    api
-      .patch('/members', updatedData) //
-      .then((res) => {
-        console.log(res.status);
-        if (res.status === 200) {
-          router.push('/users/me');
-          //쿼리 키 무효화 필요
-          //로딩 시 버튼 변화 필요
-        }
-      });
+    updateUser.mutate(updatedData, {
+      onSuccess: () => {
+        router.push('/users/me');
+      },
+    });
   };
   const onInValid = (errors: FieldErrors) => {
     console.log(errors);
@@ -56,7 +50,6 @@ export default function UserEditForm({ user }: { user: User }) {
   useEffect(() => {
     if (image && image.length > 0) {
       setImgPreview(URL.createObjectURL(image[0]));
-      console.log(image);
     }
   }, [image]);
 

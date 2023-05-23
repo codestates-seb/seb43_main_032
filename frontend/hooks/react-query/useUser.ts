@@ -2,8 +2,7 @@ import { Project } from '@/types/project';
 import { UserState } from '@/types/user';
 import { api } from '@/util/api';
 import axios from 'axios';
-import { useQuery } from 'react-query';
-import { useAllData } from './useAllData';
+import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { Community } from '@/types/community';
 // import { useRecoilState, useSetRecoilState } from 'recoil';
 
@@ -29,7 +28,7 @@ export default function useUser({
   communityData,
 }: IProps) {
   // const setIsLoggedIn = useSetRecoilState(userStatus);
-  // const queryClient = useQueryClient();
+  const queryClient = useQueryClient();
 
   const userQuery = useQuery(['users', userPage], () =>
     getUsers(userPage, userPageSize)
@@ -55,6 +54,15 @@ export default function useUser({
   const allProjcetsQuery = useQuery(['projects', 'all'], () =>
     api(`/projects/findAll?size=1000&page=1`).then((res) => res.data.data)
   );
+  const updateUser = useMutation(
+    (updatedData: { [key: string]: any }) => api.patch('/members', updatedData),
+    {
+      onSuccess: () => {
+        // 수정이 성공하면 'users' 쿼리를 무효화하여 다시 가져옵니다.
+        queryClient.invalidateQueries(['users', 'me']);
+      },
+    }
+  );
 
   return {
     userQuery, //
@@ -64,6 +72,7 @@ export default function useUser({
     getProjectByUserId,
     getPostsByUserId,
     allProjcetsQuery,
+    updateUser,
   };
 }
 
