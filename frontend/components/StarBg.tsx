@@ -19,6 +19,7 @@ const Container = styled.div`
   top: 0;
   background: black;
   overflow: hidden;
+  opacity: 0.5;
 `;
 
 const Stars1 = styled.div`
