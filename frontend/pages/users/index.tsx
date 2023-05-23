@@ -17,7 +17,7 @@ const Users = () => {
   const {
     userQuery: { data: users, isLoading: allUserLoading },
     searchUserByKeyword: { data: searchedUsers, isLoading: searchUserLoading },
-  } = useUser({ page, pageSize: size, keyword });
+  } = useUser({ userPage: page, userPageSize: size, keyword });
 
   //페이지네이션 크기
   const pageSize = Math.ceil(size / 24);
