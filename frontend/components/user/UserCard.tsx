@@ -149,7 +149,6 @@ interface IProps {
   user: User;
 }
 export default function UserCard({ user }: IProps) {
-  console.log(user.techList);
   return (
     <Group>
       <Link href={`users/${user.memberId}`}>
