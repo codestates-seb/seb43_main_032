@@ -92,12 +92,14 @@ const CommentItem = ({
           </div>
         </div>
         <div onClick={likeHandler} className="right">
+          <div className="like-num">
+            {comment.totalLikes > 100 ? '99+' : comment.totalLikes}
+          </div>
           {comment.liked ? (
             <RiThumbUpFill size={12} />
           ) : (
             <RiThumbUpLine size={12} />
           )}
-          <div className="like-num">{comment.totalLikes}</div>
         </div>
       </div>
       <div className="middle">
@@ -175,12 +177,15 @@ const Box = styled.div`
       align-items: center;
       gap: 8px;
       padding: 4px 5px;
+      min-width: 55px;
       border: 1px solid rgb(215, 226, 235);
       border-radius: 5px;
       cursor: pointer;
 
       .like-num {
         font-size: 12px;
+        flex: 1;
+        text-align: end;
       }
     }
   }

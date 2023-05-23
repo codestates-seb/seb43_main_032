@@ -156,6 +156,12 @@ const ProjectForm = () => {
         '프로젝트 작성'
       );
     }
+    if (stacks.length === 0) {
+      return errorAlert(
+        '메인 스택은 최소 1개 이상 등록해주세요.',
+        '프로젝트 작성'
+      );
+    }
     if (watch().title === '') {
       return errorAlert('제목을 입력해주세요.', '프로젝트 작성');
     }
