@@ -25,16 +25,24 @@ const Banner = () => {
     <Container router={router}>
       <Scene id="scene">
         <Layer data-depth="1">
-          <Image src={checkSrc()[0]} alt="Space-BP" />
+          <ImgBox>
+            <div className={`bg-${checkSrc()[0]}`}></div>
+          </ImgBox>
         </Layer>
         <Layer data-depth="-1">
-          <Image src={checkSrc()[1]} alt="Space-RP" />
+          <ImgBox>
+            <div className={`bg-${checkSrc()[1]}`}></div>
+          </ImgBox>
         </Layer>
         <Layer data-depth="2">
-          <Image src={checkSrc()[2]} alt="Space-PP" />
+          <ImgBox>
+            <div className={`bg-${checkSrc()[2]}`}></div>
+          </ImgBox>
         </Layer>
         <Layer data-depth="0.5">
-          <Image src={checkSrc()[3]} alt="Space-Meteors" />
+          <ImgBox>
+            <div className={`bg-${checkSrc()[3]}`}></div>
+          </ImgBox>
         </Layer>
         <Layer data-depth=".1"></Layer>
       </Scene>
@@ -48,11 +56,9 @@ interface ContainerProps {
 
 const Container = styled.div<ContainerProps>`
   width: 100%;
-  height: 100%;
+  height: 660px;
   overflow: hidden;
-  background-image: ${({ router }) => BANNER_BACKGROUND_IMAGES[router] || ''};
-  background-attachment: fixed;
-  background-size: cover;
+  background: ${({ router }) => BANNER_BACKGROUND_IMAGES[router] || ''};
 `;
 
 const Scene = styled.ul`
@@ -65,13 +71,29 @@ const Layer = styled.li`
   width: 100%;
 `;
 
-const Image = styled.img`
+const ImgBox = styled.div`
   width: auto;
   height: 100vh;
   position: absolute;
   top: 50%;
   left: 50%;
+  z-index: 3;
   transform: translate(-50%, -50%);
 `;
 
 export default Banner;
+
+{
+  /* <Layer data-depth="1">
+<ImgBox src={checkSrc()[0]} alt="Space-BP" />
+</Layer>
+<Layer data-depth="-1">
+<ImgBox src={checkSrc()[1]} alt="Space-RP" />
+</Layer>
+<Layer data-depth="2">
+<ImgBox src={checkSrc()[2]} alt="Space-PP" />
+</Layer>
+<Layer data-depth="0.5">
+<ImgBox src={checkSrc()[3]} alt="Space-Meteors" />
+</Layer> */
+}
