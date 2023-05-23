@@ -62,7 +62,7 @@ export default function Content() {
 
   if (communityError) return <Message>잠시 후 다시 시도해주세요.</Message>;
   return (
-    <Container>
+    <>
       <ContentTop>
         <SearchInput
           placeholder="검색어를 입력하세요."
@@ -96,14 +96,9 @@ export default function Content() {
         )}
         <Pagenation page={page} onPageChange={setPage} pageSize={pageSize} />
       </ContentBottom>
-    </Container>
+    </>
   );
 }
-
-const Container = styled.div`
-  width: 100%;
-  padding-top: 0;
-`;
 
 const ContentTop = styled.div`
   width: 100%;
@@ -113,6 +108,14 @@ const ContentTop = styled.div`
   padding: 0 20px;
   padding-bottom: 0px;
   gap: 12px;
+  div {
+    transition: all 0.2s ease-in-out;
+    background: #9b7aff;
+
+    :hover {
+      background: #8217f3;
+    }
+  }
   @media (max-width: 768px) {
     flex-direction: column;
   }
@@ -125,10 +128,9 @@ const SearchInput = styled.input`
   padding: 10px 22px;
   min-width: 240px;
   color: #5393fa;
-
   &:focus,
   :active {
-    outline: solid 3px #c4c4c4;
+    outline: none;
   }
   &::placeholder {
     color: #cfcfcf;
@@ -138,7 +140,7 @@ const SearchInput = styled.input`
 const SearchBtn = styled.button`
   border-radius: 4px;
   min-width: 104px;
-  background: #96bfff;
+  background: #9b7aff;
   padding: 10px 16px;
   color: #fff;
   outline: none;
@@ -148,8 +150,7 @@ const SearchBtn = styled.button`
   text-decoration: none;
   &:hover {
     transition: all 0.2s ease-in-out;
-    background: #fff;
-    color: #010606;
+    background: #8217f3;
   }
 `;
 
@@ -157,17 +158,18 @@ const ContentBottom = styled.div`
   width: 100%;
   padding: var(--padding-2);
   background: #ffffff;
-  border-radius: var(--radius-xl);
-  position: relative;
   top: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
 `;
 
 const ContentItemList = styled.div`
   width: 100%;
   min-height: 80vh;
   border-radius: var(--radius-def);
-
-  padding-top: 0px;
+  padding: 0px 20px;
+  gap: 20px;
   display: flex;
   flex-direction: column;
   justify-content: start;

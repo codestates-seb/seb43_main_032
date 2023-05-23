@@ -103,19 +103,21 @@ const ProjectCard = ({ data, size }: Props) => {
               <span>
                 <AiFillHeart fill="red" />
               </span>
-              <span>{heartCount}</span>
+              <span>{heartCount > 1000 ? '999+' : heartCount}</span>
             </div>
             <div className="infor-box">
               <span>
                 <GrView />
               </span>
-              <span>{data.views}</span>
+              <span>{data.views > 1000 ? '999+' : data.views}</span>
             </div>
             <div className="infor-box">
               <span>
                 <FaComment color="#909090" />
               </span>
-              <span>{data.totalAnswers}</span>
+              <span>
+                {data.totalAnswers > 1000 ? '999+' : data.totalAnswers}
+              </span>
             </div>
           </div>
         </div>

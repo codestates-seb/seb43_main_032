@@ -231,3 +231,46 @@ export const TAG_COLOR = [
   { type: 'hover', name: '마감', color: 'white', backgroundColor: '#5b24ff' },
   { type: 'hover', name: '취소', color: 'white', backgroundColor: '#ec5353' },
 ];
+
+export const bannerBackgroundImages: { [key: string]: string } = {
+  '/': "url('https://i.postimg.cc/c4zCYgjS/Space-BG.png')",
+  '/community':
+    "url('https://github.com/codestates-seb/seb43_main_032/assets/118104644/adb4296f-a95d-4a17-9822-47d3032d750e')",
+  '/project':
+    "url('https://github.com/codestates-seb/seb43_main_032/assets/118104644/aa7be7d5-91e3-458e-8f22-0010d3e24025')",
+  '/users':
+    'url(https://github.com/codestates-seb/seb43_main_032/assets/118104644/7fb4d6e9-0824-4607-8c81-cb868ea78c47)',
+};
+
+export const bannerImageUrls: { [key: string]: string[] } = {
+  '/': [
+    'https://i.postimg.cc/44LxkHX9/Space-BP.png',
+    'https://i.postimg.cc/vH4HQ8mS/Space-RP.png',
+    'https://i.postimg.cc/RV2Cqr6C/Space-PP.png',
+    'https://i.postimg.cc/fyrzxp8K/Space-Meteors.png',
+  ],
+  '/community': [
+    'https://github.com/codestates-seb/seb43_main_032/assets/118104644/125dc4ef-735e-4bae-94aa-73b613c2be14',
+    'https://github.com/codestates-seb/seb43_main_032/assets/118104644/9f8d0a08-83c4-4189-b4bf-cd5acbcf6168',
+    'https://github.com/codestates-seb/seb43_main_032/assets/118104644/a991fdf0-6d26-42b3-8c20-f9c7b285638b',
+    'https://github.com/codestates-seb/seb43_main_032/assets/118104644/93d290c9-b882-4ced-8b3b-e842b3fd12d4',
+  ],
+  '/project': [
+    'https://github.com/codestates-seb/seb43_main_032/assets/118104644/db86d318-53b3-4352-9f48-877ecf86399a',
+    '',
+    'https://github.com/codestates-seb/seb43_main_032/assets/118104644/152697f1-a6a0-44eb-b376-8b292c705cf4',
+    'https://github.com/codestates-seb/seb43_main_032/assets/118104644/092aa01d-edec-4266-95d5-b131247e328c',
+  ],
+  '/users': [
+    'https://github.com/codestates-seb/seb43_main_032/assets/118104644/d47404b5-f890-4b26-bdcb-c31a89a83890',
+    'https://github.com/codestates-seb/seb43_main_032/assets/118104644/08f59335-1efc-4b9e-9530-3a4a638512ab',
+    'https://github.com/codestates-seb/seb43_main_032/assets/118104644/e0199dee-fc0e-4f23-86f4-7ec4688fba55',
+  ],
+};
+
+export const bannerTexts: { [key: string]: string } = {
+  '/': 'SIDE QUEST',
+  '/community': 'COMMUNITY',
+  '/project': 'PROJECT',
+  '/users': 'USERS',
+};

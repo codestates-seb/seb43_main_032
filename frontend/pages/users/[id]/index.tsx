@@ -65,6 +65,23 @@ const UserInfoContainer = styled.div`
   align-items: center;
   padding: 20px 20px 36px 20px;
 
+  .user-box {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+
+    .tag {
+      padding: 10px;
+      color: #171717;
+      font-size: 14px;
+      transition: all .5s;
+
+      :hover {
+        color: white;
+      }
+    }
+  }
+
   img {
     width: 200px;
     height: 200px;

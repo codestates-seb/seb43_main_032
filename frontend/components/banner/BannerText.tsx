@@ -56,22 +56,36 @@ const PolkaDotsPattern = styled.pattern`
   }
 `;
 
+const strokeAnimation = keyframes`
+  0% {
+    stroke-dasharray: 0 50%;
+    stroke-dashoffset: 20%;
+    fill: white;
+  }
+  100% {
+    stroke-dasharray: 50% 0;
+    stroke-dashoffset: -20%;
+    fill: hsla(189, 68%, 75%, 0%);
+  }
+`;
+
 const Text = styled.text<TextProps>`
   letter-spacing: 10px;
-  stroke: #ffa5d8;
-  font-size: 60px;
+  stroke: ${({ text }) => {
+    if (text === 'SIDE QUEST') {
+      return 'rgba(228, 0, 190, 0.8)';
+    } else if (text === 'COMMUNITY') {
+      return 'rgb(25, 163, 255)';
+    } else if (text === 'PROJECT') {
+      return 'rgb(201,86,154)';
+    } else if (text === 'USERS') {
+      return 'rgb(158, 23, 255)';
+    } else {
+      return 'rgba(228, 0, 190, 0.8)';
+    }
+  }};
+  font-size: 70px;
   font-weight: 700;
-  stroke-width: 3;
-  animation: ${keyframes`
-    0% {
-      stroke-dasharray: 0 50%;
-      stroke-dashoffset: 20%;
-      fill: rgba(255, 0, 195, 0.8)
-    }
-    100% {
-      stroke-dasharray: 50% 0;
-      stroke-dashoffset: -20%;
-      fill: hsla(189, 68%, 75%, 0%);
-    }
-  `} 5s infinite alternate;
+  stroke-width: 5;
+  animation: ${strokeAnimation} 5s infinite alternate;
 `;

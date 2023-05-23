@@ -145,7 +145,7 @@ const Box = styled.div`
     top: 0px;
     justify-content: center;
     gap: 8px;
-    padding: 24px 0px;
+    padding: 8px 0px;
     background-color: white;
     z-index: 10;
     border-bottom: 1px solid #c3b3f5;

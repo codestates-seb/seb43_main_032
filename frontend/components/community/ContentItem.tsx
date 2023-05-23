@@ -2,9 +2,10 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import Tag from '../Tag';
 import { FaComment, FaEye, FaHeart, FaStar } from 'react-icons/fa';
-import { FiHeart } from 'react-icons/fi';
+import { FiHeart, FiMessageSquare } from 'react-icons/fi';
 import { Community } from '@/types/community';
 import { useRouter } from 'next/router';
+import { AiOutlineComment, AiOutlineEye } from 'react-icons/ai';
 
 export default function ContentItem(article: Community) {
   const router = useRouter();
@@ -40,25 +41,29 @@ export default function ContentItem(article: Community) {
           {view === true ? (
             <button onClick={() => onClick()}>
               <span>{article.totalLikes}</span>
-              <FiHeart color="#909090" />
+              <FiHeart color="rgb(130, 23, 243)" />
             </button>
           ) : (
             <button>
-              <span>{article.totalLikes}</span>
-              <FaHeart />
+              <span>
+                {article.totalLikes > 1000 ? '999+' : article.totalLikes}
+              </span>
+              <FaHeart color="rgb(130, 23, 243)" />
             </button>
           )}
         </div>
         <div>
           <button>
-            <span>{article.view}</span>
-            <FaEye color="#909090" />
+            <span>{article.view > 1000 ? '999+' : article.view}</span>
+            <AiOutlineEye color="rgb(130, 23, 243)" />
           </button>
         </div>
         <div>
           <button>
-            <span>{article.totalAnswers}</span>
-            <FaComment color="#909090" />
+            <span>
+              {article.totalAnswers > 1000 ? '999+' : article.totalAnswers}
+            </span>
+            <FiMessageSquare color="rgb(130, 23, 243)" />
           </button>
         </div>
       </Right>
@@ -67,20 +72,20 @@ export default function ContentItem(article: Community) {
 }
 
 const Container = styled.div`
-  width: 100%;
+  width: 90%;
   height: 120px;
   gap: 8px;
   display: flex;
-  justify-content: space-between;
+  justify-content: space-around;
   background-color: white;
   font-size: 15px;
-  margin-bottom: 20px;
   padding: 10px 15px;
   border-radius: 10px;
   box-shadow: 6px 6px 15px #efefef, -6px -6px 15px #f5f5f5;
   position: relative;
   overflow: hidden;
   cursor: pointer;
+  transition: all 2s ease-in-out;
 
   :hover {
     outline: 3px solid #ca66fc;
@@ -119,6 +124,12 @@ const Left = styled.div`
   justify-content: space-between;
   align-items: center;
 
+  .star-box {
+    border: solid 1px #ececec;
+    padding: 2px 5px;
+    border-radius: 5px;
+  }
+
   .name-box {
     font-size: 12px;
   }
@@ -128,6 +139,8 @@ const Left = styled.div`
   }
 
   > img {
+    border: solid 1px #ececec;
+    border-radius: 50%;
     width: 50px;
     height: 50px;
     object-fit: cover;
@@ -139,7 +152,7 @@ const Center = styled.div`
   flex-direction: column;
   justify-content: space-between;
   padding: 10px 0px;
-  width: 75%;
+  width: 70%;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -176,13 +189,13 @@ const Center = styled.div`
 
 const Right = styled.div`
   display: flex;
-  width: 15%;
+  width: 10%;
   flex-direction: column;
   justify-content: start;
   align-items: end;
 
   button {
-    min-width: 50px;
+    min-width: 60px;
     display: flex;
     gap: 4px;
     justify-content: space-between;

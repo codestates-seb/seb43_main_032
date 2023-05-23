@@ -5,6 +5,59 @@ import Link from 'next/link';
 import Stack from '../stack/Stack';
 import { User } from '@/types/user';
 import Tag from '../Tag';
+interface IProps {
+  user: User;
+}
+export default function UserCard({ user }: IProps) {
+  console.log(user.techList);
+  return (
+    <Group>
+      <Link href={`users/${user.memberId}`}>
+        <Wrapper>
+          <Overlay />
+          <CardWrapper>
+            <SubCardWrapper>
+              <ContentsContainer>
+                <AvatarContainer>
+                  {user.profileImageUrl ? (
+                    <img alt={user.name} src={user.profileImageUrl} />
+                  ) : (
+                    <img
+                      alt={user.name}
+                      src="https://pbs.twimg.com/media/FmynZRjWYAgEEpL.jpg"
+                    />
+                  )}
+                </AvatarContainer>
+                <InfoContainer>
+                  <p style={{ fontWeight: '600' }}>{user.name}</p>
+                  <LocationAndStars>
+                    <Tag className="tag">
+                      <FaLocationArrow />
+                      <p>Seoul</p>
+                    </Tag>
+                    <Tag className="tag">
+                      <AiFillStar size={20} style={{ color: 'gold' }} />
+                      <p>{123}</p>
+                    </Tag>
+                  </LocationAndStars>
+                </InfoContainer>
+              </ContentsContainer>
+              <StackWrapper>
+                {user.techList.length > 0 &&
+                  user.techList.map((stack) => (
+                    <Stack key={stack.tech} tech={stack.tech} />
+                  ))}
+              </StackWrapper>
+            </SubCardWrapper>
+            <CardFooter>
+              <AboutMe></AboutMe>
+            </CardFooter>
+          </CardWrapper>
+        </Wrapper>
+      </Link>
+    </Group>
+  );
+}
 
 const Wrapper = styled.div`
   position: relative;
@@ -47,7 +100,11 @@ const StackWrapper = styled.ul`
   display: flex;
   flex-wrap: wrap;
   gap: 4px;
+  height: 24px;
   margin-top: 6px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 
   @media (min-width: 768px) {
     justify-content: center;
@@ -75,12 +132,12 @@ const AvatarContainer = styled.div`
   overflow: hidden;
   border-radius: 5px;
   flex-shrink: 0;
+  border: solid 2px #ececec;
 
   @media (min-width: 768px) {
     width: 100px;
     height: 100px;
     border-radius: 100%;
-    background-color: skyblue;
   }
 `;
 const InfoContainer = styled.div`
@@ -145,55 +202,3 @@ const Group = styled.div`
     opacity: 1;
   }
 `;
-interface IProps {
-  user: User;
-}
-export default function UserCard({ user }: IProps) {
-  return (
-    <Group>
-      <Link href={`users/${user.memberId}`}>
-        <Wrapper>
-          <Overlay />
-          <CardWrapper>
-            <SubCardWrapper>
-              <ContentsContainer>
-                <AvatarContainer>
-                  {user.profileImageUrl ? (
-                    <img alt={user.name} src={user.profileImageUrl} />
-                  ) : (
-                    <img
-                      alt={user.name}
-                      src="https://pbs.twimg.com/media/FmynZRjWYAgEEpL.jpg"
-                    />
-                  )}
-                </AvatarContainer>
-                <InfoContainer>
-                  <p style={{ fontWeight: '600' }}>{user.name}</p>
-                  <LocationAndStars>
-                    <Tag className="tag">
-                      <FaLocationArrow />
-                      <p>Seoul</p>
-                    </Tag>
-                    <Tag className="tag">
-                      <AiFillStar size={20} style={{ color: 'gold' }} />
-                      <p>{123}</p>
-                    </Tag>
-                  </LocationAndStars>
-                </InfoContainer>
-              </ContentsContainer>
-              <StackWrapper>
-                {user.techList.length > 0 &&
-                  user.techList.map((stack) => (
-                    <Stack key={stack.tech} tech={stack.tech} />
-                  ))}
-              </StackWrapper>
-            </SubCardWrapper>
-            <CardFooter>
-              <AboutMe></AboutMe>
-            </CardFooter>
-          </CardWrapper>
-        </Wrapper>
-      </Link>
-    </Group>
-  );
-}

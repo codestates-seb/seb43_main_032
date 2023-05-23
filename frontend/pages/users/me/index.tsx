@@ -1,4 +1,3 @@
-import Stack from '@/components/stack/Stack';
 import InfoContainer from '@/components/user/InfoContainer';
 import UserContentsBox from '@/components/user/UserContentsBox';
 import UserInfoCard from '@/components/user/UserProfile';
@@ -8,6 +7,78 @@ import styled from 'styled-components';
 import GridBox from '@/components/common_box/GridBox';
 import { getCookie } from '@/util/cookie';
 import { useEffect } from 'react';
+import Tag from '@/components/Tag';
+
+export default function me() {
+  const {
+    getMyInfo: { data: user },
+  } = useUser({});
+  const router = useRouter();
+  useEffect(() => {
+    if (!getCookie('accessToken')) {
+      router.push('/404').then(() => alert('로그인을 부탁드려요.'));
+    }
+  }, []);
+
+  const handleClick = () => {
+    router.push('/users/me/edit');
+  };
+
+  return (
+    <>
+      {user && (
+        <GridBox>
+          <LeftColumn>
+            <UserInfoCard user={user} />
+            <EditButton onClick={handleClick}>
+              <Tag>edit</Tag>
+            </EditButton>
+          </LeftColumn>
+          <RightColumn>
+            <UserInfo>
+              <div className="title">개인 정보</div>
+              <ProfileContainer>
+                <InfoContainer
+                  keyNode={
+                    <AvatarContainer style={{ width: '70px', height: '70px' }}>
+                      {user.profileImageUrl ? (
+                        <img alt={user.name} src={user.profileImageUrl} />
+                      ) : (
+                        <img
+                          alt={user.name}
+                          src="https://pbs.twimg.com/media/FmynZRjWYAgEEpL.jpg"
+                        />
+                      )}
+                    </AvatarContainer>
+                  }
+                  contentNode={
+                    <>
+                      <p className="nanum-bold">{user.name}</p>
+                      <p className="noto-regular">프론트엔드</p>
+                    </>
+                  }
+                />
+              </ProfileContainer>
+              <div className="info-box">
+                <InfoContainer
+                  keyNode={'자기소개'}
+                  contentNode={user.aboutMe}
+                />
+                <InfoContainer keyNode={'휴대전화'} contentNode={user.phone} />
+                <InfoContainer
+                  keyNode={'이메일'}
+                  contentNode={user.email}
+                  lastItem
+                />
+              </div>
+            </UserInfo>
+            <UserContentsBox contentTitle={['프로젝트', '게시글', '답글']} />
+          </RightColumn>
+        </GridBox>
+      )}
+    </>
+  );
+}
 
 const LeftColumn = styled.div`
   position: relative;
@@ -67,87 +138,27 @@ const AvatarContainer = styled.div`
   -webkit-box-shadow: 5px 5px 10px 0px rgba(0, 0, 0, 0.25);
   -moz-box-shadow: 5px 5px 10px 0px rgba(0, 0, 0, 0.25);
 `;
-
+const StackContainer = styled.div`
+  display: flex;
+`;
 const EditButton = styled.button`
-  width: calc(100% - 2px);
-  border: solid 2px #ececec;
+  width: calc(100% - 14px);
   padding: 10px;
+  border: none;
   border-radius: 5px;
   cursor: pointer;
   font-size: 15px;
   font-family: 'Pretendard';
+  background: none;
 
-  :hover {
+  .tag {
+    padding: 10px;
+    color: #171717;
+    font-size: 14px;
+    transition: all 0.5s;
+
+    :hover {
+      color: white;
+    }
   }
 `;
-
-export default function me() {
-  // const user = useAuth();
-  // const user = dummyUser;
-  const {
-    getMyInfo: { data: user },
-  } = useUser({});
-  const router = useRouter();
-  useEffect(() => {
-    if (!getCookie('accessToken')) {
-      router.push('/404').then(() => alert('로그인을 부탁드려요.'));
-    }
-  }, []);
-
-  const handleClick = () => {
-    router.push('/users/me/edit');
-  };
-
-  return (
-    <>
-      {user && (
-        <GridBox>
-          <LeftColumn>
-            <UserInfoCard user={user} />
-            <EditButton onClick={handleClick}>edit</EditButton>
-          </LeftColumn>
-          <RightColumn>
-            <UserInfo>
-              <div className="title">개인 정보</div>
-              <ProfileContainer>
-                <InfoContainer
-                  keyNode={
-                    <AvatarContainer style={{ width: '70px', height: '70px' }}>
-                      {user.profileImageUrl ? (
-                        <img alt={user.name} src={user.profileImageUrl} />
-                      ) : (
-                        <img
-                          alt={user.name}
-                          src="https://pbs.twimg.com/media/FmynZRjWYAgEEpL.jpg"
-                        />
-                      )}
-                    </AvatarContainer>
-                  }
-                  contentNode={
-                    <>
-                      <p className="nanum-bold">{user.name}</p>
-                      <p className="noto-regular">프론트엔드</p>
-                    </>
-                  }
-                />
-              </ProfileContainer>
-              <div className="info-box">
-                <InfoContainer
-                  keyNode={'자기소개'}
-                  contentNode={user.aboutMe}
-                />
-                <InfoContainer keyNode={'휴대전화'} contentNode={user.phone} />
-                <InfoContainer
-                  keyNode={'이메일'}
-                  contentNode={user.email}
-                  lastItem
-                />
-              </div>
-            </UserInfo>
-            <UserContentsBox contentTitle={['프로젝트', '게시글', '답글']} />
-          </RightColumn>
-        </GridBox>
-      )}
-    </>
-  );
-}
