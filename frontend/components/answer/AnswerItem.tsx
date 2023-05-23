@@ -47,6 +47,8 @@ type Props = {
   likeAnswer: LikeAnswerMutation;
   dislikeAnswer: LikeAnswerMutation;
   isAuthor: boolean;
+  articleRefetch: () => void;
+  answerRefetch: () => void;
 };
 
 const AnswerItem = ({
@@ -56,6 +58,8 @@ const AnswerItem = ({
   isAuthor,
   likeAnswer,
   dislikeAnswer,
+  articleRefetch,
+  answerRefetch,
 }: Props) => {
   const router = useRouter();
   //답글 수정 관련
@@ -126,6 +130,8 @@ const AnswerItem = ({
   const { deleteComment, editComment, likeComment, dislikeComment } =
     useComment({
       commentRefetch,
+      articleRefetch,
+      answerRefetch,
     });
 
   //답글 조회

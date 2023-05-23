@@ -26,6 +26,7 @@ const CommunityCardBox = ({
           <div>
             <SubBtn
               className={idx === selected ? 'focus' : ''}
+              key={name}
               onClick={() => filterHandler(idx)}
             >
               {name}

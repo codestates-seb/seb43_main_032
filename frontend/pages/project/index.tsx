@@ -14,12 +14,15 @@ import { ARTICLE_FILTER } from '@/constant/constant';
 import { useInfinityProject } from '@/hooks/react-query/project/useInfinityProject';
 import { useAllData } from '@/hooks/react-query/useAllData';
 import { projectFilter } from '@/util/filter/projectFilter';
+import { useTopData } from '@/hooks/react-query/useTopData';
 
 const ProjectHome = () => {
   const router = useRouter();
   const { register, watch } = useForm<Form>();
   const { isLoading, error, data, fetchNextPage, hasNextPage, isFetching } =
     useInfinityProject();
+
+  const { topLikeProjectData } = useTopData();
 
   //서버에서 필터링 작업이 완성되기 전, 눈속임을 위한 필터 데이터
   const [filter, setFilter] = useState<Filter>(0);
@@ -86,7 +89,7 @@ const ProjectHome = () => {
             <div className="nanum-bold title">인기 프로젝트</div>
             <div className="carousel-box">
               <ProjectCarousel
-                projects={data.pages ? data.pages[0].data : []}
+                projects={topLikeProjectData ? topLikeProjectData : []}
               />
             </div>
           </div>
