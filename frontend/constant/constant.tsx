@@ -178,7 +178,7 @@ export const FOOTER_DATA: FooterData = {
       link: 'https://open.kakao.com/o/sl78Kxlf',
     },
     { name: '상담 사이드퀘스트 운영자 연결', link: 'onContact' },
-    { name: '오픈챗 코드 7777', link: '' },
+    { name: '오픈 채팅방 ', link: 'https://open.kakao.com/o/sjMrDxlf' },
     { name: '제휴문의 help@sideQues.com', link: '' },
     { name: 'Copyright©2023 SideQuest.All rights reserved.', link: '' },
   ],
@@ -223,3 +223,11 @@ export const POST_COMMUNITY_CATEGORY: { [key: string]: string } = {
   IOS: 'IOS',
   기타: 'OTHER',
 };
+
+export const TAG_COLOR = [
+  { type: 'nomal', name: '취소', color: '#f03232', backgroundColor: '#dfd5d5' },
+  { type: 'nomal', name: '마감', color: '#f03232', backgroundColor: '#dfd5d5' },
+  { type: 'nomal', name: '확정', color: '#ffffff', backgroundColor: '#49e256' },
+  { type: 'hover', name: '마감', color: 'white', backgroundColor: '#5b24ff' },
+  { type: 'hover', name: '취소', color: 'white', backgroundColor: '#ec5353' },
+];

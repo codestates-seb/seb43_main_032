@@ -3,16 +3,30 @@ import React from 'react';
 import styled from 'styled-components';
 
 interface ButtonProps {
-  link: string;
+  link?: string;
   text: string;
+  onClick?: () => void;
 }
 
-const ButtonStyle = ({ link, text }: ButtonProps): React.ReactElement => {
+const ButtonStyle = ({
+  onClick,
+  link,
+  text,
+}: ButtonProps): React.ReactElement => {
   const router = useRouter();
+
+  const moveEvent = () => {
+    if (onClick) {
+      onClick();
+    }
+    if (link) {
+      router.push(link);
+    }
+  };
 
   return (
     <Container>
-      <button className="btn" type="button" onClick={() => router.push(link)}>
+      <button className="btn" type="button" onClick={moveEvent}>
         <strong>{text}</strong>
         <div id="container-stars">
           <div id="stars"></div>

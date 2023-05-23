@@ -14,6 +14,7 @@ import { AiOutlineClose } from 'react-icons/ai';
 import { useProject } from '@/hooks/react-query/project/useProject';
 import StacksBox from './StacksBox';
 import GridBox from '../common_box/GridBox';
+import { confirmAlert, errorAlert } from '../alert/Alert';
 
 const ProjectForm = () => {
   const router = useRouter();
@@ -116,10 +117,10 @@ const ProjectForm = () => {
   const [jobs, setJob] = useState<WantCrew[]>([]);
   const addJob = () => {
     if (watch().jobVal === '') {
-      return alert('직군을 선택해주세요.');
+      return errorAlert('직군을 선택해주세요.', '프로젝트 작성');
     }
     if (jobs.filter((job) => job.position === watch().jobVal).length > 0) {
-      return alert('동일한 직군은 추가할 수 없습니다.');
+      return errorAlert('동일한 직군은 추가할 수 없습니다.', '프로젝트 작성');
     }
     setJob([
       ...jobs,
@@ -147,16 +148,19 @@ const ProjectForm = () => {
   const postProject = (e: { preventDefault: () => void }) => {
     e.preventDefault();
     if (!start) {
-      return alert('프로젝트 기간을 설정해주세요.');
+      return errorAlert('프로젝트 기간을 설정해주세요.', '프로젝트 작성');
     }
     if (jobs.length === 0) {
-      return alert('모집 직군은 최소 1개 이상 등록해주세요.');
+      return errorAlert(
+        '모집 직군은 최소 1개 이상 등록해주세요.',
+        '프로젝트 작성'
+      );
     }
     if (watch().title === '') {
-      return alert('제목을 입력해주세요.');
+      return errorAlert('제목을 입력해주세요.', '프로젝트 작성');
     }
     if (content === '') {
-      return alert('내용을 입력해주세요.');
+      return errorAlert('내용을 입력해주세요.', '프로젝트 작성');
     }
 
     //랜덤 이미지 생성
@@ -183,18 +187,15 @@ const ProjectForm = () => {
       },
     };
 
-    //작성 이벤트
-    if (
-      router.route.includes('edit') &&
-      confirm('정말 글을 수정하시겠습니까?')
-    ) {
-      return submitEdit.mutate(data);
+    if (router.route.includes('edit')) {
+      confirmAlert('정말 글을 수정하시겠습니까?', '프로젝트 수정이').then(() =>
+        submitEdit.mutate(data)
+      );
     }
-    if (
-      router.route.includes('create') &&
-      confirm('정말 글을 작성하시겠습니까?')
-    ) {
-      return submitPost.mutate(data);
+    if (router.route.includes('create')) {
+      confirmAlert('정말 글을 작성하시겠습니까?', '프로젝트 작성이').then(() =>
+        submitPost.mutate(data)
+      );
     }
   };
 

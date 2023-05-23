@@ -17,9 +17,10 @@ import { useGetComment } from '@/hooks/react-query/comment/useGetComment';
 import CommentBox from '../comment/CommentBox';
 import { elapsedTime } from '@/util/date';
 import { useComment } from '@/hooks/react-query/comment/useComment';
-import { warningAlert } from '../alert/MyAlert';
 import Tag from '../Tag';
 import { useRouter } from 'next/router';
+import { errorAlert } from '../alert/Alert';
+import { postStar } from '@/util/api/postStar';
 
 const Editor = dynamic(() => import('@/components/editor/Editor'), {
   ssr: false,
@@ -46,6 +47,8 @@ type Props = {
   likeAnswer: LikeAnswerMutation;
   dislikeAnswer: LikeAnswerMutation;
   isAuthor: boolean;
+  articleRefetch: () => void;
+  answerRefetch: () => void;
 };
 
 const AnswerItem = ({
@@ -55,6 +58,8 @@ const AnswerItem = ({
   isAuthor,
   likeAnswer,
   dislikeAnswer,
+  articleRefetch,
+  answerRefetch,
 }: Props) => {
   const router = useRouter();
   //답글 수정 관련
@@ -65,9 +70,8 @@ const AnswerItem = ({
   useEffect(() => {
     setEditVal(answer.content);
   }, []);
-
   const onEdit = () => {
-    if (confirm('정말 수정하시겠습니까?')) setEdit(true);
+    setEdit(true);
   };
   const offEdit = () => {
     setEdit(false);
@@ -94,22 +98,27 @@ const AnswerItem = ({
     dislikeAnswer.mutate({ category: 'ANSWER', uniteId: answer.answerId });
   };
   const likeHandler = () => {
+    if (!getCookie('accessToken')) {
+      return errorAlert('로그인을 부탁드려요', '답글 좋아요');
+    }
     if (answer.liked) {
+      postStar(answer.memberInfo.memberId, -1);
       return dislikeEvent();
     }
+    postStar(answer.memberInfo.memberId, 1);
     likeEvent();
   };
 
-  //댓글 input 관련
+  //답글 input 관련
   const [comment, setComment] = useState(false);
   const commentHandler = () => {
     if (!getCookie('accessToken') && !comment) {
-      return warningAlert('로그인을 부탁드려요.');
+      return errorAlert('로그인이 필요합니다.', '답글 작성');
     }
     setComment(!comment);
   };
 
-  //댓글 데이터
+  //답글 데이터
   const { commentQuery, commentRefetch } = useGetComment({
     answerId: answer.answerId,
     params: 'size=999&page=1',
@@ -121,9 +130,11 @@ const AnswerItem = ({
   const { deleteComment, editComment, likeComment, dislikeComment } =
     useComment({
       commentRefetch,
+      articleRefetch,
+      answerRefetch,
     });
 
-  //댓글 조회
+  //답글 조회
   const [viewComment, setViewComment] = useState(false);
   const viewCommentHandler = () => {
     setViewComment(!viewComment);
@@ -189,11 +200,11 @@ const AnswerItem = ({
                 <div className="update-box">
                   {commentLength !== undefined && commentLength > 0 && (
                     <button onClick={viewCommentHandler}>
-                      댓글 {commentLength}개
+                      답글 {commentLength}개
                     </button>
                   )}
                   <button onClick={commentHandler}>
-                    {comment ? '댓글 취소' : '댓글 작성'}
+                    {comment ? '답글 취소' : '답글 작성'}
                   </button>
                   {isAuthor && (
                     <>
@@ -267,10 +278,9 @@ const Box = styled.li`
         .user-img {
           width: 40px;
           height: 40px;
-          background-color: black;
-
           > img {
             border-radius: 50%;
+            height: 100%;
             width: 100%;
           }
         }

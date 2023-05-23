@@ -16,6 +16,8 @@ import { useRecoilValue } from 'recoil';
 import { loggedInUserState } from '@/recoil/atom';
 import ApplyBox from '@/components/common_box/ApplyBox';
 import SubBtn from '@/components/button/SubBtn';
+import { errorAlert } from '@/components/alert/Alert';
+import { postStar } from '@/util/api/postStar';
 
 const ViewProject = () => {
   const loggedInUser = useRecoilValue(loggedInUserState);
@@ -37,11 +39,13 @@ const ViewProject = () => {
   //좋아요 이벤트
   const likeHandler = () => {
     if (!getCookie('accessToken')) {
-      return alert('로그인을 부탁드려요.');
+      return errorAlert('로그인이 필요합니다.', '게시글 좋아요');
     }
     if (data?.liked) {
+      postStar(data.memberInfo.memberId, -1);
       return dislikeProject.mutate();
     }
+    data && postStar(data.memberInfo.memberId, 1);
     likeProject.mutate();
   };
 
@@ -71,15 +75,14 @@ const ViewProject = () => {
   } = useProjectApply({ projectRefetch, acceptedPostion });
 
   //인원이 모두 마감되었다면 일어날 이벤트
+  const checkComplteApply =
+    data?.positionCrewList.filter((crew) => crew.number !== crew.acceptedNumber)
+      .length === 0;
   useEffect(() => {
-    const checkComplteApply =
-      data?.positionCrewList.filter(
-        (crew) => crew.number !== crew.acceptedNumber
-      ).length === 0;
     if (checkComplteApply && data.status === '모집중') {
       updateState.mutate('모집 완료');
     }
-  }, [projectQuery.isLoading, applyQuery.isLoading]);
+  }, [checkComplteApply]);
 
   //확정된 버튼의 hover 관리
   const [acceptedHover, setAcceptedHover] = useState(false);
@@ -94,7 +97,7 @@ const ViewProject = () => {
     <GridBox>
       <Side>
         <AuthorBox
-        userId={data.memberInfo.memberId}
+          userId={data.memberInfo.memberId}
           userImg={data.memberInfo.profileImageUrl}
           userName={data.memberInfo.name}
           isAuthor={data.author}
@@ -225,7 +228,7 @@ const Side = styled.div`
       width: 70%;
       min-width: 190px;
       @media (max-width: 960px) {
-        width: 30%;
+        width: 100%;
       }
 
       > li {

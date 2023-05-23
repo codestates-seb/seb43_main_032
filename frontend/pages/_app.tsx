@@ -55,4 +55,18 @@ const Box = styled.main`
   padding: 0px calc((100% - 1280px) / 2);
   padding-top: 80px;
   flex: 1;
+
+  .test {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    .ex {
+      width: 100px;
+      height: 100px;
+      background-color: #ffc6c6;
+    }
+  }
 `;

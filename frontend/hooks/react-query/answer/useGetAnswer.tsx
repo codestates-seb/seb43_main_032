@@ -59,7 +59,6 @@ export const useGetAnswer = ({ postId, params }: Props) => {
   //답글의 총 개수
   const answerPageCount = data?.pageInfo.totalElements;
 
-
   return {
     answerQuery: { isLoading, error, data },
     answerRefetch: refetch,

@@ -6,11 +6,12 @@ axios.defaults.withCredentials = true;
 const baseURL =
   process.env.NODE_ENV === 'production'
     ? process.env.NEXT_RESOURCE_URL
-    : 'https://d8a2-183-101-242-153.ngrok-free.app/';
+    : 'http://3.36.211.36:8080';
 
 const api = axios.create({
-  baseURL,
+  baseURL: 'https://side-quest-1.com',
   timeout: 3000,
+  withCredentials: true,
   headers: {
     'Content-Type': 'application/json',
     Authorization: getCookie('accessToken'),

@@ -1,8 +1,6 @@
 import ProjectCarousel from '@/components/project/ProjectCarousel';
 import styled from 'styled-components';
 import { useRouter } from 'next/router';
-import { useInfiniteQuery } from 'react-query';
-import { api } from '@/util/api';
 import { useRef, useEffect, useState } from 'react';
 import ProjectSkeleton from '@/components/skeleton/ProjectSkeleton';
 import Link from 'next/link';
@@ -10,58 +8,21 @@ import { Project } from '@/types/project';
 import Message from '@/components/Message';
 import { useForm } from 'react-hook-form';
 import ProjectCardBox from '@/components/card_box/ProjectCardBox';
-import { Filter, Form, PageProps } from '@/types/types';
+import { Filter, Form } from '@/types/types';
 import { AiOutlineArrowUp } from 'react-icons/ai';
-import { getAllProject } from '@/util/api/getAllData';
-import { articleFilter } from '@/util/filter/articleFilter';
 import { ARTICLE_FILTER } from '@/constant/constant';
-const page_limit = 4;
+import { useInfinityProject } from '@/hooks/react-query/project/useInfinityProject';
+import { useAllData } from '@/hooks/react-query/useAllData';
+import { projectFilter } from '@/util/filter/projectFilter';
+import { useTopData } from '@/hooks/react-query/useTopData';
 
 const ProjectHome = () => {
   const router = useRouter();
   const { register, watch } = useForm<Form>();
+  const { isLoading, error, data, fetchNextPage, hasNextPage, isFetching } =
+    useInfinityProject();
 
-  //주소, 서버 필터 작업 전까지 주석처리
-  const address = () => {
-    return `/projects/findAll?size=${page_limit}`;
-  };
-
-  //쿼리 키, 서버 필터 작업 전까지 주석처리
-  const queryKey = () => {
-    return 'projects';
-  };
-
-  //무한스크롤 데이터
-  const {
-    isLoading,
-    error,
-    data,
-    fetchNextPage,
-    hasNextPage,
-    isFetching,
-    refetch,
-  } = useInfiniteQuery(
-    queryKey(),
-    ({ pageParam = 1 }) =>
-      api(`${address()}&page=${pageParam}`)
-        .then((res) => res.data)
-        .catch(() => {}),
-    {
-      getNextPageParam: (
-        lastPage: PageProps<Project>,
-        allPages: PageProps<Project>[]
-      ) => {
-        if (lastPage.data.length < page_limit) {
-          return null;
-        }
-        return allPages.length + 1;
-      },
-    }
-  );
-
-  useEffect(() => {
-    refetch();
-  }, []);
+  const { topLikeProjectData } = useTopData();
 
   //서버에서 필터링 작업이 완성되기 전, 눈속임을 위한 필터 데이터
   const [filter, setFilter] = useState<Filter>(0);
@@ -70,18 +31,18 @@ const ProjectHome = () => {
   };
   const [allData, setAllData] = useState<Project[]>([]);
 
+  //전체 데이터 세팅
+  const { projectData, projectLoading } = useAllData();
   useEffect(() => {
-    getAllProject().then((res) => setAllData(res));
-  }, []);
+    if (projectData) setAllData(projectData);
+  }, [projectLoading]);
 
-  const filterData = articleFilter({
+  const filterData = projectFilter({
     filter,
     allData,
     searchVal: watch().search,
-    type: 1,
   });
 
-  console.log(filterData);
   //무한 스크롤 effect
   const target = useRef<HTMLDivElement>(null);
   useEffect(() => {
@@ -128,7 +89,7 @@ const ProjectHome = () => {
             <div className="nanum-bold title">인기 프로젝트</div>
             <div className="carousel-box">
               <ProjectCarousel
-                projects={data.pages ? data.pages[0].data : []}
+                projects={topLikeProjectData ? topLikeProjectData : []}
               />
             </div>
           </div>
