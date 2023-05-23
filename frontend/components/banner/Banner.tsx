@@ -72,7 +72,7 @@ const Layer = styled.li`
 `;
 
 const ImgBox = styled.div`
-  width: auto;
+  width: 30vw;
   height: 100vh;
   position: absolute;
   top: 50%;

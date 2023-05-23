@@ -38,6 +38,7 @@ html::-webkit-scrollbar-track {
 body {
   color: #171717;
   font-size: 10px;
+  overflow-x: hidden;
 }
 
 body::-webkit-scrollbar {

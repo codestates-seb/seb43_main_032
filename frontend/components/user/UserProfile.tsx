@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import Tag from '../Tag';
 import { User } from '@/types/user';
 import Stack from '../stack/Stack';
+import Position from '../Position';
 
 export default function UserProfile({ user }: { user: User }) {
   return (
@@ -68,21 +69,6 @@ const ProfileContainer = styled.div`
   @media (max-width: 960px) {
     /* flex-direction: row; */
     align-items: flex-start;
-  }
-`;
-const Position = styled.div.attrs({
-  className: 'noto-regular-13',
-})`
-  display: flex;
-  flex-direction: column;
-  p {
-    text-align: center;
-  }
-
-  @media (max-width: 960px) {
-    align-items: center;
-    flex-direction: row;
-    gap: 10px;
   }
 `;
 const Name = styled.p.attrs({
