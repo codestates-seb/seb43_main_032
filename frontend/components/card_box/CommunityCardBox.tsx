@@ -23,10 +23,9 @@ const CommunityCardBox = ({
       <div className="nanum-bold">커뮤니티</div>
       <div className="filter-box">
         {filterNames.map((name, idx) => (
-          <div>
+          <div key={name}>
             <SubBtn
               className={idx === selected ? 'focus' : ''}
-              key={name}
               onClick={() => filterHandler(idx)}
             >
               {name}
@@ -48,10 +47,14 @@ export default CommunityCardBox;
 
 const Box = styled.div`
   margin-bottom: 28px;
+  padding: var(--padding-2);
+  background: #baa8f5;
+  border-radius: 10px;
 
   .nanum-bold {
     display: flex;
     gap: 16px;
+    color: #000000;
   }
   .focus {
     background: #6333ff;
@@ -66,6 +69,10 @@ const Box = styled.div`
     display: grid;
     display: flex;
     flex-direction: column;
-    gap: 2px;
+    gap: 22px;
+    > div {
+      //컨텐츠 아이템 박스 섀도우
+      box-shadow: none;
+    }
   }
 `;
