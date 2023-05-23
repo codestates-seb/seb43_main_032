@@ -7,23 +7,33 @@ import styled from 'styled-components';
 import EditInput from './EditInput';
 import SelectStack from '../stack/SelectStack';
 import { useRouter } from 'next/router';
-import { POSITIONS } from '@/constant/constant';
+import { POSITIONS, POST_COMMUNITY_CATEGORY } from '@/constant/constant';
+import { FilterButton } from '@/pages/users';
+import { User } from '@/types/user';
 
-export default function UserEditForm({ user }: { user: any }) {
+export default function UserEditForm({ user }: { user: User }) {
+  const initialPosition = Object.keys(POST_COMMUNITY_CATEGORY).find(
+    (key) => POST_COMMUNITY_CATEGORY[key] === user.position
+  );
+  const index = initialPosition ? POSITIONS.indexOf(initialPosition) : -1;
+
   const { register, handleSubmit, watch } = useForm();
   const [imgPreview, setImgPreview] = useState<string>('');
-  const [stacks, setStacks] = useState<Tech[]>([]);
-  const [filters, setFilters] = useState<number[]>([]);
+  const [stacks, setStacks] = useState<Tech[]>(user.techList);
+  const [filter, setFilter] = useState(index);
   const filterHandler = (idx: number) => {
-    filters.includes(idx)
-      ? setFilters((prev) => prev.filter((el) => el !== idx))
-      : setFilters((prev) => [...prev, idx]);
+    if (filter === idx) {
+      return setFilter(-1); //다시 한 번 필터가 눌렸을 땐, 전체 카드가 조회되기위해
+    }
+    setFilter(idx);
   };
-
   const image = watch('image');
   const router = useRouter();
 
   const onValid = async (data: any) => {
+    data.position = POST_COMMUNITY_CATEGORY[POSITIONS[filter]];
+    console.log(POSITIONS[filter]);
+    console.log(POST_COMMUNITY_CATEGORY[POSITIONS[filter]]);
     await mergeData(data, image, stacks);
     const updatedData = updateData(user, data);
     console.log('change to ', updatedData);
@@ -49,6 +59,7 @@ export default function UserEditForm({ user }: { user: any }) {
       console.log(image);
     }
   }, [image]);
+
   return (
     <Form onSubmit={handleSubmit(onValid, onInValid)}>
       <ProfileBox>
@@ -93,13 +104,13 @@ export default function UserEditForm({ user }: { user: any }) {
         register={register('aboutMe')}
       />
 
-      <Label>Position</Label>
+      <Label>Position </Label>
       <PositionBox>
         {POSITIONS.map((position, idx) => (
           <FilterButton
             type="button"
             idx={idx}
-            filters={filters}
+            filter={filter}
             onClick={() => filterHandler(idx)}
             key={position}
           >
@@ -200,19 +211,3 @@ type FilterButtonProps = {
   idx: number;
   filters: number[];
 };
-
-const FilterButton = styled.button<FilterButtonProps>`
-  font-family: 'Pretendard';
-  background-color: ${(props) =>
-    props.filters.includes(props.idx)
-      ? '#6333ff'
-      : '#9880e9;'}; //필터가 눌린다면 색깔 부여
-  color: white;
-  border-radius: 5px;
-  padding: 10px;
-  font-size: 14px;
-  cursor: pointer;
-  -webkit-transition: background 0.5s ease, color 0.5s ease;
-  transition: background 0.5s ease, color 0.5s ease;
-  border: none;
-`;
