@@ -24,8 +24,6 @@ const Header = () => {
     router.pathname === '/project' ||
     router.pathname === '/users';
 
-  console.log(bannerCheckUrl);
-
   //로그인한 유저의 데이터 상태
   const [loggedInUser, setLoggedInUser] = useRecoilState(loggedInUserState);
   //로그아웃
@@ -134,7 +132,6 @@ const Header = () => {
               ))}
         </NavMenu>
       </Nav>
-      {bannerCheckUrl && <BannerSlider isScrolled={isScrolled}></BannerSlider>}
       <ModalNav nav={nav}>
         {getCookie('accessToken') && (
           <div className="user">

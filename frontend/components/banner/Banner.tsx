@@ -2,9 +2,12 @@ import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import Parallax from 'parallax-js';
 import { useRouter } from 'next/router';
-import { bannerBackgroundImages, bannerImageUrls } from '@/constant/constant';
+import {
+  BANNER_BACKGROUND_IMAGES,
+  BANNSER_IMAGES_URLS,
+} from '@/constant/constant';
 
-const CommuBanner = () => {
+const Banner = () => {
   const router = useRouter().pathname;
   useEffect(() => {
     const scene = document.getElementById('scene');
@@ -15,7 +18,7 @@ const CommuBanner = () => {
   }, []);
 
   const checkSrc = () => {
-    return bannerImageUrls[router] || [];
+    return BANNSER_IMAGES_URLS[router] || [];
   };
 
   return (
@@ -47,7 +50,7 @@ const Container = styled.div<ContainerProps>`
   width: 100%;
   height: 100%;
   overflow: hidden;
-  background-image: ${({ router }) => bannerBackgroundImages[router] || ''};
+  background-image: ${({ router }) => BANNER_BACKGROUND_IMAGES[router] || ''};
   background-attachment: fixed;
   background-size: cover;
 `;
@@ -71,4 +74,4 @@ const Image = styled.img`
   transform: translate(-50%, -50%);
 `;
 
-export default CommuBanner;
+export default Banner;

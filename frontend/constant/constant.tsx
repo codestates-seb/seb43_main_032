@@ -232,7 +232,7 @@ export const TAG_COLOR = [
   { type: 'hover', name: '취소', color: 'white', backgroundColor: '#ec5353' },
 ];
 
-export const bannerBackgroundImages: { [key: string]: string } = {
+export const BANNER_BACKGROUND_IMAGES: { [key: string]: string } = {
   '/': "url('https://i.postimg.cc/c4zCYgjS/Space-BG.png')",
   '/community':
     "url('https://github.com/codestates-seb/seb43_main_032/assets/118104644/adb4296f-a95d-4a17-9822-47d3032d750e')",
@@ -242,7 +242,7 @@ export const bannerBackgroundImages: { [key: string]: string } = {
     'url(https://github.com/codestates-seb/seb43_main_032/assets/118104644/7fb4d6e9-0824-4607-8c81-cb868ea78c47)',
 };
 
-export const bannerImageUrls: { [key: string]: string[] } = {
+export const BANNSER_IMAGES_URLS: { [key: string]: string[] } = {
   '/': [
     'https://i.postimg.cc/44LxkHX9/Space-BP.png',
     'https://i.postimg.cc/vH4HQ8mS/Space-RP.png',
@@ -268,7 +268,7 @@ export const bannerImageUrls: { [key: string]: string[] } = {
   ],
 };
 
-export const bannerTexts: { [key: string]: string } = {
+export const BANNER_TEXTS: { [key: string]: string } = {
   '/': 'SIDE QUEST',
   '/community': 'COMMUNITY',
   '/project': 'PROJECT',

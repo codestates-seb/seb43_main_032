@@ -1,83 +1,83 @@
 .bg-home1 {
   width: 2850px;
   height: 1800px;
-  background: url('banner_icons_sprites.png') -10px -10px;
+  background: url('/banner_icons_sprites.png') -10px -10px;
 }
 
 .bg-home2 {
   width: 1267px;
   height: 800px;
-  background: url('banner_icons_sprites.png') -2610px -4470px;
+  background: url('/banner_icons_sprites.png') -2610px -4470px;
 }
 
 .bg-home4 {
   width: 2850px;
   height: 1800px;
-  background: url('banner_icons_sprites.png') -2880px -10px;
+  background: url('/banner_icons_sprites.png') -2880px -10px;
 }
 
 .bg-home3 {
   width: 2850px;
   height: 1800px;
-  background: url('banner_icons_sprites.png') -10px -1830px;
+  background: url('/banner_icons_sprites.png') -10px -1830px;
 }
 
 .bg-community1 {
   width: 1280px;
   height: 800px;
-  background: url('banner_icons_sprites.png') -2880px -1830px;
+  background: url('/banner_icons_sprites.png') -2880px -1830px;
 }
 
 .bg-community2 {
   width: 1280px;
   height: 800px;
-  background: url('banner_icons_sprites.png') -4180px -1830px;
+  background: url('/banner_icons_sprites.png') -4180px -1830px;
 }
 
 .bg-community3 {
   width: 1280px;
   height: 800px;
-  background: url('banner_icons_sprites.png') -2880px -2650px;
+  background: url('/banner_icons_sprites.png') -2880px -2650px;
 }
 
 .bg-community4 {
   width: 1280px;
   height: 800px;
-  background: url('banner_icons_sprites.png') -4180px -2650px;
+  background: url('/banner_icons_sprites.png') -4180px -2650px;
 }
 
 .bg-project1 {
   width: 1280px;
   height: 800px;
-  background: url('banner_icons_sprites.png') -10px -3650px;
+  background: url('/banner_icons_sprites.png') -10px -3650px;
 }
 
 .bg-project3 {
   width: 1280px;
   height: 800px;
-  background: url('banner_icons_sprites.png') -1310px -3650px;
+  background: url('/banner_icons_sprites.png') -1310px -3650px;
 }
 
 .bg-project4 {
   width: 1280px;
   height: 800px;
-  background: url('banner_icons_sprites.png') -2610px -3650px;
+  background: url('/banner_icons_sprites.png') -2610px -3650px;
 }
 
 .bg-user1 {
   width: 1280px;
   height: 800px;
-  background: url('banner_icons_sprites.png') -3910px -3650px;
+  background: url('/banner_icons_sprites.png') -3910px -3650px;
 }
 
 .bg-user2 {
   width: 1280px;
   height: 800px;
-  background: url('banner_icons_sprites.png') -10px -4470px;
+  background: url('/banner_icons_sprites.png') -10px -4470px;
 }
 
 .bg-user3 {
   width: 1280px;
   height: 800px;
-  background: url('banner_icons_sprites.png') -1310px -4470px;
+  background: url('/banner_icons_sprites.png') -1310px -4470px;
 }

@@ -11,6 +11,7 @@ import ModalBg from '@/components/ModalBg';
 import { useRouter } from 'next/router';
 import LoginBg from '@/components/user/LoginBg';
 import EtcHeader from '@/components/EtcHeader';
+import BannerSlider from '@/components/banner/BannerSlider';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -23,26 +24,30 @@ const queryClient = new QueryClient({
 });
 
 const App = ({ Component, pageProps }: AppProps) => {
-  const router = useRouter().pathname;
-  const check = (pathname: string) => {
-    return (
-      pathname === '/404' ||
-      pathname === '/users/login' ||
-      pathname === '/users/signup'
-    );
-  };
+  const router = useRouter();
+  const { pathname } = router;
+  const isBannerVisible =
+    pathname === '/' ||
+    pathname === '/community' ||
+    pathname === '/project' ||
+    pathname === '/users';
+  const isExcludedPathname =
+    pathname === '/404' ||
+    pathname === '/users/login' ||
+    pathname === '/users/signup';
 
   return (
     <QueryClientProvider client={queryClient}>
       <RecoilRoot>
-        {!check(router) ? <Header /> : <EtcHeader />}
+        {!isExcludedPathname ? <Header /> : <EtcHeader />}
+        {isBannerVisible && <BannerSlider />}
         <Box>
           <Component {...pageProps} />
         </Box>
-        {!check(router) && <Contact />}
+        {!isExcludedPathname && <Contact />}
         <ModalBg></ModalBg>
-        {!check(router) && <Footer />}
-        {check(router) && <LoginBg />}
+        {!isExcludedPathname && <Footer />}
+        {isExcludedPathname && <LoginBg />}
       </RecoilRoot>
     </QueryClientProvider>
   );

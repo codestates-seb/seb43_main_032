@@ -2,11 +2,11 @@ import styled from 'styled-components';
 import { BannerProps } from '@/types/types';
 import React, { useEffect } from 'react';
 import { useRouter } from 'next/router';
-import HomeBanner from './HomeBanner';
+import Banner from './Banner';
 import BannerText from './BannerText';
-import { bannerTexts } from '@/constant/constant';
+import { BANNER_TEXTS } from '@/constant/constant';
 
-export default function BannerSlider({ isScrolled }: { isScrolled: boolean }) {
+export default function BannerSlider() {
   const router = useRouter().pathname;
 
   useEffect(() => {
@@ -26,13 +26,13 @@ export default function BannerSlider({ isScrolled }: { isScrolled: boolean }) {
   }, []);
 
   const bannerTxt = () => {
-    return bannerTexts[router] || '';
+    return BANNER_TEXTS[router] || '';
   };
 
   return (
-    <Container isScrolled={isScrolled}>
+    <Container>
       <div className="bg">
-        <HomeBanner />
+        <Banner />
       </div>
       <TitleBox>
         <span>프로젝트의 모든 것</span>
