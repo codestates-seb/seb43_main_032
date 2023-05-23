@@ -2,11 +2,12 @@ import styled from 'styled-components';
 import { AiTwotoneLike } from 'react-icons/ai';
 import { useRouter } from 'next/router';
 import { formatDate } from '@/util/date';
+import { Community } from '@/types/community';
 
-export default function UserPostCard({ post }: { post: any }) {
+export default function UserPostCard({ post }: { post: Community }) {
   const router = useRouter();
   const handleClick = () => {
-    router.push(`/posts/${post.articleId}`);
+    router.push(`/community/post/${post.articleId}`);
   };
   return (
     <Wrapper onClick={handleClick} filter={setColorByCategory(post.category)}>

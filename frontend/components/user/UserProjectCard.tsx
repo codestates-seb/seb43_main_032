@@ -2,12 +2,12 @@ import styled from 'styled-components';
 import { AiTwotoneLike } from 'react-icons/ai';
 import Stack from '../stack/Stack';
 import { useRouter } from 'next/router';
-import { Tech } from '@/types/project';
+import { Project, Tech } from '@/types/project';
 
-export default function UserProjectCard({ project }: { project: any }) {
+export default function UserProjectCard({ project }: { project: Project }) {
   const router = useRouter();
   const handleClick = () => {
-    router.push(`/projects/${project.id}`);
+    router.push(`/project/${project.projectId}`);
   };
   return (
     <Wrapper onClick={handleClick}>
