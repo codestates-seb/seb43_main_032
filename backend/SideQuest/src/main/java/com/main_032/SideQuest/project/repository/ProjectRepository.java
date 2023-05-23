@@ -22,4 +22,7 @@ public interface ProjectRepository extends JpaRepository<Project, Long> {
 
     @Query("SELECT p FROM Project p ORDER BY p.totalLikes DESC")
     List<Project> getTop5LikesProjects(Pageable pageable);
+
+    @Query("SELECT p FROM Project p WHERE p.deleted = 0 AND p.memberId = :memberId")
+    Page<Project> findMyProjects(Long memberId, Pageable pageable);
 }

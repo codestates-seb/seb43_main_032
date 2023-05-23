@@ -106,6 +106,20 @@ public class ArticleService {
         MultiResponseDto<ArticleGetResponseDto> multiResponseDto =new MultiResponseDto(articleResponseDtoList, articlePage);
         return multiResponseDto;
     }
+    public MultiResponseDto<ArticleInfoResponseDto> getMyArticles(){
+        Member member = memberService.getLoginMember();
+        Pageable pageable = PageRequest.of(0,4);
+        Page<Article> articlePage = articleRepository.findMyArticlePage(member.getId(),pageable);
+        List<Article> articleList = articlePage.getContent();
+        List<ArticleInfoResponseDto> articleInfoResponseDtoList = new ArrayList<>();
+
+        for(Article article:articleList){
+            ArticleInfoResponseDto articleInfoResponseDto = mapper.articleToArticleResponseDto(article);
+            articleInfoResponseDtoList.add(articleInfoResponseDto);
+        }
+        MultiResponseDto<ArticleInfoResponseDto> response = new MultiResponseDto<ArticleInfoResponseDto>(articleInfoResponseDtoList,articlePage);
+        return response;
+    }
 
     @Transactional
     public void deleteArticle(Long articleId){
