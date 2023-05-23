@@ -233,17 +233,17 @@ export const TAG_COLOR = [
 ];
 
 export const BANNER_BACKGROUND_IMAGES: { [key: string]: string } = {
-  '/': "url('/banner_background_sprites.png') -10px -10px",
-  '/community': "url('/banner_background_sprites.png') -10px -1244px",
-  '/project': "url('/banner_background_sprites.png') -1950px -1244px",
-  '/users': "url('/banner_background_sprites.png') -1950px -10px",
+  '/': "url('/sprites/banner_background_sprites.png') -10px -10px",
+  '/community': "url('/sprites/banner_background_sprites.png') -10px -1244px",
+  '/project': "url('/sprites/banner_background_sprites.png') -1950px -10px",
+  '/users': "url('/sprites/banner_background_sprites.png') -1950px -1244px",
 };
 
 export const BANNSER_IMAGES_URLS: { [key: string]: string[] } = {
-  '/': ['home1', 'home2', 'home3', 'home4'],
-  '/community': ['community1', 'community2', 'community3', 'community4'],
-  '/project': ['project1', '', 'project3', 'project4'],
-  '/users': ['user1', 'user2', 'user3'],
+  '/': ['h1', 'h2', 'h3', 'h4'],
+  '/community': ['c1', 'c2', 'c3', 'c4'],
+  '/project': ['p1', '', 'p3', 'p4'],
+  '/users': ['u1', 'u2', 'u3'],
 };
 
 export const BANNER_TEXTS: { [key: string]: string } = {
