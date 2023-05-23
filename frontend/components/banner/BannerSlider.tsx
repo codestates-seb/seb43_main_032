@@ -1,16 +1,14 @@
 import styled, { keyframes } from 'styled-components';
 import { BannerProps } from '@/types/types';
-import BannerFirst from './BannerFirst';
-import BannerSecond from './BannerSecond';
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import React, { useEffect, useRef, useState } from 'react';
-import BannerThird from './BannerThird';
 import { FaCaretSquareLeft, FaCaretSquareRight } from 'react-icons/fa';
 import { useRouter } from 'next/router';
-import ParallaxBanner from './ParallaxBanner';
-import StarBg from '@/components/StarBg';
+import HomeBanner from './HomeBanner';
+import CommuBanner from './CommuBanner';
+import BannerText from './BannerText';
 
 const CustomDot = ({
   onClick,
@@ -87,27 +85,27 @@ export default function BannerSlider({ isScrolled }: { isScrolled: boolean }) {
     ),
   };
 
+  const bannerTxt = () => {
+    if (router === '/') return 'SIDE QUEST';
+    if (router === '/community') return 'COMMUNITY';
+    if (router === '/project') return 'PROJECT';
+    if (router === '/users') return 'USERS';
+    return '';
+  };
+
   // slick 기본 스타일 수정
 
   // 클래스 명으로 index를 따오기
 
   return (
     <Container isScrolled={isScrolled}>
-      {/* <StarBg /> */}
       <div className="bg">
-        <ParallaxBanner />
+        <HomeBanner />
       </div>
-      {/* {router === '/' && (
-        <StyledSlider {...settings}>
-          <BannerFirst />
-          <BannerSecond />
-          <BannerThird />
-        </StyledSlider>
-      )} */}
       <TitleBox>
         <span>프로젝트의 모든 것</span>
         <span>개발부터 디자인까지</span>
-        <span className="title">SIDE QUEST</span>
+        <BannerText text={bannerTxt()} />
       </TitleBox>
     </Container>
   );
@@ -205,7 +203,6 @@ const Container = styled.div<BannerProps>`
   position: relative;
   width: 100%;
   height: 660px;
-  background: black;
 
   .bg {
     width: 100%;
@@ -223,7 +220,7 @@ const TitleBox = styled.div`
   transform: translate(-50%, -50%);
   color: white;
   text-transform: uppercase;
-  font-size: 50px;
+  font-size: 30px;
   font-weight: 500;
   letter-spacing: 10px;
   white-space: nowrap;
