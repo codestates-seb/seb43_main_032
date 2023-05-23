@@ -9,7 +9,7 @@ const baseURL =
     : 'http://3.36.211.36:8080';
 
 const api = axios.create({
-  baseURL: 'https://side-quest-1.com',
+  baseURL: 'https://www.side-quest-1.com',
   timeout: 3000,
   withCredentials: true,
   headers: {

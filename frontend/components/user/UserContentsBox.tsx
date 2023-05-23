@@ -1,10 +1,11 @@
-import React, { MouseEvent, useState } from 'react';
+import React, { MouseEvent, useEffect, useState } from 'react';
 import styled from 'styled-components';
-import ContentCard from './UserProjectCard';
-import ProjectCard from '../project/ProjectCard';
-import { Project } from '@/types/project';
 import UserProjectCard from './UserProjectCard';
 import UserPostCard from './UserPostCard';
+import Pagenation from '../Pagenation';
+import useUser from '@/hooks/react-query/useUser';
+import { useRouter } from 'next/router';
+import { useAllData } from '@/hooks/react-query/useAllData';
 
 interface IProps {
   contentTitle: string[];
@@ -12,48 +13,63 @@ interface IProps {
 }
 
 export default function UserContentsBox({ contentTitle, contents }: IProps) {
+  const router = useRouter();
+  const lastUrl = router.asPath.split('/').pop();
+  const [id, setId] = useState<number>(0);
   const [filter, setFilter] = useState(contentTitle[0]);
+  const [page, setPage] = useState<number>(1);
 
-  // const {
-  //   getUserById: { data: user, isLoading },
-  //   getProjectByUserId: { data: projects },
-  // 	getPostsByUserId:{data:posts}
-  // } = useUser({ id })
+  const { projectData, communityData } = useAllData();
+  const {
+    getMyInfo: { data: me },
+    getProjectByUserId: { data: projects },
+    getPostsByUserId: { data: posts },
+  } = useUser({ id, page, pageSize: 3, projectData, communityData });
 
   const handleClick = (e: MouseEvent<HTMLButtonElement>) => {
     const name = e.currentTarget.name;
+    setPage(1);
     setFilter(name);
   };
+  useEffect(() => {
+    if (lastUrl && !(lastUrl === 'me')) {
+      setId(+lastUrl);
+    } else {
+      console.log(me);
+      setId(me.memberId);
+    }
+  }, [lastUrl, me]);
+
+  id && console.log('id', id);
+  if (id === 0) return <h1>Loading...</h1>;
   return (
     <Wrapper>
       <Category>
-        <FilterBtn name={contentTitle[0]} onClick={handleClick}>
-          {contentTitle[0]}
-        </FilterBtn>
-        <FilterBtn name={contentTitle[1]} onClick={handleClick}>
-          {contentTitle[1]}
-        </FilterBtn>
+        {contentTitle.map((title) => (
+          <FilterBtn name={title} filter={filter} onClick={handleClick}>
+            {title}
+          </FilterBtn>
+        ))}
       </Category>
       <Contents>
-        {filter === contentTitle[0] ? (
+        {filter === '프로젝트' && (
           <>
-            {[1, 2, 3].map((el) => (
-              <UserProjectCard key={el} project={dummyProject} />
-            ))}
+            {projects &&
+              projects.map((project) => (
+                <UserProjectCard key={project.projectId} project={project} />
+              ))}
           </>
-        ) : (
+        )}
+        {filter === '게시글' && (
           <>
-            {/* {posts.map((post) => (
-					<CommunityCardBox key={post.id} title={post.title} data={post}>
-				<Skeleton/>
-				</CommunityCardBox>
-				))} */}
-            {[1, 2, 3].map((el) => (
-              <UserPostCard key={el} post={dummyPost} />
-            ))}
+            {posts &&
+              posts.map((post) => (
+                <UserPostCard key={post.articleId} post={post} />
+              ))}
           </>
         )}
       </Contents>
+      <Pagenation page={page} pageSize={4} onPageChange={setPage} />
     </Wrapper>
   );
 }
@@ -64,17 +80,9 @@ const Wrapper = styled.div`
 `;
 
 const Contents = styled.div`
-  background: #0d1117;
-  color: #c9d1d9;
   font-size: 15px;
   padding: var(--padding-2);
-  border: 1px solid #d8d8d8;
   border-radius: var(--radius-def);
-`;
-const ContentTitle = styled.div.attrs({
-  className: 'nanum-bold',
-})`
-  padding-bottom: 20px;
 `;
 const Category = styled.div.attrs({
   className: 'noto-medium',
@@ -85,15 +93,16 @@ const Category = styled.div.attrs({
 `;
 const FilterBtn = styled.button.attrs({
   className: 'nanum-bold',
-})`
+})<{ filter: string }>`
   border: none;
   font-size: 20px;
   cursor: pointer;
   font-family: var(--font-nanum);
   font-size: 23px;
   font-weight: 700;
-  color: #464646;
+  /* color: #464646; */
   background: none;
+  color: ${(props) => (props.filter === props.name ? '#8a2be2' : '#464646')};
 `;
 
 const dummyProject = {

@@ -2,26 +2,27 @@ import styled from 'styled-components';
 import { AiTwotoneLike } from 'react-icons/ai';
 import Stack from '../stack/Stack';
 import { useRouter } from 'next/router';
+import { Project, Tech } from '@/types/project';
 
-export default function UserProjectCard({ project }: { project: any }) {
+export default function UserProjectCard({ project }: { project: Project }) {
   const router = useRouter();
   const handleClick = () => {
-    router.push(`/projects/${project.id}`);
+    router.push(`/project/${project.projectId}`);
   };
   return (
     <Wrapper onClick={handleClick}>
       <ContentContainer>
         <CardInfo>
-          <h3 style={{ fontSize: '20px', fontWeight: 'bold' }}>
+          <h1 style={{ fontSize: '20px', fontWeight: 'bold' }}>
             {project.title}
-          </h3>
+          </h1>
           <span>
             {`프로젝트 기간 : ${project.startDate}~ ${project.endDate}`}
           </span>
         </CardInfo>
         <TagContainer>
-          {project.techList.map((stack: string) => (
-            <Stack tech={stack} />
+          {project.techList.map((stack: Tech) => (
+            <Stack key={stack.tech} tech={stack.tech} />
           ))}
         </TagContainer>
         <span>
@@ -61,6 +62,12 @@ const CardInfo = styled.div`
   display: flex;
   align-items: flex-end;
   justify-content: space-between;
+  h1 {
+    width: 200px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
 `;
 const TagContainer = styled.div`
   padding: 10px;
