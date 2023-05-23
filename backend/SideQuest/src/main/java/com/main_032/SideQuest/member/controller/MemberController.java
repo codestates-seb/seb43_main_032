@@ -1,7 +1,15 @@
 package com.main_032.SideQuest.member.controller;
 
+import com.main_032.SideQuest.article.dto.ArticleInfoResponseDto;
+import com.main_032.SideQuest.article.service.ArticleService;
+import com.main_032.SideQuest.community.dto.answer.AnswerInfoResponseDto;
+import com.main_032.SideQuest.community.dto.comment.CommentInfoResponseDto;
+import com.main_032.SideQuest.community.service.AnswerService;
+import com.main_032.SideQuest.community.service.CommentService;
 import com.main_032.SideQuest.member.dto.*;
 import com.main_032.SideQuest.member.service.MemberService;
+import com.main_032.SideQuest.project.dto.ProjectInfoResponseDto;
+import com.main_032.SideQuest.project.service.ProjectService;
 import com.main_032.SideQuest.util.dto.MultiResponseDto;
 import com.main_032.SideQuest.util.dto.SingleResponseDto;
 import io.swagger.annotations.Api;
@@ -15,9 +23,17 @@ import org.springframework.web.bind.annotation.*;
 public class MemberController {
 
     private final MemberService memberService;
+    private final AnswerService answerService;
+    private final ArticleService articleService;
+    private final ProjectService projectService;
+    private final CommentService commentService;
 
-    public MemberController(MemberService memberService) {
+    public MemberController(MemberService memberService, AnswerService answerService, ArticleService articleService, ProjectService projectService, CommentService commentService) {
         this.memberService = memberService;
+        this.answerService = answerService;
+        this.articleService = articleService;
+        this.projectService = projectService;
+        this.commentService = commentService;
     }
 
     @ApiOperation(value = "회원 가입") //회원가입
@@ -81,4 +97,30 @@ public class MemberController {
         memberService.plusStar(starPostDto);
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
+    @ApiOperation(value = "내가 작성한 답변 조회")
+    @GetMapping("members/info/answers")
+    public ResponseEntity<MultiResponseDto<AnswerInfoResponseDto>> getAllMyAnswers(){
+        MultiResponseDto<AnswerInfoResponseDto> response = answerService.getMyAnswers();
+        return ResponseEntity.ok(response);
+    }
+    @ApiOperation(value = "내가 작성한 프로젝트 조회")
+    @GetMapping("members/info/projects")
+    public ResponseEntity<MultiResponseDto<ProjectInfoResponseDto>> getAllMyProjects(){
+        MultiResponseDto<ProjectInfoResponseDto> response = projectService.getMyProjects();
+        return ResponseEntity.ok(response);
+    }
+    @ApiOperation(value = "내가 작성한 게시글 조회")
+    @GetMapping("members/info/articles")
+    public ResponseEntity<MultiResponseDto<ArticleInfoResponseDto>> getAllMyArticles(){
+        MultiResponseDto<ArticleInfoResponseDto> response = articleService.getMyArticles();
+        return ResponseEntity.ok(response);
+    }
+    @ApiOperation(value = "내가 작성한 댓글 조회")
+    @GetMapping("members/info/comments")
+    public ResponseEntity<MultiResponseDto<CommentInfoResponseDto>> getAllMyComments(){
+        MultiResponseDto<CommentInfoResponseDto> response = commentService.getMyComments();
+        return ResponseEntity.ok(response);
+    }
+
 }

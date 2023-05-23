@@ -6,6 +6,7 @@ import com.main_032.SideQuest.community.repository.LikesRepository;
 import com.main_032.SideQuest.member.entity.Member;
 import com.main_032.SideQuest.member.service.MemberService;
 import com.main_032.SideQuest.project.dto.ProjectGetResponseDto;
+import com.main_032.SideQuest.project.dto.ProjectInfoResponseDto;
 import com.main_032.SideQuest.project.dto.ProjectPostDto;
 import com.main_032.SideQuest.project.entity.Project;
 import com.main_032.SideQuest.util.exception.BusinessLogicException;
@@ -62,5 +63,17 @@ public class ProjectMapper {
                 project.getCreatedAt()
         );
         return projectGetResponseDto;
+    }
+    public ProjectInfoResponseDto projectToProjectInfoResponseDto(Project project){
+        ProjectInfoResponseDto projectInfoResponseDto = new ProjectInfoResponseDto(
+                project.getId(),
+                project.getMemberId(),
+                project.getTitle(),
+                project.getContent(),
+                project.getTotalLikes(),
+                project.getStartDate(),
+                project.getEndDate()
+        );
+        return projectInfoResponseDto;
     }
 }

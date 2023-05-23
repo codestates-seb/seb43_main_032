@@ -7,6 +7,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public interface AnswerRepository extends JpaRepository<Answer,Long> {
     @Query("SELECT aw FROM Answer aw WHERE aw.articleId = :articleId AND aw.deleted != 1")
@@ -14,5 +16,6 @@ public interface AnswerRepository extends JpaRepository<Answer,Long> {
     @Query("SELECT aw FROM Answer aw WHERE aw.projectId = :projectId AND aw.deleted != 1")
     Page<Answer> findAllProjectAnswer(Long projectId, Pageable pageable);
 
-
+    @Query("SELECT aw FROM Answer aw WHERE aw.memberId = :memberId AND aw.deleted != 1")
+    Page<Answer> findAllMyAnswer(Long memberId, Pageable pageable);
 }

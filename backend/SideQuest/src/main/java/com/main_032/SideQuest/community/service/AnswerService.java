@@ -2,6 +2,7 @@ package com.main_032.SideQuest.community.service;
 
 import com.main_032.SideQuest.article.entity.Article;
 import com.main_032.SideQuest.article.repository.ArticleRepository;
+import com.main_032.SideQuest.community.dto.answer.AnswerInfoResponseDto;
 import com.main_032.SideQuest.community.dto.answer.AnswerPatchDto;
 import com.main_032.SideQuest.community.dto.answer.AnswerResponseDto;
 import com.main_032.SideQuest.community.entity.Category;
@@ -18,10 +19,12 @@ import com.main_032.SideQuest.util.exception.BusinessLogicException;
 import com.main_032.SideQuest.util.exception.ExceptionCode;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -32,15 +35,13 @@ public class AnswerService {
     private final AnswerMapper mapper;
     private final ArticleRepository articleRepository;
     private final ProjectRepository projectRepository;
-    private final CommentService commentService;
 
-    public AnswerService(AnswerRepository answerRepository, MemberService memberService, AnswerMapper mapper, ArticleRepository articleRepository, ProjectRepository projectRepository, CommentService commentService) {
+    public AnswerService(AnswerRepository answerRepository, MemberService memberService, AnswerMapper mapper, ArticleRepository articleRepository, ProjectRepository projectRepository) {
         this.answerRepository = answerRepository;
         this.memberService = memberService;
         this.mapper = mapper;
         this.articleRepository = articleRepository;
         this.projectRepository = projectRepository;
-        this.commentService = commentService;
     }
 
     @Transactional
@@ -166,5 +167,19 @@ public class AnswerService {
             project.updateTotalAnswers(project.getTotalAnswers() - 1);
             projectRepository.save(project);
         }
+    }
+
+    public MultiResponseDto<AnswerInfoResponseDto> getMyAnswers() {
+        Member member=memberService.getLoginMember();
+        Pageable pageable = PageRequest.of(0,4);
+        Page<Answer> answerPage = answerRepository.findAllMyAnswer(member.getId(),pageable);
+        List<Answer> answerList = answerPage.getContent();
+        List<AnswerInfoResponseDto> answerInfoResponseDtoList = new ArrayList<>();
+        for(Answer answer: answerList){
+            AnswerInfoResponseDto answerInfoResponseDto = mapper.answerToanswerInfoResponseDto(answer);
+            answerInfoResponseDtoList.add(answerInfoResponseDto);
+        }
+        MultiResponseDto<AnswerInfoResponseDto> multiResponse = new MultiResponseDto<AnswerInfoResponseDto>(answerInfoResponseDtoList,answerPage);
+        return multiResponse;
     }
 }

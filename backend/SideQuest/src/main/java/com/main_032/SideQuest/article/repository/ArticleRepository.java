@@ -20,7 +20,9 @@ public interface ArticleRepository extends JpaRepository<Article,Long> {
         @Query("SELECT a FROM Article a ORDER BY a.views DESC")
         List<Article> getTop5ViewsArticles(Pageable pageable);
 
-
         @Query("SELECT a FROM Article a ORDER BY a.totalLikes DESC")
         List<Article> getTop5LikesArticles(Pageable pageable);
+
+        @Query("SELECT a FROM Article a WHERE a.deleted != 1 AND a.memberId = :memberId")
+        Page<Article> findMyArticlePage(Long memberId, Pageable pageable);
 }

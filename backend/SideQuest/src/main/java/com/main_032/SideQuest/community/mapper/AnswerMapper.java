@@ -1,5 +1,6 @@
 package com.main_032.SideQuest.community.mapper;
 
+import com.main_032.SideQuest.community.dto.answer.AnswerInfoResponseDto;
 import com.main_032.SideQuest.community.dto.answer.AnswerPatchDto;
 import com.main_032.SideQuest.community.dto.answer.AnswerPostDto;
 import com.main_032.SideQuest.community.dto.answer.AnswerResponseDto;
@@ -76,5 +77,14 @@ public class AnswerMapper {
         );
         return answerResponseDto;
     }
-
+    public AnswerInfoResponseDto answerToanswerInfoResponseDto(Answer answer){
+        AnswerInfoResponseDto answerInfoResponseDto = new AnswerInfoResponseDto(
+                answer.getId(),
+                answer.getMemberId(),
+                answer.getContent(),
+                answer.getTotalLikes(),
+                answer.getCreatedAt()
+        );
+        return answerInfoResponseDto;
+    }
 }

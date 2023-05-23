@@ -286,7 +286,19 @@ public class ProjectService {
 
         projectRepository.save(project);
     }
-
+    public MultiResponseDto<ProjectInfoResponseDto> getMyProjects(){
+        Member member = memberService.getLoginMember();
+        Pageable pageable = PageRequest.of(0,4);
+        Page<Project> projectPage = projectRepository.findMyProjects(member.getId(),pageable);
+        List<Project> projectList = projectPage.getContent();
+        List<ProjectInfoResponseDto> projectInfoResponseDtoList = new ArrayList<>();
+        for(Project project : projectList){
+            ProjectInfoResponseDto projectInfoResponseDto = projectMapper.projectToProjectInfoResponseDto(project);
+            projectInfoResponseDtoList.add(projectInfoResponseDto);
+        }
+        MultiResponseDto<ProjectInfoResponseDto> response = new MultiResponseDto<ProjectInfoResponseDto>(projectInfoResponseDtoList,projectPage);
+        return response;
+    }
     @Transactional
     public void plusTotalLikes(Long projectId) {
         Project project = getProjectById(projectId);

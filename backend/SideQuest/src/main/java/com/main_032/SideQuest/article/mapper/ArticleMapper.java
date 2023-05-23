@@ -2,6 +2,7 @@ package com.main_032.SideQuest.article.mapper;
 
 import com.main_032.SideQuest.article.dto.ArticlePostDto;
 import com.main_032.SideQuest.article.dto.ArticleGetResponseDto;
+import com.main_032.SideQuest.article.dto.ArticleInfoResponseDto;
 import com.main_032.SideQuest.article.dto.ArticleTechStackResponseDto;
 import com.main_032.SideQuest.article.entity.Article;
 import com.main_032.SideQuest.article.entity.ArticleTechStack;
@@ -76,4 +77,15 @@ public class ArticleMapper {
             return articleResponseDto;
         }
 
+    public ArticleInfoResponseDto articleToArticleResponseDto(Article article){
+        ArticleInfoResponseDto articleInfoResponseDto = new ArticleInfoResponseDto(
+                article.getId(),
+                article.getMemberId(),
+                article.getTitle(),
+                article.getContent(),
+                article.getTotalLikes(),
+                article.getCreatedAt()
+        );
+        return articleInfoResponseDto;
+    }
 }
