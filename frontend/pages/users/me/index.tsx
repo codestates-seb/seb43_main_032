@@ -67,9 +67,7 @@ const AvatarContainer = styled.div`
   -webkit-box-shadow: 5px 5px 10px 0px rgba(0, 0, 0, 0.25);
   -moz-box-shadow: 5px 5px 10px 0px rgba(0, 0, 0, 0.25);
 `;
-const StackContainer = styled.div`
-  display: flex;
-`;
+
 const EditButton = styled.button`
   width: calc(100% - 2px);
   border: solid 2px #ececec;
@@ -132,17 +130,6 @@ export default function me() {
                     </>
                   }
                 />
-                {/* <InfoContainer
-                  keyNode={'기술스텍'}
-                  contentNode={
-                    <StackContainer>
-                      {user.techList.map((stack) => (
-                        <Stack key={stack} tech={stack} />
-                        // <p>{stack}</p>
-                      ))}
-                    </StackContainer>
-                  }
-                /> */}
               </ProfileContainer>
               <div className="info-box">
                 <InfoContainer
@@ -157,8 +144,7 @@ export default function me() {
                 />
               </div>
             </UserInfo>
-            <UserContentsBox contentTitle={['프로젝트', '게시글']} />
-            <UserContentsBox contentTitle={['프로젝트 댓글', '게시글 댓글']} />
+            <UserContentsBox contentTitle={['프로젝트', '게시글', '답글']} />
           </RightColumn>
         </GridBox>
       )}

@@ -1,7 +1,6 @@
 import { ReactNode } from 'react';
 import styled from 'styled-components';
 
-
 interface IProps {
   keyNode: ReactNode;
   contentNode: ReactNode;
@@ -24,10 +23,10 @@ const Wrapper = styled.div`
   display: flex;
   align-items: center;
   font-size: 15px;
-  ${({ lastItem }: { lastItem: Boolean }) =>
+  /* ${({ lastItem }: { lastItem: Boolean }) =>
     lastItem
       ? 'padding-bottom: 0px'
-      : 'border-bottom: 1px solid rgba(0, 0, 0, 0.3)'}
+      : 'border-bottom: 1px solid rgba(0, 0, 0, 0.3)'} */
 `;
 const KeyContainer = styled.div`
   width: 100px;

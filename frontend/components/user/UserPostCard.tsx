@@ -70,6 +70,12 @@ const CardInfo = styled.div`
   align-items: flex-end;
   justify-content: space-between;
   gap: 10px;
+  h1 {
+    width: 200px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
 `;
 
 const StarRaiting = styled.div`

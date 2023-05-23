@@ -1,8 +1,9 @@
 import styled from 'styled-components';
 import Tag from '../Tag';
-import { UserState } from '@/types/user';
+import { User } from '@/types/user';
+import Stack from '../stack/Stack';
 
-export default function UserProfile({ user }: { user: UserState }) {
+export default function UserProfile({ user }: { user: User }) {
   return (
     <Wrapper>
       <AvatarContainer>
@@ -18,6 +19,11 @@ export default function UserProfile({ user }: { user: UserState }) {
       <Tag className="years-tag">{`${user?.yearOfDev} 년차`}</Tag>
       <Name>{user?.name}</Name>
       <Position>프론트엔드</Position>
+      <StackContainer>
+        {user.techList.map((stack) => (
+          <Stack key={stack.tech} tech={stack.tech} />
+        ))}
+      </StackContainer>
     </Wrapper>
   );
 }
@@ -49,6 +55,9 @@ export const AvatarContainer = styled.div`
   border-radius: 100%;
   overflow: hidden;
 `;
+const StackContainer = styled.div`
+  display: flex;
+`;
 const ProfileContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -79,4 +88,3 @@ const Position = styled.div.attrs({
 const Name = styled.p.attrs({
   className: 'nanum-bold',
 })``;
-
