@@ -1,5 +1,4 @@
 import Pagenation from '@/components/Pagenation';
-import { TextArea } from '@/components/authAction/EditInput';
 import UserCard from '@/components/user/UserCard';
 import useUser from '@/hooks/react-query/useUser';
 import { ChangeEvent, useEffect, useState } from 'react';
@@ -80,6 +79,7 @@ const Users = () => {
           </SearchBox>
         </SubHeader>
       </SearchHeader>
+
       <CardWrapper>
         {users &&
           users.map((user: any) => <UserCard key={user.name} user={user} />)}

@@ -3,6 +3,7 @@ import { getCookie } from '../cookie';
 
 axios.defaults.withCredentials = true;
 
+// 도메인이 고정되어버려서 굳이 유동적으로 환경변수 설정을 안해도 될 듯??
 // const baseURL =
 //   process.env.NODE_ENV === 'production'
 //     ? process.env.NEXT_RESOURCE_URL

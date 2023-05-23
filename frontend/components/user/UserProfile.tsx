@@ -34,7 +34,7 @@ const Wrapper = styled.div`
   flex-direction: column;
   align-items: center;
   gap: 16px;
-  margin-bottom: 30px;
+  margin-bottom: 20px;
   border: solid 2px #ececec;
   padding: 40px 30px 20px;
   border-radius: 15px;
@@ -55,6 +55,7 @@ export const AvatarContainer = styled.div`
   height: 200px;
   border-radius: 100%;
   overflow: hidden;
+  border: solid 3px #ececec;
 `;
 const StackContainer = styled.div`
   display: flex;
