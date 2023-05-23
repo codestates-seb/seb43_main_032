@@ -4,7 +4,6 @@ import com.main_032.SideQuest.auth.jwt.JwtTokenizer;
 import com.main_032.SideQuest.auth.utils.CustomAuthorityUtils;
 import com.main_032.SideQuest.member.entity.Member;
 import com.main_032.SideQuest.member.repository.MemberRepository;
-import com.main_032.SideQuest.member.service.MemberService;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.core.user.OAuth2User;
@@ -39,8 +38,8 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
             image = (String) oAuth2User.getAttributes().get("profile_image");
         }
 
-        List<String> authorities = authorityUtils.createRoles(email);
-        Member member = makeMember(name, email, image);
+        List<String> roles = authorityUtils.createRoles(email);
+        Member member = makeMember(name, email, image, roles);
         Optional<Member> findMember = memberRepository.findByEmail(email);
         if(findMember.isPresent()) {
             member = findMember.get();
@@ -48,19 +47,20 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
         else {
             member = memberRepository.save(member);
         }
-        redirect(request, response, member, authorities);
+        redirect(request, response, member, roles);
     }
 
-    private Member makeMember(String name, String email, String image) {
+    private Member makeMember(String name, String email, String image, List<String> roles) {
         Member member = new Member();
         member.updateName(name);
         member.updateEmail(email);
         member.updateProfileImageUrl(image);
+        member.updateRoles(roles);
         return member;
     }
 
     private void redirect(HttpServletRequest request, HttpServletResponse response, Member member, List<String> authorities) throws IOException {
-        String accessToken = delegateAccessToken(member, authorities);
+        String accessToken = delegateAccessToken(member);
         String refreshToken = delegateRefreshToken(member);
 
         String uri = createURI(request, accessToken, refreshToken).toString();
@@ -72,10 +72,11 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
         getRedirectStrategy().sendRedirect(request, response, uri);
     }
 
-    private String delegateAccessToken(Member member, List<String> authorities) {
+    private String delegateAccessToken(Member member) {
         Map<String, Object> claims = new HashMap<>();
-        claims.put("memberId", member.getId());
-        claims.put("roles", authorities);
+        claims.put("username", member.getEmail());
+        claims.put("roles", member.getRoles());
+        claims.put("DisplayName",member.getName());
 
         String subject = member.getEmail();
 
@@ -110,8 +111,8 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
         return UriComponentsBuilder
                 .newInstance()
                 .scheme("http")
-                .host("ec2-43-201-8-99.ap-northeast-2.compute.amazonaws.com")
-//                .host("localhost")
+//                .host("ec2-43-201-8-99.ap-northeast-2.compute.amazonaws.com")
+                .host("localhost")
 //                .port(80)   //-> aws로 배포했을 때 싸용
                 .port(3000)   //-> local 테스트용
                 .path("/oauth2")            //리다이렉트 주소 (토큰이 포함된 url 을 받는 주소)
