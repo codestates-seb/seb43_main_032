@@ -11,6 +11,8 @@ export type UserState = {
   profileImageUrl: string;
   totalStar: number;
   yearOfDev: number;
+  location: string;
+  techList: Tech[];
 };
 export interface User {
   aboutMe: string;
