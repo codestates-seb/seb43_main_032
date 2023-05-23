@@ -1,5 +1,6 @@
 package com.main_032.SideQuest.community.service;
 
+import com.main_032.SideQuest.community.dto.comment.CommentInfoResponseDto;
 import com.main_032.SideQuest.community.dto.comment.CommentPatchDto;
 import com.main_032.SideQuest.community.dto.comment.CommentPostDto;
 import com.main_032.SideQuest.community.dto.comment.CommentResponseDto;
@@ -130,6 +131,25 @@ public class CommentService {
         }
         return commentResponseDtoList;
     }
+    public MultiResponseDto<CommentInfoResponseDto> getMyComments() {
+        Member member=memberService.getLoginMember();
+        Pageable pageable = PageRequest.of(0,4);
+        Page<Comment> commentPage = commentRepository.findMyComments(member.getId(),pageable);
+        List<Comment> commentList = commentPage.getContent();
+        List<CommentInfoResponseDto> commentInfoResponseDtoList = new ArrayList<>();
+        for(Comment comment:commentList){
+            CommentInfoResponseDto commentInfoResponseDto = new CommentInfoResponseDto(
+                    comment.getId(),
+                    comment.getMemberId(),
+                    comment.getContent(),
+                    comment.getTotalLikes(),
+                    comment.getCreatedAt()
+            );
+            commentInfoResponseDtoList.add(commentInfoResponseDto);
+        }
+        MultiResponseDto<CommentInfoResponseDto> response = new MultiResponseDto<CommentInfoResponseDto>(commentInfoResponseDtoList,commentPage);
+        return response;
+    }
 
     @Transactional
     public void plusTotalLikes(Long commentId) {
@@ -150,4 +170,6 @@ public class CommentService {
         Comment comment = findComment.orElseThrow(() -> new BusinessLogicException(ExceptionCode.COMMENT_NOT_FOUND));
         return comment;
     }
+
+
 }
