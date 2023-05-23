@@ -6,12 +6,13 @@ import { ChangeEvent, useState } from 'react';
 import styled from 'styled-components';
 import { BiSearch } from 'react-icons/bi';
 import { useQueryClient } from 'react-query';
+import { POSITIONS } from '@/constant/constant';
 
 const Users = () => {
   const [inputValue, setInputValue] = useState<string>('');
   const [keyword, setKeyword] = useState<string | undefined>(undefined);
   const [page, setPage] = useState<number>(1);
-  const [size, setSize] = useState<number>(12);
+  const [size, setSize] = useState<number>(24);
   const queryClient = useQueryClient();
 
   const {
@@ -19,7 +20,10 @@ const Users = () => {
     searchUserByKeyword: { data: searchedUsers, isLoading: searchUserLoading },
   } = useUser({ page, pageSize: size, keyword });
 
-  const handleChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
+  //페이지네이션 크기
+  const pageSize = Math.ceil(size / 24);
+
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     setInputValue(e.target.value);
   };
   const handleClick = () => {
@@ -29,18 +33,32 @@ const Users = () => {
     }
   };
 
+  //filter 상태
+  const [filter, setFilter] = useState(0);
+  const filterHandler = (idx: number) => {
+    setFilter(idx);
+  };
+
   return (
     <Wrapper>
       <SearchHeader>
         <Title>유저 목록</Title>
         <SubHeader>
           <FilterBox>
-            {['프론트엔드', '백엔드', 'UX/UI'].map((btn) => (
-              <FilterButton key={btn}>{btn} </FilterButton>
+            {POSITIONS.map((btn, idx) => (
+              <FilterButton
+                idx={idx}
+                filter={filter}
+                onClick={() => filterHandler(idx)}
+                key={btn}
+              >
+                {btn}
+              </FilterButton>
             ))}
           </FilterBox>
           <SearchBox>
-            <TextArea
+            <input
+              className="search-input"
               onChange={handleChange}
               value={inputValue}
               placeholder="Search user..."
@@ -55,7 +73,7 @@ const Users = () => {
         {users &&
           users.map((user: any) => <UserCard key={user.name} user={user} />)}
       </CardWrapper>
-      <Pagenation pageSize={size} page={page} onPageChange={setPage} />
+      <Pagenation pageSize={pageSize} page={page} onPageChange={setPage} />
     </Wrapper>
   );
 };
@@ -95,8 +113,13 @@ const SubHeader = styled.div`
 const SearchBox = styled.div`
   position: relative;
   display: flex;
-  width: 50%;
-  align-items: flex-start;
+  width: 20%;
+  align-items: center;
+
+  .search-input {
+    width: 100%;
+    padding: 10px;
+  }
 
   @media (max-width: 768px) {
     width: 100%;
@@ -114,11 +137,22 @@ const SearchButton = styled.button`
 const FilterBox = styled.div`
   display: flex;
   height: 100%;
+  width: 80%;
   gap: 8px;
 `;
-const FilterButton = styled.button`
+
+//필터 버튼 props
+type FilterButtonProps = {
+  idx: number;
+  filter: number;
+};
+
+const FilterButton = styled.button<FilterButtonProps>`
   font-family: 'Pretendard';
-  background-color: #6333ff;
+  background-color: ${(props) =>
+    props.idx === props.filter
+      ? '#6333ff'
+      : '#9880e9;'}; //필터가 눌린다면 색깔 부여
   color: white;
   border-radius: 5px;
   padding: 10px;
