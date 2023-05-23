@@ -40,13 +40,17 @@ export default function UserContentsBox({ contentTitle, contents }: IProps) {
     }
   }, [lastUrl, me]);
 
-  id && console.log('id', id);
   if (id === 0) return <h1>Loading...</h1>;
   return (
     <Wrapper>
       <Category>
         {contentTitle.map((title) => (
-          <FilterBtn name={title} filter={filter} onClick={handleClick}>
+          <FilterBtn
+            key={title}
+            name={title}
+            filter={filter}
+            onClick={handleClick}
+          >
             {title}
           </FilterBtn>
         ))}
