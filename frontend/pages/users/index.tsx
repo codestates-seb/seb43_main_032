@@ -2,7 +2,7 @@ import Pagenation from '@/components/Pagenation';
 import { TextArea } from '@/components/authAction/EditInput';
 import UserCard from '@/components/user/UserCard';
 import useUser from '@/hooks/react-query/useUser';
-import { ChangeEvent, useState } from 'react';
+import { ChangeEvent, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { BiSearch } from 'react-icons/bi';
 import { useQueryClient } from 'react-query';
@@ -32,12 +32,23 @@ const Users = () => {
       setKeyword(inputValue);
     }
   };
-
   //filter 상태
-  const [filter, setFilter] = useState(0);
+  const [filter, setFilter] = useState(-1);
   const filterHandler = (idx: number) => {
     setFilter(idx);
   };
+
+  //필터데이터
+  //필터링을 constant 폴더에 POST_COMMUNITY_CATEGORY 데이터를 활용해서 구현하려고 했으나, 제출할 때 데이터가 일정하지
+  //않아서 구현하지못했음. 필터가 -1일땐 전체 데이터가 보이고 0~10일땐 값에 맞는 데이터를 보여줘야하는데 유저가
+  //본인의 포지션을 수정할 때, 고정된 값을 활용하도록 해야할 듯. FE/BE라는 이름으로 매칭이 되있어서 일일이 다 찾아야 함
+  // constant 폴더에 POSITIONS 값만 선택해서 포지션을 제출할 수 있도록 수정부탁드려요.
+  const [filterData, setFilterData] = useState([]);
+  useEffect(() => {
+    if (filter === -1) {
+      return setFilterData([]);
+    }
+  }, [filter]);
 
   return (
     <Wrapper>
