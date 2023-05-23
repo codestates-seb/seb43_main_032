@@ -5,11 +5,11 @@ import Link from 'next/link';
 import Stack from '../stack/Stack';
 import { User } from '@/types/user';
 import Tag from '../Tag';
-
 interface IProps {
   user: User;
 }
 export default function UserCard({ user }: IProps) {
+  console.log(user.techList);
   return (
     <Group>
       <Link href={`users/${user.memberId}`}>

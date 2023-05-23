@@ -8,6 +8,80 @@ import GridBox from '@/components/common_box/GridBox';
 import { getCookie } from '@/util/cookie';
 import { useEffect } from 'react';
 
+const LeftColumn = styled.div`
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+
+  @media (max-width: 960px) {
+    display: none;
+  }
+`;
+const RightColumn = styled.div`
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+`;
+const UserInfo = styled.div`
+  padding: 10px;
+  margin-bottom: 20px;
+
+  .title {
+    font-family: var(--font-nanum);
+    font-size: 23px;
+    font-weight: 700;
+    color: #464646;
+    margin-bottom: 20px;
+  }
+
+  .info-box {
+    background: #0d1117;
+    color: #c9d1d9;
+    font-size: 15px;
+    padding: var(--padding-2);
+    border: 1px solid #d8d8d8;
+    border-radius: var(--radius-def);
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+`;
+
+const ProfileContainer = styled.div`
+  @media (min-width: 960px) {
+    display: none;
+  }
+`;
+const AvatarContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  width: 100px;
+  height: 100px;
+  border-radius: 100%;
+  margin: 10px;
+  overflow: hidden;
+  box-shadow: 5px 5px 10px 0px rgba(0, 0, 0, 0.25);
+  -webkit-box-shadow: 5px 5px 10px 0px rgba(0, 0, 0, 0.25);
+  -moz-box-shadow: 5px 5px 10px 0px rgba(0, 0, 0, 0.25);
+`;
+const StackContainer = styled.div`
+  display: flex;
+`;
+const EditButton = styled.button`
+  width: calc(100% - 2px);
+  border: solid 2px #ececec;
+  padding: 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 15px;
+  font-family: 'Pretendard';
+
+  :hover {
+  }
+`;
+
 export default function me() {
   const {
     getMyInfo: { data: user },
@@ -55,17 +129,6 @@ export default function me() {
                     </>
                   }
                 />
-                {/* <InfoContainer
-                  keyNode={'기술스텍'}
-                  contentNode={
-                    <StackContainer>
-                      {user.techList.map((stack) => (
-                        <Stack key={stack} tech={stack} />
-                        // <p>{stack}</p>
-                      ))}
-                    </StackContainer>
-                  }
-                /> */}
               </ProfileContainer>
               <div className="info-box">
                 <InfoContainer
@@ -80,8 +143,7 @@ export default function me() {
                 />
               </div>
             </UserInfo>
-            <UserContentsBox contentTitle={['프로젝트', '게시글']} />
-            <UserContentsBox contentTitle={['프로젝트 댓글', '게시글 댓글']} />
+            <UserContentsBox contentTitle={['프로젝트', '게시글', '답글']} />
           </RightColumn>
         </GridBox>
       )}
