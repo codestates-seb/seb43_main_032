@@ -3,56 +3,57 @@ import { AiTwotoneLike } from 'react-icons/ai';
 import { useRouter } from 'next/router';
 import { formatDate } from '@/util/date';
 import { Community } from '@/types/community';
+import { RiThumbUpFill } from 'react-icons/ri';
 
 export default function UserPostCard({ post }: { post: Community }) {
   const router = useRouter();
   const handleClick = () => {
     router.push(`/community/post/${post.articleId}`);
   };
+
   return (
-    <Wrapper onClick={handleClick} filter={setColorByCategory(post.category)}>
+    <Wrapper onClick={handleClick}>
       <ContentContainer>
         <CardInfo>
-          <h1 style={{ fontSize: '20px', fontWeight: 'bold' }}>{post.title}</h1>
-          <span>{`${formatDate(new Date())}`}</span>
+          <div className="text-box">
+            <span className="title">{post.title}</span>
+            <span className="date">작성일 : {`${formatDate(new Date())}`}</span>
+          </div>
+          <StarRaiting>
+            <RiThumbUpFill size={16} style={{ color: '#8217f3' }} />
+            <p style={{ marginTop: '5px' }}>{post.totalLikes}</p>
+          </StarRaiting>
         </CardInfo>
-        <Description>{post.content}</Description>
+
+        <div className="content">
+          Lorem ipsum dolor sit amet consectetur. Sit penatibus maecenas
+          sollicitudin augue ac facilisi at varius tincidunt. Risus volutpat
+          gravida a pharetra. Tortor semper ultrices.Lorem ipsum dolor sit amet
+          consectetur. Sit penatibus maecenas sollicitudin augue ac facilisi at
+          varius tincidunt. Risus volutpat gravida a pharetra. Tortor semper
+          ultrices.
+        </div>
       </ContentContainer>
-      <StarRaiting>
-        <AiTwotoneLike size={30} style={{ color: '#6C82CA' }} />
-        <p style={{ marginTop: '5px' }}>{post.totalLikes}</p>
-      </StarRaiting>
     </Wrapper>
   );
 }
 
-function setColorByCategory(category: string) {
-  switch (category) {
-    case 'frontend':
-      return '#2af599';
-    case 'backend':
-      return '#f98bfe';
-    case 'uiux':
-      return '#4512eb';
-    default:
-      return '#2af599';
-  }
-}
-
-const Wrapper = styled.div<{ filter: string }>`
+const Wrapper = styled.div`
   display: flex;
-  padding: 10px;
-  height: 120px;
-  padding-left: 20px;
+  padding: 20px;
+  min-height: 120px;
   margin-bottom: 20px;
   justify-content: space-between;
-  align-items: center;
+  align-items: start;
   border-radius: var(--radius-def);
   cursor: pointer;
-  box-shadow: 5px 5px 10px 0px rgba(0, 0, 0, 0.25);
-  -webkit-box-shadow: 5px 5px 10px 0px rgba(0, 0, 0, 0.25);
-  -moz-box-shadow: 5px 5px 10px 0px rgba(0, 0, 0, 0.25);
-  border-left: 10px solid ${({ filter }) => filter};
+  background: white;
+  transition: all 0.3s;
+  :hover {
+    box-shadow: 5px 5px 10px 0px rgba(0, 0, 0, 0.5);
+    -webkit-box-shadow: 5px 5px 10px 0px rgba(0, 0, 0, 0.5);
+    -moz-box-shadow: 5px 5px 10px 0px rgba(0, 0, 0, 0.5);
+  }
 `;
 const Description = styled.span`
   margin-top: 10px;
@@ -64,24 +65,53 @@ const Description = styled.span`
 const ContentContainer = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  width: 100%;
+
+  .content {
+    color: #545454;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2; /* Limit to 2 lines */
+    -webkit-box-orient: vertical;
+    line-height: 1.2em; /* Adjust the line height as needed */
+  }
 `;
 const CardInfo = styled.div`
   display: flex;
-  align-items: flex-end;
+  align-items: center;
   justify-content: space-between;
-  gap: 10px;
-  h1 {
-    width: 200px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+  margin-bottom: 20px;
+
+  .text-box {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    .title {
+      width: 50%;
+      font-size: 18px;
+      font-weight: 600;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .date {
+      display: flex;
+      align-items: center;
+      font-size: 13px;
+      color: #9f9f9f;
+      margin-right: 20px;
+    }
   }
 `;
 
 const StarRaiting = styled.div`
   display: flex;
-  flex-direction: column;
+  justify-content: center;
   align-items: center;
-  padding-left: 20px;
+  gap: 8px;
+  padding: 4px 10px;
+  border: 1px solid rgb(215, 226, 235);
+  border-radius: 5px;
 `;
