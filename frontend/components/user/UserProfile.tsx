@@ -1,8 +1,10 @@
 import styled from 'styled-components';
 import Tag from '../Tag';
-import { UserState } from '@/types/user';
+import { User } from '@/types/user';
+import Stack from '../stack/Stack';
+import Position from '../Position';
 
-export default function UserProfile({ user }: { user: UserState }) {
+export default function UserProfile({ user }: { user: User }) {
   return (
     <Wrapper>
       <AvatarContainer>
@@ -18,6 +20,11 @@ export default function UserProfile({ user }: { user: UserState }) {
       <Tag className="years-tag">{`${user?.yearOfDev} 년차`}</Tag>
       <Name>{user?.name}</Name>
       <Position>프론트엔드</Position>
+      <StackContainer>
+        {user.techList.map((stack) => (
+          <Stack key={stack.tech} tech={stack.tech} />
+        ))}
+      </StackContainer>
     </Wrapper>
   );
 }
@@ -27,7 +34,7 @@ const Wrapper = styled.div`
   flex-direction: column;
   align-items: center;
   gap: 16px;
-  margin-bottom: 30px;
+  margin-bottom: 20px;
   border: solid 2px #ececec;
   padding: 40px 30px 20px;
   border-radius: 15px;
@@ -48,23 +55,23 @@ export const AvatarContainer = styled.div`
   height: 200px;
   border-radius: 100%;
   overflow: hidden;
+  border: solid 3px #ececec;
 `;
-const Position = styled.div.attrs({
-  className: 'noto-regular-13',
-})`
+const StackContainer = styled.div`
+  display: flex;
+`;
+const ProfileContainer = styled.div`
   display: flex;
   flex-direction: column;
-  p {
-    text-align: center;
-  }
-
+  justify-content: space-between;
+  height: 100%;
+  align-items: center;
+  gap: 10px;
   @media (max-width: 960px) {
-    align-items: center;
-    flex-direction: row;
-    gap: 10px;
+    /* flex-direction: row; */
+    align-items: flex-start;
   }
 `;
 const Name = styled.p.attrs({
   className: 'nanum-bold',
 })``;
-

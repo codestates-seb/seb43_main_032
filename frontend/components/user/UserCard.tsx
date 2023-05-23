@@ -5,11 +5,11 @@ import Link from 'next/link';
 import Stack from '../stack/Stack';
 import { User } from '@/types/user';
 import Tag from '../Tag';
-
 interface IProps {
   user: User;
 }
 export default function UserCard({ user }: IProps) {
+  console.log(user.techList);
   return (
     <Group>
       <Link href={`users/${user.memberId}`}>
@@ -33,11 +33,11 @@ export default function UserCard({ user }: IProps) {
                   <LocationAndStars>
                     <Tag className="tag">
                       <FaLocationArrow />
-                      <p>Seoul</p>
+                      <p>{user.location}</p>
                     </Tag>
                     <Tag className="tag">
                       <AiFillStar size={20} style={{ color: 'gold' }} />
-                      <p>{123}</p>
+                      <p>{user.totalStar}</p>
                     </Tag>
                   </LocationAndStars>
                 </InfoContainer>
@@ -96,6 +96,7 @@ const SubCardWrapper = styled.div`
   overflow: hidden;
   padding-bottom: 20px;
 `;
+//유저 카드는 스택hover가 작동할 수 없는 구조로 변경되었습니다.
 const StackWrapper = styled.ul`
   display: flex;
   flex-wrap: wrap;
@@ -132,12 +133,12 @@ const AvatarContainer = styled.div`
   overflow: hidden;
   border-radius: 5px;
   flex-shrink: 0;
+  border: solid 2px #ececec;
 
   @media (min-width: 768px) {
     width: 100px;
     height: 100px;
     border-radius: 100%;
-    background-color: skyblue;
   }
 `;
 const InfoContainer = styled.div`

@@ -2,41 +2,39 @@ import styled from 'styled-components';
 import { AiTwotoneLike } from 'react-icons/ai';
 import Stack from '../stack/Stack';
 import { useRouter } from 'next/router';
+import { Project, Tech } from '@/types/project';
+import { RiThumbUpFill } from 'react-icons/ri';
 
-export default function UserProjectCard({ project }: { project: any }) {
+export default function UserProjectCard({ project }: { project: Project }) {
   const router = useRouter();
   const handleClick = () => {
-    router.push(`/projects/${project.id}`);
+    router.push(`/project/${project.projectId}`);
   };
   return (
     <Wrapper onClick={handleClick}>
       <ContentContainer>
         <CardInfo>
-          <h3 style={{ fontSize: '20px', fontWeight: 'bold' }}>
-            {project.title}
-          </h3>
-          <span>
-            {`프로젝트 기간 : ${project.startDate}~ ${project.endDate}`}
-          </span>
+          <div className="text-box">
+            <span className="title">{project.title}</span>
+            <span className="date">
+              {`프로젝트 기간 : ${project.startDate}~ ${project.endDate}`}
+            </span>
+          </div>
+          <StarRaiting>
+            <RiThumbUpFill size={16} style={{ color: '#8217f3' }} />
+            <p style={{ marginTop: '5px' }}>{project.totalLikes}</p>
+          </StarRaiting>
         </CardInfo>
-        <TagContainer>
-          {project.techList.map((stack: string) => (
-            <Stack tech={stack} />
-          ))}
-        </TagContainer>
-        <span>
+
+        <div className="content">
           Lorem ipsum dolor sit amet consectetur. Sit penatibus maecenas
           sollicitudin augue ac facilisi at varius tincidunt. Risus volutpat
           gravida a pharetra. Tortor semper ultrices.Lorem ipsum dolor sit amet
           consectetur. Sit penatibus maecenas sollicitudin augue ac facilisi at
           varius tincidunt. Risus volutpat gravida a pharetra. Tortor semper
           ultrices.
-        </span>
+        </div>
       </ContentContainer>
-      <StarRaiting>
-        <AiTwotoneLike size={30} style={{ color: '#6C82CA' }} />
-        <p style={{ marginTop: '5px' }}>{project.totalLikes}</p>
-      </StarRaiting>
     </Wrapper>
   );
 }
@@ -44,23 +42,61 @@ export default function UserProjectCard({ project }: { project: any }) {
 const Wrapper = styled.div`
   display: flex;
   padding: 20px;
+  min-height: 120px;
   margin-bottom: 20px;
   justify-content: space-between;
   align-items: center;
   border-radius: var(--radius-def);
   cursor: pointer;
-  box-shadow: 5px 5px 10px 0px rgba(0, 0, 0, 0.25);
-  -webkit-box-shadow: 5px 5px 10px 0px rgba(0, 0, 0, 0.25);
-  -moz-box-shadow: 5px 5px 10px 0px rgba(0, 0, 0, 0.25);
+  background: white;
+  transition: all 0.3s;
+  :hover {
+    box-shadow: 5px 5px 10px 0px rgba(0, 0, 0, 0.5);
+    -webkit-box-shadow: 5px 5px 10px 0px rgba(0, 0, 0, 0.5);
+    -moz-box-shadow: 5px 5px 10px 0px rgba(0, 0, 0, 0.5);
+  }
 `;
 const ContentContainer = styled.div`
   display: flex;
   flex-direction: column;
+
+  .content {
+    color: #545454;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2; /* Limit to 2 lines */
+    -webkit-box-orient: vertical;
+    line-height: 1.2em; /* Adjust the line height as needed */
+  }
 `;
 const CardInfo = styled.div`
   display: flex;
-  align-items: flex-end;
+  align-items: center;
   justify-content: space-between;
+  margin-bottom: 20px;
+
+  .text-box {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    .title {
+      width: 50%;
+      font-size: 18px;
+      font-weight: 600;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .date {
+      display: flex;
+      align-items: center;
+      font-size: 13px;
+      color: #9f9f9f;
+      margin-right: 20px;
+    }
+  }
 `;
 const TagContainer = styled.div`
   padding: 10px;
@@ -71,7 +107,10 @@ const TagContainer = styled.div`
 `;
 const StarRaiting = styled.div`
   display: flex;
-  flex-direction: column;
+  justify-content: center;
   align-items: center;
-  padding-left: 20px;
+  gap: 8px;
+  padding: 4px 10px;
+  border: 1px solid rgb(215, 226, 235);
+  border-radius: 5px;
 `;

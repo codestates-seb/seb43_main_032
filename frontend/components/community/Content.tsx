@@ -108,6 +108,14 @@ const ContentTop = styled.div`
   padding: 0 20px;
   padding-bottom: 0px;
   gap: 12px;
+  div {
+    transition: all 0.2s ease-in-out;
+    background: #9b7aff;
+
+    :hover {
+      background: #8217f3;
+    }
+  }
   @media (max-width: 768px) {
     flex-direction: column;
   }
@@ -122,7 +130,7 @@ const SearchInput = styled.input`
   color: #5393fa;
   &:focus,
   :active {
-    outline: solid 3px #c4c4c4;
+    outline: none;
   }
   &::placeholder {
     color: #cfcfcf;
@@ -132,7 +140,7 @@ const SearchInput = styled.input`
 const SearchBtn = styled.button`
   border-radius: 4px;
   min-width: 104px;
-  background: #96bfff;
+  background: #9b7aff;
   padding: 10px 16px;
   color: #fff;
   outline: none;
@@ -142,8 +150,7 @@ const SearchBtn = styled.button`
   text-decoration: none;
   &:hover {
     transition: all 0.2s ease-in-out;
-    background: #fff;
-    color: #010606;
+    background: #8217f3;
   }
 `;
 
@@ -161,7 +168,7 @@ const ContentItemList = styled.div`
   width: 100%;
   min-height: 80vh;
   border-radius: var(--radius-def);
-  padding-top: 0px;
+  padding: 0px 20px;
   gap: 20px;
   display: flex;
   flex-direction: column;

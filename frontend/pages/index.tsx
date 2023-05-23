@@ -56,4 +56,10 @@ export default Home;
 const Box = styled.div`
   width: 100%;
   padding: var(--padding-2);
+
+  .community-box {
+    > div {
+      width: 100%;
+    }
+  }
 `;

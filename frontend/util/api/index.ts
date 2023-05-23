@@ -3,13 +3,14 @@ import { getCookie } from '../cookie';
 
 axios.defaults.withCredentials = true;
 
-const baseURL =
-  process.env.NODE_ENV === 'production'
-    ? process.env.NEXT_RESOURCE_URL
-    : 'http://www.side-quest-1.com:8080';
+// 도메인이 고정되어버려서 굳이 유동적으로 환경변수 설정을 안해도 될 듯??
+// const baseURL =
+//   process.env.NODE_ENV === 'production'
+//     ? process.env.NEXT_RESOURCE_URL
+//     : 'https://www.side-quest-1.com';
 
 const api = axios.create({
-  baseURL: 'http://www.side-quest-1.com:8080',
+  baseURL: 'https://www.side-quest-1.com',
   timeout: 3000,
   withCredentials: true,
   headers: {

@@ -2,6 +2,7 @@ import { Project } from '@/types/project';
 import { useQuery } from 'react-query';
 import { Community } from '@/types/community';
 import { getAllCommunity, getAllProject } from '@/util/api/getAllData';
+import { Answer } from '@/types/answer';
 
 export const useAllData = () => {
   const {
