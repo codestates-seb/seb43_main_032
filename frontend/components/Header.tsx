@@ -5,7 +5,6 @@ import { useRouter } from 'next/router';
 import { useEffect, useMemo, useState } from 'react';
 import logo from '../public/images/logo.svg';
 import logoWhite from '../public/images/logoSymbolWhite.svg';
-import BannerSlider from './banner/BannerSlider';
 import { useOffResize } from '@/hooks/useOffResize';
 import { HEADER_NAV } from '@/constant/constant';
 import { deleteCookie, getCookie } from '@/util/cookie';
@@ -18,13 +17,6 @@ import ButtonStyle from './button/ButtonStyle';
 
 const Header = () => {
   const router = useRouter();
-  const bannerCheckUrl =
-    router.pathname === '/' ||
-    router.pathname === '/community' ||
-    router.pathname === '/project' ||
-    router.pathname === '/users';
-
-  console.log(bannerCheckUrl);
 
   //로그인한 유저의 데이터 상태
   const [loggedInUser, setLoggedInUser] = useRecoilState(loggedInUserState);
@@ -134,7 +126,6 @@ const Header = () => {
               ))}
         </NavMenu>
       </Nav>
-      {bannerCheckUrl && <BannerSlider isScrolled={isScrolled}></BannerSlider>}
       <ModalNav nav={nav}>
         {getCookie('accessToken') && (
           <div className="user">

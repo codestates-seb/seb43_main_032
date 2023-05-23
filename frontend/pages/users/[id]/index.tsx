@@ -74,7 +74,7 @@ const UserInfoContainer = styled.div`
       padding: 10px;
       color: #171717;
       font-size: 14px;
-      transition: all .5s;
+      transition: all 0.5s;
 
       :hover {
         color: white;

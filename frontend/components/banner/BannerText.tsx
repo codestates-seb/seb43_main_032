@@ -1,3 +1,5 @@
+import { BANNER_TEXTS } from '@/constant/constant';
+import { useRouter } from 'next/router';
 import React from 'react';
 import styled, { keyframes } from 'styled-components';
 
@@ -8,7 +10,8 @@ interface TextProps {
   text: string;
 }
 
-const BannerText = ({ text }: { text: string }) => {
+const BannerText = () => {
+  const router = useRouter().pathname;
   return (
     <Wrapper>
       <Patterns>
@@ -25,8 +28,8 @@ const BannerText = ({ text }: { text: string }) => {
               <circle fill="#be9ddf" cx="25" cy="25" r="3"></circle>
             </PolkaDotsPattern>
           </defs>
-          <Text x="50%" y="60%" textAnchor="middle" text={text}>
-            {text}
+          <Text x="50%" y="60%" textAnchor="middle" text={BANNER_TEXTS[router]}>
+            {BANNER_TEXTS[router]}
           </Text>
         </Svg>
       </Patterns>

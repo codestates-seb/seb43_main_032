@@ -1,4 +1,3 @@
-import BannerThird from '@/components/banner/CommuBanner';
 import Content from '@/components/community/Content';
 import styled from 'styled-components';
 

@@ -33,11 +33,11 @@ export default function UserCard({ user }: IProps) {
                   <LocationAndStars>
                     <Tag className="tag">
                       <FaLocationArrow />
-                      <p>Seoul</p>
+                      <p>{user.location}</p>
                     </Tag>
                     <Tag className="tag">
                       <AiFillStar size={20} style={{ color: 'gold' }} />
-                      <p>{123}</p>
+                      <p>{user.totalStar}</p>
                     </Tag>
                   </LocationAndStars>
                 </InfoContainer>
@@ -96,6 +96,7 @@ const SubCardWrapper = styled.div`
   overflow: hidden;
   padding-bottom: 20px;
 `;
+//유저 카드는 스택hover가 작동할 수 없는 구조로 변경되었습니다.
 const StackWrapper = styled.ul`
   display: flex;
   flex-wrap: wrap;
