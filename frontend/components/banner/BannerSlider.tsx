@@ -7,7 +7,6 @@ import React, { useEffect, useRef, useState } from 'react';
 import { FaCaretSquareLeft, FaCaretSquareRight } from 'react-icons/fa';
 import { useRouter } from 'next/router';
 import HomeBanner from './HomeBanner';
-import CommuBanner from './CommuBanner';
 import BannerText from './BannerText';
 
 const CustomDot = ({
