@@ -62,7 +62,7 @@ export default function Content() {
 
   if (communityError) return <Message>잠시 후 다시 시도해주세요.</Message>;
   return (
-    <Container>
+    <>
       <ContentTop>
         <SearchInput
           placeholder="검색어를 입력하세요."
@@ -96,14 +96,9 @@ export default function Content() {
         )}
         <Pagenation page={page} onPageChange={setPage} pageSize={pageSize} />
       </ContentBottom>
-    </Container>
+    </>
   );
 }
-
-const Container = styled.div`
-  width: 100%;
-  padding-top: 0;
-`;
 
 const ContentTop = styled.div`
   width: 100%;
@@ -125,7 +120,6 @@ const SearchInput = styled.input`
   padding: 10px 22px;
   min-width: 240px;
   color: #5393fa;
-
   &:focus,
   :active {
     outline: solid 3px #c4c4c4;
@@ -157,17 +151,18 @@ const ContentBottom = styled.div`
   width: 100%;
   padding: var(--padding-2);
   background: #ffffff;
-  border-radius: var(--radius-xl);
-  position: relative;
   top: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
 `;
 
 const ContentItemList = styled.div`
   width: 100%;
   min-height: 80vh;
   border-radius: var(--radius-def);
-
   padding-top: 0px;
+  gap: 20px;
   display: flex;
   flex-direction: column;
   justify-content: start;

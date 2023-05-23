@@ -4,7 +4,6 @@ import UserEditForm from '@/components/authAction/UserEditForm';
 import useUser from '@/hooks/react-query/useUser';
 
 export default function Edit() {
-  // const user = dummyUser;
   const {
     getMyInfo: { data: user },
   } = useUser({});
@@ -13,7 +12,7 @@ export default function Edit() {
     <GridBox>
       <SideBar></SideBar>
       <Wrapper>
-        {user && ( //
+        {user && ( 
           <UserEditForm user={user} />
         )}
       </Wrapper>
