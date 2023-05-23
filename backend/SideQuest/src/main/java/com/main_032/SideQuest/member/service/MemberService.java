@@ -126,7 +126,7 @@ public class MemberService {
     }
 
     public SingleResponseDto<MemberGetResponseDto> getMemberInfo(Long memberId) {
-        Member member = getMember(memberId);
+        Member member = getMemberById(memberId);
 
         MemberGetResponseDto memberGetResponseDto = memberMapper.memberToGetMemberResponseDto(member);
         List<MemberTechStackResponseDto> memberTechStackResponseDtoList = memberTechStackService.getMemberTechStackResponseDto(member);
@@ -135,7 +135,7 @@ public class MemberService {
         return singleResponseDto;
     }
 
-    public Member getMember(Long memberId) {
+    public Member getMemberById(Long memberId) {
         Optional<Member> findMember = memberRepository.findById(memberId);
         findMember.orElseThrow(() -> new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
         Member member = findMember.get();
@@ -154,14 +154,14 @@ public class MemberService {
     }
 
     public MemberGetResponseDto getMemberGetResponseDto(Long memberId) {
-        Member member = getMember(memberId);
+        Member member = getMemberById(memberId);
         MemberGetResponseDto memberGetResponseDto = memberMapper.memberToGetMemberResponseDto(member);
         return memberGetResponseDto;
     }
 
     @Transactional
     public void plusStar(StarPostDto starPostDto) {
-        Member member = getMember(starPostDto.getMemberId());
+        Member member = getMemberById(starPostDto.getMemberId());
         member.plusStars(starPostDto.getStar());
         memberRepository.save(member);
         return;
