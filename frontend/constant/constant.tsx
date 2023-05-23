@@ -267,3 +267,10 @@ export const bannerImageUrls: { [key: string]: string[] } = {
     'https://github.com/codestates-seb/seb43_main_032/assets/118104644/e0199dee-fc0e-4f23-86f4-7ec4688fba55',
   ],
 };
+
+export const bannerTexts: { [key: string]: string } = {
+  '/': 'SIDE QUEST',
+  '/community': 'COMMUNITY',
+  '/project': 'PROJECT',
+  '/users': 'USERS',
+};

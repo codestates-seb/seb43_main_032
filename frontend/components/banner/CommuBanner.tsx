@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import Parallax from 'parallax-js';
 import { useRouter } from 'next/router';
+import { bannerImageUrls } from '@/constant/constant';
 
 const CommuBanner = () => {
   useEffect(() => {
@@ -11,29 +12,12 @@ const CommuBanner = () => {
       return () => parallax.disable();
     }
   }, []);
+  const router = useRouter().pathname;
 
   const checkSrc = () => {
-    const router = useRouter().pathname;
-
-    const home = [
-      'https://i.postimg.cc/44LxkHX9/Space-BP.png',
-      'https://i.postimg.cc/vH4HQ8mS/Space-RP.png',
-      'https://i.postimg.cc/RV2Cqr6C/Space-PP.png',
-      'https://i.postimg.cc/fyrzxp8K/Space-Meteors.png',
-    ];
-
-    const community = [
-      'https://github.com/codestates-seb/seb43_main_032/assets/118104644/125dc4ef-735e-4bae-94aa-73b613c2be14',
-      'https://github.com/codestates-seb/seb43_main_032/assets/118104644/9f8d0a08-83c4-4189-b4bf-cd5acbcf6168',
-      'https://github.com/codestates-seb/seb43_main_032/assets/118104644/a991fdf0-6d26-42b3-8c20-f9c7b285638b',
-      'https://github.com/codestates-seb/seb43_main_032/assets/118104644/93d290c9-b882-4ced-8b3b-e842b3fd12d4',
-    ];
-    if (router === '/') return home;
-    if (router === '/community') return community;
-    return [];
+    return bannerImageUrls[router] || [];
   };
 
-  console.log(checkSrc());
   return (
     <Container>
       <Scene id="scene">
