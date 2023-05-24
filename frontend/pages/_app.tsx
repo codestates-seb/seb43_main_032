@@ -2,16 +2,16 @@ import type { AppProps } from 'next/app';
 import { RecoilRoot } from 'recoil';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import '../styles/App.css';
-import Header from '../components/Header';
 import Footer from '../components/Footer';
 import styled from 'styled-components';
 import 'animate.css';
 import Contact from '@/components/Contact';
-import ModalBg from '@/components/ModalBg';
 import { useRouter } from 'next/router';
 import LoginBg from '@/components/user/LoginBg';
-import EtcHeader from '@/components/EtcHeader';
 import BannerSlider from '@/components/banner/BannerSlider';
+import Header from '@/components/header/Header';
+import EtcHeader from '@/components/header/EtcHeader';
+import ModalBg from '@/components/background/ModalBg';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -41,11 +41,15 @@ const App = ({ Component, pageProps }: AppProps) => {
       <RecoilRoot>
         {!isExcludedPathname ? <Header /> : <EtcHeader />}
         {isBannerVisible && <BannerSlider />}
-        <Box>
-          <Component {...pageProps} />
-        </Box>
+        {pathname === '/about' ? (
+          <Component />
+        ) : (
+          <Box>
+            <Component {...pageProps} />
+          </Box>
+        )}
         {!isExcludedPathname && <Contact />}
-        <ModalBg></ModalBg>
+        <ModalBg />
         {!isExcludedPathname && <Footer />}
         {isExcludedPathname && <LoginBg />}
       </RecoilRoot>
@@ -58,7 +62,7 @@ export default App;
 const Box = styled.main`
   min-height: 100vh;
   padding: 0px calc((100% - 1280px) / 2);
-  padding-top: 80px;
+  padding-top: 60px;
   flex: 1;
 
   .test {

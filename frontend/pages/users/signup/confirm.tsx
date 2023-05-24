@@ -54,10 +54,8 @@ export default function confirm() {
 
 const Wrapper = styled.div`
   display: flex;
-  /* position: absolute; */
   justify-content: center;
   align-items: center;
-  /* width: 100%; */
   background-color: gray;
 `;
 const Form = styled.form`
@@ -70,12 +68,10 @@ const InputContainer = styled.div`
   height: 50px;
 `;
 const Input = styled.input`
-  /* height: 50px; */
   height: 100%;
 `;
 const Button = styled.button`
   border: none;
   height: 100%;
   padding: 10px;
-  /* height: 50px; */
 `;

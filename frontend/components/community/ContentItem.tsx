@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import Tag from '../Tag';
-import { FaComment, FaEye, FaHeart, FaStar } from 'react-icons/fa';
+import { FaHeart, FaStar } from 'react-icons/fa';
 import { FiHeart, FiMessageSquare } from 'react-icons/fi';
 import { Community } from '@/types/community';
 import { useRouter } from 'next/router';
-import { AiOutlineComment, AiOutlineEye } from 'react-icons/ai';
+import { AiOutlineEye } from 'react-icons/ai';
 
 export default function ContentItem(article: Community) {
   const router = useRouter();
@@ -24,7 +24,10 @@ export default function ContentItem(article: Community) {
         <img src={article.memberInfo.profileImageUrl}></img>
         <div className="name-box">{article.memberInfo.name}</div>
         <div className="star-box">
-          <FaStar color="#FF9900"></FaStar> {article.totalLikes}
+          <span>
+            <FaStar color="#FF9900"></FaStar>
+          </span>
+          <span>{article.totalLikes > 1000 ? '99+' : article.totalLikes}</span>
         </div>
       </Left>
       <Center>
@@ -128,6 +131,13 @@ const Left = styled.div`
     border: solid 1px #ececec;
     padding: 2px 5px;
     border-radius: 5px;
+    min-width: 58px;
+    display: flex;
+    align-items: center;
+    > span:last-child {
+      flex: 1;
+      text-align: end;
+    }
   }
 
   .name-box {

@@ -9,10 +9,9 @@ interface IProps {
 export default function InfoContainer({
   keyNode,
   contentNode,
-  lastItem = false,
 }: IProps) {
   return (
-    <Wrapper lastItem={lastItem}>
+    <Wrapper>
       <KeyContainer className="nnum-bold">{keyNode}</KeyContainer>
       <ContentContainer className="nnum-bold">{contentNode}</ContentContainer>
     </Wrapper>
@@ -23,10 +22,6 @@ const Wrapper = styled.div`
   display: flex;
   align-items: center;
   font-size: 15px;
-  /* ${({ lastItem }: { lastItem: Boolean }) =>
-    lastItem
-      ? 'padding-bottom: 0px'
-      : 'border-bottom: 1px solid rgba(0, 0, 0, 0.3)'} */
 `;
 const KeyContainer = styled.div`
   width: 100px;

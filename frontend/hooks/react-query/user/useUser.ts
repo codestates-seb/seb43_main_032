@@ -2,16 +2,16 @@ import { Project } from '@/types/project';
 import { UserState } from '@/types/user';
 import { api } from '@/util/api';
 import axios from 'axios';
-import { useQuery } from 'react-query';
-import { useAllData } from './useAllData';
+import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { Community } from '@/types/community';
-// import { useRecoilState, useSetRecoilState } from 'recoil';
 
 interface IProps {
   id?: number | undefined;
   keyword?: string | undefined;
   page?: number;
   pageSize?: number;
+  userPage?: number;
+  userPageSize?: number;
   projectData?: Project[];
   communityData?: Community[];
 }
@@ -21,14 +21,16 @@ export default function useUser({
   keyword,
   page,
   pageSize,
+  userPage,
+  userPageSize,
   projectData,
   communityData,
 }: IProps) {
-  // const setIsLoggedIn = useSetRecoilState(userStatus);
-  // const queryClient = useQueryClient();
-  console.log('projectData hook', projectData);
+  const queryClient = useQueryClient();
 
-  const userQuery = useQuery(['users', page], () => getUsers(page, pageSize));
+  const userQuery = useQuery(['users', userPage], () =>
+    getUsers(userPage, userPageSize)
+  );
 
   const getMyInfo = useQuery(['users', 'me'], getMe);
 
@@ -50,6 +52,18 @@ export default function useUser({
   const allProjcetsQuery = useQuery(['projects', 'all'], () =>
     api(`/projects/findAll?size=1000&page=1`).then((res) => res.data.data)
   );
+  const updateUser = useMutation(
+    (updatedData: { [key: string]: any }) => api.patch('/members', updatedData),
+    {
+      onSuccess: () => {
+        // 수정이 성공하면 'users' 쿼리를 무효화하여 다시 가져옵니다.
+        queryClient.invalidateQueries(['users', 'me']);
+      },
+    }
+  );
+  const userAnswers = useQuery(['users', 'answers'], getUserAnswers);
+
+  const getMyProjects = useQuery(['users', 'projects', 'me'], getMyProject);
 
   return {
     userQuery, //
@@ -59,14 +73,13 @@ export default function useUser({
     getProjectByUserId,
     getPostsByUserId,
     allProjcetsQuery,
+    updateUser,
+    userAnswers,
+    getMyProjects,
   };
 }
 
-// async function getStatus(): Promise<boolean> {
-//   const response = await axios.get('/api/users/status');
-//   return response.data.ok;
-// }
-async function getUsers(
+export async function getUsers(
   page?: number,
   pageSize?: number
 ): Promise<UserState[]> {
@@ -101,7 +114,6 @@ const getUserProjects = async (
     return;
   }
   const startIdx = (page - 1) * pageSize;
-  console.log('projectData', projectData);
   return (
     projectData &&
     projectData
@@ -137,3 +149,13 @@ export const searchUser = async (
   });
   return response.data;
 };
+
+async function getUserAnswers() {
+  const response = await api.get('/members/info/answers');
+  return response.data.data;
+}
+
+async function getMyProject() {
+  const response = await api.get('/members/info/projects');
+  return response.data.data;
+}

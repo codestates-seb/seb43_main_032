@@ -3,7 +3,7 @@ import AuthInput from './AuthInput';
 import { useForm, FieldErrors } from 'react-hook-form';
 import LogoImage from '../../public/images/logoWhite.svg';
 import Image from 'next/image';
-import usePostApi from '../../hooks/useLogin';
+import usePostApi from '../../hooks/react-query/user/useLogin';
 
 interface ILoginForm {
   email: string;

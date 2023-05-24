@@ -1,8 +1,6 @@
 import styled from 'styled-components';
-import { AiTwotoneLike } from 'react-icons/ai';
-import Stack from '../stack/Stack';
 import { useRouter } from 'next/router';
-import { Project, Tech } from '@/types/project';
+import { Project } from '@/types/project';
 import { RiThumbUpFill } from 'react-icons/ri';
 
 export default function UserProjectCard({ project }: { project: Project }) {
@@ -10,6 +8,7 @@ export default function UserProjectCard({ project }: { project: Project }) {
   const handleClick = () => {
     router.push(`/project/${project.projectId}`);
   };
+
   return (
     <Wrapper onClick={handleClick}>
       <ContentContainer>
@@ -17,7 +16,9 @@ export default function UserProjectCard({ project }: { project: Project }) {
           <div className="text-box">
             <span className="title">{project.title}</span>
             <span className="date">
-              {`프로젝트 기간 : ${project.startDate}~ ${project.endDate}`}
+              {`프로젝트 기간 : ${project.startDate}~ ${
+                project.endDate ? project.endDate : '종료일 미정'
+              }`}
             </span>
           </div>
           <StarRaiting>
@@ -25,15 +26,7 @@ export default function UserProjectCard({ project }: { project: Project }) {
             <p style={{ marginTop: '5px' }}>{project.totalLikes}</p>
           </StarRaiting>
         </CardInfo>
-
-        <div className="content">
-          Lorem ipsum dolor sit amet consectetur. Sit penatibus maecenas
-          sollicitudin augue ac facilisi at varius tincidunt. Risus volutpat
-          gravida a pharetra. Tortor semper ultrices.Lorem ipsum dolor sit amet
-          consectetur. Sit penatibus maecenas sollicitudin augue ac facilisi at
-          varius tincidunt. Risus volutpat gravida a pharetra. Tortor semper
-          ultrices.
-        </div>
+        <div className="content">{project.content}</div>
       </ContentContainer>
     </Wrapper>
   );
@@ -59,6 +52,7 @@ const Wrapper = styled.div`
 const ContentContainer = styled.div`
   display: flex;
   flex-direction: column;
+  width: 100%;
 
   .content {
     color: #545454;
@@ -97,13 +91,6 @@ const CardInfo = styled.div`
       margin-right: 20px;
     }
   }
-`;
-const TagContainer = styled.div`
-  padding: 10px;
-  padding-left: 0;
-  display: flex;
-  gap: 8px;
-  flex-wrap: wrap;
 `;
 const StarRaiting = styled.div`
   display: flex;

@@ -9,7 +9,6 @@ interface IProps {
   user: User;
 }
 export default function UserCard({ user }: IProps) {
-  console.log(user.techList);
   return (
     <Group>
       <Link href={`users/${user.memberId}`}>
@@ -50,7 +49,7 @@ export default function UserCard({ user }: IProps) {
               </StackWrapper>
             </SubCardWrapper>
             <CardFooter>
-              <AboutMe></AboutMe>
+              <AboutMe>{user.aboutMe}</AboutMe>
             </CardFooter>
           </CardWrapper>
         </Wrapper>
@@ -95,6 +94,10 @@ const SubCardWrapper = styled.div`
   background: white;
   overflow: hidden;
   padding-bottom: 20px;
+  @media (max-width: 768px) {
+    display: flex;
+    width: 100%;
+  }
 `;
 //유저 카드는 스택hover가 작동할 수 없는 구조로 변경되었습니다.
 const StackWrapper = styled.ul`
@@ -172,10 +175,10 @@ const CardFooter = styled.div.attrs({
 })`
   border-top: solid 1px #ececec;
   font-size: 13px;
-  display: flex;
-  padding: 20px;
+  padding: 10px;
+  height: 38px;
   @media (max-width: 768px) {
-    /* display: none; */
+    display: none;
   }
 `;
 const AboutMe = styled.p`
@@ -183,6 +186,9 @@ const AboutMe = styled.p`
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
   overflow: hidden;
+  display: flex;
+  flex-wrap: wrap;
+  height: 29px;
   text-overflow: ellipsis;
   line-height: 1.2;
   max-height: calc(1.2 * 3); /* line-height * 줄 수 */
@@ -190,15 +196,6 @@ const AboutMe = styled.p`
 const Group = styled.div`
   display: flex;
   width: 100%;
-  /* @media screen and (min-width: 640px) {
-    width: 49%;
-  }
-  @media screen and (min-width: 960px) {
-    width: 32%;
-  }
-  @media screen and (min-width: 1280px) {
-    width: 24%;
-  } */
   ${Wrapper}:hover ${Overlay} {
     opacity: 1;
   }

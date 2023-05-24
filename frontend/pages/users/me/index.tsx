@@ -1,17 +1,18 @@
 import InfoContainer from '@/components/user/InfoContainer';
-import UserContentsBox from '@/components/user/UserContentsBox';
+import UserMeContentsBox from '@/components/user/UserMeContentsBox';
 import UserInfoCard from '@/components/user/UserProfile';
-import useUser from '@/hooks/react-query/useUser';
 import { useRouter } from 'next/router';
 import styled from 'styled-components';
 import GridBox from '@/components/common_box/GridBox';
 import { getCookie } from '@/util/cookie';
 import { useEffect } from 'react';
 import Tag from '@/components/Tag';
+import useUser from '@/hooks/react-query/user/useUser';
 
 export default function me() {
   const {
     getMyInfo: { data: user },
+    getMyProjects: { data: projects },
   } = useUser({});
   const router = useRouter();
   useEffect(() => {
@@ -23,6 +24,8 @@ export default function me() {
   const handleClick = () => {
     router.push('/users/me/edit');
   };
+
+  projects && console.log('projects', projects);
 
   return (
     <>
@@ -72,7 +75,9 @@ export default function me() {
                 />
               </div>
             </UserInfo>
-            <UserContentsBox contentTitle={['프로젝트', '게시글', '답글']} />
+            <UserMeContentsBox
+              contentTitle={['프로젝트', '게시글', '답글', '댓글']}
+            />
           </RightColumn>
         </GridBox>
       )}
@@ -137,9 +142,6 @@ const AvatarContainer = styled.div`
   box-shadow: 5px 5px 10px 0px rgba(0, 0, 0, 0.25);
   -webkit-box-shadow: 5px 5px 10px 0px rgba(0, 0, 0, 0.25);
   -moz-box-shadow: 5px 5px 10px 0px rgba(0, 0, 0, 0.25);
-`;
-const StackContainer = styled.div`
-  display: flex;
 `;
 const EditButton = styled.button`
   width: calc(100% - 14px);
