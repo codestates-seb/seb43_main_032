@@ -84,13 +84,6 @@ const CardInfo = styled.div`
     }
   }
 `;
-const TagContainer = styled.div`
-  padding: 10px;
-  padding-left: 0;
-  display: flex;
-  gap: 8px;
-  flex-wrap: wrap;
-`;
 const StarRaiting = styled.div`
   display: flex;
   justify-content: center;

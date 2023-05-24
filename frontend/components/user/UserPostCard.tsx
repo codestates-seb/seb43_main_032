@@ -46,13 +46,6 @@ const Wrapper = styled.div`
     -moz-box-shadow: 5px 5px 10px 0px rgba(0, 0, 0, 0.5);
   }
 `;
-const Description = styled.span`
-  margin-top: 10px;
-  overflow: hidden;
-  display: -webkit-box;
-  -webkit-line-clamp: 3;
-  -webkit-box-orient: vertical;
-`;
 const ContentContainer = styled.div`
   display: flex;
   flex-direction: column;
