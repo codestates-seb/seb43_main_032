@@ -5,45 +5,34 @@ import styled from 'styled-components';
 import { BiSearch } from 'react-icons/bi';
 import { POSITIONS } from '@/constant/constant';
 import useUser from '@/hooks/react-query/user/useUser';
-import { UserState } from '@/types/user';
-import { POST_COMMUNITY_CATEGORY } from '@/constant/constant';
+import Message from '@/components/Message';
+import { usersFilter } from '@/util/filter/usersFilter';
 
 const Users = () => {
   const [inputValue, setInputValue] = useState<string>('');
-  const [keyword, setKeyword] = useState<string | undefined>(undefined);
   const [page, setPage] = useState<number>(1);
   const [size, setSize] = useState<number>(24);
 
   const {
     userQuery: { data: users, isLoading: allUserLoading },
-    searchUserByKeyword: { data: searchedUsers, isLoading: searchUserLoading },
-  } = useUser({ userPage: page, userPageSize: size, keyword });
+  } = useUser({ userPage: page, userPageSize: size });
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     setInputValue(e.target.value);
   };
-  const handleClick = () => {
-    if (inputValue.trim().length < 1) {
-    } else {
-      setKeyword(inputValue);
-    }
-  };
+
   //filter 상태
   const [filter, setFilter] = useState(-1);
 
   //필터링된 데이터
-  let filterData = users?.filter(
-    (user) => user.position === POST_COMMUNITY_CATEGORY[POSITIONS[filter]]
-  );
-
-  const usersFilter = (data: UserState[] | undefined, filter: number) => {
-    let filterData;
-  };
+  let filterData = usersFilter(users, filter, inputValue);
 
   //페이지네이션 크기
   const pageSize =
     filterData && filterData?.length > 0
       ? Math.ceil(filterData?.length / 24)
+      : filter === -1 && inputValue !== ''
+      ? filterData?.length
       : Math.ceil(size / 24);
 
   //실제 보여지는 필터 데이터
@@ -56,6 +45,13 @@ const Users = () => {
     setFilter(idx);
   };
 
+  useEffect(() => {
+    if (filter === -1 && inputValue !== '') {
+      setSize(1000);
+    }
+  }, [inputValue]);
+
+  if (allUserLoading) return <Message>로딩중입니다.</Message>;
   return (
     <Wrapper>
       <SearchHeader>
@@ -80,28 +76,17 @@ const Users = () => {
               value={inputValue}
               placeholder="Search user..."
             />
-            <SearchButton onClick={handleClick}>
+            <SearchButton>
               <BiSearch />
             </SearchButton>
           </SearchBox>
         </SubHeader>
       </SearchHeader>
       <CardWrapper>
-        {filter === -1 ? (
-          <>
-            {users &&
-              users.map((user: any) => (
-                <UserCard key={user.name} user={user} />
-              ))}
-          </>
-        ) : (
-          <>
-            {viewFilterData &&
-              viewFilterData.map((user: any) => (
-                <UserCard key={user.name} user={user} />
-              ))}
-          </>
-        )}
+        {viewFilterData &&
+          viewFilterData.map((user: any) => (
+            <UserCard key={user.name} user={user} />
+          ))}
       </CardWrapper>
       <Pagenation pageSize={pageSize} page={page} onPageChange={setPage} />
     </Wrapper>
