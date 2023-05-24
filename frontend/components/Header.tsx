@@ -66,9 +66,6 @@ const Header = () => {
   //모달 네비
   const [nav, setNav] = useRecoilState(navModalState);
   const moveNav = (name: string) => {
-    if(name===''){
-      return
-    }
     router.push(HEADER_NAV[name]);
     setNav(false);
   };
