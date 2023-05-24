@@ -102,7 +102,7 @@ public class CommunityController {
         return new ResponseEntity(singleResponseDto, HttpStatus.OK);
     }
     @ApiOperation(value = "쪽지 보내기")
-    @PostMapping("/chat/{memberId}")
+    @PostMapping("/chat/send")
     public ResponseEntity<Void> messageExpress(@RequestBody ChatPostDto chatPostDto){
         chatService.sendMessage(chatPostDto);
         return new ResponseEntity<>(HttpStatus.OK);
