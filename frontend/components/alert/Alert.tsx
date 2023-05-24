@@ -54,3 +54,33 @@ export const confirmAlert = (text: string, title: string) => {
     });
   });
 };
+
+export const successToast = (text: string, callback?: () => void) => {
+  Swal.fire({
+    icon: 'success',
+    title: text,
+    toast: true,
+    position: 'center',
+    showConfirmButton: false,
+    timer: 1000,
+    timerProgressBar: true,
+  }).then(() => {
+    if (callback) {
+      callback();
+    }
+  });
+};
+
+export const errorToast = (text: string) => {
+  if (text) {
+    Swal.fire({
+      icon: 'error',
+      title: text,
+      toast: true,
+      position: 'center',
+      showConfirmButton: false,
+      timer: 2000,
+      timerProgressBar: true,
+    });
+  }
+};

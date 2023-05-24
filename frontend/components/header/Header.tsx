@@ -13,6 +13,7 @@ import { loggedInUserState, navModalState } from '@/recoil/atom';
 import { setUserState } from '@/util/api/user';
 import { NavProps } from '@/types/types';
 import ButtonStyle from '../button/ButtonStyle';
+import { successToast } from '../alert/Alert';
 import { onChat } from '@/util/chat';
 
 const Header = () => {
@@ -107,7 +108,12 @@ const Header = () => {
                     ></ButtonStyle>
                   </li>
                 ) : (
-                  <li key={name} onClick={logout}>
+                  <li
+                    key={name}
+                    onClick={() => {
+                      successToast('로그아웃 되었습니다.', logout);
+                    }}
+                  >
                     <ButtonStyle
                       link={`${HEADER_NAV[name]}`}
                       text={name.toUpperCase()}
