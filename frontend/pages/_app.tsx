@@ -2,16 +2,16 @@ import type { AppProps } from 'next/app';
 import { RecoilRoot } from 'recoil';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import '../styles/App.css';
-import Header from '../components/Header';
 import Footer from '../components/Footer';
 import styled from 'styled-components';
 import 'animate.css';
 import Contact from '@/components/Contact';
-import ModalBg from '@/components/ModalBg';
 import { useRouter } from 'next/router';
 import LoginBg from '@/components/user/LoginBg';
-import EtcHeader from '@/components/EtcHeader';
 import BannerSlider from '@/components/banner/BannerSlider';
+import Header from '@/components/header/Header';
+import EtcHeader from '@/components/header/EtcHeader';
+import ModalBg from '@/components/background/ModalBg';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -49,7 +49,7 @@ const App = ({ Component, pageProps }: AppProps) => {
           </Box>
         )}
         {!isExcludedPathname && <Contact />}
-        <ModalBg></ModalBg>
+        <ModalBg />
         {!isExcludedPathname && <Footer />}
         {isExcludedPathname && <LoginBg />}
       </RecoilRoot>

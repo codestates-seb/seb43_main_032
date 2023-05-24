@@ -121,7 +121,7 @@ const Contents = styled.div`
   padding: var(--padding-2);
   border-radius: var(--radius-def);
   background-image: linear-gradient(135deg, #ce9ffc 10%, #7367f0 100%);
-
+  min-height: 79vh;
   margin-bottom: 20px;
 `;
 const Category = styled.div.attrs({
@@ -140,7 +140,6 @@ const FilterBtn = styled.button.attrs({
   font-family: var(--font-nanum);
   font-size: 23px;
   font-weight: 700;
-  /* color: #464646; */
   background: none;
   color: ${(props) => (props.filter === props.name ? '#8a2be2' : '#464646')};
 `;

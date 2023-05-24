@@ -1,13 +1,13 @@
 import InfoContainer from '@/components/user/InfoContainer';
 import UserMeContentsBox from '@/components/user/UserMeContentsBox';
 import UserInfoCard from '@/components/user/UserProfile';
-import useUser from '@/hooks/react-query/useUser';
 import { useRouter } from 'next/router';
 import styled from 'styled-components';
 import GridBox from '@/components/common_box/GridBox';
 import { getCookie } from '@/util/cookie';
 import { useEffect } from 'react';
 import Tag from '@/components/Tag';
+import useUser from '@/hooks/react-query/user/useUser';
 
 export default function me() {
   const {
@@ -142,9 +142,6 @@ const AvatarContainer = styled.div`
   box-shadow: 5px 5px 10px 0px rgba(0, 0, 0, 0.25);
   -webkit-box-shadow: 5px 5px 10px 0px rgba(0, 0, 0, 0.25);
   -moz-box-shadow: 5px 5px 10px 0px rgba(0, 0, 0, 0.25);
-`;
-const StackContainer = styled.div`
-  display: flex;
 `;
 const EditButton = styled.button`
   width: calc(100% - 14px);

@@ -102,6 +102,7 @@ const ViewProject = () => {
           userName={data.memberInfo.name}
           isAuthor={data.author}
           totalStar={data.memberInfo.totalStar}
+          position={data.memberInfo.position}
         />
         <PeriodBox
           start={new Date(data.startDate)}

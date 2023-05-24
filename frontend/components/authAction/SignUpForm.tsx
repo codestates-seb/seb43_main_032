@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import AuthInput from './AuthInput';
 import { useForm, FieldErrors } from 'react-hook-form';
-import usePostApi from '../../hooks/useLogin';
+import usePostApi from '../../hooks/react-query/user/useLogin';
 
 interface ISignUpForm {
   name: string;

@@ -4,19 +4,18 @@ import UserProfile from '@/components/user/UserProfile';
 import Tag from '@/components/Tag';
 import Stack from '@/components/stack/Stack';
 import GridBox from '@/components/common_box/GridBox';
-import useUser from '@/hooks/react-query/useUser';
 import UserContentBox from '@/components/user/UserContentBox';
-import { useProject } from '@/hooks/react-query/project/useProject';
+import Message from '@/components/Message';
+import useUser from '@/hooks/react-query/user/useUser';
 
 const UserPage = () => {
   const router = useRouter();
   const id = router.query.id;
-
   const {
-    getUserById: { data: user },
+    getUserById: { data: user, isLoading },
   } = useUser({ id: id ? +id : undefined });
-
-  return user ? (
+  if (isLoading) return <Message>로딩중입니다.</Message>;
+  return user && !isLoading ? (
     <GridBox>
       <UserInfoContainer>
         <div className="user-box">
@@ -27,8 +26,8 @@ const UserPage = () => {
         <StackWrapper>
           <div className="title">사용 스택</div>
           <div className="stack-list">
-            {stacks.map((stack) => (
-              <Stack key={stack} tech={stack} />
+            {user.techList.map((stack) => (
+              <Stack key={stack.tech} tech={stack.tech} />
             ))}
           </div>
         </StackWrapper>
@@ -42,7 +41,7 @@ const UserPage = () => {
       </ContentsContainer>
     </GridBox>
   ) : (
-    'User not Found'
+    <Message>존재하지 않는 사용자입니다.</Message>
   );
 };
 
@@ -84,14 +83,6 @@ const ContentsContainer = styled.div`
   flex-direction: column;
   gap: 32px;
 `;
-const Button = styled.button`
-  width: 100%;
-  height: 50px;
-  border-radius: var(--radius-sm);
-  margin-bottom: 10px;
-  border: none;
-  cursor: pointer;
-`;
 
 const UserDescription = styled.div`
   width: 100%;
@@ -116,24 +107,6 @@ const ContentBox = styled.div`
   border-radius: var(--radius-def);
 `;
 
-const Contents = styled.div`
-  padding: 20px;
-  border-radius: var(--radius-def);
-  background-color: rgba(0, 0, 0, 0.2);
-`;
-const Category = styled.div.attrs({
-  className: 'noto-medium',
-})`
-  padding: 20px;
-  padding-bottom: 10px;
-`;
-const FilterBtn = styled.button`
-  border: none;
-  cursor: pointer;
-  padding-right: 10px;
-  padding-left: 10px;
-`;
-
 const StackWrapper = styled.div.attrs({})`
   display: flex;
   flex-direction: column;
@@ -154,11 +127,3 @@ const StackWrapper = styled.div.attrs({})`
     gap: 8px;
   }
 `;
-const stacks = [
-  'java_script',
-  'react',
-  'next_js',
-  'recoil',
-  'react_query',
-  'type_scriypt',
-];

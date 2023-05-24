@@ -3,9 +3,10 @@ import styled from 'styled-components';
 import UserProjectCard from './UserProjectCard';
 import UserPostCard from './UserPostCard';
 import Pagenation from '../Pagenation';
-import useUser from '@/hooks/react-query/useUser';
 import { useRouter } from 'next/router';
 import { useAllData } from '@/hooks/react-query/useAllData';
+import Message from '../Message';
+import useUser from '@/hooks/react-query/user/useUser';
 
 interface IProps {
   contentTitle: string[];
@@ -68,20 +69,26 @@ export default function UserContentBox({ contentTitle }: IProps) {
         ))}
       </Category>
       <Contents>
-        {filter === '프로젝트' && (
+        {filter === '프로젝트' && projectFilterData && (
           <>
-            {projectFilterData &&
+            {projectFilterData?.length === 0 ? (
+              <Message className="message">게시글이 존재하지 않아요.</Message>
+            ) : (
               projectFilterData.map((project) => (
                 <UserProjectCard key={project.projectId} project={project} />
-              ))}
+              ))
+            )}
           </>
         )}
-        {filter === '게시글' && (
+        {filter === '게시글' && communitiesFilterData && (
           <>
-            {communitiesFilterData &&
+            {communitiesFilterData?.length === 0 ? (
+              <Message className="message">게시글이 존재하지 않아요.</Message>
+            ) : (
               communitiesFilterData.map((post) => (
                 <UserPostCard key={post.articleId} post={post} />
-              ))}
+              ))
+            )}
           </>
         )}
       </Contents>
@@ -100,8 +107,11 @@ const Contents = styled.div`
   padding: var(--padding-2);
   border-radius: var(--radius-def);
   background-image: linear-gradient(135deg, #ce9ffc 10%, #7367f0 100%);
-
+  min-height: 79vh;
   margin-bottom: 20px;
+  .message {
+    color: white;
+  }
 `;
 const Category = styled.div.attrs({
   className: 'noto-medium',
@@ -119,7 +129,6 @@ const FilterBtn = styled.button.attrs({
   font-family: var(--font-nanum);
   font-size: 23px;
   font-weight: 700;
-  /* color: #464646; */
   background: none;
   color: ${(props) => (props.filter === props.name ? '#8a2be2' : '#464646')};
 `;

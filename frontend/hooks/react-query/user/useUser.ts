@@ -4,7 +4,6 @@ import { api } from '@/util/api';
 import axios from 'axios';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { Community } from '@/types/community';
-// import { useRecoilState, useSetRecoilState } from 'recoil';
 
 interface IProps {
   id?: number | undefined;
@@ -27,7 +26,6 @@ export default function useUser({
   projectData,
   communityData,
 }: IProps) {
-  // const setIsLoggedIn = useSetRecoilState(userStatus);
   const queryClient = useQueryClient();
 
   const userQuery = useQuery(['users', userPage], () =>
@@ -81,10 +79,6 @@ export default function useUser({
   };
 }
 
-// async function getStatus(): Promise<boolean> {
-//   const response = await axios.get('/api/users/status');
-//   return response.data.ok;
-// }
 export async function getUsers(
   page?: number,
   pageSize?: number
@@ -95,7 +89,6 @@ export async function getUsers(
       size: pageSize,
     },
   });
-  console.log(response.data.data);
   return response.data.data;
 }
 async function getMe() {
