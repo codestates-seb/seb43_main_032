@@ -5,6 +5,8 @@ import styled from 'styled-components';
 import { BiSearch } from 'react-icons/bi';
 import { POSITIONS } from '@/constant/constant';
 import useUser from '@/hooks/react-query/user/useUser';
+import { UserState } from '@/types/user';
+import { POST_COMMUNITY_CATEGORY } from '@/constant/constant';
 
 const Users = () => {
   const [inputValue, setInputValue] = useState<string>('');
@@ -17,9 +19,6 @@ const Users = () => {
     searchUserByKeyword: { data: searchedUsers, isLoading: searchUserLoading },
   } = useUser({ userPage: page, userPageSize: size, keyword });
 
-  //페이지네이션 크기
-  const pageSize = Math.ceil(size / 24);
-
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     setInputValue(e.target.value);
   };
@@ -31,24 +30,27 @@ const Users = () => {
   };
   //filter 상태
   const [filter, setFilter] = useState(-1);
+
+  //필터링된 데이터
+  let filterData = users?.filter(
+    (user) => user.position === POST_COMMUNITY_CATEGORY[POSITIONS[filter]]
+  );
+
+  //페이지네이션 크기
+  const pageSize =
+    filterData && filterData?.length > 0
+      ? Math.ceil(filterData?.length / 24)
+      : Math.ceil(size / 24);
+
+  //실제 보여지는 필터 데이터
+  const viewFilterData = filterData?.slice((page - 1) * 24, page * 24);
+
   const filterHandler = (idx: number) => {
     if (filter === idx) {
       return setFilter(-1); //다시 한 번 필터가 눌렸을 땐, 전체 카드가 조회되기위해
     }
     setFilter(idx);
   };
-
-  //필터데이터
-  //필터링을 constant 폴더에 POST_COMMUNITY_CATEGORY 데이터를 활용해서 구현하려고 했으나, 제출할 때 데이터가 일정하지
-  //않아서 구현하지못했음. 필터가 -1일땐 전체 데이터가 보이고 0~10일땐 값에 맞는 데이터를 보여줘야하는데 유저가
-  //본인의 포지션을 수정할 때, 고정된 값을 활용하도록 해야할 듯. FE/BE라는 이름으로 매칭이 되있어서 일일이 다 찾아야 함
-  // constant 폴더에 POSITIONS 값만 선택해서 포지션을 제출할 수 있도록 수정부탁드려요.
-  const [filterData, setFilterData] = useState([]);
-  useEffect(() => {
-    if (filter === -1) {
-      return setFilterData([]);
-    }
-  }, [filter]);
 
   return (
     <Wrapper>
@@ -80,10 +82,22 @@ const Users = () => {
           </SearchBox>
         </SubHeader>
       </SearchHeader>
-
       <CardWrapper>
-        {users &&
-          users.map((user: any) => <UserCard key={user.name} user={user} />)}
+        {filter === -1 ? (
+          <>
+            {users &&
+              users.map((user: any) => (
+                <UserCard key={user.name} user={user} />
+              ))}
+          </>
+        ) : (
+          <>
+            {viewFilterData &&
+              viewFilterData.map((user: any) => (
+                <UserCard key={user.name} user={user} />
+              ))}
+          </>
+        )}
       </CardWrapper>
       <Pagenation pageSize={pageSize} page={page} onPageChange={setPage} />
     </Wrapper>
