@@ -56,9 +56,11 @@ const Box = styled.footer`
   padding: 0px calc((100% - 1280px) / 2);
   display: flex;
   padding-top: 20px;
-  border-top: 1px solid #cacaca;
   background: linear-gradient(75deg, #8217f3 0%, #8217f3 30%, #4412e7 100%);
   color: white;
+  padding-bottom: 50px;
+  font-size: 13px;
+  font-weight: 200;
 
   @media (max-width: 960px) {
     flex-direction: column;
@@ -66,7 +68,7 @@ const Box = styled.footer`
 
   .sub-btn {
     max-width: 140px;
-    font-size: 12px;
+    font-size: 15px;
   }
   .sub-btn-top {
     padding: 0;

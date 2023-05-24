@@ -8,16 +8,7 @@ export default function Edit() {
     getMyInfo: { data: user },
   } = useUser({});
 
-  return (
-    <GridBox>
-      <SideBar></SideBar>
-      <Wrapper>
-        {user && ( 
-          <UserEditForm user={user} />
-        )}
-      </Wrapper>
-    </GridBox>
-  );
+  return <Wrapper>{user && <UserEditForm user={user} />}</Wrapper>;
 }
 
 const SideBar = styled.div`
@@ -30,9 +21,10 @@ const SideBar = styled.div`
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
-  padding: 20px;
+  padding: 80px;
   padding-top: 0;
   padding-bottom: 0;
+  margin-bottom: 20px;
 `;
 
 export const dummyUser = {
