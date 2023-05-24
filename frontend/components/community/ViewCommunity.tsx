@@ -69,6 +69,7 @@ const ViewCommunity = () => {
               userName={data.memberInfo.name}
               isAuthor={data.author}
               totalStar={data.memberInfo.totalStar}
+              position={data.memberInfo.position}
             />
             <TagBox
               tags={data.techList.map((item) => ({ field: item.tech }))}

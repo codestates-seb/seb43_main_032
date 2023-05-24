@@ -187,12 +187,14 @@ const AnswerItem = ({
                   </div>
                 </div>
                 <div className="like-box" onClick={likeHandler}>
+                  <div className="like-num">
+                    {answer.totalLikes > 100 ? '99+' : answer.totalLikes}
+                  </div>
                   {answer.liked ? (
                     <RiThumbUpFill size={16} fill="#d2c4ff" />
                   ) : (
                     <RiThumbUpLine size={16} fill="#8217f3 " />
                   )}
-                  <div className="like-num">{answer.totalLikes}</div>
                 </div>
               </div>
               <div className="content">{answer.content}</div>
@@ -310,10 +312,15 @@ const Box = styled.li`
         justify-content: center;
         align-items: center;
         gap: 8px;
+        min-width: 74px;
         padding: 4px 10px;
         border: 1px solid rgb(215, 226, 235);
         border-radius: 5px;
         cursor: pointer;
+        .like-num {
+          flex: 1;
+          text-align: end;
+        }
       }
     }
 

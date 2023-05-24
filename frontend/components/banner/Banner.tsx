@@ -55,9 +55,10 @@ interface ContainerProps {
 }
 
 const Container = styled.div<ContainerProps>`
-  width: 100%;
+  width: 1920px;
   height: 660px;
   overflow: hidden;
+  margin: auto;
   background: ${({ router }) => BANNER_BACKGROUND_IMAGES[router] || ''};
 `;
 

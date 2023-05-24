@@ -16,9 +16,6 @@ export default function UserSideBar() {
 
 const Wrapper = styled.div`
   padding: 20px;
-  /* @media screen and (max-width: 960px) {
-    display: none;
-  } */
 `;
 const Input = styled.input`
   position: relative;

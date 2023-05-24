@@ -2,6 +2,7 @@ import { AiFillHeart, AiOutlineHeart } from 'react-icons/ai';
 import Tag from '../Tag';
 import styled from 'styled-components';
 import { useRouter } from 'next/router';
+import Position from '../Position';
 
 type Props = {
   userImg: string;
@@ -9,6 +10,7 @@ type Props = {
   isAuthor: boolean;
   totalStar: number;
   userId: number;
+  position: string;
 };
 
 const AuthorBox = ({
@@ -17,22 +19,19 @@ const AuthorBox = ({
   userName,
   isAuthor,
   totalStar,
+  position,
 }: Props) => {
   const router = useRouter();
-  //작성자 페이지로 이동
   const moveAuthorPage = (memberId: number) => {
     router.push(`/users/${memberId}`);
   };
+
   return (
-    <Box>
+    <Box onClick={() => moveAuthorPage(userId)}>
       <div className="top-box">
         <img src={userImg} alt="author" />
-        <div
-          onClick={() => moveAuthorPage(userId)}
-          className="userBox nanum-bold userName"
-        >
-          {userName}
-        </div>
+        <div className="userBox nanum-bold userName">{userName}</div>
+        {position && <Position>{position}</Position>}
         {!isAuthor && (
           <div className="saveStar" onClick={() => {}}>
             <span className="icon-box">
@@ -72,6 +71,7 @@ const Box = styled.div`
   justify-content: center;
   border-radius: 15px;
   align-items: center;
+  cursor: pointer;
   padding: 40px 30px 20px;
   border: solid 2px #ececec;
   margin-bottom: 24px;
@@ -113,7 +113,6 @@ const Box = styled.div`
     > .userName {
       font-size: 18px;
       padding-top: 0;
-      cursor: pointer;
     }
     > .saveStar {
       position: absolute;

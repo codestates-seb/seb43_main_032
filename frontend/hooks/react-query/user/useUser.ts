@@ -4,7 +4,6 @@ import { api } from '@/util/api';
 import axios from 'axios';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { Community } from '@/types/community';
-// import { useRecoilState, useSetRecoilState } from 'recoil';
 
 interface IProps {
   id?: number | undefined;
@@ -27,7 +26,6 @@ export default function useUser({
   projectData,
   communityData,
 }: IProps) {
-  // const setIsLoggedIn = useSetRecoilState(userStatus);
   const queryClient = useQueryClient();
 
   const userQuery = useQuery(['users', userPage], () =>
@@ -63,6 +61,9 @@ export default function useUser({
       },
     }
   );
+  const userAnswers = useQuery(['users', 'answers'], getUserAnswers);
+
+  const getMyProjects = useQuery(['users', 'projects', 'me'], getMyProject);
 
   return {
     userQuery, //
@@ -73,14 +74,12 @@ export default function useUser({
     getPostsByUserId,
     allProjcetsQuery,
     updateUser,
+    userAnswers,
+    getMyProjects,
   };
 }
 
-// async function getStatus(): Promise<boolean> {
-//   const response = await axios.get('/api/users/status');
-//   return response.data.ok;
-// }
-async function getUsers(
+export async function getUsers(
   page?: number,
   pageSize?: number
 ): Promise<UserState[]> {
@@ -90,7 +89,6 @@ async function getUsers(
       size: pageSize,
     },
   });
-  console.log(response.data.data);
   return response.data.data;
 }
 async function getMe() {
@@ -151,3 +149,13 @@ export const searchUser = async (
   });
   return response.data;
 };
+
+async function getUserAnswers() {
+  const response = await api.get('/members/info/answers');
+  return response.data.data;
+}
+
+async function getMyProject() {
+  const response = await api.get('/members/info/projects');
+  return response.data.data;
+}

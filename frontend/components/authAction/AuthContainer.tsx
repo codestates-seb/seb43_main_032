@@ -8,6 +8,7 @@ import styled from 'styled-components';
 import LoginForm from './LoginForm';
 import SignUpForm from './SignUpForm';
 import { useRouter } from 'next/router';
+import axios from 'axios';
 
 type AuthBtn = {
   provider: string;
@@ -17,6 +18,17 @@ export default function AuthContainer({ isLogin }: { isLogin: Boolean }) {
   const router = useRouter();
   const onActionChange = () => {
     isLogin ? router.push('/users/signup') : router.push('/users/login');
+  };
+  const handleGoogleLogin = async () => {
+    const googleLoginUrl =
+      'http://ec2-43-201-8-99.ap-northeast-2.compute.amazonaws.com:3000/oauth2/authorization/google';
+    window.open(googleLoginUrl, '_blank', 'width=500,height=600');
+    try {
+      const response = await axios.get(googleLoginUrl);
+      console.log(response.data);
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (
@@ -44,7 +56,7 @@ export default function AuthContainer({ isLogin }: { isLogin: Boolean }) {
             )}
           </AuthActionBox>
           <OAuthBtnBox>
-            <OAuthButton provider="google">
+            <OAuthButton onClick={handleGoogleLogin} provider="google">
               <AiFillGoogleCircle size={24} />
             </OAuthButton>
             <OAuthButton provider="facebook">

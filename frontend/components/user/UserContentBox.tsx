@@ -3,16 +3,17 @@ import styled from 'styled-components';
 import UserProjectCard from './UserProjectCard';
 import UserPostCard from './UserPostCard';
 import Pagenation from '../Pagenation';
-import useUser from '@/hooks/react-query/useUser';
 import { useRouter } from 'next/router';
 import { useAllData } from '@/hooks/react-query/useAllData';
+import Message from '../Message';
+import useUser from '@/hooks/react-query/user/useUser';
 
 interface IProps {
   contentTitle: string[];
   contents?: any;
 }
 
-export default function UserContentsBox({ contentTitle, contents }: IProps) {
+export default function UserContentBox({ contentTitle }: IProps) {
   const router = useRouter();
   const lastUrl = router.asPath.split('/').pop();
   const [id, setId] = useState<number>(0);
@@ -24,7 +25,7 @@ export default function UserContentsBox({ contentTitle, contents }: IProps) {
     getMyInfo: { data: me },
     getProjectByUserId: { data: projects },
     getPostsByUserId: { data: posts },
-  } = useUser({ id, page, pageSize: 3, projectData, communityData });
+  } = useUser({ id, page, pageSize: 5, projectData, communityData });
 
   const handleClick = (e: MouseEvent<HTMLButtonElement>) => {
     const name = e.currentTarget.name;
@@ -35,10 +36,22 @@ export default function UserContentsBox({ contentTitle, contents }: IProps) {
     if (lastUrl && !(lastUrl === 'me')) {
       setId(+lastUrl);
     } else {
-      console.log(me);
       setId(me.memberId);
     }
   }, [lastUrl, me]);
+
+  const getPageSize = () => {
+    if (filter === '프로젝트') {
+      return projects?.length || 0;
+    }
+    if (filter === '게시글') {
+      return posts?.length || 0;
+    }
+    return 0;
+  };
+  const pageSize = Math.ceil(getPageSize() / 5);
+  const projectFilterData = projects?.slice((page - 1) * 5, page * 5);
+  const communitiesFilterData = posts?.slice((page - 1) * 5, page * 5);
 
   if (id === 0) return <h1>Loading...</h1>;
   return (
@@ -56,24 +69,30 @@ export default function UserContentsBox({ contentTitle, contents }: IProps) {
         ))}
       </Category>
       <Contents>
-        {filter === '프로젝트' && (
+        {filter === '프로젝트' && projectFilterData && (
           <>
-            {projects &&
-              projects.map((project) => (
+            {projectFilterData?.length === 0 ? (
+              <Message className="message">게시글이 존재하지 않아요.</Message>
+            ) : (
+              projectFilterData.map((project) => (
                 <UserProjectCard key={project.projectId} project={project} />
-              ))}
+              ))
+            )}
           </>
         )}
-        {filter === '게시글' && (
+        {filter === '게시글' && communitiesFilterData && (
           <>
-            {posts &&
-              posts.map((post) => (
+            {communitiesFilterData?.length === 0 ? (
+              <Message className="message">게시글이 존재하지 않아요.</Message>
+            ) : (
+              communitiesFilterData.map((post) => (
                 <UserPostCard key={post.articleId} post={post} />
-              ))}
+              ))
+            )}
           </>
         )}
       </Contents>
-      <Pagenation page={page} pageSize={4} onPageChange={setPage} />
+      <Pagenation page={page} pageSize={pageSize} onPageChange={setPage} />
     </Wrapper>
   );
 }
@@ -88,8 +107,11 @@ const Contents = styled.div`
   padding: var(--padding-2);
   border-radius: var(--radius-def);
   background-image: linear-gradient(135deg, #ce9ffc 10%, #7367f0 100%);
-
+  min-height: 79vh;
   margin-bottom: 20px;
+  .message {
+    color: white;
+  }
 `;
 const Category = styled.div.attrs({
   className: 'noto-medium',
@@ -107,60 +129,6 @@ const FilterBtn = styled.button.attrs({
   font-family: var(--font-nanum);
   font-size: 23px;
   font-weight: 700;
-  /* color: #464646; */
   background: none;
   color: ${(props) => (props.filter === props.name ? '#8a2be2' : '#464646')};
 `;
-
-const dummyProject = {
-  filter: 'dummyFilter',
-  content: 'This is a dummy content',
-  createdAt: '2023-05-20',
-  endDate: '2023-12-31',
-  projectId: 1,
-  startDate: '2023-06-01',
-  status: 'open',
-  techList: [
-    'java_script',
-    'react',
-    'next_js',
-    'recoil',
-    'react_query',
-    'type_scriypt',
-  ],
-  title: 'Dummy project',
-  totalAnswers: 5,
-  totalLikes: 20,
-  views: 100,
-  writerPosition: 'Front-end Developer',
-  liked: false,
-  author: false,
-};
-
-const dummyPost = {
-  articleId: 1,
-  category: 'Frontend',
-  content:
-    'RESTful API에서 "자원"은 웹 서비스에서 제공되는 데이터 또는 개체를 나타냅니다. 이는 클라이언트가 요청하고 응답으로 받을 수 있는 실제 데이터이며, 각각의 자원은 고유한 식별자(URI)를 가지고 있습니다.RESTful API에서 자원은 URI(Uniform Resource Identifier)를 통해 식별됩니다. URI는 각 자원에 대한 고유한 주소를 나타내며, 클라이언트는 URI를 사용하여 특정 자원에 접근하고 조작할 수 있습니다.',
-  createdAt: '2023-05-20T10:30:00Z',
-  memberInfo: {
-    memberId: 123,
-    memberName: 'John Doe',
-    memberLevel: 3,
-    memberProfile: 'https://example.com/profile/johndoe',
-  },
-  techList: [
-    'java_script',
-    'react',
-    'next_js',
-    'recoil',
-    'react_query',
-    'type_scriypt',
-  ],
-  title: '프론트엔드 개발자들 모여주세요!',
-  totalAnswers: 5,
-  totalLikes: 10,
-  view: 100,
-  liked: true,
-  author: true,
-};

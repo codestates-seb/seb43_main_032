@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import Image from 'next/image';
-import logo from '@/public/images/logoSymbolWhite.svg';
+import Logo from '../public/images/logoWhite.svg';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 
@@ -10,7 +10,7 @@ export default function EtcHeader() {
 
   return (
     <Container>
-      <Image src={logo} alt="logo" onClick={() => router.push('/')} />
+      <Image src={Logo} alt="logo" onClick={() => router.push('/')} />
       <span className="about" onClick={() => router.push('/about')}>
         서비스 소개
       </span>

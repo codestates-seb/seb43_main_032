@@ -1,5 +1,4 @@
 import { Tech } from '@/types/project';
-import { api } from '@/util/api';
 import { mergeData, updateData } from '@/util/user';
 import React, { useEffect, useState } from 'react';
 import { FieldErrors, useForm } from 'react-hook-form';
@@ -13,7 +12,7 @@ import Tag from '../Tag';
 import { POSITIONS, POST_COMMUNITY_CATEGORY } from '@/constant/constant';
 import { FilterButton } from '@/pages/users';
 import { User } from '@/types/user';
-import useUser from '@/hooks/react-query/useUser';
+import useUser from '@/hooks/react-query/user/useUser';
 import Select from 'react-select';
 
 export default function UserEditForm({ user }: { user: User }) {
