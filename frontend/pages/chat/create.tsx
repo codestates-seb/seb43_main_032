@@ -1,22 +1,23 @@
-import { errorAlert } from '@/components/alert/Alert';
+import { confirmAlert, errorAlert } from '@/components/alert/Alert';
 import ChatBox from '@/components/common_box/ChatBox';
-import { chatTargetState } from '@/recoil/atom';
 import { api } from '@/util/api';
-import { useRouter } from 'next/router';
 import { useForm } from 'react-hook-form';
 import { useMutation } from 'react-query';
-import { useRecoilValue } from 'recoil';
 
 import styled from 'styled-components';
 const ChatCreate = () => {
-  const targetId = useRecoilValue(chatTargetState);
   const { register, watch } = useForm<{ content: string; title: string }>();
   const postChat = useMutation(
-    () => api.post(`/chat/send`, { ...watch(), receiverMemberId: targetId }),
+    () =>
+      api.post(`/chat/send`, {
+        ...watch(),
+        receiverMemberId: window.localStorage.getItem('target'),
+      }),
     {
       onSuccess: () => {
-        alert('성공적으로 발송되었습니다.');
-        window.close();
+        confirmAlert('정말 쪽지를 발송하시겠습니까?', '쪽지 발송이').then(() =>
+          window.close()
+        );
       },
       onError: () => {
         errorAlert('잠시 후에 다시 시도해주세요.', '쪽지 발송');
@@ -45,7 +46,7 @@ const ChatCreate = () => {
           ></textarea>
         </div>
         <div className="btn-box">
-          <button onClick={() => postChat.mutate()}>작성</button>
+          <button onClick={() => postChat.mutate()}>발송</button>
           <button onClick={closeEvent}>취소</button>
         </div>
       </Box>

@@ -124,7 +124,11 @@ const Header = () => {
                   ></ButtonStyle>
                 </li>
               ))}
-          <li onClick={onChat}>쪽지 기능</li>
+          {getCookie('accessToken') && (
+            <li>
+              <ButtonStyle onClick={onChat} text={'쪽지함'} />
+            </li>
+          )}
         </NavMenu>
       </Nav>
       <ModalNav nav={nav}>
