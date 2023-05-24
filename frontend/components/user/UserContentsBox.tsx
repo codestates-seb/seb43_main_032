@@ -6,13 +6,16 @@ import Pagenation from '../Pagenation';
 import useUser from '@/hooks/react-query/useUser';
 import { useRouter } from 'next/router';
 import { useAllData } from '@/hooks/react-query/useAllData';
+import { useMemberInfo } from '@/hooks/react-query/user/useMemberInfo';
+import UserAnswerCard from './UserAnswerCard';
+import UserCommentCard from './UserCommentCard';
 
 interface IProps {
   contentTitle: string[];
   contents?: any;
 }
 
-export default function UserContentsBox({ contentTitle, contents }: IProps) {
+export default function UserContentsBox({ contentTitle }: IProps) {
   const router = useRouter();
   const lastUrl = router.asPath.split('/').pop();
   const [id, setId] = useState<number>(0);
@@ -35,10 +38,13 @@ export default function UserContentsBox({ contentTitle, contents }: IProps) {
     if (lastUrl && !(lastUrl === 'me')) {
       setId(+lastUrl);
     } else {
-      console.log(me);
       setId(me.memberId);
     }
   }, [lastUrl, me]);
+
+  //내가 작성한 데이터들
+  const { projectsData, commentsData, answersData, communitiesData } =
+    useMemberInfo();
 
   if (id === 0) return <h1>Loading...</h1>;
   return (
@@ -58,17 +64,33 @@ export default function UserContentsBox({ contentTitle, contents }: IProps) {
       <Contents>
         {filter === '프로젝트' && (
           <>
-            {projects &&
-              projects.map((project) => (
+            {projectsData &&
+              projectsData.map((project) => (
                 <UserProjectCard key={project.projectId} project={project} />
               ))}
           </>
         )}
         {filter === '게시글' && (
           <>
-            {posts &&
-              posts.map((post) => (
+            {communitiesData &&
+              communitiesData.map((post) => (
                 <UserPostCard key={post.articleId} post={post} />
+              ))}
+          </>
+        )}
+        {filter === '답글' && (
+          <>
+            {answersData &&
+              answersData.map((post) => (
+                <UserAnswerCard key={post.answerId} answer={post} />
+              ))}
+          </>
+        )}
+        {filter === '댓글' && (
+          <>
+            {commentsData &&
+              commentsData.map((post) => (
+                <UserCommentCard key={post.commentId} comment={post} />
               ))}
           </>
         )}

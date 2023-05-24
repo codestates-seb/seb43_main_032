@@ -1,6 +1,10 @@
 import { useQuery } from 'react-query';
 import { useRouter } from 'next/router';
 import { api } from '@/util/api';
+import { Project } from '@/types/project';
+import { Answer } from '@/types/answer';
+import { Community } from '@/types/community';
+import { Comment } from '@/types/comment';
 
 export const useMemberInfo = () => {
   const router = useRouter();
@@ -16,17 +20,18 @@ export const useMemberInfo = () => {
     communities: getInfoQueryKey('articles'),
   };
 
-  const { data: projectsData } = useQuery(queryKeys.projects, () =>
+  const { data: projectsData } = useQuery<Project[]>(queryKeys.projects, () =>
     api('/members/info/projects').then((res) => res.data.data)
   );
-  const { data: commentsData } = useQuery(queryKeys.comments, () =>
+  const { data: commentsData } = useQuery<Comment[]>(queryKeys.comments, () =>
     api('/members/info/comments').then((res) => res.data.data)
   );
-  const { data: answersData } = useQuery(queryKeys.answers, () =>
+  const { data: answersData } = useQuery<Answer[]>(queryKeys.answers, () =>
     api('/members/info/answers').then((res) => res.data.data)
   );
-  const { data: communitiesData } = useQuery(queryKeys.communities, () =>
-    api('/members/info/articles').then((res) => res.data.data)
+  const { data: communitiesData } = useQuery<Community[]>(
+    queryKeys.communities,
+    () => api('/members/info/articles').then((res) => res.data.data)
   );
 
   return {

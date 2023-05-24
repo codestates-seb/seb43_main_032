@@ -25,15 +25,7 @@ export default function UserProjectCard({ project }: { project: Project }) {
             <p style={{ marginTop: '5px' }}>{project.totalLikes}</p>
           </StarRaiting>
         </CardInfo>
-
-        <div className="content">
-          Lorem ipsum dolor sit amet consectetur. Sit penatibus maecenas
-          sollicitudin augue ac facilisi at varius tincidunt. Risus volutpat
-          gravida a pharetra. Tortor semper ultrices.Lorem ipsum dolor sit amet
-          consectetur. Sit penatibus maecenas sollicitudin augue ac facilisi at
-          varius tincidunt. Risus volutpat gravida a pharetra. Tortor semper
-          ultrices.
-        </div>
+        <div className="content">{project.content}</div>
       </ContentContainer>
     </Wrapper>
   );
@@ -59,6 +51,7 @@ const Wrapper = styled.div`
 const ContentContainer = styled.div`
   display: flex;
   flex-direction: column;
+  width: 100%;
 
   .content {
     color: #545454;

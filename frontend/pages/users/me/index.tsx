@@ -72,7 +72,9 @@ export default function me() {
                 />
               </div>
             </UserInfo>
-            <UserContentsBox contentTitle={['프로젝트', '게시글', '답글']} />
+            <UserContentsBox
+              contentTitle={['프로젝트', '게시글', '답글', '댓글']}
+            />
           </RightColumn>
         </GridBox>
       )}
