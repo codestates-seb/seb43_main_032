@@ -14,6 +14,7 @@ import { POSITIONS, POST_COMMUNITY_CATEGORY } from '@/constant/constant';
 import { FilterButton } from '@/pages/users';
 import { User } from '@/types/user';
 import useUser from '@/hooks/react-query/useUser';
+import Select from 'react-select';
 
 export default function UserEditForm({ user }: { user: User }) {
   const { updateUser } = useUser({});
@@ -63,7 +64,6 @@ export default function UserEditForm({ user }: { user: User }) {
       setImgPreview(URL.createObjectURL(image[0]));
     }
   }, [image]);
-
   return (
     <Form onSubmit={handleSubmit(onValid, onInValid)}>
       <ProfileBox>
@@ -106,41 +106,64 @@ export default function UserEditForm({ user }: { user: User }) {
               placeholder={`${user.yearOfDev} 년차`}
             />
 
-            <EditInput
-              label="직무"
-              placeholder={user.position}
-              register={register('position')}
-            />
+            <PositionBox>
+              <Label>직무</Label>
+              <Select
+                styles={{
+                  control: (baseStyles, state) => ({
+                    ...baseStyles,
+                    borderColor: state.isFocused ? 'grey' : 'red',
+                  }),
+                }}
+                options={POSITIONS.map((position, idx) => ({
+                  value: idx,
+                  label: position,
+                }))}
+                value={
+                  POSITIONS[filter]
+                    ? { value: filter, label: POSITIONS[filter] }
+                    : null
+                }
+                onChange={(
+                  selectedOption: { value: number; label: string } | null
+                ) => {
+                  setFilter(selectedOption ? selectedOption.value : -1);
+                }}
+                className="select-options"
+                classNamePrefix="react-select"
+                theme={(theme) => ({
+                  ...theme,
+                  colors: {
+                    ...theme.colors,
+                    primary25: 'rgb(150, 116, 255, 0.5)',
+                    primary: '#6333ff',
+                  },
+                })}
+              />
+            </PositionBox>
           </div>
         </div>
       </ProfileBox>
-      <Label>Stacks</Label>
-      <SelectStack //
-        stacks={stacks}
-        setStacks={setStacks}
-      />
-      <EditInput
-        label="About Me"
-        placeholder={user.aboutMe}
-        register={register('aboutMe')}
-      />
-      <EditInput
-        label="Position"
-        placeholder={user.position}
-        register={register('position')}
-      />
-      <EditInput
-        label="Location"
-        placeholder={user.location}
-        register={register('location')}
-      />
-      <EditInput
-        label="Phone Number"
-        placeholder={user.phone}
-        register={register('phone')}
-      />
+      <div className="textForm">
+        <div className="stack">
+          <Label>사용스택</Label>
+          <SelectStack //
+            stacks={stacks}
+            setStacks={setStacks}
+          />
+        </div>
+        <EditTextArea
+          label="자기소개"
+          placeholder={user.aboutMe}
+          register={register('aboutMe')}
+          cl
+        />
+      </div>
+
       <ButtonBox>
-        <Button>Submit</Button>
+        <Button disabled={submitLoading}>
+          {submitLoading ? '제출' : '작성완료'}
+        </Button>
       </ButtonBox>
     </Form>
   );
@@ -231,8 +254,13 @@ const ProfileBox = styled.div`
   }
 `;
 const PositionBox = styled.div`
+  width: 100%;
   display: flex;
-  gap: 5px;
+  flex-direction: column;
+
+  p {
+    padding-top: 10px;
+  }
 `;
 const ButtonBox = styled.div`
   display: flex;
