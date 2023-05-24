@@ -89,6 +89,7 @@ const ViewProject = () => {
   const hoverHandler = () => {
     setAcceptedHover(!acceptedHover);
   };
+  console.log(data?.endDate);
 
   if (projectQuery.error) return <Message>잠시 후 다시 시도해주세요.</Message>;
   if (projectQuery.isLoading || !data || !applyQuery.data)
@@ -105,7 +106,7 @@ const ViewProject = () => {
         />
         <PeriodBox
           start={new Date(data.startDate)}
-          end={new Date(data.endDate)}
+          end={data.endDate ? new Date(data.endDate) : data.endDate}
         />
         <TagBox tags={data.fieldList} />
         <StacksBox stacks={data.techList} stack={false} />

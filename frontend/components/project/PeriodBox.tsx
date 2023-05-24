@@ -12,7 +12,7 @@ registerLocale('ko', ko); // 한국어적용
 
 type Props = {
   start: Date | null | undefined;
-  end: Date | null | undefined;
+  end: string | Date;
   handleRangeChange?: (dates: [Date | null, Date | null]) => void;
 };
 
@@ -28,7 +28,6 @@ const PeriodBox = ({ start, end, handleRangeChange }: Props) => {
       </span>
     )
   );
-
   return (
     <Box>
       <div>
@@ -41,7 +40,7 @@ const PeriodBox = ({ start, end, handleRangeChange }: Props) => {
               onChange={handleRangeChange}
               locale={ko}
               startDate={start}
-              endDate={end}
+              endDate={typeof end === 'string' ? null : end}
               selectsRange
               customInput={<CustomInput onClick={() => {}} />} //onClick을 이곳에서 주지 않는 방식으로 해결하고 싶은데 어렵네요.
             />
@@ -51,12 +50,12 @@ const PeriodBox = ({ start, end, handleRangeChange }: Props) => {
       <div className="noto-regular-13 period">
         <span>{start && formatDate(start)}</span>
         {start && <span> ~ </span>}
-        <span>{end && formatDate(end)} </span>
+        <span>{typeof end === 'string' ? null : formatDate(end)} </span>
         <span>
           {start
-            ? end
+            ? end && typeof end !== 'string'
               ? `(${dateDiffInDays(start, end)}일)`
-              : '종료일 미정'
+              : `종료일 미정`
             : ''}
         </span>
       </div>
