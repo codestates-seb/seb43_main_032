@@ -12,6 +12,7 @@ import useUser from '@/hooks/react-query/user/useUser';
 export default function me() {
   const {
     getMyInfo: { data: user },
+    getMyProjects: { data: projects },
   } = useUser({});
   const router = useRouter();
   useEffect(() => {
@@ -23,6 +24,8 @@ export default function me() {
   const handleClick = () => {
     router.push('/users/me/edit');
   };
+
+  projects && console.log('projects', projects);
 
   return (
     <>
