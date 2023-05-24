@@ -35,7 +35,6 @@ export default function UserContentsBox({ contentTitle, contents }: IProps) {
     if (lastUrl && !(lastUrl === 'me')) {
       setId(+lastUrl);
     } else {
-      console.log(me);
       setId(me.memberId);
     }
   }, [lastUrl, me]);

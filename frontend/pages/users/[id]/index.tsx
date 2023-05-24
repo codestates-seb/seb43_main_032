@@ -4,7 +4,6 @@ import UserProfile from '@/components/user/UserProfile';
 import Tag from '@/components/Tag';
 import Stack from '@/components/stack/Stack';
 import GridBox from '@/components/common_box/GridBox';
-import { useProject } from '@/hooks/react-query/project/useProject';
 import useUser from '@/hooks/react-query/useUser';
 import UserContentsBox from '@/components/user/UserContentsBox';
 
@@ -13,17 +12,8 @@ const UserPage = () => {
   const id = router.query.id;
 
   const {
-    getUserById: { data: user, isLoading },
-    // getProjectByUserId: { data: projects },
-    // getPostsByUserId: { data: posts },
+    getUserById: { data: user },
   } = useUser({ id: id ? +id : undefined });
-  const {
-    projectQuery: { data: projects },
-  } = useProject();
-  // const user = dummyUser;
-
-  // if (isLoading) return 'Loading...';
-  projects && console.log(projects.data);
 
   return user ? (
     <GridBox>

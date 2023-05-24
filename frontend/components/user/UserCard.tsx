@@ -9,7 +9,6 @@ interface IProps {
   user: User;
 }
 export default function UserCard({ user }: IProps) {
-  console.log(user.techList);
   return (
     <Group>
       <Link href={`users/${user.memberId}`}>
@@ -50,7 +49,7 @@ export default function UserCard({ user }: IProps) {
               </StackWrapper>
             </SubCardWrapper>
             <CardFooter>
-              <AboutMe></AboutMe>
+              <AboutMe>{user.aboutMe}</AboutMe>
             </CardFooter>
           </CardWrapper>
         </Wrapper>

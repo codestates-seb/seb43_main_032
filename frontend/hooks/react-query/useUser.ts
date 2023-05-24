@@ -63,6 +63,9 @@ export default function useUser({
       },
     }
   );
+  const userAnswers = useQuery(['users', 'answers'], getUserAnswers);
+
+  const getMyProjects = useQuery(['users', 'projects', 'me'], getMyProject);
 
   return {
     userQuery, //
@@ -73,6 +76,8 @@ export default function useUser({
     getPostsByUserId,
     allProjcetsQuery,
     updateUser,
+    userAnswers,
+    getMyProjects,
   };
 }
 
@@ -151,3 +156,13 @@ export const searchUser = async (
   });
   return response.data;
 };
+
+async function getUserAnswers() {
+  const response = await api.get('/members/info/answers');
+  return response.data.data;
+}
+
+async function getMyProject() {
+  const response = await api.get('/members/info/projects');
+  return response.data.data;
+}
