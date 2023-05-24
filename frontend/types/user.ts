@@ -13,6 +13,7 @@ export type UserState = {
   yearOfDev: number;
   location: string;
   techList: Tech[];
+  totalProject: number;
 };
 export interface User {
   aboutMe: string;
@@ -26,6 +27,7 @@ export interface User {
   techList: Tech[];
   totalStar: number;
   yearOfDev: number;
+  totalProject: number;
 }
 
 //로그인 또는 회원가입 할때 데이터 타입
@@ -33,4 +35,15 @@ export type LoginData = {
   name?: string;
   email: string;
   password: string | number;
+};
+
+export type Chat = {
+  content: string;
+  createdAt: string;
+  email: string;
+  name: string;
+  receiverMemberId: number;
+  senderMemberId: number;
+  title: string;
+  id: number;
 };

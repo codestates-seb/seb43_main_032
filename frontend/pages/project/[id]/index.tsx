@@ -18,6 +18,7 @@ import ApplyBox from '@/components/common_box/ApplyBox';
 import SubBtn from '@/components/button/SubBtn';
 import { errorAlert } from '@/components/alert/Alert';
 import { postStar } from '@/util/api/postStar';
+import ReviewBox from '@/components/common_box/ReviewBox';
 
 const ViewProject = () => {
   const loggedInUser = useRecoilValue(loggedInUserState);
@@ -90,6 +91,19 @@ const ViewProject = () => {
     setAcceptedHover(!acceptedHover);
   };
 
+  const [review, setReview] = useState(false);
+  const statusEvent = () => {
+    if (review) {
+      return setReview(false);
+    }
+    if (data?.status === '종료') {
+      return setReview(true);
+    }
+    if (data) {
+      projectEvent(data.status);
+    }
+  };
+
   if (projectQuery.error) return <Message>잠시 후 다시 시도해주세요.</Message>;
   if (projectQuery.isLoading || !data || !applyQuery.data)
     return <Message>로딩중입니다.</Message>;
@@ -97,6 +111,7 @@ const ViewProject = () => {
     <GridBox>
       <Side>
         <AuthorBox
+        totalProject={data.memberInfo.totalProject}
           userId={data.memberInfo.memberId}
           userImg={data.memberInfo.profileImageUrl}
           userName={data.memberInfo.name}
@@ -165,11 +180,10 @@ const ViewProject = () => {
         )}
         <div>
           {data.author && data.status !== '모집중' && (
-            <SubBtn onClick={() => projectEvent(data.status)}>
-              {BUTTON_STATE[data.status]}
-            </SubBtn>
+            <SubBtn onClick={statusEvent}>{BUTTON_STATE[data.status]}</SubBtn>
           )}
         </div>
+        {review && <ReviewBox crewList={data.acceptedCrewList}></ReviewBox>}
       </Side>
       <MainArticleBox
         title={data.title}

@@ -7,6 +7,7 @@ import GridBox from '@/components/common_box/GridBox';
 import UserContentBox from '@/components/user/UserContentBox';
 import Message from '@/components/Message';
 import useUser from '@/hooks/react-query/user/useUser';
+import { onChatCreate } from '@/util/chat';
 
 const UserPage = () => {
   const router = useRouter();
@@ -14,14 +15,16 @@ const UserPage = () => {
   const {
     getUserById: { data: user, isLoading },
   } = useUser({ id: id ? +id : undefined });
+
   if (isLoading) return <Message>로딩중입니다.</Message>;
   return user && !isLoading ? (
     <GridBox>
       <UserInfoContainer>
         <div className="user-box">
           <UserProfile user={user} />
-          <Tag>메일 보내기</Tag>
-          <Tag>채팅하기</Tag>
+          <Tag onClick={() => onChatCreate(Number(id))} className="chat-create">
+            쪽지 보내기
+          </Tag>
         </div>
         <StackWrapper>
           <div className="title">사용 스택</div>
@@ -54,6 +57,9 @@ const UserInfoContainer = styled.div`
   align-items: center;
   padding: 20px 20px 36px 20px;
 
+  .chat-create {
+    cursor: pointer;
+  }
   .user-box {
     display: flex;
     flex-direction: column;
