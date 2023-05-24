@@ -4,9 +4,9 @@ import UserProfile from '@/components/user/UserProfile';
 import Tag from '@/components/Tag';
 import Stack from '@/components/stack/Stack';
 import GridBox from '@/components/common_box/GridBox';
-import useUser from '@/hooks/react-query/useUser';
 import UserContentBox from '@/components/user/UserContentBox';
 import Message from '@/components/Message';
+import useUser from '@/hooks/react-query/user/useUser';
 
 const UserPage = () => {
   const router = useRouter();

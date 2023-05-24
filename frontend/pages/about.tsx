@@ -2,7 +2,7 @@ import React from 'react';
 import styled, { keyframes } from 'styled-components';
 import Image from 'next/image';
 import logo from '../public/images/symbol.svg';
-import StarBg from '@/components/StarBg';
+import StarBg from '@/components/background/StarBg';
 
 const aboutPage = () => {
   return (

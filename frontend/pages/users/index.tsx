@@ -1,10 +1,10 @@
 import Pagenation from '@/components/Pagenation';
 import UserCard from '@/components/user/UserCard';
-import useUser from '@/hooks/react-query/useUser';
 import { ChangeEvent, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { BiSearch } from 'react-icons/bi';
 import { POSITIONS } from '@/constant/constant';
+import useUser from '@/hooks/react-query/user/useUser';
 
 const Users = () => {
   const [inputValue, setInputValue] = useState<string>('');

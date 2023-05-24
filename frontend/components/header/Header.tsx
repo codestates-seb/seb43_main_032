@@ -3,17 +3,17 @@ import Link from 'next/link';
 import styled from 'styled-components';
 import { useRouter } from 'next/router';
 import { useEffect, useMemo, useState } from 'react';
-import logo from '../public/images/logo.svg';
-import logoWhite from '../public/images/logoSymbolWhite.svg';
+import logo from '../../public/images/logo.svg';
+import logoWhite from '../../public/images/logoSymbolWhite.svg';
 import { useOffResize } from '@/hooks/useOffResize';
 import { HEADER_NAV } from '@/constant/constant';
 import { deleteCookie, getCookie } from '@/util/cookie';
 import { useRecoilState } from 'recoil';
 import { loggedInUserState, navModalState } from '@/recoil/atom';
 import { setUserState } from '@/util/api/user';
-import Img from '../public/images/second-user.svg';
+import Img from '../../public/images/second-user.svg';
 import { NavProps } from '@/types/types';
-import ButtonStyle from './button/ButtonStyle';
+import ButtonStyle from '../button/ButtonStyle';
 
 const Header = () => {
   const router = useRouter();

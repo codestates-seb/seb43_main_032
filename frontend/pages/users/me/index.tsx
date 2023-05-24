@@ -1,13 +1,13 @@
 import InfoContainer from '@/components/user/InfoContainer';
 import UserMeContentsBox from '@/components/user/UserMeContentsBox';
 import UserInfoCard from '@/components/user/UserProfile';
-import useUser from '@/hooks/react-query/useUser';
 import { useRouter } from 'next/router';
 import styled from 'styled-components';
 import GridBox from '@/components/common_box/GridBox';
 import { getCookie } from '@/util/cookie';
 import { useEffect } from 'react';
 import Tag from '@/components/Tag';
+import useUser from '@/hooks/react-query/user/useUser';
 
 export default function me() {
   const {

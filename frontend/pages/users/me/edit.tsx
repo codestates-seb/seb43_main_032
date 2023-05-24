@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import UserEditForm from '@/components/authAction/UserEditForm';
-import useUser from '@/hooks/react-query/useUser';
+import useUser from '@/hooks/react-query/user/useUser';
 
 export default function Edit() {
   const {

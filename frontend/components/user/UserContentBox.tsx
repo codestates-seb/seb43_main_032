@@ -3,10 +3,10 @@ import styled from 'styled-components';
 import UserProjectCard from './UserProjectCard';
 import UserPostCard from './UserPostCard';
 import Pagenation from '../Pagenation';
-import useUser from '@/hooks/react-query/useUser';
 import { useRouter } from 'next/router';
 import { useAllData } from '@/hooks/react-query/useAllData';
 import Message from '../Message';
+import useUser from '@/hooks/react-query/user/useUser';
 
 interface IProps {
   contentTitle: string[];
