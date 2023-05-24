@@ -64,6 +64,7 @@ export default function UserEditForm({ user }: { user: User }) {
       setImgPreview(URL.createObjectURL(image[0]));
     }
   }, [image]);
+
   return (
     <Form onSubmit={handleSubmit(onValid, onInValid)}>
       <ProfileBox>
