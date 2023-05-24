@@ -11,7 +11,7 @@ type Props = {
 const ProjectCarousel = ({ projects }: Props) => {
   //캐러셀 옵션
   const settings = {
-    dots: true,
+    dots: false,
     infinite: true,
     speed: 2000,
     slidesToShow: 1,
