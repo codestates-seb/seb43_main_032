@@ -46,6 +46,31 @@ export default function UserContentsBox({ contentTitle }: IProps) {
   const { projectsData, commentsData, answersData, communitiesData } =
     useMemberInfo();
 
+  const getPageSize = () => {
+    if (filter === '프로젝트') {
+      return projectsData?.length || 0;
+    }
+    if (filter === '게시글') {
+      return communitiesData?.length || 0;
+    }
+    if (filter === '답글') {
+      return answersData?.length || 0;
+    }
+    if (filter === '댓글') {
+      return commentsData?.length || 0;
+    }
+    return 0;
+  };
+
+  const pageSize = Math.ceil(getPageSize() / 5);
+  const projectFilterData = projectsData?.slice((page - 1) * 5, page * 5);
+  const communitiesFilterData = communitiesData?.slice(
+    (page - 1) * 5,
+    page * 5
+  );
+  const answersFilterData = answersData?.slice((page - 1) * 5, page * 5);
+  const commentsFilterData = commentsData?.slice((page - 1) * 5, page * 5);
+
   if (id === 0) return <h1>Loading...</h1>;
   return (
     <Wrapper>
@@ -64,38 +89,38 @@ export default function UserContentsBox({ contentTitle }: IProps) {
       <Contents>
         {filter === '프로젝트' && (
           <>
-            {projectsData &&
-              projectsData.map((project) => (
+            {projectFilterData &&
+              projectFilterData.map((project) => (
                 <UserProjectCard key={project.projectId} project={project} />
               ))}
           </>
         )}
         {filter === '게시글' && (
           <>
-            {communitiesData &&
-              communitiesData.map((post) => (
+            {communitiesFilterData &&
+              communitiesFilterData.map((post) => (
                 <UserPostCard key={post.articleId} post={post} />
               ))}
           </>
         )}
         {filter === '답글' && (
           <>
-            {answersData &&
-              answersData.map((post) => (
+            {answersFilterData &&
+              answersFilterData.map((post) => (
                 <UserAnswerCard key={post.answerId} answer={post} />
               ))}
           </>
         )}
         {filter === '댓글' && (
           <>
-            {commentsData &&
-              commentsData.map((post) => (
+            {commentsFilterData &&
+              commentsFilterData.map((post) => (
                 <UserCommentCard key={post.commentId} comment={post} />
               ))}
           </>
         )}
       </Contents>
-      <Pagenation page={page} pageSize={4} onPageChange={setPage} />
+      <Pagenation page={page} pageSize={pageSize} onPageChange={setPage} />
     </Wrapper>
   );
 }
