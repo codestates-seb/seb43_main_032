@@ -4,22 +4,17 @@ import UserProfile from '@/components/user/UserProfile';
 import Tag from '@/components/Tag';
 import Stack from '@/components/stack/Stack';
 import GridBox from '@/components/common_box/GridBox';
-import { useProject } from '@/hooks/react-query/project/useProject';
 import useUser from '@/hooks/react-query/useUser';
 import UserContentBox from '@/components/user/UserContentBox';
+import { useProject } from '@/hooks/react-query/project/useProject';
 
 const UserPage = () => {
   const router = useRouter();
   const id = router.query.id;
 
   const {
-    getUserById: { data: user, isLoading },
-    // getProjectByUserId: { data: projects },
-    // getPostsByUserId: { data: posts },
+    getUserById: { data: user },
   } = useUser({ id: id ? +id : undefined });
-  const {
-    projectQuery: { data: projects },
-  } = useProject();
 
   return user ? (
     <GridBox>

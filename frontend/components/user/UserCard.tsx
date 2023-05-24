@@ -49,7 +49,7 @@ export default function UserCard({ user }: IProps) {
               </StackWrapper>
             </SubCardWrapper>
             <CardFooter>
-              <AboutMe></AboutMe>
+              <AboutMe>{user.aboutMe}</AboutMe>
             </CardFooter>
           </CardWrapper>
         </Wrapper>
