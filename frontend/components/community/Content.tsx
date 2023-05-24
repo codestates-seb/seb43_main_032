@@ -124,7 +124,7 @@ const ContentTop = styled.div`
 const SearchInput = styled.input`
   width: 55%;
   border-radius: 4px;
-  border: solid 2px lightgray;
+  border: solid 2px #ececec;
   padding: 10px 22px;
   min-width: 240px;
   color: #5393fa;

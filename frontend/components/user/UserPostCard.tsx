@@ -35,7 +35,7 @@ const Wrapper = styled.div`
   min-height: 120px;
   margin-bottom: 20px;
   justify-content: space-between;
-  align-items: start;
+  align-items: center;
   border-radius: var(--radius-def);
   cursor: pointer;
   background: white;
