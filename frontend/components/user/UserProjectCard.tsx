@@ -1,8 +1,6 @@
 import styled from 'styled-components';
-import { AiTwotoneLike } from 'react-icons/ai';
-import Stack from '../stack/Stack';
 import { useRouter } from 'next/router';
-import { Project, Tech } from '@/types/project';
+import { Project } from '@/types/project';
 import { RiThumbUpFill } from 'react-icons/ri';
 
 export default function UserProjectCard({ project }: { project: Project }) {
@@ -10,6 +8,7 @@ export default function UserProjectCard({ project }: { project: Project }) {
   const handleClick = () => {
     router.push(`/project/${project.projectId}`);
   };
+
   return (
     <Wrapper onClick={handleClick}>
       <ContentContainer>
@@ -17,7 +16,9 @@ export default function UserProjectCard({ project }: { project: Project }) {
           <div className="text-box">
             <span className="title">{project.title}</span>
             <span className="date">
-              {`프로젝트 기간 : ${project.startDate}~ ${project.endDate}`}
+              {`프로젝트 기간 : ${project.startDate}~ ${
+                project.endDate ? project.endDate : '종료일 미정'
+              }`}
             </span>
           </div>
           <StarRaiting>

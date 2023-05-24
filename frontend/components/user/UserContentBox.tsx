@@ -6,16 +6,13 @@ import Pagenation from '../Pagenation';
 import useUser from '@/hooks/react-query/useUser';
 import { useRouter } from 'next/router';
 import { useAllData } from '@/hooks/react-query/useAllData';
-import { useMemberInfo } from '@/hooks/react-query/user/useMemberInfo';
-import UserAnswerCard from './UserAnswerCard';
-import UserCommentCard from './UserCommentCard';
 
 interface IProps {
   contentTitle: string[];
   contents?: any;
 }
 
-export default function UserContentsBox({ contentTitle }: IProps) {
+export default function UserContentBox({ contentTitle }: IProps) {
   const router = useRouter();
   const lastUrl = router.asPath.split('/').pop();
   const [id, setId] = useState<number>(0);
@@ -27,7 +24,7 @@ export default function UserContentsBox({ contentTitle }: IProps) {
     getMyInfo: { data: me },
     getProjectByUserId: { data: projects },
     getPostsByUserId: { data: posts },
-  } = useUser({ id, page, pageSize: 3, projectData, communityData });
+  } = useUser({ id, page, pageSize: 5, projectData, communityData });
 
   const handleClick = (e: MouseEvent<HTMLButtonElement>) => {
     const name = e.currentTarget.name;
@@ -42,34 +39,18 @@ export default function UserContentsBox({ contentTitle }: IProps) {
     }
   }, [lastUrl, me]);
 
-  //내가 작성한 데이터들
-  const { projectsData, commentsData, answersData, communitiesData } =
-    useMemberInfo();
-
   const getPageSize = () => {
     if (filter === '프로젝트') {
-      return projectsData?.length || 0;
+      return projects?.length || 0;
     }
     if (filter === '게시글') {
-      return communitiesData?.length || 0;
-    }
-    if (filter === '답글') {
-      return answersData?.length || 0;
-    }
-    if (filter === '댓글') {
-      return commentsData?.length || 0;
+      return posts?.length || 0;
     }
     return 0;
   };
-
   const pageSize = Math.ceil(getPageSize() / 5);
-  const projectFilterData = projectsData?.slice((page - 1) * 5, page * 5);
-  const communitiesFilterData = communitiesData?.slice(
-    (page - 1) * 5,
-    page * 5
-  );
-  const answersFilterData = answersData?.slice((page - 1) * 5, page * 5);
-  const commentsFilterData = commentsData?.slice((page - 1) * 5, page * 5);
+  const projectFilterData = projects?.slice((page - 1) * 5, page * 5);
+  const communitiesFilterData = posts?.slice((page - 1) * 5, page * 5);
 
   if (id === 0) return <h1>Loading...</h1>;
   return (
@@ -100,22 +81,6 @@ export default function UserContentsBox({ contentTitle }: IProps) {
             {communitiesFilterData &&
               communitiesFilterData.map((post) => (
                 <UserPostCard key={post.articleId} post={post} />
-              ))}
-          </>
-        )}
-        {filter === '답글' && (
-          <>
-            {answersFilterData &&
-              answersFilterData.map((post) => (
-                <UserAnswerCard key={post.answerId} answer={post} />
-              ))}
-          </>
-        )}
-        {filter === '댓글' && (
-          <>
-            {commentsFilterData &&
-              commentsFilterData.map((post) => (
-                <UserCommentCard key={post.commentId} comment={post} />
               ))}
           </>
         )}

@@ -6,7 +6,7 @@ import Stack from '@/components/stack/Stack';
 import GridBox from '@/components/common_box/GridBox';
 import { useProject } from '@/hooks/react-query/project/useProject';
 import useUser from '@/hooks/react-query/useUser';
-import UserContentsBox from '@/components/user/UserContentsBox';
+import UserContentBox from '@/components/user/UserContentBox';
 
 const UserPage = () => {
   const router = useRouter();
@@ -33,7 +33,6 @@ const UserPage = () => {
           <div className="title">사용 스택</div>
           <div className="stack-list">
             {stacks.map((stack) => (
-              // <Tag key={`${stack}`}>{stack}</Tag>
               <Stack key={stack} tech={stack} />
             ))}
           </div>
@@ -44,9 +43,7 @@ const UserPage = () => {
           <ContentTitle>자기 소개란</ContentTitle>
           <ContentBox>asdasd</ContentBox>
         </UserDescription>
-        <UserContentsBox
-          contentTitle={['프로젝트', '게시글', '답글', '댓글']}
-        />
+        <UserContentBox contentTitle={['프로젝트', '게시글']} />
       </ContentsContainer>
     </GridBox>
   ) : (

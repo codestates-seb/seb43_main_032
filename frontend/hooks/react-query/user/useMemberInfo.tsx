@@ -20,24 +20,33 @@ export const useMemberInfo = () => {
     communities: getInfoQueryKey('articles'),
   };
 
-  const { data: projectsData } = useQuery<Project[]>(queryKeys.projects, () =>
+  const { data: projectsData, isLoading: projectsLoading } = useQuery<
+    Project[]
+  >(queryKeys.projects, () =>
     api('/members/info/projects').then((res) => res.data.data)
   );
-  const { data: commentsData } = useQuery<Comment[]>(queryKeys.comments, () =>
+  const { data: commentsData, isLoading: commentsLoading } = useQuery<
+    Comment[]
+  >(queryKeys.comments, () =>
     api('/members/info/comments').then((res) => res.data.data)
   );
-  const { data: answersData } = useQuery<Answer[]>(queryKeys.answers, () =>
-    api('/members/info/answers').then((res) => res.data.data)
+  const { data: answersData, isLoading: answersLoading } = useQuery<Answer[]>(
+    queryKeys.answers,
+    () => api('/members/info/answers').then((res) => res.data.data)
   );
-  const { data: communitiesData } = useQuery<Community[]>(
-    queryKeys.communities,
-    () => api('/members/info/articles').then((res) => res.data.data)
+  const { data: communitiesData, isLoading: communitiesLoading } = useQuery<
+    Community[]
+  >(queryKeys.communities, () =>
+    api('/members/info/articles').then((res) => res.data.data)
   );
+
+  const isLoading =
+    projectsLoading || commentsLoading || answersLoading || communitiesLoading;
 
   return {
     projectsData,
     commentsData,
     answersData,
-    communitiesData,
+    communitiesData,isLoading
   };
 };
