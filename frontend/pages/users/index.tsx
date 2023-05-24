@@ -88,7 +88,11 @@ const Users = () => {
             <UserCard key={user.name} user={user} />
           ))}
       </CardWrapper>
-      <Pagenation pageSize={pageSize} page={page} onPageChange={setPage} />
+      <Pagenation
+        pageSize={pageSize ? pageSize : 0}
+        page={page}
+        onPageChange={setPage}
+      />
     </Wrapper>
   );
 };
