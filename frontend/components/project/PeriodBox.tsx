@@ -12,7 +12,7 @@ registerLocale('ko', ko); // 한국어적용
 
 type Props = {
   start: Date | null | undefined;
-  end: string | Date;
+  end: Date | null | undefined | string;
   handleRangeChange?: (dates: [Date | null, Date | null]) => void;
 };
 
@@ -50,7 +50,7 @@ const PeriodBox = ({ start, end, handleRangeChange }: Props) => {
       <div className="noto-regular-13 period">
         <span>{start && formatDate(start)}</span>
         {start && <span> ~ </span>}
-        <span>{typeof end === 'string' ? null : formatDate(end)} </span>
+        <span>{typeof end === 'string' ? null : end && formatDate(end)} </span>
         <span>
           {start
             ? end && typeof end !== 'string'

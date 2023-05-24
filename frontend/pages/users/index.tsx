@@ -1,38 +1,43 @@
 import Pagenation from '@/components/Pagenation';
 import UserCard from '@/components/user/UserCard';
-import useUser from '@/hooks/react-query/useUser';
 import { ChangeEvent, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { BiSearch } from 'react-icons/bi';
-import { useQueryClient } from 'react-query';
 import { POSITIONS } from '@/constant/constant';
+import useUser from '@/hooks/react-query/user/useUser';
+import Message from '@/components/Message';
+import { usersFilter } from '@/util/filter/usersFilter';
 
 const Users = () => {
   const [inputValue, setInputValue] = useState<string>('');
-  const [keyword, setKeyword] = useState<string | undefined>(undefined);
   const [page, setPage] = useState<number>(1);
   const [size, setSize] = useState<number>(24);
-  const queryClient = useQueryClient();
 
   const {
     userQuery: { data: users, isLoading: allUserLoading },
-    searchUserByKeyword: { data: searchedUsers, isLoading: searchUserLoading },
-  } = useUser({ userPage: page, userPageSize: size, keyword });
-
-  //페이지네이션 크기
-  const pageSize = Math.ceil(size / 24);
+  } = useUser({ userPage: page, userPageSize: size });
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     setInputValue(e.target.value);
   };
-  const handleClick = () => {
-    if (inputValue.trim().length < 1) {
-    } else {
-      setKeyword(inputValue);
-    }
-  };
+
   //filter 상태
   const [filter, setFilter] = useState(-1);
+
+  //필터링된 데이터
+  let filterData = usersFilter(users, filter, inputValue);
+
+  //페이지네이션 크기
+  const pageSize =
+    filterData && filterData?.length > 0
+      ? Math.ceil(filterData?.length / 24)
+      : filter === -1 && inputValue !== ''
+      ? filterData?.length
+      : Math.ceil(size / 24);
+
+  //실제 보여지는 필터 데이터
+  const viewFilterData = filterData?.slice((page - 1) * 24, page * 24);
+
   const filterHandler = (idx: number) => {
     if (filter === idx) {
       return setFilter(-1); //다시 한 번 필터가 눌렸을 땐, 전체 카드가 조회되기위해
@@ -40,18 +45,13 @@ const Users = () => {
     setFilter(idx);
   };
 
-  //필터데이터
-  //필터링을 constant 폴더에 POST_COMMUNITY_CATEGORY 데이터를 활용해서 구현하려고 했으나, 제출할 때 데이터가 일정하지
-  //않아서 구현하지못했음. 필터가 -1일땐 전체 데이터가 보이고 0~10일땐 값에 맞는 데이터를 보여줘야하는데 유저가
-  //본인의 포지션을 수정할 때, 고정된 값을 활용하도록 해야할 듯. FE/BE라는 이름으로 매칭이 되있어서 일일이 다 찾아야 함
-  // constant 폴더에 POSITIONS 값만 선택해서 포지션을 제출할 수 있도록 수정부탁드려요.
-  const [filterData, setFilterData] = useState([]);
   useEffect(() => {
-    if (filter === -1) {
-      return setFilterData([]);
+    if (filter === -1 && inputValue !== '') {
+      setSize(1000);
     }
-  }, [filter]);
+  }, [inputValue]);
 
+  if (allUserLoading) return <Message>로딩중입니다.</Message>;
   return (
     <Wrapper>
       <SearchHeader>
@@ -76,18 +76,23 @@ const Users = () => {
               value={inputValue}
               placeholder="Search user..."
             />
-            <SearchButton onClick={handleClick}>
+            <SearchButton>
               <BiSearch />
             </SearchButton>
           </SearchBox>
         </SubHeader>
       </SearchHeader>
-
       <CardWrapper>
-        {users &&
-          users.map((user: any) => <UserCard key={user.name} user={user} />)}
+        {viewFilterData &&
+          viewFilterData.map((user: any) => (
+            <UserCard key={user.name} user={user} />
+          ))}
       </CardWrapper>
-      <Pagenation pageSize={pageSize} page={page} onPageChange={setPage} />
+      <Pagenation
+        pageSize={pageSize ? pageSize : 0}
+        page={page}
+        onPageChange={setPage}
+      />
     </Wrapper>
   );
 };

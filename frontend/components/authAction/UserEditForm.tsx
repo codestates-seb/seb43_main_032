@@ -1,5 +1,4 @@
 import { Tech } from '@/types/project';
-import { api } from '@/util/api';
 import { mergeData, updateData } from '@/util/user';
 import React, { useEffect, useState } from 'react';
 import { FieldErrors, useForm } from 'react-hook-form';
@@ -10,7 +9,7 @@ import { useRouter } from 'next/router';
 import { POSITIONS, POST_COMMUNITY_CATEGORY } from '@/constant/constant';
 import { FilterButton } from '@/pages/users';
 import { User } from '@/types/user';
-import useUser from '@/hooks/react-query/useUser';
+import useUser from '@/hooks/react-query/user/useUser';
 
 export default function UserEditForm({ user }: { user: User }) {
   const { updateUser } = useUser({});

@@ -2,6 +2,7 @@ import { AiFillHeart, AiOutlineHeart } from 'react-icons/ai';
 import Tag from '../Tag';
 import styled from 'styled-components';
 import { useRouter } from 'next/router';
+import Position from '../Position';
 
 type Props = {
   userImg: string;
@@ -9,6 +10,7 @@ type Props = {
   isAuthor: boolean;
   totalStar: number;
   userId: number;
+  position: string;
 };
 
 const AuthorBox = ({
@@ -17,6 +19,7 @@ const AuthorBox = ({
   userName,
   isAuthor,
   totalStar,
+  position,
 }: Props) => {
   const router = useRouter();
   const moveAuthorPage = (memberId: number) => {
@@ -28,6 +31,7 @@ const AuthorBox = ({
       <div className="top-box">
         <img src={userImg} alt="author" />
         <div className="userBox nanum-bold userName">{userName}</div>
+        {position && <Position>{position}</Position>}
         {!isAuthor && (
           <div className="saveStar" onClick={() => {}}>
             <span className="icon-box">

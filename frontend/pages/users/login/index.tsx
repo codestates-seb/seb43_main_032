@@ -74,13 +74,3 @@ const TextBox = styled.div`
     line-height: 1.3;
   }
 `;
-const ImgBox = styled.div`
-  display: flex;
-  background-color: #d4d4d4;
-  width: 80%;
-  height: 400px;
-  justify-content: center;
-  align-items: center;
-  margin-top: 20px;
-  border-radius: 10px;
-`;

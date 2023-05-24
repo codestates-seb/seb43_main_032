@@ -214,7 +214,7 @@ const ProjectForm = () => {
       <Side>
         <PeriodBox
           start={start}
-          end={end}
+          end={end && end}
           handleRangeChange={handleRangeChange}
         />
         <TagBox
