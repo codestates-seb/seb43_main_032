@@ -2,12 +2,15 @@ import Message from '@/components/Message';
 import Pagenation from '@/components/Pagenation';
 import ChatBox from '@/components/common_box/ChatBox';
 import { useGetChat } from '@/hooks/react-query/chat/useChat';
+import { chatState } from '@/recoil/atom';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
+import { useRecoilState } from 'recoil';
 
 import styled from 'styled-components';
 const Chat = () => {
   const route = useRouter();
+  const [chat, setChat] = useRecoilState(chatState);
   const size = 10;
   const [page, setPage] = useState(1);
   const { data, isLoading, error, refetch, deleteChat } = useGetChat({
@@ -18,6 +21,10 @@ const Chat = () => {
   useEffect(() => {
     refetch();
   }, [page]);
+
+  useEffect(() => {
+    if (chatData) setChat(chatData);
+  }, [chatData]);
 
   const deleteEvent = (chatId: number) => {
     deleteChat.mutate(chatId);

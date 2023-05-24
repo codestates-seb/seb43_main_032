@@ -1,4 +1,4 @@
-import { UserState } from '@/types/user';
+import { Chat, UserState } from '@/types/user';
 import { atom } from 'recoil';
 
 export const loggedInUserState = atom<UserState | null>({
@@ -12,4 +12,8 @@ export const navModalState = atom({
 export const isContactState = atom({
   key: 'isContactState',
   default: false,
+});
+export const chatState = atom<Chat[]>({
+  key: 'chatState',
+  default: [],
 });
