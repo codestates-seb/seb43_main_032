@@ -15,6 +15,7 @@ import { useProject } from '@/hooks/react-query/project/useProject';
 import StacksBox from './StacksBox';
 import GridBox from '../common_box/GridBox';
 import { confirmAlert, errorAlert } from '../alert/Alert';
+import { formatSkill } from '@/util/stack/formatSkill';
 
 const ProjectForm = () => {
   const router = useRouter();
@@ -172,7 +173,7 @@ const ProjectForm = () => {
     //랜덤 이미지 생성
     const randomNumber = Math.floor(Math.random() * 5) + 1;
     const srcSvg = `/images/thum (${randomNumber}).svg`;
-
+    //tags.map((tag) => tag.field)
     //공통 데이터
     const data = {
       startDate: formatDate3(start),
@@ -185,7 +186,10 @@ const ProjectForm = () => {
         techList: stacks.map((stack) => stack.tech),
       },
       fieldList: {
-        fieldList: tags.map((tag) => tag.field),
+        fieldList:
+          tags.length === 0
+            ? stacks.map((stack) => formatSkill(stack.tech))
+            : tags.map((tag) => tag.field),
       },
       positionCrewList: {
         positionList: jobs.map((job) => job.position),
