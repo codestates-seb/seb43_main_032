@@ -10,29 +10,49 @@ import { useRouter } from 'next/router';
 import { AiFillCamera } from 'react-icons/ai';
 import EditTextArea from './EditTextArea';
 import Tag from '../Tag';
+import { POSITIONS, POST_COMMUNITY_CATEGORY } from '@/constant/constant';
+import { FilterButton } from '@/pages/users';
+import { User } from '@/types/user';
+import useUser from '@/hooks/react-query/useUser';
 
-export default function UserEditForm({ user }: { user: any }) {
+export default function UserEditForm({ user }: { user: User }) {
+  const { updateUser } = useUser({});
+  const initialPosition = Object.keys(POST_COMMUNITY_CATEGORY).find(
+    (key) => POST_COMMUNITY_CATEGORY[key] === user.position
+  );
+  const index = initialPosition ? POSITIONS.indexOf(initialPosition) : -1;
+
   const { register, handleSubmit, watch } = useForm();
   const [imgPreview, setImgPreview] = useState<string>('');
-  const [stacks, setStacks] = useState<Tech[]>([]);
+  const [stacks, setStacks] = useState<Tech[]>(user.techList);
+  const [filter, setFilter] = useState(index);
+  const [submitLoading, setSubmitLoading] = useState(false);
+  const filterHandler = (idx: number) => {
+    if (filter === idx) {
+      return setFilter(-1); //다시 한 번 필터가 눌렸을 땐, 전체 카드가 조회되기위해
+    }
+    setFilter(idx);
+  };
   const image = watch('image');
   const router = useRouter();
 
   const onValid = async (data: any) => {
+    setSubmitLoading(true);
+    data.position = POST_COMMUNITY_CATEGORY[POSITIONS[filter]];
     await mergeData(data, image, stacks);
     const updatedData = updateData(user, data);
-    console.log('change to ', updatedData);
 
-    api
-      .patch('/members', updatedData) //
-      .then((res) => {
-        console.log(res.status);
-        if (res.status === 200) {
-          router.push('/users/me');
-          //쿼리 키 무효화 필요
-          //로딩 시 버튼 변화 필요
-        }
-      });
+    updateUser.mutate(updatedData, {
+      onSuccess: () => {
+        alert('정보가 수정 되었습니다.');
+        router.push('/users/me');
+      },
+      onError: (error) => {
+        console.error(error);
+        alert('정보 수정에 실패했습니다.');
+        setSubmitLoading(false);
+      },
+    });
   };
   const onInValid = (errors: FieldErrors) => {
     console.log(errors);
@@ -41,9 +61,9 @@ export default function UserEditForm({ user }: { user: any }) {
   useEffect(() => {
     if (image && image.length > 0) {
       setImgPreview(URL.createObjectURL(image[0]));
-      console.log(image);
     }
   }, [image]);
+
   return (
     <Form onSubmit={handleSubmit(onValid, onInValid)}>
       <ProfileBox>
@@ -94,24 +114,33 @@ export default function UserEditForm({ user }: { user: any }) {
           </div>
         </div>
       </ProfileBox>
-      <div className="textForm">
-        <div className="stack">
-          <Label>사용스택</Label>
-          <SelectStack //
-            stacks={stacks}
-            setStacks={setStacks}
-          />
-        </div>
-        <EditTextArea
-          label="자기소개"
-          placeholder={user.aboutMe}
-          register={register('aboutMe')}
-          cl
-        />
-      </div>
-
+      <Label>Stacks</Label>
+      <SelectStack //
+        stacks={stacks}
+        setStacks={setStacks}
+      />
+      <EditInput
+        label="About Me"
+        placeholder={user.aboutMe}
+        register={register('aboutMe')}
+      />
+      <EditInput
+        label="Position"
+        placeholder={user.position}
+        register={register('position')}
+      />
+      <EditInput
+        label="Location"
+        placeholder={user.location}
+        register={register('location')}
+      />
+      <EditInput
+        label="Phone Number"
+        placeholder={user.phone}
+        register={register('phone')}
+      />
       <ButtonBox>
-        <Button>작성완료</Button>
+        <Button>Submit</Button>
       </ButtonBox>
     </Form>
   );
@@ -201,6 +230,10 @@ const ProfileBox = styled.div`
     }
   }
 `;
+const PositionBox = styled.div`
+  display: flex;
+  gap: 5px;
+`;
 const ButtonBox = styled.div`
   display: flex;
   width: 100%;
@@ -229,3 +262,8 @@ const Label = styled.p.attrs({ className: 'nanum-bold' })`
   padding-bottom: 10px;
   letter-spacing: 3px;
 `;
+
+type FilterButtonProps = {
+  idx: number;
+  filters: number[];
+};
