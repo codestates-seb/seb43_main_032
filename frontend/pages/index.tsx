@@ -7,6 +7,7 @@ import CommunityItemSkeleton from '@/components/skeleton/CommunityItemSkeleton';
 import { useTopData } from '@/hooks/react-query/useTopData';
 import { useState } from 'react';
 import UserCardBox from '@/components/card_box/UserCardBox';
+import UserItemSkeleton from '@/components/skeleton/UserItemSkeleton';
 
 const Home = () => {
   const {
@@ -50,7 +51,10 @@ const Home = () => {
         selected={communityFilter}
         data={community[communityFilter]}
       />
-      <UserCardBox data={topMembersData ? topMembersData : []} />
+      <UserCardBox
+        skeleton={isLoadingMembers && <UserItemSkeleton count={5} />}
+        data={topMembersData ? topMembersData : []}
+      />
     </Box>
   );
 };
