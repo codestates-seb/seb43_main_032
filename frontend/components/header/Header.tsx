@@ -11,7 +11,6 @@ import { deleteCookie, getCookie } from '@/util/cookie';
 import { useRecoilState } from 'recoil';
 import { loggedInUserState, navModalState } from '@/recoil/atom';
 import { setUserState } from '@/util/api/user';
-import Img from '../../public/images/second-user.svg';
 import { NavProps } from '@/types/types';
 import ButtonStyle from '../button/ButtonStyle';
 import { onChat } from '@/util/chat';
@@ -134,7 +133,7 @@ const Header = () => {
       <ModalNav nav={nav}>
         {getCookie('accessToken') && (
           <div className="user">
-            <Image src={Img} alt="profleImg" />
+            {/* <Image src={Img} alt="profleImg" /> 유저 이미지 및 네임 */}
             <div className="userName">
               최기랑<span>, 환영합니다.</span>
             </div>

@@ -179,3 +179,23 @@ a {
 .custom-alert-bg-rgba-5 {
   background: rgba(255, 255, 255, 0.5);
 }
+
+/* Select 커스텀 */
+.select-options > div {
+  border: solid 2px #ececec;
+  border-radius: 10px;
+}
+
+.select-options > div:hover,
+:focus {
+  border-color: rgb(150, 116, 255, 0.5);
+  box-shadow: rgb(150, 116, 255, 0.5);
+}
+
+.react-select__menu {
+  padding: 0;
+  margin: 0;
+  height: 80px;
+  overflow: scroll;
+  overflow-x: hidden;
+}

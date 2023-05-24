@@ -147,8 +147,8 @@ const Box = styled.div`
     gap: 8px;
     padding: 8px 0px;
     background-color: white;
+    box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.1);
     z-index: 10;
-    border-bottom: 1px solid #c3b3f5;
 
     > div {
       display: flex;
