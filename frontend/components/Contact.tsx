@@ -104,16 +104,19 @@ const IconBox = styled.div`
   right: 20px;
   position: fixed;
   cursor: pointer;
-  z-index: 9999;
+  z-index: 999;
 `;
 
 const AskBox = styled.div<{ isVisible: boolean }>`
   min-width: 300px;
   max-height: 500px;
+  visibility: ${({ isVisible }) => (isVisible ? 'visible' : 'hidden')};
   bottom: ${({ isVisible }) => (isVisible ? '20px' : '-100%')};
   right: 20px;
   position: fixed;
-  transition: bottom 0.5s ease-in-out;
+  transition: all 0.5s ease-in-out;
+  z-index: 999;
+  position: fixed;
 `;
 
 const EmailBox = styled.div`
