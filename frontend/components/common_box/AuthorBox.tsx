@@ -11,6 +11,7 @@ type Props = {
   totalStar: number;
   userId: number;
   position: string;
+  totalProject: number;
 };
 
 const AuthorBox = ({
@@ -20,6 +21,7 @@ const AuthorBox = ({
   isAuthor,
   totalStar,
   position,
+  totalProject,
 }: Props) => {
   const router = useRouter();
   const moveAuthorPage = (memberId: number) => {
@@ -47,7 +49,7 @@ const AuthorBox = ({
       <div className="detail-box">
         <div className="detail-sub-box">
           <div className="detail-num">
-            {10} <span>개</span>
+            {totalProject} <span>개</span>
           </div>
           <div className="detail-title">진행 프로젝트</div>
         </div>

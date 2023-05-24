@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import AuthInput from './AuthInput';
 import { useForm, FieldErrors } from 'react-hook-form';
 import usePostApi from '../../hooks/react-query/user/useLogin';
+import { errorToast } from '../alert/Alert';
 
 interface ISignUpForm {
   name: string;
@@ -23,7 +24,25 @@ export default function SignUpForm() {
   };
 
   const onInValid = (errors: FieldErrors) => {
-    console.log(errors);
+    if (Object.keys(errors).length >= 1) {
+      return errorToast('모든 정보를 올바르게 입력해 주세요.');
+    }
+
+    if (errors.email) {
+      return errorToast('이메일을 입력해 주세요.');
+    }
+
+    if (errors.password) {
+      return errorToast('비밀번호를 입력해 주세요.');
+    }
+
+    if (errors.name) {
+      return errorToast('아이디를 입력해 주세요.');
+    }
+
+    if (errors.verifyPw) {
+      return errorToast('8자 이상의 비밀번호를 확인해 주세요.');
+    }
   };
 
   return (
@@ -33,8 +52,8 @@ export default function SignUpForm() {
           register={register('name', {
             required: '닉네임을 입력해주세요',
           })}
-          name="User Name"
-          placeholder="Enter your name"
+          name="User ID"
+          placeholder="Enter your ID"
         />
         <AuthInput //
           register={register('email', {
@@ -56,7 +75,6 @@ export default function SignUpForm() {
           type="password"
           placeholder="Enter your password"
         />
-        {errors.password && <ErrMsg>{`${errors?.password?.message}`} </ErrMsg>}
         <AuthInput
           register={register('verifyPw', {
             required: '비밀번호를 입력해 주세요',
@@ -66,7 +84,6 @@ export default function SignUpForm() {
           type="password"
           placeholder="Re-enter your password"
         />
-        {errors.verifyPw && <ErrMsg>{`${errors?.verifyPw?.message}`} </ErrMsg>}
         <Submit type="submit" value={'Sign Up'} />
       </Form>
     </Wrapper>

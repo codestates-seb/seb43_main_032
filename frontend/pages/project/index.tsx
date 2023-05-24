@@ -21,6 +21,15 @@ const ProjectHome = () => {
   const { register, watch } = useForm<Form>();
   const { isLoading, error, data, fetchNextPage, hasNextPage, isFetching } =
     useInfinityProject();
+  const [isHovered, setIsHovered] = useState(false);
+
+  const handleMouseEnter = () => {
+    setIsHovered(true);
+  };
+
+  const handleMouseLeave = () => {
+    setIsHovered(false);
+  };
 
   const { topLikeProjectData } = useTopData();
 
@@ -137,9 +146,15 @@ const ProjectHome = () => {
         </ProjectCardBox>
         <div ref={target} className="observer"></div>
         <div
-          className="upBtn"
           onClick={() =>
             window.scrollTo({ top: 0, left: 0, behavior: 'smooth' })
+          }
+          onMouseEnter={handleMouseEnter}
+          onMouseLeave={handleMouseLeave}
+          className={
+            isHovered
+              ? 'animate__animated animate__bounce animate__infinite animate-duration-2 upBtn'
+              : 'upBtn'
           }
         >
           <AiOutlineArrowUp fill="white" size={30} />
@@ -188,16 +203,17 @@ const Box = styled.div`
     .search-box {
       display: flex;
       justify-content: end;
-      gap: 20px;
+      gap: 10px;
 
       > div {
         display: flex;
         > input {
           width: 100%;
           padding: 8px 13px;
-          border-radius: 10px;
+          border-radius: 5px;
           font-size: 14px;
-          border: solid 2px #8e8e8e;
+          border: solid 2px #ececec;
+          outline: none;
 
           :focus,
           :active {
@@ -215,7 +231,7 @@ const Box = styled.div`
           margin-left: 8px;
           background: #d2c4ff;
           padding: 0 10px;
-          border-radius: 10px;
+          border-radius: 5px;
           border: none;
           cursor: pointer;
         }
@@ -226,14 +242,21 @@ const Box = styled.div`
   .link-box {
     display: flex;
     > a {
+      transition: all 0.3s;
       width: auto;
       padding: 10px 15px;
       background: #d2c4ff;
-      border-radius: 10px;
+      border-radius: 5px;
 
       span {
         font-size: 15px;
         color: white;
+      }
+    }
+
+    :hover {
+      a {
+        background: #6333ff;
       }
     }
   }
@@ -254,6 +277,7 @@ const Box = styled.div`
       .sub-title {
         font-size: 14px;
         color: red;
+        font-weight: 700;
       }
 
       .title {
@@ -301,8 +325,8 @@ const Box = styled.div`
 
   .upBtn {
     position: fixed;
-    bottom: 5%;
-    right: 5%;
+    bottom: 100px;
+    right: 25px;
     width: 50px;
     height: 50px;
     border-radius: 50%;
@@ -311,5 +335,10 @@ const Box = styled.div`
     justify-content: center;
     align-items: center;
     cursor: pointer;
+    transition: all 0.3s;
+
+    :hover {
+      background: #6333ff;
+    }
   }
 `;

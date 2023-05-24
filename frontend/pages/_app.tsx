@@ -34,14 +34,21 @@ const App = ({ Component, pageProps }: AppProps) => {
   const isExcludedPathname =
     pathname === '/404' ||
     pathname === '/users/login' ||
-    pathname === '/users/signup';
+    pathname === '/users/signup' ||
+    pathname.includes('/chat');
 
   return (
     <QueryClientProvider client={queryClient}>
       <RecoilRoot>
-        {!isExcludedPathname ? <Header /> : <EtcHeader />}
+        {pathname.includes('/chat') ? (
+          <></>
+        ) : !isExcludedPathname ? (
+          <Header />
+        ) : (
+          <EtcHeader />
+        )}
         {isBannerVisible && <BannerSlider />}
-        {pathname === '/about' ? (
+        {pathname === '/about' || pathname.includes('/chat') ? (
           <Component />
         ) : (
           <Box>

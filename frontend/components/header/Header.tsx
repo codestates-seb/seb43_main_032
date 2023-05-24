@@ -11,9 +11,10 @@ import { deleteCookie, getCookie } from '@/util/cookie';
 import { useRecoilState } from 'recoil';
 import { loggedInUserState, navModalState } from '@/recoil/atom';
 import { setUserState } from '@/util/api/user';
-import Img from '../../public/images/second-user.svg';
 import { NavProps } from '@/types/types';
 import ButtonStyle from '../button/ButtonStyle';
+import { successToast } from '../alert/Alert';
+import { onChat } from '@/util/chat';
 
 const Header = () => {
   const router = useRouter();
@@ -73,7 +74,6 @@ const Header = () => {
     setNav(!nav);
   };
   useOffResize(960, 'up', setNav);
-
   return (
     <>
       <Nav nav={nav} isScrolled={isScrolled}>
@@ -108,7 +108,12 @@ const Header = () => {
                     ></ButtonStyle>
                   </li>
                 ) : (
-                  <li key={name} onClick={logout}>
+                  <li
+                    key={name}
+                    onClick={() => {
+                      successToast('로그아웃 되었습니다.', logout);
+                    }}
+                  >
                     <ButtonStyle
                       link={`${HEADER_NAV[name]}`}
                       text={name.toUpperCase()}
@@ -124,12 +129,17 @@ const Header = () => {
                   ></ButtonStyle>
                 </li>
               ))}
+          {getCookie('accessToken') && (
+            <li>
+              <ButtonStyle onClick={onChat} text={'쪽지함'} />
+            </li>
+          )}
         </NavMenu>
       </Nav>
       <ModalNav nav={nav}>
         {getCookie('accessToken') && (
           <div className="user">
-            <Image src={Img} alt="profleImg" />
+            {/* <Image src={Img} alt="profleImg" /> 유저 이미지 및 네임 */}
             <div className="userName">
               최기랑<span>, 환영합니다.</span>
             </div>

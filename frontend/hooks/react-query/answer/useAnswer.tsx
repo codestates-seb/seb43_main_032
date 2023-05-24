@@ -10,7 +10,6 @@ import {
 } from '@/types/answer';
 import { confirmAlert, errorAlert } from '@/components/alert/Alert';
 import { useRecoilValue } from 'recoil';
-import { loggedInUserState } from '@/recoil/atom';
 import { postStar } from '@/util/api/postStar';
 import { loggedInUserId } from '@/recoil/selector';
 

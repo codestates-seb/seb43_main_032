@@ -4,6 +4,7 @@ import { useForm, FieldErrors } from 'react-hook-form';
 import LogoImage from '../../public/images/logoWhite.svg';
 import Image from 'next/image';
 import usePostApi from '../../hooks/react-query/user/useLogin';
+import { errorToast } from '../alert/Alert';
 
 interface ILoginForm {
   email: string;
@@ -11,6 +12,7 @@ interface ILoginForm {
   saveId: boolean;
   rememberMe: boolean;
 }
+
 export default function LoginForm() {
   const [login] = usePostApi('members/login');
   const { register, handleSubmit } = useForm<ILoginForm>();
@@ -19,7 +21,13 @@ export default function LoginForm() {
     login(data);
   };
   const onInValid = (errors: FieldErrors) => {
-    console.log(errors);
+    if (errors.email && errors.password) {
+      return errorToast('이메일과 비밀번호를 입력해 주세요.');
+    }
+
+    if (errors.email) return errorToast('이메일을 입력해 주세요.');
+
+    return errorToast('비밀번호를 입력해 주세요.');
   };
 
   return (
@@ -30,7 +38,7 @@ export default function LoginForm() {
       <Form onSubmit={handleSubmit(onValid, onInValid)}>
         <AuthInput //
           register={register('email', {
-            required: 'Email을 입력해주세요',
+            required: '이메일을 입력해 주세요.',
           })}
           name="Email"
           placeholder="Enter your email address"
