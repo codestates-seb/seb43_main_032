@@ -64,6 +64,7 @@ const ViewCommunity = () => {
         <>
           <Side>
             <AuthorBox
+              totalProject={data.memberInfo.totalProject}
               userId={data.memberInfo.memberId}
               userImg={data.memberInfo.profileImageUrl}
               userName={data.memberInfo.name}
