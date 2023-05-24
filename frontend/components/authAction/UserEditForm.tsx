@@ -22,7 +22,12 @@ export default function UserEditForm({ user }: { user: User }) {
   );
   const index = initialPosition ? POSITIONS.indexOf(initialPosition) : -1;
 
-  const { register, handleSubmit, watch } = useForm();
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors },
+  } = useForm();
   const [imgPreview, setImgPreview] = useState<string>('');
   const [stacks, setStacks] = useState<Tech[]>(user.techList);
   const [filter, setFilter] = useState(index);
@@ -86,12 +91,25 @@ export default function UserEditForm({ user }: { user: User }) {
             <EditInput
               label="아이디"
               placeholder={user.name}
-              register={register('name')}
+              register={register('name', {
+                minLength: {
+                  message: '이름은 4자 이상이어야 합니다.',
+                  value: 4,
+                },
+              })}
+              error={errors.name && errors.name}
             />
             <EditInput
               label="전화번호"
               placeholder={user.phone}
-              register={register('phone')}
+              register={register('phone', {
+                required: '전화번호를 입력하세요',
+                pattern: {
+                  value: /^\d{11}$/,
+                  message: '전화번호는 11자리 숫자만 가능합니다',
+                },
+              })}
+              error={errors.phone && errors.phone}
             />
           </div>
           <div className="bottom">
@@ -100,10 +118,11 @@ export default function UserEditForm({ user }: { user: User }) {
               register={register('yearOfDev', {
                 pattern: {
                   value: /^[0-9]*$/,
-                  message: 'Please enter only numbers',
+                  message: '숫자만 입력해 주세요.',
                 },
               })}
               placeholder={`${user.yearOfDev} 년차`}
+              error={errors.yearOfDev && errors.yearOfDev}
             />
 
             <PositionBox>
@@ -155,7 +174,12 @@ export default function UserEditForm({ user }: { user: User }) {
         <EditTextArea
           label="자기소개"
           placeholder={user.aboutMe}
-          register={register('aboutMe')}
+          register={register('aboutMe', {
+            maxLength: {
+              message: '자기 소개가 너무 깁니다.',
+              value: 1000,
+            },
+          })}
           cl
         />
       </div>
@@ -168,6 +192,22 @@ export default function UserEditForm({ user }: { user: User }) {
     </Form>
   );
 }
+const validateName = (value: string) => {
+  const isKorean = /^[가-힣]+$/.test(value);
+  const isEnglish = /^[a-zA-Z]+$/.test(value);
+
+  if (isKorean) {
+    return value.length >= 2 && value.length <= 6
+      ? true
+      : '한글 아이디는 2자 이상이어야합니다.';
+  } else if (isEnglish) {
+    return value.length >= 4 && value.length <= 16
+      ? true
+      : `Please enter a valid ID. (English: 4-16 characters)`;
+  } else {
+    return `Please enter a valid ID. (Korean: 2-6 characters, English: 4-16 characters)`;
+  }
+};
 
 const ImgWrapper = styled.div`
   flex-shrink: 0;

@@ -20,21 +20,7 @@ export default function AuthContainer({ isLogin }: { isLogin: Boolean }) {
   const onActionChange = () => {
     isLogin ? router.push('/users/signup') : router.push('/users/login');
   };
-  const handleGoogleLogin = async () => {
-    // try {
-    //   const response = await api.get('/oauth2/authorization/google');
-    //   console.log(response.data);
-    //   const htmlString = await response.data.text();
-    //   const popupWindow = window.open('', '_blank', 'width=500,height=600');
-    //   if (popupWindow) {
-    //     popupWindow.document.open();
-    //     popupWindow.document.write(htmlString);
-    //     popupWindow.document.close();
-    //   }
-    // } catch (error) {
-    //   console.error(error);
-    // }
-  };
+  const handleGoogleLogin = async () => {};
 
   return (
     <>
@@ -62,7 +48,7 @@ export default function AuthContainer({ isLogin }: { isLogin: Boolean }) {
           </AuthActionBox>
           <OAuthBtnBox>
             <OAuthButton
-              href="https://side-quest-1.com/oauth2/authorization/google"
+              href="http://side-quest-1.com:8080/oauth2/authorization/google"
               onClick={handleGoogleLogin}
               provider="google"
             >
