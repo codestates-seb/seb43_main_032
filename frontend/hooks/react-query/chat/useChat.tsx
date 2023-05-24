@@ -1,5 +1,5 @@
 import { errorAlert } from '@/components/alert/Alert';
-import { chatTargetState, loggedInUserState } from '@/recoil/atom';
+import { loggedInUserState } from '@/recoil/atom';
 import { PageInfo } from '@/types/types';
 import { Chat } from '@/types/user';
 import { api } from '@/util/api';

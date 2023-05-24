@@ -12,7 +12,6 @@ import BannerSlider from '@/components/banner/BannerSlider';
 import Header from '@/components/header/Header';
 import EtcHeader from '@/components/header/EtcHeader';
 import ModalBg from '@/components/background/ModalBg';
-import Chat from './chat';
 
 const queryClient = new QueryClient({
   defaultOptions: {
