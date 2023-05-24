@@ -32,10 +32,6 @@ export default function UserCard({ user }: IProps) {
                   <p style={{ fontWeight: '600' }}>{user.name}</p>
                   <LocationAndStars>
                     <Tag className="tag">
-                      <FaLocationArrow />
-                      <p>{user.location}</p>
-                    </Tag>
-                    <Tag className="tag">
                       <AiFillStar size={20} style={{ color: 'gold' }} />
                       <p>{user.totalStar}</p>
                     </Tag>
@@ -164,6 +160,8 @@ const LocationAndStars = styled.div`
     display: flex;
     align-items: center;
     gap: 4px;
+    background: #b5b5b5;
+    color: white;
   }
 `;
 
