@@ -16,9 +16,10 @@ public class MemberGetResponseDto {
     private String location;
     private int yearOfDev;
     private int totalStar;
+    private int totalProject;
     private List<MemberTechStackResponseDto> techList;
 
-    public MemberGetResponseDto(Long memberId, String name, String email, String phone, String position, String aboutMe, String profileImageUrl, String location, int yearOfDev, int totalStar) {
+    public MemberGetResponseDto(Long memberId, String name, String email, String phone, String position, String aboutMe, String profileImageUrl, String location, int yearOfDev, int totalStar, int totalProject) {
         this.memberId = memberId;
         this.name = name;
         this.email = email;
@@ -29,6 +30,7 @@ public class MemberGetResponseDto {
         this.location = location;
         this.yearOfDev = yearOfDev;
         this.totalStar = totalStar;
+        this.totalProject = totalProject;
     }
 
     public void updateMemberTechStackResponseDtoList(List<MemberTechStackResponseDto> memberTechStackResponseDtoList) {
