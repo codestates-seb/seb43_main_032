@@ -89,7 +89,6 @@ const ViewProject = () => {
   const hoverHandler = () => {
     setAcceptedHover(!acceptedHover);
   };
-  console.log(data);
 
   if (projectQuery.error) return <Message>잠시 후 다시 시도해주세요.</Message>;
   if (projectQuery.isLoading || !data || !applyQuery.data)

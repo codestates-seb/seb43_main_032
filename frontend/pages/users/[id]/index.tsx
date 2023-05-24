@@ -20,10 +20,6 @@ const UserPage = () => {
   const {
     projectQuery: { data: projects },
   } = useProject();
-  // const user = dummyUser;
-
-  // if (isLoading) return 'Loading...';
-  projects && console.log(projects.data);
 
   return user ? (
     <GridBox>
