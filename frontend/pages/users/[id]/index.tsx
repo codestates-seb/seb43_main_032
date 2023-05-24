@@ -4,9 +4,9 @@ import UserProfile from '@/components/user/UserProfile';
 import Tag from '@/components/Tag';
 import Stack from '@/components/stack/Stack';
 import GridBox from '@/components/common_box/GridBox';
-import { useProject } from '@/hooks/react-query/project/useProject';
 import useUser from '@/hooks/react-query/useUser';
 import UserContentBox from '@/components/user/UserContentBox';
+import Message from '@/components/Message';
 
 const UserPage = () => {
   const router = useRouter();
@@ -14,13 +14,9 @@ const UserPage = () => {
 
   const {
     getUserById: { data: user, isLoading },
-    // getProjectByUserId: { data: projects },
-    // getPostsByUserId: { data: posts },
   } = useUser({ id: id ? +id : undefined });
-  const {
-    projectQuery: { data: projects },
-  } = useProject();
 
+  if (isLoading) return <Message>로딩중입니다.</Message>;
   return user ? (
     <GridBox>
       <UserInfoContainer>
@@ -89,14 +85,6 @@ const ContentsContainer = styled.div`
   flex-direction: column;
   gap: 32px;
 `;
-const Button = styled.button`
-  width: 100%;
-  height: 50px;
-  border-radius: var(--radius-sm);
-  margin-bottom: 10px;
-  border: none;
-  cursor: pointer;
-`;
 
 const UserDescription = styled.div`
   width: 100%;
@@ -119,24 +107,6 @@ const ContentBox = styled.div`
   padding: var(--padding-2);
   border: 1px solid #d8d8d8;
   border-radius: var(--radius-def);
-`;
-
-const Contents = styled.div`
-  padding: 20px;
-  border-radius: var(--radius-def);
-  background-color: rgba(0, 0, 0, 0.2);
-`;
-const Category = styled.div.attrs({
-  className: 'noto-medium',
-})`
-  padding: 20px;
-  padding-bottom: 10px;
-`;
-const FilterBtn = styled.button`
-  border: none;
-  cursor: pointer;
-  padding-right: 10px;
-  padding-left: 10px;
 `;
 
 const StackWrapper = styled.div.attrs({})`

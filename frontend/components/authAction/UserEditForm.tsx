@@ -1,5 +1,4 @@
 import { Tech } from '@/types/project';
-import { api } from '@/util/api';
 import { mergeData, updateData } from '@/util/user';
 import React, { useEffect, useState } from 'react';
 import { FieldErrors, useForm } from 'react-hook-form';

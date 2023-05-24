@@ -140,9 +140,6 @@ const AvatarContainer = styled.div`
   -webkit-box-shadow: 5px 5px 10px 0px rgba(0, 0, 0, 0.25);
   -moz-box-shadow: 5px 5px 10px 0px rgba(0, 0, 0, 0.25);
 `;
-const StackContainer = styled.div`
-  display: flex;
-`;
 const EditButton = styled.button`
   width: calc(100% - 14px);
   padding: 10px;

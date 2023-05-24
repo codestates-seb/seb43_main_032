@@ -140,7 +140,6 @@ const FilterBtn = styled.button.attrs({
   font-family: var(--font-nanum);
   font-size: 23px;
   font-weight: 700;
-  /* color: #464646; */
   background: none;
   color: ${(props) => (props.filter === props.name ? '#8a2be2' : '#464646')};
 `;

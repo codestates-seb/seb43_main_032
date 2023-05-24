@@ -60,18 +60,6 @@ export const AvatarContainer = styled.div`
 const StackContainer = styled.div`
   display: flex;
 `;
-const ProfileContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  height: 100%;
-  align-items: center;
-  gap: 10px;
-  @media (max-width: 960px) {
-    /* flex-direction: row; */
-    align-items: flex-start;
-  }
-`;
 const Name = styled.p.attrs({
   className: 'nanum-bold',
 })``;

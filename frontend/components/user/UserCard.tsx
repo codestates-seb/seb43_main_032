@@ -189,15 +189,6 @@ const AboutMe = styled.p`
 const Group = styled.div`
   display: flex;
   width: 100%;
-  /* @media screen and (min-width: 640px) {
-    width: 49%;
-  }
-  @media screen and (min-width: 960px) {
-    width: 32%;
-  }
-  @media screen and (min-width: 1280px) {
-    width: 24%;
-  } */
   ${Wrapper}:hover ${Overlay} {
     opacity: 1;
   }

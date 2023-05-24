@@ -4,7 +4,6 @@ import useUser from '@/hooks/react-query/useUser';
 import { ChangeEvent, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { BiSearch } from 'react-icons/bi';
-import { useQueryClient } from 'react-query';
 import { POSITIONS } from '@/constant/constant';
 
 const Users = () => {
@@ -12,7 +11,6 @@ const Users = () => {
   const [keyword, setKeyword] = useState<string | undefined>(undefined);
   const [page, setPage] = useState<number>(1);
   const [size, setSize] = useState<number>(24);
-  const queryClient = useQueryClient();
 
   const {
     userQuery: { data: users, isLoading: allUserLoading },
