@@ -1,4 +1,5 @@
 import { Tech } from './project';
+import { PageInfo } from './types';
 
 //로그인한 유저의 데이터 상태
 export type UserState = {
@@ -33,4 +34,15 @@ export type LoginData = {
   name?: string;
   email: string;
   password: string | number;
+};
+
+export type Chat = {
+  content: string;
+  createdAt: string;
+  email: string;
+  name: string;
+  receiverMemberId: number;
+  senderMemberId: number;
+  title: string;
+  id: number;
 };
