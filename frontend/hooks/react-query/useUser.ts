@@ -80,7 +80,7 @@ export default function useUser({
 //   const response = await axios.get('/api/users/status');
 //   return response.data.ok;
 // }
-async function getUsers(
+export async function getUsers(
   page?: number,
   pageSize?: number
 ): Promise<UserState[]> {

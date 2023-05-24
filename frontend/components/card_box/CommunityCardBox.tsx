@@ -55,7 +55,7 @@ const Box = styled.div`
     display: flex;
     gap: 16px;
     color: #000000;
-    margin-bottom: 20px;
+    margin-bottom: 26px;
   }
   .bottom {
     background-image: linear-gradient(135deg, #ce9ffc 10%, #7367f0 100%);
