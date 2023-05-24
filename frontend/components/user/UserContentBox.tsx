@@ -6,6 +6,7 @@ import Pagenation from '../Pagenation';
 import useUser from '@/hooks/react-query/useUser';
 import { useRouter } from 'next/router';
 import { useAllData } from '@/hooks/react-query/useAllData';
+import Message from '../Message';
 
 interface IProps {
   contentTitle: string[];
@@ -68,20 +69,26 @@ export default function UserContentBox({ contentTitle }: IProps) {
         ))}
       </Category>
       <Contents>
-        {filter === '프로젝트' && (
+        {filter === '프로젝트' && projectFilterData && (
           <>
-            {projectFilterData &&
+            {projectFilterData?.length === 0 ? (
+              <Message>게시글이 존재하지 않아요.</Message>
+            ) : (
               projectFilterData.map((project) => (
                 <UserProjectCard key={project.projectId} project={project} />
-              ))}
+              ))
+            )}
           </>
         )}
-        {filter === '게시글' && (
+        {filter === '게시글' && communitiesFilterData && (
           <>
-            {communitiesFilterData &&
+            {communitiesFilterData?.length === 0 ? (
+              <Message>게시글이 존재하지 않아요.</Message>
+            ) : (
               communitiesFilterData.map((post) => (
                 <UserPostCard key={post.articleId} post={post} />
-              ))}
+              ))
+            )}
           </>
         )}
       </Contents>
@@ -100,7 +107,7 @@ const Contents = styled.div`
   padding: var(--padding-2);
   border-radius: var(--radius-def);
   background-image: linear-gradient(135deg, #ce9ffc 10%, #7367f0 100%);
-
+  min-height: 79vh;
   margin-bottom: 20px;
 `;
 const Category = styled.div.attrs({

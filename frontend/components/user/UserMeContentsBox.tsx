@@ -121,7 +121,7 @@ const Contents = styled.div`
   padding: var(--padding-2);
   border-radius: var(--radius-def);
   background-image: linear-gradient(135deg, #ce9ffc 10%, #7367f0 100%);
-
+  min-height: 79vh;
   margin-bottom: 20px;
 `;
 const Category = styled.div.attrs({

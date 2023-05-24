@@ -11,13 +11,11 @@ import Message from '@/components/Message';
 const UserPage = () => {
   const router = useRouter();
   const id = router.query.id;
-
   const {
     getUserById: { data: user, isLoading },
   } = useUser({ id: id ? +id : undefined });
-
   if (isLoading) return <Message>로딩중입니다.</Message>;
-  return user ? (
+  return user && !isLoading ? (
     <GridBox>
       <UserInfoContainer>
         <div className="user-box">
@@ -28,8 +26,8 @@ const UserPage = () => {
         <StackWrapper>
           <div className="title">사용 스택</div>
           <div className="stack-list">
-            {stacks.map((stack) => (
-              <Stack key={stack} tech={stack} />
+            {user.techList.map((stack) => (
+              <Stack key={stack.tech} tech={stack.tech} />
             ))}
           </div>
         </StackWrapper>
@@ -43,7 +41,7 @@ const UserPage = () => {
       </ContentsContainer>
     </GridBox>
   ) : (
-    'User not Found'
+    <Message>존재하지 않는 사용자입니다.</Message>
   );
 };
 
@@ -129,11 +127,3 @@ const StackWrapper = styled.div.attrs({})`
     gap: 8px;
   }
 `;
-const stacks = [
-  'java_script',
-  'react',
-  'next_js',
-  'recoil',
-  'react_query',
-  'type_scriypt',
-];
