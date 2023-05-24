@@ -48,10 +48,10 @@ export const Input = styled.input`
   margin-bottom: 7px;
   border-radius: 10px;
   padding: 10px;
+  border: solid 2px #ececec;
   --tw-ring-inset: var(--tw-empty, /*!*/ /*!*/);
   --tw-ring-offset-width: 0px;
   --tw-ring-offset-color: #fff;
-  --tw-ring-color: rgba(59, 130, 246, 0.5);
   --tw-ring-offset-shadow: var(--tw-ring-inset) 0 0 0
     var(--tw-ring-offset-width) var(--tw-ring-offset-color);
   --tw-ring-shadow: var(--tw-ring-inset) 0 0 0
@@ -60,7 +60,7 @@ export const Input = styled.input`
     var(--tw-shadow, 0 0 #0000);
   &:focus {
     outline: none;
-    --tw-ring-color: rgba(141, 184, 252, 0.3);
+    --tw-ring-color: rgb(150, 116, 255, 0.5);
     --tw-ring-shadow: var(--tw-ring-inset) 0 0 0
       calc(5px + var(--tw-ring-offset-width)) var(--tw-ring-color);
     box-shadow: var(--tw-ring-offset-shadow), var(--tw-ring-shadow),
