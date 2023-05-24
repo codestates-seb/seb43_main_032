@@ -19,7 +19,7 @@ export default function UserProfile({ user }: { user: User }) {
       </AvatarContainer>
       <Tag className="years-tag">{`${user?.yearOfDev} 년차`}</Tag>
       <Name>{user?.name}</Name>
-      <Position>프론트엔드</Position>
+      <Position>{user.position}</Position>
       <StackContainer>
         {user.techList.map((stack) => (
           <Stack key={stack.tech} tech={stack.tech} />
