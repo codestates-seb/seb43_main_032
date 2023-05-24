@@ -111,6 +111,7 @@ const ViewProject = () => {
     <GridBox>
       <Side>
         <AuthorBox
+        totalProject={data.memberInfo.totalProject}
           userId={data.memberInfo.memberId}
           userImg={data.memberInfo.profileImageUrl}
           userName={data.memberInfo.name}
