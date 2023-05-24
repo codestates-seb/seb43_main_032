@@ -105,7 +105,7 @@ const ViewProject = () => {
         />
         <PeriodBox
           start={new Date(data.startDate)}
-          end={new Date(data.endDate)}
+          end={data.endDate ? new Date(data.endDate) : data.endDate}
         />
         <TagBox tags={data.fieldList} />
         <StacksBox stacks={data.techList} stack={false} />

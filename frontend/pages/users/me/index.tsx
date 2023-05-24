@@ -1,5 +1,5 @@
 import InfoContainer from '@/components/user/InfoContainer';
-import UserContentsBox from '@/components/user/UserContentsBox';
+import UserMeContentsBox from '@/components/user/UserMeContentsBox';
 import UserInfoCard from '@/components/user/UserProfile';
 import useUser from '@/hooks/react-query/useUser';
 import { useRouter } from 'next/router';
@@ -72,7 +72,9 @@ export default function me() {
                 />
               </div>
             </UserInfo>
-            <UserContentsBox contentTitle={['프로젝트', '게시글', '답글']} />
+            <UserMeContentsBox
+              contentTitle={['프로젝트', '게시글', '답글', '댓글']}
+            />
           </RightColumn>
         </GridBox>
       )}

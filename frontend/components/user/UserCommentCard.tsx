@@ -1,29 +1,23 @@
 import styled from 'styled-components';
-import { useRouter } from 'next/router';
-import { formatDate } from '@/util/date';
-import { Community } from '@/types/community';
 import { RiThumbUpFill } from 'react-icons/ri';
-
-export default function UserPostCard({ post }: { post: Community }) {
-  const router = useRouter();
-  const handleClick = () => {
-    router.push(`/community/post/${post.articleId}`);
-  };
-
+import { Comment } from '@/types/comment';
+import { formatDate } from '@/util/date';
+export default function UserAnswerCard({ comment }: { comment: Comment }) {
   return (
-    <Wrapper onClick={handleClick}>
+    <Wrapper>
       <ContentContainer>
         <CardInfo>
           <div className="text-box">
-            <span className="title">{post.title}</span>
-            <span className="date">작성일 : {`${formatDate(new Date())}`}</span>
+            <span className="date">
+              작성일 : {`${formatDate(new Date(comment.createdAt))}`}
+            </span>
           </div>
           <StarRaiting>
             <RiThumbUpFill size={16} style={{ color: '#8217f3' }} />
-            <p style={{ marginTop: '5px' }}>{post.totalLikes}</p>
+            <p style={{ marginTop: '5px' }}>{comment.totalLikes}</p>
           </StarRaiting>
         </CardInfo>
-        <div className="content">{post.content}</div>
+        <div className="content">{comment.content}</div>
       </ContentContainer>
     </Wrapper>
   );
@@ -35,7 +29,7 @@ const Wrapper = styled.div`
   min-height: 120px;
   margin-bottom: 20px;
   justify-content: space-between;
-  align-items: start;
+  align-items: center;
   border-radius: var(--radius-def);
   cursor: pointer;
   background: white;
@@ -89,7 +83,6 @@ const CardInfo = styled.div`
     }
   }
 `;
-
 const StarRaiting = styled.div`
   display: flex;
   justify-content: center;
