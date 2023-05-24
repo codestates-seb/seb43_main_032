@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import Image from 'next/image';
-import Logo from '../public/images/logoWhite.svg';
+import Logo from '../../public/images/logoWhite.svg';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 
