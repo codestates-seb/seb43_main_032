@@ -36,6 +36,10 @@ const Users = () => {
     (user) => user.position === POST_COMMUNITY_CATEGORY[POSITIONS[filter]]
   );
 
+  const usersFilter = (data: UserState[] | undefined, filter: number) => {
+    let filterData;
+  };
+
   //페이지네이션 크기
   const pageSize =
     filterData && filterData?.length > 0
