@@ -103,7 +103,6 @@ export default function UserEditForm({ user }: { user: User }) {
         placeholder={user.aboutMe}
         register={register('aboutMe')}
       />
-
       <Label>Position </Label>
       <PositionBox>
         {POSITIONS.map((position, idx) => (

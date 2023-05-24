@@ -73,6 +73,16 @@ const Header = () => {
     setNav(!nav);
   };
   useOffResize(960, 'up', setNav);
+  const onChat = async () => {
+    const onChatPage = `${window.location.href}chat`;
+    window.open(onChatPage, '_blank', 'width=500,height=600');
+    // try {
+    //   const response = await api(onChatPage);
+    //   console.log(response.data);
+    // } catch (error) {
+    //   console.error(error);
+    // }
+  };
 
   return (
     <>
@@ -124,6 +134,7 @@ const Header = () => {
                   ></ButtonStyle>
                 </li>
               ))}
+          <li onClick={onChat}>쪽지 기능</li>
         </NavMenu>
       </Nav>
       <ModalNav nav={nav}>

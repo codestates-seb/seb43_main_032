@@ -12,6 +12,7 @@ import BannerSlider from '@/components/banner/BannerSlider';
 import Header from '@/components/header/Header';
 import EtcHeader from '@/components/header/EtcHeader';
 import ModalBg from '@/components/background/ModalBg';
+import Chat from './chat';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -34,14 +35,21 @@ const App = ({ Component, pageProps }: AppProps) => {
   const isExcludedPathname =
     pathname === '/404' ||
     pathname === '/users/login' ||
-    pathname === '/users/signup';
+    pathname === '/users/signup' ||
+    pathname === '/chat';
 
   return (
     <QueryClientProvider client={queryClient}>
       <RecoilRoot>
-        {!isExcludedPathname ? <Header /> : <EtcHeader />}
+        {pathname === '/chat' ? (
+          <></>
+        ) : !isExcludedPathname ? (
+          <Header />
+        ) : (
+          <EtcHeader />
+        )}
         {isBannerVisible && <BannerSlider />}
-        {pathname === '/about' ? (
+        {pathname === '/about' || pathname === '/chat' ? (
           <Component />
         ) : (
           <Box>
