@@ -93,8 +93,12 @@ export default function UserEditForm({ user }: { user: User }) {
               placeholder={user.name}
               register={register('name', {
                 minLength: {
-                  message: '이름은 4자 이상이어야 합니다.',
-                  value: 4,
+                  message: '이름은 2자 이상이어야 합니다.',
+                  value: 2,
+                },
+                maxLength: {
+                  message: '이름은 8자 이하여야 합니다.',
+                  value: 8,
                 },
               })}
               error={errors.name && errors.name}
@@ -103,7 +107,6 @@ export default function UserEditForm({ user }: { user: User }) {
               label="전화번호"
               placeholder={user.phone}
               register={register('phone', {
-                required: '전화번호를 입력하세요',
                 pattern: {
                   value: /^\d{11}$/,
                   message: '전화번호는 11자리 숫자만 가능합니다',
@@ -120,6 +123,8 @@ export default function UserEditForm({ user }: { user: User }) {
                   value: /^[0-9]*$/,
                   message: '숫자만 입력해 주세요.',
                 },
+                validate: (value) =>
+                  parseInt(value, 10) <= 99 || '99년보다 클 수 없습니다.',
               })}
               placeholder={`${user.yearOfDev} 년차`}
               error={errors.yearOfDev && errors.yearOfDev}
