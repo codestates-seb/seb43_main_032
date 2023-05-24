@@ -74,7 +74,7 @@ const Users = () => {
               className="search-input"
               onChange={handleChange}
               value={inputValue}
-              placeholder="Search user..."
+              placeholder="검색어를 입력해주세요."
             />
             <SearchButton>
               <BiSearch />
@@ -136,8 +136,18 @@ const SearchBox = styled.div`
   align-items: center;
 
   .search-input {
+    border: solid 2px #ececec;
+    border-radius: 5px;
     width: 100%;
     padding: 10px;
+
+    ::placeholder {
+      color: #ececec;
+    }
+
+    :focus {
+      outline: none;
+    }
   }
 
   @media (max-width: 768px) {
