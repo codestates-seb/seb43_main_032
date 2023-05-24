@@ -19,10 +19,10 @@ const AuthorBox = ({
   totalStar,
 }: Props) => {
   const router = useRouter();
-  //작성자 페이지로 이동
   const moveAuthorPage = (memberId: number) => {
     router.push(`/users/${memberId}`);
   };
+
   return (
     <Box onClick={() => moveAuthorPage(userId)}>
       <div className="top-box">
