@@ -159,7 +159,6 @@ export default function UserEditForm({ user }: { user: User }) {
           cl
         />
       </div>
-
       <ButtonBox>
         <Button disabled={submitLoading}>
           {submitLoading ? '제출' : '작성완료'}

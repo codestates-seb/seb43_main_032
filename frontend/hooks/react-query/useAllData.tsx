@@ -2,7 +2,8 @@ import { Project } from '@/types/project';
 import { useQuery } from 'react-query';
 import { Community } from '@/types/community';
 import { getAllCommunity, getAllProject } from '@/util/api/getAllData';
-import { Answer } from '@/types/answer';
+import { User } from '@/types/user';
+import { api } from '@/util/api';
 
 export const useAllData = () => {
   const {
@@ -21,6 +22,15 @@ export const useAllData = () => {
     getAllCommunity()
   );
 
+  const {
+    data: userData,
+    isLoading: userLoading,
+    error: userError,
+    refetch: userRefetch,
+  } = useQuery<User[], Error>('user-all-data', () =>
+    api('/members/find-all?size=1000&page=1').then((res) => res.data.data)
+  );
+
   return {
     projectData,
     projectLoading,
@@ -30,5 +40,9 @@ export const useAllData = () => {
     communityLoading,
     communityError,
     communityRefetch,
+    userData,
+    userLoading,
+    userError,
+    userRefetch,
   };
 };

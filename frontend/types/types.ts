@@ -70,6 +70,7 @@ export type MemberInfo = {
   techList: Tech[];
   totalStar: number;
   yearOfDev: number;
+  totalProject: number;
 };
 
 export type NavProps = {
