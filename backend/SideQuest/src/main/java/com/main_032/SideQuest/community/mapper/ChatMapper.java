@@ -19,6 +19,7 @@ public class ChatMapper {
     }
     public ChatResponseDto chatTochatResponseDto(Chat chat, Member sender){
         ChatResponseDto chatResponseDto = new ChatResponseDto(
+                chat.getId(),
                 chat.getSenderMemberId(),
                 chat.getReceiverMemberId(),
                 sender.getEmail(),
