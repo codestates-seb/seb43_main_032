@@ -12,7 +12,7 @@ registerLocale('ko', ko); // 한국어적용
 
 type Props = {
   start: Date | null | undefined;
-  end: Date | null | undefined;
+  end: Date | null | undefined | string;
   handleRangeChange?: (dates: [Date | null, Date | null]) => void;
 };
 
