@@ -14,6 +14,7 @@ import { setUserState } from '@/util/api/user';
 import Img from '../../public/images/second-user.svg';
 import { NavProps } from '@/types/types';
 import ButtonStyle from '../button/ButtonStyle';
+import { onChat } from '@/util/chat';
 
 const Header = () => {
   const router = useRouter();
@@ -73,17 +74,6 @@ const Header = () => {
     setNav(!nav);
   };
   useOffResize(960, 'up', setNav);
-  const onChat = async () => {
-    const onChatPage = `${window.location.href}chat`;
-    window.open(onChatPage, '_blank', 'width=500,height=600');
-    // try {
-    //   const response = await api(onChatPage);
-    //   console.log(response.data);
-    // } catch (error) {
-    //   console.error(error);
-    // }
-  };
-
   return (
     <>
       <Nav nav={nav} isScrolled={isScrolled}>

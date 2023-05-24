@@ -1,7 +1,7 @@
 import Message from '@/components/Message';
 import Pagenation from '@/components/Pagenation';
 import ChatBox from '@/components/common_box/ChatBox';
-import { useChat } from '@/hooks/react-query/useChat';
+import { useGetChat } from '@/hooks/react-query/chat/useChat';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 
@@ -10,7 +10,7 @@ const Chat = () => {
   const route = useRouter();
   const size = 10;
   const [page, setPage] = useState(1);
-  const { data, isLoading, error, refetch, deleteChat } = useChat({
+  const { data, isLoading, error, refetch, deleteChat } = useGetChat({
     page,
     size,
   });

@@ -1,17 +1,16 @@
 import { errorAlert } from '@/components/alert/Alert';
-import { loggedInUserState } from '@/recoil/atom';
+import { chatTargetState, loggedInUserState } from '@/recoil/atom';
 import { PageInfo } from '@/types/types';
 import { Chat } from '@/types/user';
 import { api } from '@/util/api';
 import { useMutation, useQuery } from 'react-query';
 import { useRecoilValue } from 'recoil';
-
 type Props = {
   page: number;
   size: number;
 };
 
-export const useChat = ({ page, size }: Props) => {
+export const useGetChat = ({ page, size }: Props) => {
   const userId = useRecoilValue(loggedInUserState);
   const { isLoading, error, data, refetch } = useQuery<
     {

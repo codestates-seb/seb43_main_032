@@ -13,3 +13,7 @@ export const isContactState = atom({
   key: 'isContactState',
   default: false,
 });
+export const chatTargetState = atom({
+  key: 'chatTargetState',
+  default: 0,
+});

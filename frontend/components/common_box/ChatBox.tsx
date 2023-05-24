@@ -1,12 +1,16 @@
 import { ReactNode } from 'react';
 import styled from 'styled-components';
-const ChatBox = ({ children }: { children: ReactNode }) => {
+type Props = {
+  type?: string;
+  children: ReactNode;
+};
+const ChatBox = ({ children, type }: Props) => {
   return (
     <Box>
       <div className="top">쪽지함</div>
       <div className="bottom">
         <div className="sub-title">
-          <span>받은 쪽지함</span>
+          <span>{type === 'create' ? '쪽지 작성' : '받은 편지함'}</span>
         </div>
         <div className="content">{children}</div>
       </div>
