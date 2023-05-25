@@ -11,6 +11,7 @@ const GridBox = (props: Props) => {
 export default GridBox;
 
 const Box = styled.div`
+  margin-top: 10px;
   position: relative;
   width: 100%;
   display: grid;
