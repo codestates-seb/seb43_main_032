@@ -17,10 +17,10 @@ public interface ProjectRepository extends JpaRepository<Project, Long> {
     Page<Project> findAllProject(Pageable pageable);
 
 
-    @Query("SELECT p FROM Project p ORDER BY p.views DESC")
+    @Query("SELECT p FROM Project p WHERE p.deleted = false ORDER BY p.views DESC")
     List<Project> getTop5ViewsProjects(Pageable pageable);
 
-    @Query("SELECT p FROM Project p ORDER BY p.totalLikes DESC")
+    @Query("SELECT p FROM Project p WHERE p.deleted = false ORDER BY p.totalLikes DESC")
     List<Project> getTop5LikesProjects(Pageable pageable);
 
     @Query("SELECT p FROM Project p WHERE p.deleted = 0 AND p.memberId = :memberId")

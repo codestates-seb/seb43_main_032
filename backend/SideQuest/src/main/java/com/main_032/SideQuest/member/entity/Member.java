@@ -26,7 +26,7 @@ public class Member extends BaseEntity {
     @Column
     private String phone;
 
-    @Column
+    @Column(columnDefinition = "TEXT")
     private String aboutMe;
 
     @Column

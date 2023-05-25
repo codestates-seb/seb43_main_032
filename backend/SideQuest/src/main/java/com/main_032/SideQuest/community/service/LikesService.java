@@ -37,6 +37,14 @@ public class LikesService {
         int totalLikes = 0;
 
         Likes likes = new Likes(member.getId(), likesPostDto.getCategory(), uniteId);
+        Optional<Likes> findProjectLikes = likesRepository.findByMemberIdAndCategoryAndProjectId(member.getId(), likesPostDto.getCategory(), uniteId);
+        Optional<Likes> findArticleLikes = likesRepository.findByMemberIdAndCategoryAndArticleId(member.getId(), likesPostDto.getCategory(), uniteId);
+        Optional<Likes> findAnswerLikes = likesRepository.findByMemberIdAndCategoryAndAnswerId(member.getId(), likesPostDto.getCategory(), uniteId);
+        Optional<Likes> findCommentLikes = likesRepository.findByMemberIdAndCategoryAndCommentId(member.getId(), likesPostDto.getCategory(), uniteId);
+        if(findProjectLikes.isPresent() || findArticleLikes.isPresent() || findAnswerLikes.isPresent() || findCommentLikes.isPresent()) {
+            throw new BusinessLogicException(ExceptionCode.ALREADY_LIKES);
+        }
+
         likesRepository.save(likes);
 
         Category category = likesPostDto.getCategory();

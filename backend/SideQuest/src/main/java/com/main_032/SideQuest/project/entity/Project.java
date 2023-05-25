@@ -22,7 +22,7 @@ public class Project extends BaseEntity {
     @Column
     private String title;
 
-    @Column
+    @Column(columnDefinition = "TEXT")
     private String content;
 
     @Column

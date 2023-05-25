@@ -17,7 +17,8 @@ public enum ExceptionCode {
     POSITION_NOT_FOUND(404, "Position not found"),
     APPLY_CREW_NOT_FOUND(404, "Apply crew not found"),
     APPLY_CREW_POSITION_NOT_MATCH(404, "Apply crew position not match"),
-    LIKES_NOT_FOUND(404, "Likes not found");
+    LIKES_NOT_FOUND(404, "Likes not found"),
+    ALREADY_LIKES(409, "Already likes");
 
     @Getter
     private int status;

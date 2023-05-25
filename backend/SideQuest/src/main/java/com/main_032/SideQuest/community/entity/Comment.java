@@ -25,7 +25,7 @@ public class Comment extends BaseEntity {
     @Column
     private Category category;
 
-    @Column
+    @Column(columnDefinition = "TEXT")
     private String content;
 
     @Column

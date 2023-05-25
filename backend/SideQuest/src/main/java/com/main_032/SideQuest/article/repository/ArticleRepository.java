@@ -17,10 +17,10 @@ public interface ArticleRepository extends JpaRepository<Article,Long> {
         @Query("SELECT a FROM Article a WHERE a.deleted != 1")
         Page<Article> findAllArticlePage(Pageable pageable);
 
-        @Query("SELECT a FROM Article a ORDER BY a.views DESC")
+        @Query("SELECT a FROM Article a WHERE a.deleted = false ORDER BY a.views DESC")
         List<Article> getTop5ViewsArticles(Pageable pageable);
 
-        @Query("SELECT a FROM Article a ORDER BY a.totalLikes DESC")
+        @Query("SELECT a FROM Article a WHERE a.deleted = false ORDER BY a.totalLikes DESC")
         List<Article> getTop5LikesArticles(Pageable pageable);
 
         @Query("SELECT a FROM Article a WHERE a.deleted != 1 AND a.memberId = :memberId")

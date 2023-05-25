@@ -28,7 +28,7 @@ public class Answer extends BaseEntity {
     @Column
     private Long articleId;
 
-    @Column
+    @Column(columnDefinition = "TEXT")
     private String content;
 
     @Column
