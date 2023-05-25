@@ -1,4 +1,5 @@
 import { confirmAlert, errorAlert } from '@/components/alert/Alert';
+import SubBtn from '@/components/button/SubBtn';
 import ChatBox from '@/components/common_box/ChatBox';
 import { api } from '@/util/api';
 import { useForm } from 'react-hook-form';
@@ -42,12 +43,12 @@ const ChatCreate = () => {
           <textarea
             placeholder="내용을 입력해주세요."
             {...register('content')}
-            rows={16}
+            rows={15}
           ></textarea>
         </div>
         <div className="btn-box">
-          <button onClick={() => postChat.mutate()}>발송</button>
-          <button onClick={closeEvent}>취소</button>
+          <SubBtn onClick={() => postChat.mutate()}>발송</SubBtn>
+          <SubBtn onClick={closeEvent}>취소</SubBtn>
         </div>
       </Box>
     </ChatBox>
