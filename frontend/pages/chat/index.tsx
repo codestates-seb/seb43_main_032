@@ -3,6 +3,7 @@ import Pagenation from '@/components/Pagenation';
 import ChatBox from '@/components/common_box/ChatBox';
 import { useGetChat } from '@/hooks/react-query/chat/useChat';
 import { chatState } from '@/recoil/atom';
+import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { useRecoilState } from 'recoil';
@@ -33,36 +34,44 @@ const Chat = () => {
     router.push(`/chat/${chatId}`);
   };
 
-  if (error) return router.push('/404');
+  if (error) return <Message>잠시 후에 다시 시도해주세요.</Message>;
   if (isLoading) return <Message>로딩중입니다.</Message>;
   return (
-    <ChatBox>
-      <Box>
-        {chatData && chatData.length === 0 ? (
-          <Message>쪽지가 없어요</Message>
-        ) : (
-          chatData &&
-          chatData.map((chat) => (
-            <li className="chat-item">
-              <div className="chat-title" onClick={() => moveItem(chat.id)}>
-                {chat.title}
-              </div>
-              <div className="user">{chat.name}</div>
-              <div className="delete-box" onClick={() => deleteEvent(chat.id)}>
-                X
-              </div>
-            </li>
-          ))
-        )}
-      </Box>
-      <PageBox>
-        <Pagenation
-          pageSize={data?.pageInfo.totalPages ? data?.pageInfo.totalPages : 0}
-          page={page}
-          onPageChange={setPage}
-        />
-      </PageBox>
-    </ChatBox>
+    <>
+      <Head>
+        <title>{`Side Quest - 쪽지함`}</title>
+      </Head>
+      <ChatBox>
+        <Box>
+          {chatData && chatData.length === 0 ? (
+            <Message>쪽지가 없어요</Message>
+          ) : (
+            chatData &&
+            chatData.map((chat) => (
+              <li className="chat-item">
+                <div className="chat-title" onClick={() => moveItem(chat.id)}>
+                  {chat.title}
+                </div>
+                <div className="user">{chat.name}</div>
+                <div
+                  className="delete-box"
+                  onClick={() => deleteEvent(chat.id)}
+                >
+                  X
+                </div>
+              </li>
+            ))
+          )}
+        </Box>
+        <PageBox>
+          <Pagenation
+            pageSize={data?.pageInfo.totalPages ? data?.pageInfo.totalPages : 0}
+            page={page}
+            onPageChange={setPage}
+          />
+        </PageBox>
+      </ChatBox>
+    </>
   );
 };
 

@@ -11,6 +11,7 @@ import GridBox from '@/components/common_box/GridBox';
 import AuthorBox from '@/components/common_box/AuthorBox';
 import TagBox from '@/components/project/TagBox';
 import MainArticleBox from '@/components/common_box/MainArticleBox';
+import Head from 'next/head';
 
 // item 개별 페이지
 const ViewCommunity = () => {
@@ -55,44 +56,50 @@ const ViewCommunity = () => {
       deleteArticle.mutate()
     );
   };
-  if (communityQuery.error) return router.push('/404');
+  if (communityQuery.error)
+    return <Message>잠시 후에 다시 시도해주세요.</Message>;
   if (communityQuery.isLoading) return <Message>로딩중입니다.</Message>;
   return (
-    <GridBox>
-      {data && (
-        <>
-          <Side>
-            <AuthorBox
-              totalProject={data.memberInfo.totalProject}
-              userId={data.memberInfo.memberId}
-              userImg={data.memberInfo.profileImageUrl}
-              userName={data.memberInfo.name}
+    <>
+      <Head>
+        <title>{`Side Quest - ${data?.title}`}</title>
+      </Head>
+      <GridBox>
+        {data && (
+          <>
+            <Side>
+              <AuthorBox
+                totalProject={data.memberInfo.totalProject}
+                userId={data.memberInfo.memberId}
+                userImg={data.memberInfo.profileImageUrl}
+                userName={data.memberInfo.name}
+                isAuthor={data.author}
+                totalStar={data.memberInfo.totalStar}
+                position={data.memberInfo.position}
+              />
+              <TagBox
+                tags={data.techList.map((item) => ({ field: item.tech }))}
+              />
+            </Side>
+            <MainArticleBox
+              title={data.title}
+              category={data.category}
               isAuthor={data.author}
-              totalStar={data.memberInfo.totalStar}
-              position={data.memberInfo.position}
+              deleteEvent={deleteEvent}
+              moveEdit={moveEdit}
+              createAt={data.createdAt}
+              view={data.view}
+              totalAnswers={data.totalAnswers}
+              content={data.content}
+              likeHandler={likeHandler}
+              liked={data.liked}
+              totalLikes={data.totalLikes}
+              articleRefetch={refetch}
             />
-            <TagBox
-              tags={data.techList.map((item) => ({ field: item.tech }))}
-            />
-          </Side>
-          <MainArticleBox
-            title={data.title}
-            category={data.category}
-            isAuthor={data.author}
-            deleteEvent={deleteEvent}
-            moveEdit={moveEdit}
-            createAt={data.createdAt}
-            view={data.view}
-            totalAnswers={data.totalAnswers}
-            content={data.content}
-            likeHandler={likeHandler}
-            liked={data.liked}
-            totalLikes={data.totalLikes}
-            articleRefetch={refetch}
-          />
-        </>
-      )}
-    </GridBox>
+          </>
+        )}
+      </GridBox>
+    </>
   );
 };
 
@@ -177,4 +184,3 @@ const Side = styled.div`
     }
   }
 `;
-

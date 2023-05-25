@@ -15,6 +15,7 @@ import { useInfinityProject } from '@/hooks/react-query/project/useInfinityProje
 import { useAllData } from '@/hooks/react-query/useAllData';
 import { projectFilter } from '@/util/filter/projectFilter';
 import { useTopData } from '@/hooks/react-query/useTopData';
+import Head from 'next/head';
 
 const ProjectHome = () => {
   const router = useRouter();
@@ -78,88 +79,93 @@ const ProjectHome = () => {
     };
   }, [target.current, data?.pageParams]);
 
-  if (error) return router.push('/404')
+  if (error) return <Message>잠시 후에 다시 시도해주세요.</Message>;
   if (isLoading) return <Message>로딩중입니다.</Message>;
   if (data)
     return (
-      <Box>
-        <div className="special-box">
-          <div className="main-box">
-            <span className="sub-title">NEW</span>
-            <div className="nanum-bold title">신규 프로젝트</div>
-            <div className="carousel-box">
-              <ProjectCarousel
-                projects={data.pages ? data.pages[0].data : []}
-              />
-            </div>
-          </div>
-          <div className="main-box">
-            <span className="sub-title">HOT</span>
-            <div className="nanum-bold title">인기 프로젝트</div>
-            <div className="carousel-box">
-              <ProjectCarousel
-                projects={topLikeProjectData ? topLikeProjectData : []}
-              />
-            </div>
-          </div>
-        </div>
-        <ProjectCardBox
-          title={
-            watch().search !== ''
-              ? `${watch().search}의 결과입니다.`
-              : '전체 프로젝트'
-          }
-          data={
-            filterData
-              ? (filterData as Project[])
-              : data.pages?.flatMap((page) => page.data)
-          }
-          skeleton={isFetching && <ProjectSkeleton />}
-        >
-          <div className="filter-box noto-regular-13">
-            <div className="filter-sub-box">
-              {ARTICLE_FILTER.map((name, idx) => (
-                <div
-                  key={name}
-                  className={idx === filter ? 'focus' : ''}
-                  onClick={() => filterHandler(idx)}
-                >
-                  {name}
-                </div>
-              ))}
-            </div>
-            <div className="search-box">
-              <div>
-                <input
-                  {...register('search')}
-                  type="text"
-                  placeholder="검색어를 입력해주세요."
+      <>
+        <Head>
+          <title>{`Side Quest - 프로젝트`}</title>
+        </Head>
+        <Box>
+          <div className="special-box">
+            <div className="main-box">
+              <span className="sub-title">NEW</span>
+              <div className="nanum-bold title">신규 프로젝트</div>
+              <div className="carousel-box">
+                <ProjectCarousel
+                  projects={data.pages ? data.pages[0].data : []}
                 />
               </div>
-              <div className="link-box">
-                <Link href={`${router.asPath}/create`} className="link-btn">
-                  <span>프로젝트 작성</span>
-                </Link>
+            </div>
+            <div className="main-box">
+              <span className="sub-title">HOT</span>
+              <div className="nanum-bold title">인기 프로젝트</div>
+              <div className="carousel-box">
+                <ProjectCarousel
+                  projects={topLikeProjectData ? topLikeProjectData : []}
+                />
               </div>
             </div>
           </div>
-        </ProjectCardBox>
-        <div ref={target} className="observer"></div>
-        <div
-          onClick={() =>
-            window.scrollTo({ top: 0, left: 0, behavior: 'smooth' })
-          }
-          onMouseEnter={handleMouseEnter}
-          onMouseLeave={handleMouseLeave}
-          className={
-            isHovered
-              ? 'animate__animated animate__bounce animate__infinite animate-duration-2 upBtn'
-              : 'upBtn'
-          }
-        >
-          <AiOutlineArrowUp fill="white" size={30} />
-        </div>
-      </Box>
+          <ProjectCardBox
+            title={
+              watch().search !== ''
+                ? `${watch().search}의 결과입니다.`
+                : '전체 프로젝트'
+            }
+            data={
+              filterData
+                ? (filterData as Project[])
+                : data.pages?.flatMap((page) => page.data)
+            }
+            skeleton={isFetching && <ProjectSkeleton />}
+          >
+            <div className="filter-box noto-regular-13">
+              <div className="filter-sub-box">
+                {ARTICLE_FILTER.map((name, idx) => (
+                  <div
+                    key={name}
+                    className={idx === filter ? 'focus' : ''}
+                    onClick={() => filterHandler(idx)}
+                  >
+                    {name}
+                  </div>
+                ))}
+              </div>
+              <div className="search-box">
+                <div>
+                  <input
+                    {...register('search')}
+                    type="text"
+                    placeholder="검색어를 입력해주세요."
+                  />
+                </div>
+                <div className="link-box">
+                  <Link href={`${router.asPath}/create`} className="link-btn">
+                    <span>프로젝트 작성</span>
+                  </Link>
+                </div>
+              </div>
+            </div>
+          </ProjectCardBox>
+          <div ref={target} className="observer"></div>
+          <div
+            onClick={() =>
+              window.scrollTo({ top: 0, left: 0, behavior: 'smooth' })
+            }
+            onMouseEnter={handleMouseEnter}
+            onMouseLeave={handleMouseLeave}
+            className={
+              isHovered
+                ? 'animate__animated animate__bounce animate__infinite animate-duration-2 upBtn'
+                : 'upBtn'
+            }
+          >
+            <AiOutlineArrowUp fill="white" size={30} />
+          </div>
+        </Box>
+      </>
     );
 };
 

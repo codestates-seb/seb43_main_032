@@ -7,10 +7,10 @@ import { useTopData } from '@/hooks/react-query/useTopData';
 import { useState } from 'react';
 import UserCardBox from '@/components/card_box/UserCardBox';
 import UserItemSkeleton from '@/components/skeleton/UserItemSkeleton';
-import { useRouter } from 'next/router';
+import Head from 'next/head';
+import Message from '@/components/Message';
 
 const Home = () => {
-  const router = useRouter();
   const {
     topLikeProjectData,
     topViewProjectData,
@@ -30,33 +30,40 @@ const Home = () => {
   };
   const community = [topViewCommunityData, topLikeCommunityData];
 
-  if (checkError) return router.push('/404');
+  if (checkError) return <Message>잠시 후에 다시 시도해주세요.</Message>;
   return (
-    <Box>
-      <ProjectCardBox
-        skeleton={topLikeProjectLoading && <ProjectSkeleton />}
-        data={topLikeProjectData ? topLikeProjectData : []}
-        title={'인기 프로젝트'}
-      />
-      <ProjectCardBox
-        skeleton={topViewProjectLoading && <ProjectSkeleton />}
-        data={topViewProjectData ? topViewProjectData : []}
-        title={'주목 중인 프로젝트'}
-      />
+    <>
+      <Head>
+        <title>Side Quest</title>
+      </Head>
+      <Box>
+        <ProjectCardBox
+          skeleton={topLikeProjectLoading && <ProjectSkeleton />}
+          data={topLikeProjectData ? topLikeProjectData : []}
+          title={'인기 프로젝트'}
+        />
+        <ProjectCardBox
+          skeleton={topViewProjectLoading && <ProjectSkeleton />}
+          data={topViewProjectData ? topViewProjectData : []}
+          title={'주목 중인 프로젝트'}
+        />
 
-      <CommunityCardBox
-        skeleton={
-          topViewcommunityQuery.isLoading && <CommunityItemSkeleton count={5} />
-        }
-        filterHandler={filterHandler}
-        selected={communityFilter}
-        data={community[communityFilter]}
-      />
-      <UserCardBox
-        skeleton={isLoadingMembers && <UserItemSkeleton count={5} />}
-        data={topMembersData ? topMembersData : []}
-      />
-    </Box>
+        <CommunityCardBox
+          skeleton={
+            topViewcommunityQuery.isLoading && (
+              <CommunityItemSkeleton count={5} />
+            )
+          }
+          filterHandler={filterHandler}
+          selected={communityFilter}
+          data={community[communityFilter]}
+        />
+        <UserCardBox
+          skeleton={isLoadingMembers && <UserItemSkeleton count={5} />}
+          data={topMembersData ? topMembersData : []}
+        />
+      </Box>
+    </>
   );
 };
 

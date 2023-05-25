@@ -9,7 +9,7 @@ import CommunityItemSkeleton from '../skeleton/CommunityItemSkeleton';
 import { ARTICLE_FILTER, POST_COMMUNITY_CATEGORY } from '@/constant/constant';
 import { communityFilter } from '@/util/filter/communityFilter';
 import { useAllData } from '@/hooks/react-query/useAllData';
-import Custom404 from '@/pages/404';
+import Message from '../Message';
 
 export default function Content() {
   const router = useRouter();
@@ -60,7 +60,7 @@ export default function Content() {
   const pageSize = Math.ceil(filterData.length / 10);
   const viewData = filterData.slice((page - 1) * page_limit, page * page_limit);
 
-  if (communityError) return <Custom404 />;
+  if (communityError) return<Message>잠시 후에 다시 시도해주세요.</Message>;
   return (
     <>
       <ContentTop>
