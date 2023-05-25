@@ -8,9 +8,11 @@ interface EditInputProps {
 const EditInput: React.FC<EditInputProps> = ({
   type,
   label,
+  error,
   placeholder,
   ...rest
 }) => {
+  error && console.log(error);
   return (
     <Wrapper>
       <Label>{label}</Label>
@@ -29,11 +31,16 @@ const EditInput: React.FC<EditInputProps> = ({
           style={{ height: label === 'About Me' ? '150px' : '' }}
         />
       )}
+      {error && <ErrorMsg>{error.message}</ErrorMsg>}
     </Wrapper>
   );
 };
 
 export default EditInput;
+const ErrorMsg = styled.p`
+  font-size: 9px;
+  color: red;
+`;
 
 const Wrapper = styled.div`
   width: 100%;

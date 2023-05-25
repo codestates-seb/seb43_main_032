@@ -9,6 +9,7 @@ import LoginForm from './LoginForm';
 import SignUpForm from './SignUpForm';
 import { useRouter } from 'next/router';
 import axios from 'axios';
+import { api } from '@/util/api';
 
 type AuthBtn = {
   provider: string;
@@ -19,17 +20,7 @@ export default function AuthContainer({ isLogin }: { isLogin: Boolean }) {
   const onActionChange = () => {
     isLogin ? router.push('/users/signup') : router.push('/users/login');
   };
-  const handleGoogleLogin = async () => {
-    const googleLoginUrl =
-      'http://ec2-43-201-8-99.ap-northeast-2.compute.amazonaws.com:3000/oauth2/authorization/google';
-    window.open(googleLoginUrl, '_blank', 'width=500,height=600');
-    try {
-      const response = await axios.get(googleLoginUrl);
-      console.log(response.data);
-    } catch (error) {
-      console.error(error);
-    }
-  };
+  const handleGoogleLogin = async () => {};
 
   return (
     <>
@@ -56,7 +47,11 @@ export default function AuthContainer({ isLogin }: { isLogin: Boolean }) {
             )}
           </AuthActionBox>
           <OAuthBtnBox>
-            <OAuthButton onClick={handleGoogleLogin} provider="google">
+            <OAuthButton
+              href="http://side-quest-1.com:8080/oauth2/authorization/google"
+              onClick={handleGoogleLogin}
+              provider="google"
+            >
               <AiFillGoogleCircle size={24} />
             </OAuthButton>
             <OAuthButton provider="facebook">
@@ -148,7 +143,9 @@ const OAuthBtnBox = styled.div`
   justify-content: space-between;
   margin: 10px 0;
 `;
-const OAuthButton = styled.button<AuthBtn>`
+const OAuthButton = styled.a<AuthBtn>`
+  display: flex;
+  justify-content: center;
   border: none;
   border-radius: 5px;
   background-color: ${(props) => {
