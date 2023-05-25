@@ -6,7 +6,6 @@ export default function oauth2() {
   const router = useRouter();
   useEffect(() => {
     const url = window.location.href;
-    const hasToken = url.includes('?access_token=');
 
     const tokenStrings = url.split('&');
     if (tokenStrings.length > 0) {

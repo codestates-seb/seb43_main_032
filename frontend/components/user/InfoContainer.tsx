@@ -6,10 +6,7 @@ interface IProps {
   contentNode: ReactNode;
   lastItem?: Boolean;
 }
-export default function InfoContainer({
-  keyNode,
-  contentNode,
-}: IProps) {
+export default function InfoContainer({ keyNode, contentNode }: IProps) {
   return (
     <Wrapper>
       <KeyContainer className="nnum-bold">{keyNode}</KeyContainer>
@@ -24,6 +21,8 @@ const Wrapper = styled.div`
   font-size: 15px;
 `;
 const KeyContainer = styled.div`
+  display: flex;
+  flex-shrink: 0;
   width: 100px;
 `;
 const ContentContainer = styled.div`
@@ -31,4 +30,7 @@ const ContentContainer = styled.div`
   gap: 20px;
   flex-direction: column;
   justify-content: flex-start;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
 `;

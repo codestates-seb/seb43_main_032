@@ -38,13 +38,13 @@ export default function UserEditForm({ user }: { user: User }) {
     }
     setFilter(idx);
   };
-  const image = watch('image');
   const router = useRouter();
 
   const onValid = async (data: any) => {
     setSubmitLoading(true);
     data.position = POST_COMMUNITY_CATEGORY[POSITIONS[filter]];
     await mergeData(data, image, stacks);
+
     const updatedData = updateData(user, data);
 
     updateUser.mutate(updatedData, {
@@ -63,6 +63,7 @@ export default function UserEditForm({ user }: { user: User }) {
     console.log(errors);
   };
 
+  const image = watch('image');
   useEffect(() => {
     if (image && image.length > 0) {
       setImgPreview(URL.createObjectURL(image[0]));
@@ -124,7 +125,9 @@ export default function UserEditForm({ user }: { user: User }) {
                   message: '숫자만 입력해 주세요.',
                 },
                 validate: (value) =>
-                  parseInt(value, 10) <= 99 || '99년보다 클 수 없습니다.',
+                  !value ||
+                  parseInt(value, 10) <= 99 ||
+                  '99년보다 클 수 없습니다.',
               })}
               placeholder={`${user.yearOfDev} 년차`}
               error={errors.yearOfDev && errors.yearOfDev}
@@ -190,28 +193,12 @@ export default function UserEditForm({ user }: { user: User }) {
       </div>
       <ButtonBox>
         <Button disabled={submitLoading}>
-          {submitLoading ? '제출' : '작성완료'}
+          {submitLoading ? '제출중' : '작성완료'}
         </Button>
       </ButtonBox>
     </Form>
   );
 }
-const validateName = (value: string) => {
-  const isKorean = /^[가-힣]+$/.test(value);
-  const isEnglish = /^[a-zA-Z]+$/.test(value);
-
-  if (isKorean) {
-    return value.length >= 2 && value.length <= 6
-      ? true
-      : '한글 아이디는 2자 이상이어야합니다.';
-  } else if (isEnglish) {
-    return value.length >= 4 && value.length <= 16
-      ? true
-      : `Please enter a valid ID. (English: 4-16 characters)`;
-  } else {
-    return `Please enter a valid ID. (Korean: 2-6 characters, English: 4-16 characters)`;
-  }
-};
 
 const ImgWrapper = styled.div`
   flex-shrink: 0;
