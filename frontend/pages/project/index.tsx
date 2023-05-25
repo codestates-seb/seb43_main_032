@@ -183,13 +183,18 @@ const Box = styled.div`
     justify-content: space-between;
     margin-top: 24px;
 
+    @media (max-width: 768px) {
+      gap: 20px;
+      flex-direction: column;
+    }
+
     .filter-sub-box {
       height: 100%;
       display: flex;
       gap: 8px;
       div {
         height: 100%;
-        padding: 10px 10px;
+        padding: 10px;
         font-size: 14px;
         cursor: pointer;
         transition: background 0.5s ease, color 0.5s ease;
@@ -197,6 +202,9 @@ const Box = styled.div`
           background: #9b7aff;
           color: white;
           border-radius: 5px;
+        }
+        @media (max-width: 768px) {
+          padding: 6px;
         }
       }
     }
@@ -257,6 +265,9 @@ const Box = styled.div`
       span {
         font-size: 15px;
         color: white;
+        @media (max-width: 768px) {
+          font-size: 12px;
+        }
       }
     }
 
