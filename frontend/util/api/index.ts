@@ -10,7 +10,7 @@ axios.defaults.withCredentials = true;
 //     : 'https://www.side-quest-1.com';
 
 const api = axios.create({
-  baseURL: 'https://www.side-quest-1.com',
+  baseURL: 'http://www.side-quest-1.com:8080',
   timeout: 3000,
   withCredentials: true,
   headers: {

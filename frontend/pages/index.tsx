@@ -22,7 +22,6 @@ const Home = () => {
     isLoadingMembers,
     checkError,
   } = useTopData();
-  console.log(topLikeProjectData);
 
   const [communityFilter, setCommunityFilter] = useState(0);
   const filterHandler = (idx: number) => {
