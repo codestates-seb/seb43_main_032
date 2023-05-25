@@ -8,6 +8,7 @@ import UserAnswerCard from './UserAnswerCard';
 import UserCommentCard from './UserCommentCard';
 import Message from '../Message';
 import { useRouter } from 'next/router';
+import Custom404 from '@/pages/404';
 
 interface IProps {
   contentTitle: string[];
@@ -61,7 +62,7 @@ export default function UserMeContentsBox({ contentTitle }: IProps) {
   const commentsFilterData = commentsData?.slice((page - 1) * 5, page * 5);
 
   if (isLoading) return <Message>로딩중입니다.</Message>;
-  if (isError) return router.push('/404');
+  if (isError) return <Custom404 />;
   return (
     <Wrapper>
       <Category>
