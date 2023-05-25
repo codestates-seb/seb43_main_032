@@ -11,8 +11,8 @@ export default function usePostApi(endpoint: string) {
     api
       .post(endpoint, data)
       .then((res) => {
-        setCookie('accessToken', res.headers['authorization'], 40); //로그인 했을 때, 엑세스 토큰 설정
-        setCookie('refreshToken', res.headers['refreshtoken'], 40); //로그인 했을 때, 리프레시 토큰 설정
+        setCookie('accessToken', res.headers['authorization'], 120); //로그인 했을 때, 엑세스 토큰 설정
+        setCookie('refreshToken', res.headers['refreshtoken'], 120); //로그인 했을 때, 리프레시 토큰 설정
       })
       .then(() => {
         //로그인 유저가 바뀔 때 발생하는 버그를 막기위해 reload설정

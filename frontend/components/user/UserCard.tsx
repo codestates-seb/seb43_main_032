@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import Stack from '../stack/Stack';
 import { User } from '@/types/user';
 import Tag from '../Tag';
+import useUser from '@/hooks/react-query/user/useUser';
 import { useRouter } from 'next/router';
 interface IProps {
   user: User;
@@ -12,38 +13,49 @@ export default function UserCard({ user }: IProps) {
   const moveUserPage = () => {
     router.push(`users/${user.memberId}`);
   };
+  const {
+    getMyInfo: { data: me },
+  } = useUser({});
+  const path = me && me.memberId === user.memberId ? 'me' : user.memberId;
   return (
     <Group onClick={moveUserPage}>
-      <Wrapper>
-        <Overlay />
-        <CardWrapper>
-          <SubCardWrapper>
-            <ContentsContainer>
-              <AvatarContainer>
-                <img alt={user.name} src={user.profileImageUrl} />
-              </AvatarContainer>
-              <InfoContainer>
-                <p style={{ fontWeight: '600' }}>{user.name}</p>
-                <LocationAndStars>
-                  <Tag className="tag">
-                    <AiFillStar size={20} style={{ color: 'gold' }} />
-                    <p>{user.totalStar}</p>
-                  </Tag>
-                </LocationAndStars>
-              </InfoContainer>
-            </ContentsContainer>
-            <StackWrapper>
-              {user.techList.length > 0 &&
-                user.techList.map((stack) => (
-                  <Stack key={stack.tech} tech={stack.tech} />
-                ))}
-            </StackWrapper>
-          </SubCardWrapper>
-          <CardFooter>
-            <AboutMe>{user.aboutMe}</AboutMe>
-          </CardFooter>
-        </CardWrapper>
-      </Wrapper>
+        <Wrapper>
+          <Overlay />
+          <CardWrapper>
+            <SubCardWrapper>
+              <ContentsContainer>
+                <AvatarContainer>
+                  {user.profileImageUrl ? (
+                    <img alt={user.name} src={user.profileImageUrl} />
+                  ) : (
+                    <img
+                      alt={user.name}
+                      src="https://pbs.twimg.com/media/FmynZRjWYAgEEpL.jpg"
+                    />
+                  )}
+                </AvatarContainer>
+                <InfoContainer>
+                  <p style={{ fontWeight: '600' }}>{user.name}</p>
+                  <LocationAndStars>
+                    <Tag className="tag">
+                      <AiFillStar size={20} style={{ color: 'gold' }} />
+                      <p>{user.totalStar}</p>
+                    </Tag>
+                  </LocationAndStars>
+                </InfoContainer>
+              </ContentsContainer>
+              <StackWrapper>
+                {user.techList.length > 0 &&
+                  user.techList.map((stack) => (
+                    <Stack key={stack.tech} tech={stack.tech} />
+                  ))}
+              </StackWrapper>
+            </SubCardWrapper>
+            <CardFooter>
+              <AboutMe>{user.aboutMe}</AboutMe>
+            </CardFooter>
+          </CardWrapper>
+        </Wrapper>
     </Group>
   );
 }
