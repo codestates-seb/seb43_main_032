@@ -30,9 +30,9 @@ const ProjectHome = () => {
   const handleMouseLeave = () => {
     setIsHovered(false);
   };
-
+  
   const { topLikeProjectData } = useTopData();
-
+  
   //서버에서 필터링 작업이 완성되기 전, 눈속임을 위한 필터 데이터
   const [filter, setFilter] = useState<Filter>(0);
   const filterHandler = (idx: number) => {
