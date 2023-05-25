@@ -367,6 +367,17 @@ const Side = styled.div`
       align-items: center;
       gap: 8px;
       width: 100%;
+      @media (max-width: 960px) {
+        > select:first-child {
+          width: 60%;
+        }
+        > select:last-child {
+          width: 30%;
+        }
+        button {
+          width: 10%;
+        }
+      }
       > select {
         border: solid 2px #ececec;
         border-radius: 10px;

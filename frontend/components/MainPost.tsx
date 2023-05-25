@@ -122,6 +122,10 @@ const Main = styled.div`
       justify-content: space-between;
       gap: 16px;
       margin: 24px 0px;
+
+      @media (max-width: 640px) {
+        flex-direction: column;
+      }
       button {
         &:hover {
           box-shadow: var(--box-shadow);
