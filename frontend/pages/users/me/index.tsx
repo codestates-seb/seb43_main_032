@@ -61,7 +61,9 @@ export default function me() {
                   contentNode={
                     <>
                       <p className="nanum-bold">{user.name}</p>
-                      <p className="noto-regular">프론트엔드</p>
+                      {user.position && (
+                        <p className="noto-regular">{user.position}</p>
+                      )}
                     </>
                   }
                 />
