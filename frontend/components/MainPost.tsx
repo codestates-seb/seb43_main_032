@@ -72,6 +72,11 @@ export default MainPost;
 
 const Main = styled.div`
   margin-bottom: 50px;
+  .submit-box {
+    button {
+      cursor: pointer;
+    }
+  }
   input {
     width: 100%;
     padding: 12px;

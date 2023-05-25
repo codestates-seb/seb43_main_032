@@ -52,9 +52,14 @@ export default function CommunityForm() {
     }
   };
 
-  // 해시태그 업데이트
   const addTag = (tag: string) => {
-    setTags([...tags, { field: tag }]);
+    // 중복 태그 확인
+    const isDuplicate = tags.some((t) => t.field === tag);
+    if (!isDuplicate) {
+      // 중복이 아닌 경우에만 태그 추가
+      return setTags([...tags, { field: tag }]);
+    }
+    return errorAlert('동일한 태그는 추가할 수 없습니다.', '태그 추가');
   };
 
   // 해시태그 삭제
@@ -64,6 +69,7 @@ export default function CommunityForm() {
 
   //글 제출 이벤트
   const postCommunity = (e: { preventDefault: () => void }) => {
+    e.preventDefault();
     if (watch().title === '') {
       return errorAlert('제목을 입력해주세요.', '프로젝트 작성');
     }
@@ -71,7 +77,6 @@ export default function CommunityForm() {
       return errorAlert('내용을 입력해주세요.', '프로젝트 작성');
     }
 
-    e.preventDefault();
     const category = POST_COMMUNITY_CATEGORY[watch().position];
     const data = {
       title: watch().title,
@@ -92,7 +97,8 @@ export default function CommunityForm() {
     }
   };
 
-  if (communityQuery.error) return <Message>잠시 후에 다시 시도해주세요.</Message>;;
+  if (communityQuery.error)
+    return <Message>잠시 후에 다시 시도해주세요.</Message>;
   if (communityQuery.isLoading) return <Message>로딩중입니다.</Message>;
 
   return (

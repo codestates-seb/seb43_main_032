@@ -70,7 +70,7 @@ export default function UserEditForm({ user }: { user: User }) {
   };
 
   return (
-    <Form onSubmit={formEvent}>
+    <Form onSubmit={handleSubmit(onValid, onInValid)}>
       <ProfileBox>
         <ImgWrapper>
           <img src={imgPreview ? imgPreview : user.profileImageUrl} />
