@@ -223,7 +223,7 @@ const Side = styled.div`
 
   .want-box {
     width: 100%;
-    padding: 0 30px;
+    padding: 0 16px;
     display: flex;
     flex-direction: column;
 
@@ -248,7 +248,7 @@ const Side = styled.div`
 
     > ul {
       flex-direction: column;
-      width: 70%;
+      width:90%;
       min-width: 190px;
       @media (max-width: 960px) {
         width: 100%;

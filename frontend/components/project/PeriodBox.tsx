@@ -48,16 +48,22 @@ const PeriodBox = ({ start, end, handleRangeChange }: Props) => {
         )}
       </div>
       <div className="noto-regular-13 period">
-        <span>{start && formatDate(start)}</span>
-        {start && <span> ~ </span>}
-        <span>{typeof end === 'string' ? null : end && formatDate(end)} </span>
-        <span>
-          {start
-            ? end && typeof end !== 'string'
-              ? `(${dateDiffInDays(start, end)}일)`
-              : `종료일 미정`
-            : ''}
-        </span>
+        <div>
+          <span>{start && formatDate(start)}</span>
+          {start && <span> ~ </span>}
+          <span>
+            {typeof end === 'string' ? null : end && formatDate(end)}{' '}
+          </span>
+        </div>
+        <div>
+          <span>
+            {start
+              ? end && typeof end !== 'string'
+                ? `(${dateDiffInDays(start, end)}일)`
+                : `종료일 미정`
+              : ''}
+          </span>
+        </div>
       </div>
     </Box>
   );
@@ -67,7 +73,7 @@ export default PeriodBox;
 
 const Box = styled.div`
   width: 100%;
-  padding: 0 30px;
+  padding: 0 16px;
   > div:first-child {
     display: flex;
     align-items: start;
@@ -109,5 +115,7 @@ const Box = styled.div`
     border-radius: 10px;
     color: #a5a5a5;
     height: 37px;
+    display: flex;
+    justify-content: space-between;
   }
 `;
