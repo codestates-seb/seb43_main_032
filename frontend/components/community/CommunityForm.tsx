@@ -69,6 +69,7 @@ export default function CommunityForm() {
 
   //글 제출 이벤트
   const postCommunity = (e: { preventDefault: () => void }) => {
+    e.preventDefault();
     if (watch().title === '') {
       return errorAlert('제목을 입력해주세요.', '프로젝트 작성');
     }
@@ -76,7 +77,6 @@ export default function CommunityForm() {
       return errorAlert('내용을 입력해주세요.', '프로젝트 작성');
     }
 
-    e.preventDefault();
     const category = POST_COMMUNITY_CATEGORY[watch().position];
     const data = {
       title: watch().title,
