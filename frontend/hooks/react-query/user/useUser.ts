@@ -46,12 +46,6 @@ export default function useUser({
     () => getUserPosts(id, page, pageSize, communityData)
   );
 
-  const searchUserByKeyword = useQuery(['users', keyword], () =>
-    searchUser(keyword)
-  );
-  const allProjcetsQuery = useQuery(['projects', 'all'], () =>
-    api(`/projects/findAll?size=1000&page=1`).then((res) => res.data.data)
-  );
   const updateUser = useMutation(
     (updatedData: { [key: string]: any }) => api.patch('/members', updatedData),
     {
@@ -65,17 +59,19 @@ export default function useUser({
 
   const getMyProjects = useQuery(['users', 'projects', 'me'], getMyProject);
 
+  const allProjcetsQuery = useQuery(['projects', 'all'], () =>
+    api(`/projects/findAll?size=1000&page=1`).then((res) => res.data.data)
+  );
   return {
     userQuery, //
     getUserById,
     getMyInfo,
-    searchUserByKeyword,
     getProjectByUserId,
     getPostsByUserId,
-    allProjcetsQuery,
     updateUser,
     userAnswers,
     getMyProjects,
+    allProjcetsQuery,
   };
 }
 

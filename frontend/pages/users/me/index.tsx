@@ -114,8 +114,8 @@ const UserInfo = styled.div`
   }
 
   .info-box {
-    background: #0d1117;
-    color: #c9d1d9;
+    color: #0d1117;
+    /* color: #c9d1d9; */
     font-size: 15px;
     padding: var(--padding-2);
     border: 1px solid #d8d8d8;
