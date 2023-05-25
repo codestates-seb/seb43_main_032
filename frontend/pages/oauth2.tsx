@@ -1,25 +1,24 @@
-import React from 'react';
+import { setCookie } from '@/util/cookie';
+import { useRouter } from 'next/router';
+import { useEffect } from 'react';
 
 export default function oauth2() {
-  return <div>oauth2</div>;
-}
-import { setCookie } from '@/util/cookie';
-import { NextPageContext } from 'next';
+  const router = useRouter();
+  useEffect(() => {
+    const url = window.location.href;
+    const hasToken = url.includes('?access_token=');
 
-export async function getServerSideProps(context: NextPageContext) {
-  const { req, res } = context;
-  const { access_token } = context.query;
+    const tokenStrings = url.split('&');
+    if (tokenStrings.length > 0) {
+      const accessTokenString = tokenStrings[0];
 
-  if (typeof access_token === 'string') {
-    const date = new Date();
-    date.setTime(date.getTime() + 120 * 60 * 1000);
-    const expires = 'expires=' + date.toUTCString();
-    document.cookie =
-      'accessToken' + '=' + access_token + ';' + expires + ';path=/';
-  }
-  res.writeHead(302, { Location: '/users' });
-  res.end();
+      const startIndexOfAccessToken =
+        accessTokenString.indexOf('?access_token=') + '?access_token='.length;
+      const accessToken =
+        'Bearer ' + accessTokenString.slice(startIndexOfAccessToken);
+      setCookie('accessToken', accessToken, 120); // Set token in cookies
+    }
+  }, []);
 
-  // 페이지가 필요하지 않으므로 빈 props 반환
-  return { props: {} };
+  return null;
 }
