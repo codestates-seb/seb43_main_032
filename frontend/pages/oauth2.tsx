@@ -15,7 +15,7 @@ export default function oauth2() {
         accessTokenString.indexOf('?access_token=') + '?access_token='.length;
       const accessToken =
         'Bearer ' + accessTokenString.slice(startIndexOfAccessToken);
-      setCookie('accessToken', accessToken, 40); // Set token in cookies
+      setCookie('accessToken', accessToken, 120); // Set token in cookies
     }
     router.push('/').then(() => {
       router.reload();
