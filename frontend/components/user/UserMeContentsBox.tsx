@@ -7,8 +7,6 @@ import { useMemberInfo } from '@/hooks/react-query/user/useMemberInfo';
 import UserAnswerCard from './UserAnswerCard';
 import UserCommentCard from './UserCommentCard';
 import Message from '../Message';
-import { useRouter } from 'next/router';
-import Custom404 from '@/pages/404';
 
 interface IProps {
   contentTitle: string[];
@@ -16,7 +14,6 @@ interface IProps {
 }
 
 export default function UserMeContentsBox({ contentTitle }: IProps) {
-  const router = useRouter();
   const [filter, setFilter] = useState(contentTitle[0]);
   const [page, setPage] = useState<number>(1);
 
@@ -62,7 +59,7 @@ export default function UserMeContentsBox({ contentTitle }: IProps) {
   const commentsFilterData = commentsData?.slice((page - 1) * 5, page * 5);
 
   if (isLoading) return <Message>로딩중입니다.</Message>;
-  if (isError) return <Custom404 />;
+  if (isError) return <Message>잠시 후에 다시 시도해주세요.</Message>;;
   return (
     <Wrapper>
       <Category>

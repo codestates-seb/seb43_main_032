@@ -7,10 +7,9 @@ import { POSITIONS } from '@/constant/constant';
 import useUser from '@/hooks/react-query/user/useUser';
 import Message from '@/components/Message';
 import { usersFilter } from '@/util/filter/usersFilter';
-import { useRouter } from 'next/router';
+import Head from 'next/head';
 
 const Users = () => {
-  const router = useRouter();
   const [inputValue, setInputValue] = useState<string>('');
   const [page, setPage] = useState<number>(1);
   const [size, setSize] = useState<number>(24);
@@ -53,50 +52,55 @@ const Users = () => {
     }
   }, [inputValue]);
 
-  if (isError) return router.push('/404');
+  if (isError) return <Message>잠시 후에 다시 시도해주세요.</Message>;
   if (allUserLoading) return <Message>로딩중입니다.</Message>;
   return (
-    <Wrapper>
-      <SearchHeader>
-        <Title>유저 목록</Title>
-        <SubHeader>
-          <FilterBox>
-            {POSITIONS.map((btn, idx) => (
-              <FilterButton
-                idx={idx}
-                filter={filter}
-                onClick={() => filterHandler(idx)}
-                key={btn}
-              >
-                {btn}
-              </FilterButton>
+    <>
+      <Head>
+        <title>{`Side Quest - 유저`}</title>
+      </Head>
+      <Wrapper>
+        <SearchHeader>
+          <Title>유저 목록</Title>
+          <SubHeader>
+            <FilterBox>
+              {POSITIONS.map((btn, idx) => (
+                <FilterButton
+                  idx={idx}
+                  filter={filter}
+                  onClick={() => filterHandler(idx)}
+                  key={btn}
+                >
+                  {btn}
+                </FilterButton>
+              ))}
+            </FilterBox>
+            <SearchBox>
+              <input
+                className="search-input"
+                onChange={handleChange}
+                value={inputValue}
+                placeholder="검색어를 입력해주세요."
+              />
+              <SearchButton>
+                <BiSearch />
+              </SearchButton>
+            </SearchBox>
+          </SubHeader>
+        </SearchHeader>
+        <CardWrapper>
+          {viewFilterData &&
+            viewFilterData.map((user: any) => (
+              <UserCard key={user.name} user={user} />
             ))}
-          </FilterBox>
-          <SearchBox>
-            <input
-              className="search-input"
-              onChange={handleChange}
-              value={inputValue}
-              placeholder="검색어를 입력해주세요."
-            />
-            <SearchButton>
-              <BiSearch />
-            </SearchButton>
-          </SearchBox>
-        </SubHeader>
-      </SearchHeader>
-      <CardWrapper>
-        {viewFilterData &&
-          viewFilterData.map((user: any) => (
-            <UserCard key={user.name} user={user} />
-          ))}
-      </CardWrapper>
-      <Pagenation
-        pageSize={pageSize ? pageSize : 0}
-        page={page}
-        onPageChange={setPage}
-      />
-    </Wrapper>
+        </CardWrapper>
+        <Pagenation
+          pageSize={pageSize ? pageSize : 0}
+          page={page}
+          onPageChange={setPage}
+        />
+      </Wrapper>
+    </>
   );
 };
 

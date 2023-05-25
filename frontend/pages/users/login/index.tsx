@@ -2,10 +2,14 @@ import styled from 'styled-components';
 import AuthContainer from '@/components/authAction/AuthContainer';
 import Image from 'next/image';
 import loginImg from '../../../public/images/loginImg.svg';
+import Head from 'next/head';
 
 const Login = () => {
   return (
     <>
+      <Head>
+        <title>{`Side Quest - 로그인`}</title>
+      </Head>
       <Wrapper>
         <WrapperInset>
           <Contents>

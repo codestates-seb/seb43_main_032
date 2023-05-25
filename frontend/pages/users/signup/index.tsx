@@ -2,24 +2,30 @@ import styled from 'styled-components';
 import AuthContainer from '@/components/authAction/AuthContainer';
 import Image from 'next/image';
 import loginImg from '../../../public/images/loginImg.svg';
+import Head from 'next/head';
 
 const SignUp = () => {
   return (
-    <Wrapper>
-      <WrapperInset>
-        <Contents>
-          <TextBox>
-            <span className="text">
-              반갑습니다. 개발자의 성장을 돕는
-              <br />
-              사이드퀘스트입니다.
-            </span>
-          </TextBox>
-          <Image src={loginImg} alt="loginImg" />
-        </Contents>
-        <AuthContainer isLogin={false} />
-      </WrapperInset>
-    </Wrapper>
+    <>
+      <Head>
+        <title>{`Side Quest - 회원가입`}</title>
+      </Head>
+      <Wrapper>
+        <WrapperInset>
+          <Contents>
+            <TextBox>
+              <span className="text">
+                반갑습니다. 개발자의 성장을 돕는
+                <br />
+                사이드퀘스트입니다.
+              </span>
+            </TextBox>
+            <Image src={loginImg} alt="loginImg" />
+          </Contents>
+          <AuthContainer isLogin={false} />
+        </WrapperInset>
+      </Wrapper>
+    </>
   );
 };
 

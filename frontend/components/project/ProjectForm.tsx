@@ -173,8 +173,7 @@ const ProjectForm = () => {
     //랜덤 이미지 생성
     const randomNumber = Math.floor(Math.random() * 5) + 1;
     const srcSvg = `/images/thum (${randomNumber}).svg`;
-    //tags.map((tag) => tag.field)
-    //공통 데이터
+
     const data = {
       startDate: formatDate3(start),
       endDate: end && formatDate3(end),

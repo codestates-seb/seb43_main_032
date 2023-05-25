@@ -1,9 +1,13 @@
 import Content from '@/components/community/Content';
+import Head from 'next/head';
 import styled from 'styled-components';
 
 const Community = () => {
   return (
     <>
+      <Head>
+        <title>{`Side Quest - 커뮤니티`}</title>
+      </Head>
       <Box>
         <Content />
       </Box>
