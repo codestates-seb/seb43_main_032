@@ -19,9 +19,10 @@ import SubBtn from '@/components/button/SubBtn';
 import { errorAlert } from '@/components/alert/Alert';
 import { postStar } from '@/util/api/postStar';
 import ReviewBox from '@/components/common_box/ReviewBox';
-import Custom404 from '@/components/Custom404';
+import { useRouter } from 'next/router';
 
 const ViewProject = () => {
+  const router = useRouter();
   const loggedInUser = useRecoilValue(loggedInUserState);
   //프로젝트 데이터 요청
   const {
@@ -105,7 +106,7 @@ const ViewProject = () => {
     }
   };
 
-  if (projectQuery.error) return <Custom404 />;
+  if (projectQuery.error) return router.push('/404');
   if (projectQuery.isLoading || !data || !applyQuery.data)
     return <Message>로딩중입니다.</Message>;
   return (

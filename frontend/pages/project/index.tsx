@@ -15,7 +15,6 @@ import { useInfinityProject } from '@/hooks/react-query/project/useInfinityProje
 import { useAllData } from '@/hooks/react-query/useAllData';
 import { projectFilter } from '@/util/filter/projectFilter';
 import { useTopData } from '@/hooks/react-query/useTopData';
-import Custom404 from '@/components/Custom404';
 
 const ProjectHome = () => {
   const router = useRouter();
@@ -79,7 +78,7 @@ const ProjectHome = () => {
     };
   }, [target.current, data?.pageParams]);
 
-  if (error) return <Custom404 />;
+  if (error) return router.push('/404')
   if (isLoading) return <Message>로딩중입니다.</Message>;
   if (data)
     return (

@@ -20,33 +20,46 @@ export const useMemberInfo = () => {
     communities: getInfoQueryKey('articles'),
   };
 
-  const { data: projectsData, isLoading: projectsLoading } = useQuery<
-    Project[]
-  >(queryKeys.projects, () =>
+  const {
+    data: projectsData,
+    isLoading: projectsLoading,
+    isError: projectsError,
+  } = useQuery<Project[]>(queryKeys.projects, () =>
     api('/members/info/projects').then((res) => res.data.data)
   );
-  const { data: commentsData, isLoading: commentsLoading } = useQuery<
-    Comment[]
-  >(queryKeys.comments, () =>
+  const {
+    data: commentsData,
+    isLoading: commentsLoading,
+    isError: commentsError,
+  } = useQuery<Comment[]>(queryKeys.comments, () =>
     api('/members/info/comments').then((res) => res.data.data)
   );
-  const { data: answersData, isLoading: answersLoading } = useQuery<Answer[]>(
-    queryKeys.answers,
-    () => api('/members/info/answers').then((res) => res.data.data)
+  const {
+    data: answersData,
+    isLoading: answersLoading,
+    isError: answersError,
+  } = useQuery<Answer[]>(queryKeys.answers, () =>
+    api('/members/info/answers').then((res) => res.data.data)
   );
-  const { data: communitiesData, isLoading: communitiesLoading } = useQuery<
-    Community[]
-  >(queryKeys.communities, () =>
+  const {
+    data: communitiesData,
+    isLoading: communitiesLoading,
+    isError: communitiesError,
+  } = useQuery<Community[]>(queryKeys.communities, () =>
     api('/members/info/articles').then((res) => res.data.data)
   );
 
   const isLoading =
     projectsLoading || commentsLoading || answersLoading || communitiesLoading;
+  const isError =
+    projectsError || commentsError || answersError || communitiesError;
 
   return {
     projectsData,
     commentsData,
     answersData,
-    communitiesData,isLoading
+    communitiesData,
+    isLoading,
+    isError,
   };
 };

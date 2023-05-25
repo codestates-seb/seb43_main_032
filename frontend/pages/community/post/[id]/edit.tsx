@@ -13,11 +13,7 @@ const EditCommunity = () => {
         .then(() => errorAlert('로그인을 부탁드려요.', '로그인'));
     }
   }, []);
-  return (
-    <>
-      <CommunityForm />
-    </>
-  );
+  return <CommunityForm />;
 };
 
 export default EditCommunity;

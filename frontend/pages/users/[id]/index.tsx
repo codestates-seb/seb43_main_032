@@ -8,7 +8,6 @@ import UserContentBox from '@/components/user/UserContentBox';
 import Message from '@/components/Message';
 import useUser from '@/hooks/react-query/user/useUser';
 import { onChatCreate } from '@/util/chat';
-import Custom404 from '@/components/Custom404';
 
 const UserPage = () => {
   const router = useRouter();
@@ -17,7 +16,7 @@ const UserPage = () => {
     getUserById: { data: user, isLoading, isError },
   } = useUser({ id: id ? +id : undefined });
 
-  if (isError) return <Custom404 />;
+  if (isError) return router.push('/404');
   if (isLoading) return <Message>로딩중입니다.</Message>;
   return user && !isLoading ? (
     <GridBox>

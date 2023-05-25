@@ -7,9 +7,10 @@ import { POSITIONS } from '@/constant/constant';
 import useUser from '@/hooks/react-query/user/useUser';
 import Message from '@/components/Message';
 import { usersFilter } from '@/util/filter/usersFilter';
-import Custom404 from '@/components/Custom404';
+import { useRouter } from 'next/router';
 
 const Users = () => {
+  const router = useRouter();
   const [inputValue, setInputValue] = useState<string>('');
   const [page, setPage] = useState<number>(1);
   const [size, setSize] = useState<number>(24);
@@ -52,7 +53,7 @@ const Users = () => {
     }
   }, [inputValue]);
 
-  if (isError) return <Custom404 />;
+  if (isError) return router.push('/404');
   if (allUserLoading) return <Message>로딩중입니다.</Message>;
   return (
     <Wrapper>

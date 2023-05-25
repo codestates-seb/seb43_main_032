@@ -1,4 +1,3 @@
-import Custom404 from '@/components/Custom404';
 import usePostApi from '@/hooks/usePostApi';
 import { useRouter } from 'next/router';
 import React, { useEffect } from 'react';
@@ -9,6 +8,7 @@ interface IForm {
   token: number;
 }
 export default function confirm() {
+  const router = useRouter();
   const {
     register,
     handleSubmit,
@@ -25,7 +25,6 @@ export default function confirm() {
   const onInValid = (e: FieldErrors) => {
     console.log(e);
   };
-  const router = useRouter();
   useEffect(() => {
     if (data?.ok) {
       //회원가입이 성공적으로 이루어 졌음을 알릴 page 혹은 modal 필요
@@ -34,7 +33,7 @@ export default function confirm() {
     }
   }, [data]);
 
-  if (error) return <Custom404 />;
+  if (error) return router.push('/404');
   return (
     <Wrapper>
       <Form onSubmit={handleSubmit(onValid, onInValid)}>

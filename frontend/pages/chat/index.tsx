@@ -1,4 +1,3 @@
-import Custom404 from '@/components/Custom404';
 import Message from '@/components/Message';
 import Pagenation from '@/components/Pagenation';
 import ChatBox from '@/components/common_box/ChatBox';
@@ -11,7 +10,7 @@ import { useRecoilState } from 'recoil';
 import styled from 'styled-components';
 const Chat = () => {
   const router = useRouter();
-  const [chat, setChat] = useRecoilState(chatState);
+  const [, setChat] = useRecoilState(chatState);
   const size = 10;
   const [page, setPage] = useState(1);
   const { data, isLoading, error, refetch, deleteChat } = useGetChat({
@@ -34,7 +33,7 @@ const Chat = () => {
     router.push(`/chat/${chatId}`);
   };
 
-  if (error) return <Custom404 />;
+  if (error) return router.push('/404');
   if (isLoading) return <Message>로딩중입니다.</Message>;
   return (
     <ChatBox>
