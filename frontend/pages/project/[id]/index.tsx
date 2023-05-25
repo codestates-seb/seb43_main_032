@@ -19,8 +19,10 @@ import SubBtn from '@/components/button/SubBtn';
 import { errorAlert } from '@/components/alert/Alert';
 import { postStar } from '@/util/api/postStar';
 import ReviewBox from '@/components/common_box/ReviewBox';
+import { useRouter } from 'next/router';
 
 const ViewProject = () => {
+  const router = useRouter();
   const loggedInUser = useRecoilValue(loggedInUserState);
   //프로젝트 데이터 요청
   const {
@@ -104,14 +106,14 @@ const ViewProject = () => {
     }
   };
 
-  if (projectQuery.error) return <Message>잠시 후 다시 시도해주세요.</Message>;
+  if (projectQuery.error) return router.push('/404');
   if (projectQuery.isLoading || !data || !applyQuery.data)
     return <Message>로딩중입니다.</Message>;
   return (
     <GridBox>
       <Side>
         <AuthorBox
-        totalProject={data.memberInfo.totalProject}
+          totalProject={data.memberInfo.totalProject}
           userId={data.memberInfo.memberId}
           userImg={data.memberInfo.profileImageUrl}
           userName={data.memberInfo.name}

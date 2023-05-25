@@ -25,6 +25,16 @@ const ChatCreate = () => {
       },
     }
   );
+
+  const postEvent = () => {
+    if (watch().title === '') {
+      return errorAlert('제목을 입력해주세요.', '쪽지 작성');
+    }
+    if (watch().content === '') {
+      return errorAlert('내용을 입력해주세요.', '쪽지 작성');
+    }
+    postChat.mutate();
+  };
   const closeEvent = () => {
     window.close();
   };
@@ -47,7 +57,7 @@ const ChatCreate = () => {
           ></textarea>
         </div>
         <div className="btn-box">
-          <SubBtn onClick={() => postChat.mutate()}>발송</SubBtn>
+          <SubBtn onClick={postEvent}>발송</SubBtn>
           <SubBtn onClick={closeEvent}>취소</SubBtn>
         </div>
       </Box>

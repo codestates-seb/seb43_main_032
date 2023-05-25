@@ -21,6 +21,7 @@ import Tag from '../Tag';
 import { useRouter } from 'next/router';
 import { errorAlert } from '../alert/Alert';
 import { postStar } from '@/util/api/postStar';
+import SubBtn from '../button/SubBtn';
 
 const Editor = dynamic(() => import('@/components/editor/Editor'), {
   ssr: false,
@@ -156,8 +157,8 @@ const AnswerItem = ({
               type={'answer'}
             />
             <div className="edit-box">
-              <button onClick={editEvent}>수정 완료</button>
-              <button onClick={offEdit}>수정 취소</button>
+              <SubBtn onClick={editEvent}>수정 완료</SubBtn>
+              <SubBtn onClick={offEdit}>수정 취소</SubBtn>
             </div>
           </>
         ) : (
@@ -258,8 +259,11 @@ const Box = styled.li`
     position: absolute;
     display: flex;
     gap: 16px;
-    right: 8px;
-    top: 12px;
+    right: 32px;
+    top: 22px;
+    > button {
+      padding: 4px;
+    }
   }
 
   .content-box {

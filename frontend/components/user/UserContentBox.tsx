@@ -22,7 +22,7 @@ export default function UserContentBox({ contentTitle }: IProps) {
 
   const { projectData, communityData } = useAllData();
   const {
-    getMyInfo: { data: me },
+    getMyInfo: { data: me, isError },
     getProjectByUserId: { data: projects },
     getPostsByUserId: { data: posts },
   } = useUser({ id, page, pageSize: 5, projectData, communityData });
@@ -54,6 +54,7 @@ export default function UserContentBox({ contentTitle }: IProps) {
   const communitiesFilterData = posts?.slice((page - 1) * 5, page * 5);
 
   if (id === 0) return <h1>Loading...</h1>;
+  if (isError) return router.push('/404');
   return (
     <Wrapper>
       <Category>

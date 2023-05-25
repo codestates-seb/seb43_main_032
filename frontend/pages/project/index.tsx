@@ -78,8 +78,8 @@ const ProjectHome = () => {
     };
   }, [target.current, data?.pageParams]);
 
+  if (error) return router.push('/404')
   if (isLoading) return <Message>로딩중입니다.</Message>;
-  if (error) return <Message>잠시 후 다시 시도해주세요.</Message>;
   if (data)
     return (
       <Box>

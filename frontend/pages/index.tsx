@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import Message from '@/components/Message';
 import ProjectCardBox from '@/components/card_box/ProjectCardBox';
 import CommunityCardBox from '@/components/card_box/CommunityCardBox';
 import ProjectSkeleton from '@/components/skeleton/ProjectSkeleton';
@@ -8,8 +7,10 @@ import { useTopData } from '@/hooks/react-query/useTopData';
 import { useState } from 'react';
 import UserCardBox from '@/components/card_box/UserCardBox';
 import UserItemSkeleton from '@/components/skeleton/UserItemSkeleton';
+import { useRouter } from 'next/router';
 
 const Home = () => {
+  const router = useRouter();
   const {
     topLikeProjectData,
     topViewProjectData,
@@ -29,7 +30,7 @@ const Home = () => {
   };
   const community = [topViewCommunityData, topLikeCommunityData];
 
-  if (checkError) return <Message>잠시 후 다시 시도해주세요.</Message>;
+  if (checkError) return router.push('/404');
   return (
     <Box>
       <ProjectCardBox

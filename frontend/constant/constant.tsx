@@ -179,7 +179,7 @@ export const FOOTER_DATA: FooterData = {
     },
     { name: '상담 사이드퀘스트 운영자 연결', link: 'onContact' },
     { name: '오픈 채팅방 ', link: 'https://open.kakao.com/o/sjMrDxlf' },
-    { name: '제휴문의 help@sideQues.com', link: 'onContact' },
+    { name: '제휴문의 help@sideQuest.com', link: 'onContact' },
     { name: 'Copyright©2023 SideQuest.All rights reserved.', link: '' },
   ],
   about: [{ name: 'SideQuest 소개', link: '/about' }],
