@@ -3,6 +3,7 @@ import Tag from '../Tag';
 import styled from 'styled-components';
 import { useRouter } from 'next/router';
 import Position from '../Position';
+import { onChatCreate } from '@/util/chat';
 
 type Props = {
   userImg: string;
@@ -28,23 +29,17 @@ const AuthorBox = ({
     router.push(`/users/${memberId}`);
   };
 
+  const onChatCreatePage = (e: { stopPropagation: () => void }) => {
+    e.stopPropagation();
+    onChatCreate(userId);
+  };
+
   return (
     <Box onClick={() => moveAuthorPage(userId)}>
       <div className="top-box">
         <img src={userImg} alt="author" />
         <div className="userBox nanum-bold userName">{userName}</div>
         {position && <Position>{position}</Position>}
-        {!isAuthor && (
-          <div className="saveStar" onClick={() => {}}>
-            <span className="icon-box">
-              {true ? (
-                <AiOutlineHeart fill={'#ececec'} />
-              ) : (
-                <AiFillHeart fill="red" />
-              )}
-            </span>
-          </div>
-        )}
       </div>
       <div className="detail-box">
         <div className="detail-sub-box">
@@ -61,7 +56,7 @@ const AuthorBox = ({
           <div className="detail-title">평가 점수</div>
         </div>
       </div>
-      {isAuthor && <Tag>쪽지 보내기</Tag>}
+      {!isAuthor && <Tag onClick={onChatCreatePage}>쪽지 보내기</Tag>}
     </Box>
   );
 };
