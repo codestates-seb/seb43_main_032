@@ -13,13 +13,17 @@ import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+import javax.validation.constraints.Positive;
 import java.util.List;
 
 @RestController
 @Api(tags = {"Projects"}, description = "프로젝트 API")
 @AllArgsConstructor
+@Validated
 public class ProjectController {
 
     private final ProjectService projectService;
@@ -28,21 +32,21 @@ public class ProjectController {
 
     @ApiOperation(value = "프로젝트 생성")
     @PostMapping("/projects")
-    public ResponseEntity<Void> postProject(@RequestBody ProjectPostDto projectPostDto) {
+    public ResponseEntity<Void> postProject(@Valid @RequestBody ProjectPostDto projectPostDto) {
         projectService.postProject(projectPostDto);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @ApiOperation(value = "프로젝트 수정")
     @PatchMapping("/projects/{projectId}")
-    public ResponseEntity<Void> updateProject(@PathVariable(name = "projectId") Long projectId, @RequestBody ProjectPatchDto projectPatchDto) {
+    public ResponseEntity<Void> updateProject(@PathVariable(name = "projectId") @Positive Long projectId, @Valid @RequestBody ProjectPatchDto projectPatchDto) {
         projectService.updateProject(projectId, projectPatchDto);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @ApiOperation(value = "프로젝트 상세 조회")
     @GetMapping("/projects/{projectId}")
-    public ResponseEntity<SingleResponseDto<ProjectGetResponseDto>> getProject(@PathVariable(name = "projectId") Long projectId) {
+    public ResponseEntity<SingleResponseDto<ProjectGetResponseDto>> getProject(@PathVariable(name = "projectId") @Positive Long projectId) {
         SingleResponseDto<ProjectGetResponseDto> singleResponseDto = projectService.getProject(projectId);
         return new ResponseEntity<>(singleResponseDto, HttpStatus.OK);
     }
@@ -56,35 +60,35 @@ public class ProjectController {
 
     @ApiOperation(value = "프로젝트 삭제")
     @DeleteMapping("/projects/{projectId}")
-    public ResponseEntity<Void> deleteProject(@PathVariable(name = "projectId") Long projectId) {
+    public ResponseEntity<Void> deleteProject(@PathVariable(name = "projectId") @Positive Long projectId) {
         projectService.deleteProject(projectId);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @ApiOperation(value = "프로젝트 지원")
     @PostMapping("/projects/{projectId}/apply")
-    public ResponseEntity<Void> applyProject(@PathVariable(name = "projectId") Long projectId, @RequestBody ProjectApplyPostDto projectApplyPostDto) {
+    public ResponseEntity<Void> applyProject(@PathVariable(name = "projectId") @Positive Long projectId, @Valid @RequestBody ProjectApplyPostDto projectApplyPostDto) {
         projectService.applyProject(projectId, projectApplyPostDto);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @ApiOperation(value = "프로젝트 지원 취소")
     @PostMapping("/projects/{projectId}/cancel-apply")
-    public ResponseEntity<Void> cancelApplyProject(@PathVariable(name = "projectId") Long projectId, @RequestBody ProjectCancelApplyPostDto projectCancelApplyPostDto) {
+    public ResponseEntity<Void> cancelApplyProject(@PathVariable(name = "projectId") @Positive Long projectId, @Valid @RequestBody ProjectCancelApplyPostDto projectCancelApplyPostDto) {
         projectService.cancelApply(projectId, projectCancelApplyPostDto);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @ApiOperation(value = "수락 된 지원자 지원 취소")
     @PostMapping("/projects/{projectId}/cancel-accepted-apply")
-    public ResponseEntity<Void> cancelAcceptedApply(@PathVariable(name = "projectId") Long projectId, @RequestBody ProCancelAcceptedApplyDto proCancelAcceptedApplyDto) {
+    public ResponseEntity<Void> cancelAcceptedApply(@PathVariable(name = "projectId") @Positive Long projectId, @Valid @RequestBody ProCancelAcceptedApplyDto proCancelAcceptedApplyDto) {
         projectService.cancelAcceptedApply(projectId, proCancelAcceptedApplyDto);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @ApiOperation(value = "프로젝트 지원자 리스트 조회")
     @GetMapping("/projects/{projectId}/applicant-list")
-    public ResponseEntity<SingleResponseDto<List<ProApplyCrewResponseDto>>> getApplyCrewList(@PathVariable(name = "projectId") Long projectId) {
+    public ResponseEntity<SingleResponseDto<List<ProApplyCrewResponseDto>>> getApplyCrewList(@PathVariable(name = "projectId") @Positive Long projectId) {
         List<ProApplyCrewResponseDto> proApplyCrewResponseDtoList = projectService.getApplyCrewList(projectId);
         SingleResponseDto<List<ProApplyCrewResponseDto>> singleResponseDto = new SingleResponseDto<>(proApplyCrewResponseDtoList);
         return new ResponseEntity<>(singleResponseDto, HttpStatus.OK);
@@ -92,21 +96,21 @@ public class ProjectController {
 
     @ApiOperation(value = "프로젝트 지원자 수락")
     @PostMapping("/projects/{projectId}/accept/{memberId}")
-    public ResponseEntity<Void> acceptApplicant(@PathVariable(name = "projectId") Long projectId, @PathVariable(name = "memberId") Long memberId) {
+    public ResponseEntity<Void> acceptApplicant(@PathVariable(name = "projectId") Long projectId, @PathVariable(name = "memberId") @Positive Long memberId) {
         projectService.acceptApplicant(projectId, memberId);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @ApiOperation(value = "프로젝트 지원자 거절")
     @PostMapping("/projects/{projectId}/reject/{memberId}")
-    public ResponseEntity<Void> rejectApplicant(@PathVariable(name = "projectId") Long projectId, @PathVariable(name = "memberId") Long memberId) {
+    public ResponseEntity<Void> rejectApplicant(@PathVariable(name = "projectId") Long projectId, @PathVariable(name = "memberId") @Positive Long memberId) {
         projectService.rejectApplicant(projectId, memberId);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @ApiOperation(value = "프로젝트 상태 변경")
     @PostMapping("/projects/{projectId}/status")
-    public ResponseEntity<Void> updateProjectStatus(@PathVariable(name = "projectId") Long projectId, @RequestBody ProUpdateStatusDto proUpdateStatusDto) {
+    public ResponseEntity<Void> updateProjectStatus(@PathVariable(name = "projectId") @Positive Long projectId, @Valid @RequestBody ProUpdateStatusDto proUpdateStatusDto) {
         projectService.updateProjectStatus(projectId, proUpdateStatusDto);
         return new ResponseEntity<>(HttpStatus.OK);
     }
@@ -129,7 +133,7 @@ public class ProjectController {
     @ApiOperation(value = "프로젝트 답글 조회")
     @GetMapping("/projects/{projectId}/answers")
     public ResponseEntity<MultiResponseDto<AnswerResponseDto>> getProjectAnswers(
-            @PathVariable("projectId") Long projectId,
+            @PathVariable("projectId") @Positive Long projectId,
             @RequestParam int page,
             @RequestParam int size) {
         MultiResponseDto<AnswerResponseDto> answerPage = answerService.findAllProjectAnswer(projectId, page - 1, size);
@@ -138,7 +142,7 @@ public class ProjectController {
 
     @ApiOperation(value = "프로젝트 댓글 조회")
     @GetMapping("/projects/{projectId}/answers/{answerId}/comments")
-    public ResponseEntity<MultiResponseDto<CommentResponseDto>> listProjectComments(@PathVariable("answerId") Long answerId,
+    public ResponseEntity<MultiResponseDto<CommentResponseDto>> listProjectComments(@PathVariable("answerId") @Positive Long answerId,
                                                                                     @RequestParam int page,
                                                                                     @RequestParam int size) {
         MultiResponseDto<CommentResponseDto> response = commentService.getProjectComments(answerId, page - 1, size);

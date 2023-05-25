@@ -20,9 +20,15 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
+import javax.validation.constraints.Positive;
+
 @Api(tags = {"Community"}, description = "커뮤니티 API")
 @RestController
+@Validated
 public class CommunityController {
 
     private final CommentService commentService;
@@ -39,14 +45,14 @@ public class CommunityController {
 
     @ApiOperation(value = "답글 작성")
     @PostMapping("/answers")
-    public ResponseEntity<Void> postAnswer(@RequestBody AnswerPostDto answerPostDto){
+    public ResponseEntity<Void> postAnswer(@Valid @RequestBody AnswerPostDto answerPostDto){
         answerService.createAnswer(answerPostDto);
         return ResponseEntity.ok().build();
     }
 
     @ApiOperation(value = "답글 수정")
     @PatchMapping("/answers/{answerId}")
-    public ResponseEntity<Void> patchAnswer(@PathVariable("answerId") Long answerId,
+    public ResponseEntity<Void> patchAnswer(@PathVariable("answerId") @Positive Long answerId,
                                             @RequestBody AnswerPatchDto answerPatchDto){
         answerService.updateAnswer(answerId,answerPatchDto);
         return new ResponseEntity<>(HttpStatus.OK);
@@ -54,7 +60,7 @@ public class CommunityController {
 
     @ApiOperation(value = "답글 삭제")
     @DeleteMapping("/answers/{answerId}")
-    public ResponseEntity<Void> deleteAnswer(@PathVariable("answerId") Long answerId){
+    public ResponseEntity<Void> deleteAnswer(@PathVariable("answerId") @Positive Long answerId){
         answerService.deleteAnswer(answerId);
         return ResponseEntity.ok().build();
     }
@@ -62,15 +68,15 @@ public class CommunityController {
     @ApiOperation(value = "댓글 생성")
     @PostMapping("/comments/{answerId}")
     public ResponseEntity<Void> createComment(
-            @PathVariable("answerId") Long answerId,
-            @RequestBody CommentPostDto commentPostDto) {
+            @PathVariable("answerId") @Positive Long answerId,
+            @Valid @RequestBody CommentPostDto commentPostDto) {
         commentService.createComment(answerId,commentPostDto);
         return ResponseEntity.ok().build();
     }
 
     @ApiOperation(value = "댓글 수정")
     @PatchMapping("/comments/{commentId}")
-    public ResponseEntity<Void> updateArticleComment(@PathVariable("commentId") Long commentId,
+    public ResponseEntity<Void> updateArticleComment(@PathVariable("commentId") @Positive Long commentId,
                                                      @RequestBody CommentPatchDto commentPatchDto
     ) {
         commentService.updateArticleComment(commentId, commentPatchDto);
@@ -79,14 +85,14 @@ public class CommunityController {
 
     @ApiOperation(value = "댓글 삭제")
     @DeleteMapping("/comments/{commentId}")
-    public ResponseEntity<Void> deleteArticleComment(@PathVariable("commentId") Long commentId) {
+    public ResponseEntity<Void> deleteArticleComment(@PathVariable("commentId") @Positive Long commentId) {
         commentService.deleteComment(commentId);
         return ResponseEntity.noContent().build();
     }
 
     @ApiOperation(value = "좋아요")
     @PostMapping("/likes")
-    public ResponseEntity<SingleResponseDto<LikesResponseDto>> likes(@RequestBody LikesPostDto likesPostDto) {
+    public ResponseEntity<SingleResponseDto<LikesResponseDto>> likes(@Valid @RequestBody LikesPostDto likesPostDto) {
         LikesResponseDto likesResponseDto = likesService.likes(likesPostDto);
         SingleResponseDto<LikesResponseDto> singleResponseDto = new SingleResponseDto<>(likesResponseDto);
 
@@ -95,7 +101,7 @@ public class CommunityController {
 
     @ApiOperation(value = "좋아요 취소")
     @PostMapping("/likes/undo")
-    public ResponseEntity<SingleResponseDto<LikesResponseDto>> likesUndo(@RequestBody LikesUndoPostDto likesUndoPostDto) {
+    public ResponseEntity<SingleResponseDto<LikesResponseDto>> likesUndo(@Valid @RequestBody LikesUndoPostDto likesUndoPostDto) {
         LikesResponseDto likesResponseDto = likesService.likesUndo(likesUndoPostDto);
         SingleResponseDto<LikesResponseDto> singleResponseDto = new SingleResponseDto<>(likesResponseDto);
 
@@ -103,13 +109,13 @@ public class CommunityController {
     }
     @ApiOperation(value = "쪽지 보내기")
     @PostMapping("/chat/send")
-    public ResponseEntity<Void> messageExpress(@RequestBody ChatPostDto chatPostDto){
+    public ResponseEntity<Void> messageExpress(@Valid @RequestBody ChatPostDto chatPostDto){
         chatService.sendMessage(chatPostDto);
         return new ResponseEntity<>(HttpStatus.OK);
     }
     @ApiOperation(value = "받은 쪽지 삭제")
     @DeleteMapping("/chat/{chatId}")
-    public ResponseEntity<Void> messageDelete(@PathVariable("chatId") Long chatId){
+    public ResponseEntity<Void> messageDelete(@PathVariable("chatId") @Positive Long chatId){
         chatService.deleteMessage(chatId);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }

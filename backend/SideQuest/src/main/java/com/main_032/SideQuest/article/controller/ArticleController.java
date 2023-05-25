@@ -13,11 +13,16 @@ import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
+import javax.validation.constraints.Positive;
 
 @RestController
 @Api(tags = "Articles", description = "게시판 API")
 @AllArgsConstructor
+@Validated
 public class ArticleController {
 
     private final ArticleService articleService;
@@ -27,7 +32,7 @@ public class ArticleController {
     //게시글 작성
     @ApiOperation(value = "게시글 작성")
     @PostMapping("/articles")
-    public ResponseEntity<Void> postArticle(@RequestBody ArticlePostDto articlePostDto) {
+    public ResponseEntity<Void> postArticle(@Valid @RequestBody ArticlePostDto articlePostDto) {
         articleService.createArticle(articlePostDto);
         return ResponseEntity.ok().build();
     }
@@ -35,8 +40,8 @@ public class ArticleController {
     //게시글 수정
     @ApiOperation(value = "게시글 수정")
     @PatchMapping("/articles/{articleId}")
-    public ResponseEntity<Void> patchArticle(@PathVariable("articleId") Long articleId,
-                                             @RequestBody ArticlePatchDto articlePatchDto) {
+    public ResponseEntity<Void> patchArticle(@PathVariable("articleId") @Positive Long articleId,
+                                             @Valid @RequestBody ArticlePatchDto articlePatchDto) {
         articleService.updateArticle(articleId, articlePatchDto);
 
         return new ResponseEntity<>(HttpStatus.OK);
@@ -45,7 +50,7 @@ public class ArticleController {
     //게시글 상세 조회
     @ApiOperation(value = "게시글 상세 조회")
     @GetMapping("/articles/{articleId}")
-    public ResponseEntity<SingleResponseDto<ArticleGetResponseDto>> getArticle(@PathVariable("articleId") Long articleId) {
+    public ResponseEntity<SingleResponseDto<ArticleGetResponseDto>> getArticle(@PathVariable("articleId") @Positive Long articleId) {
         SingleResponseDto<ArticleGetResponseDto> response = articleService.getArticle(articleId);
         return ResponseEntity.ok(response);
     }
@@ -73,7 +78,7 @@ public class ArticleController {
     //게시글 삭제
     @ApiOperation(value = "게시글 삭제")
     @DeleteMapping("/articles/{articleId}")
-    public ResponseEntity deleteArticle(@PathVariable("articleId") Long articleId) {
+    public ResponseEntity deleteArticle(@PathVariable("articleId") @Positive Long articleId) {
         articleService.deleteArticle(articleId);
 
         return ResponseEntity.ok().build();
@@ -98,7 +103,7 @@ public class ArticleController {
     @ApiOperation(value = "게시글 답글 조회")
     @GetMapping("/articles/{articleId}/answers")
     public ResponseEntity<MultiResponseDto<AnswerResponseDto>> getArticleAnswers(
-            @PathVariable("articleId") Long articleId,
+            @PathVariable("articleId") @Positive Long articleId,
             @RequestParam int page,
             @RequestParam int size) {
         MultiResponseDto<AnswerResponseDto> answerPage = answerService.findAllArticleAnswer(articleId, page - 1, size);
@@ -107,7 +112,7 @@ public class ArticleController {
 
     @ApiOperation(value = "게시글 댓글 조회")
     @GetMapping("/articles/{articleId}/answers/{answerId}/comments")
-    public ResponseEntity<MultiResponseDto<CommentResponseDto>> listArticleComments(@PathVariable("answerId") Long answerId,
+    public ResponseEntity<MultiResponseDto<CommentResponseDto>> listArticleComments(@PathVariable("answerId") @Positive Long answerId,
                                                                                     @RequestParam int page,
                                                                                     @RequestParam int size) {
         MultiResponseDto<CommentResponseDto> response = commentService.getArticleComments(answerId, page - 1, size);

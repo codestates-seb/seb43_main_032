@@ -16,10 +16,15 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
+import javax.validation.constraints.Positive;
 
 @RestController
 @Api(tags = {"Members"}, description = "멤버 API")
+@Validated
 public class MemberController {
 
     private final MemberService memberService;
@@ -38,7 +43,7 @@ public class MemberController {
 
     @ApiOperation(value = "회원 가입") //회원가입
     @PostMapping("/members/signup")
-    public ResponseEntity<Void> signup(@RequestBody MemberPostDto memberPostDto) {
+    public ResponseEntity<Void> signup(@Valid @RequestBody MemberPostDto memberPostDto) {
         memberService.signup(memberPostDto);
         ResponseEntity responseEntity = new ResponseEntity(HttpStatus.OK);
         return responseEntity;
@@ -48,7 +53,7 @@ public class MemberController {
     @ApiOperation(value = "로그인")
     @PostMapping("/members/login")
     @ResponseStatus(HttpStatus.OK)
-    public LoginResponseDto login(@RequestBody LoginPostDto loginPostDto) {
+    public LoginResponseDto login(@Valid @RequestBody LoginPostDto loginPostDto) {
         LoginResponseDto loginResponseDto = new LoginResponseDto();
         return loginResponseDto;
     }
@@ -63,7 +68,7 @@ public class MemberController {
 
     @ApiOperation(value = "다른 회원 정보 조회")
     @GetMapping("/members/info/{memberId}")
-    public ResponseEntity<SingleResponseDto<MemberGetResponseDto>> getMemberInfo(@PathVariable("memberId") Long memberId) {
+    public ResponseEntity<SingleResponseDto<MemberGetResponseDto>> getMemberInfo(@PathVariable("memberId") @Positive Long memberId) {
         SingleResponseDto<MemberGetResponseDto> singleResponseDto = memberService.getMemberInfo(memberId);
         ResponseEntity responseEntity = new ResponseEntity(singleResponseDto, HttpStatus.OK);
         return responseEntity;
@@ -93,7 +98,7 @@ public class MemberController {
 
     @ApiOperation(value = "별점 추가")
     @PostMapping("/members/stars")
-    public ResponseEntity<Void> plusStar(@RequestBody StarPostDto starPostDto) {
+    public ResponseEntity<Void> plusStar(@Valid @RequestBody StarPostDto starPostDto) {
         memberService.plusStar(starPostDto);
         return new ResponseEntity<>(HttpStatus.OK);
     }
