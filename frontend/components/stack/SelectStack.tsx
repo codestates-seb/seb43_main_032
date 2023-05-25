@@ -34,18 +34,18 @@ const SelectStack = ({ type, setStacks, selectStack, stacks }: Props) => {
   return (
     <Box>
       <div>
-        <div className="btn-box">
-          <div>
-            <Btn onClick={resetSelectedStacks}>
-              <span>초기화</span>
-            </Btn>
-            {!type && (
+        {!type && (
+          <div className="btn-box">
+            <div>
+              <Btn onClick={resetSelectedStacks}>
+                <span>초기화</span>
+              </Btn>
               <Btn onClick={selectStack}>
                 <span>완료</span>
               </Btn>
-            )}
+            </div>
           </div>
-        </div>
+        )}
         <div className="select-box">
           {categories.map((category) => (
             <div key={category} className="stack-box nanum-bold">
