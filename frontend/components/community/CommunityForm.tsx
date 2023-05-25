@@ -10,7 +10,7 @@ import TagBox from '../project/TagBox';
 import { FiledTag } from '@/types/project';
 import GridBox from '../common_box/GridBox';
 import { POST_COMMUNITY_CATEGORY } from '@/constant/constant';
-import { confirmAlert } from '../alert/Alert';
+import { confirmAlert, errorAlert } from '../alert/Alert';
 
 export default function CommunityForm() {
   const router = useRouter();
@@ -64,6 +64,13 @@ export default function CommunityForm() {
 
   //글 제출 이벤트
   const postCommunity = (e: { preventDefault: () => void }) => {
+    if (watch().title === '') {
+      return errorAlert('제목을 입력해주세요.', '프로젝트 작성');
+    }
+    if (editor === '') {
+      return errorAlert('내용을 입력해주세요.', '프로젝트 작성');
+    }
+
     e.preventDefault();
     const category = POST_COMMUNITY_CATEGORY[watch().position];
     const data = {
