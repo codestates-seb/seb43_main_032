@@ -12,6 +12,8 @@ import { useState } from 'react';
 import { getCookie } from '@/util/cookie';
 import { errorAlert } from '../alert/Alert';
 import { postStar } from '@/util/api/postStar';
+import { useRecoilState } from 'recoil';
+import { viewMemberIdState } from '@/recoil/atom';
 
 type Props = {
   size: string;
@@ -20,6 +22,7 @@ type Props = {
 
 const ProjectCard = ({ data, size }: Props) => {
   const router = useRouter();
+  const [, setViewMemberId] = useRecoilState(viewMemberIdState);
   const [heart, setHeart] = useState(data.liked);
   const heartHandler = (isLiked: boolean) => {
     setHeart(isLiked);
@@ -48,6 +51,7 @@ const ProjectCard = ({ data, size }: Props) => {
 
   //프로젝트 조회 이동
   const viewProject = (id: number) => {
+    setViewMemberId(Number(data.memberInfo.memberId));
     router.push(`project/${id}`);
   };
 

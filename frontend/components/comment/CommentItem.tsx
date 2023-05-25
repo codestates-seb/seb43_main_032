@@ -13,6 +13,8 @@ import { confirmAlert } from '../alert/Alert';
 import Tag from '../Tag';
 import { useRouter } from 'next/router';
 import { postStar } from '@/util/api/postStar';
+import { useRecoilState } from 'recoil';
+import { viewMemberIdState } from '@/recoil/atom';
 
 type Props = {
   comment: Comment;
@@ -29,6 +31,7 @@ const CommentItem = ({
   deleteComment,
   editComment,
 }: Props) => {
+  const [viewMemberId] = useRecoilState(viewMemberIdState);
   const router = useRouter();
   //content 관리
   const { register, watch } = useForm<{ content: string }>();
@@ -88,7 +91,9 @@ const CommentItem = ({
             >
               {comment.memberInfo.name}
             </span>
-            {comment.author && <Tag>작성자</Tag>}
+            {Number(comment.memberInfo.memberId) === viewMemberId && (
+              <Tag>작성자</Tag>
+            )}
           </div>
         </div>
         <div onClick={likeHandler} className="right">

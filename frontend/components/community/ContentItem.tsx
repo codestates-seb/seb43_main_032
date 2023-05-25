@@ -6,10 +6,14 @@ import { FiHeart, FiMessageSquare } from 'react-icons/fi';
 import { Community } from '@/types/community';
 import { useRouter } from 'next/router';
 import { AiOutlineEye } from 'react-icons/ai';
+import { useRecoilState } from 'recoil';
+import { viewMemberIdState } from '@/recoil/atom';
 
 export default function ContentItem(article: Community) {
+  const [, setViewMemberId] = useRecoilState(viewMemberIdState);
   const router = useRouter();
   const moveArticle = () => {
+    setViewMemberId(Number(article.memberInfo.memberId));
     router.push(`community/post/${article.articleId}`);
   };
 
