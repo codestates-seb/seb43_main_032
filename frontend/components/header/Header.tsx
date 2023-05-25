@@ -30,15 +30,15 @@ const Header = () => {
 
   //토큰이 유효하다면 유저 데이터 세팅
   useEffect(() => {
-    setUserState()
-      .then((res) => {
-        if (getCookie('accessToken')) {
+    if (getCookie('accessToken')) {
+      setUserState()
+        .then((res) => {
           setLoggedInUser(res);
-        }
-      })
-      .catch(() => {
-        //리프레시 토큰 api가 생기면 여기 넣어서 사용할듯?
-      });
+        })
+        .catch(() => {
+          //리프레시 토큰 api가 생기면 여기 넣어서 사용할듯?
+        });
+    }
   }, []);
 
   //네비 이름 배열
