@@ -110,12 +110,15 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
 
         return UriComponentsBuilder
                 .newInstance()
-                .scheme("http")
-                .host("ec2-43-201-8-99.ap-northeast-2.compute.amazonaws.com")
+//                .scheme("http")
+//                .host("ec2-43-201-8-99.ap-northeast-2.compute.amazonaws.com")
 //                .host("localhost")
 //                .port(80)   //-> aws로 배포했을 때 싸용
-                .port(3000)   //-> local 테스트용
+//                .port(3000)   //-> local 테스트용
+                .scheme("https")
+                .host("sidequest.co.kr")
                 .path("/oauth2")            //리다이렉트 주소 (토큰이 포함된 url 을 받는 주소)
+                .port(443)
                 .queryParams(queryParams)
                 .build()
                 .toUri();
