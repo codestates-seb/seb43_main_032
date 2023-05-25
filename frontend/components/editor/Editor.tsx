@@ -43,6 +43,7 @@ export default EditorBox;
 
 const Box = styled.div`
   width: 100%;
+  max-width: 948px;
 
   span {
     background: none !important;

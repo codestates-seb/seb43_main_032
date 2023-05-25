@@ -9,7 +9,20 @@ type Props = {
 const MyDocument = ({ styles }: Props) => {
   return (
     <Html lang="ko">
-      <Head>{styles}</Head>
+      <Head>
+        <meta name="description" content="Side-Quest입니다." />
+        <meta property="og:title" content="Side-Quest" />
+        <meta property="og:description" content="Side-Quest입니다." />
+        <meta property="og:image" content="/images/logo.svg" />
+        <meta property="og:url" content="https://sidequest.co.kr/" />
+        <meta name="twitter:card" content="summary" />
+        <meta name="twitter:title" content="Side-Quest" />
+        <meta name="twitter:description" content="Side-Quest입니다." />
+        <meta name="twitter:image" content="/images/logo.svg" />
+        <link rel="canonical" href="https://sidequest.co.kr/" />
+        <link rel="icon" href="/favicon.png" />
+        {styles}
+      </Head>
       <body>
         <Main />
         <NextScript />

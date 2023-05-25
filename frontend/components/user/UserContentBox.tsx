@@ -7,7 +7,6 @@ import { useRouter } from 'next/router';
 import { useAllData } from '@/hooks/react-query/useAllData';
 import Message from '../Message';
 import useUser from '@/hooks/react-query/user/useUser';
-import Custom404 from '@/pages/404';
 
 interface IProps {
   contentTitle: string[];
@@ -23,7 +22,7 @@ export default function UserContentBox({ contentTitle }: IProps) {
 
   const { projectData, communityData } = useAllData();
   const {
-    getMyInfo: { data: me, isError },
+    getMyInfo: { data: me },
     getProjectByUserId: { data: projects },
     getPostsByUserId: { data: posts },
   } = useUser({ id, page, pageSize: 5, projectData, communityData });
@@ -55,7 +54,6 @@ export default function UserContentBox({ contentTitle }: IProps) {
   const communitiesFilterData = posts?.slice((page - 1) * 5, page * 5);
 
   if (id === 0) return <h1>Loading...</h1>;
-  if (isError) return <Custom404 />;
   return (
     <Wrapper>
       <Category>

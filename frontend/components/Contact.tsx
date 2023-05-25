@@ -114,7 +114,7 @@ const AskBox = styled.div<{ isVisible: boolean }>`
   bottom: ${({ isVisible }) => (isVisible ? '20px' : '-100%')};
   right: 20px;
   position: fixed;
-  transition: all 0.3s ease-in-out;
+  transition: all 0.5s ease-in-out;
   z-index: 999;
   position: fixed;
 `;

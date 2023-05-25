@@ -8,6 +8,8 @@ import { getCookie } from '@/util/cookie';
 import { useEffect } from 'react';
 import Tag from '@/components/Tag';
 import useUser from '@/hooks/react-query/user/useUser';
+import Message from '@/components/Message';
+import Head from 'next/head';
 
 export default function me() {
   const {
@@ -25,9 +27,12 @@ export default function me() {
     router.push('/users/me/edit');
   };
 
-  if (isError) return router.push('/404');
+  if (isError) return <Message>잠시 후에 다시 시도해주세요.</Message>;
   return (
     <>
+      <Head>
+        <title>{`Side Quest - 마이페이지`}</title>
+      </Head>
       {user && (
         <GridBox>
           <LeftColumn>

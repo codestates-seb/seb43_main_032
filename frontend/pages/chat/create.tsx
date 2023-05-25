@@ -2,6 +2,7 @@ import { confirmAlert, errorAlert } from '@/components/alert/Alert';
 import SubBtn from '@/components/button/SubBtn';
 import ChatBox from '@/components/common_box/ChatBox';
 import { api } from '@/util/api';
+import Head from 'next/head';
 import { useForm } from 'react-hook-form';
 import { useMutation } from 'react-query';
 
@@ -40,28 +41,33 @@ const ChatCreate = () => {
   };
 
   return (
-    <ChatBox type={'create'}>
-      <Box>
-        <div className="title-box">
-          <input
-            placeholder="제목을 입력해주세요."
-            {...register('title')}
-            type="text"
-          />
-        </div>
-        <div className="content-box">
-          <textarea
-            placeholder="내용을 입력해주세요."
-            {...register('content')}
-            rows={15}
-          ></textarea>
-        </div>
-        <div className="btn-box">
-          <SubBtn onClick={postEvent}>발송</SubBtn>
-          <SubBtn onClick={closeEvent}>취소</SubBtn>
-        </div>
-      </Box>
-    </ChatBox>
+    <>
+      <Head>
+        <title>{`Side Quest - 쪽지 작성`}</title>
+      </Head>
+      <ChatBox type={'create'}>
+        <Box>
+          <div className="title-box">
+            <input
+              placeholder="제목을 입력해주세요."
+              {...register('title')}
+              type="text"
+            />
+          </div>
+          <div className="content-box">
+            <textarea
+              placeholder="내용을 입력해주세요."
+              {...register('content')}
+              rows={15}
+            ></textarea>
+          </div>
+          <div className="btn-box">
+            <SubBtn onClick={postEvent}>발송</SubBtn>
+            <SubBtn onClick={closeEvent}>취소</SubBtn>
+          </div>
+        </Box>
+      </ChatBox>
+    </>
   );
 };
 

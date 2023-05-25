@@ -8,6 +8,7 @@ import UserContentBox from '@/components/user/UserContentBox';
 import Message from '@/components/Message';
 import useUser from '@/hooks/react-query/user/useUser';
 import { onChatCreate } from '@/util/chat';
+import Head from 'next/head';
 
 const UserPage = () => {
   const router = useRouter();
@@ -16,34 +17,41 @@ const UserPage = () => {
     getUserById: { data: user, isLoading, isError },
   } = useUser({ id: id ? +id : undefined });
 
-  if (isError) return router.push('/404');
   if (isLoading) return <Message>로딩중입니다.</Message>;
-  return user && !isLoading ? (
-    <GridBox>
-      <UserInfoContainer>
-        <div className="user-box">
-          <UserProfile user={user} />
-          <Tag onClick={() => onChatCreate(Number(id))} className="chat-create">
-            쪽지 보내기
-          </Tag>
-        </div>
-        <StackWrapper>
-          <div className="title">사용 스택</div>
-          <div className="stack-list">
-            {user.techList.map((stack) => (
-              <Stack key={stack.tech} tech={stack.tech} />
-            ))}
+  return user && !isError ? (
+    <>
+      <Head>
+        <title>{`Side Quest - ${user.name}`}</title>
+      </Head>
+      <GridBox>
+        <UserInfoContainer>
+          <div className="user-box">
+            <UserProfile user={user} />
+            <Tag
+              onClick={() => onChatCreate(Number(id))}
+              className="chat-create"
+            >
+              쪽지 보내기
+            </Tag>
           </div>
-        </StackWrapper>
-      </UserInfoContainer>
-      <ContentsContainer>
-        <UserDescription>
-          <ContentTitle>자기 소개란</ContentTitle>
-          <ContentBox>{user.aboutMe}</ContentBox>
-        </UserDescription>
-        <UserContentBox contentTitle={['프로젝트', '게시글']} />
-      </ContentsContainer>
-    </GridBox>
+          <StackWrapper>
+            <div className="title">사용 스택</div>
+            <div className="stack-list">
+              {user.techList.map((stack) => (
+                <Stack key={stack.tech} tech={stack.tech} />
+              ))}
+            </div>
+          </StackWrapper>
+        </UserInfoContainer>
+        <ContentsContainer>
+          <UserDescription>
+            <ContentTitle>자기 소개란</ContentTitle>
+            <ContentBox>{user.aboutMe}</ContentBox>
+          </UserDescription>
+          <UserContentBox contentTitle={['프로젝트', '게시글']} />
+        </ContentsContainer>
+      </GridBox>
+    </>
   ) : (
     <Message>존재하지 않는 사용자입니다.</Message>
   );
