@@ -15,6 +15,7 @@ import { useInfinityProject } from '@/hooks/react-query/project/useInfinityProje
 import { useAllData } from '@/hooks/react-query/useAllData';
 import { projectFilter } from '@/util/filter/projectFilter';
 import { useTopData } from '@/hooks/react-query/useTopData';
+import Custom404 from '@/components/Custom404';
 
 const ProjectHome = () => {
   const router = useRouter();
@@ -30,9 +31,9 @@ const ProjectHome = () => {
   const handleMouseLeave = () => {
     setIsHovered(false);
   };
-  
+
   const { topLikeProjectData } = useTopData();
-  
+
   //서버에서 필터링 작업이 완성되기 전, 눈속임을 위한 필터 데이터
   const [filter, setFilter] = useState<Filter>(0);
   const filterHandler = (idx: number) => {
@@ -78,8 +79,8 @@ const ProjectHome = () => {
     };
   }, [target.current, data?.pageParams]);
 
+  if (error) return <Custom404 />;
   if (isLoading) return <Message>로딩중입니다.</Message>;
-  if (error) return <Message>잠시 후 다시 시도해주세요.</Message>;
   if (data)
     return (
       <Box>

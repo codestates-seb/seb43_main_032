@@ -8,10 +8,11 @@ import { getCookie } from '@/util/cookie';
 import { useEffect } from 'react';
 import Tag from '@/components/Tag';
 import useUser from '@/hooks/react-query/user/useUser';
+import Custom404 from '@/components/Custom404';
 
 export default function me() {
   const {
-    getMyInfo: { data: user },
+    getMyInfo: { data: user, isError },
     getMyProjects: { data: projects },
   } = useUser({});
   const router = useRouter();
@@ -25,8 +26,7 @@ export default function me() {
     router.push('/users/me/edit');
   };
 
-  projects && console.log('projects', projects);
-
+  if (isError) return <Custom404 />;
   return (
     <>
       {user && (

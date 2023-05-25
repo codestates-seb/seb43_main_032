@@ -8,6 +8,7 @@ import { useTopData } from '@/hooks/react-query/useTopData';
 import { useState } from 'react';
 import UserCardBox from '@/components/card_box/UserCardBox';
 import UserItemSkeleton from '@/components/skeleton/UserItemSkeleton';
+import Custom404 from '@/components/Custom404';
 
 const Home = () => {
   const {
@@ -29,7 +30,7 @@ const Home = () => {
   };
   const community = [topViewCommunityData, topLikeCommunityData];
 
-  if (checkError) return <Message>잠시 후 다시 시도해주세요.</Message>;
+  if (checkError) return <Custom404 />;
   return (
     <Box>
       <ProjectCardBox

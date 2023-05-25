@@ -11,6 +11,7 @@ import { getCookie } from '@/util/cookie';
 import MainArticleBox from '../common_box/MainArticleBox';
 import { confirmAlert, errorAlert } from '../alert/Alert';
 import { postStar } from '@/util/api/postStar';
+import Custom404 from '../Custom404';
 
 // item 개별 페이지
 const ViewCommunity = () => {
@@ -55,8 +56,7 @@ const ViewCommunity = () => {
       deleteArticle.mutate()
     );
   };
-  if (communityQuery.error)
-    return <Message>잠시 후 다시 시도해주세요.</Message>;
+  if (communityQuery.error) return <Custom404 />;
   if (communityQuery.isLoading) return <Message>로딩중입니다.</Message>;
   return (
     <GridBox>

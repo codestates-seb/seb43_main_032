@@ -1,3 +1,4 @@
+import Custom404 from '@/components/Custom404';
 import Message from '@/components/Message';
 import Pagenation from '@/components/Pagenation';
 import ChatBox from '@/components/common_box/ChatBox';
@@ -9,7 +10,7 @@ import { useRecoilState } from 'recoil';
 
 import styled from 'styled-components';
 const Chat = () => {
-  const route = useRouter();
+  const router = useRouter();
   const [chat, setChat] = useRecoilState(chatState);
   const size = 10;
   const [page, setPage] = useState(1);
@@ -30,10 +31,10 @@ const Chat = () => {
     deleteChat.mutate(chatId);
   };
   const moveItem = (chatId: number) => {
-    route.push(`/chat/${chatId}`);
+    router.push(`/chat/${chatId}`);
   };
 
-  if (error) return <Message>잠시 후에 다시 시도해주세요.</Message>;
+  if (error) return <Custom404 />;
   if (isLoading) return <Message>로딩중입니다.</Message>;
   return (
     <ChatBox>

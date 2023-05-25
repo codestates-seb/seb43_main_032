@@ -7,6 +7,7 @@ import { POSITIONS } from '@/constant/constant';
 import useUser from '@/hooks/react-query/user/useUser';
 import Message from '@/components/Message';
 import { usersFilter } from '@/util/filter/usersFilter';
+import Custom404 from '@/components/Custom404';
 
 const Users = () => {
   const [inputValue, setInputValue] = useState<string>('');
@@ -14,7 +15,7 @@ const Users = () => {
   const [size, setSize] = useState<number>(24);
 
   const {
-    userQuery: { data: users, isLoading: allUserLoading },
+    userQuery: { data: users, isLoading: allUserLoading, isError },
   } = useUser({ userPage: page, userPageSize: size });
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -51,6 +52,7 @@ const Users = () => {
     }
   }, [inputValue]);
 
+  if (isError) return <Custom404 />;
   if (allUserLoading) return <Message>로딩중입니다.</Message>;
   return (
     <Wrapper>

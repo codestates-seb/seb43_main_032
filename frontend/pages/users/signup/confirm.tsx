@@ -1,3 +1,4 @@
+import Custom404 from '@/components/Custom404';
 import usePostApi from '@/hooks/usePostApi';
 import { useRouter } from 'next/router';
 import React, { useEffect } from 'react';
@@ -33,6 +34,7 @@ export default function confirm() {
     }
   }, [data]);
 
+  if (error) return <Custom404 />;
   return (
     <Wrapper>
       <Form onSubmit={handleSubmit(onValid, onInValid)}>
