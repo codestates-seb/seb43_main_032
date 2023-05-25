@@ -48,22 +48,13 @@ export default function me() {
                 <InfoContainer
                   keyNode={
                     <AvatarContainer style={{ width: '70px', height: '70px' }}>
-                      {user.profileImageUrl ? (
-                        <img alt={user.name} src={user.profileImageUrl} />
-                      ) : (
-                        <img
-                          alt={user.name}
-                          src="https://pbs.twimg.com/media/FmynZRjWYAgEEpL.jpg"
-                        />
-                      )}
+                      <img alt={user.name} src={user.profileImageUrl} />
                     </AvatarContainer>
                   }
                   contentNode={
                     <>
                       <p className="nanum-bold">{user.name}</p>
-                      {user.position && (
-                        <p className="noto-regular">{user.position}</p>
-                      )}
+                      <p className="noto-regular">{user.position}</p>
                     </>
                   }
                 />
