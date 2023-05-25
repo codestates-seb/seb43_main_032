@@ -93,9 +93,14 @@ const ProjectForm = () => {
     }
   };
 
-  // 해시태그 업데이트
   const addTag = (tag: string) => {
-    setTags([...tags, { field: tag }]);
+    // 중복 태그 확인
+    const isDuplicate = tags.some((t) => t.field === tag);
+    if (!isDuplicate) {
+      // 중복이 아닌 경우에만 태그 추가
+      return setTags([...tags, { field: tag }]);
+    }
+    return errorAlert('동일한 태그는 추가할 수 없습니다.', '태그 추가');
   };
 
   // 해시태그 삭제
