@@ -5,13 +5,18 @@ import Link from 'next/link';
 import Stack from '../stack/Stack';
 import { User } from '@/types/user';
 import Tag from '../Tag';
+import useUser from '@/hooks/react-query/user/useUser';
 interface IProps {
   user: User;
 }
 export default function UserCard({ user }: IProps) {
+  const {
+    getMyInfo: { data: me },
+  } = useUser({});
+  const path = me && me.memberId === user.memberId ? 'me' : user.memberId;
   return (
     <Group>
-      <Link href={`users/${user.memberId}`}>
+      <Link href={`users/${path}`}>
         <Wrapper>
           <Overlay />
           <CardWrapper>

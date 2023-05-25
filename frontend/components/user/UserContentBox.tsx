@@ -37,7 +37,7 @@ export default function UserContentBox({ contentTitle }: IProps) {
     if (lastUrl && !(lastUrl === 'me')) {
       setId(+lastUrl);
     } else {
-      setId(me.memberId);
+      me && setId(me.memberId);
     }
   }, [lastUrl, me]);
 
