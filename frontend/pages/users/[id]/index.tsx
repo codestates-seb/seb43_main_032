@@ -13,9 +13,10 @@ const UserPage = () => {
   const router = useRouter();
   const id = router.query.id;
   const {
-    getUserById: { data: user, isLoading },
+    getUserById: { data: user, isLoading, isError },
   } = useUser({ id: id ? +id : undefined });
 
+  if (isError) return router.push('/404');
   if (isLoading) return <Message>로딩중입니다.</Message>;
   return user && !isLoading ? (
     <GridBox>

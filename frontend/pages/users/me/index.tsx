@@ -11,7 +11,7 @@ import useUser from '@/hooks/react-query/user/useUser';
 
 export default function me() {
   const {
-    getMyInfo: { data: user },
+    getMyInfo: { data: user, isError },
     getMyProjects: { data: projects },
   } = useUser({});
   const router = useRouter();
@@ -25,8 +25,7 @@ export default function me() {
     router.push('/users/me/edit');
   };
 
-  projects && console.log('projects', projects);
-
+  if (isError) return router.push('/404');
   return (
     <>
       {user && (

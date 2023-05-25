@@ -9,8 +9,8 @@ import { useRecoilState } from 'recoil';
 
 import styled from 'styled-components';
 const Chat = () => {
-  const route = useRouter();
-  const [chat, setChat] = useRecoilState(chatState);
+  const router = useRouter();
+  const [, setChat] = useRecoilState(chatState);
   const size = 10;
   const [page, setPage] = useState(1);
   const { data, isLoading, error, refetch, deleteChat } = useGetChat({
@@ -30,10 +30,10 @@ const Chat = () => {
     deleteChat.mutate(chatId);
   };
   const moveItem = (chatId: number) => {
-    route.push(`/chat/${chatId}`);
+    router.push(`/chat/${chatId}`);
   };
 
-  if (error) return <Message>잠시 후에 다시 시도해주세요.</Message>;
+  if (error) return router.push('/404');
   if (isLoading) return <Message>로딩중입니다.</Message>;
   return (
     <ChatBox>

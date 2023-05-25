@@ -5,11 +5,11 @@ import ContentItem from './ContentItem';
 import { useRouter } from 'next/router';
 import Pagenation from '../Pagenation';
 import Filter from '../Filter';
-import Message from '../Message';
 import CommunityItemSkeleton from '../skeleton/CommunityItemSkeleton';
 import { ARTICLE_FILTER, POST_COMMUNITY_CATEGORY } from '@/constant/constant';
 import { communityFilter } from '@/util/filter/communityFilter';
 import { useAllData } from '@/hooks/react-query/useAllData';
+import Custom404 from '@/pages/404';
 
 export default function Content() {
   const router = useRouter();
@@ -60,7 +60,7 @@ export default function Content() {
   const pageSize = Math.ceil(filterData.length / 10);
   const viewData = filterData.slice((page - 1) * page_limit, page * page_limit);
 
-  if (communityError) return <Message>잠시 후 다시 시도해주세요.</Message>;
+  if (communityError) return <Custom404 />;
   return (
     <>
       <ContentTop>
