@@ -22,6 +22,8 @@ import { useRouter } from 'next/router';
 import { errorAlert } from '../alert/Alert';
 import { postStar } from '@/util/api/postStar';
 import SubBtn from '../button/SubBtn';
+import { useRecoilState } from 'recoil';
+import { viewMemberIdState } from '@/recoil/atom';
 
 const Editor = dynamic(() => import('@/components/editor/Editor'), {
   ssr: false,
@@ -62,6 +64,7 @@ const AnswerItem = ({
   articleRefetch,
   answerRefetch,
 }: Props) => {
+  const [viewMemberId] = useRecoilState(viewMemberIdState);
   const router = useRouter();
   //답글 수정 관련
   const [edit, setEdit] = useState(false);
@@ -179,7 +182,9 @@ const AnswerItem = ({
                       >
                         {answer.memberInfo.name}
                       </span>
-                      {answer.author && <Tag>작성자</Tag>}
+                      {Number(answer.memberInfo.memberId) === viewMemberId && (
+                        <Tag>작성자</Tag>
+                      )}
                     </div>
                     <div className="user-star">
                       <AiFillStar fill="rgb(255, 153, 0)" />

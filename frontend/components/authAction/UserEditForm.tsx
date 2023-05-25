@@ -32,12 +32,6 @@ export default function UserEditForm({ user }: { user: User }) {
   const [stacks, setStacks] = useState<Tech[]>(user.techList);
   const [filter, setFilter] = useState(index);
   const [submitLoading, setSubmitLoading] = useState(false);
-  const filterHandler = (idx: number) => {
-    if (filter === idx) {
-      return setFilter(-1); //다시 한 번 필터가 눌렸을 땐, 전체 카드가 조회되기위해
-    }
-    setFilter(idx);
-  };
   const router = useRouter();
 
   const onValid = async (data: any) => {
@@ -70,8 +64,13 @@ export default function UserEditForm({ user }: { user: User }) {
     }
   }, [image]);
 
+  const formEvent = (e: { preventDefault: () => void }) => {
+    e.preventDefault();
+    handleSubmit(onValid, onInValid);
+  };
+
   return (
-    <Form onSubmit={handleSubmit(onValid, onInValid)}>
+    <Form onSubmit={formEvent}>
       <ProfileBox>
         <ImgWrapper>
           <img src={imgPreview ? imgPreview : user.profileImageUrl} />
@@ -174,10 +173,7 @@ export default function UserEditForm({ user }: { user: User }) {
       <div className="textForm">
         <div className="stack">
           <Label>사용스택</Label>
-          <SelectStack //
-            stacks={stacks}
-            setStacks={setStacks}
-          />
+          <SelectStack type={'user'} stacks={stacks} setStacks={setStacks} />
         </div>
         <EditTextArea
           label="자기소개"

@@ -17,7 +17,9 @@ export default function oauth2() {
         'Bearer ' + accessTokenString.slice(startIndexOfAccessToken);
       setCookie('accessToken', accessToken, 120); // Set token in cookies
     }
-    router.replace('/');
+    router.push('/').then(() => {
+      router.reload();
+    });
   }, []);
 
   return null;

@@ -31,6 +31,8 @@ export const useAllData = () => {
     api('/members/find-all?size=1000&page=1').then((res) => res.data.data)
   );
 
+  const usersLength = userData?.length;
+
   return {
     projectData,
     projectLoading,
@@ -43,6 +45,7 @@ export const useAllData = () => {
     userData,
     userLoading,
     userError,
+    usersLength,
     userRefetch,
   };
 };

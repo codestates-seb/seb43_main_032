@@ -17,3 +17,7 @@ export const chatState = atom<Chat[]>({
   key: 'chatState',
   default: [],
 });
+export const viewMemberIdState = atom({
+  key: 'viewMemberIdState',
+  default: 0,
+});
