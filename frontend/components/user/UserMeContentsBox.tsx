@@ -30,7 +30,6 @@ export default function UserMeContentsBox({ contentTitle }: IProps) {
     answersData,
     communitiesData,
     isLoading,
-    isError,
   } = useMemberInfo();
 
   const getPageSize = () => {
@@ -59,7 +58,6 @@ export default function UserMeContentsBox({ contentTitle }: IProps) {
   const commentsFilterData = commentsData?.slice((page - 1) * 5, page * 5);
 
   if (isLoading) return <Message>로딩중입니다.</Message>;
-  if (isError) return <Message>잠시 후에 다시 시도해주세요.</Message>;;
   return (
     <Wrapper>
       <Category>
