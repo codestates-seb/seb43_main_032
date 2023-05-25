@@ -23,7 +23,7 @@ const UserCardBox = ({ data, skeleton }: Props) => {
       </div>
       <div className="users-box">
         {data?.map((user: MemberInfo) => (
-          <UserCard user={user} />
+          <UserCard key={user.memberId} user={user} />
         ))}
         {skeleton}
       </div>

@@ -27,7 +27,7 @@ const ApplyBox = ({ crewList, acceptEvent, rejectEvent }: Props) => {
         <div className="apply-list">
           <ul className="select-box">
             {crewList.map((crew) => (
-              <li className="crew">
+              <li key={crew.memberInfo.memberId} className="crew">
                 <div className="crew-profile">
                   <div className="img-box">
                     <img src={crew.memberInfo.profileImageUrl} alt="crew-img" />
