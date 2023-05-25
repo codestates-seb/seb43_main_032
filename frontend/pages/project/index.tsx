@@ -110,7 +110,7 @@ const ProjectHome = () => {
           </div>
           <ProjectCardBox
             title={
-              watch().search !== ''
+              watch().search !== '' && watch().search
                 ? `${watch().search}의 결과입니다.`
                 : '전체 프로젝트'
             }
