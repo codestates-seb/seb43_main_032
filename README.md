@@ -26,6 +26,8 @@
 <br>
 ####  이름 클릭 시 Github로 이동됩니다. 
 <br>
+
+
 | [신동민](https://github.com/shdomi8599)<br>(FE, 팀장)| [이혜나](https://github.com/hazellee0914)<br>(FE)| [최기랑](https://github.com/choigirang)<br>(FE)| [전준형](https://github.com/latemarch)<br>(FE)|
 |:----------------:|:----------------:|:----------------:|:----------------:|
 | <img src='https://github.com/codestates-seb/seb43_main_032/assets/118104644/4864d4d8-35fe-4ae7-8402-abb68495dd1c' width='100'> | <img src='https://github.com/codestates-seb/seb43_main_032/assets/118104644/30bf5eee-ddbd-4728-81f9-afbd78ed216d' width='100'/> | <img src='https://github.com/codestates-seb/seb43_main_032/assets/118104644/d42ebf0c-198f-491f-955f-ce5dc742df96' width='100'/> | <img src='https://github.com/codestates-seb/seb43_main_032/assets/118104644/dac454ab-2372-41ff-94e5-2b780478b8da' width='100'/> |
