@@ -71,12 +71,14 @@ const Container = styled.div<ContainerProps>`
     min-height: 100px;
     max-height: 150px;
 
-    ${(props) =>
-      props.isSignUpPage &&
-      `
+    @media (max-width: 640px) {
+      ${(props) =>
+        props.isSignUpPage &&
+        `
     height: 40vh;
     max-height: none;
   `}
+    }
   }
 
   /* Here we declare the SVG node that we wish to animate. */
