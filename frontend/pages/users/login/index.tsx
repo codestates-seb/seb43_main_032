@@ -38,10 +38,6 @@ const Wrapper = styled.div`
   height: calc(100% - 80px);
   display: flex;
   align-items: center;
-
-  @media (max-width: 960px) {
-    margin-top: 50px;
-  }
 `;
 const WrapperInset = styled.div`
   display: flex;

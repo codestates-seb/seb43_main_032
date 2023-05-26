@@ -1,9 +1,12 @@
+import { useRouter } from 'next/router';
 import React from 'react';
 import styled from 'styled-components';
 
 export default function LoginBg() {
+  const router = useRouter();
+  const isSignUpPage = router.route.includes('/signup');
   return (
-    <Container>
+    <Container isSignUpPage={isSignUpPage}>
       <svg
         className="css-waves"
         xmlns="http://www.w3.org/2000/svg"
@@ -49,7 +52,11 @@ export default function LoginBg() {
   );
 }
 
-const Container = styled.div`
+type ContainerProps = {
+  isSignUpPage: boolean;
+};
+
+const Container = styled.div<ContainerProps>`
   position: absolute;
   width: 100vw;
   height: 100%;
@@ -63,6 +70,15 @@ const Container = styled.div`
     height: 15vh;
     min-height: 100px;
     max-height: 150px;
+
+    @media (max-width: 640px) {
+      ${(props) =>
+        props.isSignUpPage &&
+        `
+    height: 40vh;
+    max-height: none;
+  `}
+    }
   }
 
   /* Here we declare the SVG node that we wish to animate. */
