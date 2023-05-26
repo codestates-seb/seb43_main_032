@@ -60,6 +60,9 @@ const Container = styled.div<ContainerProps>`
   overflow: hidden;
   margin: auto;
   background: ${({ router }) => BANNER_BACKGROUND_IMAGES[router] || ''};
+  @media (max-width: 768px) {
+    height: 460px;
+  }
 `;
 
 const Scene = styled.ul`
@@ -70,6 +73,9 @@ const Scene = styled.ul`
 const Layer = styled.li`
   height: 100%;
   width: 100%;
+  @media (max-width: 768px) {
+    display: none;
+  }
 `;
 
 const ImgBox = styled.div`
@@ -78,21 +84,9 @@ const ImgBox = styled.div`
   position: absolute;
   top: 50%;
   left: 50%;
+  @media (max-width: 768px) {
+    display: none;
+  }
 `;
 
 export default Banner;
-
-{
-  /* <Layer data-depth="1">
-<ImgBox src={checkSrc()[0]} alt="Space-BP" />
-</Layer>
-<Layer data-depth="-1">
-<ImgBox src={checkSrc()[1]} alt="Space-RP" />
-</Layer>
-<Layer data-depth="2">
-<ImgBox src={checkSrc()[2]} alt="Space-PP" />
-</Layer>
-<Layer data-depth="0.5">
-<ImgBox src={checkSrc()[3]} alt="Space-Meteors" />
-</Layer> */
-}
