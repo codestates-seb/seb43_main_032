@@ -4,11 +4,12 @@ import com.main_032.SideQuest.community.entity.Category;
 import lombok.Getter;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 
 @Getter
 public class LikesPostDto {
-    @NotBlank(message = "카테고리 입력하세요")
+    @NotNull(message = "카테고리 입력하세요")
     private Category category;
     private Long uniteId;
 }

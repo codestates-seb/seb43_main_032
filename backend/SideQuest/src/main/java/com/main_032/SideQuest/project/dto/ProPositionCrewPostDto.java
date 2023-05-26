@@ -7,7 +7,7 @@ import javax.validation.constraints.NotBlank;
 import java.util.List;
 @Getter
 public class ProPositionCrewPostDto {
-    @NotBlank(message = "직업군 입력하세요")
+    @NotBlank(message = "포지션 입력하세요")
     private List<String> positionList;
     @NotBlank(message = "인원 입력하세요")
     private List<Integer> positionNumberList;
