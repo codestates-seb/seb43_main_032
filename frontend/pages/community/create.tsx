@@ -4,6 +4,7 @@ import { getCookie } from '@/util/cookie';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
+import styled from 'styled-components';
 
 const CreateCommunity = () => {
   const router = useRouter();
@@ -15,13 +16,17 @@ const CreateCommunity = () => {
     }
   }, []);
   return (
-    <>
+    <Container>
       <Head>
         <title>{`SIDE QUEST - 커뮤니티 작성`}</title>
       </Head>
       <CommunityForm />;
-    </>
+    </Container>
   );
 };
 
 export default CreateCommunity;
+
+const Container = styled.div`
+  padding-top: 80px;
+`;

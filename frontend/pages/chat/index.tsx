@@ -44,7 +44,7 @@ const Chat = () => {
       <ChatBox>
         <Box>
           {chatData && chatData.length === 0 ? (
-            <Message>쪽지가 없어요</Message>
+            <Message className="msg">쪽지가 없어요.</Message>
           ) : (
             chatData &&
             chatData.map((chat) => (
@@ -83,6 +83,10 @@ const Box = styled.div`
   display: flex;
   flex-direction: column;
   gap: 10px;
+
+  .msg {
+    font-size: 18px;
+  }
 
   .chat-item {
     display: flex;
