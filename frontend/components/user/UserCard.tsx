@@ -33,7 +33,7 @@ export default function UserCard({ user }: IProps) {
                 <p style={{ fontWeight: '600' }}>{user.name}</p>
                 <LocationAndStars>
                   <Tag className="tag">
-                    <AiFillStar size={20} style={{ color: 'gold' }} />
+                    <AiFillStar size={16} style={{ color: 'gold' }} />
                     <p>{user.totalStar}</p>
                   </Tag>
                 </LocationAndStars>
@@ -46,9 +46,6 @@ export default function UserCard({ user }: IProps) {
                 ))}
             </StackWrapper>
           </SubCardWrapper>
-          <CardFooter>
-            <AboutMe>{user.aboutMe}</AboutMe>
-          </CardFooter>
         </CardWrapper>
       </Wrapper>
     </Group>
@@ -69,7 +66,7 @@ const Wrapper = styled.div`
 `;
 const Overlay = styled.div`
   position: absolute;
-  background-color: #f1f1f3;
+  background-color: #9880e9;
   opacity: 0;
   transition: transform 0.3s ease-out, opacity 0.3s ease-out;
   border-radius: 5px;
@@ -165,8 +162,9 @@ const LocationAndStars = styled.div`
     display: flex;
     align-items: center;
     gap: 4px;
-    background: #b5b5b5;
-    color: white;
+    background: none;
+    color: #171717;
+    border: solid 1px #ececec;
   }
 `;
 

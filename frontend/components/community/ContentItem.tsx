@@ -28,7 +28,7 @@ export default function ContentItem(article: Community) {
         <img src={article.memberInfo.profileImageUrl}></img>
         <div className="name-box">{article.memberInfo.name}</div>
         <div className="star-box">
-          <span>
+          <span className="icon">
             <FaStar color="#FF9900"></FaStar>
           </span>
           <span>{article.totalLikes > 1000 ? '99+' : article.totalLikes}</span>
@@ -92,7 +92,8 @@ const Container = styled.div`
   position: relative;
   overflow: hidden;
   cursor: pointer;
-  transition: all 2s ease-in-out;
+  transition: all 0.3s ease-in-out;
+  outline: 1px solid #ececec;
 
   :hover {
     outline: 3px solid #ca66fc;
@@ -136,15 +137,18 @@ const Left = styled.div`
   }
 
   .star-box {
-    border: solid 1px #ececec;
-    padding: 2px 5px;
+    padding-left: 10px;
     border-radius: 5px;
     min-width: 58px;
-    display: flex;
-    align-items: center;
+    .icon {
+      vertical-align: middle;
+    }
+
     > span:last-child {
-      flex: 1;
-      text-align: end;
+      font-size: 12px;
+      padding-left: 5px;
+      text-align: left;
+      vertical-align: middle;
     }
   }
 
@@ -233,8 +237,9 @@ const Right = styled.div`
     display: flex;
     align-items: center;
     span {
+      font-family: 'Pretendard';
       font-size: 14px;
-      font-weight: bold;
+      font-weight: 500;
       color: #5b5b5b;
     }
   }

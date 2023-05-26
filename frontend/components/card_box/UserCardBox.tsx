@@ -14,11 +14,8 @@ const UserCardBox = ({ data, skeleton }: Props) => {
     <Box>
       <div className="nanum-bold">
         <div className="title-box">
-          <div>
-            <AiFillStar size={20} style={{ color: 'gold' }} />
-            명예의 전당
-            <AiFillStar size={20} style={{ color: 'gold' }} />
-          </div>
+          <span className="sub-title">BEST</span>
+          <div>명예의 전당</div>
         </div>
       </div>
       <div className="users-box">
@@ -34,7 +31,7 @@ const UserCardBox = ({ data, skeleton }: Props) => {
 export default UserCardBox;
 
 const Box = styled.div`
-  margin-bottom: 40px;
+  margin: 40px 0;
   > .nanum-bold {
     display: flex;
     justify-content: space-between;
@@ -44,6 +41,11 @@ const Box = styled.div`
       display: flex;
       flex-direction: column;
       width: 100%;
+      .sub-title {
+        font-size: 14px;
+        color: red;
+      }
+
       > div {
         display: flex;
         align-items: center;

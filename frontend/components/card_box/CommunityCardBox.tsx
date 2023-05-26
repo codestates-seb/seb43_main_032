@@ -57,20 +57,14 @@ const Box = styled.div`
     color: #000000;
     margin-bottom: 26px;
   }
-  .bottom {
-    background-image: linear-gradient(135deg, #ce9ffc 10%, #7367f0 100%);
-    padding: 10px 20px 30px;
-    border-radius: 10px;
-  }
   .focus {
     background: #6333ff;
   }
   .filter-box {
     display: flex;
-    margin: 20px 0px;
-    gap: 8px;
+    margin: 10px 0px;
+    gap: 4px;
     font-size: 16px;
-    padding: 0 20px;
   }
   .community-box {
     display: grid;
@@ -79,7 +73,6 @@ const Box = styled.div`
     justify-content: center;
     align-items: center;
     gap: 8px;
-    padding: 0 20px;
     > div {
       //컨텐츠 아이템 박스 섀도우
       box-shadow: none;

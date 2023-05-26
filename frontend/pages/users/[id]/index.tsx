@@ -17,6 +17,8 @@ const UserPage = () => {
     getUserById: { data: user, isLoading, isError },
   } = useUser({ id: id ? +id : undefined });
 
+  console.log(user?.aboutMe);
+
   if (isLoading) return <Message>로딩중입니다.</Message>;
   return user && !isError ? (
     <>
@@ -37,16 +39,22 @@ const UserPage = () => {
           <StackWrapper>
             <div className="title">사용 스택</div>
             <div className="stack-list">
-              {user.techList.map((stack) => (
-                <Stack key={stack.tech} tech={stack.tech} />
-              ))}
+              {user.techList.length ? (
+                user.techList.map((stack) => (
+                  <Stack key={stack.tech} tech={stack.tech} />
+                ))
+              ) : (
+                <span className="none-msg">선택된 스택이 없습니다.</span>
+              )}
             </div>
           </StackWrapper>
         </UserInfoContainer>
         <ContentsContainer>
           <UserDescription>
             <ContentTitle>자기 소개란</ContentTitle>
-            <ContentBox>{user.aboutMe}</ContentBox>
+            <ContentBox>
+              {!user.aboutMe ? '작성된 인사말이 없습니다.' : user.aboutMe}
+            </ContentBox>
           </UserDescription>
           <UserContentBox contentTitle={['프로젝트', '게시글']} />
         </ContentsContainer>
@@ -68,6 +76,7 @@ const UserInfoContainer = styled.div`
 
   .chat-create {
     cursor: pointer;
+    padding: 10px;
   }
   .user-box {
     display: flex;
@@ -140,5 +149,10 @@ const StackWrapper = styled.div.attrs({})`
     flex-wrap: wrap;
     display: flex;
     gap: 8px;
+
+    .none-msg {
+      font-size: 14px;
+      color: #b9b9b9;
+    }
   }
 `;
