@@ -13,7 +13,7 @@ export default function Edit() {
   return (
     <>
       <Head>
-        <title>{`Side Quest - 나의 정보 수정`}</title>
+        <title>{`SIDE QUEST - 나의 정보 수정`}</title>
       </Head>
       <Wrapper>{user && <UserEditForm user={user} />}</Wrapper>;
     </>

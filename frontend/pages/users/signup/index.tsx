@@ -8,7 +8,7 @@ const SignUp = () => {
   return (
     <>
       <Head>
-        <title>{`Side Quest - 회원가입`}</title>
+        <title>{`SIDE QUEST - 회원가입`}</title>
       </Head>
       <Wrapper>
         <WrapperInset>
@@ -38,6 +38,9 @@ const Wrapper = styled.div`
   height: calc(100% - 80px);
   display: flex;
   align-items: center;
+  @media (max-width: 960px) {
+    margin-top: 50px;
+  }
 `;
 const WrapperInset = styled.div`
   display: flex;
@@ -47,6 +50,10 @@ const WrapperInset = styled.div`
   border-radius: 15px;
   justify-content: space-around;
   margin-top: 3%;
+  @media (max-width: 960px) {
+    flex-direction: column;
+    gap: 40px;
+  }
 `;
 const Contents = styled.div`
   display: flex;
@@ -54,10 +61,22 @@ const Contents = styled.div`
   align-items: center;
   width: 40%;
   height: 100%;
+  @media (max-width: 960px) {
+    width: 100%;
+    justify-content: center;
+    > div {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+  }
 
   img {
     width: 100%;
     opacity: 0.9;
+    @media (max-width: 960px) {
+      display: none;
+    }
   }
 `;
 const TextBox = styled.div`

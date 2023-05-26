@@ -39,7 +39,7 @@ const Chat = () => {
   return (
     <>
       <Head>
-        <title>{`Side Quest - 쪽지함`}</title>
+        <title>{`SIDE QUEST - 쪽지함`}</title>
       </Head>
       <ChatBox>
         <Box>

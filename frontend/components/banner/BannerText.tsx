@@ -91,4 +91,7 @@ const Text = styled.text<TextProps>`
   font-weight: 700;
   stroke-width: 5;
   animation: ${strokeAnimation} 5s infinite alternate;
+  @media (max-width: 768px) {
+    font-size: 40px;
+  }
 `;

@@ -17,7 +17,7 @@ const CreateProject = () => {
   return (
     <>
       <Head>
-        <title>{`Side Quest - 프로젝트 작성`}</title>
+        <title>{`SIDE QUEST - 프로젝트 작성`}</title>
       </Head>
       <ProjectForm />;
     </>
