@@ -11,6 +11,7 @@ const GridBox = (props: Props) => {
 export default GridBox;
 
 const Box = styled.div`
+  margin-top: 10px;
   position: relative;
   width: 100%;
   display: grid;
@@ -20,5 +21,6 @@ const Box = styled.div`
   @media (max-width: 960px) {
     display: flex;
     flex-direction: column;
+    padding: 0px 8px;
   }
 `;
