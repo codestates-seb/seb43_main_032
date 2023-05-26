@@ -14,6 +14,7 @@ import { useProjectApply } from '@/hooks/react-query/project/useProjectApply';
 import Tag from '@/components/Tag';
 import { useRecoilValue } from 'recoil';
 import { loggedInUserState } from '@/recoil/atom';
+import { loggedInUserId } from '@/recoil/selector';
 import ApplyBox from '@/components/common_box/ApplyBox';
 import SubBtn from '@/components/button/SubBtn';
 import { errorAlert } from '@/components/alert/Alert';
@@ -21,10 +22,12 @@ import { postStar } from '@/util/api/postStar';
 import ReviewBox from '@/components/common_box/ReviewBox';
 import { useRouter } from 'next/router';
 import Head from 'next/head';
+import { api } from '@/util/api';
 
 const ViewProject = () => {
   const router = useRouter();
   const loggedInUser = useRecoilValue(loggedInUserState);
+  const userId = useRecoilValue(loggedInUserId);
   //프로젝트 데이터 요청
   const {
     projectQuery,
@@ -107,6 +110,24 @@ const ViewProject = () => {
     }
   };
 
+  const applyChatEvent = (position: string) => {
+    applyEvent(position);
+    api.post(`/chat/send`, {
+      content: `'${data?.title}' 프로젝트에 지원합니다.`,
+      receiverMemberId: Number(userId),
+      title: '프로젝트 지원',
+    });
+  };
+
+  const acceptedCancleChatEvent = (position: string) => {
+    acceptedCancleEvent(position);
+    api.post(`/chat/send`, {
+      content: `'${data?.title}' 프로젝트 확정을 취소합니다.`,
+      receiverMemberId: Number(userId),
+      title: '프로젝트 확정 취소',
+    });
+  };
+
   if (projectQuery.error) return router.push('/404');
   if (projectQuery.isLoading || !data || !applyQuery.data)
     return <Message>로딩중입니다.</Message>;
@@ -155,7 +176,9 @@ const ViewProject = () => {
                       {acceptedPostion &&
                       acceptedPostion.position === position.position ? (
                         <Tag
-                          onClick={() => acceptedCancleEvent(position.position)}
+                          onClick={() =>
+                            acceptedCancleChatEvent(position.position)
+                          }
                           onMouseEnter={hoverHandler}
                           onMouseLeave={hoverHandler}
                         >
@@ -168,7 +191,7 @@ const ViewProject = () => {
                           취소
                         </Tag>
                       ) : (
-                        <Tag onClick={() => applyEvent(position.position)}>
+                        <Tag onClick={() => applyChatEvent(position.position)}>
                           지원
                         </Tag>
                       )}
