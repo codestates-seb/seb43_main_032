@@ -78,6 +78,16 @@
 - 패키징 구조와 네이밍 규칙을 팀원과 맞춰서 정한다.
 - GitHub Issues 탭에 기능별 구현 내용과 일정을 수시로 업데이트 한다.
 
+<br/>
+
+## :memo: Documents
+
+### [Wireframe](https://www.figma.com/file/f68G9komxutxLpzgoQErYX/Untitled?type=design&node-id=0%3A1&t=i2h4C695ZwyHsOql-1)
+### [사용자 요구사항 정의서](https://docs.google.com/spreadsheets/d/1SxYXT7o37-ICuoXmXbSoina5ieKjYSBlpjT-MZC7Dws/edit#gid=0)
+### [API 문서](https://www.side-quest-1.com/swagger-ui.html)
+### [ERD 문서](https://dbdiagram.io/d/6451e406dca9fb07c467d156)
+
+
 <br>
 
 ## ✨Git Commit & PR Message
