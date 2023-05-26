@@ -114,7 +114,7 @@ const ViewProject = () => {
     applyEvent(position);
     api.post(`/chat/send`, {
       content: `'${data?.title}' 프로젝트에 지원합니다.`,
-      receiverMemberId: Number(userId),
+      receiverMemberId: Number(data?.memberInfo.memberId),
       title: '프로젝트 지원',
     });
   };
@@ -123,7 +123,7 @@ const ViewProject = () => {
     acceptedCancleEvent(position);
     api.post(`/chat/send`, {
       content: `'${data?.title}' 프로젝트 확정을 취소합니다.`,
-      receiverMemberId: Number(userId),
+      receiverMemberId: Number(data?.memberInfo.memberId),
       title: '프로젝트 확정 취소',
     });
   };
