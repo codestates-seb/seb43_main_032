@@ -95,10 +95,10 @@ const Container = styled.div`
     }
   }
   /* Mobile Optimization */
-  @media (max-width: 768px) {
+  /* @media (max-width: 768px) {
     .css-waves {
       height: 40px;
       min-height: 40px;
     }
-  }
+  } */
 `;

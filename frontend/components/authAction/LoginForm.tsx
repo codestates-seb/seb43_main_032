@@ -76,6 +76,10 @@ const LogoBox = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  @media (max-width: 960px) {
+    margin-top: 30px;
+    margin-bottom: 20px;
+  }
 `;
 const Form = styled.form`
   position: relative;

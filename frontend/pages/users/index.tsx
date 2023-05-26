@@ -14,7 +14,6 @@ const Users = () => {
   const [inputValue, setInputValue] = useState<string>('');
   const [page, setPage] = useState<number>(1);
   const [size, setSize] = useState<number>(24);
-
   const { usersLength } = useAllData();
 
   const {
