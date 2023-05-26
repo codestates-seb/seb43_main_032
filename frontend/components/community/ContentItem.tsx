@@ -131,6 +131,10 @@ const Left = styled.div`
   justify-content: space-between;
   align-items: center;
 
+  @media (max-width: 768px) {
+    display: none;
+  }
+
   .star-box {
     border: solid 1px #ececec;
     padding: 2px 5px;
@@ -166,10 +170,13 @@ const Center = styled.div`
   flex-direction: column;
   justify-content: space-between;
   padding: 10px 0px;
-  width: 70%;
+  width: 80%;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  @media (max-width: 768px) {
+    width: 90%;
+  }
 
   > .tagBox {
     width: 100%;
@@ -207,6 +214,7 @@ const Right = styled.div`
   flex-direction: column;
   justify-content: start;
   align-items: end;
+  min-width: 60px;
 
   button {
     min-width: 60px;
