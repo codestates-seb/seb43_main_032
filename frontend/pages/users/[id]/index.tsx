@@ -38,7 +38,7 @@ const UserPage = () => {
       <ContentsContainer>
         <UserDescription>
           <ContentTitle>자기 소개란</ContentTitle>
-          <ContentBox>asdasd</ContentBox>
+          <ContentBox></ContentBox>
         </UserDescription>
         <UserContentBox contentTitle={['프로젝트', '게시글']} />
       </ContentsContainer>
