@@ -17,7 +17,7 @@ const EditCommunity = () => {
   return (
     <>
       <Head>
-        <title>{`Side Quest - 커뮤니티 수정`}</title>
+        <title>{`SIDE QUEST - 커뮤니티 수정`}</title>
       </Head>
       <CommunityForm />;
     </>

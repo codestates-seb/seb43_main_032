@@ -14,7 +14,6 @@ const Users = () => {
   const [inputValue, setInputValue] = useState<string>('');
   const [page, setPage] = useState<number>(1);
   const [size, setSize] = useState<number>(24);
-
   const { usersLength } = useAllData();
 
   const {
@@ -38,8 +37,6 @@ const Users = () => {
           ? Math.ceil(usersLength / 24)
           : filterData?.length > 0
           ? Math.ceil(filterData?.length / 24)
-          : filter === -1 && inputValue === ''
-          ? usersLength
           : Math.ceil(size / 24);
       return pageSize;
     }
@@ -56,6 +53,7 @@ const Users = () => {
       return setFilter(-1); //다시 한 번 필터가 눌렸을 땐, 전체 카드가 조회되기위해
     }
     setFilter(idx);
+    setPage(1);
   };
 
   useEffect(() => {
@@ -69,7 +67,7 @@ const Users = () => {
   return (
     <>
       <Head>
-        <title>{`Side Quest - 유저`}</title>
+        <title>{`SIDE QUEST - 유저`}</title>
       </Head>
       <Wrapper>
         <SearchHeader>
@@ -141,9 +139,8 @@ const SubHeader = styled.div`
   padding-bottom: 20px;
   justify-content: space-between;
 
-  @media (max-width: 768px) {
+  @media (max-width: 960px) {
     flex-direction: column;
-    align-items: flex-end;
     gap: 20px;
   }
 `;
@@ -169,7 +166,7 @@ const SearchBox = styled.div`
     }
   }
 
-  @media (max-width: 768px) {
+  @media (max-width: 960px) {
     width: 100%;
   }
 `;
@@ -187,6 +184,17 @@ const FilterBox = styled.div`
   height: 100%;
   width: 80%;
   gap: 8px;
+  @media (max-width: 768px) {
+    flex-wrap: wrap;
+    justify-content: space-between;
+
+    > button {
+      width: calc(50% - 8px);
+    }
+  }
+  @media (max-width: 960px) {
+    width: 100%;
+  }
 `;
 
 //필터 버튼 props
@@ -212,7 +220,7 @@ export const FilterButton = styled.button<FilterButtonProps>`
 `;
 const CardWrapper = styled.div`
   display: grid;
-  min-height: 65.5vh;
+  min-height: 70vh;
   width: 100%;
   gap: 10px;
   margin-bottom: 50px;

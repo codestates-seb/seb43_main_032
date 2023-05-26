@@ -37,11 +37,15 @@ const Container = styled.div<BannerProps>`
   position: relative;
   width: 100%;
   height: 660px;
+
+  @media (max-width: 768px) {
+    height: 460px;
+  }
 `;
 
 const TitleBox = styled.div`
   position: absolute;
-  top: 50%;
+  top: 60%;
   left: 50%;
   transform: translate(-50%, -50%);
   color: white;
@@ -55,4 +59,7 @@ const TitleBox = styled.div`
   flex-direction: column;
   gap: 10px;
   width: 100%;
+  @media (max-width: 768px) {
+    font-size: 23px;
+  }
 `;

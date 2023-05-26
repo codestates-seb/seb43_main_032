@@ -8,8 +8,6 @@ import styled from 'styled-components';
 import LoginForm from './LoginForm';
 import SignUpForm from './SignUpForm';
 import { useRouter } from 'next/router';
-import axios from 'axios';
-import { api } from '@/util/api';
 
 type AuthBtn = {
   provider: string;
@@ -87,6 +85,9 @@ const LoginWrapper = styled.div`
   border: 2px solid rgba(255, 255, 255, 0.5);
   border-right: 1px solid rgba(255, 255, 255, 0.2);
   border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  @media (max-width: 640px) {
+    min-width: 360px;
+  }
 `;
 const LoginContainer = styled.div`
   width: 80%;

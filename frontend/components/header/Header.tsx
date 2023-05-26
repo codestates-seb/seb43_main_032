@@ -20,7 +20,7 @@ const Header = () => {
   const router = useRouter();
 
   //로그인한 유저의 데이터 상태
-  const [loggedInUser, setLoggedInUser] = useRecoilState(loggedInUserState);
+  const [, setLoggedInUser] = useRecoilState(loggedInUserState);
   //로그아웃
   const logout = () => {
     deleteCookie('accessToken');
@@ -77,7 +77,7 @@ const Header = () => {
   return (
     <>
       <Nav nav={nav} isScrolled={isScrolled}>
-        <NavLink href="/">
+        <NavLink onClick={() => setNav(false)} href="/">
           <Image src={isScrolled ? logoWhite : logo} alt="logo" />
         </NavLink>
         <div className="bars-box">

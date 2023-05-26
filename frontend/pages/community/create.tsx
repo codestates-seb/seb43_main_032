@@ -17,7 +17,7 @@ const CreateCommunity = () => {
   return (
     <>
       <Head>
-        <title>{`Side Quest - 커뮤니티 작성`}</title>
+        <title>{`SIDE QUEST - 커뮤니티 작성`}</title>
       </Head>
       <CommunityForm />;
     </>

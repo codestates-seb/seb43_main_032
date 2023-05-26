@@ -17,7 +17,7 @@ const EditProject = () => {
   return (
     <>
       <Head>
-        <title>{`Side Quest - 프로젝트 수정`}</title>
+        <title>{`SIDE QUEST - 프로젝트 수정`}</title>
       </Head>
       <ProjectForm />;
     </>

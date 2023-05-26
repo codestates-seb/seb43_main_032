@@ -37,7 +37,7 @@ export default function confirm() {
   return (
     <>
       <Head>
-        <title>{`Side Quest - 회원가입`}</title>
+        <title>{`SIDE QUEST - 회원가입`}</title>
       </Head>
       <Wrapper>
         <Form onSubmit={handleSubmit(onValid, onInValid)}>
