@@ -50,7 +50,12 @@ const Home = () => {
         <CommunityCardBox
           skeleton={
             topViewcommunityQuery.isLoading && (
-              <CommunityItemSkeleton width="100%" gap="8px" count={5} />
+              <CommunityItemSkeleton
+                isHome={true}
+                width="100%"
+                gap="8px"
+                count={5}
+              />
             )
           }
           filterHandler={filterHandler}
