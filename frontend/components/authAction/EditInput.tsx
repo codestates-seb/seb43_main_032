@@ -6,6 +6,7 @@ interface EditInputProps {
 }
 
 const EditInput: React.FC<EditInputProps> = ({
+  maxLength,
   type,
   label,
   error,
@@ -27,6 +28,7 @@ const EditInput: React.FC<EditInputProps> = ({
         <Input
           {...rest.register}
           type={type}
+          maxLength={maxLength}
           placeholder={placeholder}
           style={{ height: label === 'About Me' ? '150px' : '' }}
         />
