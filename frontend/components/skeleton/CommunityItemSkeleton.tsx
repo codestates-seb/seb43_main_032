@@ -5,7 +5,7 @@ type Props = {
   count: number;
   gap: string;
   width: string;
-  isHome: boolean;
+  isHome?: boolean;
 };
 
 const CommunityItemSkeleton = ({ isHome, width, gap, count }: Props) => {
