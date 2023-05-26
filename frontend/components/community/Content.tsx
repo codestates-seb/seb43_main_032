@@ -86,7 +86,7 @@ export default function Content() {
       </ContentTop>
       <ContentBottom>
         {communityLoading ? (
-          <CommunityItemSkeleton count={10} />
+          <CommunityItemSkeleton width="90%" gap="20px" count={10} />
         ) : (
           <ContentItemList>
             {viewData.map((article: Community) => (
