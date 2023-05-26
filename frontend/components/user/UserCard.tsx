@@ -27,14 +27,7 @@ export default function UserCard({ user }: IProps) {
           <SubCardWrapper>
             <ContentsContainer>
               <AvatarContainer>
-                {user.profileImageUrl ? (
-                  <img alt={user.name} src={user.profileImageUrl} />
-                ) : (
-                  <img
-                    alt={user.name}
-                    src="https://pbs.twimg.com/media/FmynZRjWYAgEEpL.jpg"
-                  />
-                )}
+                <img alt={user.name} src={user.profileImageUrl} />
               </AvatarContainer>
               <InfoContainer>
                 <p style={{ fontWeight: '600' }}>{user.name}</p>
