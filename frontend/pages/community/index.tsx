@@ -6,7 +6,7 @@ const Community = () => {
   return (
     <>
       <Head>
-        <title>{`Side Quest - 커뮤니티`}</title>
+        <title>{`SIDE QUEST - 커뮤니티`}</title>
       </Head>
       <Box>
         <Content />

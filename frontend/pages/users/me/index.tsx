@@ -31,7 +31,7 @@ export default function me() {
   return (
     <>
       <Head>
-        <title>{`Side Quest - 마이페이지`}</title>
+        <title>{`SIDE QUEST - 마이페이지`}</title>
       </Head>
       {user && (
         <GridBox>

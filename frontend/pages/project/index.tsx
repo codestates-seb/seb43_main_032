@@ -85,7 +85,7 @@ const ProjectHome = () => {
     return (
       <>
         <Head>
-          <title>{`Side Quest - 프로젝트`}</title>
+          <title>{`SIDE QUEST - 프로젝트`}</title>
         </Head>
         <Box>
           <div className="special-box">

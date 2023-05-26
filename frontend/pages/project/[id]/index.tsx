@@ -113,7 +113,7 @@ const ViewProject = () => {
   return (
     <>
       <Head>
-        <title>{`Side Quest - ${data.title}`}</title>
+        <title>{`SIDE QUEST - ${data.title}`}</title>
       </Head>
       <GridBox>
         <Side>

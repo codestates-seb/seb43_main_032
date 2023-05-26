@@ -38,8 +38,6 @@ const Users = () => {
           ? Math.ceil(usersLength / 24)
           : filterData?.length > 0
           ? Math.ceil(filterData?.length / 24)
-          : filter === -1 && inputValue === ''
-          ? usersLength
           : Math.ceil(size / 24);
       return pageSize;
     }
@@ -69,7 +67,7 @@ const Users = () => {
   return (
     <>
       <Head>
-        <title>{`Side Quest - 유저`}</title>
+        <title>{`SIDE QUEST - 유저`}</title>
       </Head>
       <Wrapper>
         <SearchHeader>

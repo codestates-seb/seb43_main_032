@@ -40,7 +40,7 @@ const Custom404 = () => {
   return (
     <>
       <Head>
-        <title>Side Quest - 404</title>
+        <title>SIDE QUEST - 404</title>
       </Head>
       <Box>
         <div className="star-box">

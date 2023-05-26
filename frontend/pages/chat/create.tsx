@@ -43,7 +43,7 @@ const ChatCreate = () => {
   return (
     <>
       <Head>
-        <title>{`Side Quest - 쪽지 작성`}</title>
+        <title>{`SIDE QUEST - 쪽지 작성`}</title>
       </Head>
       <ChatBox type={'create'}>
         <Box>

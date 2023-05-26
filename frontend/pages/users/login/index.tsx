@@ -8,7 +8,7 @@ const Login = () => {
   return (
     <>
       <Head>
-        <title>{`Side Quest - 로그인`}</title>
+        <title>{`SIDE QUEST - 로그인`}</title>
       </Head>
       <Wrapper>
         <WrapperInset>

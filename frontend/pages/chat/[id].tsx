@@ -17,7 +17,7 @@ const ChatItem = () => {
   };
   return (
     <>
-      <Head>{item && <title>{`Side Quest - ${item.title}`}</title>}</Head>
+      <Head>{item && <title>{`SIDE QUEST - ${item.title}`}</title>}</Head>
       <ChatBox>
         <Box>
           {item && (

@@ -9,7 +9,7 @@ const aboutPage = () => {
   return (
     <>
       <Head>
-        <title>Side Quest - 소개</title>
+        <title>SIDE QUEST - 소개</title>
       </Head>
       <Container>
         <Background className="bg" />

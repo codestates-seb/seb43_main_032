@@ -21,7 +21,7 @@ const UserPage = () => {
   return user && !isError ? (
     <>
       <Head>
-        <title>{`Side Quest - ${user.name}`}</title>
+        <title>{`SIDE QUEST - ${user.name}`}</title>
       </Head>
       <GridBox>
         <UserInfoContainer>

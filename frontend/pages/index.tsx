@@ -34,7 +34,7 @@ const Home = () => {
   return (
     <>
       <Head>
-        <title>Side Quest</title>
+        <title>SIDE QUEST</title>
       </Head>
       <Box>
         <ProjectCardBox
