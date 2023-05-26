@@ -4,9 +4,8 @@ import styled from 'styled-components';
 
 export default function LoginBg() {
   const router = useRouter();
-  const isSignUpPage = router.route.includes('/signup');
   return (
-    <Container isSignUpPage={isSignUpPage}>
+    <Container >
       <svg
         className="css-waves"
         xmlns="http://www.w3.org/2000/svg"
@@ -52,11 +51,7 @@ export default function LoginBg() {
   );
 }
 
-type ContainerProps = {
-  isSignUpPage: boolean;
-};
-
-const Container = styled.div<ContainerProps>`
+const Container = styled.div`
   position: absolute;
   width: 100vw;
   height: 100%;
@@ -72,12 +67,8 @@ const Container = styled.div<ContainerProps>`
     max-height: 150px;
 
     @media (max-width: 640px) {
-      ${(props) =>
-        props.isSignUpPage &&
-        `
-    height: 40vh;
-    max-height: none;
-  `}
+      height: 40vh;
+      max-height: none;
     }
   }
 
