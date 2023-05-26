@@ -1,10 +1,9 @@
 import Pagenation from '@/components/Pagenation';
 import UserCard from '@/components/user/UserCard';
-import { ChangeEvent, useEffect, useState } from 'react';
+import { ChangeEvent, useState } from 'react';
 import styled from 'styled-components';
 import { BiSearch } from 'react-icons/bi';
 import { POSITIONS } from '@/constant/constant';
-import useUser from '@/hooks/react-query/user/useUser';
 import Message from '@/components/Message';
 import { useAllData } from '@/hooks/react-query/useAllData';
 import { usersFilter } from '@/util/filter/usersFilter';
@@ -13,12 +12,7 @@ import Head from 'next/head';
 const Users = () => {
   const [inputValue, setInputValue] = useState<string>('');
   const [page, setPage] = useState<number>(1);
-  const [size, setSize] = useState<number>(24);
-  const { usersLength } = useAllData();
-
-  const {
-    userQuery: { data: users, isLoading: allUserLoading, isError },
-  } = useUser({ userPage: page, userPageSize: size });
+  const { userData, userLoading, userError, userRefetch } = useAllData();
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     setInputValue(e.target.value);
@@ -28,25 +22,10 @@ const Users = () => {
   const [filter, setFilter] = useState(-1);
 
   //필터링된 데이터
-  let filterData = usersFilter(users, filter, inputValue);
-
-  const setPageSize = () => {
-    if (usersLength && filterData) {
-      const pageSize =
-        filter === -1 && inputValue === ''
-          ? Math.ceil(usersLength / 24)
-          : filterData?.length > 0
-          ? Math.ceil(filterData?.length / 24)
-          : Math.ceil(size / 24);
-      return pageSize;
-    }
-  };
+  let filterData = usersFilter(userData, filter, inputValue);
 
   //실제 보여지는 필터 데이터
-  const viewFilterData =
-    filter === -1 && inputValue === ''
-      ? users
-      : filterData?.slice((page - 1) * 24, page * 24);
+  const viewFilterData = filterData?.slice((page - 1) * 24, page * 24);
 
   const filterHandler = (idx: number) => {
     if (filter === idx) {
@@ -56,14 +35,8 @@ const Users = () => {
     setPage(1);
   };
 
-  useEffect(() => {
-    if (filter === -1 && inputValue !== '') {
-      setSize(1000);
-    }
-  }, [inputValue]);
-
-  if (isError) return <Message>잠시 후에 다시 시도해주세요.</Message>;
-  if (allUserLoading) return <Message>로딩중입니다.</Message>;
+  if (userError) return <Message>잠시 후에 다시 시도해주세요.</Message>;
+  if (userLoading) return <Message>로딩중입니다.</Message>;
   return (
     <>
       <Head>
@@ -105,7 +78,7 @@ const Users = () => {
             ))}
         </CardWrapper>
         <Pagenation
-          pageSize={setPageSize() ? setPageSize()! : 0}
+          pageSize={filterData ? Math.ceil(filterData.length / 24) : 0}
           page={page}
           onPageChange={setPage}
         />
