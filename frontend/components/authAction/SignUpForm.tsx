@@ -128,8 +128,3 @@ const Submit = styled.input`
     color: #8217f3;
   }
 `;
-const ErrMsg = styled.p`
-  color: #ffffff;
-  font-size: 12px;
-  margin-bottom: 4px;
-`;
