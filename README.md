@@ -93,10 +93,11 @@
 
 ## :memo: Documents
 
-### <a href="https://www.figma.com/file/f68G9komxutxLpzgoQErYX/Untitled?type=design&node-id=0%3A1&t=i2h4C695ZwyHsOql-1" target="blank">Wireframe</a>
-### [사용자 요구사항 정의서](https://docs.google.com/spreadsheets/d/1SxYXT7o37-ICuoXmXbSoina5ieKjYSBlpjT-MZC7Dws/edit#gid=0)
-### [API 문서](https://www.side-quest-1.com/swagger-ui.html)
-### [ERD 문서](https://dbdiagram.io/d/6451e406dca9fb07c467d156)
+### <a href="https://www.figma.com/file/f68G9komxutxLpzgoQErYX/Untitled?type=design&node-id=0%3A1&t=i2h4C695ZwyHsOql-1" target='_blank'>Wireframe</a>
+### <a href="https://docs.google.com/spreadsheets/d/1SxYXT7o37-ICuoXmXbSoina5ieKjYSBlpjT-MZC7Dws/edit#gid=0" target="_blank">사용자 요구사항 정의서</a>
+### <a href="https://www.side-quest-1.com/swagger-ui.html" target="_blank">API 문서</a>
+### <a href="https://dbdiagram.io/d/6451e406dca9fb07c467d156" target="_blank">ERD 문서</a>
+
 
 
 <br>
