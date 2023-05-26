@@ -67,7 +67,10 @@ export default function me() {
                   keyNode={'자기소개'}
                   contentNode={user.aboutMe}
                 />
-                <InfoContainer keyNode={'휴대전화'} contentNode={user.phone} />
+                <InfoContainer
+                  keyNode={'휴대전화'}
+                  contentNode={`${user.phone.slice(0, 9)}****`}
+                />
                 <InfoContainer
                   keyNode={'이메일'}
                   contentNode={user.email}
