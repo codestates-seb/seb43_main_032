@@ -1,7 +1,7 @@
 <h4 align="center">다양한 색을 가진 사람들이 모여 만드는 특별한 프로젝트</h4>
 <h1 align="center">SIDE QUEST</h1>
 <div  align="center">
-  <img width="40%" src="https://github.com/codestates-seb/seb43_main_032/assets/118104644/4edfcf24-f434-421e-99a2-50a2c423a6a4" alt="SIDEQUEST">
+  <img width="40%" src="https://github.com/codestates-seb/seb43_main_032/assets/118104644/a8786bc9-4904-4353-9cf4-ec91e8bf7b8c" alt="SIDEQUEST">
 </div>
 
 <h5 align="center">개발기간: 2023.04.17 ~ 2022.05.25</h5>
