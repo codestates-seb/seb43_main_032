@@ -8,9 +8,7 @@ import SelectStack from '../stack/SelectStack';
 import { useRouter } from 'next/router';
 import { AiFillCamera } from 'react-icons/ai';
 import EditTextArea from './EditTextArea';
-import Tag from '../Tag';
 import { POSITIONS, POST_COMMUNITY_CATEGORY } from '@/constant/constant';
-import { FilterButton } from '@/pages/users';
 import { User } from '@/types/user';
 import useUser from '@/hooks/react-query/user/useUser';
 import Select from 'react-select';
@@ -91,6 +89,7 @@ export default function UserEditForm({ user }: { user: User }) {
             <EditInput
               label="아이디"
               placeholder={user.name}
+              maxLength={8}
               register={register('name', {
                 minLength: {
                   message: '이름은 2자 이상이어야 합니다.',
@@ -105,11 +104,12 @@ export default function UserEditForm({ user }: { user: User }) {
             />
             <EditInput
               label="전화번호"
+              maxLength={11}
               placeholder={user.phone}
               register={register('phone', {
                 pattern: {
-                  value: /^\d{11}$/,
-                  message: '전화번호는 11자리 숫자만 가능합니다',
+                  value: /^01([0|1|6|7|8|9])-?([0-9]{3,4})-?([0-9]{4})$/,
+                  message: '정확한 전화번호를 입력해주세요.',
                 },
               })}
               error={errors.phone && errors.phone}
@@ -118,6 +118,7 @@ export default function UserEditForm({ user }: { user: User }) {
           <div className="bottom">
             <EditInput
               label="경력"
+              maxLength={2}
               register={register('yearOfDev', {
                 pattern: {
                   value: /^[0-9]*$/,
