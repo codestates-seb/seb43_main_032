@@ -12,7 +12,7 @@ import Head from 'next/head';
 const Users = () => {
   const [inputValue, setInputValue] = useState<string>('');
   const [page, setPage] = useState<number>(1);
-  const { userData, userLoading, userError, userRefetch } = useAllData();
+  const { userData, userLoading, userError } = useAllData();
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     setInputValue(e.target.value);
