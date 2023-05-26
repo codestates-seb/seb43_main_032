@@ -180,6 +180,7 @@ const ViewProject = () => {
           </div>
           {data.author && (
             <ApplyBox
+              title={data.title}
               crewList={applyQuery.data?.data}
               acceptEvent={acceptEvent}
               rejectEvent={rejectEvent}
@@ -248,7 +249,7 @@ const Side = styled.div`
 
     > ul {
       flex-direction: column;
-      width:90%;
+      width: 90%;
       min-width: 190px;
       @media (max-width: 960px) {
         width: 100%;
