@@ -22,10 +22,4 @@ const Box = styled.div`
   width: 100%;
   display: flex;
   flex-direction: column;
-  padding: 40px 20px;
-
-  @media (max-width: 960px) {
-    display: flex;
-    flex-direction: column;
-  }
 `;

@@ -60,7 +60,7 @@ export default function Content() {
   const pageSize = Math.ceil(filterData.length / 10);
   const viewData = filterData.slice((page - 1) * page_limit, page * page_limit);
 
-  if (communityError) return<Message>잠시 후에 다시 시도해주세요.</Message>;
+  if (communityError) return <Message>잠시 후에 다시 시도해주세요.</Message>;
   return (
     <>
       <ContentTop>
@@ -158,7 +158,6 @@ const ContentBottom = styled.div`
   width: 100%;
   padding: var(--padding-2);
   background: #ffffff;
-  top: 20px;
   display: flex;
   flex-direction: column;
   gap: 20px;
@@ -174,4 +173,7 @@ const ContentItemList = styled.div`
   flex-direction: column;
   justify-content: start;
   align-items: center;
+  @media (max-width: 768px) {
+    padding: 0px 10px;
+  }
 `;
