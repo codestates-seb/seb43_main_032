@@ -46,7 +46,7 @@
 |**PROJECT**|**COMMUNITY**|
 |<img width="100%" alt="마이 룸 생성 gif" src="https://github.com/codestates-seb/seb43_main_032/assets/118104644/1d68313b-8fd1-4748-bdf3-aceb4f66f7bf"/>|<img width="100%" src="https://github.com/codestates-seb/seb43_main_032/assets/118104644/804b62df-1ece-41e6-af35-bd47a25b2136"/>|
 |**USERS**|**MY PAGE**|
-|<img width="100%" src="https://github.com/codestates-seb/seb43_main_032/assets/118104644/baaf6523-f2b8-45a4-a36e-110c62313c22"/>|<img width="100%" src="https://github.com/codestates-seb/seb43_main_032/assets/118104644/baaf6523-f2b8-45a4-a36e-110c62313c22"/>|
+|<img width="100%" src="https://github.com/codestates-seb/seb43_main_032/assets/118104644/5dc3cb94-93ce-4a8c-b889-3a10061365eb"/>|<img width="100%" src="https://github.com/codestates-seb/seb43_main_032/assets/118104644/be4f5bf2-b1d9-41ac-bf6a-169a5acb70c9"/>|
 |**ERROR**|**ABOUT**|
 |<img width="100%" src="https://github.com/codestates-seb/seb43_main_032/assets/118104644/baaf6523-f2b8-45a4-a36e-110c62313c22"/>|<img width="100%" src="https://github.com/codestates-seb/seb43_main_032/assets/118104644/cf47ece3-8210-43b5-b003-5e0dc5c672f9"/>|
 
