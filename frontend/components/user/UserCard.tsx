@@ -3,20 +3,22 @@ import styled from 'styled-components';
 import Stack from '../stack/Stack';
 import { User } from '@/types/user';
 import Tag from '../Tag';
-import useUser from '@/hooks/react-query/user/useUser';
 import { useRouter } from 'next/router';
+import { useRecoilValue } from 'recoil';
+import { loggedInUserId } from '@/recoil/selector';
 interface IProps {
   user: User;
 }
 export default function UserCard({ user }: IProps) {
+  const userId = useRecoilValue(loggedInUserId);
   const router = useRouter();
+
   const moveUserPage = () => {
+    if (user.memberId === userId) {
+      return router.push(`users/me`);
+    }
     router.push(`users/${user.memberId}`);
   };
-  const {
-    getMyInfo: { data: me },
-  } = useUser({});
-  const path = me && me.memberId === user.memberId ? 'me' : user.memberId;
   return (
     <Group onClick={moveUserPage}>
       <Wrapper>
