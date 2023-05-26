@@ -9,7 +9,7 @@ const UserItemSkeleton = ({ count }: Props) => {
   return (
     <>
       {skeletonBox.map((x, i) => (
-        <Skeleton key={x + i} width={'100%'} height={'300px'} />
+        <Skeleton key={x + i} width={'100%'} height={'293px'} />
       ))}
     </>
   );
