@@ -14,6 +14,6 @@ const Box = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
-  font-size: 40px;
+  font-size: 23px;
+  padding: 20px 0;
 `;

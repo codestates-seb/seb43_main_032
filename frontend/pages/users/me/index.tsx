@@ -38,7 +38,7 @@ export default function me() {
           <LeftColumn>
             <UserInfoCard user={user} />
             <EditButton onClick={handleClick}>
-              <Tag>edit</Tag>
+              <Tag>수 정</Tag>
             </EditButton>
           </LeftColumn>
           <RightColumn>
@@ -114,8 +114,7 @@ const UserInfo = styled.div`
   }
 
   .info-box {
-    color: #0d1117;
-    /* color: #c9d1d9; */
+    color: #c9d1d9;
     font-size: 15px;
     padding: var(--padding-2);
     border: 1px solid #d8d8d8;
@@ -123,6 +122,7 @@ const UserInfo = styled.div`
     display: flex;
     flex-direction: column;
     gap: 16px;
+    background: #0d1117;
   }
 `;
 

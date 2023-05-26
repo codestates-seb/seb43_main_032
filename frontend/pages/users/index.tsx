@@ -135,7 +135,7 @@ const SearchBox = styled.div`
     }
 
     :focus {
-      outline: none;
+      outline: 9880e9;
     }
   }
 
@@ -181,8 +181,8 @@ export const FilterButton = styled.button<FilterButtonProps>`
   background-color: ${(props) =>
     props.idx === props.filter
       ? '#6333ff'
-      : '#9880e9;'}; //필터가 눌린다면 색깔 부여
-  color: white;
+      : 'none'}; //필터가 눌린다면 색깔 부여
+  color: ${(props) => (props.idx === props.filter ? 'white' : 'none')};
   border-radius: 5px;
   padding: 10px;
   font-size: 14px;
@@ -190,13 +190,18 @@ export const FilterButton = styled.button<FilterButtonProps>`
   -webkit-transition: background 0.5s ease, color 0.5s ease;
   transition: background 0.5s ease, color 0.5s ease;
   border: none;
+
+  :hover {
+    background: #9880e9;
+    color: white;
+  }
 `;
 const CardWrapper = styled.div`
   display: grid;
-  min-height: 70vh;
+  min-height: 40vh;
   width: 100%;
   gap: 10px;
-  margin-bottom: 50px;
+  margin-bottom: 30px;
   @media screen and (min-width: 768px) {
     grid-template-columns: repeat(3, 1fr);
   }

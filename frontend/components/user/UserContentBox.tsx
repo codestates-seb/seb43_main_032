@@ -72,7 +72,7 @@ export default function UserContentBox({ contentTitle }: IProps) {
         {filter === '프로젝트' && projectFilterData && (
           <>
             {projectFilterData?.length === 0 ? (
-              <Message className="message">게시글이 존재하지 않아요.</Message>
+              <Message className="message">게시글이 존재하지 않습니다.</Message>
             ) : (
               projectFilterData.map((project) => (
                 <UserProjectCard key={project.projectId} project={project} />
@@ -83,7 +83,7 @@ export default function UserContentBox({ contentTitle }: IProps) {
         {filter === '게시글' && communitiesFilterData && (
           <>
             {communitiesFilterData?.length === 0 ? (
-              <Message className="message">게시글이 존재하지 않아요.</Message>
+              <Message className="message">게시글이 존재하지 않습니다.</Message>
             ) : (
               communitiesFilterData.map((post) => (
                 <UserPostCard key={post.articleId} post={post} />
@@ -107,7 +107,6 @@ const Contents = styled.div`
   padding: var(--padding-2);
   border-radius: var(--radius-def);
   background-image: linear-gradient(135deg, #ce9ffc 10%, #7367f0 100%);
-  min-height: 79vh;
   margin-bottom: 20px;
   .message {
     color: white;

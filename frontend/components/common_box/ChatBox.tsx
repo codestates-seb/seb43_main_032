@@ -34,7 +34,7 @@ const Box = styled.div`
       margin-bottom: 11px;
       > span {
         padding: 10px 10px;
-        border-radius: 10px 10px 0 0;
+        border-radius: 5px 5px 0 0;
         color: #ffffff;
         background-color: #b87fe7;
       }
@@ -43,5 +43,6 @@ const Box = styled.div`
   .content {
     background-color: #ffffff;
     color: black;
+    border-radius: 0 5px 5px 5px;
   }
 `;

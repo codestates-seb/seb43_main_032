@@ -40,11 +40,12 @@ type PagenationContainerProps = {
 const PagenationContainer = styled.div<PagenationContainerProps>`
   display: flex;
   justify-content: center;
+  margin-bottom: 20px;
   .selected > a {
-    background-color: #256ce1;
+    background-color: #9880e9;
     color: white;
     :hover {
-      background-color: #256ce1;
+      background-color: #6333ff;
       color: white;
     }
   }
