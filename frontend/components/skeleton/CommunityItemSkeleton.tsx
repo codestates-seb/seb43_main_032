@@ -3,14 +3,16 @@ import Skeleton from './Skeleton';
 
 type Props = {
   count: number;
+  gap: string;
+  width: string;
 };
 
-const CommunityItemSkeleton = ({ count }: Props) => {
+const CommunityItemSkeleton = ({ width, gap, count }: Props) => {
   const skeletonBox = Array(count).fill(1);
   return (
-    <Container>
+    <Container gap={gap}>
       {skeletonBox.map((x, i) => (
-        <Skeleton key={x + i} width={'100%'} height={'120px'} />
+        <Skeleton key={x + i} width={width} height={'120px'} />
       ))}
     </Container>
   );
@@ -18,8 +20,14 @@ const CommunityItemSkeleton = ({ count }: Props) => {
 
 export default CommunityItemSkeleton;
 
-const Container = styled.div`
+type ContainerProps = {
+  gap: string;
+};
+
+const Container = styled.div<ContainerProps>`
+  padding: 0px 20px;
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  align-items: center;
+  gap: ${(props) => props.gap};
 `;
