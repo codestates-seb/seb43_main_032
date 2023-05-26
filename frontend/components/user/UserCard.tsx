@@ -19,43 +19,43 @@ export default function UserCard({ user }: IProps) {
   const path = me && me.memberId === user.memberId ? 'me' : user.memberId;
   return (
     <Group onClick={moveUserPage}>
-        <Wrapper>
-          <Overlay />
-          <CardWrapper>
-            <SubCardWrapper>
-              <ContentsContainer>
-                <AvatarContainer>
-                  {user.profileImageUrl ? (
-                    <img alt={user.name} src={user.profileImageUrl} />
-                  ) : (
-                    <img
-                      alt={user.name}
-                      src="https://pbs.twimg.com/media/FmynZRjWYAgEEpL.jpg"
-                    />
-                  )}
-                </AvatarContainer>
-                <InfoContainer>
-                  <p style={{ fontWeight: '600' }}>{user.name}</p>
-                  <LocationAndStars>
-                    <Tag className="tag">
-                      <AiFillStar size={20} style={{ color: 'gold' }} />
-                      <p>{user.totalStar}</p>
-                    </Tag>
-                  </LocationAndStars>
-                </InfoContainer>
-              </ContentsContainer>
-              <StackWrapper>
-                {user.techList.length > 0 &&
-                  user.techList.map((stack) => (
-                    <Stack key={stack.tech} tech={stack.tech} />
-                  ))}
-              </StackWrapper>
-            </SubCardWrapper>
-            <CardFooter>
-              <AboutMe>{user.aboutMe}</AboutMe>
-            </CardFooter>
-          </CardWrapper>
-        </Wrapper>
+      <Wrapper>
+        <Overlay />
+        <CardWrapper>
+          <SubCardWrapper>
+            <ContentsContainer>
+              <AvatarContainer>
+                {user.profileImageUrl ? (
+                  <img alt={user.name} src={user.profileImageUrl} />
+                ) : (
+                  <img
+                    alt={user.name}
+                    src="https://pbs.twimg.com/media/FmynZRjWYAgEEpL.jpg"
+                  />
+                )}
+              </AvatarContainer>
+              <InfoContainer>
+                <p style={{ fontWeight: '600' }}>{user.name}</p>
+                <LocationAndStars>
+                  <Tag className="tag">
+                    <AiFillStar size={20} style={{ color: 'gold' }} />
+                    <p>{user.totalStar}</p>
+                  </Tag>
+                </LocationAndStars>
+              </InfoContainer>
+            </ContentsContainer>
+            <StackWrapper>
+              {user.techList.length > 0 &&
+                user.techList.map((stack) => (
+                  <Stack key={stack.tech} tech={stack.tech} />
+                ))}
+            </StackWrapper>
+          </SubCardWrapper>
+          <CardFooter>
+            <AboutMe>{user.aboutMe}</AboutMe>
+          </CardFooter>
+        </CardWrapper>
+      </Wrapper>
     </Group>
   );
 }
@@ -98,7 +98,9 @@ const SubCardWrapper = styled.div`
   padding-bottom: 20px;
   @media (max-width: 768px) {
     display: flex;
+    flex-direction: column;
     width: 100%;
+    padding: 12px;
   }
 `;
 //유저 카드는 스택hover가 작동할 수 없는 구조로 변경되었습니다.
@@ -159,10 +161,9 @@ const InfoContainer = styled.div`
 const LocationAndStars = styled.div`
   width: 100%;
   display: flex;
-  justify-content: space-around;
   margin-bottom: 10px;
   @media (min-width: 768px) {
-    display: flex;
+    justify-content: center;
   }
 
   .tag {
