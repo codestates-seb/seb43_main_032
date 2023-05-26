@@ -42,10 +42,9 @@ export default function UserEditForm({ user }: { user: User }) {
     updateUser.mutate(updatedData, {
       onSuccess: () => {
         alert('정보가 수정 되었습니다.');
-        router.push('/users/me');
+        router.push('/users/me').then(() => router.reload());
       },
       onError: (error) => {
-        console.error(error);
         alert('정보 수정에 실패했습니다.');
         setSubmitLoading(false);
       },
@@ -61,11 +60,6 @@ export default function UserEditForm({ user }: { user: User }) {
       setImgPreview(URL.createObjectURL(image[0]));
     }
   }, [image]);
-
-  const formEvent = (e: { preventDefault: () => void }) => {
-    e.preventDefault();
-    handleSubmit(onValid, onInValid);
-  };
 
   return (
     <Form onSubmit={handleSubmit(onValid, onInValid)}>
