@@ -5,7 +5,6 @@ import { MemberInfo } from '@/types/types';
 import { useRouter } from 'next/router';
 import { GrMail } from 'react-icons/gr';
 import { onChatCreate } from '@/util/chat';
-import Tag from '../Tag';
 
 type Props = {
   crewList: {
