@@ -8,6 +8,7 @@ import Message from '@/components/Message';
 import { useAllData } from '@/hooks/react-query/useAllData';
 import { usersFilter } from '@/util/filter/usersFilter';
 import Head from 'next/head';
+import UserItemSkeleton from '@/components/skeleton/UserItemSkeleton';
 
 const Users = () => {
   const [inputValue, setInputValue] = useState<string>('');
@@ -36,7 +37,6 @@ const Users = () => {
   };
 
   if (userError) return <Message>잠시 후에 다시 시도해주세요.</Message>;
-  if (userLoading) return <Message>로딩중입니다.</Message>;
   return (
     <>
       <Head>
@@ -72,10 +72,14 @@ const Users = () => {
           </SubHeader>
         </SearchHeader>
         <CardWrapper>
-          {viewFilterData &&
+          {userLoading ? (
+            <UserItemSkeleton count={24} />
+          ) : (
+            viewFilterData &&
             viewFilterData.map((user: any) => (
               <UserCard key={user.name} user={user} />
-            ))}
+            ))
+          )}
         </CardWrapper>
         <Pagenation
           pageSize={filterData ? Math.ceil(filterData.length / 24) : 0}
