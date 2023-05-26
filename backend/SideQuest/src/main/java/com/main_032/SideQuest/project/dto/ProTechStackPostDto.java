@@ -6,7 +6,7 @@ import javax.validation.constraints.NotBlank;
 import java.util.List;
 @Getter
 public class ProTechStackPostDto {
-    @NotBlank
+    @NotBlank(message = "기술 스택 입력하세요")
     private List<String> techList;
 
 }

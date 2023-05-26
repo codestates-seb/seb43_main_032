@@ -6,6 +6,6 @@ import javax.validation.constraints.NotBlank;
 import java.util.List;
 @Getter
 public class ProFieldPostDto {
-    @NotBlank
+    @NotBlank(message = "분야 입력하세요")
     private List<String> fieldList;
 }

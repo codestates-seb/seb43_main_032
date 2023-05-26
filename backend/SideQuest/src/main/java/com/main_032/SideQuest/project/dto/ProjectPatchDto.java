@@ -6,12 +6,13 @@ import javax.validation.constraints.NotBlank;
 
 @Getter
 public class ProjectPatchDto {
-    @NotBlank
+    @NotBlank(message = "제목 입력하세요")
     private String title;
-    @NotBlank
+    @NotBlank(message = "내용 입력하세요")
     private String content;
+    @NotBlank(message = "작성자 포지션 입력하세요")
     private String writerPosition;
-    @NotBlank
+    @NotBlank(message = "시작일 입력하세요")
     private String startDate;
     private String endDate;
 

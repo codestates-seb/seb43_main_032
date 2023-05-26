@@ -7,6 +7,6 @@ import javax.validation.constraints.NotBlank;
 @Getter
 public class StarPostDto {
     private Long memberId;
-    @NotBlank
+    @NotBlank(message = "별을 입력하세요")
     private int star;
 }

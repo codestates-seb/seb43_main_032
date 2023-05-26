@@ -8,7 +8,7 @@ import javax.validation.constraints.NotBlank;
 
 @Getter
 public class LikesPostDto {
-    @NotBlank
+    @NotBlank(message = "카테고리 입력하세요")
     private Category category;
     private Long uniteId;
 }

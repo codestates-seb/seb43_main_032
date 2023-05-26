@@ -6,6 +6,6 @@ import javax.validation.constraints.NotBlank;
 
 @Getter
 public class ProUpdateStatusDto {
-    @NotBlank
+    @NotBlank(message = "상태 입력하세요")
     private String status;
 }

@@ -6,6 +6,6 @@ import javax.validation.constraints.NotBlank;
 
 @Getter
 public class ProCancelAcceptedApplyDto {
-    @NotBlank
+    @NotBlank(message = "포지션 입력하세요")
     private String position;
 }

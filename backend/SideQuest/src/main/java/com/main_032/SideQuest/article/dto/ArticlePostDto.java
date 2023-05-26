@@ -8,11 +8,11 @@ import java.util.List;
 
 @Getter
 public class ArticlePostDto {
-    @NotBlank
+    @NotBlank(message = "제목 입력하세요")
     private String title;
-    @NotBlank
+    @NotBlank(message = "내용 입력하세요")
     private String content;
-    @NotBlank
+    @NotBlank(message = "카테고리 입력하세요")
     private ArticleCategory category;
 
     private List<String> techList;

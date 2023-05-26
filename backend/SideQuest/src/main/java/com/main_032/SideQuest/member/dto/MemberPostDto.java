@@ -8,10 +8,10 @@ import javax.validation.constraints.NotBlank;
 
 @Getter
 public class MemberPostDto {
-    @Email
+    @Email(message = "이메일을 입력하세요")
     private String email;
-    @NotBlank
+    @NotBlank(message = "name을 입력하세요")
     private String name;
-    @NotBlank
+    @NotBlank(message = "비밀번호 입력하세요")
     private String password;
 }

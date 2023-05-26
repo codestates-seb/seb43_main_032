@@ -7,8 +7,8 @@ import javax.validation.constraints.NotBlank;
 @Getter
 public class ChatPostDto {
     private Long receiverMemberId;
-    @NotBlank
+    @NotBlank(message = "제목 입력하세요")
     private String title;
-    @NotBlank
+    @NotBlank(message = "내용 입력하세요")
     private String content;
 }
