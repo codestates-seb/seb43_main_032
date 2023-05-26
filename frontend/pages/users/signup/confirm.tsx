@@ -1,4 +1,6 @@
+import Message from '@/components/Message';
 import usePostApi from '@/hooks/usePostApi';
+import Head from 'next/head';
 import { useRouter } from 'next/router';
 import React, { useEffect } from 'react';
 import { FieldErrors, useForm } from 'react-hook-form';
@@ -8,6 +10,7 @@ interface IForm {
   token: number;
 }
 export default function confirm() {
+  const router = useRouter();
   const {
     register,
     handleSubmit,
@@ -17,14 +20,11 @@ export default function confirm() {
   const [confirm, { isLoading, data, error }] = usePostApi('/members/confirm');
 
   const onValid = (data: IForm) => {
-    console.log(data);
-    console.log(process.env.EMAIL_API);
     confirm(data);
   };
   const onInValid = (e: FieldErrors) => {
     console.log(e);
   };
-  const router = useRouter();
   useEffect(() => {
     if (data?.ok) {
       //회원가입이 성공적으로 이루어 졌음을 알릴 page 혹은 modal 필요
@@ -33,22 +33,28 @@ export default function confirm() {
     }
   }, [data]);
 
+  if (error) return <Message>잠시 후에 다시 시도해주세요.</Message>;
   return (
-    <Wrapper>
-      <Form onSubmit={handleSubmit(onValid, onInValid)}>
-        <InputContainer>
-          <Input
-            placeholder="token.."
-            {...register('token', {
-              required: '인증번호를 넣어주세요',
-            })}
-            type="number"
-          />
-          <Button>{isLoading ? 'Loading...' : '인증'}</Button>
-          {errors?.token?.message}
-        </InputContainer>
-      </Form>
-    </Wrapper>
+    <>
+      <Head>
+        <title>{`SIDE QUEST - 회원가입`}</title>
+      </Head>
+      <Wrapper>
+        <Form onSubmit={handleSubmit(onValid, onInValid)}>
+          <InputContainer>
+            <Input
+              placeholder="token.."
+              {...register('token', {
+                required: '인증번호를 넣어주세요',
+              })}
+              type="number"
+            />
+            <Button>{isLoading ? 'Loading...' : '인증'}</Button>
+            {errors?.token?.message}
+          </InputContainer>
+        </Form>
+      </Wrapper>
+    </>
   );
 }
 

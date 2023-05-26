@@ -72,6 +72,11 @@ export default MainPost;
 
 const Main = styled.div`
   margin-bottom: 50px;
+  .submit-box {
+    button {
+      cursor: pointer;
+    }
+  }
   input {
     width: 100%;
     padding: 12px;
@@ -117,6 +122,10 @@ const Main = styled.div`
       justify-content: space-between;
       gap: 16px;
       margin: 24px 0px;
+
+      @media (max-width: 640px) {
+        flex-direction: column;
+      }
       button {
         &:hover {
           box-shadow: var(--box-shadow);

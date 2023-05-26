@@ -1,6 +1,8 @@
 import { confirmAlert, errorAlert } from '@/components/alert/Alert';
+import SubBtn from '@/components/button/SubBtn';
 import ChatBox from '@/components/common_box/ChatBox';
 import { api } from '@/util/api';
+import Head from 'next/head';
 import { useForm } from 'react-hook-form';
 import { useMutation } from 'react-query';
 
@@ -24,33 +26,48 @@ const ChatCreate = () => {
       },
     }
   );
+
+  const postEvent = () => {
+    if (watch().title === '') {
+      return errorAlert('제목을 입력해주세요.', '쪽지 작성');
+    }
+    if (watch().content === '') {
+      return errorAlert('내용을 입력해주세요.', '쪽지 작성');
+    }
+    postChat.mutate();
+  };
   const closeEvent = () => {
     window.close();
   };
 
   return (
-    <ChatBox type={'create'}>
-      <Box>
-        <div className="title-box">
-          <input
-            placeholder="제목을 입력해주세요."
-            {...register('title')}
-            type="text"
-          />
-        </div>
-        <div className="content-box">
-          <textarea
-            placeholder="내용을 입력해주세요."
-            {...register('content')}
-            rows={16}
-          ></textarea>
-        </div>
-        <div className="btn-box">
-          <button onClick={() => postChat.mutate()}>발송</button>
-          <button onClick={closeEvent}>취소</button>
-        </div>
-      </Box>
-    </ChatBox>
+    <>
+      <Head>
+        <title>{`SIDE QUEST - 쪽지 작성`}</title>
+      </Head>
+      <ChatBox type={'create'}>
+        <Box>
+          <div className="title-box">
+            <input
+              placeholder="제목을 입력해주세요."
+              {...register('title')}
+              type="text"
+            />
+          </div>
+          <div className="content-box">
+            <textarea
+              placeholder="내용을 입력해주세요."
+              {...register('content')}
+              rows={15}
+            ></textarea>
+          </div>
+          <div className="btn-box">
+            <SubBtn onClick={postEvent}>발송</SubBtn>
+            <SubBtn onClick={closeEvent}>취소</SubBtn>
+          </div>
+        </Box>
+      </ChatBox>
+    </>
   );
 };
 

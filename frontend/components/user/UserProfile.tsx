@@ -7,18 +7,11 @@ export default function UserProfile({ user }: { user: User }) {
   return (
     <Wrapper>
       <AvatarContainer>
-        {user.profileImageUrl ? (
-          <img alt={user.name} src={user.profileImageUrl} />
-        ) : (
-          <img
-            alt={user.name}
-            src="https://pbs.twimg.com/media/FmynZRjWYAgEEpL.jpg"
-          />
-        )}
+        <img alt={user.name} src={user.profileImageUrl} />
       </AvatarContainer>
       <Tag className="years-tag">{`${user?.yearOfDev} 년차`}</Tag>
       <Name>{user?.name}</Name>
-      <Position>프론트엔드</Position>
+      <Position>{user.position}</Position>
     </Wrapper>
   );
 }

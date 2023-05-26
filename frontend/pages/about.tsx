@@ -3,45 +3,51 @@ import styled, { keyframes } from 'styled-components';
 import Image from 'next/image';
 import logo from '../public/images/symbol.svg';
 import StarBg from '@/components/background/StarBg';
+import Head from 'next/head';
 
 const aboutPage = () => {
   return (
-    <Container>
-      <Background className="bg" />
-      <Background className="bg bg2" />
-      <StarBg />
-      <Background className="bg bg3" />
-      <div className="box">
-        <div className="text-box">
-          <div className="title">SIDE QUEST</div>
-          <div className="sub-title">사이드 퀘스트</div>
-          <div className="text">
-            개발자와 디자이너 등 다양한 색을 가진
-            <br />각 분야의 전문가들이 모여
-            <br />더 멋진 앞날을 꿈꾸는 곳입니다.
+    <>
+      <Head>
+        <title>SIDE QUEST - 소개</title>
+      </Head>
+      <Container>
+        <Background className="bg" />
+        <Background className="bg bg2" />
+        <StarBg />
+        <Background className="bg bg3" />
+        <div className="box">
+          <div className="text-box">
+            <div className="title">SIDE QUEST</div>
+            <div className="sub-title">사이드 퀘스트</div>
+            <div className="text">
+              개발자와 디자이너 등 다양한 색을 가진
+              <br />각 분야의 전문가들이 모여
+              <br />더 멋진 앞날을 꿈꾸는 곳입니다.
+            </div>
+            <div className="text">
+              단순한 호기심이나 취업을 위한 포트폴리오 제작부터,
+              <br /> 각자의 목표를 이루기 위한 도전과정을 함께 완성해나가는
+              곳이며,
+              <br />
+              개인의 역량을 존중하고 다양한 프로젝트와 경험을 통해
+              <br />
+              함께 성장할 수 있는 환경을 제공하고자 합니다.
+            </div>
+            <div className="text">
+              서로를 존중하며 소통하고, 협업하는 문화를 바탕으로
+              <br />
+              아이디어를 발전시키며 끊임없이 변화하고 발전하는
+              <br />
+              여러분의 앞날을 응원하겠습니다.
+            </div>
           </div>
-          <div className="text">
-            단순한 호기심이나 취업을 위한 포트폴리오 제작부터,
-            <br /> 각자의 목표를 이루기 위한 도전과정을 함께 완성해나가는
-            곳이며,
-            <br />
-            개인의 역량을 존중하고 다양한 프로젝트와 경험을 통해
-            <br />
-            함께 성장할 수 있는 환경을 제공하고자 합니다.
-          </div>
-          <div className="text">
-            서로를 존중하며 소통하고, 협업하는 문화를 바탕으로
-            <br />
-            아이디어를 발전시키며 끊임없이 변화하고 발전하는
-            <br />
-            여러분의 앞날을 응원하겠습니다.
+          <div className="symbol-box">
+            <Image src={logo} alt="logo" />
           </div>
         </div>
-        <div className="symbol-box">
-          <Image src={logo} alt="logo" />
-        </div>
-      </div>
-    </Container>
+      </Container>
+    </>
   );
 };
 

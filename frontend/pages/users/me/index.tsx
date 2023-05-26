@@ -8,10 +8,12 @@ import { getCookie } from '@/util/cookie';
 import { useEffect } from 'react';
 import Tag from '@/components/Tag';
 import useUser from '@/hooks/react-query/user/useUser';
+import Message from '@/components/Message';
+import Head from 'next/head';
 
 export default function me() {
   const {
-    getMyInfo: { data: user },
+    getMyInfo: { data: user, isError },
     getMyProjects: { data: projects },
   } = useUser({});
   const router = useRouter();
@@ -25,10 +27,12 @@ export default function me() {
     router.push('/users/me/edit');
   };
 
-  projects && console.log('projects', projects);
-
+  if (isError) return <Message>잠시 후에 다시 시도해주세요.</Message>;
   return (
     <>
+      <Head>
+        <title>{`SIDE QUEST - 마이페이지`}</title>
+      </Head>
       {user && (
         <GridBox>
           <LeftColumn>
@@ -44,20 +48,13 @@ export default function me() {
                 <InfoContainer
                   keyNode={
                     <AvatarContainer style={{ width: '70px', height: '70px' }}>
-                      {user.profileImageUrl ? (
-                        <img alt={user.name} src={user.profileImageUrl} />
-                      ) : (
-                        <img
-                          alt={user.name}
-                          src="https://pbs.twimg.com/media/FmynZRjWYAgEEpL.jpg"
-                        />
-                      )}
+                      <img alt={user.name} src={user.profileImageUrl} />
                     </AvatarContainer>
                   }
                   contentNode={
                     <>
                       <p className="nanum-bold">{user.name}</p>
-                      <p className="noto-regular">프론트엔드</p>
+                      <p className="noto-regular">{user.position}</p>
                     </>
                   }
                 />
@@ -117,8 +114,8 @@ const UserInfo = styled.div`
   }
 
   .info-box {
-    background: #0d1117;
-    color: #c9d1d9;
+    color: #0d1117;
+    /* color: #c9d1d9; */
     font-size: 15px;
     padding: var(--padding-2);
     border: 1px solid #d8d8d8;

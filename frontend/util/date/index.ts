@@ -51,13 +51,14 @@ export const dateDiffInDays = (date1: Date, date2: Date): number => {
 
 /**
  * 현재 시간을 params로 넣으면 상대 시간을 리턴
+ * 서버에서 9시간 후의 시간을 돌려줘서 프론트에서 9시간 전으로 되돌림
  */
 export const elapsedTime = (date: Date) => {
   const start = new Date(date);
   const end = new Date(); // 현재 날짜
   const startTimestamp = start.getTime();
-  const endTimestamp = end.getTime();
-  const diff = (endTimestamp - startTimestamp) / 1000; // 경과 시간
+  const endTimestamp = end.getTime() - 9 * 60 * 60 * 1000;
+  const diff = (endTimestamp - startTimestamp) / 1000;
 
   const times = [
     { name: '년', milliSeconds: 60 * 60 * 24 * 365 },

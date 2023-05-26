@@ -8,10 +8,11 @@ import { Tech } from '@/types/project';
 type Props = {
   selectStack?: () => void;
   stacks: Tech[];
+  type?: string;
   setStacks?: Dispatch<SetStateAction<Tech[]>>;
 };
 
-const SelectStack = ({ setStacks, selectStack, stacks }: Props) => {
+const SelectStack = ({ type, setStacks, selectStack, stacks }: Props) => {
   const categories = useMemo(() => Object.keys(STACKS_CATEGORIES), []);
 
   //스택을 추가하는 함수
@@ -33,16 +34,18 @@ const SelectStack = ({ setStacks, selectStack, stacks }: Props) => {
   return (
     <Box>
       <div>
-        <div className="btn-box">
-          <div>
-            <Btn onClick={resetSelectedStacks}>
-              <span>초기화</span>
-            </Btn>
-            <Btn onClick={selectStack}>
-              <span>완료</span>
-            </Btn>
+        {!type && (
+          <div className="btn-box">
+            <div>
+              <Btn onClick={resetSelectedStacks}>
+                <span>초기화</span>
+              </Btn>
+              <Btn onClick={selectStack}>
+                <span>완료</span>
+              </Btn>
+            </div>
           </div>
-        </div>
+        )}
         <div className="select-box">
           {categories.map((category) => (
             <div key={category} className="stack-box nanum-bold">

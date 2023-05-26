@@ -71,7 +71,7 @@ const Box = styled.div`
     margin-top: 16px;
     gap: 16px;
     @media (max-width: 1300px) {
-      grid-template-columns: repeat(3, 1fr);
+      grid-template-columns: repeat(2, 1fr);
     }
     @media (max-width: 960px) {
       display: flex;

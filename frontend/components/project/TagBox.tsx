@@ -62,7 +62,7 @@ const Box = styled.div<BoxProps>`
   display: flex;
   flex-direction: column;
   width: 100%;
-  padding: 0 30px;
+  padding: 0 16px;
 
   input {
     width: 100%;

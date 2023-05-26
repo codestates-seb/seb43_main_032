@@ -21,6 +21,9 @@ import Tag from '../Tag';
 import { useRouter } from 'next/router';
 import { errorAlert } from '../alert/Alert';
 import { postStar } from '@/util/api/postStar';
+import SubBtn from '../button/SubBtn';
+import { useRecoilState } from 'recoil';
+import { viewMemberIdState } from '@/recoil/atom';
 
 const Editor = dynamic(() => import('@/components/editor/Editor'), {
   ssr: false,
@@ -61,6 +64,7 @@ const AnswerItem = ({
   articleRefetch,
   answerRefetch,
 }: Props) => {
+  const [viewMemberId] = useRecoilState(viewMemberIdState);
   const router = useRouter();
   //답글 수정 관련
   const [edit, setEdit] = useState(false);
@@ -156,8 +160,8 @@ const AnswerItem = ({
               type={'answer'}
             />
             <div className="edit-box">
-              <button onClick={editEvent}>수정 완료</button>
-              <button onClick={offEdit}>수정 취소</button>
+              <SubBtn onClick={editEvent}>수정 완료</SubBtn>
+              <SubBtn onClick={offEdit}>수정 취소</SubBtn>
             </div>
           </>
         ) : (
@@ -178,7 +182,9 @@ const AnswerItem = ({
                       >
                         {answer.memberInfo.name}
                       </span>
-                      {answer.author && <Tag>작성자</Tag>}
+                      {Number(answer.memberInfo.memberId) === viewMemberId && (
+                        <Tag>작성자</Tag>
+                      )}
                     </div>
                     <div className="user-star">
                       <AiFillStar fill="rgb(255, 153, 0)" />
@@ -258,8 +264,11 @@ const Box = styled.li`
     position: absolute;
     display: flex;
     gap: 16px;
-    right: 8px;
-    top: 12px;
+    right: 32px;
+    top: 22px;
+    > button {
+      padding: 4px;
+    }
   }
 
   .content-box {

@@ -93,9 +93,14 @@ const ProjectForm = () => {
     }
   };
 
-  // 해시태그 업데이트
   const addTag = (tag: string) => {
-    setTags([...tags, { field: tag }]);
+    // 중복 태그 확인
+    const isDuplicate = tags.some((t) => t.field === tag);
+    if (!isDuplicate) {
+      // 중복이 아닌 경우에만 태그 추가
+      return setTags([...tags, { field: tag }]);
+    }
+    return errorAlert('동일한 태그는 추가할 수 없습니다.', '태그 추가');
   };
 
   // 해시태그 삭제
@@ -173,8 +178,7 @@ const ProjectForm = () => {
     //랜덤 이미지 생성
     const randomNumber = Math.floor(Math.random() * 5) + 1;
     const srcSvg = `/images/thum (${randomNumber}).svg`;
-    //tags.map((tag) => tag.field)
-    //공통 데이터
+
     const data = {
       startDate: formatDate3(start),
       endDate: end && formatDate3(end),
@@ -363,6 +367,17 @@ const Side = styled.div`
       align-items: center;
       gap: 8px;
       width: 100%;
+      @media (max-width: 960px) {
+        > select:first-child {
+          width: 60%;
+        }
+        > select:last-child {
+          width: 30%;
+        }
+        button {
+          width: 10%;
+        }
+      }
       > select {
         border: solid 2px #ececec;
         border-radius: 10px;

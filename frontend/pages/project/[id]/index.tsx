@@ -19,8 +19,11 @@ import SubBtn from '@/components/button/SubBtn';
 import { errorAlert } from '@/components/alert/Alert';
 import { postStar } from '@/util/api/postStar';
 import ReviewBox from '@/components/common_box/ReviewBox';
+import { useRouter } from 'next/router';
+import Head from 'next/head';
 
 const ViewProject = () => {
+  const router = useRouter();
   const loggedInUser = useRecoilValue(loggedInUserState);
   //프로젝트 데이터 요청
   const {
@@ -104,103 +107,108 @@ const ViewProject = () => {
     }
   };
 
-  if (projectQuery.error) return <Message>잠시 후 다시 시도해주세요.</Message>;
+  if (projectQuery.error) return router.push('/404');
   if (projectQuery.isLoading || !data || !applyQuery.data)
     return <Message>로딩중입니다.</Message>;
   return (
-    <GridBox>
-      <Side>
-        <AuthorBox
-        totalProject={data.memberInfo.totalProject}
-          userId={data.memberInfo.memberId}
-          userImg={data.memberInfo.profileImageUrl}
-          userName={data.memberInfo.name}
-          isAuthor={data.author}
-          totalStar={data.memberInfo.totalStar}
-          position={data.memberInfo.position}
-        />
-        <PeriodBox
-          start={new Date(data.startDate)}
-          end={data.endDate ? new Date(data.endDate) : data.endDate}
-        />
-        <TagBox tags={data.fieldList} />
-        <StacksBox stacks={data.techList} stack={false} />
-        <div className="want-box">
-          <div className="title">모집 중인 직군</div>
-          <ul>
-            {positions?.map((position) => (
-              <li className="nanum-regular" key={position.position}>
-                <div className="job">{position.position}</div>
-                <div className="needNum">
-                  {position.acceptedNumber}/{position.number}
-                </div>
-                <div
-                  className={
-                    position.acceptedNumber === position.number
-                      ? 'red light'
-                      : 'green light'
-                  }
-                ></div>
-                {data.author ? (
-                  <></>
-                ) : (
-                  <>
-                    {acceptedPostion &&
-                    acceptedPostion.position === position.position ? (
-                      <Tag
-                        onClick={() => acceptedCancleEvent(position.position)}
-                        onMouseEnter={hoverHandler}
-                        onMouseLeave={hoverHandler}
-                      >
-                        {acceptedHover ? '취소' : '확정'}
-                      </Tag>
-                    ) : position.acceptedNumber === position.number ? (
-                      <Tag>마감</Tag>
-                    ) : checkApply?.position === position.position ? (
-                      <Tag onClick={() => cancelEvent(position.position)}>
-                        취소
-                      </Tag>
-                    ) : (
-                      <Tag onClick={() => applyEvent(position.position)}>
-                        지원
-                      </Tag>
-                    )}
-                  </>
-                )}
-              </li>
-            ))}
-          </ul>
-        </div>
-        {data.author && (
-          <ApplyBox
-            crewList={applyQuery.data?.data}
-            acceptEvent={acceptEvent}
-            rejectEvent={rejectEvent}
+    <>
+      <Head>
+        <title>{`SIDE QUEST - ${data.title}`}</title>
+      </Head>
+      <GridBox>
+        <Side>
+          <AuthorBox
+            totalProject={data.memberInfo.totalProject}
+            userId={data.memberInfo.memberId}
+            userImg={data.memberInfo.profileImageUrl}
+            userName={data.memberInfo.name}
+            isAuthor={data.author}
+            totalStar={data.memberInfo.totalStar}
+            position={data.memberInfo.position}
           />
-        )}
-        <div>
-          {data.author && data.status !== '모집중' && (
-            <SubBtn onClick={statusEvent}>{BUTTON_STATE[data.status]}</SubBtn>
+          <PeriodBox
+            start={new Date(data.startDate)}
+            end={data.endDate ? new Date(data.endDate) : data.endDate}
+          />
+          <TagBox tags={data.fieldList} />
+          <StacksBox stacks={data.techList} stack={false} />
+          <div className="want-box">
+            <div className="title">모집 중인 직군</div>
+            <ul>
+              {positions?.map((position) => (
+                <li className="nanum-regular" key={position.position}>
+                  <div className="job">{position.position}</div>
+                  <div className="needNum">
+                    {position.acceptedNumber}/{position.number}
+                  </div>
+                  <div
+                    className={
+                      position.acceptedNumber === position.number
+                        ? 'red light'
+                        : 'green light'
+                    }
+                  ></div>
+                  {data.author ? (
+                    <></>
+                  ) : (
+                    <>
+                      {acceptedPostion &&
+                      acceptedPostion.position === position.position ? (
+                        <Tag
+                          onClick={() => acceptedCancleEvent(position.position)}
+                          onMouseEnter={hoverHandler}
+                          onMouseLeave={hoverHandler}
+                        >
+                          {acceptedHover ? '취소' : '확정'}
+                        </Tag>
+                      ) : position.acceptedNumber === position.number ? (
+                        <Tag>마감</Tag>
+                      ) : checkApply?.position === position.position ? (
+                        <Tag onClick={() => cancelEvent(position.position)}>
+                          취소
+                        </Tag>
+                      ) : (
+                        <Tag onClick={() => applyEvent(position.position)}>
+                          지원
+                        </Tag>
+                      )}
+                    </>
+                  )}
+                </li>
+              ))}
+            </ul>
+          </div>
+          {data.author && (
+            <ApplyBox
+              crewList={applyQuery.data?.data}
+              acceptEvent={acceptEvent}
+              rejectEvent={rejectEvent}
+            />
           )}
-        </div>
-        {review && <ReviewBox crewList={data.acceptedCrewList}></ReviewBox>}
-      </Side>
-      <MainArticleBox
-        title={data.title}
-        status={data.status}
-        isAuthor={data.author}
-        deleteEvent={deleteEvent}
-        moveEdit={moveEdit}
-        createAt={data.createdAt}
-        view={data.views}
-        totalAnswers={data.totalAnswers}
-        content={data.content}
-        likeHandler={likeHandler}
-        liked={data.liked}
-        totalLikes={data.totalLikes}
-        articleRefetch={projectRefetch}
-      />
-    </GridBox>
+          <div>
+            {data.author && data.status !== '모집중' && (
+              <SubBtn onClick={statusEvent}>{BUTTON_STATE[data.status]}</SubBtn>
+            )}
+          </div>
+          {review && <ReviewBox crewList={data.acceptedCrewList}></ReviewBox>}
+        </Side>
+        <MainArticleBox
+          title={data.title}
+          status={data.status}
+          isAuthor={data.author}
+          deleteEvent={deleteEvent}
+          moveEdit={moveEdit}
+          createAt={data.createdAt}
+          view={data.views}
+          totalAnswers={data.totalAnswers}
+          content={data.content}
+          likeHandler={likeHandler}
+          liked={data.liked}
+          totalLikes={data.totalLikes}
+          articleRefetch={projectRefetch}
+        />
+      </GridBox>
+    </>
   );
 };
 
@@ -215,7 +223,7 @@ const Side = styled.div`
 
   .want-box {
     width: 100%;
-    padding: 0 30px;
+    padding: 0 16px;
     display: flex;
     flex-direction: column;
 
@@ -240,7 +248,7 @@ const Side = styled.div`
 
     > ul {
       flex-direction: column;
-      width: 70%;
+      width:90%;
       min-width: 190px;
       @media (max-width: 960px) {
         width: 100%;

@@ -2,6 +2,9 @@ import { useState } from 'react';
 import SubBtn from '../button/SubBtn';
 import styled from 'styled-components';
 import { MemberInfo } from '@/types/types';
+import { useRouter } from 'next/router';
+import { GrMail } from 'react-icons/gr';
+import { onChatCreate } from '@/util/chat';
 
 type Props = {
   crewList: {
@@ -14,9 +17,14 @@ type Props = {
 };
 
 const ApplyBox = ({ crewList, acceptEvent, rejectEvent }: Props) => {
+  const router = useRouter();
   const [applyBox, setApplyBox] = useState(false);
   const applyBoxHandler = () => {
     setApplyBox(!applyBox);
+  };
+
+  const moveUserPage = (id: number) => {
+    router.push(`/users/${id}`);
   };
   return (
     <Box>
@@ -28,11 +36,26 @@ const ApplyBox = ({ crewList, acceptEvent, rejectEvent }: Props) => {
           <ul className="select-box">
             {crewList.map((crew) => (
               <li key={crew.memberInfo.memberId} className="crew">
+                <div className="apply-position">{crew.position} 지원</div>
                 <div className="crew-profile">
-                  <div className="img-box">
-                    <img src={crew.memberInfo.profileImageUrl} alt="crew-img" />
+                  <div>
+                    <div className="img-box">
+                      <img
+                        src={crew.memberInfo.profileImageUrl}
+                        alt="crew-img"
+                      />
+                    </div>
+                    <div
+                      className="user-id"
+                      onClick={() => moveUserPage(crew.memberInfo.memberId)}
+                    >
+                      {crew.memberInfo.name}
+                    </div>
                   </div>
-                  <div>{crew.memberInfo.name}</div>
+                  <GrMail
+                    className="mail"
+                    onClick={() => onChatCreate(crew.memberInfo.memberId)}
+                  />
                 </div>
                 <div className="btn-box">
                   <SubBtn
@@ -66,7 +89,10 @@ const Box = styled.div`
   justify-content: center;
   align-items: center;
   width: 100%;
-
+  .user-id,
+  .mail {
+    cursor: pointer;
+  }
   .accept {
     background-color: #49e256;
   }
@@ -135,7 +161,12 @@ const Box = styled.div`
   .crew-profile {
     display: flex;
     align-items: center;
-    gap: 12px;
+    justify-content: space-between;
+    > div:first-child {
+      gap: 12px;
+      display: flex;
+      align-items: center;
+    }
     @media (max-width: 960px) {
       font-size: 14px;
     }

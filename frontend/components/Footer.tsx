@@ -6,12 +6,21 @@ import { FOOTER_DATA } from '@/constant/constant';
 import Link from 'next/link';
 import { useRecoilState } from 'recoil';
 import { isContactState } from '@/recoil/atom';
+import { errorAlert } from './alert/Alert';
 
 const Footer = () => {
   //메일봇 상태
   const [, setIsContact] = useRecoilState(isContactState);
 
   const onContact = (name: string, e: { preventDefault: () => void }) => {
+    if (name === 'copyright') {
+      e.preventDefault();
+      return;
+    }
+    if (name === '') {
+      e.preventDefault();
+      return errorAlert('준비 중입니다.', '');
+    }
     if (name === 'onContact') {
       e.preventDefault();
       setIsContact(true);

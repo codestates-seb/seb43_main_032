@@ -1,9 +1,11 @@
+import { useRouter } from 'next/router';
 import React from 'react';
 import styled from 'styled-components';
 
 export default function LoginBg() {
+  const router = useRouter();
   return (
-    <Container>
+    <Container >
       <svg
         className="css-waves"
         xmlns="http://www.w3.org/2000/svg"
@@ -63,6 +65,11 @@ const Container = styled.div`
     height: 15vh;
     min-height: 100px;
     max-height: 150px;
+
+    @media (max-width: 640px) {
+      height: 40vh;
+      max-height: none;
+    }
   }
 
   /* Here we declare the SVG node that we wish to animate. */
@@ -95,10 +102,10 @@ const Container = styled.div`
     }
   }
   /* Mobile Optimization */
-  @media (max-width: 768px) {
+  /* @media (max-width: 768px) {
     .css-waves {
       height: 40px;
       min-height: 40px;
     }
-  }
+  } */
 `;

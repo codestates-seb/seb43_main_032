@@ -2,10 +2,14 @@ import styled from 'styled-components';
 import AuthContainer from '@/components/authAction/AuthContainer';
 import Image from 'next/image';
 import loginImg from '../../../public/images/loginImg.svg';
+import Head from 'next/head';
 
 const Login = () => {
   return (
     <>
+      <Head>
+        <title>{`SIDE QUEST - 로그인`}</title>
+      </Head>
       <Wrapper>
         <WrapperInset>
           <Contents>
@@ -43,6 +47,11 @@ const WrapperInset = styled.div`
   border-radius: 15px;
   justify-content: space-around;
   margin-top: 3%;
+
+  @media (max-width: 960px) {
+    flex-direction: column;
+    gap: 40px;
+  }
 `;
 const Contents = styled.div`
   display: flex;
@@ -51,9 +60,23 @@ const Contents = styled.div`
   width: 40%;
   height: 100%;
 
+  @media (max-width: 960px) {
+    width: 100%;
+    justify-content: center;
+    > div {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+  }
+
   img {
     width: 100%;
     opacity: 0.9;
+
+    @media (max-width: 960px) {
+      display: none;
+    }
   }
 
   a {

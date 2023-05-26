@@ -22,24 +22,23 @@ export default function UserEditForm({ user }: { user: User }) {
   );
   const index = initialPosition ? POSITIONS.indexOf(initialPosition) : -1;
 
-  const { register, handleSubmit, watch } = useForm();
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors },
+  } = useForm();
   const [imgPreview, setImgPreview] = useState<string>('');
   const [stacks, setStacks] = useState<Tech[]>(user.techList);
   const [filter, setFilter] = useState(index);
   const [submitLoading, setSubmitLoading] = useState(false);
-  const filterHandler = (idx: number) => {
-    if (filter === idx) {
-      return setFilter(-1); //다시 한 번 필터가 눌렸을 땐, 전체 카드가 조회되기위해
-    }
-    setFilter(idx);
-  };
-  const image = watch('image');
   const router = useRouter();
 
   const onValid = async (data: any) => {
     setSubmitLoading(true);
     data.position = POST_COMMUNITY_CATEGORY[POSITIONS[filter]];
     await mergeData(data, image, stacks);
+
     const updatedData = updateData(user, data);
 
     updateUser.mutate(updatedData, {
@@ -58,11 +57,17 @@ export default function UserEditForm({ user }: { user: User }) {
     console.log(errors);
   };
 
+  const image = watch('image');
   useEffect(() => {
     if (image && image.length > 0) {
       setImgPreview(URL.createObjectURL(image[0]));
     }
   }, [image]);
+
+  const formEvent = (e: { preventDefault: () => void }) => {
+    e.preventDefault();
+    handleSubmit(onValid, onInValid);
+  };
 
   return (
     <Form onSubmit={handleSubmit(onValid, onInValid)}>
@@ -86,12 +91,28 @@ export default function UserEditForm({ user }: { user: User }) {
             <EditInput
               label="아이디"
               placeholder={user.name}
-              register={register('name')}
+              register={register('name', {
+                minLength: {
+                  message: '이름은 2자 이상이어야 합니다.',
+                  value: 2,
+                },
+                maxLength: {
+                  message: '이름은 8자 이하여야 합니다.',
+                  value: 8,
+                },
+              })}
+              error={errors.name && errors.name}
             />
             <EditInput
               label="전화번호"
               placeholder={user.phone}
-              register={register('phone')}
+              register={register('phone', {
+                pattern: {
+                  value: /^\d{11}$/,
+                  message: '전화번호는 11자리 숫자만 가능합니다',
+                },
+              })}
+              error={errors.phone && errors.phone}
             />
           </div>
           <div className="bottom">
@@ -100,10 +121,15 @@ export default function UserEditForm({ user }: { user: User }) {
               register={register('yearOfDev', {
                 pattern: {
                   value: /^[0-9]*$/,
-                  message: 'Please enter only numbers',
+                  message: '숫자만 입력해 주세요.',
                 },
+                validate: (value) =>
+                  !value ||
+                  parseInt(value, 10) <= 99 ||
+                  '99년보다 클 수 없습니다.',
               })}
               placeholder={`${user.yearOfDev} 년차`}
+              error={errors.yearOfDev && errors.yearOfDev}
             />
 
             <PositionBox>
@@ -147,21 +173,23 @@ export default function UserEditForm({ user }: { user: User }) {
       <div className="textForm">
         <div className="stack">
           <Label>사용스택</Label>
-          <SelectStack //
-            stacks={stacks}
-            setStacks={setStacks}
-          />
+          <SelectStack type={'user'} stacks={stacks} setStacks={setStacks} />
         </div>
         <EditTextArea
           label="자기소개"
           placeholder={user.aboutMe}
-          register={register('aboutMe')}
+          register={register('aboutMe', {
+            maxLength: {
+              message: '자기 소개가 너무 깁니다.',
+              value: 1000,
+            },
+          })}
           cl
         />
       </div>
       <ButtonBox>
         <Button disabled={submitLoading}>
-          {submitLoading ? '제출' : '작성완료'}
+          {submitLoading ? '제출중' : '작성완료'}
         </Button>
       </ButtonBox>
     </Form>

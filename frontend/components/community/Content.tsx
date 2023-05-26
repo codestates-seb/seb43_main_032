@@ -5,11 +5,11 @@ import ContentItem from './ContentItem';
 import { useRouter } from 'next/router';
 import Pagenation from '../Pagenation';
 import Filter from '../Filter';
-import Message from '../Message';
 import CommunityItemSkeleton from '../skeleton/CommunityItemSkeleton';
 import { ARTICLE_FILTER, POST_COMMUNITY_CATEGORY } from '@/constant/constant';
 import { communityFilter } from '@/util/filter/communityFilter';
 import { useAllData } from '@/hooks/react-query/useAllData';
+import Message from '../Message';
 
 export default function Content() {
   const router = useRouter();
@@ -60,7 +60,7 @@ export default function Content() {
   const pageSize = Math.ceil(filterData.length / 10);
   const viewData = filterData.slice((page - 1) * page_limit, page * page_limit);
 
-  if (communityError) return <Message>잠시 후 다시 시도해주세요.</Message>;
+  if (communityError) return <Message>잠시 후에 다시 시도해주세요.</Message>;
   return (
     <>
       <ContentTop>
@@ -86,7 +86,7 @@ export default function Content() {
       </ContentTop>
       <ContentBottom>
         {communityLoading ? (
-          <CommunityItemSkeleton count={10} />
+          <CommunityItemSkeleton width="90%" gap="20px" count={10} />
         ) : (
           <ContentItemList>
             {viewData.map((article: Community) => (
@@ -158,7 +158,6 @@ const ContentBottom = styled.div`
   width: 100%;
   padding: var(--padding-2);
   background: #ffffff;
-  top: 20px;
   display: flex;
   flex-direction: column;
   gap: 20px;
@@ -174,4 +173,7 @@ const ContentItemList = styled.div`
   flex-direction: column;
   justify-content: start;
   align-items: center;
+  @media (max-width: 768px) {
+    padding: 0px 10px;
+  }
 `;

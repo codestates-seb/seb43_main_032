@@ -6,6 +6,7 @@ import art1 from '../public/images/404art.svg';
 import art2 from '../public/images/404art2.svg';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
+import Head from 'next/head';
 
 const Custom404 = () => {
   const router = useRouter();
@@ -38,6 +39,9 @@ const Custom404 = () => {
   }, [mousePosition]);
   return (
     <>
+      <Head>
+        <title>SIDE QUEST - 404</title>
+      </Head>
       <Box>
         <div className="star-box">
           <div className="stars"></div>

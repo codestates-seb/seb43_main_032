@@ -1,21 +1,18 @@
 import Pagenation from '@/components/Pagenation';
 import UserCard from '@/components/user/UserCard';
-import { ChangeEvent, useEffect, useState } from 'react';
+import { ChangeEvent, useState } from 'react';
 import styled from 'styled-components';
 import { BiSearch } from 'react-icons/bi';
 import { POSITIONS } from '@/constant/constant';
-import useUser from '@/hooks/react-query/user/useUser';
 import Message from '@/components/Message';
+import { useAllData } from '@/hooks/react-query/useAllData';
 import { usersFilter } from '@/util/filter/usersFilter';
+import Head from 'next/head';
 
 const Users = () => {
   const [inputValue, setInputValue] = useState<string>('');
   const [page, setPage] = useState<number>(1);
-  const [size, setSize] = useState<number>(24);
-
-  const {
-    userQuery: { data: users, isLoading: allUserLoading },
-  } = useUser({ userPage: page, userPageSize: size });
+  const { userData, userLoading, userError } = useAllData();
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     setInputValue(e.target.value);
@@ -25,15 +22,7 @@ const Users = () => {
   const [filter, setFilter] = useState(-1);
 
   //필터링된 데이터
-  let filterData = usersFilter(users, filter, inputValue);
-
-  //페이지네이션 크기
-  const pageSize =
-    filterData && filterData?.length > 0
-      ? Math.ceil(filterData?.length / 24)
-      : filter === -1 && inputValue !== ''
-      ? filterData?.length
-      : Math.ceil(size / 24);
+  let filterData = usersFilter(userData, filter, inputValue);
 
   //실제 보여지는 필터 데이터
   const viewFilterData = filterData?.slice((page - 1) * 24, page * 24);
@@ -43,57 +32,58 @@ const Users = () => {
       return setFilter(-1); //다시 한 번 필터가 눌렸을 땐, 전체 카드가 조회되기위해
     }
     setFilter(idx);
+    setPage(1);
   };
 
-  useEffect(() => {
-    if (filter === -1 && inputValue !== '') {
-      setSize(1000);
-    }
-  }, [inputValue]);
-
-  if (allUserLoading) return <Message>로딩중입니다.</Message>;
+  if (userError) return <Message>잠시 후에 다시 시도해주세요.</Message>;
+  if (userLoading) return <Message>로딩중입니다.</Message>;
   return (
-    <Wrapper>
-      <SearchHeader>
-        <Title>유저 목록</Title>
-        <SubHeader>
-          <FilterBox>
-            {POSITIONS.map((btn, idx) => (
-              <FilterButton
-                idx={idx}
-                filter={filter}
-                onClick={() => filterHandler(idx)}
-                key={btn}
-              >
-                {btn}
-              </FilterButton>
+    <>
+      <Head>
+        <title>{`SIDE QUEST - 유저`}</title>
+      </Head>
+      <Wrapper>
+        <SearchHeader>
+          <Title>유저 목록</Title>
+          <SubHeader>
+            <FilterBox>
+              {POSITIONS.map((btn, idx) => (
+                <FilterButton
+                  idx={idx}
+                  filter={filter}
+                  onClick={() => filterHandler(idx)}
+                  key={btn}
+                >
+                  {btn}
+                </FilterButton>
+              ))}
+            </FilterBox>
+            <SearchBox>
+              <input
+                className="search-input"
+                onChange={handleChange}
+                value={inputValue}
+                placeholder="검색어를 입력해주세요."
+              />
+              <SearchButton>
+                <BiSearch />
+              </SearchButton>
+            </SearchBox>
+          </SubHeader>
+        </SearchHeader>
+        <CardWrapper>
+          {viewFilterData &&
+            viewFilterData.map((user: any) => (
+              <UserCard key={user.name} user={user} />
             ))}
-          </FilterBox>
-          <SearchBox>
-            <input
-              className="search-input"
-              onChange={handleChange}
-              value={inputValue}
-              placeholder="검색어를 입력해주세요."
-            />
-            <SearchButton>
-              <BiSearch />
-            </SearchButton>
-          </SearchBox>
-        </SubHeader>
-      </SearchHeader>
-      <CardWrapper>
-        {viewFilterData &&
-          viewFilterData.map((user: any) => (
-            <UserCard key={user.name} user={user} />
-          ))}
-      </CardWrapper>
-      <Pagenation
-        pageSize={pageSize ? pageSize : 0}
-        page={page}
-        onPageChange={setPage}
-      />
-    </Wrapper>
+        </CardWrapper>
+        <Pagenation
+          pageSize={filterData ? Math.ceil(filterData.length / 24) : 0}
+          page={page}
+          onPageChange={setPage}
+        />
+      </Wrapper>
+    </>
   );
 };
 
@@ -122,9 +112,8 @@ const SubHeader = styled.div`
   padding-bottom: 20px;
   justify-content: space-between;
 
-  @media (max-width: 768px) {
+  @media (max-width: 960px) {
     flex-direction: column;
-    align-items: flex-end;
     gap: 20px;
   }
 `;
@@ -150,7 +139,7 @@ const SearchBox = styled.div`
     }
   }
 
-  @media (max-width: 768px) {
+  @media (max-width: 960px) {
     width: 100%;
   }
 `;
@@ -168,6 +157,17 @@ const FilterBox = styled.div`
   height: 100%;
   width: 80%;
   gap: 8px;
+  @media (max-width: 768px) {
+    flex-wrap: wrap;
+    justify-content: space-between;
+
+    > button {
+      width: calc(50% - 8px);
+    }
+  }
+  @media (max-width: 960px) {
+    width: 100%;
+  }
 `;
 
 //필터 버튼 props
@@ -193,7 +193,7 @@ export const FilterButton = styled.button<FilterButtonProps>`
 `;
 const CardWrapper = styled.div`
   display: grid;
-  min-height: 65.5vh;
+  min-height: 70vh;
   width: 100%;
   gap: 10px;
   margin-bottom: 50px;

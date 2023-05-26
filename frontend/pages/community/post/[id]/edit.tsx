@@ -1,6 +1,7 @@
 import { errorAlert } from '@/components/alert/Alert';
 import CommunityForm from '@/components/community/CommunityForm';
 import { getCookie } from '@/util/cookie';
+import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 
@@ -15,7 +16,10 @@ const EditCommunity = () => {
   }, []);
   return (
     <>
-      <CommunityForm />
+      <Head>
+        <title>{`SIDE QUEST - 커뮤니티 수정`}</title>
+      </Head>
+      <CommunityForm />;
     </>
   );
 };
