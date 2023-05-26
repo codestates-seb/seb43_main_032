@@ -24,10 +24,17 @@
 ## 👨‍👩‍👧‍👦 Team Members
 ####  이름 클릭 시 Github로 이동됩니다. 
 
-| [신동민](https://github.com/shdomi8599)<br>(FE, 팀장)| [이혜나](https://github.com/hazellee0914)<br>(FE)| [최기랑](https://github.com/choigirang)<br>(FE)| [전준형](https://github.com/latemarch)<br>(FE)| [이정철](https://github.com/tree4553)<br>(BE, 팀장)| [윤승현](https://github.com/YoonSeungHyun2)<br>(BE)| [이동엽](https://github.com/DONGYEOPME)<br>(BE)|
-|:----------------:|:----------------:|:----------------:|:----------------:|:----------------:|:----------------:|:----------------:|
-| <img src='https://github.com/codestates-seb/seb43_main_032/assets/118104644/4864d4d8-35fe-4ae7-8402-abb68495dd1c' width='100'> | <img src='https://github.com/codestates-seb/seb43_main_032/assets/118104644/30bf5eee-ddbd-4728-81f9-afbd78ed216d' width='100'/> | <img src='https://github.com/codestates-seb/seb43_main_032/assets/118104644/d42ebf0c-198f-491f-955f-ce5dc742df96' width='100'/> | <img src='https://github.com/codestates-seb/seb43_main_032/assets/118104644/dac454ab-2372-41ff-94e5-2b780478b8da' width='100'/> | <img src='https://github.com/codestates-seb/seb43_main_032/assets/118104644/c7196590-120f-4ac8-9709-7f91287dda76' width='100'/> | <img src='https://github.com/codestates-seb/seb43_main_032/assets/118104644/1126e3b3-463b-49ec-af61-7c6ed2466206' width='100'/> | <img src='https://github.com/codestates-seb/seb43_main_032/assets/118104644/88ccee4c-ee61-41fe-a2e6-4d2ca61e0b09' width='100'/> |
-|<p align="left">- 프로젝트 셋팅<br/>- PROJECT 페이지<br/>- 쪽지함 기능<br/>- 에디터 구현<br/>- 스택 선택 기능<br/>- 댓글 및 답변</p>|<p align="left">- 헤더 및 푸더<br/>- 문의 기능</p>|<p align="left">- 디자인 담당<br/>- COMMUNITY 페이지<br/>- ERROR 페이지<br/>- 서비스 소개</p>|<p align="left">- LOGIN/SIGN IN<br/>- Auth 담당<br/>- USERS 페이지</p>|<p align="left">- 프로젝트<br/>- JWT<br/>- OAuth2<br/>- Router 53</p>|<p align="left">- 답글,댓글,좋아요 기능<br/>- S3<br/>- Swagger</p>|<p align="left">- 유저<br/>- 커뮤니티<br/>- RDS<br/>- Docker|
+| [신동민](https://github.com/shdomi8599)<br>(FE, 팀장)| [이혜나](https://github.com/hazellee0914)<br>(FE)| [최기랑](https://github.com/choigirang)<br>(FE)| [전준형](https://github.com/latemarch)<br>(FE)|
+|:----------------:|:----------------:|:----------------:|:----------------:|
+| <img src='https://github.com/codestates-seb/seb43_main_032/assets/118104644/4864d4d8-35fe-4ae7-8402-abb68495dd1c' width='100'> | <img src='https://github.com/codestates-seb/seb43_main_032/assets/118104644/30bf5eee-ddbd-4728-81f9-afbd78ed216d' width='100'/> | <img src='https://github.com/codestates-seb/seb43_main_032/assets/118104644/d42ebf0c-198f-491f-955f-ce5dc742df96' width='100'/> | <img src='https://github.com/codestates-seb/seb43_main_032/assets/118104644/dac454ab-2372-41ff-94e5-2b780478b8da' width='100'/> |
+|<p align="left">- 프로젝트 셋팅<br/>- PROJECT 페이지<br/>- 쪽지함 기능<br/>- 에디터 구현<br/>- 스택 선택 기능<br/>- 댓글 및 답변</p>|<p align="left">- 헤더 및 푸더<br/>- 문의 기능</p>|<p align="left">- 디자인 담당<br/>- COMMUNITY 페이지<br/>- ERROR 페이지<br/>- 서비스 소개</p>|<p align="left">- LOGIN/SIGN IN<br/>- Auth 담당<br/>- USERS 페이지</p>|
+
+<br>
+
+| [이정철](https://github.com/tree4553)<br>(BE, 팀장)| [윤승현](https://github.com/YoonSeungHyun2)<br>(BE)| [이동엽](https://github.com/DONGYEOPME)<br>(BE)|
+|:----------------:|:----------------:|:----------------:|
+| <img src='https://github.com/codestates-seb/seb43_main_032/assets/118104644/c7196590-120f-4ac8-9709-7f91287dda76' width='100'/> | <img src='https://github.com/codestates-seb/seb43_main_032/assets/118104644/1126e3b3-463b-49ec-af61-7c6ed2466206' width='100'/> | <img src='https://github.com/codestates-seb/seb43_main_032/assets/118104644/88ccee4c-ee61-41fe-a2e6-4d2ca61e0b09' width='100'/> |
+|<p align="left">- 프로젝트<br/>- JWT<br/>- OAuth2<br/>- Router 53</p>|<p align="left">- 답글,댓글,좋아요 기능<br/>- S3<br/>- Swagger</p>|<p align="left">- 유저<br/>- 커뮤니티<br/>- RDS<br/>- Docker|
 
 
 <br>
