@@ -13,11 +13,16 @@ const Footer = () => {
   const [, setIsContact] = useRecoilState(isContactState);
 
   const onContact = (name: string, e: { preventDefault: () => void }) => {
-    e.preventDefault();
+    if (name === 'copyright') {
+      e.preventDefault();
+      return;
+    }
     if (name === '') {
+      e.preventDefault();
       return errorAlert('준비 중입니다.', '');
     }
     if (name === 'onContact') {
+      e.preventDefault();
       setIsContact(true);
     }
   };
