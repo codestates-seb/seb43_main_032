@@ -1,7 +1,7 @@
 import SubBtn from '@/components/button/SubBtn';
 import ChatBox from '@/components/common_box/ChatBox';
 import { chatState } from '@/recoil/atom';
-import { formatDate2 } from '@/util/date';
+import { formatDate2, formatDateTime } from '@/util/date';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { useRecoilValue } from 'recoil';
@@ -25,7 +25,7 @@ const ChatItem = () => {
               <div>
                 <SubBtn onClick={backEvent}>뒤로가기</SubBtn>
               </div>
-              <div>{formatDate2(new Date(item?.createdAt))}</div>
+              <div>{formatDateTime(new Date(item?.createdAt))}</div>
               <div className="item-title">{item?.title}</div>
               <div className="item-content">{item?.content}</div>
             </>
@@ -43,6 +43,7 @@ const Box = styled.div`
   padding: var(--padding-2);
   display: flex;
   flex-direction: column;
+  word-break: break-all;
   gap: 20px;
   .item-title {
     font-size: 20px;

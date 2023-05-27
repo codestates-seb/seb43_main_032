@@ -95,11 +95,19 @@ const Box = styled.div`
       border: 1px solid black;
     }
     .chat-title {
+      width: 274px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
       padding: 4px;
       flex: 1;
       cursor: pointer;
     }
     .user {
+      border: none;
+      border-top: 1px solid black;
+      border-bottom: 1px solid black;
+      min-width: 100px;
       padding: 4px;
       flex: 0.3;
     }
