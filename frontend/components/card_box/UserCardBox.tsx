@@ -1,8 +1,9 @@
 import styled from 'styled-components';
-import { ReactNode } from 'react';
+import { ReactNode, useState } from 'react';
 import { MemberInfo } from '@/types/types';
 import UserCard from '../user/UserCard';
-import { AiFillStar } from 'react-icons/ai';
+import { BsQuestionCircle } from 'react-icons/bs';
+import InfoBubble from '../InfoBubble';
 
 type Props = {
   data: MemberInfo[];
@@ -10,12 +11,27 @@ type Props = {
 };
 
 const UserCardBox = ({ data, skeleton }: Props) => {
+  const [question, setQuestion] = useState(false);
+  const onQuestion = () => {
+    setQuestion(true);
+  };
+  const offQuestion = () => {
+    setQuestion(false);
+  };
   return (
     <Box>
       <div className="nanum-bold">
         <div className="title-box">
           <span className="sub-title">BEST</span>
-          <div>명예의 전당</div>
+          <div className="title">
+            {question && <InfoBubble type="rank" />}
+            <span>
+              명예의 전당
+            </span>
+            <span onMouseEnter={onQuestion} onMouseLeave={offQuestion}>
+              <BsQuestionCircle />
+            </span>
+          </div>
         </div>
       </div>
       <div className="users-box">
@@ -44,6 +60,14 @@ const Box = styled.div`
       .sub-title {
         font-size: 14px;
         color: red;
+      }
+      .title {
+        position: relative;
+        display: flex;
+        gap: 8px;
+        span {
+          display: flex;
+        }
       }
 
       > div {
