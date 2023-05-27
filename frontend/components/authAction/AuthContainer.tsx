@@ -8,6 +8,7 @@ import styled from 'styled-components';
 import LoginForm from './LoginForm';
 import SignUpForm from './SignUpForm';
 import { useRouter } from 'next/router';
+import { errorAlert } from '../alert/Alert';
 
 type AuthBtn = {
   provider: string;
@@ -20,6 +21,9 @@ export default function AuthContainer({ isLogin }: { isLogin: Boolean }) {
   };
   const handleGoogleLogin = async () => {};
 
+  const onAlert = (name: string) => {
+    errorAlert('준비 중입니다.', `${name} 로그인`);
+  };
   return (
     <>
       <LoginWrapper>
@@ -52,13 +56,16 @@ export default function AuthContainer({ isLogin }: { isLogin: Boolean }) {
             >
               <AiFillGoogleCircle size={24} />
             </OAuthButton>
-            <OAuthButton provider="facebook">
+            <OAuthButton
+              onClick={() => onAlert('페이스북')}
+              provider="facebook"
+            >
               <AiFillFacebook size={24} />
             </OAuthButton>
-            <OAuthButton provider="kakao">
+            <OAuthButton onClick={() => onAlert('카카오톡')} provider="kakao">
               <RiKakaoTalkFill size={24} />
             </OAuthButton>
-            <OAuthButton provider="github">
+            <OAuthButton onClick={() => onAlert('깃허브')} provider="github">
               <AiFillGithub size={24} />
             </OAuthButton>
           </OAuthBtnBox>
