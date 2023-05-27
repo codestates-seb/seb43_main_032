@@ -80,7 +80,7 @@ const ProjectHome = () => {
       { threshold: 1 }
     );
 
-    if (target.current && filter === 0) {
+    if (target.current && filter === 0 && searchVal === '') {
       observer.observe(target.current);
     }
 
@@ -89,7 +89,7 @@ const ProjectHome = () => {
         observer.unobserve(target.current);
       }
     };
-  }, [target.current, data?.pageParams, filter]);
+  }, [target.current, data?.pageParams, filter, searchVal]);
 
   if (error) return <Message>잠시 후에 다시 시도해주세요.</Message>;
   if (isLoading) return <Message>로딩중입니다.</Message>;
