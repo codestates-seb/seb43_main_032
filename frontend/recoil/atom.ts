@@ -27,3 +27,7 @@ export const communityTagState = atom({
   key: 'communityTagState',
   default: '',
 });
+export const propjectTagState = atom({
+  key: 'propjectTagState',
+  default: '',
+});

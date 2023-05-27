@@ -28,9 +28,15 @@ export default function ContentItem(article: Community) {
     val: string
   ) => {
     e.stopPropagation();
-    router
-      .push('/community')
-      .then(() => setTimeout(() => setCommunityTag(val), 30));
+    router.push('/community').then(() =>
+      setTimeout(() => {
+        window.scrollTo({
+          top: 600,
+          left: 0,
+        });
+        setCommunityTag(val);
+      }, 30)
+    );
   };
 
   return (

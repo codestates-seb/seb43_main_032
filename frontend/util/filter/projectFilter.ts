@@ -1,4 +1,5 @@
 import { Project } from '@/types/project';
+import { formatSkill } from '../stack/formatSkill';
 
 type Props = {
   filter: number;
@@ -12,11 +13,12 @@ export const projectFilter = ({ filter, allData, searchVal }: Props) => {
       (data: Project) =>
         data.title.includes(searchVal) ||
         data.content.includes(searchVal) ||
-        data.memberInfo.name.includes(searchVal)
+        data.memberInfo.name.includes(searchVal) ||
+        data.techList
+          .map((tech) => formatSkill(tech.tech))
+          .includes(searchVal) ||
+        data.fieldList.map((tag) => tag.field).includes(searchVal)
     );
-  }
-  if (filter === 0) {
-    return;
   }
   let filterData;
   if (filter === 1) {
@@ -34,12 +36,16 @@ export const projectFilter = ({ filter, allData, searchVal }: Props) => {
   if (filter === 4) {
     filterData = allData.sort((x, y) => y.totalAnswers - x.totalAnswers);
   }
-  if (searchVal !== '') {
-    filterData = (filterData as []).filter(
+  if (searchVal !== '' && filterData) {
+    filterData = filterData.filter(
       (data: Project) =>
         data.title.includes(searchVal) ||
         data.content.includes(searchVal) ||
-        data.memberInfo.name.includes(searchVal)
+        data.memberInfo.name.includes(searchVal) ||
+        data.techList
+          .map((tech) => formatSkill(tech.tech))
+          .includes(searchVal) ||
+        data.fieldList.map((tag) => tag.field).includes(searchVal)
     );
   }
 

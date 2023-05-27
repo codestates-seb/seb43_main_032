@@ -13,7 +13,7 @@ import { getCookie } from '@/util/cookie';
 import { errorAlert } from '../alert/Alert';
 import { postStar } from '@/util/api/postStar';
 import { useRecoilState } from 'recoil';
-import { viewMemberIdState } from '@/recoil/atom';
+import { propjectTagState, viewMemberIdState } from '@/recoil/atom';
 
 type Props = {
   size: string;
@@ -22,6 +22,7 @@ type Props = {
 
 const ProjectCard = ({ data, size }: Props) => {
   const router = useRouter();
+  const [, setProjectTag] = useRecoilState(propjectTagState);
   const [, setViewMemberId] = useRecoilState(viewMemberIdState);
   const [heart, setHeart] = useState(data.liked);
   const heartHandler = (isLiked: boolean) => {
@@ -56,6 +57,22 @@ const ProjectCard = ({ data, size }: Props) => {
     router.push(`project/${id}`);
   };
 
+  const projectTagHandler = (
+    e: { stopPropagation: () => void },
+    val: string
+  ) => {
+    e.stopPropagation();
+    router.push('/project').then(() =>
+      setTimeout(() => {
+        window.scrollTo({
+          top: 1000,
+          left: 0,
+        });
+        setProjectTag(val);
+      }, 30)
+    );
+  };
+
   return (
     <Box>
       <Card
@@ -85,7 +102,7 @@ const ProjectCard = ({ data, size }: Props) => {
           <ul>
             {data.fieldList.map((tag, i) => (
               <li key={`${tag.field}+${i}`}>
-                <Tag>
+                <Tag onClick={(e) => projectTagHandler(e, tag.field)}>
                   <div>{tag.field}</div>
                 </Tag>
               </li>
