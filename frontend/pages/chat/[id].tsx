@@ -1,7 +1,7 @@
 import SubBtn from '@/components/button/SubBtn';
 import ChatBox from '@/components/common_box/ChatBox';
 import { chatState } from '@/recoil/atom';
-import { formatDate2, formatDateTime } from '@/util/date';
+import { formatDateTime } from '@/util/date';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { useRecoilValue } from 'recoil';

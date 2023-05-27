@@ -14,7 +14,6 @@ import Head from 'next/head';
 export default function me() {
   const {
     getMyInfo: { data: user, isError },
-    getMyProjects: { data: projects },
   } = useUser({});
   const router = useRouter();
   useEffect(() => {
