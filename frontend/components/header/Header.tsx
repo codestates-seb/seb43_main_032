@@ -10,7 +10,7 @@ import { HEADER_NAV } from '@/constant/constant';
 import { deleteCookie, getCookie } from '@/util/cookie';
 import { useRecoilState } from 'recoil';
 import {
-  communityTagState,
+  communitySearchState,
   loggedInUserState,
   navModalState,
   propjectTagState,
@@ -24,10 +24,10 @@ import { onChat } from '@/util/chat';
 const Header = () => {
   const router = useRouter();
   const [, setPropjectTag] = useRecoilState(propjectTagState);
-  const [, setCommunityTag] = useRecoilState(communityTagState);
+  const [, setCommunitySearch] = useRecoilState(communitySearchState);
 
   useEffect(() => {
-    setCommunityTag('');
+    setCommunitySearch('');
     setPropjectTag('');
   }, [router]);
 
