@@ -39,7 +39,8 @@ export const communityFilter = ({
       (data: Community) =>
         data.title.includes(searchVal) ||
         data.content.includes(searchVal) ||
-        data.memberInfo.name.includes(searchVal)
+        data.memberInfo.name.includes(searchVal) ||
+        data.techList.map((tech) => tech.tech).includes(searchVal)
     );
     return filterData;
   }

@@ -10,11 +10,18 @@ import { ARTICLE_FILTER, POST_COMMUNITY_CATEGORY } from '@/constant/constant';
 import { communityFilter } from '@/util/filter/communityFilter';
 import { useAllData } from '@/hooks/react-query/useAllData';
 import Message from '../Message';
+import { useRecoilState } from 'recoil';
+import { communityTagState } from '@/recoil/atom';
 
 export default function Content() {
+  const [communityTag] = useRecoilState(communityTagState);
   const router = useRouter();
   const [page, setPage] = useState(1);
   const page_limit = 10;
+
+  useEffect(() => {
+    setSearchVal(communityTag);
+  }, [communityTag]);
 
   useEffect(() => {
     window.scrollTo({
