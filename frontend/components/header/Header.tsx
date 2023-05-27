@@ -13,7 +13,7 @@ import {
   communitySearchState,
   loggedInUserState,
   navModalState,
-  propjectTagState,
+  propjectSearchState,
 } from '@/recoil/atom';
 import { setUserState } from '@/util/api/user';
 import { NavProps } from '@/types/types';
@@ -23,12 +23,12 @@ import { onChat } from '@/util/chat';
 
 const Header = () => {
   const router = useRouter();
-  const [, setPropjectTag] = useRecoilState(propjectTagState);
+  const [, setPropjectSearch] = useRecoilState(propjectSearchState);
   const [, setCommunitySearch] = useRecoilState(communitySearchState);
 
   useEffect(() => {
     setCommunitySearch('');
-    setPropjectTag('');
+    setPropjectSearch('');
   }, [router]);
 
   //로그인한 유저의 데이터 상태

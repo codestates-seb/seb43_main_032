@@ -27,7 +27,7 @@ export const communitySearchState = atom({
   key: 'communitySearchState',
   default: '',
 });
-export const propjectTagState = atom({
-  key: 'propjectTagState',
+export const propjectSearchState = atom({
+  key: 'propjectSearchState',
   default: '',
 });

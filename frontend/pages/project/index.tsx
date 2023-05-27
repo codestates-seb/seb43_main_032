@@ -17,24 +17,19 @@ import { projectFilter } from '@/util/filter/projectFilter';
 import { useTopData } from '@/hooks/react-query/useTopData';
 import Head from 'next/head';
 import { useRecoilState } from 'recoil';
-import { propjectTagState } from '@/recoil/atom';
+import { propjectSearchState } from '@/recoil/atom';
 
 const ProjectHome = () => {
   const router = useRouter();
-  const [projectTag] = useRecoilState(propjectTagState);
-  const [searchVal, setSearchVal] = useState('');
+  const [projectSearch, setProjectSearch] = useRecoilState(propjectSearchState);
   const { isLoading, error, data, fetchNextPage, hasNextPage, isFetching } =
     useInfinityProject();
   const [isHovered, setIsHovered] = useState(false);
 
-  useEffect(() => {
-    setSearchVal(projectTag);
-  }, [projectTag]);
-
   const searchValHandler = (e: {
     target: { value: SetStateAction<string> };
   }) => {
-    setSearchVal(e.target.value);
+    setProjectSearch(e.target.value);
   };
   const handleMouseEnter = () => {
     setIsHovered(true);
@@ -62,7 +57,7 @@ const ProjectHome = () => {
   const filterData = projectFilter({
     filter,
     allData,
-    searchVal,
+    searchVal: projectSearch,
   });
 
   //무한 스크롤 effect
@@ -80,7 +75,7 @@ const ProjectHome = () => {
       { threshold: 1 }
     );
 
-    if (target.current && filter === 0 && searchVal === '') {
+    if (target.current && filter === 0 && projectSearch === '') {
       observer.observe(target.current);
     }
 
@@ -89,7 +84,7 @@ const ProjectHome = () => {
         observer.unobserve(target.current);
       }
     };
-  }, [target.current, data?.pageParams, filter, searchVal]);
+  }, [target.current, data?.pageParams, filter, projectSearch]);
 
   if (error) return <Message>잠시 후에 다시 시도해주세요.</Message>;
   if (isLoading) return <Message>로딩중입니다.</Message>;
@@ -122,8 +117,8 @@ const ProjectHome = () => {
           </div>
           <ProjectCardBox
             title={
-              searchVal !== '' && searchVal
-                ? `${searchVal}의 결과입니다.`
+              projectSearch !== '' && projectSearch
+                ? `${projectSearch}의 결과입니다.`
                 : '전체 프로젝트'
             }
             data={
@@ -150,7 +145,7 @@ const ProjectHome = () => {
                   <input
                     type="text"
                     onChange={searchValHandler}
-                    value={searchVal}
+                    value={projectSearch}
                     placeholder="검색어를 입력해주세요."
                   />
                 </div>
