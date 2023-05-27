@@ -20,7 +20,10 @@ export const communityFilter = ({
     filterData = allData.filter((data) => data.category === category);
   }
   if (filter === 1) {
-    filterData = filterData.reverse();
+    filterData = filterData.sort(
+      (x, y) =>
+        new Date(x.createdAt).getTime() - new Date(y.createdAt).getTime()
+    );
   }
   if (filter === 2) {
     filterData = filterData.sort((x, y) => y.view - x.view);
