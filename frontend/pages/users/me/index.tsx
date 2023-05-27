@@ -66,7 +66,7 @@ export default function me() {
                 />
                 <InfoContainer
                   keyNode={'휴대전화'}
-                  contentNode={`${user.phone.slice(0, 9)}****`}
+                  contentNode={user.phone && `${user.phone.slice(0, 9)}****`}
                 />
                 <InfoContainer
                   keyNode={'이메일'}
