@@ -19,17 +19,18 @@ export default function Content() {
   const [page, setPage] = useState(1);
   const page_limit = 10;
 
-  useEffect(() => {
-    setSearchVal(communityTag);
-  }, [communityTag]);
-
-  useEffect(() => {
+  const pageHandler = (number: number) => {
+    setPage(number);
     window.scrollTo({
-      top: 0,
+      top: 600,
       left: 0,
       behavior: 'smooth',
     });
-  }, [page]);
+  };
+
+  useEffect(() => {
+    setSearchVal(communityTag);
+  }, [communityTag]);
 
   //모든 데이터 세팅, 서버 필터링을 프론트 눈속임으로 해결
   const { communityData, communityLoading, communityError } = useAllData();
@@ -109,7 +110,11 @@ export default function Content() {
             ))}
           </ContentItemList>
         )}
-        <Pagenation page={page} onPageChange={setPage} pageSize={pageSize} />
+        <Pagenation
+          page={page}
+          onPageChange={pageHandler}
+          pageSize={pageSize}
+        />
       </ContentBottom>
     </>
   );
