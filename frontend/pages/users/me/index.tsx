@@ -10,6 +10,8 @@ import Tag from '@/components/Tag';
 import useUser from '@/hooks/react-query/user/useUser';
 import Message from '@/components/Message';
 import Head from 'next/head';
+import { api } from '@/util/api';
+import { confirmAlert } from '@/components/alert/Alert';
 
 export default function me() {
   const {
@@ -26,6 +28,12 @@ export default function me() {
     router.push('/users/me/edit');
   };
 
+  const removeMember = () => {
+    confirmAlert('정말 회원 탈퇴를 하시겠습니까?', '회원탈퇴가').then(() =>
+      api.delete('/members').then(() => router.push('/'))
+    );
+  };
+
   if (isError) return <Message>잠시 후에 다시 시도해주세요.</Message>;
   return (
     <>
@@ -38,6 +46,9 @@ export default function me() {
             <UserInfoCard user={user} />
             <EditButton onClick={handleClick}>
               <Tag>수 정</Tag>
+            </EditButton>
+            <EditButton onClick={removeMember}>
+              <Tag>회원 탈퇴</Tag>
             </EditButton>
           </LeftColumn>
           <RightColumn>
