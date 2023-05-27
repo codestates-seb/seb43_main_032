@@ -308,11 +308,13 @@ const Nav = styled.nav<NavProps>`
     > span {
       width: 16px;
       height: 2px;
-      background-color: ${(props) => (props.nav ? '' : 'black')};
+      transition: 0.1s;
+      background-color: ${(props) =>
+        props.nav ? '' : props.isScrolled ? 'white' : 'black'};
       ::before {
         position: absolute;
         content: '';
-        background-color: black;
+        background-color: ${(props) => (props.isScrolled ? 'white' : 'black')};
         width: 16px;
         height: 2px;
         left: 10;
@@ -323,7 +325,7 @@ const Nav = styled.nav<NavProps>`
       ::after {
         position: absolute;
         content: '';
-        background-color: black;
+        background-color: ${(props) => (props.isScrolled ? 'white' : 'black')};
         width: 16px;
         height: 2px;
         left: 10;
