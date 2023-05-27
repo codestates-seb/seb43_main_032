@@ -3,8 +3,11 @@ import { BannerProps } from '@/types/types';
 import React, { useEffect } from 'react';
 import Banner from './Banner';
 import BannerText from './BannerText';
+import { useRouter } from 'next/router';
 
 export default function BannerSlider() {
+  const router = useRouter().pathname;
+
   useEffect(() => {
     if (typeof window !== 'undefined') {
       const slickBox: HTMLElement | null =
