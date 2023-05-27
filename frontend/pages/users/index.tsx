@@ -14,14 +14,6 @@ const Users = () => {
   const [inputValue, setInputValue] = useState<string>('');
   const [page, setPage] = useState<number>(1);
 
-  useEffect(() => {
-    window.scrollTo({
-      top: 0,
-      left: 0,
-      behavior: 'smooth',
-    });
-  }, [page]);
-
   const { userData, userLoading, userError } = useAllData();
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -43,6 +35,15 @@ const Users = () => {
     }
     setFilter(idx);
     setPage(1);
+  };
+
+  const pageHandler = (number: number) => {
+    setPage(number);
+    window.scrollTo({
+      top: 600,
+      left: 0,
+      behavior: 'smooth',
+    });
   };
 
   if (userError) return <Message>잠시 후에 다시 시도해주세요.</Message>;
@@ -93,7 +94,7 @@ const Users = () => {
         <Pagenation
           pageSize={filterData ? Math.ceil(filterData.length / 24) : 0}
           page={page}
-          onPageChange={setPage}
+          onPageChange={pageHandler}
         />
       </Wrapper>
     </>

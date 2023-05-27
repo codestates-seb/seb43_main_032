@@ -23,11 +23,11 @@ export const viewMemberIdState = atom({
   key: 'viewMemberIdState',
   default: 0,
 });
-export const communityTagState = atom({
-  key: 'communityTagState',
+export const communitySearchState = atom({
+  key: 'communitySearchState',
   default: '',
 });
-export const propjectTagState = atom({
-  key: 'propjectTagState',
+export const propjectSearchState = atom({
+  key: 'propjectSearchState',
   default: '',
 });

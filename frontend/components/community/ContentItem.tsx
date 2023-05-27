@@ -7,10 +7,10 @@ import { Community } from '@/types/community';
 import { useRouter } from 'next/router';
 import { AiOutlineEye } from 'react-icons/ai';
 import { useRecoilState } from 'recoil';
-import { communityTagState, viewMemberIdState } from '@/recoil/atom';
+import { communitySearchState, viewMemberIdState } from '@/recoil/atom';
 
 export default function ContentItem(article: Community) {
-  const [, setCommunityTag] = useRecoilState(communityTagState);
+  const [, setCommunitySearch] = useRecoilState(communitySearchState);
   const [, setViewMemberId] = useRecoilState(viewMemberIdState);
   const router = useRouter();
   const moveArticle = () => {
@@ -34,7 +34,7 @@ export default function ContentItem(article: Community) {
           top: 600,
           left: 0,
         });
-        setCommunityTag(val);
+        setCommunitySearch(val);
       }, 30)
     );
   };

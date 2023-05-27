@@ -13,7 +13,7 @@ import { getCookie } from '@/util/cookie';
 import { errorAlert } from '../alert/Alert';
 import { postStar } from '@/util/api/postStar';
 import { useRecoilState } from 'recoil';
-import { propjectTagState, viewMemberIdState } from '@/recoil/atom';
+import { propjectSearchState, viewMemberIdState } from '@/recoil/atom';
 
 type Props = {
   size: string;
@@ -22,7 +22,7 @@ type Props = {
 
 const ProjectCard = ({ data, size }: Props) => {
   const router = useRouter();
-  const [, setProjectTag] = useRecoilState(propjectTagState);
+  const [, setProjectSearch] = useRecoilState(propjectSearchState);
   const [, setViewMemberId] = useRecoilState(viewMemberIdState);
   const [heart, setHeart] = useState(data.liked);
   const heartHandler = (isLiked: boolean) => {
@@ -68,7 +68,7 @@ const ProjectCard = ({ data, size }: Props) => {
           top: 1000,
           left: 0,
         });
-        setProjectTag(val);
+        setProjectSearch(val);
       }, 30)
     );
   };

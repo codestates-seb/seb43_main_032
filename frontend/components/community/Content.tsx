@@ -11,25 +11,28 @@ import { communityFilter } from '@/util/filter/communityFilter';
 import { useAllData } from '@/hooks/react-query/useAllData';
 import Message from '../Message';
 import { useRecoilState } from 'recoil';
-import { communityTagState } from '@/recoil/atom';
+import { communitySearchState } from '@/recoil/atom';
 
 export default function Content() {
-  const [communityTag] = useRecoilState(communityTagState);
   const router = useRouter();
   const [page, setPage] = useState(1);
   const page_limit = 10;
 
-  useEffect(() => {
-    setSearchVal(communityTag);
-  }, [communityTag]);
-
-  useEffect(() => {
+  const pageHandler = (number: number) => {
+    setPage(number);
     window.scrollTo({
-      top: 0,
+      top: 600,
       left: 0,
       behavior: 'smooth',
     });
-  }, [page]);
+  };
+
+  const [communitySearch, setCommunitySearch] =
+    useRecoilState(communitySearchState);
+
+  const findContentItem = (e: ChangeEvent<HTMLInputElement>) => {
+    setCommunitySearch(e.target.value);
+  };
 
   //모든 데이터 세팅, 서버 필터링을 프론트 눈속임으로 해결
   const { communityData, communityLoading, communityError } = useAllData();
@@ -37,12 +40,6 @@ export default function Content() {
   useEffect(() => {
     if (communityData) setAllData(communityData);
   }, [communityLoading]);
-
-  //검색
-  const [searchVal, setSearchVal] = useState('');
-  const findContentItem = (e: ChangeEvent<HTMLInputElement>) => {
-    setSearchVal(e.target.value);
-  };
 
   //기존 필터
   const [filter, setFilter] = useState(0);
@@ -69,7 +66,7 @@ export default function Content() {
   const filterData = communityFilter({
     filter,
     allData,
-    searchVal,
+    searchVal: communitySearch,
     category: POST_COMMUNITY_CATEGORY[CategoryFilterData[categoryFilter]],
   });
   const pageSize = Math.ceil(filterData.length / 10);
@@ -81,7 +78,7 @@ export default function Content() {
       <ContentTop>
         <SearchInput
           placeholder="검색어를 입력하세요."
-          value={searchVal}
+          value={communitySearch}
           onChange={findContentItem}
           onKeyPress={(e) => e.key === 'Enter'}
         />
@@ -109,7 +106,11 @@ export default function Content() {
             ))}
           </ContentItemList>
         )}
-        <Pagenation page={page} onPageChange={setPage} pageSize={pageSize} />
+        <Pagenation
+          page={page}
+          onPageChange={pageHandler}
+          pageSize={pageSize}
+        />
       </ContentBottom>
     </>
   );
