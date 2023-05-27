@@ -35,7 +35,8 @@ const ProjectCard = ({ data, size }: Props) => {
     heartHandler,
     heartCountHandler
   );
-  const likeHandler = () => {
+  const likeHandler = (e: { stopPropagation: () => void }) => {
+    e.stopPropagation();
     if (!getCookie('accessToken')) {
       return errorAlert('로그인을 부탁드려요.', '로그인');
     }
@@ -66,10 +67,7 @@ const ProjectCard = ({ data, size }: Props) => {
             <AiFillHeart
               size={30}
               fill={heart ? 'red' : 'rgba(106, 106, 106, 0.5)'}
-              onClick={(e) => {
-                e.stopPropagation();
-                likeHandler();
-              }}
+              onClick={likeHandler}
             />
           </span>
         </div>
@@ -97,7 +95,12 @@ const ProjectCard = ({ data, size }: Props) => {
         <div className="select-box">
           <ul>
             {data.techList.map((tech) => (
-              <Stack key={tech.tech} tech={tech.tech} />
+              <Stack
+                bubbleTop="-60%"
+                position="static"
+                key={tech.tech}
+                tech={tech.tech}
+              />
             ))}
           </ul>
         </div>

@@ -42,7 +42,12 @@ export default function UserCard({ user }: IProps) {
             <StackWrapper>
               {user.techList.length > 0 &&
                 user.techList.map((stack) => (
-                  <Stack key={stack.tech} tech={stack.tech} />
+                  <Stack
+                    bubbleTop="68%"
+                    position="static"
+                    key={stack.tech}
+                    tech={stack.tech}
+                  />
                 ))}
             </StackWrapper>
           </SubCardWrapper>
