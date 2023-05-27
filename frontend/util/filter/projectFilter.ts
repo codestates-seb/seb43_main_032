@@ -20,7 +20,10 @@ export const projectFilter = ({ filter, allData, searchVal }: Props) => {
   }
   let filterData;
   if (filter === 1) {
-    filterData = allData.reverse();
+    filterData = allData.sort(
+      (x, y) =>
+        new Date(x.createdAt).getTime() - new Date(y.createdAt).getTime()
+    );
   }
   if (filter === 2) {
     filterData = allData.sort((x, y) => y.views - x.views);
