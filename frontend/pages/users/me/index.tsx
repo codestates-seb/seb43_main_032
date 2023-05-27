@@ -4,7 +4,7 @@ import UserInfoCard from '@/components/user/UserProfile';
 import { useRouter } from 'next/router';
 import styled from 'styled-components';
 import GridBox from '@/components/common_box/GridBox';
-import { getCookie } from '@/util/cookie';
+import { deleteCookie, getCookie } from '@/util/cookie';
 import { useEffect } from 'react';
 import Tag from '@/components/Tag';
 import useUser from '@/hooks/react-query/user/useUser';
@@ -30,7 +30,14 @@ export default function me() {
 
   const removeMember = () => {
     confirmAlert('정말 회원 탈퇴를 하시겠습니까?', '회원탈퇴가').then(() =>
-      api.delete('/members').then(() => router.push('/'))
+      api
+        .delete('/members')
+        .then(() => {
+          deleteCookie('accessToken');
+          deleteCookie('refreshToken');
+        })
+        .then(() => router.push('/'))
+        .then(() => router.reload())
     );
   };
 
