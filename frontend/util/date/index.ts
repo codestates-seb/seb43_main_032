@@ -50,6 +50,22 @@ export const dateDiffInDays = (date1: Date, date2: Date): number => {
 };
 
 /**
+ * 날짜와 시간을 입력받아 포맷팅에 맞게 날짜와 시간을 리턴해주는 함수, 작성일자에 활용
+ * @param date
+ * @returns 예시: 2023년 4월 1일 오후 3시 30분
+ */
+export const formatDateTime = (date: Date): string => {
+  const modifiedDate = new Date(date.getTime() - 9 * 60 * 60 * 1000); // 9시간(밀리초 단위)를 뺀 시간을 계산
+  const year = modifiedDate.getFullYear().toString();
+  const month = ('0' + (modifiedDate.getMonth() + 1)).slice(-2);
+  const day = ('0' + modifiedDate.getDate()).slice(-2);
+  const hour = ('0' + modifiedDate.getHours()).slice(-2);
+  const minute = ('0' + modifiedDate.getMinutes()).slice(-2);
+  const meridiem = modifiedDate.getHours() >= 12 ? '오후' : '오전';
+  return `${year}년 ${month}월 ${day}일 ${meridiem} ${hour}시 ${minute}분`;
+};
+
+/**
  * 현재 시간을 params로 넣으면 상대 시간을 리턴
  * 서버에서 9시간 후의 시간을 돌려줘서 프론트에서 9시간 전으로 되돌림
  */

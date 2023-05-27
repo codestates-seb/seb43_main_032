@@ -17,8 +17,6 @@ const UserPage = () => {
     getUserById: { data: user, isLoading, isError },
   } = useUser({ id: id ? +id : undefined });
 
-  console.log(user?.aboutMe);
-
   if (isLoading) return <Message>로딩중입니다.</Message>;
   return user && !isError ? (
     <>

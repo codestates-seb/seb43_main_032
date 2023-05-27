@@ -5,7 +5,6 @@ import { api } from '@/util/api';
 import Head from 'next/head';
 import { useForm } from 'react-hook-form';
 import { useMutation } from 'react-query';
-
 import styled from 'styled-components';
 const ChatCreate = () => {
   const { register, watch } = useForm<{ content: string; title: string }>();
