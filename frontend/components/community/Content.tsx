@@ -10,11 +10,26 @@ import { ARTICLE_FILTER, POST_COMMUNITY_CATEGORY } from '@/constant/constant';
 import { communityFilter } from '@/util/filter/communityFilter';
 import { useAllData } from '@/hooks/react-query/useAllData';
 import Message from '../Message';
+import { useRecoilState } from 'recoil';
+import { communityTagState } from '@/recoil/atom';
 
 export default function Content() {
+  const [communityTag] = useRecoilState(communityTagState);
   const router = useRouter();
   const [page, setPage] = useState(1);
   const page_limit = 10;
+
+  useEffect(() => {
+    setSearchVal(communityTag);
+  }, [communityTag]);
+
+  useEffect(() => {
+    window.scrollTo({
+      top: 0,
+      left: 0,
+      behavior: 'smooth',
+    });
+  }, [page]);
 
   //모든 데이터 세팅, 서버 필터링을 프론트 눈속임으로 해결
   const { communityData, communityLoading, communityError } = useAllData();

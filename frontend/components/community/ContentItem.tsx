@@ -7,9 +7,10 @@ import { Community } from '@/types/community';
 import { useRouter } from 'next/router';
 import { AiOutlineEye } from 'react-icons/ai';
 import { useRecoilState } from 'recoil';
-import { viewMemberIdState } from '@/recoil/atom';
+import { communityTagState, viewMemberIdState } from '@/recoil/atom';
 
 export default function ContentItem(article: Community) {
+  const [, setCommunityTag] = useRecoilState(communityTagState);
   const [, setViewMemberId] = useRecoilState(viewMemberIdState);
   const router = useRouter();
   const moveArticle = () => {
@@ -20,6 +21,22 @@ export default function ContentItem(article: Community) {
   const [view, setView] = useState(false);
   const onClick = () => {
     setView((prev) => !prev);
+  };
+
+  const communityTagHandler = (
+    e: { stopPropagation: () => void },
+    val: string
+  ) => {
+    e.stopPropagation();
+    router.push('/community').then(() =>
+      setTimeout(() => {
+        window.scrollTo({
+          top: 600,
+          left: 0,
+        });
+        setCommunityTag(val);
+      }, 30)
+    );
   };
 
   return (
@@ -39,7 +56,12 @@ export default function ContentItem(article: Community) {
         <div className="content">{article.content}</div>
         <div className="tagBox">
           {article.techList.map((tag, i) => (
-            <Tag key={`${i}+${tag.tech}`}>{tag.tech}</Tag>
+            <Tag
+              onClick={(e) => communityTagHandler(e, tag.tech)}
+              key={`${i}+${tag.tech}`}
+            >
+              {tag.tech}
+            </Tag>
           ))}
         </div>
       </Center>

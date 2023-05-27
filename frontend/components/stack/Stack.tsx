@@ -7,14 +7,17 @@ type Props = {
   tech: string;
   addStack?: (tech: string) => void;
   stacks?: Tech[];
+  position?: string;
+  bubbleTop?: string;
 };
 
-const Stack = ({ tech, addStack, stacks }: Props) => {
+const Stack = ({ bubbleTop, position, tech, addStack, stacks }: Props) => {
   //모달
   const [modal, setModal] = useState(false);
 
   return (
     <Box
+      position={position}
       onMouseEnter={() => setModal(true)}
       onMouseLeave={() => setModal(false)}
       onClick={() => addStack && addStack(tech)}
@@ -24,15 +27,19 @@ const Stack = ({ tech, addStack, stacks }: Props) => {
       {stacks && stacks.some((el) => el.tech === tech) && (
         <div className="ball"></div>
       )}
-      {modal && <Bubble tech={tech} />}
+      {modal && <Bubble bubbleTop={bubbleTop} tech={tech} />}
     </Box>
   );
 };
 
 export default Stack;
 
-const Box = styled.li`
-  position: relative;
+type BoxProps = {
+  position?: string;
+};
+
+const Box = styled.li<BoxProps>`
+  position: ${(props) => (props.position ? props.position : 'relative')};
   cursor: pointer;
   min-width: 24px;
   min-height: 24px;

@@ -1,6 +1,6 @@
 import Pagenation from '@/components/Pagenation';
 import UserCard from '@/components/user/UserCard';
-import { ChangeEvent, useState } from 'react';
+import { ChangeEvent, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { BiSearch } from 'react-icons/bi';
 import { POSITIONS } from '@/constant/constant';
@@ -13,6 +13,15 @@ import UserItemSkeleton from '@/components/skeleton/UserItemSkeleton';
 const Users = () => {
   const [inputValue, setInputValue] = useState<string>('');
   const [page, setPage] = useState<number>(1);
+
+  useEffect(() => {
+    window.scrollTo({
+      top: 0,
+      left: 0,
+      behavior: 'smooth',
+    });
+  }, [page]);
+
   const { userData, userLoading, userError } = useAllData();
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {

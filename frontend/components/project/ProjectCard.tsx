@@ -13,7 +13,7 @@ import { getCookie } from '@/util/cookie';
 import { errorAlert } from '../alert/Alert';
 import { postStar } from '@/util/api/postStar';
 import { useRecoilState } from 'recoil';
-import { viewMemberIdState } from '@/recoil/atom';
+import { propjectTagState, viewMemberIdState } from '@/recoil/atom';
 
 type Props = {
   size: string;
@@ -22,6 +22,7 @@ type Props = {
 
 const ProjectCard = ({ data, size }: Props) => {
   const router = useRouter();
+  const [, setProjectTag] = useRecoilState(propjectTagState);
   const [, setViewMemberId] = useRecoilState(viewMemberIdState);
   const [heart, setHeart] = useState(data.liked);
   const heartHandler = (isLiked: boolean) => {
@@ -35,7 +36,8 @@ const ProjectCard = ({ data, size }: Props) => {
     heartHandler,
     heartCountHandler
   );
-  const likeHandler = () => {
+  const likeHandler = (e: { stopPropagation: () => void }) => {
+    e.stopPropagation();
     if (!getCookie('accessToken')) {
       return errorAlert('로그인을 부탁드려요.', '로그인');
     }
@@ -55,6 +57,22 @@ const ProjectCard = ({ data, size }: Props) => {
     router.push(`project/${id}`);
   };
 
+  const projectTagHandler = (
+    e: { stopPropagation: () => void },
+    val: string
+  ) => {
+    e.stopPropagation();
+    router.push('/project').then(() =>
+      setTimeout(() => {
+        window.scrollTo({
+          top: 1000,
+          left: 0,
+        });
+        setProjectTag(val);
+      }, 30)
+    );
+  };
+
   return (
     <Box>
       <Card
@@ -66,10 +84,7 @@ const ProjectCard = ({ data, size }: Props) => {
             <AiFillHeart
               size={30}
               fill={heart ? 'red' : 'rgba(106, 106, 106, 0.5)'}
-              onClick={(e) => {
-                e.stopPropagation();
-                likeHandler();
-              }}
+              onClick={likeHandler}
             />
           </span>
         </div>
@@ -87,7 +102,7 @@ const ProjectCard = ({ data, size }: Props) => {
           <ul>
             {data.fieldList.map((tag, i) => (
               <li key={`${tag.field}+${i}`}>
-                <Tag>
+                <Tag onClick={(e) => projectTagHandler(e, tag.field)}>
                   <div>{tag.field}</div>
                 </Tag>
               </li>
@@ -97,7 +112,12 @@ const ProjectCard = ({ data, size }: Props) => {
         <div className="select-box">
           <ul>
             {data.techList.map((tech) => (
-              <Stack key={tech.tech} tech={tech.tech} />
+              <Stack
+                bubbleTop="-60%"
+                position="static"
+                key={tech.tech}
+                tech={tech.tech}
+              />
             ))}
           </ul>
         </div>
