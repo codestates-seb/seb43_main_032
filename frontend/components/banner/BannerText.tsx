@@ -94,4 +94,11 @@ const Text = styled.text<TextProps>`
   @media (max-width: 768px) {
     font-size: 40px;
   }
+
+  @media (max-width: 360px) {
+    font-size: 23px;
+    animation: none;
+    stroke: none;
+    fill: white;
+  }
 `;
