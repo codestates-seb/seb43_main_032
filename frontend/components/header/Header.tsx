@@ -5,6 +5,8 @@ import { useRouter } from 'next/router';
 import { useEffect, useMemo, useState } from 'react';
 import logo from '../../public/images/logo.svg';
 import logoWhite from '../../public/images/logoSymbolWhite.svg';
+import symbolWhite from '../../public/images/symbolWhite.svg';
+import symbol from '../../public/images/symbolOriginal.svg';
 import { useOffResize } from '@/hooks/useOffResize';
 import { HEADER_NAV } from '@/constant/constant';
 import { deleteCookie, getCookie } from '@/util/cookie';
@@ -74,11 +76,36 @@ const Header = () => {
     setNav(!nav);
   };
   useOffResize(960, 'up', setNav);
+
+  // 로고 이미지 변경
+  const [imgState, setImgState] = useState(false);
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth <= 768) {
+        setImgState(true);
+      } else {
+        setImgState(false);
+      }
+    };
+
+    handleResize();
+
+    window.addEventListener('resize', handleResize);
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
+
   return (
     <>
       <Nav nav={nav} isScrolled={isScrolled}>
         <NavLink onClick={() => setNav(false)} href="/">
-          <Image src={isScrolled ? logoWhite : logo} alt="logo" />
+          {imgState ? (
+            <Image src={isScrolled ? symbolWhite : symbol} alt="logo" />
+          ) : (
+            <Image src={isScrolled ? logoWhite : logo} alt="logo" />
+          )}
         </NavLink>
         <div className="bars-box">
           <div>
@@ -141,7 +168,7 @@ const Header = () => {
           <div className="user">
             {/* <Image src={Img} alt="profleImg" /> 유저 이미지 및 네임 */}
             <div className="userName">
-              최기랑<span>, 환영합니다.</span>
+              <span>환영합니다.</span>
             </div>
           </div>
         )}
