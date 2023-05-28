@@ -1,7 +1,7 @@
 import React from 'react';
 import styled, { keyframes } from 'styled-components';
 import Image from 'next/image';
-import logo from '../public/images/symbol.svg';
+import logo from '../public/images/symbolWhite.svg';
 import StarBg from '@/components/background/StarBg';
 import Head from 'next/head';
 
@@ -58,6 +58,10 @@ const Container = styled.div`
   width: 100%;
   height: 100vh;
 
+  @media (max-width: 768px) {
+    height: 70vh;
+  }
+
   .box {
     padding: 60px calc((100% - 1280px) / 2);
     position: absolute;
@@ -66,6 +70,11 @@ const Container = styled.div`
     width: 100%;
     height: 100%;
     display: flex;
+
+    @media (max-width: 768px) {
+      justify-content: center;
+    }
+
     .text-box {
       display: flex;
       flex-direction: column;
@@ -84,7 +93,7 @@ const Container = styled.div`
       }
       @media (max-width: 768px) {
         font-size: 15px;
-        width: 100%;
+        width: 90%;
         padding: 0 10px;
       }
 
