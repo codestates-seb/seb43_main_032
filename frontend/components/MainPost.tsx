@@ -123,8 +123,23 @@ const Main = styled.div`
       gap: 16px;
       margin: 24px 0px;
 
-      @media (max-width: 640px) {
+      @media (max-width: 360px) {
+        width: 100%;
         flex-direction: column;
+        gap: 4px;
+
+        .position-box {
+          width: 100%;
+          display: flex;
+          justify-content: space-between;
+        }
+
+        .submit-box {
+          width: 100%;
+          display: flex;
+          justify-content: end;
+          margin-right: 8px;
+        }
       }
       button {
         &:hover {
