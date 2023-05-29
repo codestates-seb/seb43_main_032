@@ -33,7 +33,6 @@ const Filter = ({ filter, selectFilter, filterData }: Props) => {
 export default Filter;
 
 const ContentBottomFilter = styled.div`
-  min-width: 104px;
   display: flex;
   position: relative;
   display: inline-block;
@@ -60,6 +59,12 @@ const CustomSelectButton = styled.button`
   border: none;
   .icon {
     margin-left: 5px;
+  }
+
+  @media (max-width: 540px) {
+    span {
+      display: none;
+    }
   }
 `;
 
