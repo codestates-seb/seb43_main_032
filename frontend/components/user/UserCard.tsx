@@ -6,6 +6,7 @@ import Tag from '../Tag';
 import { useRouter } from 'next/router';
 import { useRecoilValue } from 'recoil';
 import { loggedInUserId } from '@/recoil/selector';
+import MainPost from './../MainPost';
 interface IProps {
   user: User;
 }
@@ -58,12 +59,13 @@ const Wrapper = styled.div`
   padding: 10px;
   border-radius: 5px;
   width: 100%;
+  border: solid 2px #ececec;
 
   @media (min-width: 768px) {
     border-radius: 20px;
-    border: solid 2px #ececec;
   }
 `;
+
 const Overlay = styled.div`
   position: absolute;
   background-color: #9880e9;
@@ -79,8 +81,17 @@ const Overlay = styled.div`
 `;
 const CardWrapper = styled.div`
   position: relative;
+  height: 100%;
+
   @media (max-width: 768px) {
     display: flex;
+    border: solid 1px #ececec;
+    border-radius: 10px;
+  }
+
+  @media (max-width: 360px) {
+    border: solid 1px #ececec;
+    border-radius: 10px;
   }
 `;
 const SubCardWrapper = styled.div`
@@ -105,6 +116,7 @@ const StackWrapper = styled.ul`
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  justify-content: center;
 
   @media (min-width: 768px) {
     justify-content: center;
@@ -118,10 +130,9 @@ const ContentsContainer = styled.div.attrs({
   font-weight: 500;
   gap: 10px;
   padding-top: 10px;
-
-  @media (min-width: 768px) {
-    flex-direction: column;
-    align-items: center;
+  flex-direction: column;
+  align-items: center;
+  @media (max-width: 768px) {
   }
 `;
 const AvatarContainer = styled.div`
@@ -130,11 +141,11 @@ const AvatarContainer = styled.div`
   height: 60px;
   justify-content: center;
   overflow: hidden;
-  border-radius: 5px;
+  border-radius: 50%;
   flex-shrink: 0;
   border: solid 2px #ececec;
 
-  @media (min-width: 768px) {
+  @media (max-width: 768px) {
     width: 100px;
     height: 100px;
     border-radius: 100%;
@@ -144,22 +155,28 @@ const InfoContainer = styled.div`
   width: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
   @media (min-width: 768px) {
     align-items: center;
     gap: 10px;
+  }
+
+  p {
+    display: flex;
+    justify-content: center;
   }
 `;
 const LocationAndStars = styled.div`
   width: 100%;
   display: flex;
   margin-bottom: 10px;
+  justify-content: center;
   @media (min-width: 768px) {
     justify-content: center;
   }
 
   .tag {
     display: flex;
+    justify-content: center;
     align-items: center;
     gap: 4px;
     background: none;
@@ -196,9 +213,11 @@ const Group = styled.div`
   width: 100%;
   align-items: center;
   height: 293px;
+
   ${Wrapper}:hover ${Overlay} {
     opacity: 1;
   }
+
   @media (max-width: 768px) {
     height: 100%;
   }
