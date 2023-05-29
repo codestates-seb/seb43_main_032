@@ -42,7 +42,7 @@ const Container = styled.div<BannerProps>`
   height: 660px;
 
   @media (max-width: 768px) {
-    height: 460px;
+    height: 360px;
   }
 `;
 
