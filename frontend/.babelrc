@@ -1,4 +1,12 @@
 {
   "presets": ["next/babel"],
-  "plugins": []
+  "plugins": [
+    [
+      "babel-plugin-styled-components", 
+      {
+        "ssr": true, // SSR을 위한 설정
+        "pure": true // dead code elimination (사용되지 않는 속성 제거)
+      }
+    ]
+  ]
 }

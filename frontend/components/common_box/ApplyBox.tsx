@@ -5,8 +5,10 @@ import { MemberInfo } from '@/types/types';
 import { useRouter } from 'next/router';
 import { GrMail } from 'react-icons/gr';
 import { onChatCreate } from '@/util/chat';
+import { api } from '@/util/api';
 
 type Props = {
+  title: string;
   crewList: {
     position: string;
     projectId: number;
@@ -16,7 +18,7 @@ type Props = {
   rejectEvent: (memberId: number) => void;
 };
 
-const ApplyBox = ({ crewList, acceptEvent, rejectEvent }: Props) => {
+const ApplyBox = ({ title, crewList, acceptEvent, rejectEvent }: Props) => {
   const router = useRouter();
   const [applyBox, setApplyBox] = useState(false);
   const applyBoxHandler = () => {
@@ -26,6 +28,25 @@ const ApplyBox = ({ crewList, acceptEvent, rejectEvent }: Props) => {
   const moveUserPage = (id: number) => {
     router.push(`/users/${id}`);
   };
+
+  const acceptChatEvent = (id: number) => {
+    acceptEvent(id);
+    api.post(`/chat/send`, {
+      content: `'${title}' 프로젝트에 수락되셨습니다.`,
+      receiverMemberId: Number(id),
+      title: '프로젝트 승인',
+    });
+  };
+
+  const rejectChatEvent = (id: number) => {
+    rejectEvent(id);
+    api.post(`/chat/send`, {
+      content: `'${title}' 프로젝트에 거절되셨습니다.`,
+      receiverMemberId: Number(id),
+      title: '프로젝트 거절',
+    });
+  };
+
   return (
     <Box>
       <div>
@@ -59,13 +80,13 @@ const ApplyBox = ({ crewList, acceptEvent, rejectEvent }: Props) => {
                 </div>
                 <div className="btn-box">
                   <SubBtn
-                    onClick={() => acceptEvent(crew.memberInfo.memberId)}
+                    onClick={() => acceptChatEvent(crew.memberInfo.memberId)}
                     className="accept"
                   >
                     수락
                   </SubBtn>
                   <SubBtn
-                    onClick={() => rejectEvent(crew.memberInfo.memberId)}
+                    onClick={() => rejectChatEvent(crew.memberInfo.memberId)}
                     className="reject"
                   >
                     거절

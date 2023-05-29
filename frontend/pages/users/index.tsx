@@ -1,6 +1,6 @@
 import Pagenation from '@/components/Pagenation';
 import UserCard from '@/components/user/UserCard';
-import { ChangeEvent, useState } from 'react';
+import { ChangeEvent, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { BiSearch } from 'react-icons/bi';
 import { POSITIONS } from '@/constant/constant';
@@ -8,10 +8,12 @@ import Message from '@/components/Message';
 import { useAllData } from '@/hooks/react-query/useAllData';
 import { usersFilter } from '@/util/filter/usersFilter';
 import Head from 'next/head';
+import UserItemSkeleton from '@/components/skeleton/UserItemSkeleton';
 
 const Users = () => {
   const [inputValue, setInputValue] = useState<string>('');
   const [page, setPage] = useState<number>(1);
+
   const { userData, userLoading, userError } = useAllData();
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -35,8 +37,16 @@ const Users = () => {
     setPage(1);
   };
 
+  const pageHandler = (number: number) => {
+    setPage(number);
+    window.scrollTo({
+      top: 600,
+      left: 0,
+      behavior: 'smooth',
+    });
+  };
+
   if (userError) return <Message>잠시 후에 다시 시도해주세요.</Message>;
-  if (userLoading) return <Message>로딩중입니다.</Message>;
   return (
     <>
       <Head>
@@ -72,15 +82,19 @@ const Users = () => {
           </SubHeader>
         </SearchHeader>
         <CardWrapper>
-          {viewFilterData &&
+          {userLoading ? (
+            <UserItemSkeleton count={24} />
+          ) : (
+            viewFilterData &&
             viewFilterData.map((user: any) => (
               <UserCard key={user.name} user={user} />
-            ))}
+            ))
+          )}
         </CardWrapper>
         <Pagenation
           pageSize={filterData ? Math.ceil(filterData.length / 24) : 0}
           page={page}
-          onPageChange={setPage}
+          onPageChange={pageHandler}
         />
       </Wrapper>
     </>

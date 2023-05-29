@@ -1,5 +1,7 @@
 import { Chat, UserState } from '@/types/user';
 import { atom } from 'recoil';
+import { RecoilEnv } from 'recoil';
+RecoilEnv.RECOIL_DUPLICATE_ATOM_KEY_CHECKING_ENABLED = false;
 
 export const loggedInUserState = atom<UserState | null>({
   key: 'loggedInUserState',
@@ -20,4 +22,12 @@ export const chatState = atom<Chat[]>({
 export const viewMemberIdState = atom({
   key: 'viewMemberIdState',
   default: 0,
+});
+export const communitySearchState = atom({
+  key: 'communitySearchState',
+  default: '',
+});
+export const propjectSearchState = atom({
+  key: 'propjectSearchState',
+  default: '',
 });

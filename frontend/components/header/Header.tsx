@@ -11,7 +11,12 @@ import { useOffResize } from '@/hooks/useOffResize';
 import { HEADER_NAV } from '@/constant/constant';
 import { deleteCookie, getCookie } from '@/util/cookie';
 import { useRecoilState } from 'recoil';
-import { loggedInUserState, navModalState } from '@/recoil/atom';
+import {
+  communitySearchState,
+  loggedInUserState,
+  navModalState,
+  propjectSearchState,
+} from '@/recoil/atom';
 import { setUserState } from '@/util/api/user';
 import { NavProps } from '@/types/types';
 import ButtonStyle from '../button/ButtonStyle';
@@ -20,6 +25,13 @@ import { onChat } from '@/util/chat';
 
 const Header = () => {
   const router = useRouter();
+  const [, setPropjectSearch] = useRecoilState(propjectSearchState);
+  const [, setCommunitySearch] = useRecoilState(communitySearchState);
+
+  useEffect(() => {
+    setCommunitySearch('');
+    setPropjectSearch('');
+  }, [router]);
 
   //로그인한 유저의 데이터 상태
   const [, setLoggedInUser] = useRecoilState(loggedInUserState);
@@ -335,11 +347,13 @@ const Nav = styled.nav<NavProps>`
     > span {
       width: 16px;
       height: 2px;
-      background-color: ${(props) => (props.nav ? '' : 'black')};
+      transition: 0.1s;
+      background-color: ${(props) =>
+        props.nav ? '' : props.isScrolled ? 'white' : 'black'};
       ::before {
         position: absolute;
         content: '';
-        background-color: black;
+        background-color: ${(props) => (props.isScrolled ? 'white' : 'black')};
         width: 16px;
         height: 2px;
         left: 10;
@@ -350,7 +364,7 @@ const Nav = styled.nav<NavProps>`
       ::after {
         position: absolute;
         content: '';
-        background-color: black;
+        background-color: ${(props) => (props.isScrolled ? 'white' : 'black')};
         width: 16px;
         height: 2px;
         left: 10;

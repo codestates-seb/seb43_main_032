@@ -1,9 +1,9 @@
 import { formatSkill } from '@/util/stack/formatSkill';
 import styled from 'styled-components';
 
-const Bubble = ({ tech }: { tech: string }) => {
+const Bubble = ({ bubbleTop, tech }: { bubbleTop?: string; tech: string }) => {
   return (
-    <Box>
+    <Box bubbleTop={bubbleTop}>
       <span>{formatSkill(tech)}</span>
     </Box>
   );
@@ -11,7 +11,11 @@ const Bubble = ({ tech }: { tech: string }) => {
 
 export default Bubble;
 
-const Box = styled.div`
+type BoxProps = {
+  bubbleTop?: string;
+};
+
+const Box = styled.div<BoxProps>`
   white-space: nowrap;
   position: absolute;
   padding: 8px;
@@ -20,5 +24,5 @@ const Box = styled.div`
   color: #fff;
   border-radius: 0.4em;
   z-index: 2;
-  top: -112%;
+  top: ${(props) => (props.bubbleTop ? props.bubbleTop : '-112%')};
 `;

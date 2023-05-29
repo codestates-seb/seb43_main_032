@@ -14,6 +14,7 @@ import { useProjectApply } from '@/hooks/react-query/project/useProjectApply';
 import Tag from '@/components/Tag';
 import { useRecoilValue } from 'recoil';
 import { loggedInUserState } from '@/recoil/atom';
+import { loggedInUserId } from '@/recoil/selector';
 import ApplyBox from '@/components/common_box/ApplyBox';
 import SubBtn from '@/components/button/SubBtn';
 import { errorAlert } from '@/components/alert/Alert';
@@ -21,10 +22,14 @@ import { postStar } from '@/util/api/postStar';
 import ReviewBox from '@/components/common_box/ReviewBox';
 import { useRouter } from 'next/router';
 import Head from 'next/head';
+import { api } from '@/util/api';
+import { BsQuestionCircle } from 'react-icons/bs';
+import InfoBubble from '@/components/InfoBubble';
 
 const ViewProject = () => {
   const router = useRouter();
   const loggedInUser = useRecoilValue(loggedInUserState);
+  const userId = useRecoilValue(loggedInUserId);
   //프로젝트 데이터 요청
   const {
     projectQuery,
@@ -107,6 +112,32 @@ const ViewProject = () => {
     }
   };
 
+  const applyChatEvent = (position: string) => {
+    applyEvent(position);
+    api.post(`/chat/send`, {
+      content: `'${data?.title}' 프로젝트에 지원합니다.`,
+      receiverMemberId: Number(data?.memberInfo.memberId),
+      title: '프로젝트 지원',
+    });
+  };
+
+  const acceptedCancleChatEvent = (position: string) => {
+    acceptedCancleEvent(position);
+    api.post(`/chat/send`, {
+      content: `'${data?.title}' 프로젝트 확정을 취소합니다.`,
+      receiverMemberId: Number(data?.memberInfo.memberId),
+      title: '프로젝트 확정 취소',
+    });
+  };
+
+  const [question, setQuestion] = useState(false);
+  const onQuestion = () => {
+    setQuestion(true);
+  };
+  const offQuestion = () => {
+    setQuestion(false);
+  };
+
   if (projectQuery.error) return router.push('/404');
   if (projectQuery.isLoading || !data || !applyQuery.data)
     return <Message>로딩중입니다.</Message>;
@@ -133,7 +164,13 @@ const ViewProject = () => {
           <TagBox tags={data.fieldList} />
           <StacksBox stacks={data.techList} stack={false} />
           <div className="want-box">
-            <div className="title">모집 중인 직군</div>
+            <div className="title">
+              {question && <InfoBubble type="apply" />}
+              <span>모집 중인 직군</span>
+              <span onMouseEnter={onQuestion} onMouseLeave={offQuestion}>
+                <BsQuestionCircle />
+              </span>
+            </div>
             <ul>
               {positions?.map((position) => (
                 <li className="nanum-regular" key={position.position}>
@@ -155,7 +192,9 @@ const ViewProject = () => {
                       {acceptedPostion &&
                       acceptedPostion.position === position.position ? (
                         <Tag
-                          onClick={() => acceptedCancleEvent(position.position)}
+                          onClick={() =>
+                            acceptedCancleChatEvent(position.position)
+                          }
                           onMouseEnter={hoverHandler}
                           onMouseLeave={hoverHandler}
                         >
@@ -168,7 +207,7 @@ const ViewProject = () => {
                           취소
                         </Tag>
                       ) : (
-                        <Tag onClick={() => applyEvent(position.position)}>
+                        <Tag onClick={() => applyChatEvent(position.position)}>
                           지원
                         </Tag>
                       )}
@@ -180,6 +219,7 @@ const ViewProject = () => {
           </div>
           {data.author && (
             <ApplyBox
+              title={data.title}
               crewList={applyQuery.data?.data}
               acceptEvent={acceptEvent}
               rejectEvent={rejectEvent}
@@ -228,15 +268,16 @@ const Side = styled.div`
     flex-direction: column;
 
     > .title {
+      position: relative;
       width: 100%;
       font-size: 15px;
       margin-bottom: 10px;
       font-weight: 500;
-
-      .left {
-        width: 100%;
+      display: flex;
+      gap: 8px;
+      > span {
         display: flex;
-        justify-content: space-between;
+        align-items: center;
       }
     }
 
@@ -248,7 +289,7 @@ const Side = styled.div`
 
     > ul {
       flex-direction: column;
-      width:90%;
+      width: 90%;
       min-width: 190px;
       @media (max-width: 960px) {
         width: 100%;

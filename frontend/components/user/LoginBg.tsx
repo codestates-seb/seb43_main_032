@@ -5,14 +5,14 @@ import styled from 'styled-components';
 export default function LoginBg() {
   const router = useRouter();
   return (
-    <Container >
+    <Container>
       <svg
         className="css-waves"
         xmlns="http://www.w3.org/2000/svg"
         xmlnsXlink="http://www.w3.org/1999/xlink"
         viewBox="0 24 150 28"
         preserveAspectRatio="none"
-        shape-rendering="auto"
+        shapeRendering="auto"
       >
         <defs>
           <path

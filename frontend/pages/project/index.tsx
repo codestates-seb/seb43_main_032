@@ -1,7 +1,7 @@
 import ProjectCarousel from '@/components/project/ProjectCarousel';
 import styled from 'styled-components';
 import { useRouter } from 'next/router';
-import { useRef, useEffect, useState } from 'react';
+import { useRef, useEffect, useState, SetStateAction } from 'react';
 import ProjectSkeleton from '@/components/skeleton/ProjectSkeleton';
 import Link from 'next/link';
 import { Project } from '@/types/project';
@@ -16,14 +16,21 @@ import { useAllData } from '@/hooks/react-query/useAllData';
 import { projectFilter } from '@/util/filter/projectFilter';
 import { useTopData } from '@/hooks/react-query/useTopData';
 import Head from 'next/head';
+import { useRecoilState } from 'recoil';
+import { propjectSearchState } from '@/recoil/atom';
 
 const ProjectHome = () => {
   const router = useRouter();
-  const { register, watch } = useForm<Form>();
+  const [projectSearch, setProjectSearch] = useRecoilState(propjectSearchState);
   const { isLoading, error, data, fetchNextPage, hasNextPage, isFetching } =
     useInfinityProject();
   const [isHovered, setIsHovered] = useState(false);
 
+  const searchValHandler = (e: {
+    target: { value: SetStateAction<string> };
+  }) => {
+    setProjectSearch(e.target.value);
+  };
   const handleMouseEnter = () => {
     setIsHovered(true);
   };
@@ -50,7 +57,7 @@ const ProjectHome = () => {
   const filterData = projectFilter({
     filter,
     allData,
-    searchVal: watch().search,
+    searchVal: projectSearch,
   });
 
   //무한 스크롤 effect
@@ -68,7 +75,7 @@ const ProjectHome = () => {
       { threshold: 1 }
     );
 
-    if (target.current) {
+    if (target.current && filter === 0 && projectSearch === '') {
       observer.observe(target.current);
     }
 
@@ -77,7 +84,7 @@ const ProjectHome = () => {
         observer.unobserve(target.current);
       }
     };
-  }, [target.current, data?.pageParams]);
+  }, [target.current, data?.pageParams, filter, projectSearch]);
 
   if (error) return <Message>잠시 후에 다시 시도해주세요.</Message>;
   if (isLoading) return <Message>로딩중입니다.</Message>;
@@ -110,12 +117,12 @@ const ProjectHome = () => {
           </div>
           <ProjectCardBox
             title={
-              watch().search !== '' && watch().search
-                ? `${watch().search}의 결과입니다.`
+              projectSearch !== '' && projectSearch
+                ? `${projectSearch}의 결과입니다.`
                 : '전체 프로젝트'
             }
             data={
-              filterData
+              filterData && filterData?.length > 0
                 ? (filterData as Project[])
                 : data.pages?.flatMap((page) => page.data)
             }
@@ -136,8 +143,9 @@ const ProjectHome = () => {
               <div className="search-box">
                 <div>
                   <input
-                    {...register('search')}
                     type="text"
+                    onChange={searchValHandler}
+                    value={projectSearch}
                     placeholder="검색어를 입력해주세요."
                   />
                 </div>

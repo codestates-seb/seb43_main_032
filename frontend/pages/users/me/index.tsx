@@ -4,17 +4,18 @@ import UserInfoCard from '@/components/user/UserProfile';
 import { useRouter } from 'next/router';
 import styled from 'styled-components';
 import GridBox from '@/components/common_box/GridBox';
-import { getCookie } from '@/util/cookie';
+import { deleteCookie, getCookie } from '@/util/cookie';
 import { useEffect } from 'react';
 import Tag from '@/components/Tag';
 import useUser from '@/hooks/react-query/user/useUser';
 import Message from '@/components/Message';
 import Head from 'next/head';
+import { api } from '@/util/api';
+import { confirmAlert } from '@/components/alert/Alert';
 
 export default function me() {
   const {
     getMyInfo: { data: user, isError },
-    getMyProjects: { data: projects },
   } = useUser({});
   const router = useRouter();
   useEffect(() => {
@@ -25,6 +26,19 @@ export default function me() {
 
   const handleClick = () => {
     router.push('/users/me/edit');
+  };
+
+  const removeMember = () => {
+    confirmAlert('정말 회원 탈퇴를 하시겠습니까?', '회원탈퇴가').then(() =>
+      api
+        .delete('/members')
+        .then(() => {
+          deleteCookie('accessToken');
+          deleteCookie('refreshToken');
+        })
+        .then(() => router.push('/'))
+        .then(() => router.reload())
+    );
   };
 
   if (isError) return <Message>잠시 후에 다시 시도해주세요.</Message>;
@@ -39,6 +53,9 @@ export default function me() {
             <UserInfoCard user={user} />
             <EditButton onClick={handleClick}>
               <Tag>수 정</Tag>
+            </EditButton>
+            <EditButton onClick={removeMember}>
+              <Tag>회원 탈퇴</Tag>
             </EditButton>
           </LeftColumn>
           <RightColumn>
@@ -66,7 +83,7 @@ export default function me() {
                 />
                 <InfoContainer
                   keyNode={'휴대전화'}
-                  contentNode={`${user.phone.slice(0, 9)}****`}
+                  contentNode={user.phone && `${user.phone.slice(0, 7)}****`}
                 />
                 <InfoContainer
                   keyNode={'이메일'}

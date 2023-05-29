@@ -22,7 +22,7 @@ export default function UserCard({ user }: IProps) {
   };
   return (
     <Group onClick={moveUserPage}>
-      <Wrapper>
+      <Wrapper onClick={moveUserPage}>
         <Overlay />
         <CardWrapper>
           <SubCardWrapper>
@@ -43,7 +43,12 @@ export default function UserCard({ user }: IProps) {
             <StackWrapper>
               {user.techList.length > 0 &&
                 user.techList.map((stack) => (
-                  <Stack key={stack.tech} tech={stack.tech} />
+                  <Stack
+                    bubbleTop="68%"
+                    position="static"
+                    key={stack.tech}
+                    tech={stack.tech}
+                  />
                 ))}
             </StackWrapper>
           </SubCardWrapper>
@@ -185,35 +190,11 @@ const LocationAndStars = styled.div`
   }
 `;
 
-const CardFooter = styled.div.attrs({
-  className: 'noto-regular',
-})`
-  border-top: solid 1px #ececec;
-  font-size: 13px;
-  padding: 10px;
-  height: 38px;
-  @media (max-width: 768px) {
-    display: none;
-  }
-`;
-const AboutMe = styled.p`
-  display: -webkit-box;
-  -webkit-line-clamp: 3;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-  display: flex;
-  flex-wrap: wrap;
-  height: 29px;
-  text-overflow: ellipsis;
-  line-height: 1.2;
-  max-height: calc(1.2 * 3); /* line-height * 줄 수 */
-`;
 const Group = styled.div`
   display: flex;
   width: 100%;
   align-items: center;
-  height: 293px;
-
+  height: 257px;
   ${Wrapper}:hover ${Overlay} {
     opacity: 1;
   }
