@@ -204,6 +204,12 @@ const ImgWrapper = styled.div`
   margin-top: 30px;
   border: solid 3px #ececec;
   transition: all 0.5s;
+
+  @media (max-width: 768px) {
+    margin: 0;
+    margin-bottom: 20px;
+  }
+
   :hover {
     border: solid 3px #9b7aff;
     img {
@@ -261,17 +267,32 @@ const ProfileBox = styled.div`
   display: flex;
   width: 100%;
   align-items: center;
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+    justify-content: center;
+  }
+
   .nameBox {
     width: 100%;
 
     .top {
       display: flex;
       gap: 40px;
+
+      @media (max-width: 768px) {
+        flex-direction: column;
+        gap: 8px;
+      }
     }
 
     .bottom {
       display: flex;
       gap: 40px;
+      @media (max-width: 768px) {
+        flex-direction: column;
+        gap: 8px;
+      }
     }
   }
 `;

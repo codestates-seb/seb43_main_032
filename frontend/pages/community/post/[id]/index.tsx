@@ -108,9 +108,9 @@ export default ViewCommunity;
 const Side = styled.div`
   display: flex;
   flex-direction: column;
-  width: 100%;
-  padding: 20px;
-  margin-bottom: 20px;
+  align-items: center;
+  gap: 32px;
+  padding: var(--padding-1);
 
   > .right {
     display: flex;

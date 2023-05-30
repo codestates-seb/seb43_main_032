@@ -22,11 +22,13 @@ const ChatItem = () => {
         <Box>
           {item && (
             <>
-              <div>
+              <div className="top">
+                <div className="item-title">{item?.title}</div>
                 <SubBtn onClick={backEvent}>뒤로가기</SubBtn>
               </div>
-              <div>{formatDateTime(new Date(item?.createdAt))}</div>
-              <div className="item-title">{item?.title}</div>
+              <div className="date">
+                {formatDateTime(new Date(item?.createdAt))}
+              </div>
               <div className="item-content">{item?.content}</div>
             </>
           )}
@@ -39,16 +41,30 @@ const ChatItem = () => {
 export default ChatItem;
 
 const Box = styled.div`
-  height: 60vh;
   padding: var(--padding-2);
   display: flex;
   flex-direction: column;
   word-break: break-all;
   gap: 20px;
-  .item-title {
-    font-size: 20px;
-  }
+
   .item-content {
-    font-size: 13px;
+    font-size: 15px;
+  }
+
+  .top {
+    display: flex;
+    justify-content: space-between;
+    .item-title {
+      display: flex;
+      align-items: center;
+      font-size: 18px;
+      color: #171717;
+      font-weight: 500;
+    }
+  }
+
+  .date {
+    font-size: 12px;
+    color: #aaaaaa;
   }
 `;

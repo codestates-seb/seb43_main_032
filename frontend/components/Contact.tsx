@@ -106,7 +106,7 @@ const IconBox = styled.div`
   cursor: pointer;
   z-index: 999;
 
-  @media (max-width: 540px) {
+  @media (max-width: 768px) {
     width: 50px;
     height: 50px;
 

@@ -3,6 +3,8 @@ import styled from 'styled-components';
 import Image from 'next/image';
 import logo from '../../public/images/logo.svg';
 import logoWhite from '../../public/images/logoSymbolWhite.svg';
+import symbolWhite from '../../public/images/symbolWhite.svg';
+import symbol from '../../public/images/symbolOriginal.svg';
 import { useRouter } from 'next/router';
 
 export default function EtcHeader() {
@@ -28,13 +30,33 @@ export default function EtcHeader() {
     }
   }, []);
 
+  // 로고 이미지 변경
+  const [imgState, setImgState] = useState(false);
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth <= 768) {
+        setImgState(true);
+      } else {
+        setImgState(false);
+      }
+    };
+
+    handleResize();
+
+    window.addEventListener('resize', handleResize);
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
+
   return (
     <Container isScrolled={isScrolled}>
-      <Image
-        src={isScrolled ? logo : logoWhite}
-        alt="logo"
-        onClick={() => router.push('/')}
-      />
+      {imgState ? (
+        <Image src={symbolWhite} alt="logo" onClick={() => router.push('/')} />
+      ) : (
+        <Image src={logoWhite} alt="logo" onClick={() => router.push('/')} />
+      )}
       <span className="about" onClick={() => router.push('/about')}>
         서비스 소개
       </span>

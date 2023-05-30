@@ -15,6 +15,7 @@ type Props = {
 
 const TagBox = ({ tags, register, tagKeyDown, deleteTag }: Props) => {
   const router = useRouter();
+
   return (
     <Box deleteTag={deleteTag} className="tag-box">
       <div className="title" style={{ font: '15px' }}>
@@ -46,6 +47,9 @@ const TagBox = ({ tags, register, tagKeyDown, deleteTag }: Props) => {
               </Tag>
             </li>
           ))}
+          {tags.length === 0 && (
+            <div className="tag-none">작성된 태그가 없습니다.</div>
+          )}
         </ul>
       </div>
     </Box>
@@ -63,6 +67,10 @@ const Box = styled.div<BoxProps>`
   flex-direction: column;
   width: 100%;
   padding: 0 16px;
+
+  @media (max-width: 960px) {
+    padding: 20px 0 0;
+  }
 
   input {
     width: 100%;
@@ -100,6 +108,10 @@ const Box = styled.div<BoxProps>`
           cursor: ${(props) => props.deleteTag && 'pointer'};
         }
       }
+    }
+
+    .tag-none {
+      color: #9c9c9c;
     }
   }
 

@@ -78,7 +78,7 @@ export default function AuthContainer({ isLogin }: { isLogin: Boolean }) {
 const LoginWrapper = styled.div`
   display: flex;
   width: 30%;
-  min-width: 400px;
+  min-width: 320px;
   padding: 20px;
   background: linear-gradient(
     130deg,
@@ -92,13 +92,13 @@ const LoginWrapper = styled.div`
   border: 2px solid rgba(255, 255, 255, 0.5);
   border-right: 1px solid rgba(255, 255, 255, 0.2);
   border-bottom: 1px solid rgba(255, 255, 255, 0.2);
-  @media (max-width: 640px) {
-    min-width: 360px;
+  @media (max-width: 768px) {
+    min-width: 320px;
   }
 `;
 const LoginContainer = styled.div`
   width: 80%;
-  min-width: 320px;
+  min-width: 300px;
   display: flex;
   flex-direction: column;
   align-items: center;

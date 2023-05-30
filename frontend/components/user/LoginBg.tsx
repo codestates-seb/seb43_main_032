@@ -1,53 +1,64 @@
 import { useRouter } from 'next/router';
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 
 export default function LoginBg() {
   const router = useRouter();
+
+  const checkRouter =
+    router.pathname === '/users/login' ||
+    router.pathname === '/users/signup' ||
+    /^\/chat/.test(router.pathname);
+
+  console.log(router);
   return (
-    <Container>
-      <svg
-        className="css-waves"
-        xmlns="http://www.w3.org/2000/svg"
-        xmlnsXlink="http://www.w3.org/1999/xlink"
-        viewBox="0 24 150 28"
-        preserveAspectRatio="none"
-        shapeRendering="auto"
-      >
-        <defs>
-          <path
-            id="wave-pattern"
-            d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z"
-          ></path>
-        </defs>
-        <g className="animated-waves">
-          <use
-            href="#wave-pattern"
-            x="48"
-            y="0"
-            fill="rgba(244, 175, 255, 0.7)"
-          ></use>
-          <use
-            href="#wave-pattern"
-            x="48"
-            y="3"
-            fill="rgba(215, 123, 255, 0.5)"
-          ></use>
-          <use
-            href="#wave-pattern"
-            x="48"
-            y="5"
-            fill="rgba(197, 117, 255, 0.612)"
-          ></use>
-          <use
-            href="#wave-pattern"
-            x="48"
-            y="7"
-            fill="rgba(144, 79, 255, 0.3)"
-          ></use>
-        </g>
-      </svg>
-    </Container>
+    <>
+      {checkRouter && (
+        <Container>
+          <svg
+            className="css-waves"
+            xmlns="http://www.w3.org/2000/svg"
+            xmlnsXlink="http://www.w3.org/1999/xlink"
+            viewBox="0 24 150 28"
+            preserveAspectRatio="none"
+            shapeRendering="auto"
+          >
+            <defs>
+              <path
+                id="wave-pattern"
+                d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z"
+              ></path>
+            </defs>
+            <g className="animated-waves">
+              <use
+                href="#wave-pattern"
+                x="48"
+                y="0"
+                fill="rgba(244, 175, 255, 0.7)"
+              ></use>
+              <use
+                href="#wave-pattern"
+                x="48"
+                y="3"
+                fill="rgba(215, 123, 255, 0.5)"
+              ></use>
+              <use
+                href="#wave-pattern"
+                x="48"
+                y="5"
+                fill="rgba(197, 117, 255, 0.612)"
+              ></use>
+              <use
+                href="#wave-pattern"
+                x="48"
+                y="7"
+                fill="rgba(144, 79, 255, 0.3)"
+              ></use>
+            </g>
+          </svg>
+        </Container>
+      )}
+    </>
   );
 }
 
@@ -60,14 +71,13 @@ const Container = styled.div`
 
   .css-waves {
     position: absolute;
-    top: calc(100% - 15vh);
+    bottom: 0;
     width: 100%;
     height: 15vh;
     min-height: 100px;
     max-height: 150px;
 
     @media (max-width: 640px) {
-      height: 40vh;
       max-height: none;
     }
   }

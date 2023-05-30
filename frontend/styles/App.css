@@ -176,6 +176,10 @@ a {
   transition: transform 0.1s ease;
 }
 
+.slick-list {
+  overflow: visible !important;
+}
+
 /* Alert 커스텀 */
 .custom-alert-bg-rgba-5 {
   background: rgba(255, 255, 255, 0.5);
@@ -193,10 +197,16 @@ a {
   box-shadow: rgb(150, 116, 255, 0.5);
 }
 
-.react-select__menu {
+.react-select__control {
+  position: relative;
+}
+
+#react-select-2-listbox {
   padding: 0;
   margin: 0;
-  height: 80px;
+  height: 100px;
   overflow: scroll;
   overflow-x: hidden;
+  position: absolute;
+  z-index: 100;
 }

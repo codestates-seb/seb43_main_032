@@ -32,21 +32,20 @@ const Login = () => {
 export default Login;
 
 const Wrapper = styled.div`
-  position: relative;
   border-radius: 10px;
+  height: calc(100vh - 60px);
   width: 100%;
-  height: calc(100% - 80px);
   display: flex;
   align-items: center;
 `;
 const WrapperInset = styled.div`
   display: flex;
   width: 100%;
-  align-items: center;
   height: 100%;
+  align-items: center;
   border-radius: 15px;
   justify-content: space-around;
-  margin-top: 3%;
+  height: 100%;
 
   @media (max-width: 960px) {
     flex-direction: column;
@@ -56,15 +55,16 @@ const WrapperInset = styled.div`
 const Contents = styled.div`
   display: flex;
   flex-direction: column;
+  justify-content: center;
   align-items: center;
   width: 40%;
   height: 100%;
 
   @media (max-width: 960px) {
+    display: none;
     width: 100%;
     justify-content: center;
     > div {
-      display: flex;
       flex-direction: column;
       align-items: center;
     }
@@ -95,5 +95,9 @@ const TextBox = styled.div`
     color: white;
     font-weight: 700;
     line-height: 1.3;
+
+    @media (max-width: 960px) {
+      display: none;
+    }
   }
 `;
