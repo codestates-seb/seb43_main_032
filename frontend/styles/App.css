@@ -210,3 +210,7 @@ a {
   position: absolute;
   z-index: 100;
 }
+
+button {
+  font-family: 'Pretendard';
+}
