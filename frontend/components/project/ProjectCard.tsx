@@ -92,7 +92,7 @@ const ProjectCard = ({ data, size }: Props) => {
     };
   }, []);
   return (
-    <Box>
+    <Box disableTransform={router.pathname === '/project'}>
       <Card
         onClick={() => viewProject(data.projectId)}
         width={size === 'lg' ? '416px' : '298px'}
@@ -170,7 +170,11 @@ const ProjectCard = ({ data, size }: Props) => {
 
 export default ProjectCard;
 
-const Box = styled.div`
+type CheckRoute = {
+  disableTransform: boolean;
+};
+
+const Box = styled.div<CheckRoute>`
   width: 100%;
   display: flex;
   justify-content: center;
@@ -179,7 +183,7 @@ const Box = styled.div`
   transition: transform 0.2s ease-in-out;
 
   &:hover {
-    transform: translateY(-20px);
+    transform: ${({ disableTransform }) => (disableTransform ? 'none' : 'translateY(-20px)')};
     background-color: white;
   }
 
