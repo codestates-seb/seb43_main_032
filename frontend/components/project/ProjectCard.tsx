@@ -82,15 +82,17 @@ const ProjectCard = ({ data, size }: Props) => {
         setSizeState(false);
       }
     };
-
     handleResize();
-
     window.addEventListener('resize', handleResize);
 
     return () => {
       window.removeEventListener('resize', handleResize);
     };
   }, []);
+
+  const checkThumbnail = data.thumbnailImageUrl.includes('/images/thum');
+  const randomNum = checkThumbnail && data.thumbnailImageUrl[14];
+
   return (
     <Box>
       <Card
@@ -107,13 +109,21 @@ const ProjectCard = ({ data, size }: Props) => {
           </span>
         </div>
         <div className="img-box">
-          <div>
-            <img
-              src={data.thumbnailImageUrl}
-              alt="thumbnail"
-              className="thumbnail-image"
-            />
-          </div>
+          {checkThumbnail && size !== 'lg' ? (
+            <>
+              <div className={`bg-thum${randomNum}`}></div>
+            </>
+          ) : (
+            <>
+              <div>
+                <img
+                  src={data.thumbnailImageUrl}
+                  alt="thumbnail"
+                  className="thumbnail-image"
+                />
+              </div>
+            </>
+          )}
         </div>
         <strong className="nanum-bold title-box">{data.title}</strong>
         <div className="tag-box">
@@ -210,6 +220,9 @@ const Box = styled.div`
       width: 100%;
       height: 100%;
       box-sizing: border-box;
+      img {
+        width: 100%;
+      }
     }
   }
 
