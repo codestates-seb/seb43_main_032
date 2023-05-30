@@ -3,8 +3,11 @@ import { BannerProps } from '@/types/types';
 import React, { useEffect } from 'react';
 import Banner from './Banner';
 import BannerText from './BannerText';
+import { useRouter } from 'next/router';
 
 export default function BannerSlider() {
+  const router = useRouter().pathname;
+
   useEffect(() => {
     if (typeof window !== 'undefined') {
       const slickBox: HTMLElement | null =
@@ -39,7 +42,7 @@ const Container = styled.div<BannerProps>`
   height: 660px;
 
   @media (max-width: 768px) {
-    height: 460px;
+    height: 360px;
   }
 `;
 
@@ -61,5 +64,9 @@ const TitleBox = styled.div`
   width: 100%;
   @media (max-width: 768px) {
     font-size: 23px;
+  }
+
+  @media (max-width: 360px) {
+    font-size: 18px;
   }
 `;

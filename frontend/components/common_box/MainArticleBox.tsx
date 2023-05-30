@@ -46,7 +46,6 @@ const MainArticleBox = ({
   totalLikes,
   articleRefetch,
 }: Props) => {
-
   return (
     <Box>
       <div className="main-title">
@@ -146,7 +145,6 @@ const Box = styled.div`
     align-items: center;
 
     @media (max-width: 540px) {
-      flex-direction: column;
     }
 
     .writeDate,

@@ -105,6 +105,16 @@ const IconBox = styled.div`
   position: fixed;
   cursor: pointer;
   z-index: 999;
+
+  @media (max-width: 540px) {
+    width: 50px;
+    height: 50px;
+
+    img {
+      width: 100%;
+      height: 100%;
+    }
+  }
 `;
 
 const AskBox = styled.div<{ isVisible: boolean }>`

@@ -8,7 +8,7 @@ import { useRouter } from 'next/router';
 import { Project } from '@/types/project';
 import { FaComment } from 'react-icons/fa';
 import { useProject } from '@/hooks/react-query/project/useProject';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { getCookie } from '@/util/cookie';
 import { errorAlert } from '../alert/Alert';
 import { postStar } from '@/util/api/postStar';
@@ -73,6 +73,24 @@ const ProjectCard = ({ data, size }: Props) => {
     );
   };
 
+  const [sizeState, setSizeState] = useState(false);
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth <= 768) {
+        setSizeState(true);
+      } else {
+        setSizeState(false);
+      }
+    };
+
+    handleResize();
+
+    window.addEventListener('resize', handleResize);
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
   return (
     <Box>
       <Card
@@ -82,7 +100,7 @@ const ProjectCard = ({ data, size }: Props) => {
         <div className="info-heart">
           <span>
             <AiFillHeart
-              size={30}
+              size={sizeState ? 24 : 30}
               fill={heart ? 'red' : 'rgba(106, 106, 106, 0.5)'}
               onClick={likeHandler}
             />
@@ -158,7 +176,7 @@ const Box = styled.div`
   justify-content: center;
   align-items: center;
   margin: 8px 0px;
-  transition: transform 0.2s ease-in-out, background 1s ease-in-out;
+  transition: transform 0.2s ease-in-out;
 
   &:hover {
     transform: translateY(-20px);
@@ -201,7 +219,7 @@ const Box = styled.div`
     right: 15px;
     cursor: pointer;
     @media (max-width: 960px) {
-      top: 112px;
+      top: 116px;
     }
   }
 
