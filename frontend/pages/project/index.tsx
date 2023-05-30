@@ -332,6 +332,13 @@ const Box = styled.div`
       }
 
       .carousel-box {
+        overflow: hidden;
+
+        div {
+          :hover {
+            box-shadow: none;
+          }
+        }
       }
     }
 
