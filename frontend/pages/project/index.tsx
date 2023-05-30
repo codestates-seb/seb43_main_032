@@ -381,5 +381,11 @@ const Box = styled.div`
     :hover {
       background: #6333ff;
     }
+
+    @media (max-width: 768px) {
+      width: 40px;
+      height: 40px;
+      bottom: 80px;
+    }
   }
 `;
