@@ -47,7 +47,7 @@
 <p>
 <img src="https://github.com/codestates-seb/seb43_main_032/assets/118104644/56e65563-1d71-4b89-89a3-477274bba7fa" align="center">
 </p>
-<p>
+<p align="center">
 <img src="https://github.com/codestates-seb/seb43_main_032/assets/118104644/24be1ff3-c00f-48b4-b94e-10762bf29622" align="center">
 </p>
 
