@@ -85,4 +85,8 @@ const Box = styled.main`
       background-color: #ffc6c6;
     }
   }
+
+  @media (max-width: 768px) {
+    padding-top: 30px;
+  }
 `;

@@ -10,7 +10,7 @@ type Props = {
 const HeartBox = ({ totalLikes, liked, likeHandler }: Props) => {
   return (
     <Box>
-      <div onClick={likeHandler}>
+      <div onClick={likeHandler} className="heart">
         {liked ? (
           <span>
             <AiFillHeart />
@@ -54,6 +54,17 @@ const Box = styled.div`
 
     > span:last-child {
       padding-bottom: 5px;
+    }
+
+    @media (max-width: 960px) {
+      min-width: 50px;
+      padding: 4px;
+      font-size: 18px;
+      vertical-align: middle;
+
+      span:last-child {
+        padding-top: 5px;
+      }
     }
   }
 `;

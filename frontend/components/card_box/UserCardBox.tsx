@@ -89,4 +89,9 @@ const Box = styled.div`
       flex-direction: column;
     }
   }
+
+  .box {
+    display: flex;
+    justify-content: center;
+  }
 `;

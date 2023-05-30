@@ -200,6 +200,12 @@ const Box = styled.div`
       height: 100%;
       display: flex;
       gap: 8px;
+
+      @media (max-width: 960px) {
+        width: 100%;
+        justify-content: space-between;
+      }
+
       div {
         height: 100%;
         padding: 10px;
@@ -226,6 +232,11 @@ const Box = styled.div`
       display: flex;
       justify-content: end;
       gap: 10px;
+
+      @media (max-width: 960px) {
+        width: 100%;
+        justify-content: space-between;
+      }
 
       > div {
         display: flex;
@@ -298,7 +309,6 @@ const Box = styled.div`
     > .main-box {
       padding: var(--padding-1);
       width: 35%;
-      margin-bottom: 56px;
       .sub-title {
         font-size: 14px;
         color: red;
@@ -310,6 +320,12 @@ const Box = styled.div`
       }
       @media (max-width: 960px) {
         width: 100%;
+        padding: 0;
+
+        :last-child {
+          padding-bottom: 20px;
+        }
+
         > div {
           margin-bottom: 12px;
         }

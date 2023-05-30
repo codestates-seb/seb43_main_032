@@ -23,6 +23,8 @@ const Banner = () => {
 
   return (
     <Container router={router}>
+      <div className="bg"></div>
+
       <Scene id="scene">
         <Layer data-depth="1">
           <ImgBox>
@@ -61,7 +63,12 @@ const Container = styled.div<ContainerProps>`
   margin: auto;
   background: ${({ router }) => BANNER_BACKGROUND_IMAGES[router] || ''};
   @media (max-width: 768px) {
-    height: 460px;
+    height: 360px;
+    .bg {
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.1);
+    }
   }
 `;
 

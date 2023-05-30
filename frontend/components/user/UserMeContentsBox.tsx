@@ -124,6 +124,7 @@ const Contents = styled.div`
   min-height: 20vh;
   margin-bottom: 20px;
 `;
+
 const Category = styled.div.attrs({
   className: 'noto-medium',
 })`
@@ -131,6 +132,7 @@ const Category = styled.div.attrs({
   gap: 16px;
   margin-bottom: 20px;
 `;
+
 const FilterBtn = styled.button.attrs({
   className: 'nanum-bold',
 })<{ filter: string }>`

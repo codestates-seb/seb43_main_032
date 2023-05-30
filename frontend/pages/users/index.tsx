@@ -76,7 +76,7 @@ const Users = () => {
                 placeholder="검색어를 입력해주세요."
               />
               <SearchButton>
-                <BiSearch />
+                <BiSearch fill="#4412e7 " />
               </SearchButton>
             </SearchBox>
           </SubHeader>
@@ -149,7 +149,7 @@ const SearchBox = styled.div`
     }
 
     :focus {
-      outline: 9880e9;
+      outline: solid 2px #9880e9;
     }
   }
 

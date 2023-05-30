@@ -82,19 +82,21 @@ export default function Content() {
           onChange={findContentItem}
           onKeyPress={(e) => e.key === 'Enter'}
         />
-        <SearchBtn onClick={() => router.push('/community/create')}>
-          질문하기
-        </SearchBtn>
-        <Filter
-          filterData={CategoryFilterData}
-          filter={categoryFilter}
-          selectFilter={categoryFilterHandler}
-        />
-        <Filter
-          filterData={ARTICLE_FILTER}
-          filter={filter}
-          selectFilter={filterHandler}
-        />
+        <div className="btn-box">
+          <SearchBtn onClick={() => router.push('/community/create')}>
+            질문하기
+          </SearchBtn>
+          <Filter
+            filterData={CategoryFilterData}
+            filter={categoryFilter}
+            selectFilter={categoryFilterHandler}
+          />
+          <Filter
+            filterData={ARTICLE_FILTER}
+            filter={filter}
+            selectFilter={filterHandler}
+          />
+        </div>
       </ContentTop>
       <ContentBottom>
         {communityLoading ? (
@@ -124,16 +126,42 @@ const ContentTop = styled.div`
   padding: 0 20px;
   padding-bottom: 0px;
   gap: 12px;
-  div {
-    transition: all 0.2s ease-in-out;
-    background: #9b7aff;
 
-    :hover {
-      background: #8217f3;
-    }
-  }
-  @media (max-width: 768px) {
+  @media (max-width: 1280px) {
     flex-direction: column;
+    padding: 0 40px;
+  }
+
+  .btn-box {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0 20px;
+    padding-bottom: 0px;
+    gap: 12px;
+
+    div {
+      background: #9b7aff;
+
+      :hover {
+        background: #8217f3;
+      }
+    }
+
+    @media (max-width: 1280px) {
+      width: 100%;
+      justify-content: space-around;
+
+      button {
+        flex-grow: 1;
+      }
+
+      div {
+        flex-grow: 1;
+        display: flex;
+        justify-content: center;
+      }
+    }
   }
 `;
 
@@ -151,11 +179,14 @@ const SearchInput = styled.input`
   &::placeholder {
     color: #cfcfcf;
   }
+
+  @media (max-width: 1280px) {
+    width: calc(100% - 40px);
+  }
 `;
 
 const SearchBtn = styled.button`
   border-radius: 4px;
-  min-width: 104px;
   background: #9b7aff;
   padding: 10px 16px;
   color: #fff;
