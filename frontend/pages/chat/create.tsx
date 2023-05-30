@@ -73,7 +73,6 @@ const ChatCreate = () => {
 export default ChatCreate;
 
 const Box = styled.div`
-  height: 60vh;
   padding: var(--padding-2);
   display: flex;
   flex-direction: column;
@@ -95,7 +94,39 @@ const Box = styled.div`
   }
   .btn-box {
     display: flex;
-    justify-content: space-between;
-    padding: 0px 100px;
+    justify-content: space-around;
+    width: 100%;
+
+    button {
+      width: 20%;
+    }
+  }
+
+  input {
+    border-radius: 5px;
+    font-family: 'Pretendard';
+    border: solid 2px #ececec;
+
+    ::placeholder {
+      color: #9c9c9c;
+    }
+
+    :focus {
+      outline: solid 1px #9b7aff;
+    }
+  }
+
+  textarea {
+    border-radius: 5px;
+    border: solid 2px #ececec;
+    font-family: 'Pretendard';
+
+    ::placeholder {
+      color: #9c9c9c;
+    }
+
+    :focus {
+      outline: solid 1px #9b7aff;
+    }
   }
 `;
