@@ -12,6 +12,7 @@ import Message from '@/components/Message';
 import Head from 'next/head';
 import { api } from '@/util/api';
 import { confirmAlert } from '@/components/alert/Alert';
+import Stack from '@/components/stack/Stack';
 
 export default function me() {
   const {
@@ -57,6 +58,18 @@ export default function me() {
             <EditButton onClick={removeMember}>
               <Tag>회원 탈퇴</Tag>
             </EditButton>
+            <StackWrapper>
+              <div className="title">사용 스택</div>
+              <div className="stack-list">
+                {user.techList.length ? (
+                  user.techList.map((stack) => (
+                    <Stack key={stack.tech} tech={stack.tech} />
+                  ))
+                ) : (
+                  <span className="none-msg">선택된 스택이 없습니다.</span>
+                )}
+              </div>
+            </StackWrapper>
           </LeftColumn>
           <RightColumn>
             <UserInfo>
@@ -101,6 +114,32 @@ export default function me() {
     </>
   );
 }
+
+const StackWrapper = styled.div.attrs({})`
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 8px;
+  margin-top: 20px;
+  padding: 0 30px;
+
+  .title {
+    font-size: 15px;
+    margin-bottom: 10px;
+    font-weight: 500;
+  }
+
+  .stack-list {
+    flex-wrap: wrap;
+    display: flex;
+    gap: 8px;
+
+    .none-msg {
+      font-size: 14px;
+      color: #b9b9b9;
+    }
+  }
+`;
 
 const LeftColumn = styled.div`
   position: relative;
