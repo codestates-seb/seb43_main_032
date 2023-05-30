@@ -269,6 +269,12 @@ const Box = styled.li`
     > button {
       padding: 4px;
     }
+
+    @media (max-width: 768px) {
+      top: calc(100% + 10px);
+      gap: 4px;
+      right: 0;
+    }
   }
 
   .content-box {

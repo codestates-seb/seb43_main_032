@@ -144,7 +144,7 @@ const Box = styled.div`
     gap: 32px;
     align-items: center;
 
-    @media (max-width: 540px) {
+    @media (max-width: 768px) {
     }
 
     .writeDate,

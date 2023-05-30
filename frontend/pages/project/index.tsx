@@ -332,6 +332,13 @@ const Box = styled.div`
       }
 
       .carousel-box {
+        overflow: hidden;
+
+        div {
+          :hover {
+            box-shadow: none;
+          }
+        }
       }
     }
 
@@ -380,6 +387,12 @@ const Box = styled.div`
 
     :hover {
       background: #6333ff;
+    }
+
+    @media (max-width: 768px) {
+      width: 40px;
+      height: 40px;
+      bottom: 80px;
     }
   }
 `;

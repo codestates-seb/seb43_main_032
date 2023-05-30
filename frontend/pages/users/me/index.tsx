@@ -75,7 +75,7 @@ export default function me() {
             <UserInfo>
               <div className="title">개인 정보</div>
               <ProfileContainer>
-                <InfoContainer
+                {/* <InfoContainer
                   keyNode={
                     <AvatarContainer style={{ width: '70px', height: '70px' }}>
                       <img alt={user.name} src={user.profileImageUrl} />
@@ -84,10 +84,9 @@ export default function me() {
                   contentNode={
                     <>
                       <p className="nanum-bold">{user.name}</p>
-                      <p className="noto-regular">{user.position}</p>
                     </>
                   }
-                />
+                /> */}
               </ProfileContainer>
               <div className="info-box">
                 <InfoContainer
@@ -149,7 +148,8 @@ const LeftColumn = styled.div`
   padding: 20px;
 
   @media (max-width: 960px) {
-    display: none;
+    margin-top: 20px;
+    padding-bottom: 0px;
   }
 `;
 const RightColumn = styled.div`
@@ -179,6 +179,10 @@ const UserInfo = styled.div`
     flex-direction: column;
     gap: 16px;
     background: #0d1117;
+
+    @media (max-width: 960px) {
+      gap: 4px;
+    }
   }
 `;
 

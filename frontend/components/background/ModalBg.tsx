@@ -7,11 +7,7 @@ import styled from 'styled-components';
 export default function ModalBg() {
   const [nav, setNav] = useRecoilState(navModalState);
 
-  return (
-    <ModalNavBg nav={nav} onClick={() => setNav(!nav)}>
-      ModalBg
-    </ModalNavBg>
-  );
+  return <ModalNavBg nav={nav} onClick={() => setNav(!nav)}></ModalNavBg>;
 }
 
 const ModalNavBg = styled.div<NavProps>`

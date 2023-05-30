@@ -61,7 +61,7 @@ const CustomSelectButton = styled.button`
     margin-left: 5px;
   }
 
-  @media (max-width: 540px) {
+  @media (max-width: 768px) {
     span {
       display: none;
     }

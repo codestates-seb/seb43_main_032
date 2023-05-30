@@ -86,6 +86,10 @@ const CardInfo = styled.div`
       font-size: 13px;
       color: #9f9f9f;
       margin-right: 20px;
+
+      @media (max-width: 540px) {
+        display: none;
+      }
     }
   }
 `;

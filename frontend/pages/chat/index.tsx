@@ -48,10 +48,8 @@ const Chat = () => {
           ) : (
             chatData &&
             chatData.map((chat) => (
-              <li className="chat-item">
-                <div className="chat-title" onClick={() => moveItem(chat.id)}>
-                  {chat.title}
-                </div>
+              <li className="chat-item" onClick={() => moveItem(chat.id)}>
+                <div className="chat-title">{chat.title}</div>
                 <div className="user">{chat.name}</div>
                 <div
                   className="delete-box"
@@ -78,22 +76,24 @@ const Chat = () => {
 export default Chat;
 
 const Box = styled.div`
-  height: 60vh;
   padding: var(--padding-2);
   display: flex;
   flex-direction: column;
   gap: 10px;
+  font-size: 15px;
 
   .msg {
     font-size: 18px;
   }
 
   .chat-item {
+    border-bottom: solid 1px #ececec;
+    padding: 8px;
     display: flex;
     align-items: center;
-    > div {
-      border: 1px solid black;
-    }
+    gap: 4px;
+    cursor: pointer;
+
     .chat-title {
       width: 274px;
       white-space: nowrap;
@@ -102,22 +102,30 @@ const Box = styled.div`
       padding: 4px;
       flex: 1;
       cursor: pointer;
+      font-weight: 500;
     }
+
     .user {
-      border: none;
-      border-top: 1px solid black;
-      border-bottom: 1px solid black;
       min-width: 100px;
       padding: 4px;
       flex: 0.3;
+      color: #717171;
+      font-size: 12px;
     }
+
     .delete-box {
       padding: 4px;
       cursor: pointer;
+      background: #b87fe7;
+      color: white;
+      border-radius: 5px;
     }
   }
 `;
 
 const PageBox = styled.div`
   padding: var(--padding-2);
+  div {
+    margin: 0;
+  }
 `;
