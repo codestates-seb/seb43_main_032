@@ -4,6 +4,8 @@ import 'github-markdown-css';
 import hljs from 'highlight.js';
 import 'highlight.js/styles/stackoverflow-light.css';
 import styled from 'styled-components';
+import { imageUpload } from '@/util/api/uploadImg';
+import { useMemo } from 'react';
 
 type Props = {
   changeContent: (value: string) => void;
@@ -12,19 +14,22 @@ type Props = {
   commentOptions?: EasyMDE.Options;
 };
 
-const DEFAULT_OPTIONS: EasyMDE.Options = {
-  renderingConfig: {
-    codeSyntaxHighlighting: true,
-    hljs,
-  }, //hljs 사용
-  maxHeight: '400px',
-  spellChecker: false, //스펠체크 off
-  status: false, //우측 하단 상태
-  previewClass: ['markdown-body'], //github 마크다운 사용
-  hideIcons: ['guide', 'fullscreen', 'side-by-side'], //버튼 가리기
-};
-
 const EditorBox = ({ commentOptions, changeContent, content, type }: Props) => {
+  const DEFAULT_OPTIONS: EasyMDE.Options = useMemo(() => {
+    return {
+      renderingConfig: {
+        codeSyntaxHighlighting: true,
+        hljs,
+      }, //hljs 사용
+      maxHeight: '400px',
+      spellChecker: false, //스펠체크 off
+      status: false, //우측 하단 상태
+      previewClass: ['markdown-body'], //github 마크다운 사용
+      hideIcons: ['guide', 'fullscreen', 'side-by-side'], //버튼 가리기
+      uploadImage: true,
+      imageUploadFunction: imageUpload,
+    };
+  }, []);
   return (
     <Box>
       <SimpleMDEEditor

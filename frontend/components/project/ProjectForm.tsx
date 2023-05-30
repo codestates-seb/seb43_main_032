@@ -179,12 +179,17 @@ const ProjectForm = () => {
     const randomNumber = Math.floor(Math.random() * 5) + 1;
     const srcSvg = `/images/thum (${randomNumber}).svg`;
 
+    //썸네일 추출
+    const regex = /!\[\]\((.*?)\)/;
+    const match = content.match(regex);
+    const imageUrl = match && match[1];
+
     const data = {
       startDate: formatDate3(start),
       endDate: end && formatDate3(end),
       writerPosition: watch().position,
       title: watch().title,
-      thumbnailImageUrl: srcSvg,
+      thumbnailImageUrl: imageUrl || srcSvg, //썸네일이 없다면 랜덤 이미지 등록
       content,
       techList: {
         techList: stacks.map((stack) => stack.tech),
