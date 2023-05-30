@@ -68,6 +68,10 @@ const Box = styled.div<BoxProps>`
   width: 100%;
   padding: 0 16px;
 
+  @media (max-width: 960px) {
+    padding: 0;
+  }
+
   > ul {
     margin-bottom: 12px;
   }

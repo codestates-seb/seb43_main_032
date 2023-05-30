@@ -295,6 +295,14 @@ const Side = styled.div`
   align-items: center;
   flex-direction: column;
 
+  @media (max-width: 960px) {
+    padding: 20px 0;
+  }
+
+  @media (max-width: 768px) {
+    padding-top: 40px;
+  }
+
   .main-btn {
     min-width: 60px;
 
@@ -330,6 +338,10 @@ const Side = styled.div`
     flex-direction: column;
     margin-bottom: 10px;
     justify-content: center;
+
+    @media (max-width: 960px) {
+      padding: 0;
+    }
 
     .title {
       margin-bottom: 10px;

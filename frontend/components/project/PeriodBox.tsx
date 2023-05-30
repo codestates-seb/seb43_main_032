@@ -118,4 +118,8 @@ const Box = styled.div`
     display: flex;
     justify-content: space-between;
   }
+
+  @media (max-width: 960px) {
+    padding: 0;
+  }
 `;
