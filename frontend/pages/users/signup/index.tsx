@@ -35,7 +35,7 @@ const Wrapper = styled.div`
   position: relative;
   border-radius: 10px;
   width: 100%;
-  height: calc(100% - 80px);
+  height: calc(100vh - 60px);
   display: flex;
   align-items: center;
 `;
@@ -46,7 +46,6 @@ const WrapperInset = styled.div`
   height: 100%;
   border-radius: 15px;
   justify-content: space-around;
-  margin-top: 3%;
   @media (max-width: 960px) {
     flex-direction: column;
     gap: 40px;
@@ -55,14 +54,16 @@ const WrapperInset = styled.div`
 const Contents = styled.div`
   display: flex;
   flex-direction: column;
+  justify-content: center;
   align-items: center;
   width: 40%;
   height: 100%;
+
   @media (max-width: 960px) {
+    display: none;
     width: 100%;
     justify-content: center;
     > div {
-      display: flex;
       flex-direction: column;
       align-items: center;
     }
@@ -71,9 +72,14 @@ const Contents = styled.div`
   img {
     width: 100%;
     opacity: 0.9;
+
     @media (max-width: 960px) {
       display: none;
     }
+  }
+
+  a {
+    cursor: pointer;
   }
 `;
 const TextBox = styled.div`
