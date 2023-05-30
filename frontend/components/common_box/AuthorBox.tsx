@@ -4,6 +4,8 @@ import styled from 'styled-components';
 import { useRouter } from 'next/router';
 import Position from '../Position';
 import { onChatCreate } from '@/util/chat';
+import { loggedInUserId } from '@/recoil/selector';
+import { useRecoilValue } from 'recoil';
 
 type Props = {
   userImg: string;
@@ -24,9 +26,13 @@ const AuthorBox = ({
   position,
   totalProject,
 }: Props) => {
+  const memberId = useRecoilValue(loggedInUserId);
   const router = useRouter();
-  const moveAuthorPage = (memberId: number) => {
-    router.push(`/users/${memberId}`);
+  const moveUserPage = () => {
+    if (memberId === userId) {
+      return router.push(`/users/me`);
+    }
+    router.push(`/users/${userId}`);
   };
 
   const onChatCreatePage = (e: { stopPropagation: () => void }) => {
@@ -35,7 +41,7 @@ const AuthorBox = ({
   };
 
   return (
-    <Box onClick={() => moveAuthorPage(userId)}>
+    <Box onClick={() => moveUserPage()}>
       <div className="top-box">
         <img src={userImg} alt="author" />
         <div className="userBox nanum-bold userName">{userName}</div>
