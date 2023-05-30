@@ -48,7 +48,13 @@ const Box = styled.div`
   gap: 20px;
 
   .item-content {
+    width: 100%;
+    min-height: 30vh;
+    background: #0d1117;
     font-size: 15px;
+    color: #c9d1d9;
+    border-radius: 5px;
+    padding: 20px;
   }
 
   .top {
