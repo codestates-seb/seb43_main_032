@@ -57,6 +57,7 @@ public class AnswerMapper {
         // 답글 작성 여부, 좋아요 여부 확인
         boolean isAuthor = false;
         boolean liked = false;
+        Long uniteId=null;
         if (memberService.isLoginMember() == true) {
             Member member = memberService.getLoginMember();
             if(member.getId() == answer.getMemberId()) isAuthor = true;
@@ -65,9 +66,16 @@ public class AnswerMapper {
             if(findLikes.isEmpty() == false) liked = true;
         }
 
+        if(answer.getCategory().equals(Category.PROJECT)){
+            uniteId = answer.getProjectId();
+        }
+        else if(answer.getCategory().equals(Category.ARTICLE)){
+            uniteId = answer.getArticleId();
+        }
         AnswerResponseDto answerResponseDto = new AnswerResponseDto(
                 memberService.getMemberInfo(answer.getMemberId()).getData(),
                 answer.getId(),
+                uniteId,
                 answer.getTotalLikes(),
                 answer.getContent(),
                 isAuthor,
@@ -78,9 +86,17 @@ public class AnswerMapper {
         return answerResponseDto;
     }
     public AnswerInfoResponseDto answerToanswerInfoResponseDto(Answer answer){
+        Long uniteId;
+        if(answer.getCategory().equals(Category.PROJECT)){
+            uniteId = answer.getProjectId();
+        }
+        else{
+            uniteId = answer.getArticleId();
+        }
         AnswerInfoResponseDto answerInfoResponseDto = new AnswerInfoResponseDto(
                 answer.getId(),
                 answer.getMemberId(),
+                uniteId,
                 answer.getContent(),
                 answer.getTotalLikes(),
                 answer.getCreatedAt()

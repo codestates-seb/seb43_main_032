@@ -13,6 +13,7 @@ import java.util.List;
 public class AnswerResponseDto {
     private MemberGetResponseDto memberInfo;
     private Long answerId;
+    private Long uniteId;
     private int totalLikes;
     private String content;
     private boolean isAuthor;
