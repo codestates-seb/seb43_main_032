@@ -13,5 +13,3 @@ export const getAllCommunity = async () => {
   );
   return data;
 };
-
-export const getAllAanswer = async () => {};
