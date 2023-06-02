@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 @AllArgsConstructor
 @Getter
@@ -19,8 +20,10 @@ public class ProjectPostDto {
     private String endDate;
 
     private String thumbnailImageUrl;
-
+    @NotNull(message = "기술 스택 입력하세요")
     private ProTechStackPostDto techList;
+    @NotNull(message = "분야 입력하세요")
     private ProFieldPostDto fieldList;
+    @NotNull(message = "포지션,인원 입력하세요")
     private ProPositionCrewPostDto positionCrewList;
 }
