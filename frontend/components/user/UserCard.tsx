@@ -6,7 +6,7 @@ import Tag from '../Tag';
 import { useRouter } from 'next/router';
 import { useRecoilValue } from 'recoil';
 import { loggedInUserId } from '@/recoil/selector';
-import MainPost from './../MainPost';
+
 interface IProps {
   user: User;
 }
@@ -44,7 +44,7 @@ export default function UserCard({ user }: IProps) {
               {user.techList.length > 0 &&
                 user.techList.map((stack) => (
                   <Stack
-                    bubbleTop="68%"
+                    bubbleTop="62%"
                     position="static"
                     key={stack.tech}
                     tech={stack.tech}

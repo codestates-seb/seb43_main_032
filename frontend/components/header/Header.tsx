@@ -99,11 +99,8 @@ const Header = () => {
         setImgState(false);
       }
     };
-
     handleResize();
-
     window.addEventListener('resize', handleResize);
-
     return () => {
       window.removeEventListener('resize', handleResize);
     };
