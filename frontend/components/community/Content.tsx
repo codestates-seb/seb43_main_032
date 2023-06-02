@@ -5,10 +5,8 @@ import ContentItem from './ContentItem';
 import { useRouter } from 'next/router';
 import Pagenation from '../Pagenation';
 import Filter from '../Filter';
-import CommunityItemSkeleton from '../skeleton/CommunityItemSkeleton';
 import { ARTICLE_FILTER, POST_COMMUNITY_CATEGORY } from '@/constant/constant';
 import { communityFilter } from '@/util/filter/communityFilter';
-import Message from '../Message';
 import { useRecoilState } from 'recoil';
 import { communitySearchState } from '@/recoil/atom';
 
@@ -37,10 +35,6 @@ export default function Content({
     setCommunitySearch(e.target.value);
   };
 
-
-  const [allData, setAllData] = useState<Community[]>(communityData);
-
-
   //기존 필터
   const [filter, setFilter] = useState(0);
   const filterHandler = (idx: number) => {
@@ -65,7 +59,7 @@ export default function Content({
   //필터 데이터
   const filterData = communityFilter({
     filter,
-    allData,
+    allData: communityData,
     searchVal: communitySearch,
     category: POST_COMMUNITY_CATEGORY[CategoryFilterData[categoryFilter]],
   });
@@ -98,11 +92,11 @@ export default function Content({
         </div>
       </ContentTop>
       <ContentBottom>
-          <ContentItemList>
-            {viewData.map((article: Community) => (
-              <ContentItem {...article} key={article.articleId} />
-            ))}
-          </ContentItemList>
+        <ContentItemList>
+          {viewData.map((article: Community) => (
+            <ContentItem {...article} key={article.articleId} />
+          ))}
+        </ContentItemList>
         <Pagenation
           page={page}
           onPageChange={pageHandler}
