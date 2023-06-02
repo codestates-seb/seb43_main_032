@@ -8,12 +8,15 @@ import Filter from '../Filter';
 import CommunityItemSkeleton from '../skeleton/CommunityItemSkeleton';
 import { ARTICLE_FILTER, POST_COMMUNITY_CATEGORY } from '@/constant/constant';
 import { communityFilter } from '@/util/filter/communityFilter';
-import { useAllData } from '@/hooks/react-query/useAllData';
 import Message from '../Message';
 import { useRecoilState } from 'recoil';
 import { communitySearchState } from '@/recoil/atom';
 
-export default function Content() {
+export default function Content({
+  communityData,
+}: {
+  communityData: Community[];
+}) {
   const router = useRouter();
   const [page, setPage] = useState(1);
   const page_limit = 10;
@@ -34,12 +37,9 @@ export default function Content() {
     setCommunitySearch(e.target.value);
   };
 
-  //모든 데이터 세팅, 서버 필터링을 프론트 눈속임으로 해결
-  const { communityData, communityLoading, communityError } = useAllData();
-  const [allData, setAllData] = useState<Community[]>([]);
-  useEffect(() => {
-    if (communityData) setAllData(communityData);
-  }, [communityLoading]);
+
+  const [allData, setAllData] = useState<Community[]>(communityData);
+
 
   //기존 필터
   const [filter, setFilter] = useState(0);
@@ -72,7 +72,6 @@ export default function Content() {
   const pageSize = Math.ceil(filterData.length / 10);
   const viewData = filterData.slice((page - 1) * page_limit, page * page_limit);
 
-  if (communityError) return <Message>잠시 후에 다시 시도해주세요.</Message>;
   return (
     <>
       <ContentTop>
@@ -99,15 +98,11 @@ export default function Content() {
         </div>
       </ContentTop>
       <ContentBottom>
-        {communityLoading ? (
-          <CommunityItemSkeleton width="90%" gap="20px" count={10} />
-        ) : (
           <ContentItemList>
             {viewData.map((article: Community) => (
               <ContentItem {...article} key={article.articleId} />
             ))}
           </ContentItemList>
-        )}
         <Pagenation
           page={page}
           onPageChange={pageHandler}

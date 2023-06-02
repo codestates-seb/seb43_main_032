@@ -13,5 +13,7 @@ export type Community = {
   totalLikes: number;
   view: number;
   liked: boolean;
-  author:boolean
+  author: boolean;
 };
+
+export type AllCommunity = Community[];
