@@ -6,18 +6,17 @@ import ProjectSkeleton from '@/components/skeleton/ProjectSkeleton';
 import Link from 'next/link';
 import { Project } from '@/types/project';
 import Message from '@/components/Message';
-import { useForm } from 'react-hook-form';
 import ProjectCardBox from '@/components/card_box/ProjectCardBox';
-import { Filter, Form } from '@/types/types';
+import { Filter } from '@/types/types';
 import { AiOutlineArrowUp } from 'react-icons/ai';
 import { ARTICLE_FILTER } from '@/constant/constant';
 import { useInfinityProject } from '@/hooks/react-query/project/useInfinityProject';
 import { useAllData } from '@/hooks/react-query/useAllData';
 import { projectFilter } from '@/util/filter/projectFilter';
-import { useTopData } from '@/hooks/react-query/useTopData';
 import Head from 'next/head';
 import { useRecoilState } from 'recoil';
 import { propjectSearchState } from '@/recoil/atom';
+import { useTopLikeProject } from '@/hooks/react-query/project/useTopLikeProject';
 
 const ProjectHome = () => {
   const router = useRouter();
@@ -39,7 +38,7 @@ const ProjectHome = () => {
     setIsHovered(false);
   };
 
-  const { topLikeProjectData } = useTopData();
+  const { topLikeProjectData } = useTopLikeProject();
 
   //서버에서 필터링 작업이 완성되기 전, 눈속임을 위한 필터 데이터
   const [filter, setFilter] = useState<Filter>(0);
