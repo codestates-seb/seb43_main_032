@@ -10,6 +10,7 @@ import java.time.LocalDateTime;
 public class CommentInfoResponseDto {
     private Long commentId;
     private Long memberId;
+    private Long uniteId;
     private String content;
     private int totalLikes;
     private LocalDateTime createdAt;

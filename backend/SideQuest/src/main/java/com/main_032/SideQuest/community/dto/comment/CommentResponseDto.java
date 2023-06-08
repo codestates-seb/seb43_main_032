@@ -12,6 +12,7 @@ import java.time.LocalDateTime;
 public class CommentResponseDto {
     private MemberGetResponseDto memberInfo;
     private Long commentId;
+    private Long uniteId;
     private String content;
     private int totalLikes;
     private boolean isAuthor;

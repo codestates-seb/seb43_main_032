@@ -110,6 +110,7 @@ public class CommentService {
             // 댓글 작성 여부, 좋아요 여부 확인
             boolean isAuthor = false;
             boolean liked = false;
+
             if (memberService.isLoginMember() == true) {
                 Member member = memberService.getLoginMember();
                 if(member.getId() == comment.getMemberId()) isAuthor = true;
@@ -117,10 +118,17 @@ public class CommentService {
                 Optional<Likes> findLikes = likesRepository.findByMemberIdAndCategoryAndCommentId(member.getId(), Category.COMMENT, comment.getId());
                 if(findLikes.isEmpty() == false) liked = true;
             }
-
+            Long uniteId = null;//project,article 통합 Id
+            if(comment.getCategory().equals(Category.PROJECT)){
+                uniteId = comment.getProjectId();
+            }
+            else if(comment.getCategory().equals(Category.ARTICLE)){
+                uniteId = comment.getArticleId();
+            }
             CommentResponseDto commentResponseDto = new CommentResponseDto(
                     memberService.getMemberInfo(comment.getMemberId()).getData(),
                     comment.getId(),
+                    uniteId,
                     comment.getContent(),
                     comment.getTotalLikes(),
                     isAuthor,
@@ -138,9 +146,17 @@ public class CommentService {
         List<Comment> commentList = commentPage.getContent();
         List<CommentInfoResponseDto> commentInfoResponseDtoList = new ArrayList<>();
         for(Comment comment:commentList){
+            Long uniteId = null;//project,article 통합 Id
+            if(comment.getCategory().equals(Category.PROJECT)){
+                uniteId = comment.getProjectId();
+            }
+            else if(comment.getCategory().equals(Category.ARTICLE)){
+                uniteId = comment.getArticleId();
+            }
             CommentInfoResponseDto commentInfoResponseDto = new CommentInfoResponseDto(
                     comment.getId(),
                     comment.getMemberId(),
+                    uniteId,
                     comment.getContent(),
                     comment.getTotalLikes(),
                     comment.getCreatedAt()
