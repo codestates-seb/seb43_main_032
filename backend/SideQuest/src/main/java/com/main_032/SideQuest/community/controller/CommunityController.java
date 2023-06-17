@@ -4,6 +4,7 @@ import com.main_032.SideQuest.community.dto.answer.AnswerPatchDto;
 import com.main_032.SideQuest.community.dto.answer.AnswerPostDto;
 
 import com.main_032.SideQuest.community.dto.chat.ChatPostDto;
+import com.main_032.SideQuest.community.dto.chat.ChatQuantityResponseDto;
 import com.main_032.SideQuest.community.dto.chat.ChatResponseDto;
 import com.main_032.SideQuest.community.dto.comment.CommentPatchDto;
 import com.main_032.SideQuest.community.dto.comment.CommentPostDto;
@@ -120,6 +121,18 @@ public class CommunityController {
             @RequestParam int page,
             @RequestParam int size){
         MultiResponseDto<ChatResponseDto> response = chatService.getAllMessages(page-1,size);
+        return new ResponseEntity<>(response,HttpStatus.OK);
+    }
+    @ApiOperation(value = "쪽지 확인")
+    @GetMapping("/chat/join/{chatId}")
+    public ResponseEntity<SingleResponseDto<ChatResponseDto>> joinMyMessage(@PathVariable("chatId") Long chatId){
+        SingleResponseDto<ChatResponseDto> response = chatService.checkMyMessage(chatId);
+        return new ResponseEntity<>(response,HttpStatus.OK);
+    }
+    @ApiOperation(value = "확인 안한 쪽지 갯수")
+    @GetMapping("/chat/quantity")
+    public ResponseEntity<SingleResponseDto<ChatQuantityResponseDto>> findAllMyMessages(){
+        SingleResponseDto<ChatQuantityResponseDto> response = chatService.getNotCheckedQuantity();
         return new ResponseEntity<>(response,HttpStatus.OK);
     }
 }

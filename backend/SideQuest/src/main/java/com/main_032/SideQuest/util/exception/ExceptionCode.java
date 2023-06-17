@@ -18,8 +18,8 @@ public enum ExceptionCode {
     APPLY_CREW_NOT_FOUND(404, "Apply crew not found"),
     APPLY_CREW_POSITION_NOT_MATCH(404, "Apply crew position not match"),
     LIKES_NOT_FOUND(404, "Likes not found"),
-    ALREADY_LIKES(409, "Already likes");
-
+    ALREADY_LIKES(409, "Already likes"),
+    CHAT_NOT_FOUND(404,"Message not found");
     @Getter
     private int status;
 

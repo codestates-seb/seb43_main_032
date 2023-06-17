@@ -2,6 +2,7 @@ package com.main_032.SideQuest.community.mapper;
 
 
 import com.main_032.SideQuest.community.dto.chat.ChatPostDto;
+import com.main_032.SideQuest.community.dto.chat.ChatQuantityResponseDto;
 import com.main_032.SideQuest.community.dto.chat.ChatResponseDto;
 import com.main_032.SideQuest.community.entity.Chat;
 import com.main_032.SideQuest.member.entity.Member;
@@ -26,7 +27,11 @@ public class ChatMapper {
                 sender.getName(),
                 chat.getTitle(),
                 chat.getContent(),
-                chat.getCreatedAt());
+                chat.getCreatedAt(),
+                chat.isReading());
         return chatResponseDto;
+    }
+    public ChatQuantityResponseDto chatTochatQuantityResponseDto(int quantity){
+        return new ChatQuantityResponseDto(quantity);
     }
 }
