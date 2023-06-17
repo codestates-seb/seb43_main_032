@@ -1,6 +1,7 @@
 package com.main_032.SideQuest.community.service;
 
 import com.main_032.SideQuest.community.dto.chat.ChatPostDto;
+import com.main_032.SideQuest.community.dto.chat.ChatQuantityResponseDto;
 import com.main_032.SideQuest.community.dto.chat.ChatResponseDto;
 import com.main_032.SideQuest.community.entity.Chat;
 import com.main_032.SideQuest.community.mapper.ChatMapper;
@@ -9,6 +10,7 @@ import com.main_032.SideQuest.member.entity.Member;
 import com.main_032.SideQuest.member.repository.MemberRepository;
 import com.main_032.SideQuest.member.service.MemberService;
 import com.main_032.SideQuest.util.dto.MultiResponseDto;
+import com.main_032.SideQuest.util.dto.SingleResponseDto;
 import com.main_032.SideQuest.util.exception.BusinessLogicException;
 import com.main_032.SideQuest.util.exception.ExceptionCode;
 import org.springframework.data.domain.Page;
@@ -52,19 +54,6 @@ public class ChatService {
         chat.delete();
         chatRepository.save(chat);
     }
-
-
-
-    private Chat MemberMatch(Optional<Chat> findChat) {
-        Member member = memberService.getLoginMember();
-        Chat chat = findChat.get();
-        if(chat.getReceiverMemberId()!=member.getId()){
-            throw(new BusinessLogicException(ExceptionCode.MEMBER_NOT_MATCH));
-        }
-        return chat;
-    }
-
-
     public MultiResponseDto<ChatResponseDto> getAllMessages(int page, int size) {
         Member member =memberService.getLoginMember();
         Page<Chat> chatPage = chatRepository.findAllMyMessages(member.getId(),PageRequest.of(page,size, Sort.by("id").descending()));
@@ -77,5 +66,44 @@ public class ChatService {
         }
         MultiResponseDto<ChatResponseDto> response = new MultiResponseDto<ChatResponseDto>(chatResponseDtoList,chatPage);
         return response;
+    }
+
+    public SingleResponseDto<ChatResponseDto> checkMyMessage(Long chatId) {
+        Optional<Chat> findChat = verifyExistChat(chatId);
+        Chat chat = findChat.get();
+
+        chat.readMessage();
+        chatRepository.save(chat);
+
+        Member sender = memberService.getMemberById(chat.getSenderMemberId());
+        ChatResponseDto response = chatMapper.chatTochatResponseDto(chat,sender);
+
+        SingleResponseDto<ChatResponseDto> singleResponseDto = new SingleResponseDto<>(response);
+        return singleResponseDto;
+    }
+
+    private Optional<Chat> verifyExistChat(Long chatId) {
+        Optional<Chat> findChat = chatRepository.findById(chatId);
+        findChat.orElseThrow(() -> new BusinessLogicException(ExceptionCode.CHAT_NOT_FOUND));
+        return findChat;
+    }
+
+
+    private Chat MemberMatch(Optional<Chat> findChat) {
+        Member member = memberService.getLoginMember();
+        Chat chat = findChat.get();
+        if(chat.getReceiverMemberId()!=member.getId()){
+            throw(new BusinessLogicException(ExceptionCode.MEMBER_NOT_MATCH));
+        }
+        return chat;
+    }
+
+    public SingleResponseDto<ChatQuantityResponseDto> getNotCheckedQuantity() {
+        Member member =memberService.getLoginMember();
+        List<Chat> findChat= chatRepository.findNotCheckedMyMessages(member.getId());
+        int quantity =findChat.size();
+        ChatQuantityResponseDto response = chatMapper.chatTochatQuantityResponseDto(quantity);
+
+        return new SingleResponseDto<>(response);
     }
 }
