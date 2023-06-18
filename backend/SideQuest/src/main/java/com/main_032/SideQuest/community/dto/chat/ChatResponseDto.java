@@ -17,4 +17,5 @@ public class ChatResponseDto {
     private String title;
     private String content;
     private LocalDateTime createdAt;
+    private boolean reading;
 }
